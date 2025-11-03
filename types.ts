@@ -72,4 +72,12 @@ export interface AnalysisSuggestion {
   reason: string;
 }
 
-export type GenerationStep = 'analyzing' | 'weaving' | 'generating';
+export interface ArtisticAnalysisResult {
+    isArtistic: boolean;
+    confidence: number;
+    reasoning: string;
+    suggestions?: AnalysisSuggestion[];
+}
+
+
+export type GenerationStep = 'analyzing' | 'auto-fixing' | 'weaving' | 'generating';

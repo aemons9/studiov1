@@ -7,6 +7,7 @@ interface ImageDisplayProps {
   error: string | null;
   wovenPrompt: string | null;
   generationStep: GenerationStep | null;
+  autoFixMessage: string | null;
 }
 
 const Placeholder: React.FC = () => (
@@ -20,12 +21,14 @@ const Placeholder: React.FC = () => (
   </div>
 );
 
-const LoadingDisplay: React.FC<{ generationStep: GenerationStep | null, wovenPrompt: string | null }> = ({ generationStep, wovenPrompt }) => {
+const LoadingDisplay: React.FC<{ generationStep: GenerationStep | null, wovenPrompt: string | null, autoFixMessage: string | null }> = ({ generationStep, wovenPrompt, autoFixMessage }) => {
     
     const getLoadingMessage = () => {
         switch (generationStep) {
             case 'analyzing':
                 return 'Analyzing Prompt for Safety...';
+            case 'auto-fixing':
+                return 'Applying Automated Refinements...';
             case 'weaving':
                 return 'Weaving Prompt with AI...';
             case 'generating':
@@ -44,6 +47,11 @@ const LoadingDisplay: React.FC<{ generationStep: GenerationStep | null, wovenPro
             <p className="text-lg font-medium text-gray-300 mt-4">
                 {getLoadingMessage()}
             </p>
+            {autoFixMessage && (
+                <div className="mt-2 w-full bg-sky-900/50 p-2 rounded-lg border border-sky-700">
+                    <p className="text-sm text-sky-300">{autoFixMessage}</p>
+                </div>
+            )}
             {wovenPrompt && (
                 <div className="mt-4 w-full bg-gray-900/50 p-4 rounded-lg border border-gray-600 max-h-64 overflow-y-auto">
                     <p className="text-xs text-gray-400 font-semibold mb-2 text-left">Final Woven Prompt:</p>
@@ -121,8 +129,17 @@ const ErrorDisplay: React.FC<{ message: string }> = ({ message }) => {
     );
 };
 
+const AutoFixNotification: React.FC<{ message: string }> = ({ message }) => (
+    <div className="w-full p-3 mb-4 bg-sky-900/50 border border-sky-700 rounded-lg flex items-center gap-3">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-sky-400 flex-shrink-0" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+        </svg>
+        <p className="text-sm text-sky-300">{message}</p>
+    </div>
+);
 
-const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error, wovenPrompt, generationStep }) => {
+
+const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error, wovenPrompt, generationStep, autoFixMessage }) => {
   const getGridCols = (count: number) => {
     if (count <= 1) return 'grid-cols-1';
     if (count <= 4) return 'grid-cols-2';
@@ -147,10 +164,11 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
 
   return (
     <div className="w-full h-full flex items-center justify-center p-6 bg-gray-800/50 rounded-lg border border-gray-700 min-h-[50vh] lg:min-h-0">
-      {isLoading && <LoadingDisplay generationStep={generationStep} wovenPrompt={wovenPrompt} />}
+      {isLoading && <LoadingDisplay generationStep={generationStep} wovenPrompt={wovenPrompt} autoFixMessage={autoFixMessage} />}
       {!isLoading && error && <ErrorDisplay message={error} />}
       {!isLoading && !error && imageData && imageData.length > 0 && (
           <div className="flex flex-col gap-4 w-full">
+            {autoFixMessage && <AutoFixNotification message={autoFixMessage} />}
             <div className={`grid ${getGridCols(imageData.length)} gap-4 w-full`}>
                 {imageData.map((data, index) => (
                     <div key={index} className="w-full aspect-[9/16] overflow-hidden rounded-lg shadow-lg group relative">

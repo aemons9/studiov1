@@ -1,4 +1,4 @@
-import type { PromptData, GenerationSettings, EnhancementStyle, AnalysisSuggestion } from '../types';
+import type { PromptData, GenerationSettings, EnhancementStyle, AnalysisSuggestion, ArtisticAnalysisResult } from '../types';
 
 const promptSchema = {
     type: "OBJECT",
@@ -290,21 +290,31 @@ export async function generateImage(prompt: string, settings: GenerationSettings
 }
 
 const analysisSchema = {
-    type: "ARRAY",
-    items: {
-      type: "OBJECT",
-      properties: {
-        field: { type: "STRING", description: "The JSON path to the problematic field, e.g., 'wardrobe' or 'subject.pose'." },
-        originalText: { type: "STRING", description: "The original text that might be problematic." },
-        suggestedText: { type: "STRING", description: "A safer, artistic alternative." },
-        reason: { type: "STRING", description: "A brief explanation of the potential issue." }
-      },
-      required: ['field', 'originalText', 'suggestedText', 'reason']
+  type: "OBJECT",
+  properties: {
+    isArtistic: { type: "BOOLEAN", description: "True if the prompt describes professional, non-explicit artistic content. False otherwise." },
+    confidence: { type: "NUMBER", description: "Confidence score (0.0 to 1.0) in the 'isArtistic' assessment." },
+    reasoning: { type: "STRING", description: "Detailed reasoning for the 'isArtistic' assessment. If false, explain why it violates policy. If true, briefly confirm its artistic nature." },
+    suggestions: {
+      type: "ARRAY",
+      description: "An array of suggestions to improve the prompt for safety and clarity, if any are needed.",
+      items: {
+        type: "OBJECT",
+        properties: {
+          field: { type: "STRING", description: "The JSON path to the problematic field, e.g., 'wardrobe' or 'subject.pose'." },
+          originalText: { type: "STRING", description: "The original text that might be problematic." },
+          suggestedText: { type: "STRING", description: "A safer, artistic alternative." },
+          reason: { type: "STRING", description: "A brief explanation of the potential issue." }
+        },
+        required: ['field', 'originalText', 'suggestedText', 'reason']
+      }
     }
+  },
+  required: ['isArtistic', 'confidence', 'reasoning']
 };
 
 
-export async function analyzePrompt(promptData: PromptData, settings: GenerationSettings): Promise<AnalysisSuggestion[]> {
+export async function analyzeArtisticContent(promptData: PromptData, settings: GenerationSettings): Promise<ArtisticAnalysisResult> {
     const { projectId, accessToken } = settings;
     if (!projectId || !accessToken) {
         throw new Error("Project ID and Access Token are required for prompt analysis.");
@@ -314,25 +324,24 @@ export async function analyzePrompt(promptData: PromptData, settings: Generation
     const modelId = 'gemini-2.5-pro';
     const endpoint = `https://${region}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${region}/publishers/google/models/${modelId}:generateContent`;
 
-    const systemInstruction = `You are a world-class AI safety policy expert, acting as a consultant for a professional creative art director. The director is crafting prompts for high-fashion, fine-art glamour photography and requires your expertise to navigate potential safety filter misinterpretations. They operate under the professional context of: "${ART_DIRECTOR_DECLARATION}".
+    const systemInstruction = `You are an expert art critic and AI safety policy analyst, acting as a consultant for a professional creative director. The director operates under the context of: "${ART_DIRECTOR_DECLARATION}".
 
-Your task is to perform a detailed, surgical analysis of their structured JSON prompt. For each potential issue you identify:
-1.  **Isolate the Field**: Pinpoint the exact JSON path (e.g., 'wardrobe', 'subject.pose').
-2.  **Identify Problematic Phrases**: In the 'reason' field, quote the specific words or phrases that are high-risk for misinterpretation.
-3.  **Provide a Specific Rationale**: Also in the 'reason', explain *why* these phrases are risky. Reference the likely safety policy category (e.g., 'Sexually Explicit', 'Derogatory') and explain the logic. For example: "The phrase '...' is very direct and could be flagged as 'Sexually Explicit' because it focuses on the absence of clothing rather than the artistic effect."
-4.  **Suggest a Concrete, Strategic Replacement**: In the 'suggestedText' field, provide a complete, rewritten version of the original text. This rewrite should be a strategic rephrasing that maintains the core artistic intent while using safer, more evocative language. For example, replace direct descriptions with artistic metaphors like 'sculpted by shadow' or 'draped in light'.
+Your primary task is to analyze a structured JSON prompt for a high-fashion photoshoot.
+1.  **Assess Artistic Intent**: First, determine if the prompt describes a legitimate, professional artistic concept (e.g., fashion, fine art, portraiture) versus content that is explicitly sexual or harmful.
+2.  **Provide Reasoning**: Based on your assessment, provide detailed reasoning. If it's artistic, explain why (e.g., "This prompt clearly describes a professional fashion shoot, citing specific lighting techniques and a clear artistic style."). If it's not, explain which policies it likely violates (e.g., "This prompt's focus on... leans into sexually explicit content rather than artistic expression.").
+3.  **Offer Surgical Suggestions (If Needed)**: ONLY if the prompt is artistic but contains high-risk phrasing that might be misinterpreted, provide concrete suggestions for improvement. Follow the detailed suggestion format (field, originalText, suggestedText, reason). If the prompt is clearly artistic and safe, or if it is clearly non-artistic, return an empty array for suggestions.
 
-Your tone must be that of a professional peer: collaborative, insightful, and precise. If no significant risks are found, you MUST return an empty array.
-Output ONLY a raw JSON object conforming to the provided schema.`;
+Your output MUST be a single JSON object conforming to the provided schema.`;
     
-    const userPromptText = `Analyze this prompt for safety policy violations: ${JSON.stringify(promptData, null, 2)}`;
+    const userPromptText = `Analyze this prompt for artistic merit and safety: ${JSON.stringify(promptData, null, 2)}`;
 
     const body = {
         contents: [{ role: 'user', parts: [{ text: userPromptText }] }],
         systemInstruction: { parts: [{ text: systemInstruction }] },
         generationConfig: {
+            temperature: 0.0,
             responseMimeType: "application/json",
-            responseSchema: { type: 'ARRAY', items: analysisSchema.items } // Correctly reference the inner schema
+            responseSchema: analysisSchema
         }
     };
 
@@ -354,13 +363,13 @@ Output ONLY a raw JSON object conforming to the provided schema.`;
         if (data.candidates && data.candidates[0]?.content?.parts?.[0]?.text) {
             const analysisJsonText = data.candidates[0].content.parts[0].text.trim();
             const result = JSON.parse(analysisJsonText);
-            if (!Array.isArray(result)) {
-                throw new Error("API returned non-array JSON for analysis.");
+            // Basic validation
+            if (typeof result.isArtistic !== 'boolean' || typeof result.reasoning !== 'string') {
+                throw new Error("API returned malformed JSON for analysis.");
             }
-            return result as AnalysisSuggestion[];
+            return result as ArtisticAnalysisResult;
         } else {
-            // It's possible the model returns nothing if there are no suggestions, handle this gracefully.
-            return [];
+            throw new Error("The content moderation engine did not return a valid analysis.");
         }
     } catch (error) {
         console.error("Error analyzing prompt with Vertex AI API:", error);

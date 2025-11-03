@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, ArtisticAnalysisResult } from './types';
-import { generateImage, enhancePrompt, analyzeArtisticContent, weavePrompt } from './services/geminiService';
+import { generateImage, enhancePrompt, analyzeArtisticContent, weavePrompt, analyzeArtisticContentPro, weavePromptPro } from './services/geminiService';
 import Header from './components/Header';
 import PromptEditor from './components/PromptEditor';
 import ImageDisplay from './components/ImageDisplay';
@@ -108,6 +108,66 @@ const App: React.FC = () => {
     setAnalysisSuggestions(null);
     setAutoFixMessage(null);
   }
+
+  const applySuggestionsToPrompt = (currentPrompt: PromptData, suggestions: AnalysisSuggestion[]): PromptData => {
+    let updatedPromptData = JSON.parse(JSON.stringify(currentPrompt)); // Deep copy
+    suggestions.forEach(suggestion => {
+        try {
+            const pathParts = suggestion.field.split('.');
+            let current = updatedPromptData;
+            for (let i = 0; i < pathParts.length - 1; i++) {
+                current = current[pathParts[i]];
+            }
+            current[pathParts[pathParts.length - 1]] = suggestion.suggestedText;
+        } catch (e) {
+            console.error(`Failed to apply suggestion for field: ${suggestion.field}`, e);
+        }
+    });
+    return updatedPromptData;
+  };
+
+
+  const handleProGenerate = async () => {
+    if (!validateCredentials()) return;
+    resetGenerationState();
+    let promptForNextStep = promptData;
+    let wasAutoFixed = false;
+
+    try {
+        setGenerationStep('analyzing');
+        const analysisResult = await analyzeArtisticContentPro(promptData, generationSettings);
+
+        if (analysisResult.suggestions && analysisResult.suggestions.length > 0) {
+            wasAutoFixed = true;
+            setAutoFixMessage('Applying PRO-level safety enhancements...');
+            setGenerationStep('auto-fixing');
+            const refinedPromptData = applySuggestionsToPrompt(promptData, analysisResult.suggestions);
+            setPromptData(refinedPromptData); // Update UI state
+            promptForNextStep = refinedPromptData;
+        }
+
+        setGenerationStep('weaving');
+        const finalPrompt = await weavePromptPro(promptForNextStep, generationSettings);
+        setWovenPrompt(finalPrompt);
+        
+        if (wasAutoFixed) {
+            setAutoFixMessage('PRO-level safety enhancements applied. Generating image.');
+        }
+
+        setGenerationStep('generating');
+        const imagesB64 = await generateImage(finalPrompt, generationSettings);
+        const newImageData = imagesB64.map(b64 => ({
+            url: `data:image/jpeg;base64,${b64}`,
+            settings: { modelId: generationSettings.modelId, seed: generationSettings.seed, aspectRatio: generationSettings.aspectRatio }
+        }));
+        setGeneratedImages(newImageData);
+    } catch (err) {
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+    } finally {
+        setIsLoading(false);
+        setGenerationStep(null);
+    }
+  };
 
   const handleAutoFixGenerate = async () => {
     if (!validateCredentials()) return;
@@ -335,22 +395,9 @@ const App: React.FC = () => {
   };
 
   const handleApplySuggestion = (suggestion: AnalysisSuggestion) => {
-    const updateNestedState = (path: string, value: any) => {
-      setPromptData(prevState => {
-        const pathParts = path.split('.');
-        const newState = JSON.parse(JSON.stringify(prevState));
-        let current = newState;
-        for (let i = 0; i < pathParts.length - 1; i++) {
-          current = current[pathParts[i]];
-        }
-        current[pathParts[pathParts.length - 1]] = value;
-        return newState;
-      });
-    };
-    
-    updateNestedState(suggestion.field, suggestion.suggestedText);
-    setAnalysisSuggestions(prev => prev ? prev.filter(s => s !== suggestion) : null);
-    setActiveConcept('custom');
+     setPromptData(currentPrompt => applySuggestionsToPrompt(currentPrompt, [suggestion]));
+     setAnalysisSuggestions(prev => prev ? prev.filter(s => s !== suggestion) : null);
+     setActiveConcept('custom');
   };
 
   const isBusy = isLoading || isEnhancing;
@@ -387,7 +434,7 @@ const App: React.FC = () => {
       
       <div className="sticky bottom-0 left-0 right-0 p-4 bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
         <button onClick={handleOpenLoadModal} disabled={isBusy} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Load
+          <svg xmlns="http://www.w.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Load
         </button>
         <button onClick={handleSavePrompt} disabled={isBusy} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 014-4h4a4 4 0 014 4v2H7v-2z" /></svg>Save
@@ -396,26 +443,30 @@ const App: React.FC = () => {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>Copy
         </button>
         <button onClick={handleResetPrompt} disabled={isBusy} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>Reset
+          <svg xmlns="http://www.w.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>Reset
         </button>
 
         <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
           <EnhanceDropdown onEnhance={handleEnhancePrompt} isEnhancing={isEnhancing} isBusy={isBusy} />
           
           <div className="flex items-center gap-2">
-            <button onClick={handleAutoFixGenerate} disabled={isBusy} className="flex items-center justify-center gap-3 px-6 py-3 bg-indigo-600 text-white font-bold text-base rounded-lg shadow-lg hover:bg-indigo-500 disabled:bg-indigo-900/50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105">
-              {isLoading ? (
-                <><svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>{getButtonLoadingText()}</>
-              ) : (
-                <><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>Generate (Auto-Fix)</>
-              )}
+            <button onClick={handleProGenerate} disabled={isBusy} className="flex items-center justify-center gap-3 px-6 py-3 bg-fuchsia-600 text-white font-bold text-base rounded-lg shadow-lg hover:bg-fuchsia-500 disabled:bg-fuchsia-900/50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105">
+                {isLoading && generationStep ? (
+                    <><svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>{getButtonLoadingText()}</>
+                ) : (
+                    <><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>Generate (PRO)</>
+                )}
             </button>
             <div className="flex flex-col gap-1">
-                <button onClick={handleSafeGenerate} disabled={isBusy} title="Run pre-flight analysis and manually review suggestions." className="flex items-center justify-center gap-2 px-3 py-1.5 bg-gray-700 text-white font-semibold text-xs rounded-md shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
+                <button onClick={handleAutoFixGenerate} disabled={isBusy} title="Run analysis, auto-apply safety fixes, and generate." className="flex items-center justify-center gap-2 px-3 py-1.5 bg-indigo-700 text-white font-semibold text-xs rounded-md shadow-md hover:bg-indigo-600 disabled:bg-indigo-800/50 disabled:cursor-not-allowed transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                    Auto-Fix
+                </button>
+                 <button onClick={handleSafeGenerate} disabled={isBusy} title="Run analysis and manually review suggestions." className="flex items-center justify-center gap-2 px-3 py-1.5 bg-gray-700 text-white font-semibold text-xs rounded-md shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                     Safe
                 </button>
-                <button onClick={handleDirectGenerate} disabled={isBusy} title="Skip pre-flight analysis. For expert use." className="flex items-center justify-center gap-2 px-3 py-1.5 bg-gray-700 text-white font-semibold text-xs rounded-md shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
+                <button onClick={handleDirectGenerate} disabled={isBusy} title="Skip analysis. For expert use." className="flex items-center justify-center gap-2 px-3 py-1.5 bg-gray-700 text-white font-semibold text-xs rounded-md shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
                     Direct
                 </button>

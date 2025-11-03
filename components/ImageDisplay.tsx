@@ -1,11 +1,12 @@
 import React from 'react';
-import type { GeneratedImageData } from '../types';
+import type { GeneratedImageData, GenerationStep } from '../types';
 
 interface ImageDisplayProps {
   imageData: GeneratedImageData[] | null;
   isLoading: boolean;
   error: string | null;
   wovenPrompt: string | null;
+  generationStep: GenerationStep | null;
 }
 
 const Placeholder: React.FC = () => (
@@ -19,8 +20,20 @@ const Placeholder: React.FC = () => (
   </div>
 );
 
-const LoadingDisplay: React.FC<{ wovenPrompt: string | null }> = ({ wovenPrompt }) => {
-    const isWeaving = !wovenPrompt;
+const LoadingDisplay: React.FC<{ generationStep: GenerationStep | null, wovenPrompt: string | null }> = ({ generationStep, wovenPrompt }) => {
+    
+    const getLoadingMessage = () => {
+        switch (generationStep) {
+            case 'analyzing':
+                return 'Analyzing Prompt for Safety...';
+            case 'weaving':
+                return 'Weaving Prompt with AI...';
+            case 'generating':
+                return 'Generating Images...';
+            default:
+                return 'Processing...';
+        }
+    };
 
     return (
         <div className="w-full aspect-[9/16] bg-gray-700/50 rounded-lg flex flex-col items-center justify-center p-6 text-center">
@@ -29,9 +42,9 @@ const LoadingDisplay: React.FC<{ wovenPrompt: string | null }> = ({ wovenPrompt 
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
             <p className="text-lg font-medium text-gray-300 mt-4">
-                {isWeaving ? "Weaving Prompt with AI..." : "Generating Images..."}
+                {getLoadingMessage()}
             </p>
-            {!isWeaving && (
+            {wovenPrompt && (
                 <div className="mt-4 w-full bg-gray-900/50 p-4 rounded-lg border border-gray-600 max-h-64 overflow-y-auto">
                     <p className="text-xs text-gray-400 font-semibold mb-2 text-left">Final Woven Prompt:</p>
                     <p className="text-sm text-gray-300 text-left font-mono">{wovenPrompt}</p>
@@ -72,8 +85,8 @@ const ErrorDisplay: React.FC<{ message: string }> = ({ message }) => {
     const getTroubleshootingTips = (cats: string[]): string[] => {
         const tips = new Set<string>();
         tips.add('Try rephrasing your prompt to be less specific in sensitive areas.');
-        tips.add('Use the "Analyze Prompt" feature for specific suggestions.');
-        tips.add('Try the "Safety-First" enhancement style.');
+        tips.add('The automated pre-flight analysis should catch most issues. If you see this, the model may be extra sensitive.');
+        tips.add('Try the "Safety-First" enhancement style for a more cautious rewrite.');
 
         if (cats.some(c => ['sexual', 'sexually explicit'].includes(c))) {
             tips.add('Soften language in the "Wardrobe" and "Figure & Form" sections.');
@@ -109,7 +122,7 @@ const ErrorDisplay: React.FC<{ message: string }> = ({ message }) => {
 };
 
 
-const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error, wovenPrompt }) => {
+const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error, wovenPrompt, generationStep }) => {
   const getGridCols = (count: number) => {
     if (count <= 1) return 'grid-cols-1';
     if (count <= 4) return 'grid-cols-2';
@@ -134,7 +147,7 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
 
   return (
     <div className="w-full h-full flex items-center justify-center p-6 bg-gray-800/50 rounded-lg border border-gray-700 min-h-[50vh] lg:min-h-0">
-      {isLoading && <LoadingDisplay wovenPrompt={wovenPrompt} />}
+      {isLoading && <LoadingDisplay generationStep={generationStep} wovenPrompt={wovenPrompt} />}
       {!isLoading && error && <ErrorDisplay message={error} />}
       {!isLoading && !error && imageData && imageData.length > 0 && (
           <div className="flex flex-col gap-4 w-full">

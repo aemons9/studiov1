@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion } from './types';
+import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep } from './types';
 import { generateImage, enhancePrompt, analyzePrompt, weavePrompt } from './services/geminiService';
 import Header from './components/Header';
 import PromptEditor from './components/PromptEditor';
@@ -61,13 +61,13 @@ const App: React.FC = () => {
   const [generatedImages, setGeneratedImages] = useState<GeneratedImageData[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isEnhancing, setIsEnhancing] = useState<boolean>(false);
-  const [isAnalyzing, setIsAnalyzing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
   const [savedPrompts, setSavedPrompts] = useState<SavedPrompt[]>([]);
   const [activeConcept, setActiveConcept] = useState<string>('custom');
   const [analysisSuggestions, setAnalysisSuggestions] = useState<AnalysisSuggestion[] | null>(null);
   const [wovenPrompt, setWovenPrompt] = useState<string | null>(null);
+  const [generationStep, setGenerationStep] = useState<GenerationStep | null>(null);
   const [generationSettings, setGenerationSettings] = useState<GenerationSettings>({
     projectId: '',
     accessToken: '',
@@ -91,23 +91,34 @@ const App: React.FC = () => {
     setActiveConcept(concept.name);
   }, []);
 
-  const handleGenerateImage = async () => {
+  const validateCredentials = () => {
     if (!generationSettings.projectId || !generationSettings.accessToken) {
       setError('Please provide a valid Google Cloud Project ID and OAuth2 Access Token in the Generation Settings section.');
-      return;
+      return false;
     }
-    
+    return true;
+  }
+
+  const resetGenerationState = () => {
     setIsLoading(true);
     setError(null);
     setGeneratedImages(null);
     setWovenPrompt(null);
+    setAnalysisSuggestions(null);
+  }
+
+  const handleDirectGenerate = async () => {
+    if (!validateCredentials()) return;
+    resetGenerationState();
 
     try {
-      // Step 1: Weave the structured prompt into a coherent paragraph using AI.
+      // Skip analysis, go straight to weaving
+      setGenerationStep('weaving');
       const finalPrompt = await weavePrompt(promptData, generationSettings);
       setWovenPrompt(finalPrompt);
 
-      // Step 2: Generate the image using the final, AI-woven prompt.
+      // Stage 4: Generate the image using the final, AI-woven prompt.
+      setGenerationStep('generating');
       const imagesB64 = await generateImage(finalPrompt, generationSettings);
       const newImageData = imagesB64.map(b64 => ({
         url: `data:image/jpeg;base64,${b64}`,
@@ -122,6 +133,49 @@ const App: React.FC = () => {
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
       setIsLoading(false);
+      setGenerationStep(null);
+    }
+  };
+
+  const handleSafeGenerate = async () => {
+    if (!validateCredentials()) return;
+    resetGenerationState();
+
+    try {
+      // Stage 1: Automated Pre-flight Analysis (The "Handshake")
+      setGenerationStep('analyzing');
+      const suggestions = await analyzePrompt(promptData, generationSettings);
+
+      // Stage 2: Conditional Go/No-Go Decision
+      if (suggestions.length > 0) {
+        setAnalysisSuggestions(suggestions);
+        setIsLoading(false);
+        setGenerationStep(null);
+        return; // Halt the process
+      }
+
+      // Stage 3: Weave the structured prompt into a coherent paragraph using AI.
+      setGenerationStep('weaving');
+      const finalPrompt = await weavePrompt(promptData, generationSettings);
+      setWovenPrompt(finalPrompt);
+
+      // Stage 4: Generate the image using the final, AI-woven prompt.
+      setGenerationStep('generating');
+      const imagesB64 = await generateImage(finalPrompt, generationSettings);
+      const newImageData = imagesB64.map(b64 => ({
+        url: `data:image/jpeg;base64,${b64}`,
+        settings: {
+          modelId: generationSettings.modelId,
+          seed: generationSettings.seed,
+          aspectRatio: generationSettings.aspectRatio,
+        }
+      }));
+      setGeneratedImages(newImageData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+    } finally {
+      setIsLoading(false);
+      setGenerationStep(null);
     }
   };
 
@@ -223,28 +277,6 @@ const App: React.FC = () => {
       });
   };
 
-  const handleAnalyzePrompt = async () => {
-    if (!generationSettings.projectId || !generationSettings.accessToken) {
-      setError('Please provide a valid Project ID and Access Token to use the analyzer.');
-      return;
-    }
-    setIsAnalyzing(true);
-    setError(null);
-    setAnalysisSuggestions(null);
-    try {
-      const suggestions = await analyzePrompt(promptData, generationSettings);
-      if (suggestions.length === 0) {
-        alert("Analysis complete: No potential safety issues found!");
-      } else {
-        setAnalysisSuggestions(suggestions);
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred during analysis.');
-    } finally {
-      setIsAnalyzing(false);
-    }
-  };
-
   const handleApplySuggestion = (suggestion: AnalysisSuggestion) => {
     const updateNestedState = (path: string, value: any) => {
       setPromptData(prevState => {
@@ -264,7 +296,16 @@ const App: React.FC = () => {
     setActiveConcept('custom');
   };
 
-  const isBusy = isLoading || isEnhancing || isAnalyzing;
+  const isBusy = isLoading || isEnhancing;
+
+  const getLoadingText = () => {
+    switch (generationStep) {
+      case 'analyzing': return 'Analyzing...';
+      case 'weaving': return 'Weaving...';
+      case 'generating': return 'Generating...';
+      default: return 'Processing...';
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 font-sans">
@@ -281,7 +322,7 @@ const App: React.FC = () => {
             onConceptChange={handleConceptChange}
           />
           <div className="lg:sticky lg:top-8 self-start">
-            <ImageDisplay imageData={generatedImages} isLoading={isLoading} error={error} wovenPrompt={wovenPrompt} />
+            <ImageDisplay imageData={generatedImages} isLoading={isLoading} error={error} wovenPrompt={wovenPrompt} generationStep={generationStep} />
           </div>
         </div>
       </main>
@@ -301,21 +342,22 @@ const App: React.FC = () => {
         </button>
 
         <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
-          <button onClick={handleAnalyzePrompt} disabled={isBusy} className="flex items-center justify-center gap-2 px-6 py-3 bg-sky-600 text-white font-semibold text-base rounded-lg shadow-md hover:bg-sky-500 disabled:bg-sky-900/50 disabled:cursor-not-allowed transition-all duration-300">
-            {isAnalyzing ? (
-              <><svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Analyzing...</>
-            ) : (
-              <><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.28 7.22a.75.75 0 00-1.06 1.06L8.94 10l-1.72 1.72a.75.75 0 101.06 1.06L10 11.06l1.72 1.72a.75.75 0 101.06-1.06L11.06 10l1.72-1.72a.75.75 0 00-1.06-1.06L10 8.94 8.28 7.22z" clipRule="evenodd" /></svg>Analyze Prompt</>
-            )}
-          </button>
           <EnhanceDropdown onEnhance={handleEnhancePrompt} isEnhancing={isEnhancing} isBusy={isBusy} />
-          <button onClick={handleGenerateImage} disabled={isBusy} className="flex items-center justify-center gap-3 px-8 py-4 bg-indigo-600 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-indigo-500 disabled:bg-indigo-900/50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105">
-            {isLoading ? (
-              <><svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>Generating...</>
-            ) : (
-              <><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>Generate Image</>
-            )}
-          </button>
+          
+          <div className="flex items-center gap-2">
+            <button onClick={handleSafeGenerate} disabled={isBusy} className="flex items-center justify-center gap-3 px-6 py-3 bg-indigo-600 text-white font-bold text-base rounded-lg shadow-lg hover:bg-indigo-500 disabled:bg-indigo-900/50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105">
+              {isLoading ? (
+                <><svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>{getLoadingText()}</>
+              ) : (
+                <><svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>Generate (Safe)</>
+              )}
+            </button>
+             <button onClick={handleDirectGenerate} disabled={isBusy} title="Skip pre-flight analysis. For expert use." className="flex items-center justify-center gap-2 px-4 py-3 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" /></svg>
+                Direct
+            </button>
+          </div>
+
         </div>
       </div>
 

@@ -71,3 +71,5 @@ export interface AnalysisSuggestion {
   suggestedText: string;
   reason: string;
 }
+
+export type GenerationStep = 'analyzing' | 'weaving' | 'generating';

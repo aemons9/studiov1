@@ -428,17 +428,30 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         setRiskAnalysis(null);
         return;
     }
-    
+
     setIsAnalyzing(true);
+
+    // Create abort controller for this request to prevent race conditions
+    const abortController = new AbortController();
+
     debounceTimeout.current = window.setTimeout(async () => {
         try {
+            // TODO: Pass abortController.signal to getRiskAnalysis when API supports it
             const analysis = await getRiskAnalysis(promptData, generationSettings.intimacyLevel, generationSettings);
-            setRiskAnalysis(analysis);
+
+            // Only update state if this request wasn't aborted
+            if (!abortController.signal.aborted) {
+                setRiskAnalysis(analysis);
+            }
         } catch (error) {
-            console.error("Risk analysis failed:", error);
-            setRiskAnalysis(null);
+            if (!abortController.signal.aborted) {
+                console.error("Risk analysis failed:", error);
+                setRiskAnalysis(null);
+            }
         } finally {
-            setIsAnalyzing(false);
+            if (!abortController.signal.aborted) {
+                setIsAnalyzing(false);
+            }
         }
     }, 750); // 750ms debounce
 
@@ -446,6 +459,7 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         if (debounceTimeout.current) {
             clearTimeout(debounceTimeout.current);
         }
+        abortController.abort(); // Cancel pending request
     };
   }, [promptData, generationSettings.intimacyLevel, generationSettings.projectId, generationSettings.accessToken]);
 

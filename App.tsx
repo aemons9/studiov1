@@ -47,10 +47,22 @@ const initialPromptJson = `{
 }`;
 
 const constructSimplePromptString = (data: PromptData): string => {
-  return Object.entries(data).map(([key, value]) => {
-      if (typeof value === 'object' && value !== null) { return Object.entries(value).map(([subKey, subValue]) => `${subKey}: ${subValue}`).join(', '); }
-      return `${key}: ${value}`;
-    }).join('. ');
+  const safeStringify = (value: any): string => {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') {
+      return Object.entries(value)
+        .map(([k, v]) => `${k}: ${safeStringify(v)}`)
+        .filter(Boolean)
+        .join(', ');
+    }
+    return String(value);
+  };
+
+  return Object.entries(data)
+    .map(([key, value]) => `${key}: ${safeStringify(value)}`)
+    .filter(Boolean)
+    .join('. ');
 };
 
 const PROMPTS_STORAGE_key = 'ai-image-studio-prompts';
@@ -144,26 +156,44 @@ const App: React.FC = () => {
       // 1. (Optional) Enhance Prompt
       if (options.enhance.enabled) {
         setGenerationStep('enhancing');
-        const enhancedData = await enhancePrompt(promptForNextStep, generationSettings, options.enhance.style, lockedFields);
-        setPromptData(enhancedData);
-        promptForNextStep = enhancedData;
+        try {
+          const enhancedData = await enhancePrompt(promptForNextStep, generationSettings, options.enhance.style, lockedFields);
+          setPromptData(enhancedData);
+          promptForNextStep = enhancedData;
+        } catch (enhanceError) {
+          console.error('Enhancement failed:', enhanceError);
+          setError(`⚠️ Enhancement failed: ${enhanceError instanceof Error ? enhanceError.message : 'Unknown error'}. Proceeding with original prompt.`);
+          // Continue with original prompt - don't throw
+        }
       }
 
       // 2. (Optional) Weave Prompt
       if (options.weave.enabled) {
         setGenerationStep('weaving');
-        finalPrompt = await weavePrompt(promptForNextStep, generationSettings, { adherence: options.weave.adherence, lockFields: lockedFields });
-        setWovenPrompt(finalPrompt);
+        try {
+          finalPrompt = await weavePrompt(promptForNextStep, generationSettings, { adherence: options.weave.adherence, lockFields: lockedFields });
+          setWovenPrompt(finalPrompt);
+        } catch (weaveError) {
+          console.error('Weaving failed:', weaveError);
+          throw new Error(`Prompt weaving failed: ${weaveError instanceof Error ? weaveError.message : 'Unknown error'}`);
+        }
       } else {
         // 3. (If no weave) Use Raw Prompt
         finalPrompt = constructSimplePromptString(promptForNextStep);
-        setWovenPrompt(`RAW PROMPT: ${finalPrompt}`); // Show user the raw prompt
+        setWovenPrompt(`RAW PROMPT: ${finalPrompt}`);
       }
 
       // 4. Generate Image
       setGenerationStep('generating');
       const imagesB64 = await generateImage(finalPrompt, generationSettings);
-      const newImageData = imagesB64.map(b64 => ({ url: `data:image/jpeg;base64,${b64}`, settings: { modelId: generationSettings.modelId, seed: generationSettings.seed, aspectRatio: generationSettings.aspectRatio } }));
+      const newImageData = imagesB64.map(b64 => ({
+        url: `data:image/jpeg;base64,${b64}`,
+        settings: {
+          modelId: generationSettings.modelId,
+          seed: generationSettings.seed,
+          aspectRatio: generationSettings.aspectRatio
+        }
+      }));
       setGeneratedImages(newImageData);
 
     } catch (err) {

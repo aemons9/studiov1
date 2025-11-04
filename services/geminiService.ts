@@ -122,49 +122,37 @@ export async function weavePrompt(promptData: PromptData, settings: GenerationSe
   const modelId = 'gemini-2.5-pro';
   const endpoint = `https://${region}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${region}/publishers/google/models/${modelId}:generateContent`;
 
+  // IMPORTANT: Keep ALL data in dataToWeave for AI context, including locked fields
+  // The AI needs to see locked fields to understand what to preserve
   const dataToWeave = JSON.parse(JSON.stringify(promptData));
   const lockedData: any = {};
-  
+
   if (lockFields.length > 0) {
     lockFields.forEach(path => {
         const value = getNested(promptData, path);
         if (value !== undefined) {
             setNested(lockedData, path, value);
-            // Check if it's a nested property. If so, we need to handle the parent object carefully.
-            if (path.includes('.')) {
-                const parentPath = path.substring(0, path.lastIndexOf('.'));
-                const parentObjectInWeaveData = getNested(dataToWeave, parentPath);
-                // If the entire parent object is locked, we can just unset it from the weave data.
-                if(lockFields.includes(parentPath)) {
-                   unsetNested(dataToWeave, parentPath);
-                } else {
-                   // Otherwise, just unset the specific locked child property.
-                   unsetNested(dataToWeave, path);
-                }
-            } else {
-                 // It's a top-level property, so just delete it.
-                 delete (dataToWeave as any)[path];
-            }
+            // DON'T delete from dataToWeave - keep for context
         }
     });
   }
 
   const safePromptData = dataToWeave;
-  
-  // Apply safety replacements only to the remaining, unlocked fields
-  if (safePromptData.wardrobe) {
+
+  // Apply safety replacements and enhancements ONLY to unlocked fields
+  if (safePromptData.wardrobe && !lockFields.includes('wardrobe')) {
     safePromptData.wardrobe = enhanceWardrobeDescription(applySafetyReplacements(safePromptData.wardrobe));
   }
-  if (safePromptData.lighting) {
+  if (safePromptData.lighting && !lockFields.includes('lighting')) {
     safePromptData.lighting = enhanceLightingDescription(safePromptData.lighting);
   }
-  if (safePromptData.subject?.pose) {
+  if (safePromptData.subject?.pose && !lockFields.includes('subject.pose') && !lockFields.includes('subject')) {
     safePromptData.subject.pose = applySafetyReplacements(safePromptData.subject.pose);
   }
-  if (safePromptData.environment) {
+  if (safePromptData.environment && !lockFields.includes('environment')) {
     safePromptData.environment = applySafetyReplacements(safePromptData.environment);
   }
-  if (safePromptData.figure_and_form) {
+  if (safePromptData.figure_and_form && !lockFields.includes('figure_and_form')) {
     safePromptData.figure_and_form = applySafetyReplacements(safePromptData.figure_and_form);
   }
 
@@ -194,8 +182,24 @@ CRITICAL REQUIREMENTS:
 `;
 
   if (Object.keys(lockedData).length > 0) {
-    const lockedFieldsString = lockFields.filter(f => !lockFields.some(p => f.startsWith(p + '.'))).join(', ');
-    systemInstruction += `\nCRITICAL EXCEPTION: The '${lockedFieldsString}' field(s) are locked. You MUST include the text from the following JSON object verbatim, without any changes, additions, or rephrasing. Weave the other elements around it naturally. The locked data is: ${JSON.stringify(lockedData)}`;
+    const topLevelLockedFields = lockFields.filter(f => !lockFields.some(p => f !== p && f.startsWith(p + '.')));
+    systemInstruction += `\n\n⚠️ CRITICAL LOCK REQUIREMENT ⚠️
+The following fields are PERMANENTLY LOCKED and MUST be preserved EXACTLY as provided:
+
+LOCKED FIELDS: ${topLevelLockedFields.join(', ')}
+
+LOCKED VALUES:
+${JSON.stringify(lockedData, null, 2)}
+
+MANDATORY RULES FOR LOCKED FIELDS:
+1. Copy these locked field values VERBATIM into your woven output
+2. Do NOT modify, rephrase, enhance, or change locked fields in ANY way
+3. Do NOT apply safety replacements to locked fields
+4. Do NOT apply architectural language to locked fields
+5. Weave the UNLOCKED fields creatively around the locked content
+6. The locked fields are already perfect - treat them as sacred and untouchable
+
+Only enhance and weave the fields that are NOT in the locked list above.`;
   }
 
   let temperature = 0.3;
@@ -231,7 +235,9 @@ CRITICAL REQUIREMENTS:
       if (!wovenPrompt.startsWith('As a professional creative art director')) {
         wovenPrompt = `${ART_DIRECTOR_DECLARATION} ${wovenPrompt}`;
       }
-      return applySafetyReplacements(wovenPrompt);
+      // DON'T apply safety replacements here - locked fields would be modified
+      // Safety is already applied to unlocked fields before weaving
+      return wovenPrompt;
     } else {
       throw new Error("The 'Master Weaver' engine did not return a valid prompt.");
     }
@@ -408,18 +414,26 @@ export async function enhancePrompt(promptData: PromptData, settings: Generation
     if (data.candidates?.[0]?.content?.parts?.[0]?.text) {
       const result = JSON.parse(data.candidates[0].content.parts[0].text.trim()) as PromptData;
       
-      // FOOLPROOF LOCKING: After the AI returns a result, forcefully re-apply the original locked values. This guarantees user choices are respected.
+      // FOOLPROOF LOCKING: After the AI returns a result, forcefully re-apply the original locked values
+      // This guarantees user choices are respected
       lockedFields.forEach(path => {
         const originalValue = getNested(promptData, path);
         if (originalValue !== undefined) {
           setNested(result, path, originalValue);
         }
       });
-      
-      // Final safety pass on potentially modified fields
-      result.wardrobe = applySafetyReplacements(result.wardrobe);
-      if(result.subject) result.subject.pose = applySafetyReplacements(result.subject.pose);
-      result.figure_and_form = applySafetyReplacements(result.figure_and_form);
+
+      // Final safety pass ONLY on UNLOCKED fields
+      // CRITICAL: Do NOT apply safety replacements to locked fields!
+      const safetyFields = ['wardrobe', 'subject.pose', 'figure_and_form'];
+      safetyFields.forEach(fieldPath => {
+        if (!lockedFields.includes(fieldPath)) {
+          const currentValue = getNested(result, fieldPath);
+          if (currentValue && typeof currentValue === 'string') {
+            setNested(result, fieldPath, applySafetyReplacements(currentValue));
+          }
+        }
+      });
       
       return result;
     }

@@ -344,15 +344,10 @@ export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: num
         }
         throw new Error("Risk analysis failed to return valid data.");
     } catch (error) {
-        console.error("Risk analysis error:", error);
-        // Return a fallback error state
-        return {
-            riskScore: 0.99,
-            recommendedApi: 'Flux',
-            successProbability: 0.01,
-            reasoning: 'Failed to connect to the risk analysis service. Proceed with caution.',
-            appliedEnhancements: []
-        };
+        // Risk analysis is an optional feature that requires Vertex AI permissions
+        // Fail gracefully without alarming the user
+        // The error will be handled by the calling component
+        throw error;
     }
 }
 

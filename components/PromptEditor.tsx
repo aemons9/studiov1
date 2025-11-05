@@ -445,7 +445,9 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
             }
         } catch (error) {
             if (!abortController.signal.aborted) {
-                console.error("Risk analysis failed:", error);
+                // Risk analysis is optional - fail silently if permissions are insufficient
+                // This typically happens when OAuth token doesn't have aiplatform.endpoints.predict permission
+                console.warn("⚠️ Risk analysis unavailable (optional feature). This requires Vertex AI permissions.");
                 setRiskAnalysis(null);
             }
         } finally {

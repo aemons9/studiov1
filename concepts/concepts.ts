@@ -1,5 +1,6 @@
 import type { PromptData } from '../types';
 import { indianModelVariants } from './subjects';
+import { generateSeductressConceptByIntimacy, intimacyLevels } from './seductressAutoSelector';
 
 export interface ArtisticConcept {
   name: string;
@@ -427,5 +428,74 @@ export const artisticConcepts: ArtisticConcept[] = [
       "figure_and_form": "Natural form with emphasis on neck, shoulders, and décolletage curves. Minimal clothing to showcase authentic skin texture and the interplay of light on form.",
       "skin_micro_details": "Hyper-realistic rendering at macro scale: every pore, fine vellus hair, freckle, and skin irregularity visible. Pronounced subsurface scattering creates a luminous, life-like quality where light penetrates the skin. Individual eyelashes and lip texture rendered in extreme detail.", "fabric_physics": "Minimal fabric visible - only the delicate lace strap showing realistic tension and the way it sits against the skin.", "material_properties": "Focus on skin: realistic translucency with specular highlights on the dewy finish, matte zones in shadows, and the subtle color variations in natural skin tone."
     }
+  },
+
+  // ============================================================================
+  // SEDUCTRESS AUTO-SELECTOR SERIES - Intimacy Progression System
+  // Automatically generated concepts with progressive intimacy levels (1-7)
+  // Each level features coordinated wardrobe, nails, poses, lighting & camera
+  // ============================================================================
+
+  {
+    name: 'Seductress Auto: Level 1 - Professional Elegance',
+    data: generateSeductressConceptByIntimacy(
+      1,
+      indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+      "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
+    ) as PromptData
+  },
+
+  {
+    name: 'Seductress Auto: Level 2 - Sophisticated Allure',
+    data: generateSeductressConceptByIntimacy(
+      2,
+      indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+      "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
+    ) as PromptData
+  },
+
+  {
+    name: 'Seductress Auto: Level 3 - Editorial Sensuality',
+    data: generateSeductressConceptByIntimacy(
+      3,
+      indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+      "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
+    ) as PromptData
+  },
+
+  {
+    name: 'Seductress Auto: Level 4 - Intimate Artistry',
+    data: generateSeductressConceptByIntimacy(
+      4,
+      indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+      "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
+    ) as PromptData
+  },
+
+  {
+    name: 'Seductress Auto: Level 5 - High Concept Seduction',
+    data: generateSeductressConceptByIntimacy(
+      5,
+      indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+      "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
+    ) as PromptData
+  },
+
+  {
+    name: 'Seductress Auto: Level 6 - Maximum Expression',
+    data: generateSeductressConceptByIntimacy(
+      6,
+      indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+      "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
+    ) as PromptData
+  },
+
+  {
+    name: 'Seductress Auto: Level 7 - Pure Artistry',
+    data: generateSeductressConceptByIntimacy(
+      7,
+      indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+      "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
+    ) as PromptData
   }
 ];

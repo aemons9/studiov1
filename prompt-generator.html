@@ -30,6 +30,26 @@
             margin-bottom: 3rem;
             padding-bottom: 2rem;
             border-bottom: 2px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+
+        .download-btn {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(212, 175, 55, 0.2);
+            color: #d4af37;
+            border: 1px solid #d4af37;
+            padding: 0.5rem 1rem;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: rgba(212, 175, 55, 0.3);
+            transform: translateY(-1px);
         }
 
         h1 {
@@ -274,12 +294,87 @@
         }
 
         @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            header {
+                margin-bottom: 2rem;
+                padding-bottom: 1.5rem;
+            }
+
+            .download-btn {
+                position: static;
+                display: block;
+                width: 100%;
+                margin-bottom: 1.5rem;
+                padding: 0.75rem;
+                font-size: 0.9rem;
+            }
+
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+            }
+
+            .subtitle {
+                font-size: 0.85rem;
             }
 
             .controls-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .control-group {
+                padding: 1rem;
+            }
+
+            label {
+                font-size: 0.85rem;
+            }
+
+            select, input[type="range"] {
+                font-size: 0.9rem;
+                padding: 0.6rem;
+            }
+
+            button {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+            }
+
+            .copy-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            #promptOutput {
+                font-size: 0.95rem;
+                padding: 1rem;
+            }
+
+            .output-title {
+                font-size: 1.1rem;
+            }
+
+            .output-header {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: stretch;
+            }
+
+            .copy-notification {
+                top: 1rem;
+                right: 1rem;
+                left: 1rem;
+                text-align: center;
+            }
+        }
+
+        /* Touch-friendly improvements */
+        @media (hover: none) and (pointer: coarse) {
+            select, button, input[type="checkbox"] {
+                min-height: 44px; /* iOS recommended touch target */
             }
         }
     </style>
@@ -289,6 +384,7 @@
 
     <div class="container">
         <header>
+            <button class="download-btn" onclick="downloadHTML()">📥 Download HTML</button>
             <h1>Seductress Prompt Generator</h1>
             <p class="subtitle">Indian Glamour Seductress Model • 5'7" • 38DD-27-42 • Dusky Complexion</p>
             <p class="subtitle" style="margin-top: 0.5rem; font-size: 0.95rem;">Art Director's Studio • Linguistic Weaving Engine</p>
@@ -411,17 +507,33 @@
                 </select>
             </div>
 
-            <!-- Style -->
+            <!-- Photographer Style -->
             <div class="control-group">
-                <label for="style">Artistic Style</label>
-                <select id="style">
-                    <option value="neo-noir">Neo-Noir Film</option>
-                    <option value="private">Private & Personal</option>
-                    <option value="baroque">Baroque Glamour</option>
-                    <option value="newton">Helmut Newton Glam</option>
-                    <option value="fashion">High Fashion Editorial</option>
-                    <option value="fine-art">Fine Art Photography</option>
-                    <option value="cinematic">Cinematic Portrait</option>
+                <label for="photographerStyle">Photographer Style</label>
+                <select id="photographerStyle">
+                    <optgroup label="Master Photographers">
+                        <option value="newton-power">Helmut Newton - Powerful Women Series</option>
+                        <option value="newton-noir">Helmut Newton - Neo-Noir Sensuality</option>
+                        <option value="newton-bold">Helmut Newton - Bold Compositions</option>
+                        <option value="newton-architectural">Helmut Newton - Architectural Fashion</option>
+                    </optgroup>
+                    <optgroup label="Studio Elegance">
+                        <option value="penn">Irving Penn - Studio Elegance</option>
+                        <option value="roversi">Paolo Roversi - Private & Personal</option>
+                        <option value="leibovitz">Annie Leibovitz - Intimate Portraiture</option>
+                    </optgroup>
+                    <optgroup label="Form & Sculpture">
+                        <option value="ritts">Herb Ritts - Sculptural Form Studies</option>
+                        <option value="lindbergh">Peter Lindbergh - Raw Intimacy</option>
+                        <option value="brandt">Bill Brandt - Surreal Nudes</option>
+                        <option value="weston">Edward Weston - Form Studies</option>
+                    </optgroup>
+                    <optgroup label="Editorial Styles">
+                        <option value="fashion-editorial">Graphic Fashion Editorial</option>
+                        <option value="fine-art-dance">Fine Art Dance Photography</option>
+                        <option value="cinematic-noir">Cinematic Noir</option>
+                        <option value="baroque">Baroque Glamour</option>
+                    </optgroup>
                 </select>
             </div>
 
@@ -582,14 +694,22 @@
             'lipstick': 'Captured in intimate close-up as she meticulously applies bold red lipstick while looking in a compact mirror, a ritualistic moment of transformation',
         };
 
-        const stylePrompts = {
-            'neo-noir': 'Styled as a modern neo-noir film still, blending dark, moody atmosphere with a focus on sensual, intimate, and mysterious narratives, with hints of danger and desire',
-            'private': 'An intimate, candid, and deeply personal style that feels like a private moment has been captured, with natural lighting and a relaxed, authentic atmosphere',
-            'baroque': 'Opulent Baroque glamour characterized by rich textures—velvet, silk, brocade—deep jewel colors, and complex, moody chiaroscuro lighting reminiscent of old master paintings',
-            'newton': 'Bold, cinematic glamour inspired by Helmut Newton, featuring powerful female subjects in luxurious, stark settings with high contrast and a hint of decadence',
-            'fashion': 'High fashion editorial style with impeccable styling, dramatic composition, and sophisticated color palette, ready for the pages of Vogue or Harper\'s Bazaar',
-            'fine-art': 'Fine art photography approach emphasizing composition, form, and artistic vision over documentation, treating the subject as living sculpture',
-            'cinematic': 'Cinematic portrait style with film-like color grading, dramatic lighting, and compositional techniques borrowed from auteur cinema',
+        const photographerStylePrompts = {
+            'newton-power': 'Helmut Newton\'s powerful women series - commanding presence, architectural form, corporate glamour, emphasizing strength and sophistication',
+            'newton-noir': 'Helmut Newton inspired neo-noir sensuality - dramatic shadows, powerful compositions, editorial boldness with cinematic atmosphere',
+            'newton-bold': 'Helmut Newton\'s bold compositions - high contrast, luxurious settings, powerful femininity with stark sophistication and a hint of decadence',
+            'newton-architectural': 'Helmut Newton\'s architectural fashion photography - emphasizing structure, power, geometric lines, and the interplay of fashion and form',
+            'penn': 'Irving Penn\'s studio elegance - refined composition, elegant negative space, luxurious simplicity with timeless sophistication',
+            'roversi': 'Paolo Roversi\'s private and personal intimacy - soft focus, dreamlike quality, romantic atmosphere with ethereal beauty',
+            'leibovitz': 'Annie Leibovitz\'s intimate portraiture - genuine connection, emotional depth, storytelling through expression and gesture',
+            'ritts': 'Herb Ritts\' sculptural form studies - geometric composition, body as architecture, intimate minimalism emphasizing pure form',
+            'lindbergh': 'Peter Lindbergh\'s raw intimacy - unguarded moments, powerful simplicity, emotional connection with stripped-back authenticity',
+            'brandt': 'Bill Brandt\'s surreal nudes - where the human form becomes landscape, sculpture, and pure artistic expression with dramatic perspective',
+            'weston': 'Edward Weston\'s form studies - celebrating the sculptural qualities of the body as living art with precise detail and tonal range',
+            'fashion-editorial': 'Graphic fashion editorial - bold compositions, strong visual impact, impeccable styling with high-fashion sophistication',
+            'fine-art-dance': 'Fine art dance photography - emphasizing movement, grace, form, and the sculptural qualities of the human body',
+            'cinematic-noir': 'Cinematic noir aesthetic - moody atmosphere, dramatic lighting, mysterious narratives with film-like quality',
+            'baroque': 'Baroque glamour - opulent textures, rich colors, complex chiaroscuro lighting reminiscent of old master paintings',
         };
 
         const cameraPrompts = {
@@ -628,7 +748,7 @@
             const environment = document.getElementById('environment').value;
             const lighting = document.getElementById('lighting').value;
             const pose = document.getElementById('pose').value;
-            const style = document.getElementById('style').value;
+            const photographerStyle = document.getElementById('photographerStyle').value;
             const camera = document.getElementById('camera').value;
             const hairStyle = document.getElementById('hairStyle').value;
 
@@ -692,8 +812,8 @@
             prompt += lightingPrompts[lighting];
             prompt += '. ';
 
-            // Style
-            prompt += stylePrompts[style];
+            // Photographer Style
+            prompt += photographerStylePrompts[photographerStyle];
             prompt += '. ';
 
             // Camera (optional)
@@ -763,6 +883,29 @@
                     }, 2000);
                 });
             }
+        }
+
+        // Download this HTML file
+        function downloadHTML() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'seductress-prompt-generator.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+
+            // Show notification
+            const notification = document.getElementById('copyNotification');
+            notification.textContent = 'HTML file downloaded!';
+            notification.classList.add('show');
+            setTimeout(() => {
+                notification.classList.remove('show');
+                notification.textContent = 'Prompt copied to clipboard!';
+            }, 2000);
         }
 
         // Enable Enter key to generate

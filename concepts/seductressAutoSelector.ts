@@ -287,7 +287,7 @@ export const intimacyLevels: IntimacyLevel[] = [
     },
     pose: {
       category: 'Classical Fine Art',
-      description: 'Reclining on desk or floor in classical odalisque poses. Standing in profile silhouetted against window. Poses that reference classical sculpture and fine art painting.',
+      description: 'Reclining in a classical odalisque pose inspired by fine art painting masters. The body creates elegant, flowing lines with natural curves emphasized by the positioning. One arm may be extended or resting gracefully, creating a sculptural composition.',
       mood: 'Artistic, Timeless, Museum Quality'
     },
     lighting: {
@@ -327,7 +327,7 @@ export const intimacyLevels: IntimacyLevel[] = [
     },
     pose: {
       category: 'Master\'s Vision',
-      description: 'Classical art poses: reclining like Titian\'s Venus, standing like Botticelli\'s Venus, or modern interpretations of classical sculpture. The pose references art history while maintaining contemporary sensuality.',
+      description: 'A single classical art pose inspired by Renaissance masters like Titian or Botticelli - a graceful, sculptural composition where the form itself becomes the primary subject. The body creates timeless lines that reference art history while maintaining contemporary elegance.',
       mood: 'Transcendent, Artistic, Timeless'
     },
     lighting: {

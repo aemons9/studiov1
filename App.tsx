@@ -180,6 +180,40 @@ const App: React.FC = () => {
 
   useEffect(() => { setPromptHistory(loadHistoryFromStorage()); }, []);
 
+  // Load OAuth tokens from localStorage on mount
+  useEffect(() => {
+    const mainToken = localStorage.getItem('mainToken');
+    const driveToken = localStorage.getItem('driveToken');
+
+    if (mainToken || driveToken) {
+      console.log('✅ Tokens loaded from localStorage');
+      if (mainToken) console.log('  • Work token (mainToken): Found');
+      if (driveToken) console.log('  • Drive token (driveToken): Found');
+    } else {
+      console.warn('⚠️ No work token found in localStorage');
+      console.log('Paste in console: localStorage.setItem("mainToken", "YOUR_WORK_TOKEN");');
+      console.warn('⚠️ No drive token found in localStorage');
+      console.log('Paste in console: localStorage.setItem("driveToken", "YOUR_DRIVE_TOKEN");');
+    }
+
+    // Auto-populate generation settings with work token
+    if (mainToken) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        accessToken: mainToken,
+        projectId: prev.projectId || 'creatives-476816' // Default project ID
+      }));
+    }
+
+    // Set driveAccessToken if available (for separate Drive account)
+    if (driveToken) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        driveAccessToken: driveToken
+      }));
+    }
+  }, []);
+
   const handleMasterGenerate = async (options: MasterGenerateOptions) => {
     if (!validateCredentials()) return;
     addToHistory(promptData, generationSettings);

@@ -290,7 +290,8 @@
     <div class="container">
         <header>
             <h1>Seductress Prompt Generator</h1>
-            <p class="subtitle">Art Director's Studio • Linguistic Weaving Engine</p>
+            <p class="subtitle">Indian Glamour Seductress Model • 5'7" • 38DD-27-42 • Dusky Complexion</p>
+            <p class="subtitle" style="margin-top: 0.5rem; font-size: 0.95rem;">Art Director's Studio • Linguistic Weaving Engine</p>
         </header>
 
         <div class="controls-grid">
@@ -610,6 +611,17 @@
             'wet-look': 'with wet-look styled hair adding edgy sophistication',
         };
 
+        // Indian Glamour Seductress model specification
+        const modelSpec = {
+            height: '5\'7"',
+            bust: '38DD"',
+            waist: '27"',
+            hips: '42"',
+            skinTone: 'beautiful dusky skin tone that glows under soft light',
+            features: 'captivating, magnetic gaze and full lips',
+            aura: 'confident, commanding seduction'
+        };
+
         function weavePrompt() {
             const intimacy = parseInt(document.getElementById('intimacyLevel').value);
             const wardrobe = document.getElementById('wardrobe').value;
@@ -653,11 +665,11 @@
             // Build the prompt with artistic variation
             let prompt = '';
 
-            // Opening
+            // Opening with Indian Glamour Seductress model specification
             prompt += openings[Math.floor(Math.random() * openings.length)];
-            prompt += ' a stunning woman ';
+            prompt += ` an Indian fashion model (height ${modelSpec.height}) with a sensual and curvaceous hourglass figure (bust ${modelSpec.bust}, waist ${modelSpec.waist}, hips ${modelSpec.hips}). She has a ${modelSpec.skinTone}, ${modelSpec.features}, and exudes an aura of ${modelSpec.aura}. Her hair is `;
             prompt += hairPrompts[hairStyle];
-            prompt += ', ';
+            prompt += '. ';
 
             // Pose
             prompt += posePrompts[pose];
@@ -693,13 +705,13 @@
             // Micro-details (optional)
             if (includeDetails) {
                 const details = [
-                    'Exceptional attention to skin micro-details: subtle texture, natural luminosity, and delicate tonal variations.',
-                    'Fabric physics rendered with precision: natural draping, weight, and interaction with form.',
-                    'Material properties are exquisitely rendered: the sheen of silk, the texture of lace, the weight of fabric.',
+                    'Exceptional attention to skin micro-details: her dusky skin shows subtle texture, natural luminosity with a warm golden undertone, and delicate tonal variations. Light naturally catches on the high points of cheekbones, shoulders, and curves.',
+                    'Ultra-realistic skin rendering: her dusky complexion reveals visible pores, fine lines, natural imperfections, and the characteristic warm glow that makes dusky skin luminous under proper lighting.',
+                    'Fabric physics rendered with precision: natural draping, weight, and interaction with her hourglass form. Material properties exquisitely captured - the sheen of silk against dusky skin, the texture of lace, the weight of fabric.',
                 ];
 
                 if (intimacy >= 6) {
-                    details.push('The composition is a masterclass in suggestion, using light and shadow to sculpt form while maintaining artistic sophistication.');
+                    details.push('The composition is a masterclass in suggestion, using light and shadow to sculpt her hourglass silhouette (38DD-27-42) while maintaining artistic sophistication. Her dusky skin creates beautiful contrast with fabrics and shadows.');
                 }
 
                 prompt += details[Math.floor(Math.random() * details.length)] + ' ';

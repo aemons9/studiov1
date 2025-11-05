@@ -1,7 +1,8 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
-import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, HistoryEntry, AdherenceLevel } from './types';
-import { generateImage, enhancePrompt, weavePrompt } from './services/geminiService';
+import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, HistoryEntry, AdherenceLevel, CloudStorageConfig } from './types';
+import { generateImage, enhancePrompt, weavePrompt, generateAndSaveImage } from './services/geminiService';
+import { DEFAULT_BUCKET_NAME } from './services/cloudStorageService';
 import Header from './components/Header';
 import PromptEditor from './components/PromptEditor';
 import ImageDisplay from './components/ImageDisplay';
@@ -11,6 +12,7 @@ import AnalysisModal from './components/AnalysisModal';
 import HistoryModal from './components/HistoryModal';
 import LockFieldsDropdown from './components/LockFieldsDropdown';
 import MasterGenerationControl, { MasterGenerateOptions } from './components/MasterGenerationControl';
+import GalleryModal from './components/GalleryModal';
 
 const initialPromptJson = `{
   "shot": "Masterful portrait (4:5), capturing the interplay of light and emotion with profound depth.",
@@ -88,6 +90,9 @@ const App: React.FC = () => {
     safetySetting: 'block_few', addWatermark: true, enhancePrompt: true, modelId: 'imagen-4.0-ultra-generate-001', seed: null,
     intimacyLevel: 6,
   });
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  const [enableCloudStorage, setEnableCloudStorage] = useState(true);
+  const [bucketName, setBucketName] = useState(DEFAULT_BUCKET_NAME);
 
   const handlePromptChange = useCallback((newPromptData: PromptData) => {
     setPromptData(newPromptData);
@@ -297,6 +302,9 @@ const App: React.FC = () => {
         <button onClick={handleOpenLoadModal} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
           <svg xmlns="http://www.w.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Load
         </button>
+        <button onClick={() => setIsGalleryModalOpen(true)} disabled={isLoading || !generationSettings.projectId} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-indigo-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>Gallery
+        </button>
         <button onClick={handleOpenHistoryModal} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>History
         </button>
@@ -321,6 +329,21 @@ const App: React.FC = () => {
       <LoadPromptModal isOpen={isLoadModalOpen} onClose={() => setIsLoadModalOpen(false)} prompts={savedPrompts} onLoad={handleLoadSelectedPrompt} onDelete={handleDeletePrompt} />
       <HistoryModal isOpen={isHistoryModalOpen} onClose={() => setIsHistoryModalOpen(false)} history={promptHistory} onLoad={handleLoadFromHistory} onClear={handleClearHistory} />
       <AnalysisModal isOpen={!!analysisSuggestions && analysisSuggestions.length > 0} onClose={() => setAnalysisSuggestions(null)} suggestions={analysisSuggestions || []} onApply={handleApplySuggestion} />
+      <GalleryModal
+        isOpen={isGalleryModalOpen}
+        onClose={() => setIsGalleryModalOpen(false)}
+        config={{
+          projectId: generationSettings.projectId || 'creatives-476816',
+          bucketName: bucketName,
+          accessToken: generationSettings.accessToken,
+          region: 'us-east4'
+        }}
+        onSelectImage={(metadata) => {
+          setPromptData(metadata.promptData);
+          setGenerationSettings(prev => ({...prev, ...metadata.settings}));
+          setActiveConcept(metadata.conceptName);
+        }}
+      />
     </div>
   );
 };

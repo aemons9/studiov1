@@ -14,6 +14,8 @@ import HistoryModal from './components/HistoryModal';
 import LockFieldsDropdown from './components/LockFieldsDropdown';
 import MasterGenerationControl, { MasterGenerateOptions } from './components/MasterGenerationControl';
 import GalleryModal from './components/GalleryModal';
+import SeductressAutoSelector from './components/SeductressAutoSelector';
+import type { IntimacyLevel } from './concepts/seductressAutoSelector';
 
 const initialPromptJson = `{
   "shot": "Masterful portrait (4:5), capturing the interplay of light and emotion with profound depth.",
@@ -96,6 +98,7 @@ const App: React.FC = () => {
   const [storageProvider, setStorageProvider] = useState<StorageProvider>('google-drive'); // Default to Google Drive (FREE)
   const [bucketName, setBucketName] = useState(DEFAULT_BUCKET_NAME);
   const [driveFolderName, setDriveFolderName] = useState(DEFAULT_DRIVE_FOLDER);
+  const [isSeductressAutoSelectorOpen, setIsSeductressAutoSelectorOpen] = useState(false);
 
   const handlePromptChange = useCallback((newPromptData: PromptData) => {
     setPromptData(newPromptData);
@@ -105,6 +108,31 @@ const App: React.FC = () => {
   const handleConceptChange = useCallback((concept: ArtisticConcept) => {
     setPromptData(concept.data);
     setActiveConcept(concept.name);
+  }, []);
+
+  const handleSeductressLevelSelected = useCallback((generatedPrompt: Partial<PromptData>, levelInfo: IntimacyLevel) => {
+    // Merge the generated prompt with current prompt data
+    setPromptData(currentPrompt => ({
+      ...currentPrompt,
+      ...generatedPrompt,
+      subject: {
+        ...(typeof currentPrompt.subject === 'object' ? currentPrompt.subject : {}),
+        ...(typeof generatedPrompt.subject === 'object' ? generatedPrompt.subject : {})
+      },
+      camera: {
+        ...(typeof currentPrompt.camera === 'object' ? currentPrompt.camera : {}),
+        ...(typeof generatedPrompt.camera === 'object' ? generatedPrompt.camera : {})
+      }
+    }));
+
+    // Update intimacy level in settings
+    setGenerationSettings(prev => ({
+      ...prev,
+      intimacyLevel: levelInfo.intimacyScore
+    }));
+
+    // Set active concept name
+    setActiveConcept(`Seductress Auto: ${levelInfo.name}`);
   }, []);
 
   const validateCredentials = () => {
@@ -351,6 +379,9 @@ const App: React.FC = () => {
         <button onClick={() => setIsGalleryModalOpen(true)} disabled={isLoading || !generationSettings.projectId} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-indigo-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>Gallery
         </button>
+        <button onClick={() => setIsSeductressAutoSelectorOpen(true)} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-purple-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-purple-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" /></svg>Auto
+        </button>
         <button onClick={handleOpenHistoryModal} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>History
         </button>
@@ -396,6 +427,11 @@ const App: React.FC = () => {
           setGenerationSettings(prev => ({...prev, ...metadata.settings}));
           setActiveConcept(metadata.conceptName);
         }}
+      />
+      <SeductressAutoSelector
+        isOpen={isSeductressAutoSelectorOpen}
+        onClose={() => setIsSeductressAutoSelectorOpen(false)}
+        onSelectLevel={handleSeductressLevelSelected}
       />
     </div>
   );

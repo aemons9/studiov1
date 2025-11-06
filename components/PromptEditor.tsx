@@ -611,20 +611,138 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
       </CollapsibleSection>
       
        <CollapsibleSection title="Generation Settings">
-        <p className="text-sm text-gray-400 -mt-2 mb-4">Prompt enhancement and image generation require authentication with Google Cloud.</p>
-        <div className="space-y-4">
-            <div>
-                <label htmlFor="projectId" className="font-semibold text-gray-300 block mb-2">Google Cloud Project ID</label>
-                <input id="projectId" type="text" placeholder="e.g., my-gcp-project-123" value={generationSettings.projectId} onChange={(e) => handleSettingsChange('projectId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+        <p className="text-sm text-gray-400 -mt-2 mb-4">Configure your image generation provider and authentication.</p>
+
+        {/* Provider Selection */}
+        <div className="mb-6">
+            <label className="font-semibold text-gray-300 block mb-3">Image Provider</label>
+            <div className="grid grid-cols-2 gap-3">
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'vertex-ai')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'vertex-ai'
+                            ? 'border-indigo-500 bg-indigo-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">🌟</div>
+                        <div className="font-semibold text-sm">Vertex AI</div>
+                        <div className="text-xs mt-1 opacity-75">Google Imagen 4</div>
+                    </div>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'replicate-flux')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'replicate-flux'
+                            ? 'border-purple-500 bg-purple-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">⚡</div>
+                        <div className="font-semibold text-sm">Flux Models</div>
+                        <div className="text-xs mt-1 opacity-75">Replicate API</div>
+                    </div>
+                </button>
             </div>
-            <div>
-                <label htmlFor="accessToken" className="font-semibold text-gray-300 block mb-2">OAuth2 Access Token</label>
-                <input id="accessToken" type="password" placeholder="Enter your temporary access token" value={generationSettings.accessToken} onChange={(e) => handleSettingsChange('accessToken', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
-                 <p className="text-xs text-gray-500 mt-1">
-                    You can generate a temporary token using the gcloud CLI: <code className="bg-gray-700 p-1 rounded">gcloud auth print-access-token</code>
-                </p>
-            </div>
+            <p className="text-xs text-gray-500 mt-2">
+                {generationSettings.provider === 'vertex-ai'
+                    ? '💡 Vertex AI recommended for professional fashion (intimacy 1-6)'
+                    : '💡 Flux recommended for artistic intimate photography (intimacy 7+)'}
+            </p>
         </div>
+
+        {/* Vertex AI Settings */}
+        {generationSettings.provider === 'vertex-ai' && (
+            <div className="space-y-4 p-4 bg-indigo-500/5 rounded-lg border border-indigo-500/20">
+                <div>
+                    <label htmlFor="projectId" className="font-semibold text-gray-300 block mb-2">Google Cloud Project ID</label>
+                    <input id="projectId" type="text" placeholder="e.g., my-gcp-project-123" value={generationSettings.projectId} onChange={(e) => handleSettingsChange('projectId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+                </div>
+                <div>
+                    <label htmlFor="accessToken" className="font-semibold text-gray-300 block mb-2">OAuth2 Access Token</label>
+                    <input id="accessToken" type="password" placeholder="Enter your temporary access token" value={generationSettings.accessToken} onChange={(e) => handleSettingsChange('accessToken', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+                    <p className="text-xs text-gray-500 mt-1">
+                        You can generate a temporary token using the gcloud CLI: <code className="bg-gray-700 p-1 rounded">gcloud auth print-access-token</code>
+                    </p>
+                </div>
+            </div>
+        )}
+
+        {/* Replicate Flux Settings */}
+        {generationSettings.provider === 'replicate-flux' && (
+            <div className="space-y-4 p-4 bg-purple-500/5 rounded-lg border border-purple-500/20">
+                <div>
+                    <label htmlFor="replicateApiToken" className="font-semibold text-gray-300 block mb-2">Replicate API Token</label>
+                    <input
+                        id="replicateApiToken"
+                        type="password"
+                        placeholder="Enter your Replicate API token"
+                        value={generationSettings.replicateApiToken || ''}
+                        onChange={(e) => handleSettingsChange('replicateApiToken', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        Get your API token from <a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300 underline">replicate.com/account</a>
+                    </p>
+                </div>
+                <div>
+                    <label htmlFor="fluxModel" className="font-semibold text-gray-300 block mb-2">Flux Model</label>
+                    <select
+                        id="fluxModel"
+                        value={generationSettings.fluxModel || 'black-forest-labs/flux-1.1-pro-ultra'}
+                        onChange={(e) => handleSettingsChange('fluxModel', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                    >
+                        <option value="black-forest-labs/flux-1.1-pro-ultra">FLUX 1.1 Pro Ultra (Best Quality, 4MP)</option>
+                        <option value="black-forest-labs/flux-1.1-pro">FLUX 1.1 Pro (Balanced, 6x Faster)</option>
+                        <option value="black-forest-labs/flux-dev">FLUX Dev (Cost-Effective)</option>
+                        <option value="black-forest-labs/flux-schnell">FLUX Schnell (Fastest)</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">
+                        ⚙️ Auto-optimized based on intimacy level
+                    </p>
+                </div>
+                <div className="flex items-center gap-3">
+                    <input
+                        id="fluxRawMode"
+                        type="checkbox"
+                        checked={generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : true}
+                        onChange={(e) => handleSettingsChange('fluxRawMode', e.target.checked)}
+                        disabled={isLoading}
+                        className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-purple-600 focus:ring-purple-500"
+                    />
+                    <label htmlFor="fluxRawMode" className="font-semibold text-gray-300">Raw Mode (Hyper-Realistic)</label>
+                </div>
+                <div>
+                    <label htmlFor="fluxSafetyTolerance" className="font-semibold text-gray-300 block mb-2">
+                        Safety Tolerance: {generationSettings.fluxSafetyTolerance || 4}
+                    </label>
+                    <input
+                        id="fluxSafetyTolerance"
+                        type="range"
+                        min="1"
+                        max="5"
+                        value={generationSettings.fluxSafetyTolerance || 4}
+                        onChange={(e) => handleSettingsChange('fluxSafetyTolerance', parseInt(e.target.value))}
+                        disabled={isLoading}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                    />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>Conservative</span>
+                        <span>Balanced</span>
+                        <span>Permissive</span>
+                    </div>
+                </div>
+            </div>
+        )}
 
         <div className="mt-6 pt-6 border-t border-gray-700 space-y-4">
             <IntimacyController 
@@ -636,13 +754,15 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
 
         <div className="mt-6 pt-6 border-t border-gray-700 space-y-4">
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label htmlFor="modelId" className="font-semibold text-gray-300 block mb-2">Model Version</label>
-                    <select id="modelId" value={generationSettings.modelId} onChange={(e) => handleSettingsChange('modelId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
-                        <option value="imagen-4.0-ultra-generate-001">Ultra Quality</option>
-                        <option value="imagen-4.0-fast-generate-001">Fast Generation</option>
-                    </select>
-                </div>
+                {generationSettings.provider === 'vertex-ai' && (
+                  <div>
+                      <label htmlFor="modelId" className="font-semibold text-gray-300 block mb-2">Model Version</label>
+                      <select id="modelId" value={generationSettings.modelId} onChange={(e) => handleSettingsChange('modelId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
+                          <option value="imagen-4.0-ultra-generate-001">Ultra Quality</option>
+                          <option value="imagen-4.0-fast-generate-001">Fast Generation</option>
+                      </select>
+                  </div>
+                )}
                  <div>
                     <label htmlFor="seed" className="font-semibold text-gray-300 block mb-2">Seed</label>
                     <div className="relative">
@@ -653,32 +773,38 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
                     </div>
                 </div>
             </div>
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label htmlFor="personGeneration" className="font-semibold text-gray-300 block mb-2">Person Generation</label>
-                    <select id="personGeneration" value={generationSettings.personGeneration} onChange={(e) => handleSettingsChange('personGeneration', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
-                        <option value="allow_all">Allow All</option>
-                        <option value="allow_adult">Allow Adults Only</option>
-                        <option value="dont_allow">Don't Allow</option>
-                    </select>
+             {generationSettings.provider === 'vertex-ai' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                      <label htmlFor="personGeneration" className="font-semibold text-gray-300 block mb-2">Person Generation</label>
+                      <select id="personGeneration" value={generationSettings.personGeneration} onChange={(e) => handleSettingsChange('personGeneration', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
+                          <option value="allow_all">Allow All</option>
+                          <option value="allow_adult">Allow Adults Only</option>
+                          <option value="dont_allow">Don't Allow</option>
+                      </select>
+                  </div>
+                  <div>
+                      <label htmlFor="safetySetting" className="font-semibold text-gray-300 block mb-2">Safety Setting</label>
+                      <select id="safetySetting" value={generationSettings.safetySetting} onChange={(e) => handleSettingsChange('safetySetting', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
+                          <option value="block_few">Block Few</option>
+                          <option value="block_some">Block Some</option>
+                          <option value="block_most">Block Most</option>
+                      </select>
+                  </div>
+              </div>
+             )}
+             {generationSettings.provider === 'vertex-ai' && (
+              <>
+                <div className="flex items-center gap-3">
+                  <input id="addWatermark" type="checkbox" checked={generationSettings.addWatermark} onChange={(e) => handleSettingsChange('addWatermark', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
+                  <label htmlFor="addWatermark" className="font-semibold text-gray-300">Add Watermark</label>
                 </div>
-                <div>
-                    <label htmlFor="safetySetting" className="font-semibold text-gray-300 block mb-2">Safety Setting</label>
-                    <select id="safetySetting" value={generationSettings.safetySetting} onChange={(e) => handleSettingsChange('safetySetting', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
-                        <option value="block_few">Block Few</option>
-                        <option value="block_some">Block Some</option>
-                        <option value="block_most">Block Most</option>
-                    </select>
+                <div className="flex items-center gap-3">
+                  <input id="enhancePrompt" type="checkbox" checked={generationSettings.enhancePrompt} onChange={(e) => handleSettingsChange('enhancePrompt', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
+                  <label htmlFor="enhancePrompt" className="font-semibold text-gray-300">Enhance Prompt</label>
                 </div>
-            </div>
-             <div className="flex items-center gap-3">
-                <input id="addWatermark" type="checkbox" checked={generationSettings.addWatermark} onChange={(e) => handleSettingsChange('addWatermark', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
-                <label htmlFor="addWatermark" className="font-semibold text-gray-300">Add Watermark</label>
-            </div>
-            <div className="flex items-center gap-3">
-                <input id="enhancePrompt" type="checkbox" checked={generationSettings.enhancePrompt} onChange={(e) => handleSettingsChange('enhancePrompt', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
-                <label htmlFor="enhancePrompt" className="font-semibold text-gray-300">Enhance Prompt</label>
-            </div>
+              </>
+             )}
         </div>
 
 

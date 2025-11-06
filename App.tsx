@@ -90,9 +90,14 @@ const App: React.FC = () => {
   const [generationStep, setGenerationStep] = useState<GenerationStep | null>(null);
   const [lockedFields, setLockedFields] = useState<string[]>([]);
   const [generationSettings, setGenerationSettings] = useState<GenerationSettings>({
+    provider: 'vertex-ai',
     projectId: '', accessToken: '', numberOfImages: 1, aspectRatio: '9:16', personGeneration: 'allow_all',
     safetySetting: 'block_few', addWatermark: true, enhancePrompt: true, modelId: 'imagen-4.0-ultra-generate-001', seed: null,
     intimacyLevel: 6,
+    replicateApiToken: '',
+    fluxModel: 'black-forest-labs/flux-1.1-pro-ultra',
+    fluxRawMode: true,
+    fluxSafetyTolerance: 4,
   });
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [isStorageModalOpen, setIsStorageModalOpen] = useState(false);
@@ -116,9 +121,16 @@ const App: React.FC = () => {
   }, []);
 
   const validateCredentials = () => {
-    if (!generationSettings.projectId || !generationSettings.accessToken) {
-      setError('Please provide a valid Google Cloud Project ID and OAuth2 Access Token in the Generation Settings section.');
-      return false;
+    if (generationSettings.provider === 'vertex-ai') {
+      if (!generationSettings.projectId || !generationSettings.accessToken) {
+        setError('Please provide a valid Google Cloud Project ID and OAuth2 Access Token in the Generation Settings section.');
+        return false;
+      }
+    } else if (generationSettings.provider === 'replicate-flux') {
+      if (!generationSettings.replicateApiToken) {
+        setError('Please provide a valid Replicate API Token in the Generation Settings section.');
+        return false;
+      }
     }
     return true;
   };
@@ -163,7 +175,8 @@ const App: React.FC = () => {
   useEffect(() => {
     const mainToken = localStorage.getItem('mainToken');
     const driveToken = localStorage.getItem('driveToken');
-    
+    const replicateToken = localStorage.getItem('replicateToken');
+
     if (mainToken) {
       setGenerationSettings(prev => ({ ...prev, accessToken: mainToken }));
       console.log('✅ Work token loaded from localStorage');
@@ -178,6 +191,14 @@ const App: React.FC = () => {
     } else {
       console.log('⚠️ No drive token found in localStorage');
       console.log('Paste in console: localStorage.setItem("driveToken", "YOUR_DRIVE_TOKEN");');
+    }
+
+    if (replicateToken) {
+      setGenerationSettings(prev => ({ ...prev, replicateApiToken: replicateToken }));
+      console.log('✅ Replicate token loaded from localStorage');
+    } else {
+      console.log('⚠️ No Replicate token found in localStorage');
+      console.log('Paste in console: localStorage.setItem("replicateToken", "YOUR_REPLICATE_TOKEN");');
     }
   }, []);
 
@@ -269,18 +290,61 @@ const App: React.FC = () => {
         }
       }
 
-      const result = await generateAndSaveImage(
-        finalPrompt,
-        generationSettings,
-        promptForNextStep,
-        activeConcept,
-        storageConfig
-      );
+      let result;
+
+      // Route to appropriate generation service
+      if (generationSettings.provider === 'replicate-flux') {
+        // Use Replicate Flux API
+        const { generateWithFlux, getOptimalFluxSettings } = await import('./services/replicateService');
+
+        // Get optimal Flux settings based on intimacy level
+        const fluxOptimalSettings = getOptimalFluxSettings(generationSettings.intimacyLevel);
+
+        const fluxConfig = {
+          apiToken: generationSettings.replicateApiToken!,
+          model: generationSettings.fluxModel || fluxOptimalSettings.model!,
+          aspectRatio: generationSettings.aspectRatio,
+          numOutputs: generationSettings.numberOfImages,
+          seed: generationSettings.seed,
+          outputFormat: 'jpg' as const,
+          outputQuality: fluxOptimalSettings.outputQuality || 90,
+          raw: generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : fluxOptimalSettings.raw,
+          safetyTolerance: generationSettings.fluxSafetyTolerance || fluxOptimalSettings.safetyTolerance,
+          numInferenceSteps: fluxOptimalSettings.numInferenceSteps,
+          guidanceScale: fluxOptimalSettings.guidanceScale,
+        };
+
+        console.log('🎨 Using Replicate Flux:', {
+          model: fluxConfig.model,
+          raw: fluxConfig.raw,
+          safetyTolerance: fluxConfig.safetyTolerance,
+          intimacyLevel: generationSettings.intimacyLevel,
+        });
+
+        const base64Images = await generateWithFlux(finalPrompt, fluxConfig);
+
+        result = {
+          images: base64Images,
+          metadata: [], // Flux doesn't need metadata for storage (images are already downloaded)
+          errors: [],
+        };
+      } else {
+        // Use Vertex AI Imagen
+        result = await generateAndSaveImage(
+          finalPrompt,
+          generationSettings,
+          promptForNextStep,
+          activeConcept,
+          storageConfig
+        );
+      }
 
       const newImageData = result.images.map(b64 => ({
         url: `data:image/jpeg;base64,${b64}`,
         settings: {
-          modelId: generationSettings.modelId,
+          modelId: generationSettings.provider === 'vertex-ai'
+            ? generationSettings.modelId
+            : (generationSettings.fluxModel || 'flux-1.1-pro-ultra'),
           seed: generationSettings.seed,
           aspectRatio: generationSettings.aspectRatio
         }

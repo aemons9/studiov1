@@ -108,16 +108,36 @@ export interface LevelCategory {
   description: string;
 }
 
+export type ImageProvider = 'vertex-ai' | 'replicate-flux';
+
+export type FluxModel =
+  | 'black-forest-labs/flux-1.1-pro-ultra'
+  | 'black-forest-labs/flux-1.1-pro'
+  | 'black-forest-labs/flux-dev'
+  | 'black-forest-labs/flux-schnell';
+
 export interface GenerationSettings {
+  // Provider Selection
+  provider: ImageProvider;
+
+  // Vertex AI Settings
   projectId: string;
   accessToken: string;
-  numberOfImages: number;
-  aspectRatio: '9:16' | '16:9' | '1:1' | '4:3' | '3:4';
+  modelId: string;
   personGeneration: 'allow_all' | 'allow_adult' | 'dont_allow';
   safetySetting: 'block_few' | 'block_some' | 'block_most';
   addWatermark: boolean;
+
+  // Replicate Flux Settings
+  replicateApiToken?: string;
+  fluxModel?: FluxModel;
+  fluxRawMode?: boolean; // For ultra model - hyper-realistic candid style
+  fluxSafetyTolerance?: number; // 1-5, higher = more permissive
+
+  // Common Settings
+  numberOfImages: number;
+  aspectRatio: '9:16' | '16:9' | '1:1' | '4:3' | '3:4';
   enhancePrompt: boolean;
-  modelId: string;
   seed: number | null;
   intimacyLevel: number;
 }

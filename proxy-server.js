@@ -98,9 +98,12 @@ app.get('/api/replicate/predictions/:id', async (req, res) => {
 });
 
 // Proxy GET /models/:owner/:name (for fetching model versions)
-app.get('/api/replicate/models/:model(*)', async (req, res) => {
+// Using wildcard to match full model path with slashes
+app.get('/api/replicate/models/*', async (req, res) => {
   try {
-    const model = req.params.model; // e.g., "black-forest-labs/flux-1.1-pro-ultra"
+    // Extract model path after /api/replicate/models/
+    // e.g., "black-forest-labs/flux-1.1-pro-ultra"
+    const model = req.params[0];
     const token = req.headers.authorization?.replace('Bearer ', '');
 
     if (!token) {

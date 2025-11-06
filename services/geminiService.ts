@@ -293,7 +293,7 @@ CRITICAL REQUIREMENTS:
 `;
 
   if (Object.keys(lockedData).length > 0) {
-    const topLevelLockedFields = lockedFields.filter(f => !lockFields.some(p => f !== p && f.startsWith(p + '.')));
+    const topLevelLockedFields = lockedFields.filter(f => !lockedFields.some(p => f !== p && f.startsWith(p + '.')));
     systemInstruction += `\n\n⚠️ LOCKED FIELDS: ${topLevelLockedFields.join(', ')}
 Preserve these VERBATIM. Weave passion around them, do not modify them.
 LOCKED VALUES: ${JSON.stringify(lockedData, null, 2)}`;
@@ -344,7 +344,7 @@ CRITICAL REQUIREMENTS:
 `;
 
   if (Object.keys(lockedData).length > 0) {
-    const topLevelLockedFields = lockedFields.filter(f => !lockFields.some(p => f !== p && f.startsWith(p + '.')));
+    const topLevelLockedFields = lockedFields.filter(f => !lockedFields.some(p => f !== p && f.startsWith(p + '.')));
     systemInstruction += `\n\n⚠️ LOCKED FIELDS: ${topLevelLockedFields.join(', ')}
 Preserve VERBATIM. Add intimate details around them.
 LOCKED VALUES: ${JSON.stringify(lockedData, null, 2)}`;
@@ -407,7 +407,7 @@ CRITICAL REQUIREMENTS:
 `;
 
   if (Object.keys(lockedData).length > 0) {
-    const topLevelLockedFields = lockedFields.filter(f => !lockFields.some(p => f !== p && f.startsWith(p + '.')));
+    const topLevelLockedFields = lockedFields.filter(f => !lockedFields.some(p => f !== p && f.startsWith(p + '.')));
     systemInstruction += `\n\n⚠️ LOCKED FIELDS: ${topLevelLockedFields.join(', ')}
 Preserve VERBATIM. Build seduction narrative around them.
 LOCKED VALUES: ${JSON.stringify(lockedData, null, 2)}`;

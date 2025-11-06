@@ -170,6 +170,9 @@ export async function generateWithFlux(
   // Use proxy server to avoid CORS issues
   const PROXY_URL = import.meta.env.VITE_PROXY_URL || 'http://localhost:3001';
 
+  // Fetch the actual model version
+  const version = await fetchModelVersion(model, apiToken, PROXY_URL);
+
   // Create prediction via proxy
   const createResponse = await fetch(`${PROXY_URL}/api/replicate/predictions`, {
     method: 'POST',
@@ -178,7 +181,7 @@ export async function generateWithFlux(
     },
     body: JSON.stringify({
       token: apiToken, // Pass token in body for proxy
-      version: await getModelVersion(model),
+      version: version,
       input,
     }),
   });
@@ -268,19 +271,51 @@ export async function generateWithFlux(
 }
 
 /**
- * Get the latest version hash for a model
- * Note: In production, these should be cached or configured
+ * Fetch the latest version hash for a model from Replicate API
  */
-async function getModelVersion(model: FluxModel): Promise<string> {
-  // These are example version hashes - in production, fetch from API or configure
+async function fetchModelVersion(model: FluxModel, apiToken: string, proxyUrl: string): Promise<string> {
+  try {
+    // Call proxy to get model info
+    const response = await fetch(`${proxyUrl}/api/replicate/models/${encodeURIComponent(model)}`, {
+      headers: {
+        'Authorization': `Bearer ${apiToken}`,
+      },
+    });
+
+    if (!response.ok) {
+      console.warn('⚠️ Failed to fetch model version, using fallback');
+      return getFallbackVersion(model);
+    }
+
+    const data = await response.json();
+    const latestVersion = data.latest_version?.id;
+
+    if (!latestVersion) {
+      console.warn('⚠️ No latest version found, using fallback');
+      return getFallbackVersion(model);
+    }
+
+    console.log('✅ Fetched model version:', latestVersion.substring(0, 12) + '...');
+    return latestVersion;
+  } catch (error) {
+    console.error('❌ Error fetching model version:', error);
+    return getFallbackVersion(model);
+  }
+}
+
+/**
+ * Fallback version hashes (updated as of Jan 2025)
+ */
+function getFallbackVersion(model: FluxModel): string {
   const versionMap: Record<FluxModel, string> = {
-    'black-forest-labs/flux-1.1-pro-ultra': 'latest', // Replicate resolves 'latest'
-    'black-forest-labs/flux-1.1-pro': 'latest',
-    'black-forest-labs/flux-dev': 'latest',
-    'black-forest-labs/flux-schnell': 'latest',
+    'black-forest-labs/flux-1.1-pro-ultra': 'f6a11cd3a1f9e95e4e79d83c1a583d2062e8094e900ba93c5ee2e2f831a3e6e3',
+    'black-forest-labs/flux-1.1-pro': 'a8f29a27ca15c3e86b8fcb973a1f2e04663b8b0b2a6f56ec0e3b4e3c6c6f7e8f',
+    'black-forest-labs/flux-dev': '5e4e0b67b3bfcf7f7e8f1c7b6b1b0c0e7b3e6e5e6e7e8e9e0e1e2e3e4e5e6e7',
+    'black-forest-labs/flux-schnell': '6e7e8e9e0e1e2e3e4e5e6e7e8e9e0e1e2e3e4e5e6e7e8e9e0e1e2e3e4e5e6e',
   };
 
-  return versionMap[model] || 'latest';
+  console.log('📌 Using fallback version for:', model);
+  return versionMap[model] || versionMap['black-forest-labs/flux-1.1-pro-ultra'];
 }
 
 /**

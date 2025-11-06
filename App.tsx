@@ -512,6 +512,23 @@ const App: React.FC = () => {
     setUiMode('classic');
   };
 
+  // Defensive rendering - ensure we always have valid state
+  const safePromptData = promptData || JSON.parse(initialPromptJson);
+  const safeGenerationSettings = generationSettings || {
+    provider: 'vertex-ai' as const,
+    projectId: '',
+    accessToken: '',
+    numberOfImages: 1,
+    aspectRatio: '9:16' as const,
+    personGeneration: 'allow_all' as const,
+    safetySetting: 'block_few' as const,
+    addWatermark: true,
+    enhancePrompt: true,
+    modelId: 'imagen-4.0-ultra-generate-001',
+    seed: null,
+    intimacyLevel: 6,
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 font-sans">
       {uiMode === 'experimental' ? (
@@ -526,8 +543,8 @@ const App: React.FC = () => {
           <Header />
           <main className="p-4 md:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <PromptEditor promptData={promptData} onPromptChange={handlePromptChange} isLoading={isLoading}
-                generationSettings={generationSettings} onGenerationSettingsChange={setGenerationSettings}
+              <PromptEditor promptData={safePromptData} onPromptChange={handlePromptChange} isLoading={isLoading}
+                generationSettings={safeGenerationSettings} onGenerationSettingsChange={setGenerationSettings}
                 activeConcept={activeConcept} onConceptChange={handleConceptChange} />
               <div className="lg:sticky lg:top-8 self-start">
                 <ImageDisplay imageData={generatedImages} isLoading={isLoading} error={error} wovenPrompt={wovenPrompt} generationStep={generationStep} />

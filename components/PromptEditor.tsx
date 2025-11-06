@@ -326,9 +326,9 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
   const debounceTimeout = useRef<number | null>(null);
 
   const isSeductressMode = useMemo(() => {
-    const currentVariantName = indianModelVariants.find(v => v.value === promptData.subject.variant)?.name;
+    const currentVariantName = indianModelVariants.find(v => v.value === promptData.subject?.variant)?.name;
     return seductressVariantNames.includes(currentVariantName || '');
-  }, [promptData.subject.variant]);
+  }, [promptData.subject?.variant]);
 
   const dynamicPresets = useMemo(() => {
     if (isSeductressMode) {
@@ -517,21 +517,21 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
       
       <CollapsibleSection title="Subject Details">
         <div className="relative">
-            <PresetInput label="Model Variant" value={promptData.subject.variant} onChange={(v) => handleNestedChange('subject', 'variant', v)} presets={indianModelVariants} disabled={isLoading} isTextArea />
+            <PresetInput label="Model Variant" value={promptData.subject?.variant || ''} onChange={(v) => handleNestedChange('subject', 'variant', v)} presets={indianModelVariants} disabled={isLoading} isTextArea />
             {isSeductressMode && (
                 <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
                     SEDUCTRESS MODE
                 </div>
             )}
         </div>
-        <PresetInput label="Pose" value={promptData.subject.pose} onChange={(v) => handleNestedChange('subject', 'pose', v)} presets={dynamicPresets.pose} disabled={isLoading} isTextArea />
-        <PresetInput label="Hair Color" value={promptData.subject.hair_color} onChange={(v) => handleNestedChange('subject', 'hair_color', v)} presets={presets.subject.hair_color} disabled={isLoading} />
-        <PresetInput label="Hair Style" value={promptData.subject.hair_style} onChange={(v) => handleNestedChange('subject', 'hair_style', v)} presets={presets.subject.hair_style} disabled={isLoading} />
+        <PresetInput label="Pose" value={promptData.subject?.pose || ''} onChange={(v) => handleNestedChange('subject', 'pose', v)} presets={dynamicPresets.pose} disabled={isLoading} isTextArea />
+        <PresetInput label="Hair Color" value={promptData.subject?.hair_color || ''} onChange={(v) => handleNestedChange('subject', 'hair_color', v)} presets={presets.subject.hair_color} disabled={isLoading} />
+        <PresetInput label="Hair Style" value={promptData.subject?.hair_style || ''} onChange={(v) => handleNestedChange('subject', 'hair_style', v)} presets={presets.subject.hair_style} disabled={isLoading} />
       </CollapsibleSection>
 
       <CollapsibleSection title="Realism & Detail">
-        <PresetInput label="Skin Finish" value={promptData.subject.skin_finish} onChange={(v) => handleNestedChange('subject', 'skin_finish', v)} presets={presets.subject.skin_finish} disabled={isLoading} isTextArea />
-        <PresetInput label="Hand & Nail Details" value={promptData.subject.hand_and_nail_details} onChange={(v) => handleNestedChange('subject', 'hand_and_nail_details', v)} presets={presets.subject.hand_and_nail_details} disabled={isLoading} isTextArea />
+        <PresetInput label="Skin Finish" value={promptData.subject?.skin_finish || ''} onChange={(v) => handleNestedChange('subject', 'skin_finish', v)} presets={presets.subject.skin_finish} disabled={isLoading} isTextArea />
+        <PresetInput label="Hand & Nail Details" value={promptData.subject?.hand_and_nail_details || ''} onChange={(v) => handleNestedChange('subject', 'hand_and_nail_details', v)} presets={presets.subject.hand_and_nail_details} disabled={isLoading} isTextArea />
       </CollapsibleSection>
 
       <CollapsibleSection title="Hyper-Realistic Details">
@@ -564,11 +564,11 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         </div>
 
         <PresetInput label="Figure & Form" value={promptData.figure_and_form} onChange={(v) => handleFieldChange('figure_and_form', v)} presets={dynamicPresets.figure_and_form} disabled={isLoading} isTextArea />
-        <PresetInput label="Tattoos" value={promptData.subject.tattoos} onChange={(v) => handleNestedChange('subject', 'tattoos', v)} presets={presets.subject.tattoos} disabled={isLoading} />
-        <PresetInput label="Piercings" value={promptData.subject.piercings} onChange={(v) => handleNestedChange('subject', 'piercings', v)} presets={presets.subject.piercings} disabled={isLoading} />
-        <PresetInput label="Body Art" value={promptData.subject.body_art} onChange={(v) => handleNestedChange('subject', 'body_art', v)} presets={presets.subject.body_art} disabled={isLoading} />
-        <PresetInput label="Nail Art" value={promptData.subject.nail_art} onChange={(v) => handleNestedChange('subject', 'nail_art', v)} presets={presets.subject.nail_art} disabled={isLoading} />
-        <PresetInput label="High Heels" value={promptData.subject.high_heels} onChange={(v) => handleNestedChange('subject', 'high_heels', v)} presets={presets.subject.high_heels} disabled={isLoading} />
+        <PresetInput label="Tattoos" value={promptData.subject?.tattoos || ''} onChange={(v) => handleNestedChange('subject', 'tattoos', v)} presets={presets.subject.tattoos} disabled={isLoading} />
+        <PresetInput label="Piercings" value={promptData.subject?.piercings || ''} onChange={(v) => handleNestedChange('subject', 'piercings', v)} presets={presets.subject.piercings} disabled={isLoading} />
+        <PresetInput label="Body Art" value={promptData.subject?.body_art || ''} onChange={(v) => handleNestedChange('subject', 'body_art', v)} presets={presets.subject.body_art} disabled={isLoading} />
+        <PresetInput label="Nail Art" value={promptData.subject?.nail_art || ''} onChange={(v) => handleNestedChange('subject', 'nail_art', v)} presets={presets.subject.nail_art} disabled={isLoading} />
+        <PresetInput label="High Heels" value={promptData.subject?.high_heels || ''} onChange={(v) => handleNestedChange('subject', 'high_heels', v)} presets={presets.subject.high_heels} disabled={isLoading} />
       </CollapsibleSection>
       
       <CollapsibleSection title="Scene & Camera">
@@ -594,12 +594,12 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         <PresetInput label="Lighting" value={promptData.lighting} onChange={(v) => handleFieldChange('lighting', v)} presets={dynamicPresets.lighting} disabled={isLoading} isTextArea />
         <PresetInput label="Color Grade" value={promptData.color_grade} onChange={(v) => handleFieldChange('color_grade', v)} presets={presets.color_grade} disabled={isLoading} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <PresetInput label="Focal Length" value={promptData.camera.focal_length} onChange={(v) => handleNestedChange('camera', 'focal_length', v)} presets={presets.camera.focal_length} disabled={isLoading} />
-            <PresetInput label="Aperture" value={promptData.camera.aperture} onChange={(v) => handleNestedChange('camera', 'aperture', v)} presets={presets.camera.aperture} disabled={isLoading} />
-            <PresetInput label="Distance to Subject" value={promptData.camera.distance} onChange={(v) => handleNestedChange('camera', 'distance', v)} presets={presets.camera.distance} disabled={isLoading} />
-            <PresetInput label="Angle" value={promptData.camera.angle} onChange={(v) => handleNestedChange('camera', 'angle', v)} presets={presets.camera.angle} disabled={isLoading} />
+            <PresetInput label="Focal Length" value={promptData.camera?.focal_length || ''} onChange={(v) => handleNestedChange('camera', 'focal_length', v)} presets={presets.camera.focal_length} disabled={isLoading} />
+            <PresetInput label="Aperture" value={promptData.camera?.aperture || ''} onChange={(v) => handleNestedChange('camera', 'aperture', v)} presets={presets.camera.aperture} disabled={isLoading} />
+            <PresetInput label="Distance to Subject" value={promptData.camera?.distance || ''} onChange={(v) => handleNestedChange('camera', 'distance', v)} presets={presets.camera.distance} disabled={isLoading} />
+            <PresetInput label="Angle" value={promptData.camera?.angle || ''} onChange={(v) => handleNestedChange('camera', 'angle', v)} presets={presets.camera.angle} disabled={isLoading} />
         </div>
-        <PresetInput label="Framing" value={promptData.camera.framing} onChange={(v) => handleNestedChange('camera', 'framing', v)} presets={presets.camera.framing} disabled={isLoading} isTextArea />
+        <PresetInput label="Framing" value={promptData.camera?.framing || ''} onChange={(v) => handleNestedChange('camera', 'framing', v)} presets={presets.camera.framing} disabled={isLoading} isTextArea />
       </CollapsibleSection>
 
       <CollapsibleSection title="Real-Time Risk Analysis">

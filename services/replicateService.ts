@@ -265,16 +265,36 @@ export async function generateWithFlux(
   // Download images via proxy and convert to base64
   const base64Images: string[] = [];
   for (const url of imageUrls) {
-    // Use proxy to download images (avoid CORS)
-    const imageResponse = await fetch(`${PROXY_URL}/api/replicate/download?url=${encodeURIComponent(url)}`);
-    if (!imageResponse.ok) {
-      console.warn('⚠️ Failed to download image:', url);
+    try {
+      // Try direct download first (replicate.delivery supports CORS)
+      console.log('📥 Downloading image directly:', url);
+      let imageResponse = await fetch(url);
+
+      // If direct download fails, try via proxy
+      if (!imageResponse.ok) {
+        console.log('⚠️ Direct download failed, trying via proxy...');
+        imageResponse = await fetch(`${PROXY_URL}/api/replicate/download?url=${encodeURIComponent(url)}`);
+      }
+
+      if (!imageResponse.ok) {
+        console.warn('⚠️ Failed to download image:', url, 'Status:', imageResponse.status);
+        continue;
+      }
+
+      const arrayBuffer = await imageResponse.arrayBuffer();
+      const base64 = btoa(
+        new Uint8Array(arrayBuffer).reduce((data, byte) => data + String.fromCharCode(byte), '')
+      );
+      base64Images.push(base64);
+      console.log('✅ Downloaded and converted image to base64');
+    } catch (error) {
+      console.error('❌ Error downloading image:', url, error);
       continue;
     }
+  }
 
-    const arrayBuffer = await imageResponse.arrayBuffer();
-    const base64 = Buffer.from(arrayBuffer).toString('base64');
-    base64Images.push(base64);
+  if (base64Images.length === 0) {
+    throw new Error('Failed to download any generated images');
   }
 
   return base64Images;

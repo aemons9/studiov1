@@ -145,24 +145,37 @@ app.get('/api/replicate/download', async (req, res) => {
       return res.status(400).json({ error: 'Image URL required' });
     }
 
-    console.log('📥 Downloading image:', url);
+    console.log('📥 Downloading image via proxy:', url);
 
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; ReplicateProxy/1.0)',
+      },
+    });
 
     if (!response.ok) {
-      return res.status(response.status).json({ error: 'Failed to download image' });
+      console.error(`❌ Image fetch failed: ${response.status} ${response.statusText}`);
+      return res.status(response.status).json({
+        error: 'Failed to download image',
+        status: response.status,
+        statusText: response.statusText
+      });
     }
 
     const arrayBuffer = await response.arrayBuffer();
     const buffer = Buffer.from(arrayBuffer);
 
-    res.set('Content-Type', response.headers.get('content-type') || 'image/jpeg');
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    console.log(`✅ Image downloaded: ${buffer.length} bytes, type: ${contentType}`);
+
+    res.set('Content-Type', contentType);
     res.send(buffer);
   } catch (error) {
     console.error('❌ Download error:', error);
     res.status(500).json({
       error: 'Download error',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined
     });
   }
 });

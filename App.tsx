@@ -350,7 +350,7 @@ const App: React.FC = () => {
           aspectRatio: generationSettings.aspectRatio,
           numOutputs: generationSettings.numberOfImages,
           seed: generationSettings.seed,
-          outputFormat: 'jpg' as const,
+          outputFormat: (generationSettings.fluxOutputFormat || 'jpg') as 'jpg' | 'png' | 'webp',
           outputQuality: fluxOptimalSettings.outputQuality || 90,
           raw: generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : fluxOptimalSettings.raw,
           safetyTolerance: generationSettings.fluxSafetyTolerance || fluxOptimalSettings.safetyTolerance,
@@ -362,6 +362,7 @@ const App: React.FC = () => {
           model: fluxConfig.model,
           raw: fluxConfig.raw,
           safetyTolerance: fluxConfig.safetyTolerance,
+          outputFormat: fluxConfig.outputFormat,
           intimacyLevel: generationSettings.intimacyLevel,
         });
 

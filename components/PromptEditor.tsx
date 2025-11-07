@@ -710,16 +710,32 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
                         ⚙️ Auto-optimized based on intimacy level
                     </p>
                 </div>
-                <div className="flex items-center gap-3">
-                    <input
-                        id="fluxRawMode"
-                        type="checkbox"
-                        checked={generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : true}
-                        onChange={(e) => handleSettingsChange('fluxRawMode', e.target.checked)}
-                        disabled={isLoading}
-                        className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-purple-600 focus:ring-purple-500"
-                    />
-                    <label htmlFor="fluxRawMode" className="font-semibold text-gray-300">Raw Mode (Hyper-Realistic)</label>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3">
+                        <input
+                            id="fluxRawMode"
+                            type="checkbox"
+                            checked={generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : true}
+                            onChange={(e) => handleSettingsChange('fluxRawMode', e.target.checked)}
+                            disabled={isLoading}
+                            className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-purple-600 focus:ring-purple-500"
+                        />
+                        <label htmlFor="fluxRawMode" className="font-semibold text-gray-300">Raw Mode (Hyper-Realistic)</label>
+                    </div>
+                    <div>
+                        <label htmlFor="fluxOutputFormat" className="font-semibold text-gray-300 block mb-2 text-sm">Output Format</label>
+                        <select
+                            id="fluxOutputFormat"
+                            value={generationSettings.fluxOutputFormat || 'jpg'}
+                            onChange={(e) => handleSettingsChange('fluxOutputFormat', e.target.value)}
+                            disabled={isLoading}
+                            className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2 text-sm text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                        >
+                            <option value="jpg">JPG (Smaller file)</option>
+                            <option value="png">PNG (Lossless quality)</option>
+                            <option value="webp">WebP (Modern format)</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <label htmlFor="fluxSafetyTolerance" className="font-semibold text-gray-300 block mb-2">

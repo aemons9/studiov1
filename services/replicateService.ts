@@ -123,6 +123,16 @@ export async function generateWithFlux(
     throw new Error('Replicate API token is required');
   }
 
+  // Check prompt length - Flux has limits
+  const MAX_PROMPT_LENGTH = 10000; // Conservative estimate
+  if (prompt.length > MAX_PROMPT_LENGTH) {
+    console.warn(`⚠️ Prompt is very long (${prompt.length} chars). Flux may reject it.`);
+    console.warn('Consider using fewer locked fields or shorter descriptions.');
+  }
+
+  // Log prompt length for debugging
+  console.log(`📝 Prompt length: ${prompt.length} characters`);
+
   // Parse aspect ratio to dimensions
   const dimensions = aspectRatio ? parseAspectRatio(aspectRatio) : { width: 768, height: 1344 };
 
@@ -238,7 +248,18 @@ export async function generateWithFlux(
   }
 
   if (finalPrediction.status === 'failed') {
-    throw new Error(`Generation failed: ${finalPrediction.error || 'Unknown error'}`);
+    const errorMsg = finalPrediction.error || 'Unknown error';
+
+    // Check for transient Flux API errors
+    if (typeof errorMsg === 'string' && errorMsg.includes('Task not found')) {
+      console.error('❌ Flux API "Task not found" error - this is usually a transient issue');
+      console.error('💡 Try again in a few seconds, or check:');
+      console.error('   1. Prompt length (yours was ' + prompt.length + ' chars)');
+      console.error('   2. Rate limiting (wait 30s between generations)');
+      console.error('   3. Flux API status at https://replicate.com/black-forest-labs');
+    }
+
+    throw new Error(`Generation failed: ${errorMsg}`);
   }
 
   if (finalPrediction.status === 'canceled') {

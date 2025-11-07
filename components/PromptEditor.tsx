@@ -731,9 +731,8 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
                             disabled={isLoading}
                             className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2 text-sm text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
                         >
-                            <option value="jpg">JPG (Smaller file)</option>
-                            <option value="png">PNG (Lossless quality)</option>
-                            <option value="webp">WebP (Modern format)</option>
+                            <option value="jpg">JPG (Default, smaller)</option>
+                            <option value="png">PNG (Lossless)</option>
                         </select>
                     </div>
                 </div>

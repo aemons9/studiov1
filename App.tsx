@@ -350,7 +350,7 @@ const App: React.FC = () => {
           aspectRatio: generationSettings.aspectRatio,
           numOutputs: generationSettings.numberOfImages,
           seed: generationSettings.seed,
-          outputFormat: (generationSettings.fluxOutputFormat || 'jpg') as 'jpg' | 'png' | 'webp',
+          outputFormat: (generationSettings.fluxOutputFormat || 'jpg') as 'jpg' | 'png',
           outputQuality: fluxOptimalSettings.outputQuality || 90,
           raw: generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : fluxOptimalSettings.raw,
           safetyTolerance: generationSettings.fluxSafetyTolerance || fluxOptimalSettings.safetyTolerance,

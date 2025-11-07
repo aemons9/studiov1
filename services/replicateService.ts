@@ -168,7 +168,9 @@ export async function generateWithFlux(
   });
 
   // Use proxy server to avoid CORS issues
-  const PROXY_URL = import.meta.env.VITE_PROXY_URL || 'http://localhost:3001';
+  // Use the same hostname as the current page (important for network access)
+  const PROXY_URL = import.meta.env.VITE_PROXY_URL ||
+    `${window.location.protocol}//${window.location.hostname}:3001`;
 
   // Fetch the actual model version
   const version = await fetchModelVersion(model, apiToken, PROXY_URL);

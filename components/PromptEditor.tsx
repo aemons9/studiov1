@@ -879,6 +879,22 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
                 </div>
               </>
              )}
+
+            {/* Common Settings */}
+            <div className="flex items-center gap-3">
+              <input
+                id="reviewPromptBeforeGeneration"
+                type="checkbox"
+                checked={generationSettings.reviewPromptBeforeGeneration || false}
+                onChange={(e) => handleSettingsChange('reviewPromptBeforeGeneration', e.target.checked)}
+                disabled={isLoading}
+                className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-purple-600 focus:ring-purple-500"
+              />
+              <label htmlFor="reviewPromptBeforeGeneration" className="font-semibold text-gray-300">
+                Review Prompt Before Generation
+              </label>
+              <span className="text-xs text-gray-500">(Shows final prompt for approval)</span>
+            </div>
         </div>
 
 

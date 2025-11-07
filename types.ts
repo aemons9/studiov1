@@ -144,6 +144,7 @@ export interface GenerationSettings {
   numberOfImages: number;
   aspectRatio: '9:16' | '16:9' | '1:1' | '4:3' | '3:4';
   enhancePrompt: boolean;
+  reviewPromptBeforeGeneration?: boolean; // Show prompt review modal before generating
   seed: number | null;
   intimacyLevel: number;
 }

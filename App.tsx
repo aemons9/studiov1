@@ -14,6 +14,7 @@ import LockFieldsDropdown from './components/LockFieldsDropdown';
 import MasterGenerationControl, { MasterGenerateOptions } from './components/MasterGenerationControl';
 import GalleryModal from './components/GalleryModal';
 import StorageConfigModal from './components/StorageConfigModal';
+import PromptReviewModal from './components/PromptReviewModal';
 import ExperimentalMode from './experimental/ExperimentalMode';
 import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
 
@@ -105,6 +106,12 @@ const App: React.FC = () => {
   });
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [isStorageModalOpen, setIsStorageModalOpen] = useState(false);
+  const [isPromptReviewModalOpen, setIsPromptReviewModalOpen] = useState(false);
+  const [pendingGeneration, setPendingGeneration] = useState<{
+    finalPrompt: string;
+    promptData: PromptData;
+    continueGeneration: () => Promise<void>;
+  } | null>(null);
   const [storageSettings, setStorageSettings] = useState<StorageSettings>({
     enableStorage: false, // Disabled by default - user must enable explicitly
     provider: 'google-drive',
@@ -246,66 +253,10 @@ const App: React.FC = () => {
     }
   }, []);
 
-  const handleMasterGenerate = async (options: MasterGenerateOptions) => {
-    if (!validateCredentials(options)) return;
-    addToHistory(promptData, generationSettings);
-    resetGenerationState();
-
-    let promptForNextStep = promptData;
-    let finalPrompt = '';
-
+  // Execute the actual image generation (called after prompt review or immediately)
+  const executeGeneration = async (finalPrompt: string, promptForNextStep: PromptData, options: MasterGenerateOptions) => {
     try {
-      // 0. (Optional) Apply Advanced Selectors FIRST
-      const hasAdvancedSelections =
-        options.intimateWeaving?.enabled ||
-        options.wardrobeSelection?.enabled ||
-        options.qualityPreset?.enabled;
-
-      if (hasAdvancedSelections) {
-        console.log('🎨 Applying Advanced Super-Seductress Selectors...');
-        promptForNextStep = applyAdvancedSelections(promptForNextStep, {
-          intimateWeaving: options.intimateWeaving,
-          wardrobeSelection: options.wardrobeSelection,
-          qualityPreset: options.qualityPreset
-        });
-        setPromptData(promptForNextStep); // Update UI to show enhanced prompt
-      }
-
-      // 1. (Optional) Enhance Prompt
-      if (options.enhance.enabled) {
-        setGenerationStep('enhancing');
-        try {
-          const enhancedData = await enhancePrompt(promptForNextStep, generationSettings, options.enhance.style, lockedFields);
-          setPromptData(enhancedData);
-          promptForNextStep = enhancedData;
-        } catch (enhanceError) {
-          console.error('Enhancement failed:', enhanceError);
-          setError(`⚠️ Enhancement failed: ${enhanceError instanceof Error ? enhanceError.message : 'Unknown error'}. Proceeding with original prompt.`);
-          // Continue with original prompt - don't throw
-        }
-      }
-
-      // 2. (Optional) Weave Prompt
-      if (options.weave.enabled) {
-        setGenerationStep('weaving');
-        try {
-          finalPrompt = await weavePrompt(promptForNextStep, generationSettings, {
-            adherence: options.weave.adherence,
-            lockFields: lockedFields,
-            weavingMode: options.weave.weavingMode
-          });
-          setWovenPrompt(finalPrompt);
-        } catch (weaveError) {
-          console.error('Weaving failed:', weaveError);
-          throw new Error(`Prompt weaving failed: ${weaveError instanceof Error ? weaveError.message : 'Unknown error'}`);
-        }
-      } else {
-        // 3. (If no weave) Use Raw Prompt
-        finalPrompt = constructSimplePromptString(promptForNextStep);
-        setWovenPrompt(`RAW PROMPT: ${finalPrompt}`);
-      }
-
-      // 4. Generate Image and Save to Storage
+      setIsLoading(true);
       setGenerationStep('generating');
 
       // Build storage config based on user selection
@@ -404,6 +355,94 @@ const App: React.FC = () => {
           console.warn('Upload errors:', result.errors);
         }
       }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      throw err; // Re-throw to be caught by handleMasterGenerate
+    } finally {
+      setIsLoading(false);
+      setGenerationStep(null);
+    }
+  };
+
+  const handleMasterGenerate = async (options: MasterGenerateOptions) => {
+    if (!validateCredentials(options)) return;
+    addToHistory(promptData, generationSettings);
+    resetGenerationState();
+
+    let promptForNextStep = promptData;
+    let finalPrompt = '';
+
+    try {
+      // 0. (Optional) Apply Advanced Selectors FIRST
+      const hasAdvancedSelections =
+        options.intimateWeaving?.enabled ||
+        options.wardrobeSelection?.enabled ||
+        options.qualityPreset?.enabled;
+
+      if (hasAdvancedSelections) {
+        console.log('🎨 Applying Advanced Super-Seductress Selectors...');
+        promptForNextStep = applyAdvancedSelections(promptForNextStep, {
+          intimateWeaving: options.intimateWeaving,
+          wardrobeSelection: options.wardrobeSelection,
+          qualityPreset: options.qualityPreset
+        });
+        setPromptData(promptForNextStep); // Update UI to show enhanced prompt
+      }
+
+      // 1. (Optional) Enhance Prompt
+      if (options.enhance.enabled) {
+        setGenerationStep('enhancing');
+        try {
+          const enhancedData = await enhancePrompt(promptForNextStep, generationSettings, options.enhance.style, lockedFields);
+          setPromptData(enhancedData);
+          promptForNextStep = enhancedData;
+        } catch (enhanceError) {
+          console.error('Enhancement failed:', enhanceError);
+          setError(`⚠️ Enhancement failed: ${enhanceError instanceof Error ? enhanceError.message : 'Unknown error'}. Proceeding with original prompt.`);
+          // Continue with original prompt - don't throw
+        }
+      }
+
+      // 2. (Optional) Weave Prompt
+      if (options.weave.enabled) {
+        setGenerationStep('weaving');
+        try {
+          finalPrompt = await weavePrompt(promptForNextStep, generationSettings, {
+            adherence: options.weave.adherence,
+            lockFields: lockedFields,
+            weavingMode: options.weave.weavingMode
+          });
+          setWovenPrompt(finalPrompt);
+        } catch (weaveError) {
+          console.error('Weaving failed:', weaveError);
+          throw new Error(`Prompt weaving failed: ${weaveError instanceof Error ? weaveError.message : 'Unknown error'}`);
+        }
+      } else {
+        // 3. (If no weave) Use Raw Prompt
+        finalPrompt = constructSimplePromptString(promptForNextStep);
+        setWovenPrompt(`RAW PROMPT: ${finalPrompt}`);
+      }
+
+      // 3.5. (Optional) Show Prompt Review Modal
+      if (generationSettings.reviewPromptBeforeGeneration) {
+        // Create a continuation function that will be called when user confirms
+        const continueGeneration = async () => {
+          await executeGeneration(finalPrompt, promptForNextStep, options);
+        };
+
+        // Show the modal and wait for user action
+        setPendingGeneration({
+          finalPrompt,
+          promptData: promptForNextStep,
+          continueGeneration,
+        });
+        setIsPromptReviewModalOpen(true);
+        setIsLoading(false); // Stop loading indicator while waiting for user
+        return; // Exit here - will continue when user confirms
+      }
+
+      // 4. Generate Image and Save to Storage
+      await executeGeneration(finalPrompt, promptForNextStep, options);
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred.');
@@ -413,6 +452,27 @@ const App: React.FC = () => {
     }
   };
 
+
+  const handlePromptReviewGenerate = async () => {
+    if (!pendingGeneration) return;
+
+    try {
+      await pendingGeneration.continueGeneration();
+    } catch (err) {
+      // Error is already handled in executeGeneration
+      console.error('Generation failed:', err);
+    } finally {
+      setPendingGeneration(null);
+      setIsPromptReviewModalOpen(false);
+    }
+  };
+
+  const handlePromptReviewCancel = () => {
+    setPendingGeneration(null);
+    setIsPromptReviewModalOpen(false);
+    setIsLoading(false);
+    setGenerationStep(null);
+  };
 
   const handleSavePrompt = () => {
     const name = window.prompt("Enter a name for this prompt configuration:");
@@ -603,6 +663,14 @@ const App: React.FC = () => {
         onClose={() => setIsStorageModalOpen(false)}
         settings={storageSettings}
         onSettingsChange={setStorageSettings}
+      />
+      <PromptReviewModal
+        isOpen={isPromptReviewModalOpen}
+        onClose={handlePromptReviewCancel}
+        onGenerate={handlePromptReviewGenerate}
+        rawPromptData={pendingGeneration?.promptData || promptData}
+        finalPrompt={pendingGeneration?.finalPrompt || ''}
+        provider={generationSettings.provider}
       />
       <GalleryModal
         isOpen={isGalleryModalOpen}

@@ -209,7 +209,7 @@ function getIntimacyLevelName(level: number): string {
 /**
  * MASTER WEAVER: Original state-of-the-art weaving (Light/Shadow Primary)
  */
-function getMasterWeaverInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[]): string {
+function getMasterWeaverInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[], isVertexAI: boolean): string {
   let systemInstruction = `You are a master fashion photographer and author specializing in haute couture editorial photography. Your task is to transform a structured JSON shot list into a single, eloquent, and vivid paragraph for an advanced AI image generation model (Imagen). You will be given an 'intimacy level' from 1-10 to guide your stylistic choices.
 
 CONTEXT-AWARE ADAPTATION:
@@ -223,14 +223,14 @@ HYPER-REALISM:
 - Describe how light interacts with these surfaces: specular highlights on skin pores, light scattering through fabric weave, the matte absorption of linen versus the sheen of silk. This adds profound realism.
 
 CRITICAL REQUIREMENTS:
-1. You must begin the final paragraph with this EXACT declaration: "${ART_DIRECTOR_DECLARATION}"
-2. After the declaration, seamlessly weave all details from the JSON, guided by the intimacy level and hyper-realism rules, into a flowing narrative.
-3. You are ONLY responsible for creatively weaving the fields present in the user-provided JSON.
-4. Use ONLY architectural and sculptural language for wardrobe, increasing abstraction at higher intimacy levels.
-5. Emphasize LIGHTING and SHADOW as the primary subject, especially at higher intimacy levels.
-6. Include all specific photography technical details.
-7. Frame everything through a fine-art photography context.
-8. The output should be a single, dense paragraph with no line breaks.
+${isVertexAI ? `1. You must begin the final paragraph with this EXACT declaration: "${ART_DIRECTOR_DECLARATION}"
+2. After the declaration, seamlessly weave all details from the JSON, guided by the intimacy level and hyper-realism rules, into a flowing narrative.` : `1. Seamlessly weave all details from the JSON, guided by the intimacy level and hyper-realism rules, into a flowing narrative.`}
+${isVertexAI ? '3' : '2'}. You are ONLY responsible for creatively weaving the fields present in the user-provided JSON.
+${isVertexAI ? '4' : '3'}. Use ONLY architectural and sculptural language for wardrobe, increasing abstraction at higher intimacy levels.
+${isVertexAI ? '5' : '4'}. Emphasize LIGHTING and SHADOW as the primary subject, especially at higher intimacy levels.
+${isVertexAI ? '6' : '5'}. Include all specific photography technical details.
+${isVertexAI ? '7' : '6'}. Frame everything through a fine-art photography context.
+${isVertexAI ? '8' : '7'}. The output should be a single, dense paragraph with no line breaks.
 `;
 
   if (Object.keys(lockedData).length > 0) {
@@ -260,7 +260,7 @@ Only enhance and weave the fields that are NOT in the locked list above.`;
 /**
  * PASSIONWEAVE: Sensual Vision + High-Fashion Erotic Art (Subject Magnetism Primary)
  */
-function getPassionWeaveInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[]): string {
+function getPassionWeaveInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[], isVertexAI: boolean): string {
   let systemInstruction = `You are a master of high-fashion erotic art photography in the tradition of Helmut Newton, Ellen von Unwerth, and Guy Bourdin. Your task is to transform a structured JSON shot list into a single, captivating paragraph that emphasizes EMOTIONAL MAGNETISM and SENSUAL POWER for an advanced AI image generation model (Imagen).
 
 PASSIONWEAVE PHILOSOPHY:
@@ -283,13 +283,13 @@ EMOTIONAL LANGUAGE:
 Use words like: magnetic, alluring, commanding, confident, intentional, powerful, seductive, captivating, mesmerizing, provocative, fearless, uninhibited, self-possessed
 
 CRITICAL REQUIREMENTS:
-1. Begin with: "${ART_DIRECTOR_DECLARATION}"
-2. START with the subject's emotional projection and magnetic presence
-3. Emphasize her AGENCY—she is actively projecting sensuality, not passively being photographed
-4. Use architectural language for wardrobe but with sensual connotations (e.g., "sculptural foundation pieces that amplify her curves")
-5. Lighting supports HER power, not the other way around
-6. Single dense paragraph, no line breaks
-7. Frame as high-fashion erotic art editorial (Newton/Bourdin tradition)
+${isVertexAI ? `1. Begin with: "${ART_DIRECTOR_DECLARATION}"
+2. START with the subject's emotional projection and magnetic presence` : `1. START with the subject's emotional projection and magnetic presence`}
+${isVertexAI ? '3' : '2'}. Emphasize her AGENCY—she is actively projecting sensuality, not passively being photographed
+${isVertexAI ? '4' : '3'}. Use architectural language for wardrobe but with sensual connotations (e.g., "sculptural foundation pieces that amplify her curves")
+${isVertexAI ? '5' : '4'}. Lighting supports HER power, not the other way around
+${isVertexAI ? '6' : '5'}. Single dense paragraph, no line breaks
+${isVertexAI ? '7' : '6'}. Frame as high-fashion erotic art editorial (Newton/Bourdin tradition)
 `;
 
   if (Object.keys(lockedData).length > 0) {
@@ -305,7 +305,7 @@ LOCKED VALUES: ${JSON.stringify(lockedData, null, 2)}`;
 /**
  * INTIMATEWEAVE: Master Efficiency + Deep Tactile Details (Material Physics Primary)
  */
-function getIntimateWeaveInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[]): string {
+function getIntimateWeaveInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[], isVertexAI: boolean): string {
   let systemInstruction = `You are a master of intimate fine-art photography specializing in hyper-realistic material studies. Your task is to transform a structured JSON shot list into a single, tactile paragraph that makes the viewer FEEL the textures for an advanced AI image generation model (Imagen).
 
 INTIMATEWEAVE PHILOSOPHY:
@@ -335,12 +335,12 @@ HYPER-DETAIL REQUIREMENTS:
 - Temperature cues: warm skin vs cool silk, visual indicators of body heat
 
 CRITICAL REQUIREMENTS:
-1. Begin with: "${ART_DIRECTOR_DECLARATION}"
-2. 60% of the prompt should be MICRO-DETAILS and MATERIAL PHYSICS
-3. Make it TACTILE—viewer can feel textures
-4. Use scientific/textile terminology for precision
-5. Architectural language for wardrobe with material focus
-6. Single dense paragraph, no line breaks
+${isVertexAI ? `1. Begin with: "${ART_DIRECTOR_DECLARATION}"
+2. 60% of the prompt should be MICRO-DETAILS and MATERIAL PHYSICS` : `1. 60% of the prompt should be MICRO-DETAILS and MATERIAL PHYSICS`}
+${isVertexAI ? '3' : '2'}. Make it TACTILE—viewer can feel textures
+${isVertexAI ? '4' : '3'}. Use scientific/textile terminology for precision
+${isVertexAI ? '5' : '4'}. Architectural language for wardrobe with material focus
+${isVertexAI ? '6' : '5'}. Single dense paragraph, no line breaks
 `;
 
   if (Object.keys(lockedData).length > 0) {
@@ -356,7 +356,7 @@ LOCKED VALUES: ${JSON.stringify(lockedData, null, 2)}`;
 /**
  * SEDUCTIVEWEAVE: Cinematic Seduction Narrative (Pose/Wardrobe Action Primary) - PREMIUM TIER
  */
-function getSeductiveWeaveInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[]): string {
+function getSeductiveWeaveInstruction(intimacyLevel: number, lockedData: any, lockedFields: string[], isVertexAI: boolean): string {
   let systemInstruction = `You are a master of cinematic seduction in the tradition of Tinto Brass, Bernardo Bertolucci, and Giuseppe Tornatore, fused with Indian classical sensual traditions (Khajuraho, Kamasutra, Bharatanatyam). Your task is to transform a structured JSON shot list into a single, narrative paragraph that captures a CINEMATIC MOMENT OF SEDUCTION for an advanced AI image generation model (Imagen).
 
 SEDUCTIVEWEAVE PHILOSOPHY - PREMIUM TIER:
@@ -396,14 +396,14 @@ SAFETY IMPLEMENTATION (CRITICAL - PREMIUM TIER):
 7. Describe the LOOK of seduction, not explicit anatomy
 
 CRITICAL REQUIREMENTS:
-1. Begin with: "${ART_DIRECTOR_DECLARATION}"
-2. Immediately establish cultural/cinematic legitimacy: "In the tradition of Tinto Brass and Khajuraho temple art..."
-3. Create NARRATIVE—this is a moment in time, an action unfolding
-4. Subject has AGENCY—she is actively seducing, not being seduced
-5. Wardrobe: "architectural foundation garments in transitional state" "sculptural displacement revealing silhouette"
-6. Pose: Describe the ACTION—"hand deliberately sliding strap off shoulder" "fingers unbuttoning with intentional slowness"
-7. Frame everything as high-art cinema or classical tradition
-8. Single dense paragraph, no line breaks
+${isVertexAI ? `1. Begin with: "${ART_DIRECTOR_DECLARATION}"
+2. Immediately establish cultural/cinematic legitimacy: "In the tradition of Tinto Brass and Khajuraho temple art..."` : `1. Immediately establish cultural/cinematic legitimacy: "In the tradition of Tinto Brass and Khajuraho temple art..."`}
+${isVertexAI ? '3' : '2'}. Create NARRATIVE—this is a moment in time, an action unfolding
+${isVertexAI ? '4' : '3'}. Subject has AGENCY—she is actively seducing, not being seduced
+${isVertexAI ? '5' : '4'}. Wardrobe: "architectural foundation garments in transitional state" "sculptural displacement revealing silhouette"
+${isVertexAI ? '6' : '5'}. Pose: Describe the ACTION—"hand deliberately sliding strap off shoulder" "fingers unbuttoning with intentional slowness"
+${isVertexAI ? '7' : '6'}. Frame everything as high-art cinema or classical tradition
+${isVertexAI ? '8' : '7'}. Single dense paragraph, no line breaks
 `;
 
   if (Object.keys(lockedData).length > 0) {
@@ -493,17 +493,17 @@ export async function weavePrompt(promptData: PromptData, settings: GenerationSe
 
   switch (weavingMode) {
     case 'passion':
-      systemInstruction = getPassionWeaveInstruction(intimacyLevel, lockedData, lockFields);
+      systemInstruction = getPassionWeaveInstruction(intimacyLevel, lockedData, lockFields, isVertexAI);
       break;
     case 'intimate':
-      systemInstruction = getIntimateWeaveInstruction(intimacyLevel, lockedData, lockFields);
+      systemInstruction = getIntimateWeaveInstruction(intimacyLevel, lockedData, lockFields, isVertexAI);
       break;
     case 'seductive':
-      systemInstruction = getSeductiveWeaveInstruction(intimacyLevel, lockedData, lockFields);
+      systemInstruction = getSeductiveWeaveInstruction(intimacyLevel, lockedData, lockFields, isVertexAI);
       break;
     case 'master':
     default:
-      systemInstruction = getMasterWeaverInstruction(intimacyLevel, lockedData, lockFields);
+      systemInstruction = getMasterWeaverInstruction(intimacyLevel, lockedData, lockFields, isVertexAI);
       break;
   }
 

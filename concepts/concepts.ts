@@ -10,6 +10,7 @@ import { superSeductressArtistConcepts } from './superSeductressArtistConcepts';
 import { artisticModeConcepts } from './artisticModeConcepts';
 import { corporateModeConcepts } from './corporateModeConcepts';
 import { experimentalModeConcepts } from './experimentalModeConcepts';
+import { platinumModeConcepts } from './platinumModeConcepts';
 
 export interface ArtisticConcept {
   name: string;
@@ -683,5 +684,35 @@ export const artisticConcepts: ArtisticConcept[] = [
   // Each concept includes explicit warning levels and themed organization
   // Covers complete range from safe editorial to premium artistic expression
   // ============================================================================
-  ...experimentalModeConcepts
+  ...experimentalModeConcepts,
+
+  // ============================================================================
+  // PLATINUM COLLECTION MODE CONCEPTS (10 concepts)
+  // Next-level premium Indian model variants with evening/midnight focus
+  // Complete ecosystems: wardrobe, photographer, environment, intimacy dynamics
+  //
+  // VARIANTS (10 concepts):
+  // - PLATINUM: Midnight Seductress (Classic Erotic Actress - Intimacy 9/10)
+  // - PLATINUM: Fitness Bombshell (Athletic Glamour - Lower-focus curves - Intimacy 8/10)
+  // - PLATINUM: Graphic Editorial Queen (Nude Art Expert - Maximum curves - Intimacy 10/10)
+  // - PLATINUM: Private Boudoir Enchantress (Intimate Specialist - Intimacy 9/10)
+  // - PLATINUM: Luxury Lounge Goddess (Modern Lifestyle - Intimacy 8/10)
+  // - PLATINUM: Spa & Tub Temptress (Wellness Seduction - Upper-focus - Intimacy 9/10)
+  // - PLATINUM: Rooftop Midnight Muse (Urban Seduction - Intimacy 8/10)
+  // - PLATINUM: Hotel Suite Vixen (Luxury Intimacy - Maximum curves - Intimacy 10/10)
+  // - PLATINUM: Underground Club Siren (Nightlife Seduction - Upper-focus - Intimacy 9/10)
+  // - PLATINUM: Art Studio Provocateur (Fine Art Nude - Intimacy 10/10)
+  //
+  // Each variant features:
+  // - Complete physical traits with curve emphasis (balanced/upper/lower/maximum)
+  // - Personal photographer with optimized Imagen/Flux settings
+  // - Private environment (bedroom/lounge/spa/rooftop/hotel/club/studio)
+  // - Evening to midnight seductive settings
+  // - Bidirectional JSON transfer capability
+  // - 5-7 piece wardrobe collection per variant
+  //
+  // Optimized for both Imagen 4 and Flux 1.1 Pro models
+  // Intimacy range: 8-10/10 | Time focus: Evening/Midnight/Late-Night
+  // ============================================================================
+  ...platinumModeConcepts
 ];

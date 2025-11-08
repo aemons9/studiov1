@@ -20,8 +20,11 @@ import ExperimentalMode from './experimental/ExperimentalMode';
 import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
 import ArtisticMode from './artistic/ArtisticMode';
 import CorporateMode from './corporate/CorporateMode';
+import PlatinumMode from './platinum/PlatinumMode';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
+import type { PlatinumModeState } from './platinum/types';
+import { PlatinumPromptEngine } from './platinum/promptEngine';
 import { CORPORATE_ROLES } from './corporate/corporateRoles';
 import { OFFICE_ENVIRONMENTS } from './corporate/corporateEnvironments';
 import { INDIAN_MODEL_ARCHETYPES, getModelArchetype } from './artistic/indianModels';
@@ -85,7 +88,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -874,6 +877,69 @@ const App: React.FC = () => {
     }, 100);
   };
 
+  const handlePlatinumGenerate = async (prompt: string, settings: any) => {
+    // Platinum mode passes a complete prompt and calibrated settings
+    setIsLoading(true);
+    setError(null);
+    setGenerationStep({ step: 'generating', message: 'Generating platinum collection image...' });
+
+    try {
+      const images = await generateImage(
+        prompt,
+        {
+          ...generationSettings,
+          ...settings,
+        }
+      );
+
+      setGeneratedImages(images.map(img => ({
+        imageUrl: img.imageUrl,
+        prompt: prompt,
+        provider: settings.provider || generationSettings.provider,
+        timestamp: new Date().toISOString()
+      })));
+
+      setWovenPrompt(prompt);
+      setGenerationStep(null);
+    } catch (err) {
+      console.error('Platinum generation error:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error during platinum generation');
+      setGenerationStep(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExitPlatinum = () => {
+    setUiMode('classic');
+  };
+
+  const handleMigrateFromPlatinum = (prompt: string, state: PlatinumModeState) => {
+    // Use PlatinumPromptEngine to map state to complete PromptData
+    const promptEngine = new PlatinumPromptEngine();
+
+    try {
+      const newPromptData = promptEngine.mapToPromptData(state, promptData);
+
+      setPromptData(newPromptData);
+      setPromptMode('json');
+      setUiMode('classic');
+
+      // Generate warning based on intimacy level
+      let warningMsg = 'Platinum Collection migrated to JSON mode! All fields fully populated from variant configuration.';
+      if (state.intimacyLevel >= 9) {
+        warningMsg += '\n⚠️ WARNING: Maximum intimacy level (Premium Tier) - Review safety settings.';
+      }
+
+      setTimeout(() => {
+        alert(warningMsg);
+      }, 100);
+    } catch (error) {
+      console.error('Error migrating from Platinum:', error);
+      alert(`Migration error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
   // Defensive rendering - ensure we always have valid state
   const safePromptData = promptData || JSON.parse(initialPromptJson);
   const safeGenerationSettings = generationSettings || {
@@ -914,6 +980,14 @@ const App: React.FC = () => {
           onGenerate={handleCorporateGenerate}
           onExit={handleExitCorporate}
           onMigrateToMain={handleMigrateFromCorporate}
+          generationSettings={safeGenerationSettings}
+        />
+      ) : uiMode === 'platinum' ? (
+        // PLATINUM COLLECTION MODE: Next-Level Premium Variants
+        <PlatinumMode
+          onGenerate={handlePlatinumGenerate}
+          onExit={handleExitPlatinum}
+          onMigrateToMain={handleMigrateFromPlatinum}
           generationSettings={safeGenerationSettings}
         />
       ) : (
@@ -1029,6 +1103,14 @@ const App: React.FC = () => {
             >
               <span style={{ fontSize: '18px' }}>💼</span>
               Corporate Mode
+            </button>
+            <button
+              onClick={() => setUiMode('platinum')}
+              disabled={isLoading}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:via-pink-400 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
+            >
+              <span style={{ fontSize: '18px' }}>💎</span>
+              Platinum Collection
             </button>
             <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
               <MasterGenerationControl

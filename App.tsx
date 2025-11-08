@@ -14,7 +14,7 @@ import LockFieldsDropdown from './components/LockFieldsDropdown';
 import MasterGenerationControl, { MasterGenerateOptions } from './components/MasterGenerationControl';
 import GalleryModal from './components/GalleryModal';
 import StorageConfigModal from './components/StorageConfigModal';
-import PlatinumControls from './components/PlatinumControls';
+import PlatinumSuite from './components/PlatinumSuite';
 import type { DirectorOutput, ConceptVariation } from './services/platinumEngine';
 
 const initialPromptJson = `{
@@ -387,6 +387,42 @@ const App: React.FC = () => {
     alert(`Generated ${concepts.length} concepts! Use the batch browser below to explore them.`);
   };
 
+  // Handle generation from Platinum Collection Mode
+  const handlePlatinumGenerate = async (prompt: string, collectionSettings: any) => {
+    resetGenerationState();
+    setIsLoading(true);
+
+    try {
+      // Merge collection settings with generation settings
+      const mergedSettings = {
+        ...generationSettings,
+        safetySetting: collectionSettings.safetySetting || generationSettings.safetySetting,
+        personGeneration: collectionSettings.personGeneration || generationSettings.personGeneration,
+        aspectRatio: collectionSettings.aspectRatio || generationSettings.aspectRatio,
+        numberOfImages: collectionSettings.numberOfImages || generationSettings.numberOfImages
+      };
+
+      setGenerationStep('generating');
+      const images = await generateImage(prompt, mergedSettings);
+
+      const newImageData = images.map(b64 => ({
+        url: `data:image/jpeg;base64,${b64}`,
+        settings: {
+          modelId: mergedSettings.modelId,
+          seed: mergedSettings.seed,
+          aspectRatio: mergedSettings.aspectRatio
+        }
+      }));
+
+      setGeneratedImages(newImageData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Generation failed');
+    } finally {
+      setIsLoading(false);
+      setGenerationStep(null);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-900 text-gray-200 font-sans">
       <Header />
@@ -504,13 +540,13 @@ const App: React.FC = () => {
         }}
       />
 
-      {/* Platinum Engine Modal */}
+      {/* Platinum Suite Modal */}
       {isPlatinumModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
           <div className="max-w-4xl w-full max-h-[90vh] overflow-y-auto bg-gray-900 rounded-xl border-2 border-purple-500 shadow-2xl">
             <div className="sticky top-0 bg-gray-900 p-4 border-b border-purple-500 flex justify-between items-center z-10">
               <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
-                💎 Platinum Engine
+                💎 Platinum Suite
               </h2>
               <button
                 onClick={() => setIsPlatinumModalOpen(false)}
@@ -520,13 +556,16 @@ const App: React.FC = () => {
               </button>
             </div>
             <div className="p-6">
-              <PlatinumControls
+              <PlatinumSuite
                 currentPromptData={promptData}
                 currentConceptName={activeConcept}
                 settings={generationSettings}
                 onConceptGenerated={handleConceptGenerated}
                 onVariationsGenerated={handleVariationsGenerated}
                 onBatchGenerated={handleBatchGenerated}
+                onGenerate={handlePlatinumGenerate}
+                onClose={() => setIsPlatinumModalOpen(false)}
+                isLoading={isLoading}
               />
             </div>
           </div>

@@ -7,7 +7,7 @@
 export interface WardrobeOption {
   id: string;
   name: string;
-  category: 'lingerie-outerwear' | 'architectural-minimal' | 'strappy-geometric' | 'sheer-layers' | 'cutout-designs';
+  category: 'lingerie-outerwear' | 'architectural-minimal' | 'strappy-geometric' | 'sheer-layers' | 'cutout-designs' | 'minimalist-boudoir' | 'office-power';
   coverageLevel: 1 | 2 | 3 | 4 | 5; // 1 = most minimal, 5 = most coverage
   description: string;
   artisticLanguage: string; // Safety-mapped description
@@ -210,6 +210,140 @@ export const GLAMOUR_WARDROBE_CATALOG: WardrobeOption[] = [
     artisticLanguage: 'Minimal architectural foundation with voluminous feather textile accents, creating soft textural contrast and sculptural movement',
     suitableForIntimacy: [7, 8, 9],
     masterStyleFit: ['roversi', 'penn']
+  },
+
+  // === MINIMALIST BOUDOIR CONCEPTS ===
+  {
+    id: 'silk-square-minimal',
+    name: 'Single Silk Square Drape',
+    category: 'minimalist-boudoir',
+    coverageLevel: 1,
+    description: 'Single large square of raw-edged black silk, draped and held by tension',
+    artisticLanguage: 'Reductionist textile study - singular raw-edged silk square creating dynamic draping through tension and gravity. The fabric maps topographical terrain while maintaining elegant negative space, held in place through natural physics rather than construction',
+    suitableForIntimacy: [8, 9, 10],
+    masterStyleFit: ['penn', 'roversi']
+  },
+  {
+    id: 'slip-single-strap',
+    name: 'Asymmetrical Single-Strap Slip',
+    category: 'minimalist-boudoir',
+    coverageLevel: 2,
+    description: 'Delicate silk slip suspended by single spaghetti strap, other strap loose',
+    artisticLanguage: 'Minimalist architectural garment where one delicate strap creates entire structural narrative. Asymmetrical drape reveals one shoulder completely while creating diagonal line across form. The precarious balance between coverage and revelation',
+    suitableForIntimacy: [8, 9],
+    masterStyleFit: ['roversi', 'penn']
+  },
+  {
+    id: 'wrap-charmeuse-black',
+    name: 'Liquid Charmeuse Wrap',
+    category: 'minimalist-boudoir',
+    coverageLevel: 2,
+    description: 'Long rectangle of stretch charmeuse in active wrapping motion',
+    artisticLanguage: 'Kinetic textile study - flowing charmeuse captured mid-motion as it wraps the form. Strategic folding and tension create intelligent coverage while sections float away from skin, creating dynamic interplay between static form and moving fabric',
+    suitableForIntimacy: [8, 9, 10],
+    masterStyleFit: ['roversi', 'newton']
+  },
+  {
+    id: 'jewelry-pearl-collar',
+    name: 'Pearl Collar & Wrist Cuffs Only',
+    category: 'minimalist-boudoir',
+    coverageLevel: 1,
+    description: 'Wide baroque pearl collar and matching pearl cuffs - jewelry as entire wardrobe',
+    artisticLanguage: 'Ultra-minimalist concept where adornment replaces clothing. Wide collar of irregular baroque pearls sits high on neck, matching cuffs on wrists. The three points of jewelry map the body through strategic absence, creating focus on quality of materials and perfection of form',
+    suitableForIntimacy: [9, 10],
+    masterStyleFit: ['penn', 'ritts']
+  },
+  {
+    id: 'kimono-chiffon-sheer',
+    name: 'Floor-Length Sheer Chiffon Kimono',
+    category: 'minimalist-boudoir',
+    coverageLevel: 3,
+    description: 'Black chiffon kimono worn open, creating layers of transparency',
+    artisticLanguage: 'Single-layer transparency study - floor-length chiffon kimono with minimal geometric embroidery. Falls open naturally creating multiple layers of varying opacity. Long sleeves drape like architectural wings. Backlight transforms fabric into glowing screen',
+    suitableForIntimacy: [8, 9],
+    masterStyleFit: ['roversi', 'penn']
+  },
+  {
+    id: 'ribbon-satin-4inch',
+    name: 'Continuous Satin Ribbon Mapping',
+    category: 'minimalist-boudoir',
+    coverageLevel: 1,
+    description: '4-inch wide satin ribbon in continuous pattern mapping body contours',
+    artisticLanguage: 'Cartographic minimalism - single continuous ribbon creates topographical map of form. Wraps in intricate pattern following natural contours without crossing intimate areas. Secured with single simple knot. The ribbon becomes visual pathway, decorative and architectural simultaneously',
+    suitableForIntimacy: [8, 9, 10],
+    masterStyleFit: ['penn', 'newton']
+  },
+  {
+    id: 'harness-leather-minimal',
+    name: 'Single-Strap Leather Harness',
+    category: 'minimalist-boudoir',
+    coverageLevel: 1,
+    description: 'Continuous leather strap in single loop creating three contact points',
+    artisticLanguage: 'Reductionist constraint aesthetic - single continuous supple leather strap wraps in unbroken loop creating three architectural contact points: shoulder, opposite hip, across back. No hardware or buckles, just pure line and form. Wide enough for substance, thin enough for elegance',
+    suitableForIntimacy: [9, 10],
+    masterStyleFit: ['newton', 'ritts']
+  },
+
+  // === OFFICE POWER WARDROBE ===
+  {
+    id: 'blouse-silk-white',
+    name: 'White Silk Blouse - Strategic Unbuttoning',
+    category: 'office-power',
+    coverageLevel: 3,
+    description: 'Precisely tailored white silk blouse, unbuttoned to reveal geometric harness beneath',
+    artisticLanguage: 'Corporate power textile in pure white silk, tailored for executive precision. Strategic unbuttoning reveals architectural black geometric harness beneath, creating dialogue between professional exterior and personal expression. The transformation of uniform into statement',
+    suitableForIntimacy: [7, 8, 9],
+    masterStyleFit: ['newton', 'ritts']
+  },
+  {
+    id: 'blazer-minimal-tailored',
+    name: 'Tailored Blazer Worn Open',
+    category: 'office-power',
+    coverageLevel: 2,
+    description: 'Custom-tailored black blazer worn open with nothing beneath',
+    artisticLanguage: 'Architectural tailoring as sculpture - custom-fit blazer in luxurious fabric worn open to frame rather than conceal. Sleeves rolled to reveal elegant forearms. The garment creates powerful negative space and celebrates the intelligence of minimal coverage',
+    suitableForIntimacy: [8, 9, 10],
+    masterStyleFit: ['newton', 'ritts', 'penn']
+  },
+  {
+    id: 'transparent-suit-black',
+    name: 'Transparent Black Power Suit',
+    category: 'office-power',
+    coverageLevel: 3,
+    description: 'Sheer black power suit over structural lace bodysuit with architectural cutouts',
+    artisticLanguage: 'Layered transparency concept - executive suit constructed from sheer technical fabric over structural lace foundation with geometric cutouts. Creates multiple planes of visibility, corporate armor peeled back to reveal personal power beneath. Modern power aesthetics redefined',
+    suitableForIntimacy: [8, 9],
+    masterStyleFit: ['newton', 'ritts']
+  },
+  {
+    id: 'blazer-cashmere-minimal',
+    name: 'Cashmere Blazer - Luxury Minimal',
+    category: 'office-power',
+    coverageLevel: 2,
+    description: 'Black cashmere blazer worn open with single diamond necklace',
+    artisticLanguage: 'Billionaire minimalism - custom black cashmere blazer of extraordinary quality worn open over nothing but strategic shadow and singular diamond necklace. Speaks of effortless power and unlimited resources. Corporate authority as personal luxury',
+    suitableForIntimacy: [9, 10],
+    masterStyleFit: ['newton', 'penn']
+  },
+  {
+    id: 'bodysuit-tech-fabric',
+    name: 'Liquid Silver Tech-Fabric Wrap',
+    category: 'office-power',
+    coverageLevel: 2,
+    description: 'Responsive tech-fabric that displays data patterns and pulses with light',
+    artisticLanguage: 'Cyber-sensuality concept - liquid silver technical fabric wrap dress that responds to environmental lighting. Surface displays data flow patterns that pulse with digital rhythm. Creates sculptural second skin that positions human form as ultimate technology',
+    suitableForIntimacy: [7, 8, 9],
+    masterStyleFit: ['ritts', 'newton']
+  },
+  {
+    id: 'jumpsuit-cutout-white',
+    name: 'Structural White Jumpsuit with Geometric Cutouts',
+    category: 'office-power',
+    coverageLevel: 3,
+    description: 'Architectural white jumpsuit with precise geometric cutouts mapping form',
+    artisticLanguage: 'Architectural fashion construct - structural white jumpsuit with geometric cutout pattern that maps form against spatial grid. The ensemble becomes part of architectural design language, celebrating the relationship between human curves and environmental lines',
+    suitableForIntimacy: [7, 8],
+    masterStyleFit: ['ritts', 'penn']
   }
 ];
 

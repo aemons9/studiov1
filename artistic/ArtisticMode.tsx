@@ -16,6 +16,13 @@ import {
   getWardrobeByStyle,
   type WardrobeOption
 } from '../artistic/wardrobeCatalog';
+import {
+  SCENE_PRESETS,
+  getScenesByCategory,
+  getScenesByIntimacy,
+  getScenesByStyle,
+  type ScenePreset
+} from '../artistic/scenePresets';
 import type {
   ArtisticGenerationConfig,
   IntimacyLevel,
@@ -60,6 +67,9 @@ const ArtisticMode: React.FC<ArtisticModeProps> = ({
   const [showPromptPreview, setShowPromptPreview] = useState(false);
   const [showWardrobeSelector, setShowWardrobeSelector] = useState(false);
   const [wardrobeFilter, setWardrobeFilter] = useState<'all' | 'intimacy' | 'style'>('all');
+  const [showSceneSelector, setShowSceneSelector] = useState(false);
+  const [sceneFilter, setSceneFilter] = useState<'all' | 'category' | 'intimacy' | 'style'>('all');
+  const [sceneCategoryFilter, setSceneCategoryFilter] = useState<ScenePreset['category']>('office');
 
   const masterStyles = getAllMasterStyles();
   const modelArchetypes = getAllModelArchetypes();
@@ -78,6 +88,34 @@ const ArtisticMode: React.FC<ArtisticModeProps> = ({
   const handleWardrobeSelect = (option: WardrobeOption) => {
     setWardrobe(option.artisticLanguage);
     setShowWardrobeSelector(false);
+  };
+
+  // Get filtered scene options
+  const getFilteredSceneOptions = (): ScenePreset[] => {
+    if (sceneFilter === 'category') {
+      return getScenesByCategory(sceneCategoryFilter);
+    } else if (sceneFilter === 'intimacy') {
+      return getScenesByIntimacy(config.intimacyLevel);
+    } else if (sceneFilter === 'style') {
+      return getScenesByStyle(config.masterStyle);
+    }
+    return SCENE_PRESETS;
+  };
+
+  // Handle scene selection
+  const handleSceneSelect = (preset: ScenePreset) => {
+    setScene(preset.scene);
+    setLighting(preset.lighting);
+    setComposition(preset.composition);
+    // Optionally suggest wardrobe from the preset
+    if (preset.suggestedWardrobe.length > 0) {
+      const suggestedId = preset.suggestedWardrobe[0];
+      const wardrobeOption = GLAMOUR_WARDROBE_CATALOG.find(w => w.id === suggestedId);
+      if (wardrobeOption) {
+        setWardrobe(wardrobeOption.artisticLanguage);
+      }
+    }
+    setShowSceneSelector(false);
   };
 
   // Handle configuration changes
@@ -289,7 +327,18 @@ const ArtisticMode: React.FC<ArtisticModeProps> = ({
 
           {/* Scene Details */}
           <div className="bg-gray-800/50 backdrop-blur-sm rounded-lg border border-purple-700/30 p-6">
-            <h2 className="text-xl font-bold mb-4">Scene Details</h2>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold">Scene Details</h2>
+              <button
+                onClick={() => setShowSceneSelector(true)}
+                className="px-3 py-1.5 bg-purple-600 hover:bg-purple-700 rounded text-sm font-semibold transition-colors flex items-center gap-2"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                </svg>
+                Browse Scene Presets
+              </button>
+            </div>
 
             <div className="space-y-4">
               <div>
@@ -298,7 +347,7 @@ const ArtisticMode: React.FC<ArtisticModeProps> = ({
                   value={scene}
                   onChange={(e) => setScene(e.target.value)}
                   className="w-full bg-gray-900 border border-gray-600 rounded-lg p-3 text-gray-200 h-20"
-                  placeholder="Describe the setting..."
+                  placeholder="Describe the setting or select from presets..."
                 />
               </div>
 
@@ -459,6 +508,160 @@ const ArtisticMode: React.FC<ArtisticModeProps> = ({
           )}
         </div>
       </div>
+
+      {/* Scene Presets Modal */}
+      {showSceneSelector && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 overflow-y-auto">
+          <div className="min-h-screen p-8">
+            <div className="max-w-6xl mx-auto bg-gray-900 rounded-lg border border-purple-700 p-6">
+              {/* Modal Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                  Scene Presets Catalog
+                </h2>
+                <button
+                  onClick={() => setShowSceneSelector(false)}
+                  className="p-2 hover:bg-gray-800 rounded-lg transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Filter Options */}
+              <div className="flex items-center gap-3 mb-6 flex-wrap">
+                <span className="text-sm font-semibold text-gray-400">Filter:</span>
+                <button
+                  onClick={() => setSceneFilter('all')}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    sceneFilter === 'all'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  All ({SCENE_PRESETS.length})
+                </button>
+                <button
+                  onClick={() => setSceneFilter('category')}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    sceneFilter === 'category'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  By Category
+                </button>
+                <button
+                  onClick={() => setSceneFilter('intimacy')}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    sceneFilter === 'intimacy'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  Intimacy {config.intimacyLevel} ({getScenesByIntimacy(config.intimacyLevel).length})
+                </button>
+                <button
+                  onClick={() => setSceneFilter('style')}
+                  className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors ${
+                    sceneFilter === 'style'
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  {masterStyles.find(s => s.name === config.masterStyle)?.displayName} ({getScenesByStyle(config.masterStyle).length})
+                </button>
+
+                {/* Category filter dropdown */}
+                {sceneFilter === 'category' && (
+                  <select
+                    value={sceneCategoryFilter}
+                    onChange={(e) => setSceneCategoryFilter(e.target.value as ScenePreset['category'])}
+                    className="px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-sm"
+                  >
+                    <option value="office">Office ({getScenesByCategory('office').length})</option>
+                    <option value="boudoir">Boudoir ({getScenesByCategory('boudoir').length})</option>
+                    <option value="urban">Urban ({getScenesByCategory('urban').length})</option>
+                    <option value="studio">Studio ({getScenesByCategory('studio').length})</option>
+                    <option value="natural">Natural ({getScenesByCategory('natural').length})</option>
+                  </select>
+                )}
+              </div>
+
+              {/* Scene Grid */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-h-[60vh] overflow-y-auto pr-2">
+                {getFilteredSceneOptions().map(preset => (
+                  <button
+                    key={preset.id}
+                    onClick={() => handleSceneSelect(preset)}
+                    className="text-left p-5 bg-gray-800 hover:bg-gray-700 border border-gray-700 hover:border-purple-500 rounded-lg transition-all group"
+                  >
+                    {/* Header */}
+                    <div className="flex items-start justify-between mb-3">
+                      <div className="flex-1">
+                        <h3 className="font-bold text-lg text-white group-hover:text-purple-300 transition-colors">
+                          {preset.name}
+                        </h3>
+                        <div className="flex items-center gap-2 mt-1">
+                          <span className="text-xs px-2 py-0.5 bg-gray-700 rounded capitalize">
+                            {preset.category}
+                          </span>
+                          <span className="text-xs text-gray-500">
+                            Intimacy: {Math.min(...preset.intimacyLevel)}-{Math.max(...preset.intimacyLevel)}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-sm text-gray-400 mb-3">
+                      {preset.description}
+                    </p>
+
+                    {/* Scene Details Preview */}
+                    <div className="space-y-2 mb-3">
+                      <div className="bg-gray-900/50 rounded p-2">
+                        <div className="text-xs text-purple-300 font-semibold mb-1">Scene:</div>
+                        <p className="text-xs text-gray-300 line-clamp-2">{preset.scene}</p>
+                      </div>
+                      <div className="bg-gray-900/50 rounded p-2">
+                        <div className="text-xs text-purple-300 font-semibold mb-1">Lighting:</div>
+                        <p className="text-xs text-gray-300 line-clamp-2">{preset.lighting}</p>
+                      </div>
+                    </div>
+
+                    {/* Technical Specs */}
+                    <div className="flex flex-wrap gap-1 mb-2">
+                      <span className="text-xs px-2 py-0.5 bg-blue-900/30 text-blue-300 rounded">
+                        {preset.technicalSpecs.camera}
+                      </span>
+                      <span className="text-xs px-2 py-0.5 bg-blue-900/30 text-blue-300 rounded">
+                        {preset.technicalSpecs.lens}
+                      </span>
+                    </div>
+
+                    {/* Master Style Tags */}
+                    <div className="flex flex-wrap gap-1">
+                      {preset.masterStyleFit.map(style => (
+                        <span key={style} className="text-xs px-2 py-0.5 bg-purple-900/30 text-purple-300 rounded capitalize">
+                          {style}
+                        </span>
+                      ))}
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              {getFilteredSceneOptions().length === 0 && (
+                <div className="text-center py-12 text-gray-500">
+                  No scene presets match the current filter.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Wardrobe Catalog Modal */}
       {showWardrobeSelector && (

@@ -50,16 +50,101 @@ export type EnhancementStyle = 'balanced' | 'subtle' | 'creative' | 'safety';
 
 export type AdherenceLevel = 'literal' | 'balanced' | 'creative';
 
+export type WeavingMode = 'master' | 'passion' | 'intimate' | 'seductive';
+
+// ============================================================================
+// EXPERIMENTAL MODE TYPES
+// ============================================================================
+
+export type NodeCategory = 'subject' | 'wardrobe' | 'pose' | 'environment' | 'lighting' | 'camera' | 'weaving' | 'style' | 'concept';
+
+export type NodeShape = 'circle' | 'diamond' | 'hexagon' | 'square' | 'triangle' | 'octagon' | 'pentagon' | 'star';
+
+export interface NodeEffects {
+  intimacy?: [number, number]; // Min-Max range
+  seduction?: [number, number];
+  eroticism?: [number, number];
+  professionalism?: [number, number];
+  power?: [number, number];
+  abstraction?: [number, number];
+  boundary?: [number, number];
+}
+
+export interface VisualNode {
+  id: string;
+  category: NodeCategory;
+  name: string;
+  abbreviation: string; // Short label for node
+  icon: string; // Emoji or symbol
+  color: string; // Hex color
+  shape: NodeShape;
+  effects: NodeEffects;
+  description: string;
+  compatibleWith?: string[]; // Node IDs
+  incompatibleWith?: string[]; // Node IDs
+  autoConfigures?: Partial<PromptData>; // Auto-applied settings
+}
+
+export interface CalculatedLevels {
+  intimacy: number; // 1-25
+  seduction: number; // 1-25
+  eroticism: number; // 1-25
+  professionalism: number; // 1-25
+  power: number; // 1-25
+  abstraction: number; // 1-25
+  boundary: number; // 1-25
+}
+
+export interface ExperimentalConfig {
+  selectedNodes: string[];
+  calculatedLevels: CalculatedLevels;
+  warnings: string[];
+}
+
+export interface LevelCategory {
+  min: number;
+  max: number;
+  label: string;
+  description: string;
+}
+
+export type ImageProvider = 'vertex-ai' | 'replicate-flux';
+
+export type FluxModel =
+  | 'black-forest-labs/flux-1.1-pro-ultra'
+  | 'black-forest-labs/flux-1.1-pro'
+  | 'black-forest-labs/flux-dev'
+  | 'black-forest-labs/flux-schnell';
+
 export interface GenerationSettings {
+  // Provider Selection
+  provider: ImageProvider;
+
+  // Vertex AI Settings
   projectId: string;
   accessToken: string;
-  numberOfImages: number;
-  aspectRatio: '9:16' | '16:9' | '1:1' | '4:3' | '3:4';
+  modelId: string;
   personGeneration: 'allow_all' | 'allow_adult' | 'dont_allow';
   safetySetting: 'block_few' | 'block_some' | 'block_most';
   addWatermark: boolean;
+
+  // Replicate Flux Settings
+  replicateApiToken?: string;
+  fluxModel?: FluxModel;
+  fluxRawMode?: boolean; // For ultra model - hyper-realistic candid style
+  fluxSafetyTolerance?: number; // 1-6, higher = more permissive
+  fluxOutputFormat?: 'jpg' | 'png'; // Output image format (per Flux API schema)
+
+  // Weaving Settings (for using Google Gemini weaving with Flux generation)
+  weavingProjectId?: string; // Google Cloud Project ID for weaving only
+  weavingAccessToken?: string; // Google OAuth2 token for weaving only
+  useGoogleForWeaving?: boolean; // Enable Google weaving even with Flux generation
+
+  // Common Settings
+  numberOfImages: number;
+  aspectRatio: '9:16' | '16:9' | '1:1' | '4:3' | '3:4';
   enhancePrompt: boolean;
-  modelId: string;
+  reviewPromptBeforeGeneration?: boolean; // Show prompt review modal before generating
   seed: number | null;
   intimacyLevel: number;
 }

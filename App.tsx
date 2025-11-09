@@ -17,6 +17,7 @@ import GalleryModal from './components/GalleryModal';
 import StorageConfigModal from './components/StorageConfigModal';
 import PromptReviewModal from './components/PromptReviewModal';
 import TextPromptEditor from './components/TextPromptEditor';
+import SafetyBypassStrategySelector from './components/SafetyBypassStrategySelector';
 import ExperimentalMode from './experimental/ExperimentalMode';
 import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
 import ArtisticMode from './artistic/ArtisticMode';
@@ -110,6 +111,7 @@ const App: React.FC = () => {
     projectId: '', accessToken: '', numberOfImages: 1, aspectRatio: '9:16', personGeneration: 'allow_all',
     safetySetting: 'block_few', addWatermark: true, enhancePrompt: true, modelId: 'imagen-4.0-ultra-generate-001', seed: null,
     intimacyLevel: 6,
+    safetyBypassStrategy: 'auto',
     replicateApiToken: '',
     fluxModel: 'black-forest-labs/flux-1.1-pro-ultra',
     fluxRawMode: true,
@@ -1055,7 +1057,12 @@ const App: React.FC = () => {
           </div>
 
           <main className="p-4 md:p-8">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <SafetyBypassStrategySelector
+              strategy={safeGenerationSettings.safetyBypassStrategy || 'auto'}
+              onChange={(strategy) => setGenerationSettings(prev => ({ ...prev, safetyBypassStrategy: strategy }))}
+            />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
               {promptMode === 'json' ? (
                 <PromptEditor promptData={safePromptData} onPromptChange={handlePromptChange} isLoading={isLoading}
                   generationSettings={safeGenerationSettings} onGenerationSettingsChange={setGenerationSettings}

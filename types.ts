@@ -116,9 +116,19 @@ export type FluxModel =
   | 'black-forest-labs/flux-dev'
   | 'black-forest-labs/flux-schnell';
 
+export type SafetyBypassStrategy =
+  | 'auto'           // Smart cascade - tries everything automatically
+  | 'conservative'   // Only Gemini rewrite, no translation
+  | 'balanced'       // Gemini + Translation if needed
+  | 'aggressive'     // Gemini + Translation + Flux with high tolerance
+  | 'nuclear';       // Direct to translation + Flux max tolerance
+
 export interface GenerationSettings {
   // Provider Selection
   provider: ImageProvider;
+
+  // Safety Bypass Strategy
+  safetyBypassStrategy?: SafetyBypassStrategy;
 
   // Vertex AI Settings
   projectId: string;

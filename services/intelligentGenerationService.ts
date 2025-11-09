@@ -197,14 +197,23 @@ export async function generateWithMaximumSafety(
   }
 
   const optimalSettings = getOptimalFluxSettings(intimacyLevel);
+
+  // Adjust safety tolerance based on strategy
+  let safetyTolerance = optimalSettings.safetyTolerance || 4;
+  if (strategy === 'aggressive') safetyTolerance = Math.min(6, safetyTolerance + 1);
+  if (strategy === 'nuclear') safetyTolerance = 6;
+
   const fluxConfig: ReplicateConfig = {
     apiToken: replicateToken,
     model: optimalSettings.model || 'black-forest-labs/flux-1.1-pro-ultra',
     aspectRatio: settings.aspectRatio,
     numOutputs: settings.numberOfImages,
     seed: settings.seed || undefined,
-    ...optimalSettings
+    ...optimalSettings,
+    safetyTolerance
   };
+
+  console.log(`🎨 Flux config - Strategy: ${strategy}, Safety Tolerance: ${safetyTolerance}`);
 
   console.log('🎨 Flux model:', fluxConfig.model);
   console.log('🔒 Safety tolerance:', fluxConfig.safetyTolerance);

@@ -19,6 +19,7 @@ import PromptReviewModal from './components/PromptReviewModal';
 import TextPromptEditor from './components/TextPromptEditor';
 import SafetyBypassStrategySelector from './components/SafetyBypassStrategySelector';
 import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
+import QuickCorporateGenerator from './components/QuickCorporateGenerator';
 import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
 import ExperimentalMode from './experimental/ExperimentalMode';
 import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
@@ -662,6 +663,48 @@ const App: React.FC = () => {
     });
   };
 
+  const handleQuickCorporateGenerate = async (
+    prompt: string,
+    settings: { aspectRatio: '4:5' | '9:16' | '16:9' | '1:1', intimacyLevel: number, safetyTolerance: number }
+  ) => {
+    console.log('🎯 Quick Corporate Generate triggered:', {
+      promptLength: prompt.length,
+      aspectRatio: settings.aspectRatio,
+      intimacyLevel: settings.intimacyLevel,
+      safetyTolerance: settings.safetyTolerance
+    });
+
+    // Set the prompt in text mode
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Configure optimal Flux settings for corporate power photography
+    setGenerationSettings(prev => ({
+      ...prev,
+      provider: 'replicate-flux',
+      aspectRatio: settings.aspectRatio,
+      intimacyLevel: settings.intimacyLevel,
+      fluxSafetyTolerance: settings.safetyTolerance,
+      fluxRawMode: true, // CRITICAL: Raw mode for maximum fidelity
+      fluxModel: 'black-forest-labs/flux-1.1-pro-ultra',
+      fluxOutputFormat: 'jpg',
+      numberOfImages: 1
+    }));
+
+    console.log('✅ Corporate prompt loaded with proven success settings (raw: true, safety: 6)');
+
+    // Auto-trigger generation with optimal options
+    const options: MasterGenerateOptions = {
+      enhance: { enabled: false, style: 'creative' },
+      weave: { enabled: false, adherence: 'balanced', weavingMode: 'passion' }
+    };
+
+    // Small delay to ensure state updates
+    setTimeout(() => {
+      handleMasterGenerate(options);
+    }, 100);
+  };
+
   const handleExperimentalGenerate = (selectedNodes: string[], levels: CalculatedLevels) => {
     // Convert node configuration to PromptData
     const configuredPrompt = mapNodesToPromptData(selectedNodes, levels, promptData);
@@ -1091,6 +1134,10 @@ const App: React.FC = () => {
 
             <div className="mt-6">
               <FluxPromptLibrarySelector onSelectPrompt={handleSelectFluxPrompt} />
+            </div>
+
+            <div className="mt-6">
+              <QuickCorporateGenerator onGenerate={handleQuickCorporateGenerate} isLoading={isLoading} />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">

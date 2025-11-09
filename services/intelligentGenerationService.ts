@@ -17,6 +17,7 @@ import { generateImage, adversarialRewrite } from './geminiService';
 import { generateWithFluxRetry, getOptimalFluxSettings, type ReplicateConfig } from './replicateService';
 import { checkPromptSafety } from './languageSafetyService';
 import { smartTranslationBypass } from './translationBypass';
+import { preparePromptForAPI, convertImagenToFlux } from './promptPreparation';
 
 export interface GenerationResult {
   images: string[];
@@ -212,6 +213,10 @@ export async function generateWithMaximumSafety(
 
   const optimalSettings = getOptimalFluxSettings(intimacyLevel);
 
+  // CRITICAL: Convert Imagen declaration to Flux format
+  const fluxPrompt = convertImagenToFlux(currentPrompt);
+  console.log('🔄 Converted prompt for Flux (removed Imagen declaration)');
+
   // Adjust safety tolerance based on strategy
   let safetyTolerance = optimalSettings.safetyTolerance || 4;
   if (strategy === 'aggressive') safetyTolerance = Math.min(6, safetyTolerance + 1);
@@ -235,7 +240,7 @@ export async function generateWithMaximumSafety(
 
   try {
     attempts++;
-    const images = await generateWithFluxRetry(currentPrompt, fluxConfig, 3);
+    const images = await generateWithFluxRetry(fluxPrompt, fluxConfig, 3);
     strategies.push('Flux - Success');
 
     console.log('✅ Flux generation successful!');
@@ -244,7 +249,7 @@ export async function generateWithMaximumSafety(
       usedApi: 'Flux',
       attempts,
       strategies,
-      finalPrompt: currentPrompt
+      finalPrompt: fluxPrompt
     };
   } catch (fluxError) {
     const errorMessage = fluxError instanceof Error ? fluxError.message : 'Unknown error';
@@ -394,6 +399,9 @@ async function executeNuclearFluxStrategy(
       const { translatePrompt } = await import('./translationBypass');
       const translation = await translatePrompt(prompt, lang, settings);
 
+      // CRITICAL: Convert to Flux format
+      const fluxPrompt = convertImagenToFlux(translation.translatedPrompt);
+
       const optimalSettings = getOptimalFluxSettings(intimacyLevel);
       const fluxConfig: ReplicateConfig = {
         apiToken: replicateToken,
@@ -405,7 +413,7 @@ async function executeNuclearFluxStrategy(
         safetyTolerance: 6 // Max tolerance
       };
 
-      const images = await generateWithFluxRetry(translation.translatedPrompt, fluxConfig, 3);
+      const images = await generateWithFluxRetry(fluxPrompt, fluxConfig, 3);
       strategies.push(`Translation ${lang.toUpperCase()} → Flux (6/6)`);
 
       console.log(`✅ Nuclear Flux success with ${lang.toUpperCase()}!`);

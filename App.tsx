@@ -646,17 +646,29 @@ const App: React.FC = () => {
     setPromptMode('text');
 
     // Update generation settings to match template recommendations
-    setGenerationSettings(prev => ({
-      ...prev,
-      aspectRatio: template.aspectRatio,
-      fluxSafetyTolerance: template.safetyTolerance,
-      intimacyLevel: template.intimacyLevel,
-      // Recommend using Flux for these optimized prompts
-      provider: 'replicate-flux'
-    }));
+    setGenerationSettings(prev => {
+      // Use the current provider or default to Flux
+      const targetProvider = prev.provider || 'replicate-flux';
+
+      // Convert aspect ratio if using Imagen
+      let aspectRatio = template.aspectRatio;
+      if (targetProvider === 'vertex-ai' && template.aspectRatio === '4:5') {
+        aspectRatio = '3:4'; // Imagen doesn't support 4:5, use closest (3:4)
+        console.log('🔄 Converted aspect ratio 4:5 → 3:4 for Imagen compatibility');
+      }
+
+      return {
+        ...prev,
+        aspectRatio,
+        fluxSafetyTolerance: template.safetyTolerance,
+        intimacyLevel: template.intimacyLevel,
+        // Recommend using Flux for these optimized prompts, but respect user's current provider
+        provider: targetProvider
+      };
+    });
 
     console.log('✅ Flux prompt loaded with optimal settings:', {
-      aspectRatio: template.aspectRatio,
+      aspectRatio: generationSettings.aspectRatio,
       safetyTolerance: template.safetyTolerance,
       intimacyLevel: template.intimacyLevel,
       category: template.category
@@ -679,17 +691,29 @@ const App: React.FC = () => {
     setPromptMode('text');
 
     // Configure optimal Flux settings for corporate power photography
-    setGenerationSettings(prev => ({
-      ...prev,
-      provider: 'replicate-flux',
-      aspectRatio: settings.aspectRatio,
-      intimacyLevel: settings.intimacyLevel,
-      fluxSafetyTolerance: settings.safetyTolerance,
-      fluxRawMode: true, // CRITICAL: Raw mode for maximum fidelity
-      fluxModel: 'black-forest-labs/flux-1.1-pro-ultra',
-      fluxOutputFormat: 'jpg',
-      numberOfImages: 1
-    }));
+    setGenerationSettings(prev => {
+      // Default to Flux for corporate generator (it's optimized for it)
+      const targetProvider = 'replicate-flux';
+
+      // Convert aspect ratio if somehow using Imagen
+      let aspectRatio = settings.aspectRatio;
+      if (prev.provider === 'vertex-ai' && settings.aspectRatio === '4:5') {
+        aspectRatio = '3:4' as '4:5' | '9:16' | '16:9' | '1:1'; // Type cast for TS
+        console.log('🔄 Converted aspect ratio 4:5 → 3:4 for Imagen compatibility');
+      }
+
+      return {
+        ...prev,
+        provider: targetProvider,
+        aspectRatio,
+        intimacyLevel: settings.intimacyLevel,
+        fluxSafetyTolerance: settings.safetyTolerance,
+        fluxRawMode: true, // CRITICAL: Raw mode for maximum fidelity
+        fluxModel: 'black-forest-labs/flux-1.1-pro-ultra',
+        fluxOutputFormat: 'jpg',
+        numberOfImages: 1
+      };
+    });
 
     console.log('✅ Corporate prompt loaded with proven success settings (raw: true, safety: 6)');
 

@@ -813,8 +813,23 @@ export async function enhancePrompt(promptData: PromptData, settings: Generation
 }
 
 export async function generateImage(prompt: string, settings: GenerationSettings): Promise<string[]> {
-  const { projectId, accessToken, numberOfImages, aspectRatio, personGeneration, safetySetting, addWatermark, enhancePrompt, modelId, seed } = settings;
+  const { projectId, accessToken, numberOfImages, personGeneration, safetySetting, addWatermark, enhancePrompt, modelId, seed } = settings;
   if (!projectId || !accessToken) throw new Error("Project ID and Access Token required.");
+
+  // Validate and convert aspect ratio for Imagen compatibility
+  let aspectRatio = settings.aspectRatio;
+  const validImagenRatios = ['1:1', '9:16', '16:9', '3:4', '4:3'];
+
+  if (!validImagenRatios.includes(aspectRatio)) {
+    // Convert unsupported ratios to closest Imagen equivalent
+    if (aspectRatio === '4:5') {
+      aspectRatio = '3:4'; // Closest portrait ratio
+      console.log('🔄 Converted aspect ratio 4:5 → 3:4 for Imagen compatibility');
+    } else {
+      console.warn(`⚠️ Invalid aspect ratio for Imagen: ${aspectRatio}, using 3:4 as fallback`);
+      aspectRatio = '3:4';
+    }
+  }
 
   const region = 'us-east4';
   const endpoint = `https://${region}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${region}/publishers/google/models/${modelId}:predict`;

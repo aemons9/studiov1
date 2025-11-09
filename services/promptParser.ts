@@ -1,89 +1,120 @@
 /**
- * PROMPT PARSER SERVICE
+ * PROMPT PARSER SERVICE - ENHANCED
  *
  * Extracts structured data from Flux prompts and converts them into PromptData format
- * for populating the JSON editor fields.
+ * for populating the JSON editor fields. Ensures ALL fields are properly populated.
  */
 
 import { PromptData } from '../types';
 
 /**
  * Parse a Flux prompt string into structured PromptData
+ * Now ensures ALL fields are populated with sensible defaults if missing
  */
 export function parseFluxPromptToData(prompt: string): PromptData {
-  const data: Partial<PromptData> = {};
+  // Extract shot/opening declaration
+  const shotMatch = prompt.match(/^([^.]+\. Intimacy \d+\/10[^.]*\.\.)/);
+  const shot = shotMatch ? shotMatch[1].replace(/\.\.$/, '.').trim() : 'Fine-art photography with cinematic depth.';
 
-  // Extract opening style declaration and intimacy
-  const styleMatch = prompt.match(/^(.*?)\. Intimacy (\d+)\/10/);
-  if (styleMatch) {
-    data.shot = styleMatch[1];
-  }
+  // Extract subject variant (everything between "subject: variant:" and "pose:")
+  const variantMatch = prompt.match(/subject:\s*variant:\s*([^,]+(?:,[^,]+)*?)\s*(?:,\s*)?pose:/s);
+  const variant = variantMatch ? variantMatch[1].trim() : 'Elite artistic model with expressive presence.';
 
-  // Extract subject details
-  const subjectMatch = prompt.match(/subject: variant: (.*?)(?:,\s*pose:|$)/s);
-  if (subjectMatch) {
-    const subjectText = subjectMatch[1].trim();
+  // Extract individual subject fields
+  const pose = extractField(prompt, 'pose') || 'Natural confident pose expressing grace and power';
+  const hairColor = extractField(prompt, 'hair_color') || 'dark';
+  const hairStyle = extractField(prompt, 'hair_style') || 'Elegant styled with natural volume';
+  const skinFinish = extractField(prompt, 'skin_finish') || 'Natural with healthy glow';
+  const handNailDetails = extractField(prompt, 'hand_and_nail_details') || 'Graceful natural placement with professional manicure';
+  const tattoos = extractField(prompt, 'tattoos') || 'none';
+  const piercings = extractField(prompt, 'piercings') || 'none';
+  const bodyArt = extractField(prompt, 'body_art') || 'none';
+  const nailArt = extractField(prompt, 'nail_art') || 'Natural neutral polish';
+  const highHeels = extractField(prompt, 'high_heels') || 'not visible';
 
-    // Create subject object
-    data.subject = {
-      variant: subjectText,
-      pose: extractField(prompt, 'pose'),
-      hair_color: extractField(prompt, 'hair_color'),
-      hair_style: extractField(prompt, 'hair_style'),
-      skin_finish: extractField(prompt, 'skin_finish'),
-      hand_and_nail_details: extractField(prompt, 'hand_and_nail_details'),
-      tattoos: extractField(prompt, 'tattoos') || 'none',
-      piercings: extractField(prompt, 'piercings') || 'none',
-      body_art: extractField(prompt, 'body_art') || 'none',
-      nail_art: extractField(prompt, 'nail_art'),
-      high_heels: extractField(prompt, 'high_heels')
-    };
-  }
-
-  // Extract wardrobe
-  data.wardrobe = extractSection(prompt, 'wardrobe:', 'environment:');
+  // Extract wardrobe (between "wardrobe:" and either ".." or "environment:")
+  const wardrobeMatch = prompt.match(/wardrobe:\s*([^]+?)(?:\.\.\s*environment:|environment:)/);
+  const wardrobe = wardrobeMatch ? wardrobeMatch[1].trim().replace(/\.\s*$/, '') : 'Minimalist elegant attire with refined aesthetic';
 
   // Extract environment
-  data.environment = extractSection(prompt, 'environment:', 'lighting:');
+  const envMatch = prompt.match(/environment:\s*([^.]+)\./);
+  const environment = envMatch ? envMatch[1].trim() : 'Minimalist studio with professional lighting';
 
   // Extract lighting
-  data.lighting = extractSection(prompt, 'lighting:', 'camera:');
+  const lightingMatch = prompt.match(/lighting:\s*([^.]+)\./);
+  const lighting = lightingMatch ? lightingMatch[1].trim() : 'Professional studio-quality lighting';
 
   // Extract camera details
-  const cameraSection = extractSection(prompt, 'camera:', 'color_grade:');
-  if (cameraSection) {
-    data.camera = {
-      focal_length: extractCameraField(cameraSection, 'focal_length'),
-      aperture: extractCameraField(cameraSection, 'aperture'),
-      distance: extractCameraField(cameraSection, 'distance'),
-      angle: extractCameraField(cameraSection, 'angle'),
-      framing: extractCameraField(cameraSection, 'framing')
-    };
-  }
+  const cameraMatch = prompt.match(/camera:\s*focal_length:\s*([^,]+),\s*aperture:\s*([^,]+),\s*distance:\s*([^,]+),\s*angle:\s*([^,]+),\s*framing:\s*([^.]+)/);
+  const camera = cameraMatch ? {
+    focal_length: cameraMatch[1].trim(),
+    aperture: cameraMatch[2].trim(),
+    distance: cameraMatch[3].trim(),
+    angle: cameraMatch[4].trim(),
+    framing: cameraMatch[5].trim()
+  } : {
+    focal_length: '50mm',
+    aperture: 'f/2.8',
+    distance: '3 m',
+    angle: 'Eye-level for direct connection',
+    framing: 'Medium shot emphasizing form and presence'
+  };
 
-  // Extract color grade
-  data.color_grade = extractSection(prompt, 'color_grade:', 'style:');
+  // Extract color_grade
+  const colorGradeMatch = prompt.match(/color_grade:\s*([^.]+)\./);
+  const colorGrade = colorGradeMatch ? colorGradeMatch[1].trim() : 'Natural balanced tones with cinematic depth';
 
   // Extract style
-  data.style = extractSection(prompt, 'style:', 'quality:');
+  const styleMatch = prompt.match(/style:\s*([^.]+(?:\.[^.]+)*?)\.\s*(?:quality:|figure_and_form:|$)/);
+  const style = styleMatch ? styleMatch[1].trim() : 'Fine-art photography celebrating natural beauty and artistic expression';
 
   // Extract quality
-  data.quality = extractSection(prompt, 'quality:', 'figure_and_form:');
+  const qualityMatch = prompt.match(/quality:\s*([^.]+)\./);
+  const quality = qualityMatch ? qualityMatch[1].trim() : 'Professional 8K photography with exceptional detail';
 
-  // Extract figure and form
-  data.figure_and_form = extractSection(prompt, 'figure_and_form:', 'skin_micro_details:');
+  // Extract figure_and_form
+  const figureMatch = prompt.match(/figure_and_form:\s*([^.]+)\./);
+  const figureAndForm = figureMatch ? figureMatch[1].trim() : 'Natural form with artistic emphasis on composition';
 
-  // Extract skin micro details
-  data.skin_micro_details = extractSection(prompt, 'skin_micro_details:', 'fabric_physics:');
+  // Extract skin_micro_details
+  const skinMatch = prompt.match(/skin_micro_details:\s*([^.]+)\./);
+  const skinMicroDetails = skinMatch ? skinMatch[1].trim() : 'Natural authentic skin texture with professional finish';
 
-  // Extract fabric physics
-  data.fabric_physics = extractSection(prompt, 'fabric_physics:', 'material_properties:');
+  // Extract fabric_physics
+  const fabricMatch = prompt.match(/fabric_physics:\s*([^.]+(?:\.[^.]+)*?)\.\s*(?:\.?\s*material_properties:|$)/);
+  const fabricPhysics = fabricMatch ? fabricMatch[1].trim() : 'Natural fabric draping with realistic folds and texture';
 
-  // Extract material properties
-  const materialSection = extractSection(prompt, 'material_properties:', null);
-  data.material_properties = materialSection || '';
+  // Extract material_properties
+  const materialMatch = prompt.match(/material_properties:\s*(.+?)\.?\s*$/s);
+  const materialProperties = materialMatch ? materialMatch[1].trim().replace(/\.\s*$/, '') : 'Natural materials with authentic light interaction';
 
-  return data as PromptData;
+  return {
+    shot,
+    subject: {
+      variant,
+      pose,
+      hair_color: hairColor,
+      hair_style: hairStyle,
+      skin_finish: skinFinish,
+      hand_and_nail_details: handNailDetails,
+      tattoos,
+      piercings,
+      body_art: bodyArt,
+      nail_art: nailArt,
+      high_heels: highHeels
+    },
+    wardrobe,
+    environment,
+    lighting,
+    camera,
+    color_grade: colorGrade,
+    style,
+    quality,
+    figure_and_form: figureAndForm,
+    skin_micro_details: skinMicroDetails,
+    fabric_physics: fabricPhysics,
+    material_properties: materialProperties
+  };
 }
 
 /**
@@ -96,36 +127,8 @@ function extractField(prompt: string, fieldName: string): string {
 }
 
 /**
- * Extract a camera field value
- */
-function extractCameraField(cameraSection: string, fieldName: string): string {
-  const regex = new RegExp(`${fieldName}:\\s*([^,]+)`, 'i');
-  const match = cameraSection.match(regex);
-  return match ? match[1].trim() : '';
-}
-
-/**
- * Extract a section between two markers
- */
-function extractSection(prompt: string, startMarker: string, endMarker: string | null): string {
-  const startIndex = prompt.indexOf(startMarker);
-  if (startIndex === -1) return '';
-
-  const contentStart = startIndex + startMarker.length;
-
-  if (endMarker === null) {
-    // Extract to end of string
-    return prompt.substring(contentStart).trim().replace(/\.\s*$/, '');
-  }
-
-  const endIndex = prompt.indexOf(endMarker, contentStart);
-  if (endIndex === -1) return '';
-
-  return prompt.substring(contentStart, endIndex).trim().replace(/\.\s*$/, '');
-}
-
-/**
  * Parse Quick Corporate Generator template into PromptData
+ * Ensures ALL fields are properly populated
  */
 export function parseCorporateTemplateToData(
   variant: string,
@@ -141,7 +144,7 @@ export function parseCorporateTemplateToData(
     shot: `Corporate power photography in revealing style. Intimacy ${intimacyLevel}/10, ${powerDynamic} power dynamic.`,
 
     subject: {
-      variant: `Elite Indian artistic model (height ${height}) specializing in modern concept films, private editorial art, and expressive erotic-art photography. Possesses an exceptionally curvaceous figure (bust ${measurements.bust}, waist ${measurements.waist}, hips ${measurements.hips}) with pronounced wide hips and dramatic curves. Athletic sculptural form with strong shoulders and defined waist. Luminous dusky complexion with warm undertones. Sharp angular bone structure, magnetic penetrating gaze, strong jawline.`,
+      variant: `Elite Indian artistic model (height ${height}) specializing in modern concept films, private editorial art, and expressive erotic-art photography. Possesses an exceptionally curvaceous figure (bust ${measurements.bust}, waist ${measurements.waist}, hips ${measurements.hips}) with pronounced wide hips and dramatic curves. Athletic sculptural form with strong shoulders and defined waist. Luminous dusky complexion with warm undertones. Sharp angular bone structure, magnetic penetrating gaze, strong jawline. Creative presence.`,
       pose: pose,
       hair_color: 'jet black',
       hair_style: 'Elegant flowing style with soft framing',
@@ -158,7 +161,7 @@ export function parseCorporateTemplateToData(
 
     environment: environment,
 
-    lighting: 'Professional studio-quality lighting',
+    lighting: 'Professional studio-quality lighting with architectural precision',
 
     camera: {
       focal_length: '35mm',
@@ -174,7 +177,7 @@ export function parseCorporateTemplateToData(
 
     color_grade: 'Rich dramatic tones with sensual warmth',
 
-    style: `Corporate fine-art photography celebrating feminine executive power. ${powerDynamic} sensuality style. Power level ${Math.min(10, intimacyLevel + 1)}/10. Creative industry glamour with backstage access to power.`,
+    style: `Corporate fine-art photography celebrating feminine executive power. ${powerDynamic} sensuality style. Power level ${Math.min(10, intimacyLevel + 1)}/10. Creative industry glamour with backstage access to power. Where artistic vision meets commercial empire, high-fashion meets high-stakes.`,
 
     quality: 'Ultra-high-end 8K corporate fashion photography with impeccable detail, professional retouching maintaining authentic texture',
 
@@ -217,11 +220,11 @@ export function extractPromptElements(prompt: string): PromptElements {
   return {
     category,
     intimacyLevel,
-    pose: extractField(prompt, 'pose'),
-    environment: extractSection(prompt, 'environment:', 'lighting:'),
-    wardrobe: extractSection(prompt, 'wardrobe:', 'environment:'),
-    lighting: extractSection(prompt, 'lighting:', 'camera:'),
-    cameraAngle: extractCameraField(extractSection(prompt, 'camera:', 'color_grade:'), 'angle'),
-    colorGrade: extractSection(prompt, 'color_grade:', 'style:')
+    pose: extractField(prompt, 'pose') || 'Natural confident pose',
+    environment: prompt.match(/environment:\s*([^.]+)/)?.[1]?.trim() || 'Professional studio',
+    wardrobe: prompt.match(/wardrobe:\s*([^.]+)/)?.[1]?.trim() || 'Elegant attire',
+    lighting: prompt.match(/lighting:\s*([^.]+)/)?.[1]?.trim() || 'Professional lighting',
+    cameraAngle: prompt.match(/angle:\s*([^,]+)/)?.[1]?.trim() || 'Eye-level',
+    colorGrade: prompt.match(/color_grade:\s*([^.]+)/)?.[1]?.trim() || 'Natural balanced tones'
   };
 }

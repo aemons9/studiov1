@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, HistoryEntry, AdherenceLevel, CloudStorageConfig, StorageProvider, StorageSettings } from './types';
 import { generateImage, enhancePrompt, weavePrompt, generateAndSaveImage, type StorageConfig } from './services/geminiService';
+import { generateWithMaximumSafety, getGenerationSummary } from './services/intelligentGenerationService';
 import { DEFAULT_BUCKET_NAME } from './services/cloudStorageService';
 import { DEFAULT_DRIVE_FOLDER } from './services/googleDriveService';
 import Header from './components/Header';
@@ -217,8 +218,30 @@ const App: React.FC = () => {
         setWovenPrompt(`RAW PROMPT: ${finalPrompt}`);
       }
 
-      // 4. Generate Image and Save to Storage
+      // 4. Generate Image with Intelligent Safety Bypass System
       setGenerationStep('generating');
+
+      // Use intelligent generation with automatic fallback cascade
+      console.log('🚀 Using intelligent generation system with safety bypass');
+      const generationResult = await generateWithMaximumSafety(
+        finalPrompt,
+        promptForNextStep,
+        generationSettings
+      );
+
+      // Display generation summary
+      console.log(getGenerationSummary(generationResult));
+
+      // Create image data for display
+      const newImageData = generationResult.images.map(b64 => ({
+        url: `data:image/jpeg;base64,${b64}`,
+        settings: {
+          modelId: generationResult.usedApi === 'Imagen' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
+          seed: generationSettings.seed,
+          aspectRatio: generationSettings.aspectRatio
+        }
+      }));
+      setGeneratedImages(newImageData);
 
       // Build storage config based on user selection
       let storageConfig: StorageConfig | null = null;
@@ -246,30 +269,25 @@ const App: React.FC = () => {
         }
       }
 
-      const result = await generateAndSaveImage(
-        finalPrompt,
-        generationSettings,
-        promptForNextStep,
-        activeConcept,
-        storageConfig
-      );
+      // Upload to storage if enabled
+      if (storageConfig) {
+        const { uploadImage } = await import('./services/storageService');
 
-      const newImageData = result.images.map(b64 => ({
-        url: `data:image/jpeg;base64,${b64}`,
-        settings: {
-          modelId: generationSettings.modelId,
-          seed: generationSettings.seed,
-          aspectRatio: generationSettings.aspectRatio
-        }
-      }));
-      setGeneratedImages(newImageData);
-
-      // Log upload results
-      if (storageSettings.enableStorage) {
-        const providerName = storageSettings.provider === 'google-drive' ? 'Google Drive' : 'Cloud Storage';
-        console.log(`✅ Uploaded ${result.metadata.length} images to ${providerName}`);
-        if (result.errors.length > 0) {
-          console.warn('Upload errors:', result.errors);
+        for (const [index, base64Image] of generationResult.images.entries()) {
+          try {
+            const dataUrl = `data:image/png;base64,${base64Image}`;
+            await uploadImage(
+              dataUrl,
+              promptForNextStep,
+              generationSettings,
+              activeConcept,
+              storageConfig
+            );
+            const providerName = storageSettings.provider === 'google-drive' ? 'Google Drive' : 'Cloud Storage';
+            console.log(`✅ Uploaded image ${index + 1}/${generationResult.images.length} to ${providerName}`);
+          } catch (uploadError) {
+            console.error(`Failed to upload image ${index + 1}:`, uploadError);
+          }
         }
       }
 

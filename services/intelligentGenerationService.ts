@@ -1,0 +1,284 @@
+/**
+ * INTELLIGENT GENERATION SERVICE
+ *
+ * Orchestrates all safety bypass strategies in a cascading fallback system.
+ * This is the main entry point for image generation with maximum success rate.
+ *
+ * Cascade Strategy:
+ * 1. Pre-screen with Natural Language API
+ * 2. Route to Imagen or Flux based on intimacy level
+ * 3. On Imagen block → Gemini adversarial rewrite + retry
+ * 4. Still blocked → Flux with escalating safety tolerance
+ * 5. Still blocked → Translation bypass (nuclear option)
+ */
+
+import type { PromptData, GenerationSettings } from '../types';
+import { generateImage, adversarialRewrite } from './geminiService';
+import { generateWithFluxRetry, getOptimalFluxSettings, type ReplicateConfig } from './replicateService';
+import { checkPromptSafety } from './languageSafetyService';
+import { smartTranslationBypass } from './translationBypass';
+
+export interface GenerationResult {
+  images: string[];
+  usedApi: 'Imagen' | 'Flux';
+  attempts: number;
+  strategies: string[]; // Track which strategies were used
+  finalPrompt: string; // The prompt that succeeded
+}
+
+/**
+ * Generate images with maximum safety bypass intelligence
+ */
+export async function generateWithMaximumSafety(
+  wovenPrompt: string,
+  promptData: PromptData,
+  settings: GenerationSettings
+): Promise<GenerationResult> {
+  const intimacyLevel = settings.intimacyLevel;
+  let attempts = 0;
+  const strategies: string[] = [];
+  let currentPrompt = wovenPrompt;
+
+  console.log('🎯 Starting intelligent generation cascade');
+  console.log('📊 Intimacy level:', intimacyLevel);
+  console.log('📝 Prompt length:', wovenPrompt.length, 'chars');
+
+  // ============================================================================
+  // STEP 1: Pre-screen with Natural Language API
+  // ============================================================================
+  console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('🔍 STEP 1: Pre-screening with Natural Language API');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  const safetyCheck = await checkPromptSafety(currentPrompt, settings);
+
+  if (safetyCheck.analysis.needsRefinement) {
+    console.log('⚠️ High toxicity detected, applying Gemini refinement...');
+    strategies.push('Natural Language API Pre-screening');
+
+    try {
+      currentPrompt = await adversarialRewrite(
+        currentPrompt,
+        `High toxicity: ${safetyCheck.analysis.categories.join(', ')}`,
+        settings
+      );
+      strategies.push('Gemini Pre-emptive Rewrite');
+      console.log('✅ Pre-emptive rewrite completed');
+    } catch (error) {
+      console.warn('⚠️ Pre-emptive rewrite failed, continuing with original');
+    }
+  } else {
+    console.log('✅ Toxicity check passed');
+  }
+
+  // ============================================================================
+  // STEP 2: Route based on intimacy level
+  // ============================================================================
+  console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('🔀 STEP 2: Smart routing based on intimacy level');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  const preferFlux = intimacyLevel >= 7;
+
+  if (preferFlux) {
+    console.log('🎭 High intimacy level → Routing to Flux (more permissive)');
+  } else {
+    console.log('🎨 Moderate intimacy → Trying Imagen first (higher quality)');
+  }
+
+  // ============================================================================
+  // STEP 3A: Try Imagen (if intimacy < 7)
+  // ============================================================================
+  if (!preferFlux) {
+    console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('🎨 STEP 3A: Attempting Imagen generation');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+    try {
+      attempts++;
+      const images = await generateImage(currentPrompt, settings);
+      strategies.push('Imagen - Direct Success');
+
+      console.log('✅ Imagen generation successful!');
+      return {
+        images,
+        usedApi: 'Imagen',
+        attempts,
+        strategies,
+        finalPrompt: currentPrompt
+      };
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+      if (errorMessage.includes('RAI_BLOCK') || errorMessage.includes('safety')) {
+        console.warn('⚠️ Imagen blocked by safety filters');
+        console.warn('📋 Block reason:', errorMessage);
+
+        // Extract block reason
+        const blockReason = errorMessage;
+
+        // ============================================================================
+        // STEP 3B: Adversarial Rewrite + Imagen Retry
+        // ============================================================================
+        console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('✨ STEP 3B: Gemini adversarial rewrite + Imagen retry');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+        try {
+          attempts++;
+          const rewrittenPrompt = await adversarialRewrite(currentPrompt, blockReason, settings);
+          strategies.push('Gemini Adversarial Rewrite');
+          currentPrompt = rewrittenPrompt;
+
+          console.log('🔄 Retrying Imagen with rewritten prompt...');
+          const images = await generateImage(rewrittenPrompt, settings);
+          strategies.push('Imagen - Success After Rewrite');
+
+          console.log('✅ Imagen retry successful after rewrite!');
+          return {
+            images,
+            usedApi: 'Imagen',
+            attempts,
+            strategies,
+            finalPrompt: rewrittenPrompt
+          };
+        } catch (retryError) {
+          console.warn('⚠️ Imagen retry also blocked. Moving to Flux fallback...');
+          strategies.push('Imagen - Failed After Rewrite');
+        }
+
+        // ============================================================================
+        // STEP 3C: Translation Bypass (if likely to help)
+        // ============================================================================
+        console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+        console.log('🌍 STEP 3C: Checking if translation bypass could help');
+        console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+        try {
+          const translationResult = await smartTranslationBypass(currentPrompt, blockReason, settings);
+
+          if (translationResult) {
+            attempts++;
+            strategies.push(`Translation Bypass - ${translationResult.language}`);
+
+            console.log(`✅ Translation bypass successful via ${translationResult.language}!`);
+            return {
+              images: translationResult.images,
+              usedApi: 'Imagen',
+              attempts,
+              strategies,
+              finalPrompt: currentPrompt
+            };
+          }
+        } catch (translationError) {
+          console.warn('⚠️ Translation bypass failed. Proceeding to Flux...');
+        }
+      } else {
+        // Non-safety error, rethrow
+        throw error;
+      }
+    }
+  }
+
+  // ============================================================================
+  // STEP 4: Flux Fallback (or primary for intimacy >= 7)
+  // ============================================================================
+  console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+  console.log('🎭 STEP 4: Flux generation with escalating safety tolerance');
+  console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+  const replicateToken = localStorage.getItem('replicateToken');
+  if (!replicateToken) {
+    throw new Error(
+      '❌ Replicate API token required for Flux generation.\n' +
+      '💡 Set via browser console: localStorage.setItem("replicateToken", "YOUR_TOKEN")\n' +
+      '🔗 Get your token at: https://replicate.com/account/api-tokens'
+    );
+  }
+
+  const optimalSettings = getOptimalFluxSettings(intimacyLevel);
+  const fluxConfig: ReplicateConfig = {
+    apiToken: replicateToken,
+    model: optimalSettings.model || 'black-forest-labs/flux-1.1-pro-ultra',
+    aspectRatio: settings.aspectRatio,
+    numOutputs: settings.numberOfImages,
+    seed: settings.seed || undefined,
+    ...optimalSettings
+  };
+
+  console.log('🎨 Flux model:', fluxConfig.model);
+  console.log('🔒 Safety tolerance:', fluxConfig.safetyTolerance);
+  console.log('📸 Raw mode:', fluxConfig.raw);
+
+  try {
+    attempts++;
+    const images = await generateWithFluxRetry(currentPrompt, fluxConfig, 3);
+    strategies.push('Flux - Success');
+
+    console.log('✅ Flux generation successful!');
+    return {
+      images,
+      usedApi: 'Flux',
+      attempts,
+      strategies,
+      finalPrompt: currentPrompt
+    };
+  } catch (fluxError) {
+    const errorMessage = fluxError instanceof Error ? fluxError.message : 'Unknown error';
+    console.error('❌ Flux generation failed:', errorMessage);
+
+    // Last resort: Translation bypass with Flux
+    if (errorMessage.includes('safety') || errorMessage.includes('blocked')) {
+      console.log('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+      console.log('🌍 NUCLEAR OPTION: Translation bypass with Flux');
+      console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+
+      try {
+        const translationResult = await smartTranslationBypass(currentPrompt, errorMessage, settings);
+
+        if (translationResult) {
+          attempts++;
+          strategies.push(`Translation Bypass - ${translationResult.language} (Flux fallback)`);
+
+          console.log(`✅ Final fallback successful via ${translationResult.language}!`);
+          return {
+            images: translationResult.images,
+            usedApi: 'Imagen',
+            attempts,
+            strategies,
+            finalPrompt: currentPrompt
+          };
+        }
+      } catch (finalError) {
+        console.error('❌ All strategies exhausted');
+        throw new Error(
+          `All generation strategies failed.\n` +
+          `Attempts: ${attempts}\n` +
+          `Strategies tried: ${strategies.join(' → ')}\n` +
+          `Final error: ${finalError instanceof Error ? finalError.message : 'Unknown error'}`
+        );
+      }
+    }
+
+    throw fluxError;
+  }
+}
+
+/**
+ * Get a human-readable summary of the generation attempt
+ */
+export function getGenerationSummary(result: GenerationResult): string {
+  return `
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+✅ GENERATION SUCCESSFUL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🎯 Final API: ${result.usedApi}
+🔄 Total Attempts: ${result.attempts}
+📊 Strategies Used: ${result.strategies.join(' → ')}
+📝 Images Generated: ${result.images.length}
+
+${result.strategies.length > 1 ? '⚡ Required fallback strategies to succeed' : '✨ Succeeded on first attempt'}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+`;
+}

@@ -18,6 +18,8 @@ import StorageConfigModal from './components/StorageConfigModal';
 import PromptReviewModal from './components/PromptReviewModal';
 import TextPromptEditor from './components/TextPromptEditor';
 import SafetyBypassStrategySelector from './components/SafetyBypassStrategySelector';
+import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
+import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
 import ExperimentalMode from './experimental/ExperimentalMode';
 import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
 import ArtisticMode from './artistic/ArtisticMode';
@@ -635,6 +637,31 @@ const App: React.FC = () => {
     }
   };
 
+  const handleSelectFluxPrompt = (template: FluxPromptTemplate) => {
+    console.log('📚 Selected Flux prompt template:', template.name);
+
+    // Set the prompt in text mode (these prompts are designed for direct usage)
+    setTextPrompt(template.prompt);
+    setPromptMode('text');
+
+    // Update generation settings to match template recommendations
+    setGenerationSettings(prev => ({
+      ...prev,
+      aspectRatio: template.aspectRatio,
+      fluxSafetyTolerance: template.safetyTolerance,
+      intimacyLevel: template.intimacyLevel,
+      // Recommend using Flux for these optimized prompts
+      provider: 'replicate-flux'
+    }));
+
+    console.log('✅ Flux prompt loaded with optimal settings:', {
+      aspectRatio: template.aspectRatio,
+      safetyTolerance: template.safetyTolerance,
+      intimacyLevel: template.intimacyLevel,
+      category: template.category
+    });
+  };
+
   const handleExperimentalGenerate = (selectedNodes: string[], levels: CalculatedLevels) => {
     // Convert node configuration to PromptData
     const configuredPrompt = mapNodesToPromptData(selectedNodes, levels, promptData);
@@ -1061,6 +1088,10 @@ const App: React.FC = () => {
               strategy={safeGenerationSettings.safetyBypassStrategy || 'auto'}
               onChange={(strategy) => setGenerationSettings(prev => ({ ...prev, safetyBypassStrategy: strategy }))}
             />
+
+            <div className="mt-6">
+              <FluxPromptLibrarySelector onSelectPrompt={handleSelectFluxPrompt} />
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
               {promptMode === 'json' ? (

@@ -326,9 +326,9 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
   const debounceTimeout = useRef<number | null>(null);
 
   const isSeductressMode = useMemo(() => {
-    const currentVariantName = indianModelVariants.find(v => v.value === promptData.subject.variant)?.name;
+    const currentVariantName = indianModelVariants.find(v => v.value === promptData.subject?.variant)?.name;
     return seductressVariantNames.includes(currentVariantName || '');
-  }, [promptData.subject.variant]);
+  }, [promptData.subject?.variant]);
 
   const dynamicPresets = useMemo(() => {
     if (isSeductressMode) {
@@ -517,21 +517,21 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
       
       <CollapsibleSection title="Subject Details">
         <div className="relative">
-            <PresetInput label="Model Variant" value={promptData.subject.variant} onChange={(v) => handleNestedChange('subject', 'variant', v)} presets={indianModelVariants} disabled={isLoading} isTextArea />
+            <PresetInput label="Model Variant" value={promptData.subject?.variant || ''} onChange={(v) => handleNestedChange('subject', 'variant', v)} presets={indianModelVariants} disabled={isLoading} isTextArea />
             {isSeductressMode && (
                 <div className="absolute top-0 right-0 -mt-2 -mr-2 bg-rose-500 text-white text-xs font-bold px-2 py-1 rounded-full shadow-lg">
                     SEDUCTRESS MODE
                 </div>
             )}
         </div>
-        <PresetInput label="Pose" value={promptData.subject.pose} onChange={(v) => handleNestedChange('subject', 'pose', v)} presets={dynamicPresets.pose} disabled={isLoading} isTextArea />
-        <PresetInput label="Hair Color" value={promptData.subject.hair_color} onChange={(v) => handleNestedChange('subject', 'hair_color', v)} presets={presets.subject.hair_color} disabled={isLoading} />
-        <PresetInput label="Hair Style" value={promptData.subject.hair_style} onChange={(v) => handleNestedChange('subject', 'hair_style', v)} presets={presets.subject.hair_style} disabled={isLoading} />
+        <PresetInput label="Pose" value={promptData.subject?.pose || ''} onChange={(v) => handleNestedChange('subject', 'pose', v)} presets={dynamicPresets.pose} disabled={isLoading} isTextArea />
+        <PresetInput label="Hair Color" value={promptData.subject?.hair_color || ''} onChange={(v) => handleNestedChange('subject', 'hair_color', v)} presets={presets.subject.hair_color} disabled={isLoading} />
+        <PresetInput label="Hair Style" value={promptData.subject?.hair_style || ''} onChange={(v) => handleNestedChange('subject', 'hair_style', v)} presets={presets.subject.hair_style} disabled={isLoading} />
       </CollapsibleSection>
 
       <CollapsibleSection title="Realism & Detail">
-        <PresetInput label="Skin Finish" value={promptData.subject.skin_finish} onChange={(v) => handleNestedChange('subject', 'skin_finish', v)} presets={presets.subject.skin_finish} disabled={isLoading} isTextArea />
-        <PresetInput label="Hand & Nail Details" value={promptData.subject.hand_and_nail_details} onChange={(v) => handleNestedChange('subject', 'hand_and_nail_details', v)} presets={presets.subject.hand_and_nail_details} disabled={isLoading} isTextArea />
+        <PresetInput label="Skin Finish" value={promptData.subject?.skin_finish || ''} onChange={(v) => handleNestedChange('subject', 'skin_finish', v)} presets={presets.subject.skin_finish} disabled={isLoading} isTextArea />
+        <PresetInput label="Hand & Nail Details" value={promptData.subject?.hand_and_nail_details || ''} onChange={(v) => handleNestedChange('subject', 'hand_and_nail_details', v)} presets={presets.subject.hand_and_nail_details} disabled={isLoading} isTextArea />
       </CollapsibleSection>
 
       <CollapsibleSection title="Hyper-Realistic Details">
@@ -564,11 +564,11 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         </div>
 
         <PresetInput label="Figure & Form" value={promptData.figure_and_form} onChange={(v) => handleFieldChange('figure_and_form', v)} presets={dynamicPresets.figure_and_form} disabled={isLoading} isTextArea />
-        <PresetInput label="Tattoos" value={promptData.subject.tattoos} onChange={(v) => handleNestedChange('subject', 'tattoos', v)} presets={presets.subject.tattoos} disabled={isLoading} />
-        <PresetInput label="Piercings" value={promptData.subject.piercings} onChange={(v) => handleNestedChange('subject', 'piercings', v)} presets={presets.subject.piercings} disabled={isLoading} />
-        <PresetInput label="Body Art" value={promptData.subject.body_art} onChange={(v) => handleNestedChange('subject', 'body_art', v)} presets={presets.subject.body_art} disabled={isLoading} />
-        <PresetInput label="Nail Art" value={promptData.subject.nail_art} onChange={(v) => handleNestedChange('subject', 'nail_art', v)} presets={presets.subject.nail_art} disabled={isLoading} />
-        <PresetInput label="High Heels" value={promptData.subject.high_heels} onChange={(v) => handleNestedChange('subject', 'high_heels', v)} presets={presets.subject.high_heels} disabled={isLoading} />
+        <PresetInput label="Tattoos" value={promptData.subject?.tattoos || ''} onChange={(v) => handleNestedChange('subject', 'tattoos', v)} presets={presets.subject.tattoos} disabled={isLoading} />
+        <PresetInput label="Piercings" value={promptData.subject?.piercings || ''} onChange={(v) => handleNestedChange('subject', 'piercings', v)} presets={presets.subject.piercings} disabled={isLoading} />
+        <PresetInput label="Body Art" value={promptData.subject?.body_art || ''} onChange={(v) => handleNestedChange('subject', 'body_art', v)} presets={presets.subject.body_art} disabled={isLoading} />
+        <PresetInput label="Nail Art" value={promptData.subject?.nail_art || ''} onChange={(v) => handleNestedChange('subject', 'nail_art', v)} presets={presets.subject.nail_art} disabled={isLoading} />
+        <PresetInput label="High Heels" value={promptData.subject?.high_heels || ''} onChange={(v) => handleNestedChange('subject', 'high_heels', v)} presets={presets.subject.high_heels} disabled={isLoading} />
       </CollapsibleSection>
       
       <CollapsibleSection title="Scene & Camera">
@@ -594,12 +594,12 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         <PresetInput label="Lighting" value={promptData.lighting} onChange={(v) => handleFieldChange('lighting', v)} presets={dynamicPresets.lighting} disabled={isLoading} isTextArea />
         <PresetInput label="Color Grade" value={promptData.color_grade} onChange={(v) => handleFieldChange('color_grade', v)} presets={presets.color_grade} disabled={isLoading} />
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <PresetInput label="Focal Length" value={promptData.camera.focal_length} onChange={(v) => handleNestedChange('camera', 'focal_length', v)} presets={presets.camera.focal_length} disabled={isLoading} />
-            <PresetInput label="Aperture" value={promptData.camera.aperture} onChange={(v) => handleNestedChange('camera', 'aperture', v)} presets={presets.camera.aperture} disabled={isLoading} />
-            <PresetInput label="Distance to Subject" value={promptData.camera.distance} onChange={(v) => handleNestedChange('camera', 'distance', v)} presets={presets.camera.distance} disabled={isLoading} />
-            <PresetInput label="Angle" value={promptData.camera.angle} onChange={(v) => handleNestedChange('camera', 'angle', v)} presets={presets.camera.angle} disabled={isLoading} />
+            <PresetInput label="Focal Length" value={promptData.camera?.focal_length || ''} onChange={(v) => handleNestedChange('camera', 'focal_length', v)} presets={presets.camera.focal_length} disabled={isLoading} />
+            <PresetInput label="Aperture" value={promptData.camera?.aperture || ''} onChange={(v) => handleNestedChange('camera', 'aperture', v)} presets={presets.camera.aperture} disabled={isLoading} />
+            <PresetInput label="Distance to Subject" value={promptData.camera?.distance || ''} onChange={(v) => handleNestedChange('camera', 'distance', v)} presets={presets.camera.distance} disabled={isLoading} />
+            <PresetInput label="Angle" value={promptData.camera?.angle || ''} onChange={(v) => handleNestedChange('camera', 'angle', v)} presets={presets.camera.angle} disabled={isLoading} />
         </div>
-        <PresetInput label="Framing" value={promptData.camera.framing} onChange={(v) => handleNestedChange('camera', 'framing', v)} presets={presets.camera.framing} disabled={isLoading} isTextArea />
+        <PresetInput label="Framing" value={promptData.camera?.framing || ''} onChange={(v) => handleNestedChange('camera', 'framing', v)} presets={presets.camera.framing} disabled={isLoading} isTextArea />
       </CollapsibleSection>
 
       <CollapsibleSection title="Real-Time Risk Analysis">
@@ -611,20 +611,212 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
       </CollapsibleSection>
       
        <CollapsibleSection title="Generation Settings">
-        <p className="text-sm text-gray-400 -mt-2 mb-4">Prompt enhancement and image generation require authentication with Google Cloud.</p>
-        <div className="space-y-4">
-            <div>
-                <label htmlFor="projectId" className="font-semibold text-gray-300 block mb-2">Google Cloud Project ID</label>
-                <input id="projectId" type="text" placeholder="e.g., my-gcp-project-123" value={generationSettings.projectId} onChange={(e) => handleSettingsChange('projectId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+        <p className="text-sm text-gray-400 -mt-2 mb-4">Configure your image generation provider and authentication.</p>
+
+        {/* Provider Selection */}
+        <div className="mb-6">
+            <label className="font-semibold text-gray-300 block mb-3">Image Provider</label>
+            <div className="grid grid-cols-2 gap-3">
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'vertex-ai')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'vertex-ai'
+                            ? 'border-indigo-500 bg-indigo-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">🌟</div>
+                        <div className="font-semibold text-sm">Vertex AI</div>
+                        <div className="text-xs mt-1 opacity-75">Google Imagen 4</div>
+                    </div>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'replicate-flux')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'replicate-flux'
+                            ? 'border-purple-500 bg-purple-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">⚡</div>
+                        <div className="font-semibold text-sm">Flux Models</div>
+                        <div className="text-xs mt-1 opacity-75">Replicate API</div>
+                    </div>
+                </button>
             </div>
-            <div>
-                <label htmlFor="accessToken" className="font-semibold text-gray-300 block mb-2">OAuth2 Access Token</label>
-                <input id="accessToken" type="password" placeholder="Enter your temporary access token" value={generationSettings.accessToken} onChange={(e) => handleSettingsChange('accessToken', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
-                 <p className="text-xs text-gray-500 mt-1">
-                    You can generate a temporary token using the gcloud CLI: <code className="bg-gray-700 p-1 rounded">gcloud auth print-access-token</code>
-                </p>
-            </div>
+            <p className="text-xs text-gray-500 mt-2">
+                {generationSettings.provider === 'vertex-ai'
+                    ? '💡 Vertex AI recommended for professional fashion (intimacy 1-6)'
+                    : '💡 Flux recommended for artistic intimate photography (intimacy 7+)'}
+            </p>
         </div>
+
+        {/* Vertex AI Settings */}
+        {generationSettings.provider === 'vertex-ai' && (
+            <div className="space-y-4 p-4 bg-indigo-500/5 rounded-lg border border-indigo-500/20">
+                <div>
+                    <label htmlFor="projectId" className="font-semibold text-gray-300 block mb-2">Google Cloud Project ID</label>
+                    <input id="projectId" type="text" placeholder="e.g., my-gcp-project-123" value={generationSettings.projectId} onChange={(e) => handleSettingsChange('projectId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+                </div>
+                <div>
+                    <label htmlFor="accessToken" className="font-semibold text-gray-300 block mb-2">OAuth2 Access Token</label>
+                    <input id="accessToken" type="password" placeholder="Enter your temporary access token" value={generationSettings.accessToken} onChange={(e) => handleSettingsChange('accessToken', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+                    <p className="text-xs text-gray-500 mt-1">
+                        You can generate a temporary token using the gcloud CLI: <code className="bg-gray-700 p-1 rounded">gcloud auth print-access-token</code>
+                    </p>
+                </div>
+            </div>
+        )}
+
+        {/* Replicate Flux Settings */}
+        {generationSettings.provider === 'replicate-flux' && (
+            <div className="space-y-4 p-4 bg-purple-500/5 rounded-lg border border-purple-500/20">
+                <div>
+                    <label htmlFor="replicateApiToken" className="font-semibold text-gray-300 block mb-2">Replicate API Token</label>
+                    <input
+                        id="replicateApiToken"
+                        type="password"
+                        placeholder="Enter your Replicate API token"
+                        value={generationSettings.replicateApiToken || ''}
+                        onChange={(e) => handleSettingsChange('replicateApiToken', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        Get your API token from <a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener noreferrer" className="text-purple-400 hover:text-purple-300 underline">replicate.com/account</a>
+                    </p>
+                </div>
+                <div>
+                    <label htmlFor="fluxModel" className="font-semibold text-gray-300 block mb-2">Flux Model</label>
+                    <select
+                        id="fluxModel"
+                        value={generationSettings.fluxModel || 'black-forest-labs/flux-1.1-pro-ultra'}
+                        onChange={(e) => handleSettingsChange('fluxModel', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                    >
+                        <option value="black-forest-labs/flux-1.1-pro-ultra">FLUX 1.1 Pro Ultra (Best Quality, 4MP)</option>
+                        <option value="black-forest-labs/flux-1.1-pro">FLUX 1.1 Pro (Balanced, 6x Faster)</option>
+                        <option value="black-forest-labs/flux-dev">FLUX Dev (Cost-Effective)</option>
+                        <option value="black-forest-labs/flux-schnell">FLUX Schnell (Fastest)</option>
+                    </select>
+                    <p className="text-xs text-gray-500 mt-1">
+                        ⚙️ Auto-optimized based on intimacy level
+                    </p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="flex items-center gap-3">
+                        <input
+                            id="fluxRawMode"
+                            type="checkbox"
+                            checked={generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : true}
+                            onChange={(e) => handleSettingsChange('fluxRawMode', e.target.checked)}
+                            disabled={isLoading}
+                            className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-purple-600 focus:ring-purple-500"
+                        />
+                        <label htmlFor="fluxRawMode" className="font-semibold text-gray-300">Raw Mode (Hyper-Realistic)</label>
+                    </div>
+                    <div>
+                        <label htmlFor="fluxOutputFormat" className="font-semibold text-gray-300 block mb-2 text-sm">Output Format</label>
+                        <select
+                            id="fluxOutputFormat"
+                            value={generationSettings.fluxOutputFormat || 'jpg'}
+                            onChange={(e) => handleSettingsChange('fluxOutputFormat', e.target.value)}
+                            disabled={isLoading}
+                            className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2 text-sm text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                        >
+                            <option value="jpg">JPG (Default, smaller)</option>
+                            <option value="png">PNG (Lossless)</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label htmlFor="fluxSafetyTolerance" className="font-semibold text-gray-300 block mb-2">
+                        Safety Tolerance: {generationSettings.fluxSafetyTolerance || 4}
+                    </label>
+                    <input
+                        id="fluxSafetyTolerance"
+                        type="range"
+                        min="1"
+                        max="6"
+                        value={generationSettings.fluxSafetyTolerance || 4}
+                        onChange={(e) => handleSettingsChange('fluxSafetyTolerance', parseInt(e.target.value))}
+                        disabled={isLoading}
+                        className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer accent-purple-600"
+                    />
+                    <div className="flex justify-between text-xs text-gray-500 mt-1">
+                        <span>1 (Strict)</span>
+                        <span>6 (Permissive)</span>
+                    </div>
+                    <p className="text-xs text-gray-400 mt-1">
+                        Higher values allow more creative freedom. Recommended: 4-6 for intimate photography.
+                    </p>
+                </div>
+
+                {/* Google Weaving for Flux (Hybrid Mode) */}
+                <div className="mt-4 pt-4 border-t border-purple-500/20">
+                    <div className="flex items-center gap-3 mb-3">
+                        <input
+                            id="useGoogleForWeaving"
+                            type="checkbox"
+                            checked={generationSettings.useGoogleForWeaving || false}
+                            onChange={(e) => handleSettingsChange('useGoogleForWeaving', e.target.checked)}
+                            disabled={isLoading}
+                            className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-purple-600 focus:ring-purple-500"
+                        />
+                        <label htmlFor="useGoogleForWeaving" className="font-semibold text-gray-300">
+                            Use Google Gemini for Weaving
+                        </label>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-3">
+                        Enable this to use Google Gemini for prompt enhancement and weaving, while keeping Flux for image generation. Requires separate Google Cloud credentials.
+                    </p>
+
+                    {generationSettings.useGoogleForWeaving && (
+                        <div className="space-y-3 pl-7">
+                            <div>
+                                <label htmlFor="weavingProjectId" className="font-semibold text-gray-300 block mb-2 text-sm">
+                                    Google Cloud Project ID (for weaving)
+                                </label>
+                                <input
+                                    id="weavingProjectId"
+                                    type="text"
+                                    placeholder="e.g., my-gcp-project-123"
+                                    value={generationSettings.weavingProjectId || ''}
+                                    onChange={(e) => handleSettingsChange('weavingProjectId', e.target.value)}
+                                    disabled={isLoading}
+                                    className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2 text-sm text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="weavingAccessToken" className="font-semibold text-gray-300 block mb-2 text-sm">
+                                    OAuth2 Access Token (for weaving)
+                                </label>
+                                <input
+                                    id="weavingAccessToken"
+                                    type="password"
+                                    placeholder="Enter Google access token for Gemini"
+                                    value={generationSettings.weavingAccessToken || ''}
+                                    onChange={(e) => handleSettingsChange('weavingAccessToken', e.target.value)}
+                                    disabled={isLoading}
+                                    className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2 text-sm text-gray-200 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-colors disabled:bg-gray-800/50"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Generate token: <code className="bg-gray-700 px-1 rounded">gcloud auth print-access-token</code>
+                                    <br/>or use localStorage: <code className="bg-gray-700 px-1 rounded">localStorage.setItem("weavingToken", "YOUR_TOKEN")</code>
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        )}
 
         <div className="mt-6 pt-6 border-t border-gray-700 space-y-4">
             <IntimacyController 
@@ -636,13 +828,15 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
 
         <div className="mt-6 pt-6 border-t border-gray-700 space-y-4">
              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label htmlFor="modelId" className="font-semibold text-gray-300 block mb-2">Model Version</label>
-                    <select id="modelId" value={generationSettings.modelId} onChange={(e) => handleSettingsChange('modelId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
-                        <option value="imagen-4.0-ultra-generate-001">Ultra Quality</option>
-                        <option value="imagen-4.0-fast-generate-001">Fast Generation</option>
-                    </select>
-                </div>
+                {generationSettings.provider === 'vertex-ai' && (
+                  <div>
+                      <label htmlFor="modelId" className="font-semibold text-gray-300 block mb-2">Model Version</label>
+                      <select id="modelId" value={generationSettings.modelId} onChange={(e) => handleSettingsChange('modelId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
+                          <option value="imagen-4.0-ultra-generate-001">Ultra Quality</option>
+                          <option value="imagen-4.0-fast-generate-001">Fast Generation</option>
+                      </select>
+                  </div>
+                )}
                  <div>
                     <label htmlFor="seed" className="font-semibold text-gray-300 block mb-2">Seed</label>
                     <div className="relative">
@@ -653,31 +847,53 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
                     </div>
                 </div>
             </div>
-             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                    <label htmlFor="personGeneration" className="font-semibold text-gray-300 block mb-2">Person Generation</label>
-                    <select id="personGeneration" value={generationSettings.personGeneration} onChange={(e) => handleSettingsChange('personGeneration', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
-                        <option value="allow_all">Allow All</option>
-                        <option value="allow_adult">Allow Adults Only</option>
-                        <option value="dont_allow">Don't Allow</option>
-                    </select>
+             {generationSettings.provider === 'vertex-ai' && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                      <label htmlFor="personGeneration" className="font-semibold text-gray-300 block mb-2">Person Generation</label>
+                      <select id="personGeneration" value={generationSettings.personGeneration} onChange={(e) => handleSettingsChange('personGeneration', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
+                          <option value="allow_all">Allow All</option>
+                          <option value="allow_adult">Allow Adults Only</option>
+                          <option value="dont_allow">Don't Allow</option>
+                      </select>
+                  </div>
+                  <div>
+                      <label htmlFor="safetySetting" className="font-semibold text-gray-300 block mb-2">Safety Setting</label>
+                      <select id="safetySetting" value={generationSettings.safetySetting} onChange={(e) => handleSettingsChange('safetySetting', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
+                          <option value="block_few">Block Few</option>
+                          <option value="block_some">Block Some</option>
+                          <option value="block_most">Block Most</option>
+                      </select>
+                  </div>
+              </div>
+             )}
+             {generationSettings.provider === 'vertex-ai' && (
+              <>
+                <div className="flex items-center gap-3">
+                  <input id="addWatermark" type="checkbox" checked={generationSettings.addWatermark} onChange={(e) => handleSettingsChange('addWatermark', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
+                  <label htmlFor="addWatermark" className="font-semibold text-gray-300">Add Watermark</label>
                 </div>
-                <div>
-                    <label htmlFor="safetySetting" className="font-semibold text-gray-300 block mb-2">Safety Setting</label>
-                    <select id="safetySetting" value={generationSettings.safetySetting} onChange={(e) => handleSettingsChange('safetySetting', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
-                        <option value="block_few">Block Few</option>
-                        <option value="block_some">Block Some</option>
-                        <option value="block_most">Block Most</option>
-                    </select>
+                <div className="flex items-center gap-3">
+                  <input id="enhancePrompt" type="checkbox" checked={generationSettings.enhancePrompt} onChange={(e) => handleSettingsChange('enhancePrompt', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
+                  <label htmlFor="enhancePrompt" className="font-semibold text-gray-300">Enhance Prompt</label>
                 </div>
-            </div>
-             <div className="flex items-center gap-3">
-                <input id="addWatermark" type="checkbox" checked={generationSettings.addWatermark} onChange={(e) => handleSettingsChange('addWatermark', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
-                <label htmlFor="addWatermark" className="font-semibold text-gray-300">Add Watermark</label>
-            </div>
+              </>
+             )}
+
+            {/* Common Settings */}
             <div className="flex items-center gap-3">
-                <input id="enhancePrompt" type="checkbox" checked={generationSettings.enhancePrompt} onChange={(e) => handleSettingsChange('enhancePrompt', e.target.checked)} disabled={isLoading} className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
-                <label htmlFor="enhancePrompt" className="font-semibold text-gray-300">Enhance Prompt</label>
+              <input
+                id="reviewPromptBeforeGeneration"
+                type="checkbox"
+                checked={generationSettings.reviewPromptBeforeGeneration || false}
+                onChange={(e) => handleSettingsChange('reviewPromptBeforeGeneration', e.target.checked)}
+                disabled={isLoading}
+                className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-purple-600 focus:ring-purple-500"
+              />
+              <label htmlFor="reviewPromptBeforeGeneration" className="font-semibold text-gray-300">
+                Review Prompt Before Generation
+              </label>
+              <span className="text-xs text-gray-500">(Shows final prompt for approval)</span>
             </div>
         </div>
 

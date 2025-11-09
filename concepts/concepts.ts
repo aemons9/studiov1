@@ -1,6 +1,16 @@
 import type { PromptData } from '../types';
 import { indianModelVariants } from './subjects';
 import { generateSeductressConceptByIntimacy, intimacyLevels } from './seductressAutoSelector';
+import { seductressNoirExpanded } from './seductressNoirExpanded';
+import { corporateSeductionCollection } from './corporateSeductionCollection';
+import { seductressMaxCollection } from './seductressMaxCollection';
+import { seductressNaturalParadise } from './seductressNaturalParadise';
+import { seductressSteamRoom } from './seductressSteamRoom';
+import { superSeductressArtistConcepts } from './superSeductressArtistConcepts';
+import { artisticModeConcepts } from './artisticModeConcepts';
+import { corporateModeConcepts } from './corporateModeConcepts';
+import { experimentalModeConcepts } from './experimentalModeConcepts';
+import { platinumModeConcepts } from './platinumModeConcepts';
 
 export interface ArtisticConcept {
   name: string;
@@ -500,8 +510,227 @@ export const artisticConcepts: ArtisticConcept[] = [
   },
 
   // ============================================================================
-  // REAL CREATIONS - Iconic Photographer Recreations
-  // Based on actual famous photographs from legendary photographers
+  // SEDUCTRESS NOIR EXPANDED COLLECTION
+  // 10 additional high-intimacy artistic concepts for Indian Glamour Seductress
+  // ============================================================================
+  ...seductressNoirExpanded,
+
+  // ============================================================================
+  // CORPORATE SEDUCTION COLLECTION
+  // 20 corporate office concepts featuring power, sensuality, and artistic excellence
+  // Environments: executive office, boardroom, reception, lounge, restroom, after-hours
+  // Photographer styles: Newton, Penn, Avedon, Leibovitz, Lindbergh, Roversi
+  // ============================================================================
+  ...corporateSeductionCollection,
+
+  // ============================================================================
+  // SEDUCTRESS MAX COLLECTION
+  // 15 bold maximum intimacy concepts pushing artistic boundaries
+  // Themes: fine art nude studies, architectural body forms, intimate boudoir
+  // chiaroscuro masterpieces, goddess studies, noir luxury, urban edge
+  // dance forms, water studies, gothic romance, leather dominance
+  // Maximum artistic expression with sophisticated high-fashion photography
+  // Photographer styles: Newton, Penn, Avedon, Leibovitz, Lindbergh, Roversi
+  // ============================================================================
+  ...seductressMaxCollection,
+
+  // ============================================================================
+  // NATURAL PARADISE COLLECTION
+  // 12 concepts celebrating bombshell curves in misty forest environments
+  // Themes: forest goddess, streams, waterfalls, ancient trees, cabin retreats
+  // rain-soaked nature, mossy rocks, moonlit pools, natural curved features
+  // Environmental emphasis matching body curves with nature's organic curves
+  // Misty evening woods, private cabin paradise, natural erotic beauty
+  // Focus on large hip curves, hourglass bombshell silhouette in nature
+  // Photographer styles: Newton, Penn, Avedon, Leibovitz, Lindbergh, Roversi
+  // ============================================================================
+  ...seductressNaturalParadise,
+
+  // ============================================================================
+  // STEAM ROOM PARADISE COLLECTION
+  // 10 concepts celebrating curves in humid spa environments
+  // Themes: steam rooms, hammam, sauna, hot stone massage, Vichy shower
+  // aromatherapy steam, Moroccan baths, temperature contrasts, plunge pools
+  // Emphasis on sweaty perspiration, steam condensation, humid atmosphere
+  // Glistening skin with oils, water, and steam effects on bombshell curves
+  // Private pampering sessions, luxury spa treatments, sensory experiences
+  // Focus on wide hips, narrow waist, hourglass form in humid heat
+  // Photographer styles: Newton, Penn, Avedon, Leibovitz, Lindbergh, Roversi
+  // ============================================================================
+  ...seductressSteamRoom,
+
+  // ============================================================================
+  // SUPER-SEDUCTRESS ARTIST COLLECTION
+  // 15 concepts showcasing the NEW Indian Super-Seductress Artist variant
+  // Bi-polar range: Corporate power dominance to vulnerable erotic-muse
+  // Enhanced dramatic curves: bust 40DD", waist 26", hips 44"
+  // Artistic intelligence with role-based expression expertise
+  //
+  // INDOOR PRIVATE (8 concepts):
+  // - Private Studio Command (power dominance)
+  // - Luxury Loft Vulnerability (vulnerable erotic-muse)
+  // - Art Gallery Dominance (artistic authority power)
+  // - Private Screening Room Vulnerability (cinematic intimate)
+  // - Penthouse Suite Power (ultimate luxury dominance)
+  // - Studio Erotic-Muse Vulnerability (fine art maximum vulnerable)
+  // - Private Apartment Transition (bi-polar power-to-vulnerability)
+  // - Loft Midnight Artistic Expression (ultimate vulnerable creative soul)
+  //
+  // OUTDOOR PRIVATE (7 concepts):
+  // - Private Rooftop Urban Dominance (city goddess power)
+  // - Secret Garden Erotic-Muse (nature sanctuary vulnerability)
+  // - Secluded Forest Clearing Ultimate Vulnerability (forest goddess)
+  // - Private Beach Power (ocean commanding dominance)
+  // - Hidden Terrace Artistic Expression (outdoor vulnerable)
+  // - Private Garden Power Balance (integrated bi-polar equilibrium)
+  // - Secluded Natural Pool Goddess (ultimate water vulnerable erotic-muse)
+  //
+  // Showcases complete artistic range from corporate dominance to pure vulnerability
+  // Uses advanced prompting framework, wardrobe selectors, quality presets
+  // Photographer styles: Newton, Penn, Avedon, Leibovitz, Lindbergh, Roversi
+  // ============================================================================
+  ...superSeductressArtistConcepts,
+
+  // ============================================================================
+  // ARTISTIC MODE CONCEPTS (12 concepts)
+  // Pre-built concepts from Artistic Mode featuring Master Photographer Styles
+  //
+  // HELMUT NEWTON (3 concepts):
+  // - Newton - Modern Power Icon
+  // - Newton - Sensual Sophisticate
+  // - Newton - Bold Contemporary
+  //
+  // IRVING PENN (3 concepts):
+  // - Penn - Ethereal Classical Beauty
+  // - Penn - Editorial Chameleon
+  // - Penn - Art House Icon
+  //
+  // PAOLO ROVERSI (3 concepts):
+  // - Roversi - Ethereal Romance
+  // - Roversi - Sensual Vulnerability
+  // - Roversi - Timeless Grace
+  //
+  // HERB RITTS (3 concepts):
+  // - Ritts - Sculptural Power
+  // - Ritts - Natural Elegance
+  // - Ritts - Elemental Beauty
+  //
+  // Covers all 4 master photographer styles with Indian model archetypes
+  // ============================================================================
+  ...artisticModeConcepts,
+
+  // ============================================================================
+  // CORPORATE MODE CONCEPTS (14 concepts)
+  // Pre-built concepts from Corporate Mode featuring Executive Roles & Environments
+  //
+  // CHIEF EXECUTIVE (2 concepts):
+  // - CEO - MNC Power Office
+  // - CEO - Hotel Chain Luxury
+  //
+  // BOARD MEMBER (2 concepts):
+  // - Board Member - Real Estate Power
+  // - Board Member - Entertainment Empire
+  //
+  // PERSONAL SECRETARY (2 concepts):
+  // - Secretary - Corporate MNC
+  // - Secretary - Government Office
+  //
+  // HR EXECUTIVE (2 concepts):
+  // - HR Executive - Corporate MNC
+  // - HR Executive - Hotel Chain
+  //
+  // DESIGN EXECUTIVE (2 concepts):
+  // - Design Executive - Entertainment
+  // - Design Executive - Nightclub Chain
+  //
+  // GOVERNMENT OFFICIAL (2 concepts):
+  // - Government Official - Ministry Office
+  // - Government - Head of State Office
+  //
+  // LAWYER (2 concepts):
+  // - Lawyer - Corporate Law Firm
+  // - Lawyer - Government Legal Office
+  //
+  // Covers all 7 corporate roles with diverse office environments and power dynamics
+  // ============================================================================
+  ...corporateModeConcepts,
+
+  // ============================================================================
+  // EXPERIMENTAL MODE CONCEPTS (10 concepts)
+  // Curated node combinations organized by theme and WARNING LEVEL
+  // Pre-built concepts from Experimental Mode with explicit boundary ratings
+  //
+  // SAFE TIER (Boundary 1-8) - Professional Editorial (3 concepts):
+  // - EXP-SAFE: Classic Editorial Portrait
+  // - EXP-SAFE: Corporate Power Portrait
+  // - EXP-SAFE: Natural Beauty Editorial
+  //
+  // MODERATE TIER (Boundary 9-12) - High Fashion & Seductive (3 concepts):
+  // - EXP-MOD: High Fashion Seduction
+  // - EXP-MOD: Confident Allure Portrait
+  // - EXP-MOD: Fashion Forward Sensuality
+  //
+  // ARTISTIC TIER (Boundary 13-15) - Artistic Erotic & Boudoir (3 concepts):
+  // - EXP-ART: Intimate Boudoir Artistry
+  // - EXP-ART: Artistic Erotic Portrait
+  // - EXP-ART: Sensual Art Photography
+  //
+  // PREMIUM TIER (Boundary 16+) - Maximum Artistic Expression (3 concepts):
+  // ⚠️ WARNING: Highest intimacy/boundary levels - Museum-quality fine art only
+  // - EXP-PREMIUM: Maximum Artistic Expression
+  // - EXP-PREMIUM: Avant-Garde Erotic Art
+  // - EXP-PREMIUM: Fine Art Erotic Mastery
+  //
+  // Each concept includes explicit warning levels and themed organization
+  // Covers complete range from safe editorial to premium artistic expression
+  // ============================================================================
+  ...experimentalModeConcepts,
+
+  // ============================================================================
+  // PLATINUM COLLECTION MODE CONCEPTS (10 concepts)
+  // Next-level premium Indian model variants with evening/midnight focus
+  // Complete ecosystems: wardrobe, photographer, environment, intimacy dynamics
+  //
+  // VARIANTS (10 concepts):
+  // - PLATINUM: Midnight Seductress (Classic Erotic Actress - Intimacy 9/10)
+  // - PLATINUM: Fitness Bombshell (Athletic Glamour - Lower-focus curves - Intimacy 8/10)
+  // - PLATINUM: Graphic Editorial Queen (Nude Art Expert - Maximum curves - Intimacy 10/10)
+  // - PLATINUM: Private Boudoir Enchantress (Intimate Specialist - Intimacy 9/10)
+  // - PLATINUM: Luxury Lounge Goddess (Modern Lifestyle - Intimacy 8/10)
+  // - PLATINUM: Spa & Tub Temptress (Wellness Seduction - Upper-focus - Intimacy 9/10)
+  // - PLATINUM: Rooftop Midnight Muse (Urban Seduction - Intimacy 8/10)
+  // - PLATINUM: Hotel Suite Vixen (Luxury Intimacy - Maximum curves - Intimacy 10/10)
+  // - PLATINUM: Underground Club Siren (Nightlife Seduction - Upper-focus - Intimacy 9/10)
+  // - PLATINUM: Art Studio Provocateur (Fine Art Nude - Intimacy 10/10)
+  //
+  // Each variant features:
+  // - Complete physical traits with curve emphasis (balanced/upper/lower/maximum)
+  // - Personal photographer with optimized Imagen/Flux settings
+  // - Private environment (bedroom/lounge/spa/rooftop/hotel/club/studio)
+  // - Evening to midnight seductive settings
+  // - Bidirectional JSON transfer capability
+  // - 5-7 piece wardrobe collection per variant
+  //
+  // Optimized for both Imagen 4 and Flux 1.1 Pro models
+  // Intimacy range: 8-10/10 | Time focus: Evening/Midnight/Late-Night
+  // ============================================================================
+  ...platinumModeConcepts,
+
+  // ============================================================================
+  // REAL CREATIONS - Iconic Photographer Portfolio (6 concepts)
+  // Based on ACTUAL famous photographs from legendary photographers
+  // Each concept recreates a real shot from museums, galleries, photography books
+  //
+  // PHOTOGRAPHERS FEATURED:
+  // - Helmut Newton: "Big Nudes" series (1980s, MoMA collection)
+  // - Nobuyoshi Araki: Tokyo intimacy series (1990s)
+  // - Paolo Roversi: Polaroid nude studies (1990s-2000s, Vogue Italia)
+  // - Peter Lindbergh: B&W supermodel era (1990s, Harper's Bazaar)
+  // - Annie Leibovitz: Celebrity portrait series (2000s, Vanity Fair)
+  // - Herb Ritts: Desert sculpture series (1988, Getty Museum)
+  //
+  // Use these as reference material for recreating iconic photographic styles
+  // Museum quality, gallery standard, published in major fashion magazines
   // ============================================================================
 
   {
@@ -512,108 +741,107 @@ export const artisticConcepts: ArtisticConcept[] = [
         "variant": indianModelVariants.find(v => v.name.includes("Mannequin"))!.value,
         "pose": "Architectural Power Stance: Standing tall with weight shifted to one hip, one arm raised overhead, the other at side. Strong, unwavering gaze. Exactly as Newton photographed for his museum exhibitions.",
         "hair_color": "jet black",
-        "hair_style": "a severe, slicked-back style, creating a sharp and modern look.",
-        "skin_finish": "Natural Glow",
-        "hand_and_nail_details": "Graceful & Anatomically Correct.",
+        "hair_style": "sleek, pulled back tight to emphasize sculptural bone structure.",
+        "skin_finish": "Natural matte - emphasizing form over texture",
+        "hand_and_nail_details": "Strong, architectural hand placement. Nails neat.",
         "tattoos": "none", "piercings": "none", "body_art": "none",
-        "nail_art": "Natural manicure, clean and simple",
-        "high_heels": "Sharp Architectural Heels (visible)"
+        "nail_art": "Simple, classic", "high_heels": "Sharp architectural stilettos (visible)"
       },
       "wardrobe": "Minimal high-waisted black foundation piece. Rest of form unadorned. Sharp architectural high heels. Exactly as Newton composed his celebrated gallery pieces.",
       "environment": "Empty white studio with seamless paper backdrop, creating vast negative space exactly as Newton's museum prints.",
       "lighting": "Hard, directional studio strobe from high side angle creating dramatic, sharp shadows. Classic Newton chiaroscuro - 60% of image is shadow, 40% is brilliant highlight.",
-      "camera": { "focal_length": "35mm", "aperture": "f/11", "distance": "4 m", "angle": "Eye-level, perfectly perpendicular.", "framing": "Full body with significant negative space above head, Newton's signature composition." },
-      "color_grade": "High-Contrast B&W with deep, crushed blacks and brilliant whites. Classic Newton aesthetic.",
-      "style": "Helmut Newton - Big Nudes Series (1980-1986). Museum quality fine art photography.",
-      "quality": "Shot on Hasselblad 503CW medium format film. Razor-sharp detail, Newton's equipment exactly.",
-      "figure_and_form": "Minimalist Nude (Shadow Play): The form is sculpted entirely by light and shadow, creating architectural shapes with the body.",
+      "camera": { "focal_length": "35mm wide angle", "aperture": "f/8", "distance": "3 m", "angle": "Slightly low angle for monumentality, exactly as Newton shot.", "framing": "Full body with generous negative space top and sides - gallery print format." },
+      "color_grade": "High-Contrast B&W exactly matching Newton's exhibition prints. Deep blacks, brilliant whites.",
+      "style": "Helmut Newton - 'Big Nudes' Series (1980-1986). Museum of Modern Art permanent collection.",
+      "quality": "Shot on medium format film. Museum print quality. Newton's technical mastery.",
+      "figure_and_form": "Sculptural, powerful, commanding. Body as architectural element - Newton's revolutionary approach.",
       "skin_micro_details": defaultSkinMicroDetails,
-      "fabric_physics": "Minimal fabric - only foundation piece showing realistic tension and fit.",
-      "material_properties": "Matte black fabric contrasting with glossy patent leather heels and natural skin texture."
+      "fabric_physics": "Minimal fabric - high-waisted foundation piece with clean lines.",
+      "material_properties": "Matte black fabric contrasting with skin, architectural high heels creating vertical lines."
     }
   },
 
   {
     name: 'Real: Araki Tokyo Intimacy (1990s)',
     data: {
-      "shot": "Intimate medium shot (9:16), raw and honest. Based on Nobuyoshi Araki's Tokyo apartment nude studies.",
+      "shot": "Intimate documentary portrait (4:5), raw and honest. Based on Nobuyoshi Araki's Tokyo apartment photography series.",
       "subject": {
-        "variant": indianModelVariants.find(v => v.name.includes("Natural Allure"))!.value,
-        "pose": "Natural Recline: Lying on side on unmade bed, one arm supporting head, natural relaxed posture. Vulnerable yet confident. Araki's documentary intimacy style.",
-        "hair_color": "dark",
-        "hair_style": "natural, slightly messy, as if just woken up. Authentic and unstaged.",
-        "skin_finish": "Natural Glow",
-        "hand_and_nail_details": "Natural & Unadorned.",
+        "variant": indianModelVariants.find(v => v.name.includes("Seductress"))!.value,
+        "pose": "Natural Repose: Sitting or reclining naturally in private space, unposed authenticity. Exactly as Araki photographed intimate moments.",
+        "hair_color": "jet black",
+        "hair_style": "loose, natural, slightly disheveled - authentic intimacy.",
+        "skin_finish": "Natural, authentic",
+        "hand_and_nail_details": "Natural, relaxed positioning.",
         "tattoos": "none", "piercings": "none", "body_art": "none",
-        "nail_art": "Natural, no polish", "high_heels": "not visible"
+        "nail_art": "Natural", "high_heels": "not visible (barefoot)"
       },
-      "wardrobe": "Single oversized men's white dress shirt, unbuttoned and falling off shoulders. Exactly as Araki photographed in his legendary Tokyo series.",
-      "environment": "Messy bedroom with unmade white sheets, personal items scattered. Natural, lived-in intimacy exactly as Araki's apartment photography.",
-      "lighting": "Soft, natural window light creating gentle wrap-around illumination. No artificial lights - pure daylight as Araki shoots.",
-      "camera": { "focal_length": "35mm", "aperture": "f/2.0", "distance": "2 m", "angle": "Slightly high angle, as if photographer standing beside bed.", "framing": "Medium shot from mid-torso up, intimate framing." },
-      "color_grade": "Natural color with slight warmth, authentic skin tones. Araki's realistic color palette.",
-      "style": "Nobuyoshi Araki - Tokyo Nude Studies. Raw documentary intimacy, published in photography books worldwide.",
-      "quality": "Shot on 35mm film (Kodak Portra 400). Visible fine grain, authentic film aesthetic exactly as Araki shoots.",
-      "figure_and_form": "Natural form with emphasis on authentic, unposed vulnerability. The shirt creates soft shapes that reveal and conceal.",
+      "wardrobe": "Single oversized men's white dress shirt, unbuttoned and falling off shoulders. Minimal coverage creating intimate vulnerability exactly as Araki photographed.",
+      "environment": "Simple Tokyo apartment interior with natural clutter - books, unmade bed, morning light through window. Araki's documentary aesthetic.",
+      "lighting": "Soft natural window light, slightly underexposed creating intimate mood. Araki's signature available light approach.",
+      "camera": { "focal_length": "50mm", "aperture": "f/2.8", "distance": "1.5 m", "angle": "Eye-level, intimate documentary perspective.", "framing": "Medium shot emphasizing intimacy and authenticity - Araki's approach." },
+      "color_grade": "Slightly desaturated color with warm shadows. Araki's film aesthetic - not perfect, beautifully imperfect.",
+      "style": "Nobuyoshi Araki - Tokyo Nude Series (1990s). Highly regarded in fine art photography circles.",
+      "quality": "Shot on 35mm film with slight grain. Araki's raw, unpolished aesthetic. Authentic imperfection.",
+      "figure_and_form": "Natural, authentic, vulnerable. Emphasis on emotional intimacy over physical display.",
       "skin_micro_details": defaultSkinMicroDetails,
-      "fabric_physics": "The oversized cotton shirt drapes naturally with realistic wrinkles and folds, authentic textile texture.",
-      "material_properties": "Crisp white cotton with matte finish, soft absorbent quality contrasting with skin."
+      "fabric_physics": "Men's white shirt draping loosely, creating natural folds and revealing contours.",
+      "material_properties": "Cotton shirt with natural wrinkles, soft and lived-in texture."
     }
   },
 
   {
     name: 'Real: Roversi Polaroid Dream (1990s)',
     data: {
-      "shot": "Dreamy portrait (4:5), soft and romantic. Recreation of Paolo Roversi's famous 8x10 Polaroid nude series.",
+      "shot": "Dreamlike portrait (4:5), soft and ethereal. Recreation of Paolo Roversi's famous Polaroid nude studies for Vogue Italia.",
       "subject": {
-        "variant": indianModelVariants.find(v => v.name.includes("Cinematic"))!.value,
-        "pose": "Ethereal Standing: Standing with subtle S-curve, one hand gently touching face, eyes closed or looking down. Romantic, contemplative. Roversi's signature delicacy.",
-        "hair_color": "dark",
-        "hair_style": "long, loose, slightly windblown creating soft, flowing lines around face.",
-        "skin_finish": "Dewy & Luminous",
-        "hand_and_nail_details": "Graceful & Delicate.",
+        "variant": indianModelVariants.find(v => v.name.includes("Seductress"))!.value,
+        "pose": "Gentle Turn: Turning away from camera with graceful movement, creating soft shapes. Exactly as Roversi composed his Polaroid studies.",
+        "hair_color": "jet black",
+        "hair_style": "loose, flowing, creating soft romantic shapes.",
+        "skin_finish": "Soft, luminous glow",
+        "hand_and_nail_details": "Graceful, delicate positioning.",
         "tattoos": "none", "piercings": "none", "body_art": "none",
         "nail_art": "Natural", "high_heels": "not visible"
       },
-      "wardrobe": "Delicate gossamer silk draped fabric in soft beige or white, barely covering form. Ethereal and romantic, exactly as Roversi composed his Polaroid studies.",
-      "environment": "Minimalist white studio with soft, diffused natural light. Timeless, gallery-quality setting exactly as Roversi's exhibition prints.",
-      "lighting": "Extremely soft, diffused overhead light creating gentle shadows. Dreamlike, low-contrast illumination - Roversi's painterly quality achieved through overexposed Polaroid technique.",
-      "camera": { "focal_length": "150mm", "aperture": "f/4.5", "distance": "3 m", "angle": "Slightly high angle, creating delicate perspective.", "framing": "Three-quarter portrait, soft edges bleeding into white background." },
-      "color_grade": "Soft, desaturated with creamy highlights and pastel undertones. Roversi's signature Polaroid color palette.",
-      "style": "Paolo Roversi - 8x10 Polaroid Series. Exhibited at Gagosian Gallery and published in Vogue Italia.",
-      "quality": "Shot to emulate 8x10 Polaroid film - soft focus, dreamy grain, ethereal quality. Roversi's legendary technique.",
-      "figure_and_form": "Soft, romantic forms created by flowing fabric. Emphasis on delicacy and femininity through light and movement.",
-      "skin_micro_details": "Softly rendered with diffused detail, creating painterly quality rather than hyper-realism. Roversi's aesthetic.",
-      "fabric_physics": "Gossamer silk appears weightless, floating and flowing with ethereal movement.",
-      "material_properties": "Translucent silk catching and diffusing light, creating soft glowing quality."
+      "wardrobe": "Delicate gossamer silk draped fabric, barely covering form. Ethereal and romantic, creating soft shapes that conceal and reveal. Exactly as Roversi shot on 8x10 Polaroid.",
+      "environment": "Minimal studio with soft gray backdrop, creating dreamlike atmosphere - Roversi's signature Vogue Italia work.",
+      "lighting": "Extremely soft, diffused studio light creating painterly quality with almost no shadows. Roversi's signature romantic lighting.",
+      "camera": { "focal_length": "150mm", "aperture": "f/2.8", "distance": "3 m", "angle": "Slightly elevated, creating graceful perspective.", "framing": "Tight to medium shot with soft focus edges - Polaroid aesthetic." },
+      "color_grade": "Soft, desaturated color with pastel quality. Slight overexposure creating Roversi's signature dreamlike glow.",
+      "style": "Paolo Roversi - Polaroid Nude Series (1990s-2000s). Shot for Vogue Italia, exhibited worldwide.",
+      "quality": "8x10 Polaroid film aesthetic - soft focus, pastel colors, painterly quality. Roversi's unique approach.",
+      "figure_and_form": "Soft, ethereal, romantic. Form suggested rather than explicit - Roversi's artistic restraint.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Gossamer silk floating and draping, creating romantic shapes and soft concealment.",
+      "material_properties": "Sheer silk with translucent quality, catching light beautifully."
     }
   },
 
   {
-    name: 'Real: Lindbergh Supermodel (1990)',
+    name: 'Real: Lindbergh Supermodel B&W (1990s)',
     data: {
-      "shot": "Full body editorial (9:16), raw and powerful. Based on Peter Lindbergh's iconic supermodel photography.",
+      "shot": "Powerful black and white portrait (4:5), raw beauty. Based on Peter Lindbergh's iconic supermodel photography for Vogue.",
       "subject": {
-        "variant": indianModelVariants.find(v => v.name.includes("Fitness"))!.value,
-        "pose": "Natural Standing: Simple, powerful stance with one hip cocked, hands in pockets or at sides. Confident, unforced. Lindbergh's anti-pose aesthetic.",
-        "hair_color": "dark",
-        "hair_style": "natural, slightly windswept or wet-looking. Minimal styling - Lindbergh's signature rawness.",
-        "skin_finish": "Natural with minimal retouching",
-        "hand_and_nail_details": "Natural, unpolished.",
+        "variant": indianModelVariants.find(v => v.name.includes("Mannequin"))!.value,
+        "pose": "Confident Simplicity: Standing or seated with natural confidence, direct but not aggressive gaze. Exactly as Lindbergh photographed the original supermodels.",
+        "hair_color": "jet black",
+        "hair_style": "natural, slightly windswept, minimal styling - raw authenticity.",
+        "skin_finish": "Natural, unretouched beauty",
+        "hand_and_nail_details": "Natural, unposed.",
         "tattoos": "none", "piercings": "none", "body_art": "none",
-        "nail_art": "Natural, no polish", "high_heels": "not visible or simple flat boots"
+        "nail_art": "Natural", "high_heels": "not visible"
       },
-      "wardrobe": "Simple white cotton dress shirt worn loosely, or minimal black architectural foundation garments. Focus on natural beauty over styling, exactly as Lindbergh shot the original supermodels.",
-      "environment": "Industrial warehouse or beach location with natural textures. Raw, unglamorous settings - Lindbergh's revolutionary anti-fashion approach.",
-      "lighting": "Natural, diffused daylight. No artificial glamour lighting - just honest, beautiful natural light exactly as Lindbergh pioneered.",
-      "camera": { "focal_length": "85mm", "aperture": "f/5.6", "distance": "4 m", "angle": "Eye-level, honest and direct.", "framing": "Full body with environmental context, editorial composition." },
-      "color_grade": "Black and white with natural, unretouched skin tones. Lindbergh's signature monochrome aesthetic.",
-      "style": "Peter Lindbergh - Supermodel Era (1990s). Published in Vogue, Harper's Bazaar. Revolutionized fashion photography.",
-      "quality": "Shot on medium format film. Sharp but natural, emphasizing authenticity over perfection. Lindbergh's philosophy exactly.",
-      "figure_and_form": "Natural, athletic form celebrated without artifice. Lindbergh's respect for natural beauty.",
-      "skin_micro_details": "Minimal retouching - visible pores, natural skin texture. Revolutionary for fashion photography.",
-      "fabric_physics": "Simple cotton or linen draping naturally with authentic weight and movement.",
-      "material_properties": "Matte natural fabrics - cotton, linen, simple foundation pieces without gloss or artifice."
+      "wardrobe": "Simple white cotton dress shirt worn loosely, or minimal black architectural foundation garments. Focus on raw, unretouched beauty exactly as Lindbergh shot.",
+      "environment": "Simple neutral background - gray seamless or location with minimal distraction. Lindbergh's Harper's Bazaar standard.",
+      "lighting": "Natural, flattering but honest light. Soft shadows that enhance without glamorizing. Lindbergh's signature approach to beauty.",
+      "camera": { "focal_length": "85mm", "aperture": "f/4.0", "distance": "2 m", "angle": "Eye-level, honest and direct.", "framing": "Bust to full body with breathing room - editorial standard." },
+      "color_grade": "Rich B&W with full tonal range. Natural contrast, not overly dramatic. Lindbergh's signature.",
+      "style": "Peter Lindbergh - Supermodel Era (1990s). Shot for Vogue, Harper's Bazaar. Defined the 90s aesthetic.",
+      "quality": "Shot on medium format B&W film. Sharp but not overly clinical. Lindbergh's perfect balance.",
+      "figure_and_form": "Natural, powerful, authentic. Celebration of real beauty without retouching.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Cotton shirt or simple garments draping naturally, unstaged.",
+      "material_properties": "Natural fabrics - cotton, linen - with authentic texture and weight."
     }
   },
 

@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { fluxPromptLibrary, FluxPromptTemplate } from '../concepts/fluxPromptLibrary';
+import { PromptData } from '../types';
 
 interface FluxPromptLibrarySelectorProps {
   onSelectPrompt: (prompt: FluxPromptTemplate) => void;
+  onPopulateFields: (data: PromptData) => void;
 }
 
 const CATEGORY_INFO = {
@@ -13,9 +15,11 @@ const CATEGORY_INFO = {
   creative: { label: 'Creative Industry', icon: '🎬', color: 'orange' }
 };
 
-const FluxPromptLibrarySelector: React.FC<FluxPromptLibrarySelectorProps> = ({ onSelectPrompt }) => {
+const FluxPromptLibrarySelector: React.FC<FluxPromptLibrarySelectorProps> = ({ onSelectPrompt, onPopulateFields }) => {
   const [selectedCategory, setSelectedCategory] = useState<FluxPromptTemplate['category'] | 'all'>('all');
   const [expandedPromptId, setExpandedPromptId] = useState<string | null>(null);
+  const [generatedVariants, setGeneratedVariants] = useState<Map<string, FluxPromptTemplate[]>>(new Map());
+  const [showingVariantsFor, setShowingVariantsFor] = useState<string | null>(null);
 
   const filteredPrompts = selectedCategory === 'all'
     ? fluxPromptLibrary
@@ -42,6 +46,31 @@ const FluxPromptLibrarySelector: React.FC<FluxPromptLibrarySelectorProps> = ({ o
   const truncatePrompt = (prompt: string, maxLength: number = 150) => {
     if (prompt.length <= maxLength) return prompt;
     return prompt.substring(0, maxLength) + '...';
+  };
+
+  const handlePopulateFields = async (template: FluxPromptTemplate) => {
+    const { parseFluxPromptToData } = await import('../services/promptParser');
+    const promptData = parseFluxPromptToData(template.prompt);
+    onPopulateFields(promptData);
+    console.log('📋 Populated JSON fields from Flux prompt:', template.name);
+  };
+
+  const handleGenerateVariants = async (template: FluxPromptTemplate) => {
+    const { generateMultipleVariants } = await import('../services/variantGenerator');
+    const variants = generateMultipleVariants(template, 3);
+
+    setGeneratedVariants(prev => {
+      const newMap = new Map(prev);
+      newMap.set(template.id, variants);
+      return newMap;
+    });
+
+    setShowingVariantsFor(template.id);
+    console.log(`🎲 Generated ${variants.length} variants for:`, template.name);
+  };
+
+  const handleCloseVariants = () => {
+    setShowingVariantsFor(null);
   };
 
   return (
@@ -127,13 +156,70 @@ const FluxPromptLibrarySelector: React.FC<FluxPromptLibrarySelectorProps> = ({ o
                   </button>
                 </div>
 
-                <button
-                  onClick={() => onSelectPrompt(prompt)}
-                  className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold rounded-lg transition-colors flex-shrink-0"
-                >
-                  Use This
-                </button>
+                <div className="flex flex-col gap-2">
+                  <button
+                    onClick={() => onSelectPrompt(prompt)}
+                    className="px-4 py-2 bg-cyan-600 hover:bg-cyan-500 text-white text-sm font-semibold rounded-lg transition-colors"
+                  >
+                    Use This
+                  </button>
+                  <button
+                    onClick={() => handlePopulateFields(prompt)}
+                    className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-semibold rounded-lg transition-colors"
+                  >
+                    📋 Populate
+                  </button>
+                  <button
+                    onClick={() => handleGenerateVariants(prompt)}
+                    className="px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white text-sm font-semibold rounded-lg transition-colors"
+                  >
+                    🎲 Variants
+                  </button>
+                </div>
               </div>
+
+              {/* Show variants if generated */}
+              {showingVariantsFor === prompt.id && generatedVariants.get(prompt.id) && (
+                <div className="mt-3 pt-3 border-t border-gray-700">
+                  <div className="flex items-center justify-between mb-2">
+                    <h5 className="text-sm font-semibold text-purple-300">
+                      🎲 Generated Variants ({generatedVariants.get(prompt.id)!.length})
+                    </h5>
+                    <button
+                      onClick={handleCloseVariants}
+                      className="text-xs text-gray-400 hover:text-gray-300"
+                    >
+                      ✕ Close
+                    </button>
+                  </div>
+                  <div className="space-y-2">
+                    {generatedVariants.get(prompt.id)!.map((variant, idx) => (
+                      <div key={variant.id} className="bg-gray-800/50 p-2 rounded border border-purple-500/30">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="text-xs text-gray-300 font-semibold">Variant {idx + 1}</span>
+                          <div className="flex gap-2">
+                            <button
+                              onClick={() => onSelectPrompt(variant)}
+                              className="px-3 py-1 bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-semibold rounded transition-colors"
+                            >
+                              Use
+                            </button>
+                            <button
+                              onClick={() => handlePopulateFields(variant)}
+                              className="px-3 py-1 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded transition-colors"
+                            >
+                              Populate
+                            </button>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1 font-mono line-clamp-2">
+                          {truncatePrompt(variant.prompt, 100)}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           );
         })}

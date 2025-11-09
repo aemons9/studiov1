@@ -705,6 +705,21 @@ const App: React.FC = () => {
     }, 100);
   };
 
+  const handlePopulateFields = (data: PromptData) => {
+    console.log('📋 Populating JSON fields with structured data');
+
+    // Switch to JSON mode to show the populated fields
+    setPromptMode('json');
+
+    // Set the prompt data
+    setPromptData(data);
+
+    // Mark as custom concept since it's populated
+    setActiveConcept('custom');
+
+    console.log('✅ Fields populated successfully');
+  };
+
   const handleExperimentalGenerate = (selectedNodes: string[], levels: CalculatedLevels) => {
     // Convert node configuration to PromptData
     const configuredPrompt = mapNodesToPromptData(selectedNodes, levels, promptData);
@@ -1133,11 +1148,18 @@ const App: React.FC = () => {
             />
 
             <div className="mt-6">
-              <FluxPromptLibrarySelector onSelectPrompt={handleSelectFluxPrompt} />
+              <FluxPromptLibrarySelector
+                onSelectPrompt={handleSelectFluxPrompt}
+                onPopulateFields={handlePopulateFields}
+              />
             </div>
 
             <div className="mt-6">
-              <QuickCorporateGenerator onGenerate={handleQuickCorporateGenerate} isLoading={isLoading} />
+              <QuickCorporateGenerator
+                onGenerate={handleQuickCorporateGenerate}
+                onPopulateFields={handlePopulateFields}
+                isLoading={isLoading}
+              />
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">

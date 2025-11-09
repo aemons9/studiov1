@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { SuccessPromptEngine, CorporatePowerTemplate } from '../services/successTemplateEngine';
 import { INDIAN_CORPORATE_VARIANTS, IndianCorporateVariant } from '../models/indianCorporateVariants';
+import { PromptData } from '../types';
 
 interface QuickCorporateGeneratorProps {
   onGenerate: (prompt: string, settings: { aspectRatio: '4:5' | '9:16' | '16:9' | '1:1', intimacyLevel: number, safetyTolerance: number }) => void;
+  onPopulateFields: (data: PromptData) => void;
   isLoading: boolean;
 }
 
@@ -35,7 +37,7 @@ const WARDROBES = [
   'Premium tailored foundation with continuous draping, executive elegance'
 ];
 
-export const QuickCorporateGenerator: React.FC<QuickCorporateGeneratorProps> = ({ onGenerate, isLoading }) => {
+export const QuickCorporateGenerator: React.FC<QuickCorporateGeneratorProps> = ({ onGenerate, onPopulateFields, isLoading }) => {
   const [selectedVariant, setSelectedVariant] = useState<IndianCorporateVariant>(INDIAN_CORPORATE_VARIANTS[0]);
   const [intimacyLevel, setIntimacyLevel] = useState<number>(7);
   const [powerDynamic, setPowerDynamic] = useState<'dominant' | 'submissive' | 'balanced'>('submissive');
@@ -87,6 +89,24 @@ export const QuickCorporateGenerator: React.FC<QuickCorporateGeneratorProps> = (
     };
 
     return SuccessPromptEngine.generateCorporatePowerPrompt(customTemplate);
+  };
+
+  const handleMigrate = async () => {
+    const { parseCorporateTemplateToData } = await import('../services/promptParser');
+
+    const promptData = parseCorporateTemplateToData(
+      selectedVariant.name,
+      intimacyLevel,
+      powerDynamic,
+      selectedPose,
+      selectedEnvironment,
+      selectedWardrobe,
+      selectedVariant.measurements,
+      selectedVariant.height
+    );
+
+    onPopulateFields(promptData);
+    console.log('🔄 Migrated Corporate Generator config to JSON fields');
   };
 
   const getIntimacyColor = (level: number) => {
@@ -249,6 +269,14 @@ export const QuickCorporateGenerator: React.FC<QuickCorporateGeneratorProps> = (
           className="flex-1 py-3 px-6 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 disabled:from-gray-700 disabled:to-gray-700 text-white font-bold rounded-lg shadow-lg transition-all transform hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed"
         >
           {isLoading ? '⏳ Generating...' : '⚡ Generate Now'}
+        </button>
+
+        <button
+          onClick={handleMigrate}
+          disabled={isLoading}
+          className="py-3 px-6 bg-emerald-600 hover:bg-emerald-500 disabled:bg-gray-800 text-white font-semibold rounded-lg transition-all"
+        >
+          🔄 Migrate
         </button>
 
         <button

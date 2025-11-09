@@ -916,6 +916,14 @@ export const artisticConcepts: ArtisticConcept[] = [
     data: AUTO_CONCEPTS['flux-editorial']
   },
   {
+    name: '🖼️ Imagen 4: Corporate Power',
+    data: AUTO_CONCEPTS['imagen-corporate']
+  },
+  {
+    name: '🎭 Imagen 4: Artistic Studio',
+    data: AUTO_CONCEPTS['imagen-artistic']
+  },
+  {
     name: '💼 Corporate: Executive Curves',
     data: AUTO_CONCEPTS['corporate-executive']
   },

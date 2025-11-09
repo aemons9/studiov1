@@ -729,14 +729,22 @@ const App: React.FC = () => {
     }, 100);
   };
 
-  const handlePopulateFields = (data: PromptData) => {
+  const handlePopulateFields = async (data: PromptData) => {
     console.log('📋 Populating JSON fields with structured data');
+
+    // If using Imagen (vertex-ai), optimize the prompt data for Imagen 4
+    let finalData = data;
+    if (generationSettings.provider === 'vertex-ai') {
+      const { optimizePromptDataForImagen } = await import('./services/imagenOptimizer');
+      finalData = optimizePromptDataForImagen(data);
+      console.log('🖼️ Applied Imagen 4 optimizations to populated fields');
+    }
 
     // Switch to JSON mode to show the populated fields
     setPromptMode('json');
 
     // Set the prompt data
-    setPromptData(data);
+    setPromptData(finalData);
 
     // Mark as custom concept since it's populated
     setActiveConcept('custom');

@@ -497,5 +497,179 @@ export const artisticConcepts: ArtisticConcept[] = [
       indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
       "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background."
     ) as PromptData
+  },
+
+  // ============================================================================
+  // REAL CREATIONS - Iconic Photographer Recreations
+  // Based on actual famous photographs from legendary photographers
+  // ============================================================================
+
+  {
+    name: 'Real: Newton Big Nudes (1980)',
+    data: {
+      "shot": "Full body portrait (9:16), stark and powerful. Recreation of Helmut Newton's iconic 'Big Nudes' series exhibited at museums worldwide.",
+      "subject": {
+        "variant": indianModelVariants.find(v => v.name.includes("Mannequin"))!.value,
+        "pose": "Architectural Power Stance: Standing tall with weight shifted to one hip, one arm raised overhead, the other at side. Strong, unwavering gaze. Exactly as Newton photographed for his museum exhibitions.",
+        "hair_color": "jet black",
+        "hair_style": "a severe, slicked-back style, creating a sharp and modern look.",
+        "skin_finish": "Natural Glow",
+        "hand_and_nail_details": "Graceful & Anatomically Correct.",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Natural manicure, clean and simple",
+        "high_heels": "Sharp Architectural Heels (visible)"
+      },
+      "wardrobe": "Minimal high-waisted black foundation piece. Rest of form unadorned. Sharp architectural high heels. Exactly as Newton composed his celebrated gallery pieces.",
+      "environment": "Empty white studio with seamless paper backdrop, creating vast negative space exactly as Newton's museum prints.",
+      "lighting": "Hard, directional studio strobe from high side angle creating dramatic, sharp shadows. Classic Newton chiaroscuro - 60% of image is shadow, 40% is brilliant highlight.",
+      "camera": { "focal_length": "35mm", "aperture": "f/11", "distance": "4 m", "angle": "Eye-level, perfectly perpendicular.", "framing": "Full body with significant negative space above head, Newton's signature composition." },
+      "color_grade": "High-Contrast B&W with deep, crushed blacks and brilliant whites. Classic Newton aesthetic.",
+      "style": "Helmut Newton - Big Nudes Series (1980-1986). Museum quality fine art photography.",
+      "quality": "Shot on Hasselblad 503CW medium format film. Razor-sharp detail, Newton's equipment exactly.",
+      "figure_and_form": "Minimalist Nude (Shadow Play): The form is sculpted entirely by light and shadow, creating architectural shapes with the body.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Minimal fabric - only foundation piece showing realistic tension and fit.",
+      "material_properties": "Matte black fabric contrasting with glossy patent leather heels and natural skin texture."
+    }
+  },
+
+  {
+    name: 'Real: Araki Tokyo Intimacy (1990s)',
+    data: {
+      "shot": "Intimate medium shot (9:16), raw and honest. Based on Nobuyoshi Araki's Tokyo apartment nude studies.",
+      "subject": {
+        "variant": indianModelVariants.find(v => v.name.includes("Natural Allure"))!.value,
+        "pose": "Natural Recline: Lying on side on unmade bed, one arm supporting head, natural relaxed posture. Vulnerable yet confident. Araki's documentary intimacy style.",
+        "hair_color": "dark",
+        "hair_style": "natural, slightly messy, as if just woken up. Authentic and unstaged.",
+        "skin_finish": "Natural Glow",
+        "hand_and_nail_details": "Natural & Unadorned.",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Natural, no polish", "high_heels": "not visible"
+      },
+      "wardrobe": "Single oversized men's white dress shirt, unbuttoned and falling off shoulders. Exactly as Araki photographed in his legendary Tokyo series.",
+      "environment": "Messy bedroom with unmade white sheets, personal items scattered. Natural, lived-in intimacy exactly as Araki's apartment photography.",
+      "lighting": "Soft, natural window light creating gentle wrap-around illumination. No artificial lights - pure daylight as Araki shoots.",
+      "camera": { "focal_length": "35mm", "aperture": "f/2.0", "distance": "2 m", "angle": "Slightly high angle, as if photographer standing beside bed.", "framing": "Medium shot from mid-torso up, intimate framing." },
+      "color_grade": "Natural color with slight warmth, authentic skin tones. Araki's realistic color palette.",
+      "style": "Nobuyoshi Araki - Tokyo Nude Studies. Raw documentary intimacy, published in photography books worldwide.",
+      "quality": "Shot on 35mm film (Kodak Portra 400). Visible fine grain, authentic film aesthetic exactly as Araki shoots.",
+      "figure_and_form": "Natural form with emphasis on authentic, unposed vulnerability. The shirt creates soft shapes that reveal and conceal.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "The oversized cotton shirt drapes naturally with realistic wrinkles and folds, authentic textile texture.",
+      "material_properties": "Crisp white cotton with matte finish, soft absorbent quality contrasting with skin."
+    }
+  },
+
+  {
+    name: 'Real: Roversi Polaroid Dream (1990s)',
+    data: {
+      "shot": "Dreamy portrait (4:5), soft and romantic. Recreation of Paolo Roversi's famous 8x10 Polaroid nude series.",
+      "subject": {
+        "variant": indianModelVariants.find(v => v.name.includes("Cinematic"))!.value,
+        "pose": "Ethereal Standing: Standing with subtle S-curve, one hand gently touching face, eyes closed or looking down. Romantic, contemplative. Roversi's signature delicacy.",
+        "hair_color": "dark",
+        "hair_style": "long, loose, slightly windblown creating soft, flowing lines around face.",
+        "skin_finish": "Dewy & Luminous",
+        "hand_and_nail_details": "Graceful & Delicate.",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Natural", "high_heels": "not visible"
+      },
+      "wardrobe": "Delicate gossamer silk draped fabric in soft beige or white, barely covering form. Ethereal and romantic, exactly as Roversi composed his Polaroid studies.",
+      "environment": "Minimalist white studio with soft, diffused natural light. Timeless, gallery-quality setting exactly as Roversi's exhibition prints.",
+      "lighting": "Extremely soft, diffused overhead light creating gentle shadows. Dreamlike, low-contrast illumination - Roversi's painterly quality achieved through overexposed Polaroid technique.",
+      "camera": { "focal_length": "150mm", "aperture": "f/4.5", "distance": "3 m", "angle": "Slightly high angle, creating delicate perspective.", "framing": "Three-quarter portrait, soft edges bleeding into white background." },
+      "color_grade": "Soft, desaturated with creamy highlights and pastel undertones. Roversi's signature Polaroid color palette.",
+      "style": "Paolo Roversi - 8x10 Polaroid Series. Exhibited at Gagosian Gallery and published in Vogue Italia.",
+      "quality": "Shot to emulate 8x10 Polaroid film - soft focus, dreamy grain, ethereal quality. Roversi's legendary technique.",
+      "figure_and_form": "Soft, romantic forms created by flowing fabric. Emphasis on delicacy and femininity through light and movement.",
+      "skin_micro_details": "Softly rendered with diffused detail, creating painterly quality rather than hyper-realism. Roversi's aesthetic.",
+      "fabric_physics": "Gossamer silk appears weightless, floating and flowing with ethereal movement.",
+      "material_properties": "Translucent silk catching and diffusing light, creating soft glowing quality."
+    }
+  },
+
+  {
+    name: 'Real: Lindbergh Supermodel (1990)',
+    data: {
+      "shot": "Full body editorial (9:16), raw and powerful. Based on Peter Lindbergh's iconic supermodel photography.",
+      "subject": {
+        "variant": indianModelVariants.find(v => v.name.includes("Fitness"))!.value,
+        "pose": "Natural Standing: Simple, powerful stance with one hip cocked, hands in pockets or at sides. Confident, unforced. Lindbergh's anti-pose aesthetic.",
+        "hair_color": "dark",
+        "hair_style": "natural, slightly windswept or wet-looking. Minimal styling - Lindbergh's signature rawness.",
+        "skin_finish": "Natural with minimal retouching",
+        "hand_and_nail_details": "Natural, unpolished.",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Natural, no polish", "high_heels": "not visible or simple flat boots"
+      },
+      "wardrobe": "Simple white cotton dress shirt worn loosely, or minimal black architectural foundation garments. Focus on natural beauty over styling, exactly as Lindbergh shot the original supermodels.",
+      "environment": "Industrial warehouse or beach location with natural textures. Raw, unglamorous settings - Lindbergh's revolutionary anti-fashion approach.",
+      "lighting": "Natural, diffused daylight. No artificial glamour lighting - just honest, beautiful natural light exactly as Lindbergh pioneered.",
+      "camera": { "focal_length": "85mm", "aperture": "f/5.6", "distance": "4 m", "angle": "Eye-level, honest and direct.", "framing": "Full body with environmental context, editorial composition." },
+      "color_grade": "Black and white with natural, unretouched skin tones. Lindbergh's signature monochrome aesthetic.",
+      "style": "Peter Lindbergh - Supermodel Era (1990s). Published in Vogue, Harper's Bazaar. Revolutionized fashion photography.",
+      "quality": "Shot on medium format film. Sharp but natural, emphasizing authenticity over perfection. Lindbergh's philosophy exactly.",
+      "figure_and_form": "Natural, athletic form celebrated without artifice. Lindbergh's respect for natural beauty.",
+      "skin_micro_details": "Minimal retouching - visible pores, natural skin texture. Revolutionary for fashion photography.",
+      "fabric_physics": "Simple cotton or linen draping naturally with authentic weight and movement.",
+      "material_properties": "Matte natural fabrics - cotton, linen, simple foundation pieces without gloss or artifice."
+    }
+  },
+
+  {
+    name: 'Real: Leibovitz Celebrity Portrait (2000s)',
+    data: {
+      "shot": "Intimate portrait (4:5), authentic and powerful. Based on Annie Leibovitz's celebrity nude portraits.",
+      "subject": {
+        "variant": indianModelVariants.find(v => v.name.includes("Glamour Seductress"))!.value,
+        "pose": "Confident Seated: Sitting on simple stool or chair, direct eye contact, confident posture. Authentic presence - Leibovitz's signature connection.",
+        "hair_color": "jet black",
+        "hair_style": "natural styling with minimal product, authentic texture.",
+        "skin_finish": "Natural Glow",
+        "hand_and_nail_details": "Natural placement, authentic.",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Simple, natural", "high_heels": "not visible"
+      },
+      "wardrobe": "Simple black slip dress or oversized white shirt. Minimal, timeless pieces allowing personality to shine. Exactly as Leibovitz photographs A-list celebrities.",
+      "environment": "Simple gray studio backdrop with seamless paper. Classic portrait studio setup - Leibovitz's Vanity Fair standard.",
+      "lighting": "Soft, directional studio strobe creating gentle sculpting. Beautiful but not overly dramatic - Leibovitz's flattering yet honest approach.",
+      "camera": { "focal_length": "85mm f/1.4", "aperture": "f/4.0", "distance": "2.5 m", "angle": "Eye-level, creating intimate direct connection.", "framing": "Bust portrait with negative space, classic editorial framing." },
+      "color_grade": "Natural color with slight warmth. Authentic skin tones and beautiful, realistic rendering.",
+      "style": "Annie Leibovitz - Celebrity Portrait Series. Shot for Vanity Fair and Vogue. Museum exhibitions worldwide.",
+      "quality": "Shot on medium format digital (Phase One). Extreme detail but natural rendering. Leibovitz's current equipment.",
+      "figure_and_form": "Natural, authentic form. Emphasis on personality and presence over body display.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Simple silk or cotton draping naturally, elegant but understated.",
+      "material_properties": "Matte or subtle silk fabrics, timeless and classic without trend-chasing."
+    }
+  },
+
+  {
+    name: 'Real: Ritts Desert Sculpture (1988)',
+    data: {
+      "shot": "Artistic outdoor nude (16:9), sculptural. Recreation of Herb Ritts' famous desert nude photography.",
+      "subject": {
+        "variant": indianModelVariants.find(v => v.name.includes("Erotic-Art"))!.value,
+        "pose": "Living Sculpture: Body positioned as sculptural element in landscape - arched back, arms extended, creating dramatic shapes against sky. Ritts' body-as-landscape philosophy.",
+        "hair_color": "jet black",
+        "hair_style": "slicked back wet or blowing in wind, creating clean sculptural lines.",
+        "skin_finish": "Natural with subtle sheen (body oil)",
+        "hand_and_nail_details": "Graceful, sculptural positioning.",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Natural", "high_heels": "not visible (barefoot)"
+      },
+      "wardrobe": "Unadorned form photographed as living sculpture. Minimal to no clothing, body as art object exactly as Ritts shot for Getty Museum collection.",
+      "environment": "Desert landscape with sand dunes or rock formations. Natural outdoor setting - Ritts' signature locations (Mojave Desert, California).",
+      "lighting": "Brilliant natural sunlight creating strong contrast and sculptural shadows. Golden hour or harsh noon sun - Ritts' dramatic natural lighting.",
+      "camera": { "focal_length": "50mm", "aperture": "f/11", "distance": "5 m", "angle": "Low angle emphasizing sculptural forms against sky.", "framing": "Full body or partial torso with vast negative space - landscape emphasis." },
+      "color_grade": "High-Contrast B&W with deep blacks and brilliant highlights. Ritts' signature graphic quality.",
+      "style": "Herb Ritts - Outdoor Nude Series (1980s-1990s). Getty Museum permanent collection. Sold at Sotheby's auctions.",
+      "quality": "Shot on medium format film. Razor-sharp detail, perfect exposure. Ritts' technical mastery.",
+      "figure_and_form": "Body as landscape - sculptural forms echoing natural environment. Ritts' revolutionary approach to nude photography.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "No fabric - pure sculptural form.",
+      "material_properties": "Skin with subtle oil sheen creating specular highlights, emphasizing musculature and form."
+    }
   }
 ];

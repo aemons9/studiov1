@@ -154,7 +154,7 @@ export interface GoogleDriveConfig {
   folderName?: string; // Folder name to create/use (default: "StudioV Images")
 }
 
-export type WardrobeConceptCategory = 'Architectural Lingerie' | 'Couture Intimates' | 'Sensual Art' | 'Private Gallery' | 'Concept Art';
+export type WardrobeConceptCategory = 'Architectural Lingerie' | 'Couture Intimates' | 'Sensual Art' | 'Private Gallery' | 'Concept Art' | 'Real Creations';
 // FIX: Added 'Avant-Garde' to the union type to support its usage in wardrobe concepts.
 export type WardrobeFormality = 'Casual' | 'Editorial' | 'Haute Couture' | 'Avant-Garde';
 export type WardrobeCoverage = 'Minimal' | 'Moderate' | 'Full';

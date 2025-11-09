@@ -16,35 +16,35 @@ const STRATEGIES: Array<{
   {
     value: 'auto',
     label: 'Auto (Smart Cascade)',
-    description: 'Tries all strategies automatically - best success rate',
+    description: 'Tries all strategies automatically - best success rate (~75% at intimacy 8-10)',
     icon: '🤖',
     color: 'blue'
   },
   {
     value: 'conservative',
     label: 'Conservative',
-    description: 'Only Gemini rewrite, no translation or Flux fallback',
+    description: 'Imagen 4 only with Gemini rewrite, no translation or Flux fallback',
     icon: '🛡️',
     color: 'green'
   },
   {
     value: 'balanced',
     label: 'Balanced',
-    description: 'Gemini + Translation if needed (recommended)',
+    description: 'Imagen 4 + Gemini rewrite + Translation bypass if blocked (recommended)',
     icon: '⚖️',
     color: 'yellow'
   },
   {
     value: 'aggressive',
     label: 'Aggressive',
-    description: 'Gemini + Translation + Flux with high tolerance',
+    description: 'All strategies including Flux fallback with high tolerance (5/6)',
     icon: '⚡',
     color: 'orange'
   },
   {
     value: 'nuclear',
     label: 'Nuclear ☢️',
-    description: 'Direct to translation + Flux max tolerance (maximum bypass)',
+    description: 'Skip Imagen 4, direct to Translation + Flux max tolerance (6/6)',
     icon: '☢️',
     color: 'red'
   }
@@ -64,7 +64,7 @@ const SafetyBypassStrategySelector: React.FC<SafetyBypassStrategySelectorProps> 
       </div>
 
       <p className="text-sm text-gray-400 mb-4">
-        Choose how aggressively to bypass AI safety filters. Higher strategies use more techniques.
+        Choose how aggressively to bypass AI safety filters for <strong className="text-purple-400">Imagen 4 (Vertex AI)</strong> generation. Higher strategies use more techniques to maximize success rate.
       </p>
 
       <div className="space-y-2">
@@ -109,13 +109,13 @@ const SafetyBypassStrategySelector: React.FC<SafetyBypassStrategySelectorProps> 
             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
           </svg>
           <div className="text-sm">
-            <p className="text-purple-300 font-semibold mb-1">How it works:</p>
+            <p className="text-purple-300 font-semibold mb-1">How it works with Imagen 4:</p>
             <ul className="text-purple-200/80 space-y-1 text-xs">
-              <li><strong>Auto:</strong> Smart cascade trying all techniques</li>
-              <li><strong>Conservative:</strong> Gemini rewrite only (Imagen)</li>
-              <li><strong>Balanced:</strong> + Translation API bypass</li>
-              <li><strong>Aggressive:</strong> + Flux API with high tolerance</li>
-              <li><strong>Nuclear:</strong> Direct to translation + Flux max (6/6)</li>
+              <li><strong>Auto:</strong> NL API → Gemini Rewrite → Imagen 4 → Translation → Flux</li>
+              <li><strong>Conservative:</strong> Gemini rewrite → Imagen 4 only</li>
+              <li><strong>Balanced:</strong> + Translation API (FR/IT/ES/DE) → Imagen 4</li>
+              <li><strong>Aggressive:</strong> + Flux API fallback (safety 5/6)</li>
+              <li><strong>Nuclear:</strong> Skip Imagen 4, direct to Translation + Flux (6/6)</li>
             </ul>
           </div>
         </div>

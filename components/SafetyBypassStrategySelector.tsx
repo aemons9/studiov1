@@ -42,9 +42,16 @@ const STRATEGIES: Array<{
     color: 'orange'
   },
   {
+    value: 'nuclear-imagen',
+    label: 'Nuclear Imagen 🔥',
+    description: 'Skip pre-screening, direct to Translation + Imagen 4 (max bypass, no Flux)',
+    icon: '🔥',
+    color: 'red'
+  },
+  {
     value: 'nuclear',
-    label: 'Nuclear ☢️',
-    description: 'Skip Imagen 4, direct to Translation + Flux max tolerance (6/6)',
+    label: 'Nuclear Flux ☢️',
+    description: 'Skip all, direct to Translation + Flux max tolerance (6/6)',
     icon: '☢️',
     color: 'red'
   }
@@ -115,7 +122,8 @@ const SafetyBypassStrategySelector: React.FC<SafetyBypassStrategySelectorProps> 
               <li><strong>Conservative:</strong> Gemini rewrite → Imagen 4 only</li>
               <li><strong>Balanced:</strong> + Translation API (FR/IT/ES/DE) → Imagen 4</li>
               <li><strong>Aggressive:</strong> + Flux API fallback (safety 5/6)</li>
-              <li><strong>Nuclear:</strong> Skip Imagen 4, direct to Translation + Flux (6/6)</li>
+              <li><strong>Nuclear Imagen:</strong> Translation (FR/IT/ES/DE) → Imagen 4 (no Flux)</li>
+              <li><strong>Nuclear Flux:</strong> Translation (FR/IT/ES/DE) → Flux max (6/6)</li>
             </ul>
           </div>
         </div>

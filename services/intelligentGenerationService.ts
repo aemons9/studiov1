@@ -35,13 +35,27 @@ export async function generateWithMaximumSafety(
   settings: GenerationSettings
 ): Promise<GenerationResult> {
   const intimacyLevel = settings.intimacyLevel;
+  const strategy = settings.safetyBypassStrategy || 'auto';
   let attempts = 0;
   const strategies: string[] = [];
   let currentPrompt = wovenPrompt;
 
   console.log('🎯 Starting intelligent generation cascade');
+  console.log('🛡️ Strategy:', strategy.toUpperCase());
   console.log('📊 Intimacy level:', intimacyLevel);
   console.log('📝 Prompt length:', wovenPrompt.length, 'chars');
+
+  // NUCLEAR IMAGEN MODE: Skip everything, go straight to translation + Imagen
+  if (strategy === 'nuclear-imagen') {
+    console.log('🔥 NUCLEAR IMAGEN MODE: Bypassing all pre-screening, using Translation + Imagen 4');
+    return await executeNuclearImagenStrategy(currentPrompt, settings, intimacyLevel);
+  }
+
+  // NUCLEAR FLUX MODE: Skip everything, go straight to translation + Flux
+  if (strategy === 'nuclear') {
+    console.log('☢️ NUCLEAR FLUX MODE: Bypassing all safety checks, using Translation + Flux max');
+    return await executeNuclearFluxStrategy(currentPrompt, settings, intimacyLevel);
+  }
 
   // ============================================================================
   // STEP 1: Pre-screen with Natural Language API
@@ -271,6 +285,149 @@ export async function generateWithMaximumSafety(
 
     throw fluxError;
   }
+}
+
+/**
+ * Nuclear Imagen Strategy: Direct translation bypass with Imagen 4 (no Flux)
+ * Maximum bypass for Imagen without falling back to Flux
+ */
+async function executeNuclearImagenStrategy(
+  prompt: string,
+  settings: GenerationSettings,
+  intimacyLevel: number
+): Promise<GenerationResult> {
+  const strategies: string[] = ['Nuclear Imagen Mode'];
+  let attempts = 0;
+
+  console.log('🔥 Nuclear Imagen: Trying all translation languages with Imagen 4');
+
+  // Try translation bypass with all languages
+  const languages: Array<'fr' | 'it' | 'es' | 'de'> = ['fr', 'it', 'es', 'de'];
+
+  for (const lang of languages) {
+    try {
+      attempts++;
+      console.log(`🌍 Attempting ${lang.toUpperCase()} translation...`);
+
+      const { generateViaTranslation } = await import('./translationBypass');
+      const result = await generateViaTranslation(prompt, settings, lang);
+
+      strategies.push(`Translation ${result.language} → Imagen`);
+      console.log(`✅ Success with ${result.language}!`);
+
+      return {
+        images: result.images,
+        usedApi: 'Imagen',
+        attempts,
+        strategies,
+        finalPrompt: prompt
+      };
+    } catch (error) {
+      console.warn(`⚠️ ${lang.toUpperCase()} failed:`, error instanceof Error ? error.message : 'Unknown error');
+      continue;
+    }
+  }
+
+  // If all translations fail, try direct Imagen with adversarial rewrite
+  try {
+    attempts++;
+    console.log('🔄 All translations failed, trying Gemini rewrite + Imagen...');
+
+    const rewrittenPrompt = await adversarialRewrite(
+      prompt,
+      'Nuclear Imagen fallback - all translations blocked',
+      settings
+    );
+    strategies.push('Gemini Adversarial Rewrite (fallback)');
+
+    const images = await generateImage(rewrittenPrompt, settings);
+    strategies.push('Imagen - Success after rewrite');
+
+    return {
+      images,
+      usedApi: 'Imagen',
+      attempts,
+      strategies,
+      finalPrompt: rewrittenPrompt
+    };
+  } catch (error) {
+    throw new Error(
+      `Nuclear Imagen strategy exhausted all options.\n` +
+      `Attempts: ${attempts}\n` +
+      `Strategies tried: ${strategies.join(' → ')}\n` +
+      `Final error: ${error instanceof Error ? error.message : 'Unknown error'}`
+    );
+  }
+}
+
+/**
+ * Nuclear Flux Strategy: Direct translation bypass with Flux max tolerance
+ * Original nuclear mode - skips Imagen entirely
+ */
+async function executeNuclearFluxStrategy(
+  prompt: string,
+  settings: GenerationSettings,
+  intimacyLevel: number
+): Promise<GenerationResult> {
+  const strategies: string[] = ['Nuclear Flux Mode'];
+  let attempts = 0;
+
+  console.log('☢️ Nuclear Flux: Maximum bypass with Flux');
+
+  const replicateToken = localStorage.getItem('replicateToken');
+  if (!replicateToken) {
+    throw new Error(
+      '❌ Replicate API token required for Nuclear Flux mode.\n' +
+      '💡 Set via browser console: localStorage.setItem("replicateToken", "YOUR_TOKEN")\n' +
+      '🔗 Get your token at: https://replicate.com/account/api-tokens'
+    );
+  }
+
+  // Try translation with Flux
+  const languages: Array<'fr' | 'it' | 'es' | 'de'> = ['fr', 'it', 'es', 'de'];
+
+  for (const lang of languages) {
+    try {
+      attempts++;
+      console.log(`🌍 Attempting ${lang.toUpperCase()} translation with Flux max tolerance...`);
+
+      const { translatePrompt } = await import('./translationBypass');
+      const translation = await translatePrompt(prompt, lang, settings);
+
+      const optimalSettings = getOptimalFluxSettings(intimacyLevel);
+      const fluxConfig: ReplicateConfig = {
+        apiToken: replicateToken,
+        model: 'black-forest-labs/flux-1.1-pro-ultra',
+        aspectRatio: settings.aspectRatio,
+        numOutputs: settings.numberOfImages,
+        seed: settings.seed || undefined,
+        ...optimalSettings,
+        safetyTolerance: 6 // Max tolerance
+      };
+
+      const images = await generateWithFluxRetry(translation.translatedPrompt, fluxConfig, 3);
+      strategies.push(`Translation ${lang.toUpperCase()} → Flux (6/6)`);
+
+      console.log(`✅ Nuclear Flux success with ${lang.toUpperCase()}!`);
+
+      return {
+        images,
+        usedApi: 'Flux',
+        attempts,
+        strategies,
+        finalPrompt: translation.translatedPrompt
+      };
+    } catch (error) {
+      console.warn(`⚠️ ${lang.toUpperCase()} failed:`, error instanceof Error ? error.message : 'Unknown error');
+      continue;
+    }
+  }
+
+  throw new Error(
+    `Nuclear Flux strategy failed in all languages.\n` +
+    `Attempts: ${attempts}\n` +
+    `Strategies tried: ${strategies.join(' → ')}`
+  );
 }
 
 /**

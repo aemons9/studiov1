@@ -547,6 +547,394 @@ export const MODEL_ATHLETIC_GLAMOUR = {
 };
 
 // ============================================================================
+// MODEL 6: ISHANI GLAMAZON (Maximum Glamour Diva Specialist)
+// ============================================================================
+
+export const MODEL_MAX_GLAMOUR_DIVA = {
+  id: 'erotic-model-006',
+  name: 'Ishani Glamazon',
+  category: 'Maximum Glamour Diva Specialist',
+  emphasis: 'Ultra-glamorous presence, bold commanding curves, luxury aesthetics',
+  personalPhotographer: {
+    name: 'Alessandro Lusso',
+    specialty: 'Maximum glamour and luxury aesthetics mastery',
+    style: 'Ultra-luxury glamour with bold sensual sophistication',
+    intimacy: 10,
+    lightingSignature: 'Dramatic luxury lighting with golden highlights and glamour glow',
+    cameraPreference: '50mm f/1.4 for balanced glamour perfection',
+    compositionStyle: 'Luxurious full-figure compositions with bold glamorous presence',
+    intimacyApproach: 'Ultimate confidence-based glamour collaboration',
+    fluxSettings: { safetyTolerance: 6, rawMode: true, guidanceScale: 8.0 },
+    imagenSettings: { safetyFilter: 'block_few', personGeneration: 'allow_adult' }
+  },
+
+  physicalTraits: {
+    height: '5\'9"',
+    figure: 'Perfect glamorous hourglass with bold commanding presence',
+    bust: '38DD"',
+    waist: '25"',
+    hips: '40"',
+    emphasis: 'Complete glamorous perfection with bold sensual confidence',
+    skinTone: 'Luminous fair complexion with golden glamour glow',
+    features: 'Striking glamorous beauty, bold expressive eyes, full sensual lips, high cheekbones',
+    fitness: 'Perfectly toned with soft glamorous curves',
+    specialties: 'Maximum glamour presentation, luxury aesthetics, bold confidence'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'glamour-gold-001',
+      name: 'Golden Goddess Chains',
+      description: 'Ultra-luxury golden body chains with strategic minimal coverage, designer jewelry creating glamorous minimal aesthetic with maximum bold reveals',
+      coverage: 'minimal-luxury',
+      intimacyLevel: 10,
+      style: 'Maximum glamour luxury minimal',
+      materials: '24k gold chains, luxury jewelry, minimal silk accents',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'glamour-diamond-001',
+      name: 'Diamond Luxury Harness',
+      description: 'Designer diamond-studded minimal harness with strategic luxury placement, bold glamorous aesthetic with maximum artistic reveals',
+      coverage: 'minimal-luxury',
+      intimacyLevel: 10,
+      style: 'Ultra-luxury glamour minimal',
+      materials: 'Diamond accents, platinum chains, luxury minimal design',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'glamour-silk-001',
+      name: 'Luxury Silk Minimal',
+      description: 'Ultra-premium silk minimal design with golden accents, flowing luxury fabric with strategic bold reveals and glamorous sophistication',
+      coverage: 'minimal-luxury',
+      intimacyLevel: 10,
+      style: 'Luxury glamour silk minimal',
+      materials: 'Premium silk, golden thread, luxury minimal construction',
+      fluxOptimized: true,
+      imagenOptimized: true
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'glamour-full-power',
+      name: 'Full Body Glamour Power',
+      description: 'Commanding glamorous power stance, bold confident presence, luxury sophistication with complete glamorous confidence'
+    },
+    {
+      id: 'glamour-luxury-recline',
+      name: 'Luxury Reclined Glamour',
+      description: 'Luxurious reclined positioning, glamorous elegance, bold sensual confidence with maximum sophistication'
+    },
+    {
+      id: 'glamour-profile',
+      name: 'Glamorous Profile Elegance',
+      description: 'Side profile glamour emphasis, bold curves showcased, luxury aesthetic with commanding presence'
+    },
+    {
+      id: 'glamour-intimate',
+      name: 'Intimate Glamour Close',
+      description: 'Close intimate glamour framing, bold sensual expression, luxury confidence with maximum allure'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 7: MAYA MIDNIGHT (Midnight Mystique Seductress)
+// ============================================================================
+
+export const MODEL_MIDNIGHT_MYSTIQUE = {
+  id: 'erotic-model-007',
+  name: 'Maya Midnight',
+  category: 'Midnight Mystique Seductress Specialist',
+  emphasis: 'Dark mysterious midnight aesthetics, shadowy seduction, enigmatic allure',
+  personalPhotographer: {
+    name: 'Vincent Noche',
+    specialty: 'Midnight photography and dark mysterious aesthetics',
+    style: 'Shadowy seduction with midnight enigmatic artistry',
+    intimacy: 10,
+    lightingSignature: 'Dramatic low-key midnight lighting with mysterious shadows',
+    cameraPreference: '85mm f/1.2 for intimate midnight mystery',
+    compositionStyle: 'Dark mysterious framings with enigmatic midnight presence',
+    intimacyApproach: 'Mysterious trust-based midnight intimacy',
+    fluxSettings: { safetyTolerance: 6, rawMode: true, guidanceScale: 8.0 },
+    imagenSettings: { safetyFilter: 'block_few', personGeneration: 'allow_adult' }
+  },
+
+  physicalTraits: {
+    height: '5\'8"',
+    figure: 'Mysteriously curved seductive silhouette',
+    bust: '36D"',
+    waist: '24"',
+    hips: '37"',
+    emphasis: 'Enigmatic curves with mysterious midnight allure',
+    skinTone: 'Deep mocha with mysterious dark undertones',
+    features: 'Intense mysterious eyes, enigmatic smile, dark sensual beauty',
+    fitness: 'Sleek mysterious curves with shadowy definition',
+    specialties: 'Midnight seduction, mysterious presence, dark enigmatic allure'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'midnight-shadow-001',
+      name: 'Shadow Lace Midnight',
+      description: 'Dark mysterious lace with shadowy patterns, midnight aesthetic with strategic enigmatic reveals and mysterious allure',
+      coverage: 'minimal-mysterious',
+      intimacyLevel: 10,
+      style: 'Midnight mysterious minimal',
+      materials: 'Black shadow lace, dark threads, mysterious minimal design',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'midnight-velvet-001',
+      name: 'Velvet Midnight Minimal',
+      description: 'Luxurious black velvet minimal design with mysterious draping, midnight sophistication with enigmatic artistic reveals',
+      coverage: 'minimal-mysterious',
+      intimacyLevel: 10,
+      style: 'Midnight velvet minimal',
+      materials: 'Premium black velvet, shadow materials, mysterious construction',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'midnight-leather-001',
+      name: 'Dark Leather Midnight Harness',
+      description: 'Mysterious black leather minimal harness with midnight edge, shadowy aesthetic with strategic dark reveals',
+      coverage: 'minimal-mysterious',
+      intimacyLevel: 10,
+      style: 'Midnight leather minimal',
+      materials: 'Dark leather, black hardware, mysterious minimal aesthetic',
+      fluxOptimized: true,
+      imagenOptimized: true
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'midnight-shadow-stance',
+      name: 'Shadowy Midnight Stance',
+      description: 'Mysterious standing pose in shadows, enigmatic presence, dark seductive confidence with midnight allure'
+    },
+    {
+      id: 'midnight-recline',
+      name: 'Midnight Reclined Mystery',
+      description: 'Enigmatic reclined positioning, mysterious curves emphasized, shadowy midnight intimacy'
+    },
+    {
+      id: 'midnight-silhouette',
+      name: 'Dark Silhouette Profile',
+      description: 'Mysterious silhouette emphasis, enigmatic curves outlined, midnight shadow artistry'
+    },
+    {
+      id: 'midnight-intimate',
+      name: 'Intimate Midnight Close',
+      description: 'Close mysterious framing, dark enigmatic expression, midnight seductive intimacy'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 8: RIYA POWERHOUSE (Bold Athletic Action Star)
+// ============================================================================
+
+export const MODEL_ACTION_BOMBSHELL = {
+  id: 'erotic-model-008',
+  name: 'Riya Powerhouse',
+  category: 'Bold Athletic Action Star Specialist',
+  emphasis: 'Powerful athletic action aesthetics, bold strength with curves',
+  personalPhotographer: {
+    name: 'Drake Momentum',
+    specialty: 'Action photography and athletic power aesthetics',
+    style: 'Bold action artistry with powerful athletic sensuality',
+    intimacy: 10,
+    lightingSignature: 'Dynamic action lighting with dramatic power emphasis',
+    cameraPreference: '70mm f/2.0 for athletic power clarity',
+    compositionStyle: 'Dynamic action compositions celebrating powerful curves',
+    intimacyApproach: 'Empowering athletic confidence collaboration',
+    fluxSettings: { safetyTolerance: 6, rawMode: true, guidanceScale: 7.5 },
+    imagenSettings: { safetyFilter: 'block_few', personGeneration: 'allow_adult' }
+  },
+
+  physicalTraits: {
+    height: '5\'10"',
+    figure: 'Powerful athletic hourglass with bold muscular definition',
+    bust: '36C"',
+    waist: '26"',
+    hips: '39"',
+    emphasis: 'Bold athletic power with sensual curved strength',
+    skinTone: 'Warm bronze with athletic glow',
+    features: 'Strong confident features, bold eyes, athletic powerful beauty',
+    fitness: 'Highly athletic with visible bold muscular curves',
+    specialties: 'Action star presence, athletic power, bold confident strength'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'action-tactical-001',
+      name: 'Tactical Minimal Harness',
+      description: 'Action-inspired tactical minimal harness with bold athletic aesthetic, strategic power emphasis with maximum athletic reveals',
+      coverage: 'minimal-tactical',
+      intimacyLevel: 10,
+      style: 'Athletic action minimal',
+      materials: 'Tactical materials, athletic straps, power aesthetic',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'action-sport-001',
+      name: 'Sport Minimal Bold',
+      description: 'Athletic sport-inspired minimal design with bold power aesthetic, action star sensuality with strategic reveals',
+      coverage: 'minimal-athletic',
+      intimacyLevel: 10,
+      style: 'Athletic bold minimal',
+      materials: 'Performance materials, athletic construction, bold design',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'action-leather-001',
+      name: 'Action Leather Minimal',
+      description: 'Bold action-style leather minimal with powerful aesthetic, athletic sensuality with strategic power reveals',
+      coverage: 'minimal-action',
+      intimacyLevel: 10,
+      style: 'Action athletic minimal',
+      materials: 'Action leather, tactical hardware, powerful construction',
+      fluxOptimized: true,
+      imagenOptimized: true
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'action-power-stance',
+      name: 'Action Power Stance',
+      description: 'Bold powerful action pose, athletic confidence, strong sensual presence with action star energy'
+    },
+    {
+      id: 'action-dynamic',
+      name: 'Dynamic Action Positioning',
+      description: 'Athletic dynamic positioning, powerful curves emphasized, action star sensual strength'
+    },
+    {
+      id: 'action-profile',
+      name: 'Action Profile Power',
+      description: 'Side athletic profile, powerful muscle definition visible, bold action star curves'
+    },
+    {
+      id: 'action-ground',
+      name: 'Ground Action Pose',
+      description: 'Floor-based athletic positioning, powerful sensual curves, action star bold confidence'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 9: NISHA VITALITY (Athletic Fitness Glamour Icon)
+// ============================================================================
+
+export const MODEL_FITNESS_VIXEN = {
+  id: 'erotic-model-009',
+  name: 'Nisha Vitality',
+  category: 'Athletic Fitness Glamour Icon Specialist',
+  emphasis: 'Fitness glamour fusion, athletic elegance with bold curves',
+  personalPhotographer: {
+    name: 'Marcus Vigor',
+    specialty: 'Fitness glamour and athletic elegance photography',
+    style: 'Athletic glamour fusion with fitness sensuality',
+    intimacy: 10,
+    lightingSignature: 'Clean fitness lighting with glamorous highlights',
+    cameraPreference: '85mm f/2.0 for fitness glamour clarity',
+    compositionStyle: 'Fitness glamour compositions with athletic curves',
+    intimacyApproach: 'Empowering fitness confidence with glamour sensuality',
+    fluxSettings: { safetyTolerance: 6, rawMode: true, guidanceScale: 7.5 },
+    imagenSettings: { safetyFilter: 'block_few', personGeneration: 'allow_adult' }
+  },
+
+  physicalTraits: {
+    height: '5\'9"',
+    figure: 'Athletic glamour hourglass with fitness curves',
+    bust: '36D"',
+    waist: '24"',
+    hips: '38"',
+    emphasis: 'Fitness glamour with bold athletic curves',
+    skinTone: 'Radiant golden bronze with healthy fitness glow',
+    features: 'Vibrant fitness beauty, glamorous eyes, athletic confidence',
+    fitness: 'Perfectly toned athletic glamour with bold curves',
+    specialties: 'Fitness glamour fusion, athletic elegance, bold sensual strength'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'fitness-glam-001',
+      name: 'Fitness Glamour Minimal',
+      description: 'Athletic glamour minimal design with fitness aesthetic, bold curves emphasized with strategic glamorous reveals',
+      coverage: 'minimal-fitness-glam',
+      intimacyLevel: 10,
+      style: 'Fitness glamour minimal',
+      materials: 'Performance glamour materials, athletic aesthetic, bold design',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'fitness-luxury-001',
+      name: 'Luxury Athletic Minimal',
+      description: 'Premium athletic minimal with glamour accents, fitness elegance with luxury bold reveals',
+      coverage: 'minimal-luxury-athletic',
+      intimacyLevel: 10,
+      style: 'Luxury fitness minimal',
+      materials: 'Premium athletic materials, glamour accents, luxury construction',
+      fluxOptimized: true,
+      imagenOptimized: true
+    },
+    {
+      id: 'fitness-bold-001',
+      name: 'Bold Fitness Harness',
+      description: 'Athletic harness with glamour boldness, fitness curves celebrated with strategic glamorous artistic reveals',
+      coverage: 'minimal-bold-fitness',
+      intimacyLevel: 10,
+      style: 'Bold fitness glamour minimal',
+      materials: 'Athletic harness materials, glamour hardware, bold fitness design',
+      fluxOptimized: true,
+      imagenOptimized: true
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'fitness-glam-power',
+      name: 'Fitness Glamour Power Stance',
+      description: 'Athletic glamour power pose, fitness confidence, bold sensual strength with glamorous presence'
+    },
+    {
+      id: 'fitness-stretch',
+      name: 'Athletic Stretch Glamour',
+      description: 'Fitness stretch positioning, glamorous curves emphasized, athletic sensual elegance'
+    },
+    {
+      id: 'fitness-profile',
+      name: 'Fitness Glamour Profile',
+      description: 'Side athletic glamour profile, fitness curves defined, bold glamorous athletic beauty'
+    },
+    {
+      id: 'fitness-floor',
+      name: 'Floor Fitness Glamour',
+      description: 'Floor-based fitness positioning, glamorous athletic curves, bold sensual fitness confidence'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
@@ -555,7 +943,11 @@ export const EROTIC_GLAMOUR_MODELS = [
   MODEL_LOWER_CURVES,
   MODEL_SENSUAL_BOLD,
   MODEL_EROTIC_ACTRESS,
-  MODEL_ATHLETIC_GLAMOUR
+  MODEL_ATHLETIC_GLAMOUR,
+  MODEL_MAX_GLAMOUR_DIVA,
+  MODEL_MIDNIGHT_MYSTIQUE,
+  MODEL_ACTION_BOMBSHELL,
+  MODEL_FITNESS_VIXEN
 ];
 
 export const LIGHTING_PRESETS = {

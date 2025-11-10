@@ -28,6 +28,7 @@ import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
 import ArtisticMode from './artistic/ArtisticMode';
 import CorporateMode from './corporate/CorporateMode';
 import PlatinumMode from './platinum/PlatinumMode';
+import IndianRolePlayMode from './roleplay/IndianRolePlayMode';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
 import type { PlatinumModeState } from './platinum/types';
@@ -95,7 +96,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -1082,6 +1083,45 @@ const App: React.FC = () => {
     setUiMode('classic');
   };
 
+  const handleExitRolePlay = () => {
+    setUiMode('classic');
+  };
+
+  const handleRolePlayGenerate = async (prompt: string, settings: any) => {
+    console.log('🎭 Role-Play Generate triggered:', { prompt: prompt.substring(0, 100), settings });
+
+    setTextPrompt(prompt);
+    setPromptMode('text');
+    setGenerationSettings(prev => ({ ...prev, ...settings }));
+
+    // Auto-generate with the role-play prompt
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const result = await generateWithMaximumSafety(
+        { ...generationSettings, ...settings },
+        prompt,
+        null
+      );
+
+      setGeneratedImages(result.images);
+      setWovenPrompt(result.wovenPrompt);
+      setGenerationStep(result.step);
+    } catch (err: any) {
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMigrateFromRolePlay = (promptTemplate: string) => {
+    setTextPrompt(promptTemplate);
+    setPromptMode('text');
+    setUiMode('classic');
+    alert('🎭 Role-play scenario template migrated to text mode! You can now customize it further.');
+  };
+
   const handleMigrateFromPlatinum = (prompt: string, state: PlatinumModeState) => {
     // Use PlatinumPromptEngine to map state to complete PromptData
     const promptEngine = new PlatinumPromptEngine();
@@ -1157,6 +1197,13 @@ const App: React.FC = () => {
           onExit={handleExitPlatinum}
           onMigrateToMain={handleMigrateFromPlatinum}
           generationSettings={safeGenerationSettings}
+        />
+      ) : uiMode === 'roleplay' ? (
+        // INDIAN ROLE-PLAY MODE: Gamified Midnight Encounters
+        <IndianRolePlayMode
+          onGenerate={handleRolePlayGenerate}
+          onMigrateToMain={handleMigrateFromRolePlay}
+          onExit={handleExitRolePlay}
         />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor
@@ -1306,6 +1353,14 @@ const App: React.FC = () => {
             >
               <span style={{ fontSize: '18px' }}>💎</span>
               Platinum Collection
+            </button>
+            <button
+              onClick={() => setUiMode('roleplay')}
+              disabled={isLoading}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-600 via-purple-500 to-pink-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-pink-500 hover:via-purple-400 hover:to-pink-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
+            >
+              <span style={{ fontSize: '18px' }}>🎭</span>
+              Role-Play Mode
             </button>
             <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
               <MasterGenerationControl

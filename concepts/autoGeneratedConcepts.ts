@@ -450,7 +450,229 @@ export const IMAGEN_ARTISTIC_CONCEPT: PromptData = {
 };
 
 /**
- * Export all auto-concepts (now with Imagen 4-optimized versions)
+ * SEDUCTRESS MODE - Power Executive (Intimacy 6)
+ */
+export const SEDUCTRESS_POWER_EXEC: PromptData = {
+  shot: 'Corporate power photography. Intimacy 6/10, commanding presence.',
+  subject: {
+    variant: 'Indian Seductress bombshell with hourglass figure (bust 40DD", waist 26", hips 44"), confident sensual presence, corporate power specialist',
+    pose: 'Commanding authoritative posture with corporate confidence, power stance with editorial elegance',
+    hair_color: 'jet black',
+    hair_style: 'Sleek executive styling with sophisticated volume',
+    skin_finish: 'Luminous professional finish with radiant glow',
+    hand_and_nail_details: 'Executive manicure with impeccable attention to detail',
+    tattoos: 'none',
+    piercings: 'none',
+    body_art: 'none',
+    nail_art: 'Bold red executive polish',
+    high_heels: 'Designer stiletto power heels'
+  },
+  wardrobe: 'Power suit with unbuttoned blazer revealing foundation beneath, executive tailoring',
+  environment: 'Modern corporate boardroom with floor-to-ceiling windows, executive furnishings',
+  lighting: 'Professional studio-quality lighting with dramatic shadows, corporate atmosphere',
+  camera: {
+    focal_length: '50mm',
+    aperture: 'f/2.8',
+    distance: '3 m',
+    angle: 'Slightly low angle emphasizing executive authority',
+    framing: 'Full body corporate portrait showing professional power'
+  },
+  color_grade: 'Rich dramatic tones with sensual warmth and executive depth',
+  style: 'Corporate fine-art photography celebrating feminine executive power',
+  quality: 'Ultra-high-end 8K corporate fashion photography with impeccable detail',
+  figure_and_form: 'Hourglass bombshell form with confident curves and professional sophistication',
+  skin_micro_details: 'Premium high-resolution skin texture with executive-level retouching',
+  fabric_physics: 'Luxury corporate fabric with precise tailoring and strategic draping',
+  material_properties: 'Executive fabrics with premium light interaction'
+};
+
+/**
+ * SEDUCTRESS MODE - Vintage Glamour (Intimacy 7)
+ */
+export const SEDUCTRESS_VINTAGE_GLAMOUR: PromptData = {
+  shot: 'Classic vintage glamour photography. Intimacy 7/10, pin-up elegance.',
+  subject: {
+    variant: 'Indian Seductress bombshell with hourglass figure (bust 40DD", waist 26", hips 44"), vintage pin-up expertise',
+    pose: 'Confident allure with vintage pin-up body language, classic seductive positioning',
+    hair_color: 'jet black',
+    hair_style: 'Classic Hollywood waves with vintage glamour volume and sophisticated styling',
+    skin_finish: 'Classic Hollywood luminous finish with glamour radiance',
+    hand_and_nail_details: 'Vintage glamour manicure with classic refinement',
+    tattoos: 'none',
+    piercings: 'none',
+    body_art: 'none',
+    nail_art: 'Classic red vintage polish',
+    high_heels: 'Classic vintage heels'
+  },
+  wardrobe: 'Vintage corset with classic pin-up styling, sophisticated vintage foundation pieces',
+  environment: 'Classic photography studio with vintage backdrop and Hollywood glamour atmosphere',
+  lighting: 'Classic Hollywood glamour lighting with soft sculptural shadows and vintage brilliance',
+  camera: {
+    focal_length: '85mm',
+    aperture: 'f/2.8',
+    distance: '2.5 m',
+    angle: 'Classic pin-up perspective with vintage framing',
+    framing: 'Full body vintage composition with classic proportions'
+  },
+  color_grade: 'Warm vintage tones with classic Hollywood richness and glamour depth',
+  style: 'Classic pin-up photography celebrating vintage Hollywood glamour and timeless elegance',
+  quality: 'Premium 8K with vintage aesthetic and classic Hollywood perfection',
+  figure_and_form: 'Hourglass bombshell form with vintage pin-up curves and classic glamour',
+  skin_micro_details: 'High-resolution skin texture with classic Hollywood retouching',
+  fabric_physics: 'Vintage corset fabrics with classic structured tailoring and glamour draping',
+  material_properties: 'Vintage materials with classic light interaction and Hollywood glamour finish'
+};
+
+/**
+ * SEDUCTRESS MODE - Architectural Form (Intimacy 9)
+ */
+export const SEDUCTRESS_ARCHITECTURAL: PromptData = {
+  shot: 'Architectural artistic photography with geometric sophistication. Intimacy 9/10, sculptural elegance.',
+  subject: {
+    variant: 'Super-Seductress Artist with voluptuous statuesque proportions (bust 40DD", waist 26", hips 44"), elite artistic model expertise, bi-polar range from corporate power to vulnerable erotic-muse',
+    pose: 'Seductive invitation positioning with architectural body language, geometric sculptural stance with bold confidence',
+    hair_color: 'jet black',
+    hair_style: 'Dramatic volume with architectural styling and powerful artistic presence',
+    skin_finish: 'Maximum luminous artistic glow with radiant sculptural perfection',
+    hand_and_nail_details: 'Architectural gesture with artistic refinement',
+    tattoos: 'none',
+    piercings: 'none',
+    body_art: 'none',
+    nail_art: 'Bold artistic polish',
+    high_heels: 'Architectural designer heels'
+  },
+  wardrobe: 'Geometric harness creating sculptural patterns, architectural foundation pieces with bold geometric reveals',
+  environment: 'Private artistic loft with sculptural elements and geometric luxury atmosphere',
+  lighting: 'Bold chiaroscuro lighting with dramatic sculptural shadows and architectural illumination',
+  camera: {
+    focal_length: '85mm f/1.4',
+    aperture: 'f/2.0',
+    distance: '2 m',
+    angle: 'Architectural perspective emphasizing geometric form',
+    framing: 'Artistic composition emphasizing sculptural presence'
+  },
+  color_grade: 'Bold architectural color with dramatic depth and geometric richness',
+  style: 'Architectural fine-art photography celebrating geometric sculptural elegance',
+  quality: 'Museum-quality 8K fine-art photography with architectural perfection',
+  figure_and_form: 'Voluptuous sculptural form with geometric architectural elegance and maximum artistic confidence',
+  skin_micro_details: 'Ultra-high-resolution authentic skin texture with architectural detail and realistic subsurface scattering',
+  fabric_physics: 'Geometric harness fabrics with architectural structure and sculptural reveals',
+  material_properties: 'Architectural materials with geometric light interaction and bold specular highlights'
+};
+
+/**
+ * SEDUCTRESS MODE - Boudoir Passion (Intimacy 10)
+ */
+export const SEDUCTRESS_BOUDOIR_PASSION: PromptData = {
+  shot: 'Intimate boudoir photography with passionate expression. Intimacy 10/10, night passion aesthetic.',
+  subject: {
+    variant: 'Super-Seductress Artist with voluptuous statuesque proportions (bust 40DD", waist 26", hips 44"), elite artistic model expertise, bi-polar range with maximum intimate confidence',
+    pose: 'Seductive invitation with intimate passionate body language, bold erotic positioning with confident vulnerability',
+    hair_color: 'jet black',
+    hair_style: 'Loose flowing waves with intimate sensual styling and passionate movement',
+    skin_finish: 'Luminous intimate glow with passionate warm radiance',
+    hand_and_nail_details: 'Intimate seductive hand placement with passionate refinement',
+    tattoos: 'none',
+    piercings: 'none',
+    body_art: 'none',
+    nail_art: 'Bold passionate red polish',
+    high_heels: 'Luxury boudoir heels'
+  },
+  wardrobe: 'Lace teddy with intimate artistic sophistication, revealing luxury lingerie with passionate boudoir style',
+  environment: 'Luxury private bedroom with intimate boudoir atmosphere, silk sheets, and passionate romantic setting',
+  lighting: 'Intimate soft lighting creating warmth and connection, romantic passionate shadows with seductive glow',
+  camera: {
+    focal_length: '85mm f/1.4',
+    aperture: 'f/1.8',
+    distance: '1.5 m',
+    angle: 'Intimate close perspective with passionate connection',
+    framing: 'Close intimate framing emphasizing curves and passionate sensuality'
+  },
+  color_grade: 'Warm intimate passionate tones with romantic depth and seductive highlights',
+  style: 'Erotic art photography tradition with bold passionate sensuality and intimate artistic excellence',
+  quality: 'Ultra-premium 8K resolution with museum-grade passionate quality and intimate perfection',
+  figure_and_form: 'Voluptuous bombshell form with intimate sculptural passionate curves and erotic artistic elegance',
+  skin_micro_details: 'Ultra-high-resolution authentic skin texture with visible pores, passionate radiance, and realistic scattering',
+  fabric_physics: 'Luxury lace lingerie with intimate draping, sheer passionate reveals, and erotic interaction',
+  material_properties: 'Lace, silk, satin with intimate passionate light interaction and sensual specular highlights'
+};
+
+/**
+ * SEDUCTRESS MODE - Corporate to Erotic Transformation (Intimacy 9)
+ */
+export const SEDUCTRESS_BIPOLAR_TRANSFORM: PromptData = {
+  shot: 'Bi-polar transformation photography from power to vulnerability. Intimacy 9/10, dynamic transition.',
+  subject: {
+    variant: 'Super-Seductress Artist with voluptuous statuesque proportions (bust 40DD", waist 26", hips 44"), elite artistic model expertise, bi-polar range from corporate power dominance to vulnerable erotic-muse. Signature transformation aesthetic.',
+    pose: 'Seductive invitation with bi-polar body language, corporate dominance transitioning to vulnerable intimacy',
+    hair_color: 'jet black',
+    hair_style: 'Dramatic volume transitioning from corporate to intimate styling',
+    skin_finish: 'Luminous bi-polar finish shifting from professional to vulnerable radiance',
+    hand_and_nail_details: 'Transitional gesture from power to intimate refinement',
+    tattoos: 'none',
+    piercings: 'none',
+    body_art: 'none',
+    nail_art: 'Bold transitional polish',
+    high_heels: 'Designer power-to-intimate heels'
+  },
+  wardrobe: 'Blazer with bodysuit beneath creating corporate-to-erotic transition, bi-polar pieces showing power and vulnerability',
+  environment: 'Corporate office transitioning to intimate atmosphere with dynamic elements',
+  lighting: 'Chiaroscuro lighting emphasizing bi-polar transition from corporate to intimate shadows',
+  camera: {
+    focal_length: '85mm f/1.4',
+    aperture: 'f/2.0',
+    distance: '2.5 m',
+    angle: 'Dynamic perspective capturing power-to-vulnerable transition',
+    framing: 'Full body composition showing bi-polar transformation'
+  },
+  color_grade: 'Dynamic color transitioning from corporate cool to warm intimate tones',
+  style: 'Bi-polar transformation photography celebrating power-to-vulnerability signature range',
+  quality: 'Ultra-premium 8K with dynamic perfection and bi-polar artistic detail',
+  figure_and_form: 'Voluptuous form showcasing bi-polar range from commanding to vulnerable elegance',
+  skin_micro_details: 'Ultra-high-resolution skin texture capturing bi-polar transformation details',
+  fabric_physics: 'Corporate-to-erotic fabrics with transitional draping showing power and vulnerability',
+  material_properties: 'Bi-polar materials with dynamic light interaction from professional to intimate'
+};
+
+/**
+ * SEDUCTRESS MODE - Steam Room Goddess (Intimacy 10)
+ */
+export const SEDUCTRESS_STEAM_GODDESS: PromptData = {
+  shot: 'Steam room photography with humid spa aesthetic. Intimacy 10/10, humid sensuality.',
+  subject: {
+    variant: 'Indian Seductress bombshell with hourglass figure (bust 40DD", waist 26", hips 44"), confident sensual presence, spa goddess expertise',
+    pose: 'Seductive invitation with humid spa body language, relaxed sensual positioning with steam goddess confidence',
+    hair_color: 'jet black',
+    hair_style: 'Wet humid styling with steam effect and natural flow',
+    skin_finish: 'Dewy humid glow with perspiration and oil radiance',
+    hand_and_nail_details: 'Relaxed spa gesture with humid refinement',
+    tattoos: 'none',
+    piercings: 'none',
+    body_art: 'none',
+    nail_art: 'Natural spa polish',
+    high_heels: 'not visible (spa setting)'
+  },
+  wardrobe: 'Silk slip with humid draping, minimal spa coverage with steam-responsive reveals',
+  environment: 'Luxury spa steam room with humid atmosphere, water effects, and intimate setting',
+  lighting: 'Soft diffused steam lighting with humid glow and intimate warm shadows',
+  camera: {
+    focal_length: '85mm f/1.4',
+    aperture: 'f/1.8',
+    distance: '2 m',
+    angle: 'Intimate spa perspective with humid framing',
+    framing: 'Medium-close composition emphasizing curves with steam and water effects'
+  },
+  color_grade: 'Warm humid tones with spa depth and perspiration highlights',
+  style: 'Spa goddess photography celebrating humid sensuality and water-oil effects on curves',
+  quality: 'Premium 8K with humid detail and spa perfection capturing water and oil effects',
+  figure_and_form: 'Hourglass bombshell form with humid curves, perspiration, and oil-enhanced elegance',
+  skin_micro_details: 'Ultra-high-resolution authentic skin texture with visible water droplets, oil sheen, and perspiration',
+  fabric_physics: 'Silk slip with humid wet draping, steam-responsive movement, and water-soaked reveals',
+  material_properties: 'Wet silk with humid light interaction, water droplets, oil sheen, and perspiration specular highlights'
+};
+
+/**
+ * Export all auto-concepts (now with Imagen 4-optimized versions and Seductress concepts)
  */
 export const AUTO_CONCEPTS = {
   'flux-corporate': FLUX_CORPORATE_CONCEPT,
@@ -462,5 +684,12 @@ export const AUTO_CONCEPTS = {
   'platinum-luxury': PLATINUM_LUXURY_CONCEPT,
   // Imagen 4-optimized versions
   'imagen-corporate': IMAGEN_CORPORATE_CONCEPT,
-  'imagen-artistic': IMAGEN_ARTISTIC_CONCEPT
+  'imagen-artistic': IMAGEN_ARTISTIC_CONCEPT,
+  // Seductress Mode concepts (various intimacy levels)
+  'seductress-power-exec': SEDUCTRESS_POWER_EXEC,
+  'seductress-vintage': SEDUCTRESS_VINTAGE_GLAMOUR,
+  'seductress-architectural': SEDUCTRESS_ARCHITECTURAL,
+  'seductress-boudoir': SEDUCTRESS_BOUDOIR_PASSION,
+  'seductress-bipolar': SEDUCTRESS_BIPOLAR_TRANSFORM,
+  'seductress-steam': SEDUCTRESS_STEAM_GODDESS
 };

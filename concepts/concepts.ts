@@ -938,5 +938,30 @@ export const artisticConcepts: ArtisticConcept[] = [
   {
     name: '💎 Platinum: Luxury Multi-Layer',
     data: AUTO_CONCEPTS['platinum-luxury']
+  },
+  // Seductress Mode Concepts (Various Intimacy Levels)
+  {
+    name: '👔 Seductress: Power Executive (Int 6)',
+    data: AUTO_CONCEPTS['seductress-power-exec']
+  },
+  {
+    name: '🎀 Seductress: Vintage Glamour (Int 7)',
+    data: AUTO_CONCEPTS['seductress-vintage']
+  },
+  {
+    name: '⚡ Seductress: Architectural Form (Int 9)',
+    data: AUTO_CONCEPTS['seductress-architectural']
+  },
+  {
+    name: '🌹 Seductress: Boudoir Passion (Int 10)',
+    data: AUTO_CONCEPTS['seductress-boudoir']
+  },
+  {
+    name: '🎭 Seductress: Bi-Polar Transform (Int 9)',
+    data: AUTO_CONCEPTS['seductress-bipolar']
+  },
+  {
+    name: '💨 Seductress: Steam Goddess (Int 10)',
+    data: AUTO_CONCEPTS['seductress-steam']
   }
 ];

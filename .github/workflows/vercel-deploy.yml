@@ -1,0 +1,72 @@
+name: Vercel Deploy Hooks
+
+on:
+  push:
+    branches:
+      - 'claude/**'
+  pull_request:
+    branches:
+      - 'claude/**'
+
+jobs:
+  test-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        branch:
+          - claude/test-build-deploy-hooks-011CUzLG4EX5fybyy2E6b2qy
+          - claude/check-tools-011CUwxroJjnrY3ZzpXzQqDh
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ matrix.branch }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run build test
+        run: npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ matrix.branch }}
+          path: dist/
+          retention-days: 7
+
+  deploy-to-vercel:
+    needs: test-build
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    strategy:
+      matrix:
+        branch:
+          - claude/test-build-deploy-hooks-011CUzLG4EX5fybyy2E6b2qy
+          - claude/check-tools-011CUwxroJjnrY3ZzpXzQqDh
+
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        run: |
+          # Replace these with your actual Vercel deploy hook URLs
+          # Get these from: Vercel Dashboard > Project Settings > Git > Deploy Hooks
+
+          if [ "${{ matrix.branch }}" == "claude/test-build-deploy-hooks-011CUzLG4EX5fybyy2E6b2qy" ]; then
+            DEPLOY_HOOK_URL="${{ secrets.VERCEL_DEPLOY_HOOK_TEST_BUILD }}"
+          elif [ "${{ matrix.branch }}" == "claude/check-tools-011CUwxroJjnrY3ZzpXzQqDh" ]; then
+            DEPLOY_HOOK_URL="${{ secrets.VERCEL_DEPLOY_HOOK_CHECK_TOOLS }}"
+          fi
+
+          if [ -n "$DEPLOY_HOOK_URL" ]; then
+            curl -X POST "$DEPLOY_HOOK_URL"
+            echo "✓ Triggered Vercel deployment for ${{ matrix.branch }}"
+          else
+            echo "⚠ No deploy hook configured for ${{ matrix.branch }}"
+          fi

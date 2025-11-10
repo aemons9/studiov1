@@ -19,8 +19,10 @@ import PromptReviewModal from './components/PromptReviewModal';
 import TextPromptEditor from './components/TextPromptEditor';
 import SafetyBypassStrategySelector from './components/SafetyBypassStrategySelector';
 import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
+import ImagenPromptLibrarySelector from './components/ImagenPromptLibrarySelector';
 import QuickCorporateGenerator from './components/QuickCorporateGenerator';
 import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
+import { ImagenPromptTemplate } from './concepts/imagenPromptLibrary';
 import ExperimentalMode from './experimental/ExperimentalMode';
 import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
 import ArtisticMode from './artistic/ArtisticMode';
@@ -675,6 +677,35 @@ const App: React.FC = () => {
     });
   };
 
+  const handleSelectImagenPrompt = (template: ImagenPromptTemplate) => {
+    console.log('🎨 Selected Imagen prompt template:', template.name);
+
+    // Set the prompt in text mode (Imagen prompts include art director declarations)
+    setTextPrompt(template.prompt);
+    setPromptMode('text');
+
+    // Update generation settings to match template recommendations
+    setGenerationSettings(prev => {
+      return {
+        ...prev,
+        aspectRatio: template.aspectRatio,
+        intimacyLevel: template.intimacyLevel,
+        // Set provider to Vertex AI (Imagen 4) for these optimized prompts
+        provider: 'vertex-ai',
+        personGeneration: template.personGeneration,
+        safetyFilter: template.safetyFilter
+      };
+    });
+
+    console.log('✅ Imagen prompt loaded with optimal settings:', {
+      aspectRatio: template.aspectRatio,
+      intimacyLevel: template.intimacyLevel,
+      category: template.category,
+      personGeneration: template.personGeneration,
+      safetyFilter: template.safetyFilter
+    });
+  };
+
   const handleQuickCorporateGenerate = async (
     prompt: string,
     settings: { aspectRatio: '4:5' | '9:16' | '16:9' | '1:1', intimacyLevel: number, safetyTolerance: number }
@@ -1182,6 +1213,13 @@ const App: React.FC = () => {
             <div className="mt-6">
               <FluxPromptLibrarySelector
                 onSelectPrompt={handleSelectFluxPrompt}
+                onPopulateFields={handlePopulateFields}
+              />
+            </div>
+
+            <div className="mt-6">
+              <ImagenPromptLibrarySelector
+                onSelectPrompt={handleSelectImagenPrompt}
                 onPopulateFields={handlePopulateFields}
               />
             </div>

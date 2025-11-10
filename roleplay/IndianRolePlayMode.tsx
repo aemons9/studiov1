@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { ROLEPLAY_SCENARIOS, getRolePlayScenarioById, type RolePlayScenario } from './rolePlayConcepts';
 import { EROTIC_GLAMOUR_MODELS } from '../concepts/eroticGlamourModels';
 
 interface IndianRolePlayModeProps {
@@ -9,72 +8,78 @@ interface IndianRolePlayModeProps {
 }
 
 const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onMigrateToMain, onExit }) => {
-  const [selectedScenario, setSelectedScenario] = useState<RolePlayScenario | null>(null);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
-  const [unlockedRewards, setUnlockedRewards] = useState<string[]>([]);
-  const [customizations, setCustomizations] = useState({
-    pose: 'Standing intimate pose with seductive confidence',
-    wardrobe: 'Minimal luxury designer aesthetic with strategic reveals',
-    angle: 'Eye level intimate perspective',
-    framing: 'Medium shot emphasizing curves and presence'
-  });
+  const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
+  const [selectedWardrobe, setSelectedWardrobe] = useState<any | null>(null);
+  const [selectedPose, setSelectedPose] = useState<any | null>(null);
+  const [selectedEnvironment, setSelectedEnvironment] = useState<any | null>(null);
+  const [intimacyLevel, setIntimacyLevel] = useState<number>(10);
 
-  const handleScenarioSelect = (scenario: RolePlayScenario) => {
-    setSelectedScenario(scenario);
-    setCurrentStep(0);
-    setCompletedSteps([]);
-  };
+  const selectedModel = EROTIC_GLAMOUR_MODELS.find(m => m.id === selectedModelId);
 
-  const handleStepComplete = () => {
-    if (selectedScenario) {
-      const newCompleted = [...completedSteps, currentStep];
-      setCompletedSteps(newCompleted);
-
-      // Unlock reward if all steps completed
-      if (newCompleted.length === selectedScenario.gameElements.progressionSteps.length) {
-        setUnlockedRewards([...unlockedRewards, ...selectedScenario.gameElements.rewards]);
-      }
-
-      // Move to next step
-      if (currentStep < selectedScenario.gameElements.progressionSteps.length - 1) {
-        setCurrentStep(currentStep + 1);
-      }
+  // Generate the complete prompt based on selections
+  const generatePrompt = () => {
+    if (!selectedModel || !selectedWardrobe || !selectedPose || !selectedEnvironment) {
+      return '';
     }
+
+    const photographer = selectedModel.personalPhotographer;
+
+    return `Midnight role-playing photography. Intimacy ${intimacyLevel}/10. ${photographer.style}.
+
+subject: variant: Elite Indian artistic model specializing in ${selectedModel.category}. Height ${selectedModel.physicalTraits.height}. Physical traits: ${selectedModel.physicalTraits.bust} bust, ${selectedModel.physicalTraits.waist} waist, ${selectedModel.physicalTraits.hips} hips. ${selectedModel.physicalTraits.skinTone}. Specializing in ${selectedModel.physicalTraits.specialties || selectedModel.category}.
+
+pose: ${selectedPose.description}. ${selectedPose.poseName}.
+
+hair_color: jet black, hair_style: Midnight glamour with flowing elegance, skin_finish: ${selectedModel.physicalTraits.skinTone} with natural luminosity, hand_and_nail_details: Graceful positioning with glamorous manicure, tattoos: none, piercings: none, body_art: none, nail_art: Midnight glamour polish, high_heels: Designer stilettos.
+
+wardrobe: ${selectedWardrobe.description}. ${selectedWardrobe.fabricDetails}..
+
+environment: ${selectedEnvironment.location}. ${selectedEnvironment.ambiance}..
+
+lighting: ${photographer.lightingSignature}. ${selectedEnvironment.lighting}..
+
+camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: ${selectedEnvironment.cameraAngle}, framing: ${selectedPose.framing || 'Medium shot emphasizing form'}.
+
+color_grade: ${selectedEnvironment.colorGrade}.
+
+style: ${photographer.style}. Midnight encounter with ${selectedModel.name}. ${selectedModel.category} specialist with ${intimacyLevel}/10 intimacy. Collaborative artistic expression with trust-based intimacy.
+
+quality: Ultra-high-end 8K glamour photography with exceptional detail and natural authenticity.
+
+figure_and_form: ${selectedModel.emphasis}. Natural form celebrating feminine curves and presence.
+
+skin_micro_details: Authentic skin texture with natural pores and subsurface scattering. Professional finish maintaining natural beauty.
+
+fabric_physics: ${selectedWardrobe.fabricDetails}. Natural draping following gravity with realistic folds and texture.
+
+material_properties: Authentic materials from environment with natural light interaction. Luxury fabrics with premium tactile quality.`;
   };
 
   const handleGenerate = () => {
-    if (!selectedScenario) return;
+    if (!selectedModel || !selectedWardrobe || !selectedPose || !selectedEnvironment) {
+      alert('Please select a model, wardrobe, pose, and environment before generating.');
+      return;
+    }
 
-    // Replace placeholders in template with customizations
-    let finalPrompt = selectedScenario.promptTemplate
-      .replace('{ROLEPLAY_POSE}', customizations.pose)
-      .replace('{ROLEPLAY_WARDROBE}', customizations.wardrobe)
-      .replace('{ROLEPLAY_ANGLE}', customizations.angle)
-      .replace('{ROLEPLAY_FRAMING}', customizations.framing);
-
+    const prompt = generatePrompt();
     const settings = {
-      aspectRatio: selectedScenario.aspectRatio,
-      intimacyLevel: selectedScenario.intimacyLevel,
-      fluxSafetyTolerance: selectedScenario.safetyTolerance,
+      aspectRatio: selectedPose.aspectRatio || '4:5',
+      intimacyLevel: intimacyLevel,
+      fluxSafetyTolerance: selectedModel.personalPhotographer.fluxSettings.safetyTolerance,
       provider: 'replicate-flux'
     };
 
-    onGenerate(finalPrompt, settings);
+    onGenerate(prompt, settings);
   };
 
-  const getDifficultyColor = (difficulty: RolePlayScenario['difficultyLevel']) => {
-    switch (difficulty) {
-      case 'beginner': return '#10B981';
-      case 'intermediate': return '#F59E0B';
-      case 'advanced': return '#F97316';
-      case 'expert': return '#EF4444';
+  const handleMigrate = () => {
+    if (!selectedModel || !selectedWardrobe || !selectedPose || !selectedEnvironment) {
+      alert('Please select a model, wardrobe, pose, and environment before migrating.');
+      return;
     }
-  };
 
-  const getProgressPercentage = () => {
-    if (!selectedScenario) return 0;
-    return (completedSteps.length / selectedScenario.gameElements.progressionSteps.length) * 100;
+    const prompt = generatePrompt();
+    onMigrateToMain(prompt);
   };
 
   return (
@@ -102,7 +107,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
               Indian Role-Play Mode
             </h1>
             <p style={{ fontSize: '14px', color: '#D1D5DB', margin: '4px 0 0 0' }}>
-              Gamified Midnight Encounter Experiences
+              Visual Selection: 9 Models × Multiple Variations
             </p>
           </div>
         </div>
@@ -124,437 +129,294 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
         </button>
       </div>
 
-      <div style={{ display: 'flex', height: 'calc(100vh - 84px)' }}>
-        {/* Left Panel - Scenario Selection */}
-        <div style={{
-          width: '380px',
-          backgroundColor: 'rgba(15, 5, 30, 0.6)',
-          borderRight: '1px solid rgba(147, 51, 234, 0.2)',
-          overflowY: 'auto',
-          padding: '20px'
-        }}>
-          <h2 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px', color: '#C084FC' }}>
-            📜 Select Scenario
+      <div style={{ padding: '32px', maxWidth: '1800px', margin: '0 auto' }}>
+        {/* Model Selector */}
+        <div style={{ marginBottom: '32px' }}>
+          <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', color: '#F472B6' }}>
+            📸 Step 1: Select Your Model
           </h2>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            {ROLEPLAY_SCENARIOS.map((scenario) => (
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '16px'
+          }}>
+            {EROTIC_GLAMOUR_MODELS.map((model) => (
               <div
-                key={scenario.id}
-                onClick={() => handleScenarioSelect(scenario)}
+                key={model.id}
+                onClick={() => {
+                  setSelectedModelId(model.id);
+                  setSelectedWardrobe(null);
+                  setSelectedPose(null);
+                  setSelectedEnvironment(model.environments?.[0] || null);
+                }}
                 style={{
-                  padding: '16px',
-                  backgroundColor: selectedScenario?.id === scenario.id ? 'rgba(147, 51, 234, 0.3)' : 'rgba(30, 10, 50, 0.5)',
-                  border: selectedScenario?.id === scenario.id ? '2px solid #9333EA' : '1px solid rgba(147, 51, 234, 0.2)',
+                  padding: '20px',
+                  backgroundColor: selectedModelId === model.id ? 'rgba(147, 51, 234, 0.3)' : 'rgba(30, 10, 50, 0.5)',
+                  border: selectedModelId === model.id ? '2px solid #9333EA' : '1px solid rgba(147, 51, 234, 0.2)',
                   borderRadius: '12px',
                   cursor: 'pointer',
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s',
+                  minHeight: '180px'
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
-                  <h3 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', margin: 0 }}>
-                    {scenario.name}
-                  </h3>
-                  <span style={{
-                    padding: '4px 8px',
-                    backgroundColor: getDifficultyColor(scenario.difficultyLevel) + '33',
-                    color: getDifficultyColor(scenario.difficultyLevel),
-                    borderRadius: '6px',
-                    fontSize: '11px',
-                    fontWeight: 'bold',
-                    textTransform: 'uppercase'
-                  }}>
-                    {scenario.difficultyLevel}
-                  </span>
-                </div>
-
-                <p style={{ fontSize: '12px', color: '#9CA3AF', margin: '8px 0' }}>
-                  {scenario.theme}
+                <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
+                  {model.name}
+                </h3>
+                <p style={{ fontSize: '13px', color: '#C084FC', marginBottom: '12px' }}>
+                  {model.category}
                 </p>
-
-                <div style={{ display: 'flex', gap: '12px', marginTop: '12px' }}>
-                  <span style={{ fontSize: '12px', color: '#F472B6' }}>
-                    ❤️ Intimacy {scenario.intimacyLevel}/10
-                  </span>
-                  <span style={{ fontSize: '12px', color: '#A78BFA' }}>
-                    {scenario.modelName}
-                  </span>
+                <div style={{ fontSize: '12px', color: '#9CA3AF', lineHeight: '1.6' }}>
+                  <div style={{ marginBottom: '6px' }}>
+                    <strong style={{ color: '#F472B6' }}>Emphasis:</strong> {model.emphasis}
+                  </div>
+                  <div style={{ marginBottom: '6px' }}>
+                    <strong style={{ color: '#F472B6' }}>Figure:</strong> {model.physicalTraits.bust} / {model.physicalTraits.waist} / {model.physicalTraits.hips}
+                  </div>
+                  <div>
+                    <strong style={{ color: '#F472B6' }}>Photographer:</strong> {model.personalPhotographer.name}
+                  </div>
                 </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Center Panel - Main Content */}
-        <div style={{ flex: 1, overflowY: 'auto', padding: '32px' }}>
-          {!selectedScenario ? (
-            <div style={{ textAlign: 'center', paddingTop: '100px' }}>
-              <span style={{ fontSize: '64px', display: 'block', marginBottom: '20px' }}>🎭</span>
-              <h2 style={{ fontSize: '24px', fontWeight: 'bold', color: '#C084FC', marginBottom: '12px' }}>
-                Select a Scenario to Begin
+        {/* Wardrobe, Pose, Environment Selectors (only shown after model selection) */}
+        {selectedModel && (
+          <>
+            {/* Wardrobe Selector */}
+            <div style={{ marginBottom: '32px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', color: '#F472B6' }}>
+                👗 Step 2: Select Wardrobe ({selectedModel.wardrobeCollection?.length || 0} options)
               </h2>
-              <p style={{ color: '#9CA3AF', fontSize: '16px' }}>
-                Choose from 9 midnight role-playing encounters on the left
-              </p>
-            </div>
-          ) : (
-            <>
-              {/* Progress Bar */}
-              <div style={{ marginBottom: '32px' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px' }}>
-                  <span style={{ fontSize: '14px', fontWeight: '600', color: '#F472B6' }}>
-                    Scene Progress
-                  </span>
-                  <span style={{ fontSize: '14px', color: '#9CA3AF' }}>
-                    {completedSteps.length} / {selectedScenario.gameElements.progressionSteps.length} Steps
-                  </span>
-                </div>
-                <div style={{
-                  width: '100%',
-                  height: '8px',
-                  backgroundColor: 'rgba(147, 51, 234, 0.2)',
-                  borderRadius: '4px',
-                  overflow: 'hidden'
-                }}>
-                  <div style={{
-                    width: `${getProgressPercentage()}%`,
-                    height: '100%',
-                    background: 'linear-gradient(90deg, #F472B6 0%, #C084FC 100%)',
-                    transition: 'width 0.3s'
-                  }} />
-                </div>
-              </div>
-
-              {/* Scenario Details */}
               <div style={{
-                padding: '24px',
-                backgroundColor: 'rgba(30, 10, 50, 0.5)',
-                borderRadius: '16px',
-                border: '1px solid rgba(147, 51, 234, 0.3)',
-                marginBottom: '24px'
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
+                gap: '16px'
               }}>
-                <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '12px', color: '#F3F4F6' }}>
-                  {selectedScenario.name}
-                </h2>
-                <p style={{ fontSize: '14px', color: '#D1D5DB', lineHeight: '1.6', marginBottom: '16px' }}>
-                  {selectedScenario.scenario}
-                </p>
-
-                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                  <div style={{ padding: '8px 16px', backgroundColor: 'rgba(147, 51, 234, 0.2)', borderRadius: '8px' }}>
-                    <span style={{ fontSize: '12px', color: '#C084FC' }}>
-                      📍 {selectedScenario.environment}
-                    </span>
-                  </div>
-                  <div style={{ padding: '8px 16px', backgroundColor: 'rgba(236, 72, 153, 0.2)', borderRadius: '8px' }}>
-                    <span style={{ fontSize: '12px', color: '#F472B6' }}>
-                      🎬 {selectedScenario.theme}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Progression Steps */}
-              <div style={{ marginBottom: '24px' }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px', color: '#C084FC' }}>
-                  🎯 Scene Progression
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                  {selectedScenario.gameElements.progressionSteps.map((step, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        padding: '16px',
-                        backgroundColor: completedSteps.includes(index) ? 'rgba(34, 197, 94, 0.2)' : index === currentStep ? 'rgba(236, 72, 153, 0.2)' : 'rgba(30, 10, 50, 0.3)',
-                        border: completedSteps.includes(index) ? '2px solid #22C55E' : index === currentStep ? '2px solid #F472B6' : '1px solid rgba(147, 51, 234, 0.2)',
-                        borderRadius: '12px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '12px'
-                      }}
-                    >
-                      <div style={{
-                        width: '32px',
-                        height: '32px',
-                        borderRadius: '50%',
-                        backgroundColor: completedSteps.includes(index) ? '#22C55E' : index === currentStep ? '#F472B6' : 'rgba(147, 51, 234, 0.3)',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '16px',
-                        fontWeight: 'bold',
-                        color: '#FFF'
-                      }}>
-                        {completedSteps.includes(index) ? '✓' : index + 1}
-                      </div>
-                      <span style={{ fontSize: '14px', color: '#F3F4F6' }}>
-                        {step}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-
-                {!completedSteps.includes(currentStep) && (
-                  <button
-                    onClick={handleStepComplete}
+                {selectedModel.wardrobeCollection?.map((wardrobe) => (
+                  <div
+                    key={wardrobe.id}
+                    onClick={() => setSelectedWardrobe(wardrobe)}
                     style={{
-                      marginTop: '16px',
-                      padding: '12px 24px',
-                      backgroundColor: '#F472B6',
-                      border: 'none',
-                      borderRadius: '8px',
-                      color: '#FFF',
+                      padding: '16px',
+                      backgroundColor: selectedWardrobe?.id === wardrobe.id ? 'rgba(236, 72, 153, 0.3)' : 'rgba(30, 10, 50, 0.5)',
+                      border: selectedWardrobe?.id === wardrobe.id ? '2px solid #EC4899' : '1px solid rgba(236, 72, 153, 0.2)',
+                      borderRadius: '12px',
                       cursor: 'pointer',
-                      fontSize: '14px',
-                      fontWeight: '600',
-                      width: '100%'
+                      transition: 'all 0.2s'
                     }}
                   >
-                    ✓ Complete Current Step
-                  </button>
-                )}
+                    <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
+                      {wardrobe.name}
+                    </h4>
+                    <p style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.5', marginBottom: '8px' }}>
+                      {wardrobe.description}
+                    </p>
+                    <div style={{ fontSize: '12px', color: '#9CA3AF' }}>
+                      <strong style={{ color: '#F472B6' }}>Fabric:</strong> {wardrobe.fabricDetails}
+                    </div>
+                  </div>
+                ))}
               </div>
+            </div>
 
-              {/* Customization Panel */}
+            {/* Pose Selector */}
+            <div style={{ marginBottom: '32px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', color: '#F472B6' }}>
+                💃 Step 3: Select Pose ({selectedModel.poseGallery?.length || 0} options)
+              </h2>
               <div style={{
-                padding: '20px',
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+                gap: '16px'
+              }}>
+                {selectedModel.poseGallery?.map((pose) => (
+                  <div
+                    key={pose.id}
+                    onClick={() => setSelectedPose(pose)}
+                    style={{
+                      padding: '16px',
+                      backgroundColor: selectedPose?.id === pose.id ? 'rgba(192, 132, 252, 0.3)' : 'rgba(30, 10, 50, 0.5)',
+                      border: selectedPose?.id === pose.id ? '2px solid #C084FC' : '1px solid rgba(192, 132, 252, 0.2)',
+                      borderRadius: '12px',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
+                    }}
+                  >
+                    <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
+                      {pose.poseName}
+                    </h4>
+                    <p style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.5' }}>
+                      {pose.description}
+                    </p>
+                    {pose.aspectRatio && (
+                      <div style={{ fontSize: '12px', color: '#9CA3AF', marginTop: '8px' }}>
+                        <strong style={{ color: '#C084FC' }}>Aspect Ratio:</strong> {pose.aspectRatio}
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Environment & Intimacy Controls */}
+            <div style={{ marginBottom: '32px' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', color: '#F472B6' }}>
+                🌃 Step 4: Environment & Intimacy Settings
+              </h2>
+
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '2fr 1fr',
+                gap: '24px',
+                padding: '24px',
                 backgroundColor: 'rgba(30, 10, 50, 0.5)',
                 borderRadius: '12px',
-                border: '1px solid rgba(147, 51, 234, 0.3)',
-                marginBottom: '24px'
+                border: '1px solid rgba(147, 51, 234, 0.3)'
               }}>
-                <h3 style={{ fontSize: '18px', fontWeight: 'bold', marginBottom: '16px', color: '#C084FC' }}>
-                  🎨 Customize Scene
-                </h3>
-
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                  <div>
-                    <label style={{ fontSize: '12px', color: '#9CA3AF', display: 'block', marginBottom: '8px' }}>
-                      Pose Style:
-                    </label>
-                    <input
-                      type="text"
-                      value={customizations.pose}
-                      onChange={(e) => setCustomizations({ ...customizations, pose: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '10px',
-                        backgroundColor: 'rgba(15, 5, 30, 0.6)',
-                        border: '1px solid rgba(147, 51, 234, 0.3)',
-                        borderRadius: '8px',
-                        color: '#F3F4F6',
-                        fontSize: '14px'
-                      }}
-                    />
-                  </div>
-
-                  <div>
-                    <label style={{ fontSize: '12px', color: '#9CA3AF', display: 'block', marginBottom: '8px' }}>
-                      Wardrobe:
-                    </label>
-                    <input
-                      type="text"
-                      value={customizations.wardrobe}
-                      onChange={(e) => setCustomizations({ ...customizations, wardrobe: e.target.value })}
-                      style={{
-                        width: '100%',
-                        padding: '10px',
-                        backgroundColor: 'rgba(15, 5, 30, 0.6)',
-                        border: '1px solid rgba(147, 51, 234, 0.3)',
-                        borderRadius: '8px',
-                        color: '#F3F4F6',
-                        fontSize: '14px'
-                      }}
-                    />
-                  </div>
-
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
-                    <div>
-                      <label style={{ fontSize: '12px', color: '#9CA3AF', display: 'block', marginBottom: '8px' }}>
-                        Camera Angle:
-                      </label>
-                      <select
-                        value={customizations.angle}
-                        onChange={(e) => setCustomizations({ ...customizations, angle: e.target.value })}
+                {/* Environment Selector */}
+                <div>
+                  <label style={{ fontSize: '14px', color: '#C084FC', display: 'block', marginBottom: '12px', fontWeight: '600' }}>
+                    Environment / Location
+                  </label>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {selectedModel.environments?.map((env, idx) => (
+                      <div
+                        key={idx}
+                        onClick={() => setSelectedEnvironment(env)}
                         style={{
-                          width: '100%',
-                          padding: '10px',
-                          backgroundColor: 'rgba(15, 5, 30, 0.6)',
-                          border: '1px solid rgba(147, 51, 234, 0.3)',
+                          padding: '12px',
+                          backgroundColor: selectedEnvironment === env ? 'rgba(147, 51, 234, 0.3)' : 'rgba(15, 5, 30, 0.6)',
+                          border: selectedEnvironment === env ? '2px solid #9333EA' : '1px solid rgba(147, 51, 234, 0.2)',
                           borderRadius: '8px',
-                          color: '#F3F4F6',
-                          fontSize: '14px'
+                          cursor: 'pointer',
+                          transition: 'all 0.2s'
                         }}
                       >
-                        <option value="Eye level intimate perspective">Eye Level</option>
-                        <option value="Low angle looking up emphasizing power">Low Angle (Power)</option>
-                        <option value="Elevated looking down creating intimacy">High Angle (Intimate)</option>
-                        <option value="Side profile perspective">Side Profile</option>
-                      </select>
-                    </div>
-
-                    <div>
-                      <label style={{ fontSize: '12px', color: '#9CA3AF', display: 'block', marginBottom: '8px' }}>
-                        Framing:
-                      </label>
-                      <select
-                        value={customizations.framing}
-                        onChange={(e) => setCustomizations({ ...customizations, framing: e.target.value })}
-                        style={{
-                          width: '100%',
-                          padding: '10px',
-                          backgroundColor: 'rgba(15, 5, 30, 0.6)',
-                          border: '1px solid rgba(147, 51, 234, 0.3)',
-                          borderRadius: '8px',
-                          color: '#F3F4F6',
-                          fontSize: '14px'
-                        }}
-                      >
-                        <option value="Full body emphasizing complete form">Full Body</option>
-                        <option value="Medium shot bust to thigh">Medium Shot</option>
-                        <option value="Close intimate portrait">Close Portrait</option>
-                        <option value="Wide environmental context">Wide Scene</option>
-                      </select>
-                    </div>
+                        <div style={{ fontSize: '14px', color: '#F3F4F6', fontWeight: '500', marginBottom: '4px' }}>
+                          {env.location}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#9CA3AF' }}>
+                          {env.ambiance}
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              </div>
 
-              {/* Action Buttons */}
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <button
-                  onClick={handleGenerate}
-                  style={{
-                    flex: 1,
+                {/* Intimacy Level Slider */}
+                <div>
+                  <label style={{ fontSize: '14px', color: '#C084FC', display: 'block', marginBottom: '12px', fontWeight: '600' }}>
+                    Intimacy Level: {intimacyLevel}/10
+                  </label>
+                  <input
+                    type="range"
+                    min="1"
+                    max="10"
+                    value={intimacyLevel}
+                    onChange={(e) => setIntimacyLevel(parseInt(e.target.value))}
+                    style={{
+                      width: '100%',
+                      height: '8px',
+                      borderRadius: '4px',
+                      outline: 'none',
+                      marginBottom: '12px'
+                    }}
+                  />
+                  <div style={{ fontSize: '12px', color: '#9CA3AF' }}>
+                    {intimacyLevel <= 3 && 'Subtle and elegant'}
+                    {intimacyLevel > 3 && intimacyLevel <= 6 && 'Sensual and artistic'}
+                    {intimacyLevel > 6 && intimacyLevel <= 8 && 'Bold and expressive'}
+                    {intimacyLevel > 8 && 'Maximum intimacy and revelation'}
+                  </div>
+
+                  {/* Preview Card */}
+                  <div style={{
+                    marginTop: '24px',
                     padding: '16px',
-                    background: 'linear-gradient(135deg, #F472B6 0%, #C084FC 100%)',
-                    border: 'none',
-                    borderRadius: '12px',
-                    color: '#FFF',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  🎬 Generate Scene
-                </button>
-
-                <button
-                  onClick={() => onMigrateToMain(selectedScenario.promptTemplate)}
-                  style={{
-                    padding: '16px 24px',
-                    backgroundColor: 'rgba(99, 102, 241, 0.2)',
-                    border: '1px solid #6366F1',
-                    borderRadius: '12px',
-                    color: '#A5B4FC',
-                    cursor: 'pointer',
-                    fontSize: '14px',
-                    fontWeight: '600'
-                  }}
-                >
-                  📋 To Main Mode
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-
-        {/* Right Panel - Game Elements */}
-        <div style={{
-          width: '320px',
-          backgroundColor: 'rgba(15, 5, 30, 0.6)',
-          borderLeft: '1px solid rgba(147, 51, 234, 0.2)',
-          overflowY: 'auto',
-          padding: '20px'
-        }}>
-          {selectedScenario && (
-            <>
-              {/* Objective */}
-              <div style={{ marginBottom: '24px' }}>
-                <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '12px', color: '#F472B6' }}>
-                  🎯 Mission Objective
-                </h3>
-                <p style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.5' }}>
-                  {selectedScenario.gameElements.objective}
-                </p>
-              </div>
-
-              {/* Challenges */}
-              <div style={{ marginBottom: '24px' }}>
-                <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '12px', color: '#F59E0B' }}>
-                  ⚡ Challenges
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {selectedScenario.gameElements.challenges.map((challenge, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        padding: '10px',
-                        backgroundColor: 'rgba(251, 146, 60, 0.1)',
-                        border: '1px solid rgba(251, 146, 60, 0.3)',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                        color: '#FCD34D'
-                      }}
-                    >
-                      • {challenge}
+                    backgroundColor: 'rgba(147, 51, 234, 0.1)',
+                    border: '1px solid rgba(147, 51, 234, 0.3)',
+                    borderRadius: '8px'
+                  }}>
+                    <h4 style={{ fontSize: '13px', fontWeight: 'bold', color: '#F472B6', marginBottom: '12px' }}>
+                      Current Selection
+                    </h4>
+                    <div style={{ fontSize: '11px', color: '#D1D5DB', lineHeight: '1.8' }}>
+                      <div><strong>Model:</strong> {selectedModel.name}</div>
+                      <div><strong>Wardrobe:</strong> {selectedWardrobe?.name || 'Not selected'}</div>
+                      <div><strong>Pose:</strong> {selectedPose?.poseName || 'Not selected'}</div>
+                      <div><strong>Environment:</strong> {selectedEnvironment?.location || 'Not selected'}</div>
+                      <div><strong>Intimacy:</strong> {intimacyLevel}/10</div>
                     </div>
-                  ))}
+                  </div>
                 </div>
               </div>
+            </div>
 
-              {/* Rewards */}
-              <div>
-                <h3 style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '12px', color: '#10B981' }}>
-                  🏆 Rewards
-                </h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                  {selectedScenario.gameElements.rewards.map((reward, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        padding: '10px',
-                        backgroundColor: unlockedRewards.includes(reward) ? 'rgba(34, 197, 94, 0.2)' : 'rgba(16, 185, 129, 0.1)',
-                        border: unlockedRewards.includes(reward) ? '1px solid #22C55E' : '1px solid rgba(16, 185, 129, 0.3)',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                        color: unlockedRewards.includes(reward) ? '#6EE7B7' : '#86EFAC',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                      }}
-                    >
-                      <span>{unlockedRewards.includes(reward) ? '✓' : '🔒'}</span>
-                      <span>{reward}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
+            {/* Action Buttons */}
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+              <button
+                onClick={handleGenerate}
+                disabled={!selectedWardrobe || !selectedPose || !selectedEnvironment}
+                style={{
+                  padding: '16px 48px',
+                  background: (!selectedWardrobe || !selectedPose || !selectedEnvironment)
+                    ? 'rgba(75, 85, 99, 0.5)'
+                    : 'linear-gradient(135deg, #F472B6 0%, #C084FC 100%)',
+                  border: 'none',
+                  borderRadius: '12px',
+                  color: '#FFF',
+                  cursor: (!selectedWardrobe || !selectedPose || !selectedEnvironment) ? 'not-allowed' : 'pointer',
+                  fontSize: '18px',
+                  fontWeight: 'bold',
+                  opacity: (!selectedWardrobe || !selectedPose || !selectedEnvironment) ? 0.5 : 1
+                }}
+              >
+                🎬 Generate Scene
+              </button>
 
-              {/* Stats */}
-              <div style={{ marginTop: '24px', padding: '16px', backgroundColor: 'rgba(99, 102, 241, 0.1)', borderRadius: '12px' }}>
-                <h4 style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '12px', color: '#A5B4FC' }}>
-                  📊 Session Stats
-                </h4>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', fontSize: '12px', color: '#D1D5DB' }}>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Completed Steps:</span>
-                    <span style={{ fontWeight: 'bold', color: '#F472B6' }}>{completedSteps.length}/{selectedScenario.gameElements.progressionSteps.length}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Unlocked Rewards:</span>
-                    <span style={{ fontWeight: 'bold', color: '#10B981' }}>{unlockedRewards.length}/{selectedScenario.gameElements.rewards.length}</span>
-                  </div>
-                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <span>Difficulty:</span>
-                    <span style={{ fontWeight: 'bold', color: getDifficultyColor(selectedScenario.difficultyLevel), textTransform: 'uppercase' }}>
-                      {selectedScenario.difficultyLevel}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </>
-          )}
+              <button
+                onClick={handleMigrate}
+                disabled={!selectedWardrobe || !selectedPose || !selectedEnvironment}
+                style={{
+                  padding: '16px 48px',
+                  backgroundColor: (!selectedWardrobe || !selectedPose || !selectedEnvironment)
+                    ? 'rgba(75, 85, 99, 0.3)'
+                    : 'rgba(99, 102, 241, 0.2)',
+                  border: `1px solid ${(!selectedWardrobe || !selectedPose || !selectedEnvironment) ? '#4B5563' : '#6366F1'}`,
+                  borderRadius: '12px',
+                  color: (!selectedWardrobe || !selectedPose || !selectedEnvironment) ? '#6B7280' : '#A5B4FC',
+                  cursor: (!selectedWardrobe || !selectedPose || !selectedEnvironment) ? 'not-allowed' : 'pointer',
+                  fontSize: '16px',
+                  fontWeight: '600',
+                  opacity: (!selectedWardrobe || !selectedPose || !selectedEnvironment) ? 0.5 : 1
+                }}
+              >
+                📋 Migrate to Main Mode
+              </button>
+            </div>
+          </>
+        )}
+
+        {/* Info Footer */}
+        <div style={{ marginTop: '48px', padding: '20px', backgroundColor: 'rgba(147, 51, 234, 0.1)', border: '1px solid rgba(147, 51, 234, 0.3)', borderRadius: '12px' }}>
+          <div style={{ display: 'flex', gap: '12px' }}>
+            <svg className="w-5 h-5" style={{ width: '20px', height: '20px', color: '#F472B6', flexShrink: 0, marginTop: '2px' }} fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+            </svg>
+            <div style={{ fontSize: '13px' }}>
+              <p style={{ color: '#F472B6', fontWeight: 'bold', marginBottom: '8px' }}>Visual Selection Mode:</p>
+              <ul style={{ color: '#D1D5DB', lineHeight: '1.8', marginLeft: '20px' }}>
+                <li>✅ 9 specialized Indian glamour models with distinct emphasis and style</li>
+                <li>✅ 3 wardrobe variations per model with detailed descriptions</li>
+                <li>✅ 4 signature poses per model optimized for their specialty</li>
+                <li>✅ Multiple environment/location options with atmospheric details</li>
+                <li>✅ Intimacy level control (1-10) for personalized experience</li>
+                <li>✅ All selections paired with 10/10 intimacy personal photographers</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>

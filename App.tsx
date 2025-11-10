@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, HistoryEntry, AdherenceLevel, CloudStorageConfig, StorageProvider, StorageSettings, CalculatedLevels } from './types';
 import { generateImage, enhancePrompt, weavePrompt, generateAndSaveImage, type StorageConfig, applyAdvancedSelections } from './services/geminiService';
 import { generateWithMaximumSafety, getGenerationSummary } from './services/intelligentGenerationService';
+import { parseFluxPromptToData } from './services/promptParser';
 import { DEFAULT_BUCKET_NAME } from './services/cloudStorageService';
 import { DEFAULT_DRIVE_FOLDER } from './services/googleDriveService';
 import Header from './components/Header';
@@ -1092,23 +1093,28 @@ const App: React.FC = () => {
 
     setTextPrompt(prompt);
     setPromptMode('text');
-    setGenerationSettings(prev => ({ ...prev, ...settings }));
+
+    // Merge settings properly
+    const mergedSettings = { ...generationSettings, ...settings };
+    setGenerationSettings(mergedSettings);
 
     // Auto-generate with the role-play prompt
     try {
       setIsLoading(true);
       setError(null);
 
+      // Fix: generateWithMaximumSafety expects (wovenPrompt, promptData, settings)
       const result = await generateWithMaximumSafety(
-        { ...generationSettings, ...settings },
-        prompt,
-        null
+        prompt,           // wovenPrompt: string
+        null,            // promptData: PromptData | null
+        mergedSettings   // settings: GenerationSettings
       );
 
       setGeneratedImages(result.images);
       setWovenPrompt(result.wovenPrompt);
       setGenerationStep(result.step);
     } catch (err: any) {
+      console.error('🎭 Role-Play Generation Error:', err);
       setError(err.message);
     } finally {
       setIsLoading(false);
@@ -1116,10 +1122,35 @@ const App: React.FC = () => {
   };
 
   const handleMigrateFromRolePlay = (promptTemplate: string) => {
-    setTextPrompt(promptTemplate);
-    setPromptMode('text');
-    setUiMode('classic');
-    alert('🎭 Role-play scenario template migrated to text mode! You can now customize it further.');
+    try {
+      // Parse the role-play prompt template into PromptData
+      // The template contains placeholders, so extract the base structure
+      const basePrompt = promptTemplate
+        .replace('{ROLEPLAY_POSE}', 'Natural confident pose with intimate expression')
+        .replace('{ROLEPLAY_WARDROBE}', 'Minimal luxury designer aesthetic with strategic reveals')
+        .replace('{ROLEPLAY_ANGLE}', 'Eye level intimate perspective')
+        .replace('{ROLEPLAY_FRAMING}', 'Medium shot emphasizing curves and presence');
+
+      // Parse into structured JSON fields
+      const parsedData = parseFluxPromptToData(basePrompt);
+
+      // Set the parsed data and switch to JSON mode
+      setPromptData(parsedData);
+      setPromptMode('json');
+      setUiMode('classic');
+
+      // Show success message
+      setTimeout(() => {
+        alert('🎭 Role-play scenario migrated to JSON mode! All fields populated from scenario template. You can now customize each field individually.');
+      }, 100);
+    } catch (error) {
+      console.error('Error migrating from role-play mode:', error);
+      // Fallback to text mode if parsing fails
+      setTextPrompt(promptTemplate);
+      setPromptMode('text');
+      setUiMode('classic');
+      alert('🎭 Role-play scenario migrated to text mode. Note: Parsing to JSON failed, but you can edit the raw prompt.');
+    }
   };
 
   const handleMigrateFromPlatinum = (prompt: string, state: PlatinumModeState) => {

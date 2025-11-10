@@ -168,9 +168,9 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
                                 </div>
                                 <div className="absolute bottom-full left-0 mb-2 w-64 p-3 bg-gray-900 text-white text-xs rounded-lg shadow-xl opacity-0 group-hover/tooltip:opacity-100 transition-opacity duration-300 pointer-events-none">
                                     <h4 className="font-bold mb-1 border-b border-gray-600 pb-1">Generation Info</h4>
-                                    <p><span className="font-semibold">Model:</span> {data.settings.modelId}</p>
-                                    <p><span className="font-semibold">Seed:</span> {data.settings.seed || 'Random'}</p>
-                                    <p><span className="font-semibold">Aspect Ratio:</span> {data.settings.aspectRatio}</p>
+                                    <p><span className="font-semibold">Model:</span> {data.settings?.modelId || 'N/A'}</p>
+                                    <p><span className="font-semibold">Seed:</span> {data.settings?.seed || 'Random'}</p>
+                                    <p><span className="font-semibold">Aspect Ratio:</span> {data.settings?.aspectRatio || 'N/A'}</p>
                                 </div>
                            </div>
                         </div>

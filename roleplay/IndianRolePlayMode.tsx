@@ -34,13 +34,13 @@ hair_color: jet black, hair_style: Midnight glamour with flowing elegance, skin_
 
 wardrobe: ${selectedWardrobe.description}. ${selectedWardrobe.fabricDetails}..
 
-environment: ${selectedEnvironment.location}. ${selectedEnvironment.ambiance}..
+environment: ${selectedEnvironment.name}. ${selectedEnvironment.description}. ${selectedEnvironment.atmosphere}..
 
-lighting: ${photographer.lightingSignature}. ${selectedEnvironment.lighting}..
+lighting: ${photographer.lightingSignature}. ${selectedEnvironment.lightingProfile}..
 
-camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: ${selectedEnvironment.cameraAngle}, framing: ${selectedPose.framing || 'Medium shot emphasizing form'}.
+camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: Eye level intimate perspective, framing: ${selectedPose.framing || 'Medium shot emphasizing form'}.
 
-color_grade: ${selectedEnvironment.colorGrade}.
+color_grade: Midnight dramatic tones with sensual warmth and natural color balance.
 
 style: ${photographer.style}. Midnight encounter with ${selectedModel.name}. ${selectedModel.category} specialist with ${intimacyLevel}/10 intimacy. Collaborative artistic expression with trust-based intimacy.
 
@@ -295,10 +295,10 @@ material_properties: Authentic materials from environment with natural light int
                         }}
                       >
                         <div style={{ fontSize: '14px', color: '#F3F4F6', fontWeight: '500', marginBottom: '4px' }}>
-                          {env.location}
+                          {env.name}
                         </div>
                         <div style={{ fontSize: '12px', color: '#9CA3AF' }}>
-                          {env.ambiance}
+                          {env.atmosphere}
                         </div>
                       </div>
                     ))}
@@ -346,7 +346,7 @@ material_properties: Authentic materials from environment with natural light int
                       <div><strong>Model:</strong> {selectedModel.name}</div>
                       <div><strong>Wardrobe:</strong> {selectedWardrobe?.name || 'Not selected'}</div>
                       <div><strong>Pose:</strong> {selectedPose?.poseName || 'Not selected'}</div>
-                      <div><strong>Environment:</strong> {selectedEnvironment?.location || 'Not selected'}</div>
+                      <div><strong>Environment:</strong> {selectedEnvironment?.name || 'Not selected'}</div>
                       <div><strong>Intimacy:</strong> {intimacyLevel}/10</div>
                     </div>
                   </div>

@@ -6,6 +6,7 @@
  */
 
 import { PromptData } from '../types';
+import rolePlayModeConcepts from './rolePlayModeConcepts';
 
 /**
  * FLUX LIBRARY - Corporate Power Category
@@ -672,7 +673,7 @@ export const SEDUCTRESS_STEAM_GODDESS: PromptData = {
 };
 
 /**
- * Export all auto-concepts (now with Imagen 4-optimized versions and Seductress concepts)
+ * Export all auto-concepts (now with Imagen 4-optimized versions, Seductress, and Role-Play concepts)
  */
 export const AUTO_CONCEPTS = {
   'flux-corporate': FLUX_CORPORATE_CONCEPT,
@@ -691,5 +692,7 @@ export const AUTO_CONCEPTS = {
   'seductress-architectural': SEDUCTRESS_ARCHITECTURAL,
   'seductress-boudoir': SEDUCTRESS_BOUDOIR_PASSION,
   'seductress-bipolar': SEDUCTRESS_BIPOLAR_TRANSFORM,
-  'seductress-steam': SEDUCTRESS_STEAM_GODDESS
+  'seductress-steam': SEDUCTRESS_STEAM_GODDESS,
+  // Role-Play Mode concepts (Midnight Encounters)
+  ...rolePlayModeConcepts
 };

@@ -169,8 +169,8 @@ export async function fetchVeoOperation(
 export async function pollVeoOperation(
   operationId: string,
   accessToken: string,
-  maxAttempts: number = 60,
-  intervalMs: number = 10000 // 10 seconds
+  maxAttempts: number = 20,
+  intervalMs: number = 3000 // 3 seconds
 ): Promise<VeoGenerationResult> {
   let attempts = 0;
 

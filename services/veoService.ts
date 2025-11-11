@@ -165,11 +165,12 @@ export async function fetchVeoOperation(
 
 /**
  * Poll for video generation completion
+ * Default: 100 attempts × 3 seconds = 5 minutes timeout
  */
 export async function pollVeoOperation(
   operationId: string,
   accessToken: string,
-  maxAttempts: number = 20,
+  maxAttempts: number = 100,
   intervalMs: number = 3000 // 3 seconds
 ): Promise<VeoGenerationResult> {
   let attempts = 0;

@@ -119,7 +119,7 @@ const VideoGenerationMode: React.FC<VideoGenerationModeProps> = ({ onExit, acces
 
   const pollSingleVideo = async (operationId: string, segmentId: string) => {
     try {
-      const result = await pollVeoOperation(operationId, accessToken, 20, 3000);
+      const result = await pollVeoOperation(operationId, accessToken, 100, 3000);
 
       setGeneratedVideos(prev =>
         prev.map(v =>

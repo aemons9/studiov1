@@ -30,6 +30,7 @@ import ArtisticMode from './artistic/ArtisticMode';
 import CorporateMode from './corporate/CorporateMode';
 import PlatinumMode from './platinum/PlatinumMode';
 import IndianRolePlayMode from './roleplay/IndianRolePlayMode';
+import IndianModelsGallery from './roleplay/IndianModelsGallery';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
 import type { PlatinumModeState } from './platinum/types';
@@ -97,7 +98,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -1088,6 +1089,61 @@ const App: React.FC = () => {
     setUiMode('classic');
   };
 
+  const handleExitGallery = () => {
+    setUiMode('classic');
+  };
+
+  const handleGalleryGenerate = async (prompt: string, settings: any) => {
+    console.log('🎨 Gallery Generate triggered:', { prompt: prompt.substring(0, 100), settings });
+
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Merge settings properly
+    const mergedSettings = { ...generationSettings, ...settings };
+    setGenerationSettings(mergedSettings);
+
+    // Auto-generate with the gallery prompt
+    setIsLoading(true);
+    setError(null);
+    setGenerationStep(null);
+
+    try {
+      const result = await generateWithMaximumSafety(
+        prompt,           // wovenPrompt: string
+        null,             // promptData: PromptData | null
+        mergedSettings    // settings: GenerationSettings
+      );
+
+      setGeneratedImages(result.images);
+      setWovenPrompt(result.wovenPrompt);
+      setGenerationStep(result.step);
+    } catch (err: any) {
+      console.error('🎨 Gallery Generation Error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMigrateFromGallery = (promptTemplate: string) => {
+    try {
+      // Parse the gallery prompt into PromptData
+      const parsedData = parseFluxPromptToData(promptTemplate);
+      setPromptData(parsedData);
+      setPromptMode('json');
+      setTextPrompt(promptTemplate);
+      setUiMode('classic');
+      alert('Gallery selections migrated to Main Mode successfully!');
+    } catch (error) {
+      console.error('Failed to parse gallery prompt:', error);
+      setTextPrompt(promptTemplate);
+      setPromptMode('text');
+      setUiMode('classic');
+      alert('Migrated to text mode (JSON parsing not available for this prompt structure)');
+    }
+  };
+
   const handleRolePlayGenerate = async (prompt: string, settings: any) => {
     console.log('🎭 Role-Play Generate triggered:', { prompt: prompt.substring(0, 100), settings });
 
@@ -1235,6 +1291,13 @@ const App: React.FC = () => {
           onGenerate={handleRolePlayGenerate}
           onMigrateToMain={handleMigrateFromRolePlay}
           onExit={handleExitRolePlay}
+        />
+      ) : uiMode === 'gallery' ? (
+        // INDIAN MODELS GALLERY: Comprehensive Selector
+        <IndianModelsGallery
+          onGenerate={handleGalleryGenerate}
+          onMigrateToMain={handleMigrateFromGallery}
+          onExit={handleExitGallery}
         />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor
@@ -1392,6 +1455,14 @@ const App: React.FC = () => {
             >
               <span style={{ fontSize: '18px' }}>🎭</span>
               Role-Play Mode
+            </button>
+            <button
+              onClick={() => setUiMode('gallery')}
+              disabled={isLoading}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-500 via-pink-500 to-fuchsia-500 text-white font-semibold text-base rounded-lg shadow-md hover:from-rose-400 hover:via-pink-400 hover:to-fuchsia-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
+            >
+              <span style={{ fontSize: '18px' }}>🎨</span>
+              Models Gallery
             </button>
             <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
               <MasterGenerationControl

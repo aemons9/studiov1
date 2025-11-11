@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EROTIC_GLAMOUR_MODELS } from '../concepts/eroticGlamourModels';
+import { ROLEPLAY_SCENARIOS, RolePlayScenario } from './rolePlayConcepts';
 
 interface IndianRolePlayModeProps {
   onGenerate: (prompt: string, settings: any) => void;
@@ -15,7 +16,24 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
   const [intimacyLevel, setIntimacyLevel] = useState<number>(10);
   const [hoveredModel, setHoveredModel] = useState<string | null>(null);
 
+  // Gamification state
+  const [currentScenario, setCurrentScenario] = useState<RolePlayScenario | null>(null);
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+  const [unlockedRewards, setUnlockedRewards] = useState<string[]>([]);
+  const [showGameElements, setShowGameElements] = useState<boolean>(true);
+
   const selectedModel = EROTIC_GLAMOUR_MODELS.find(m => m.id === selectedModelId);
+
+  // Auto-select scenario when model is selected
+  useEffect(() => {
+    if (selectedModelId) {
+      const scenario = ROLEPLAY_SCENARIOS.find(s => s.modelId === selectedModelId);
+      setCurrentScenario(scenario || null);
+      setCurrentStep(0);
+      setCompletedSteps([]);
+    }
+  }, [selectedModelId]);
 
   // Quick selection helpers
   const handleRandomModel = () => {
@@ -66,6 +84,40 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
         onGenerate(prompt, settings);
       }
     }, 500);
+  };
+
+  // Gamification progression handlers
+  const handleAdvanceStep = () => {
+    if (currentScenario && currentStep < currentScenario.gameElements.progressionSteps.length - 1) {
+      const newStep = currentStep + 1;
+      setCurrentStep(newStep);
+      setCompletedSteps([...completedSteps, currentStep]);
+
+      // Unlock rewards at certain milestones
+      if (newStep === 2 && currentScenario.gameElements.rewards[0]) {
+        setUnlockedRewards([...unlockedRewards, currentScenario.gameElements.rewards[0]]);
+      }
+      if (newStep === 4 && currentScenario.gameElements.rewards[1]) {
+        setUnlockedRewards([...unlockedRewards, currentScenario.gameElements.rewards[1]]);
+      }
+    }
+  };
+
+  const handlePreviousStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleCompleteScenario = () => {
+    if (currentScenario) {
+      setCompletedSteps([...completedSteps, currentStep]);
+      // Unlock final reward
+      const finalReward = currentScenario.gameElements.rewards[2];
+      if (finalReward && !unlockedRewards.includes(finalReward)) {
+        setUnlockedRewards([...unlockedRewards, finalReward]);
+      }
+    }
   };
 
   const generatePromptWithSelections = (model: any, wardrobe: any, pose: any, environment: any) => {
@@ -325,6 +377,249 @@ material_properties: Authentic materials from environment with natural light int
             🔀 Random Combination
           </button>
         </div>
+
+        {/* Gamification Panel - Shows after model selection */}
+        {currentScenario && showGameElements && (
+          <div style={{
+            marginBottom: '32px',
+            padding: '24px',
+            background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.15) 0%, rgba(236, 72, 153, 0.15) 100%)',
+            border: '2px solid rgba(236, 72, 153, 0.4)',
+            borderRadius: '16px',
+            boxShadow: '0 8px 32px rgba(236, 72, 153, 0.2)'
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '20px' }}>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '8px' }}>
+                  <span style={{ fontSize: '28px' }}>🎮</span>
+                  <h2 style={{ fontSize: '22px', fontWeight: 'bold', margin: 0, color: '#F472B6' }}>
+                    {currentScenario.name}
+                  </h2>
+                  <span style={{
+                    padding: '4px 12px',
+                    borderRadius: '12px',
+                    fontSize: '11px',
+                    fontWeight: 'bold',
+                    textTransform: 'uppercase',
+                    backgroundColor: currentScenario.difficultyLevel === 'expert' ? 'rgba(239, 68, 68, 0.3)' :
+                                    currentScenario.difficultyLevel === 'advanced' ? 'rgba(251, 146, 60, 0.3)' :
+                                    currentScenario.difficultyLevel === 'intermediate' ? 'rgba(234, 179, 8, 0.3)' :
+                                    'rgba(34, 197, 94, 0.3)',
+                    color: currentScenario.difficultyLevel === 'expert' ? '#FCA5A5' :
+                          currentScenario.difficultyLevel === 'advanced' ? '#FDBA74' :
+                          currentScenario.difficultyLevel === 'intermediate' ? '#FDE047' :
+                          '#6EE7B7'
+                  }}>
+                    {currentScenario.difficultyLevel}
+                  </span>
+                </div>
+                <p style={{ fontSize: '13px', color: '#C084FC', margin: '0 0 8px 40px', fontStyle: 'italic' }}>
+                  {currentScenario.theme}
+                </p>
+              </div>
+              <button
+                onClick={() => setShowGameElements(false)}
+                style={{
+                  padding: '6px 12px',
+                  backgroundColor: 'rgba(107, 114, 128, 0.3)',
+                  border: '1px solid rgba(156, 163, 175, 0.5)',
+                  borderRadius: '6px',
+                  color: '#D1D5DB',
+                  cursor: 'pointer',
+                  fontSize: '12px'
+                }}
+              >
+                Hide
+              </button>
+            </div>
+
+            {/* Scenario Description */}
+            <div style={{
+              padding: '16px',
+              backgroundColor: 'rgba(30, 10, 50, 0.6)',
+              borderRadius: '12px',
+              marginBottom: '20px',
+              border: '1px solid rgba(147, 51, 234, 0.3)'
+            }}>
+              <p style={{ fontSize: '13px', color: '#E5E7EB', lineHeight: '1.7', margin: 0 }}>
+                {currentScenario.scenario}
+              </p>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+              {/* Left Column: Objective & Progression */}
+              <div>
+                {/* Objective */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h3 style={{ fontSize: '15px', fontWeight: 'bold', color: '#F472B6', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    🎯 Objective
+                  </h3>
+                  <p style={{ fontSize: '12px', color: '#D1D5DB', lineHeight: '1.6', margin: 0 }}>
+                    {currentScenario.gameElements.objective}
+                  </p>
+                </div>
+
+                {/* Progression Steps */}
+                <div>
+                  <h3 style={{ fontSize: '15px', fontWeight: 'bold', color: '#F472B6', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    📊 Progression ({currentStep + 1} of {currentScenario.gameElements.progressionSteps.length})
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                    {currentScenario.gameElements.progressionSteps.map((step, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          padding: '10px 12px',
+                          backgroundColor: index === currentStep ? 'rgba(236, 72, 153, 0.3)' :
+                                          completedSteps.includes(index) ? 'rgba(34, 197, 94, 0.2)' :
+                                          'rgba(30, 10, 50, 0.4)',
+                          border: index === currentStep ? '2px solid #EC4899' :
+                                 completedSteps.includes(index) ? '1px solid rgba(34, 197, 94, 0.5)' :
+                                 '1px solid rgba(107, 114, 128, 0.3)',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                          color: index === currentStep ? '#FDF2F8' :
+                                completedSteps.includes(index) ? '#D1FAE5' :
+                                '#9CA3AF',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px',
+                          transition: 'all 0.3s'
+                        }}
+                      >
+                        <span style={{ fontSize: '16px' }}>
+                          {completedSteps.includes(index) ? '✅' : index === currentStep ? '▶️' : '⏸️'}
+                        </span>
+                        <span>{step}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Step Navigation */}
+                  <div style={{ display: 'flex', gap: '8px', marginTop: '12px' }}>
+                    <button
+                      onClick={handlePreviousStep}
+                      disabled={currentStep === 0}
+                      style={{
+                        flex: 1,
+                        padding: '8px',
+                        backgroundColor: currentStep === 0 ? 'rgba(75, 85, 99, 0.3)' : 'rgba(139, 92, 246, 0.3)',
+                        border: '1px solid rgba(139, 92, 246, 0.5)',
+                        borderRadius: '8px',
+                        color: currentStep === 0 ? '#6B7280' : '#E9D5FF',
+                        cursor: currentStep === 0 ? 'not-allowed' : 'pointer',
+                        fontSize: '12px',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      ← Previous
+                    </button>
+                    <button
+                      onClick={handleAdvanceStep}
+                      disabled={currentStep >= currentScenario.gameElements.progressionSteps.length - 1}
+                      style={{
+                        flex: 1,
+                        padding: '8px',
+                        backgroundColor: currentStep >= currentScenario.gameElements.progressionSteps.length - 1 ? 'rgba(75, 85, 99, 0.3)' : 'rgba(236, 72, 153, 0.3)',
+                        border: '1px solid rgba(236, 72, 153, 0.5)',
+                        borderRadius: '8px',
+                        color: currentStep >= currentScenario.gameElements.progressionSteps.length - 1 ? '#6B7280' : '#FBCFE8',
+                        cursor: currentStep >= currentScenario.gameElements.progressionSteps.length - 1 ? 'not-allowed' : 'pointer',
+                        fontSize: '12px',
+                        fontWeight: 'bold'
+                      }}
+                    >
+                      Next →
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Rewards & Challenges */}
+              <div>
+                {/* Unlocked Rewards */}
+                <div style={{ marginBottom: '20px' }}>
+                  <h3 style={{ fontSize: '15px', fontWeight: 'bold', color: '#F472B6', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    🏆 Rewards ({unlockedRewards.length}/{currentScenario.gameElements.rewards.length})
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {currentScenario.gameElements.rewards.map((reward, index) => {
+                      const isUnlocked = unlockedRewards.includes(reward);
+                      return (
+                        <div
+                          key={index}
+                          style={{
+                            padding: '8px 10px',
+                            backgroundColor: isUnlocked ? 'rgba(34, 197, 94, 0.2)' : 'rgba(30, 10, 50, 0.4)',
+                            border: isUnlocked ? '1px solid rgba(34, 197, 94, 0.5)' : '1px solid rgba(107, 114, 128, 0.3)',
+                            borderRadius: '6px',
+                            fontSize: '11px',
+                            color: isUnlocked ? '#D1FAE5' : '#6B7280',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px'
+                          }}
+                        >
+                          <span>{isUnlocked ? '🎁' : '🔒'}</span>
+                          <span>{reward}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Challenges */}
+                <div>
+                  <h3 style={{ fontSize: '15px', fontWeight: 'bold', color: '#F472B6', marginBottom: '10px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    ⚡ Challenges
+                  </h3>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                    {currentScenario.gameElements.challenges.map((challenge, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          padding: '8px 10px',
+                          backgroundColor: 'rgba(251, 146, 60, 0.15)',
+                          border: '1px solid rgba(251, 146, 60, 0.3)',
+                          borderRadius: '6px',
+                          fontSize: '11px',
+                          color: '#FED7AA',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '8px'
+                        }}
+                      >
+                        <span>⚠️</span>
+                        <span>{challenge}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Show Game Elements Button (when hidden) */}
+        {currentScenario && !showGameElements && (
+          <div style={{ marginBottom: '32px', textAlign: 'center' }}>
+            <button
+              onClick={() => setShowGameElements(true)}
+              style={{
+                padding: '12px 24px',
+                background: 'linear-gradient(135deg, rgba(147, 51, 234, 0.3) 0%, rgba(236, 72, 153, 0.3) 100%)',
+                border: '2px solid rgba(236, 72, 153, 0.4)',
+                borderRadius: '10px',
+                color: '#F472B6',
+                cursor: 'pointer',
+                fontSize: '14px',
+                fontWeight: 'bold'
+              }}
+            >
+              🎮 Show Gamified Experience
+            </button>
+          </div>
+        )}
 
         {/* Model Selector */}
         <div style={{ marginBottom: '32px' }}>

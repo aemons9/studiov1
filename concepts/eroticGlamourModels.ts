@@ -935,6 +935,588 @@ export const MODEL_FITNESS_VIXEN = {
 };
 
 // ============================================================================
+// MODEL 10: GLAMOUR BUST SPECIALIST
+// ============================================================================
+
+export const MODEL_GLAMOUR_BUST = {
+  id: 'erotic-model-010',
+  name: 'Zara Voluptuous',
+  category: 'Glamour Bust Specialist',
+  emphasis: 'Spectacular bust line, cleavage artistry, chest curves',
+  personalPhotographer: PHOTOGRAPHERS.REVEAL_SPECIALIST,
+
+  physicalTraits: {
+    height: '5\'9"',
+    figure: 'Ultra-voluptuous hourglass with spectacular chest',
+    bust: '42E"',
+    waist: '28"',
+    hips: '39"',
+    emphasis: 'Maximum bust emphasis with dramatic cleavage celebration',
+    skinTone: 'Radiant golden complexion with warm bronze undertones',
+    features: 'Sultry heavy-lidded eyes, pouty lips, elegant décolletage',
+    fitness: 'Soft curves with feminine glamour confidence',
+    specialties: 'Cleavage artistry, bust emphasis, chest celebration photography'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'glam-bust-lace-001',
+      name: 'Dramatic Cleavage Lace',
+      description: 'Ultra-minimal lace creating dramatic cleavage frame, strategic bust emphasis with artistic reveal, designer glamour aesthetics',
+      coverage: 'minimal-glamour',
+      intimacyLevel: 10,
+      style: 'Bold glamour bust emphasis',
+      materials: 'Luxury lace, dramatic design, minimal coverage',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Fine luxury lace with dramatic bust framing, strategic minimal coverage for maximum artistic reveal'
+    },
+    {
+      id: 'glam-bust-leather-001',
+      name: 'Bold Leather Bust Harness',
+      description: 'Designer leather harness framing spectacular bust, dramatic cleavage emphasis, minimal bold glamour design',
+      coverage: 'minimal-bold',
+      intimacyLevel: 10,
+      style: 'Leather glamour minimal',
+      materials: 'Premium leather, bold hardware, dramatic design',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Premium black leather with dramatic bust harness design, bold hardware accents'
+    },
+    {
+      id: 'glam-bust-silk-001',
+      name: 'Silk Draped Bust Reveal',
+      description: 'Flowing silk draped to emphasize and frame spectacular bust, artistic minimal coverage, glamorous sensual design',
+      coverage: 'minimal-artistic',
+      intimacyLevel: 10,
+      style: 'Silk glamour draping',
+      materials: 'Luxury silk, dramatic draping, minimal coverage',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Flowing luxury silk with artistic draping emphasizing bust curves'
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'bust-emphasis-standing',
+      poseName: 'Standing Bust Emphasis',
+      description: 'Standing with chest forward, hands behind back lifting bust, dramatic cleavage emphasis with confident sensual gaze',
+      aspectRatio: '4:5',
+      framing: 'Medium shot emphasizing spectacular bust line'
+    },
+    {
+      id: 'bust-leaning-forward',
+      poseName: 'Leaning Cleavage Focus',
+      description: 'Leaning forward with dramatic cleavage emphasis, arms creating natural frame, sultry intimate gaze',
+      aspectRatio: '4:5',
+      framing: 'Close medium shot focusing on chest and face'
+    },
+    {
+      id: 'bust-profile-curve',
+      poseName: 'Profile Bust Curve',
+      description: 'Side profile emphasizing bust curve and chest line, elegant posture, glamorous confidence',
+      aspectRatio: '4:5',
+      framing: 'Side profile emphasizing bust silhouette'
+    },
+    {
+      id: 'bust-reclined-reveal',
+      poseName: 'Reclined Bust Revelation',
+      description: 'Reclined with arched back emphasizing full bust, dramatic overhead perspective celebrating chest curves',
+      aspectRatio: '4:5',
+      framing: 'Overhead angle showcasing full bust emphasis'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 11: SHOULDER & NECK GODDESS
+// ============================================================================
+
+export const MODEL_SHOULDER_GODDESS = {
+  id: 'erotic-model-011',
+  name: 'Simran Elegance',
+  category: 'Shoulder & Neck Artistry Specialist',
+  emphasis: 'Elegant shoulders, neck lines, upper back curves, collarbone beauty',
+  personalPhotographer: PHOTOGRAPHERS.REVEAL_SPECIALIST,
+
+  physicalTraits: {
+    height: '5\'11"',
+    figure: 'Tall elegant hourglass with dramatic shoulder line',
+    bust: '38D"',
+    waist: '26"',
+    hips: '37"',
+    emphasis: 'Spectacular shoulder and neck elegance with upper back artistry',
+    skinTone: 'Fair porcelain complexion with rosy undertones',
+    features: 'Long elegant neck, defined collarbones, graceful shoulders, striking eyes',
+    fitness: 'Toned shoulders and upper back with feminine elegance',
+    specialties: 'Shoulder emphasis, neck artistry, upper back photography, collarbone celebration'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'shoulder-minimal-001',
+      name: 'Shoulder Frame Minimal',
+      description: 'Strategic minimal design emphasizing shoulder lines and collarbone, elegant neck reveal with artistic shoulder framing',
+      coverage: 'minimal-elegant',
+      intimacyLevel: 10,
+      style: 'Elegant shoulder emphasis',
+      materials: 'Delicate chains, minimal fabric, shoulder statement',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Delicate chain details framing shoulders, minimal elegant coverage emphasizing neck and shoulder lines'
+    },
+    {
+      id: 'shoulder-backless-001',
+      name: 'Dramatic Backless Design',
+      description: 'Minimal backless design showcasing upper back curves and shoulder blades, elegant neck emphasis, sophisticated minimal coverage',
+      coverage: 'minimal-sophisticated',
+      intimacyLevel: 10,
+      style: 'Backless elegant minimal',
+      materials: 'Luxury minimal fabric, backless design, elegant draping',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Backless design with minimal elegant fabric showcasing shoulders and upper back'
+    },
+    {
+      id: 'shoulder-off-shoulder-001',
+      name: 'Off-Shoulder Minimal Glam',
+      description: 'Off-shoulder minimal design emphasizing shoulder curves and collarbone beauty, sensual neck reveal, glamorous elegance',
+      coverage: 'minimal-glamorous',
+      intimacyLevel: 10,
+      style: 'Off-shoulder glamour minimal',
+      materials: 'Soft minimal fabric, off-shoulder design, glamorous simplicity',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Off-shoulder minimal fabric emphasizing shoulder and neck elegance'
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'shoulder-elegant-turn',
+      poseName: 'Elegant Shoulder Turn',
+      description: 'Turned to emphasize shoulder line and neck curve, graceful head tilt, sophisticated sensual elegance',
+      aspectRatio: '4:5',
+      framing: 'Upper body shot emphasizing shoulders and neck'
+    },
+    {
+      id: 'shoulder-back-view',
+      poseName: 'Upper Back Showcase',
+      description: 'Back view with shoulder blades prominent, looking over shoulder, elegant upper back curves emphasized',
+      aspectRatio: '4:5',
+      framing: 'Back view focusing on shoulders and upper back'
+    },
+    {
+      id: 'shoulder-profile-grace',
+      poseName: 'Graceful Profile Lines',
+      description: 'Side profile showcasing neck length and shoulder curve, elegant posture, refined sensual beauty',
+      aspectRatio: '4:5',
+      framing: 'Side profile emphasizing neck and shoulder lines'
+    },
+    {
+      id: 'shoulder-arms-raised',
+      poseName: 'Arms Raised Shoulder Emphasis',
+      description: 'Arms raised gracefully emphasizing shoulder curves and armpit elegance, sensual confidence with sophisticated glamour',
+      aspectRatio: '4:5',
+      framing: 'Upper body with arms raised showcasing shoulders'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 12: CHEST SCULPTURE ARTIST
+// ============================================================================
+
+export const MODEL_CHEST_SCULPTURE = {
+  id: 'erotic-model-012',
+  name: 'Meera Sculpture',
+  category: 'Chest Sculpture & Ribcage Artistry',
+  emphasis: 'Ribcage definition, sternum beauty, chest curves, upper torso artistry',
+  personalPhotographer: PHOTOGRAPHERS.REVEAL_SPECIALIST,
+
+  physicalTraits: {
+    height: '5\'9"',
+    figure: 'Athletic elegant with defined chest and ribcage',
+    bust: '36C"',
+    waist: '25"',
+    hips: '36"',
+    emphasis: 'Chest definition with ribcage artistry and sternum beauty',
+    skinTone: 'Warm caramel complexion with golden glow',
+    features: 'Defined cheekbones, elegant chest curves, artistic torso definition',
+    fitness: 'Athletic with feminine chest definition and ribcage elegance',
+    specialties: 'Chest artistry, ribcage photography, sternum emphasis, upper torso celebration'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'chest-minimal-straps',
+      name: 'Chest Framing Straps',
+      description: 'Minimal strategic straps framing chest and ribcage, artistic torso emphasis with elegant minimal coverage',
+      coverage: 'minimal-artistic',
+      intimacyLevel: 10,
+      style: 'Artistic chest emphasis',
+      materials: 'Minimal straps, artistic design, chest framing',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Strategic minimal straps creating artistic chest and ribcage emphasis'
+    },
+    {
+      id: 'chest-mesh-reveal',
+      name: 'Sheer Mesh Chest Reveal',
+      description: 'Ultra-sheer mesh revealing chest curves and ribcage definition, artistic minimal coverage with sensual transparency',
+      coverage: 'minimal-sheer',
+      intimacyLevel: 10,
+      style: 'Sheer artistic minimal',
+      materials: 'Ultra-sheer mesh, minimal coverage, artistic design',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Ultra-sheer mesh fabric revealing chest and ribcage artistry'
+    },
+    {
+      id: 'chest-body-chain',
+      name: 'Chest Body Chain Art',
+      description: 'Decorative body chains emphasizing chest and sternum, minimal artistic coverage, sculptural jewelry design',
+      coverage: 'minimal-jewelry',
+      intimacyLevel: 10,
+      style: 'Body jewelry minimal',
+      materials: 'Gold body chains, minimal jewelry coverage, artistic design',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Decorative body chains creating artistic chest sculpture emphasis'
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'chest-arms-overhead',
+      poseName: 'Chest Stretch Overhead',
+      description: 'Arms stretched overhead elongating torso, chest and ribcage definition emphasized, athletic sensual confidence',
+      aspectRatio: '4:5',
+      framing: 'Full torso emphasizing chest and ribcage lines'
+    },
+    {
+      id: 'chest-twist-definition',
+      poseName: 'Torso Twist Definition',
+      description: 'Torso twist emphasizing ribcage curves and chest lines, artistic athletic beauty with sensual confidence',
+      aspectRatio: '4:5',
+      framing: 'Medium shot focusing on torso definition'
+    },
+    {
+      id: 'chest-side-profile',
+      poseName: 'Side Chest Profile',
+      description: 'Side profile showcasing chest curve and ribcage definition, elegant athletic posture with artistic emphasis',
+      aspectRatio: '4:5',
+      framing: 'Side profile emphasizing chest and torso lines'
+    },
+    {
+      id: 'chest-reclined-arch',
+      poseName: 'Reclined Chest Arch',
+      description: 'Reclined with arched back emphasizing chest and ribcage definition, artistic torso celebration from overhead',
+      aspectRatio: '4:5',
+      framing: 'Overhead angle showcasing chest and ribcage artistry'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 13: HIP EMPRESS
+// ============================================================================
+
+export const MODEL_HIP_EMPRESS = {
+  id: 'erotic-model-013',
+  name: 'Ananya Curves',
+  category: 'Hip Emphasis & Curve Empress',
+  emphasis: 'Dramatic hip curves, waist-to-hip ratio, side curves, hip dips',
+  personalPhotographer: PHOTOGRAPHERS.CURVES_MAESTRO,
+
+  physicalTraits: {
+    height: '5\'7"',
+    figure: 'Extreme pear-shaped with spectacular hip curves',
+    bust: '34B"',
+    waist: '24"',
+    hips: '48"',
+    emphasis: 'Maximum hip emphasis with dramatic waist-to-hip ratio and spectacular curves',
+    skinTone: 'Rich chocolate complexion with deep warm tones',
+    features: 'Expressive eyes, confident smile, powerful lower body presence',
+    fitness: 'Strong curved hips with natural feminine power',
+    specialties: 'Hip emphasis photography, curve celebration, waist-to-hip artistry, side profile mastery'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'hip-minimal-wrap',
+      name: 'Hip Emphasis Minimal Wrap',
+      description: 'Minimal fabric strategically wrapping hips to emphasize curves, dramatic waist-to-hip reveal with artistic minimal coverage',
+      coverage: 'minimal-curves',
+      intimacyLevel: 10,
+      style: 'Hip curve celebration minimal',
+      materials: 'Minimal fabric wraps, hip emphasis design, curve celebration',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Strategic minimal wrap emphasizing dramatic hip curves and waist-to-hip ratio'
+    },
+    {
+      id: 'hip-chain-belt',
+      name: 'Dramatic Hip Chain Belt',
+      description: 'Decorative chain belt emphasizing hip curves and waist, minimal coverage with hip celebration jewelry design',
+      coverage: 'minimal-jewelry',
+      intimacyLevel: 10,
+      style: 'Hip jewelry minimal',
+      materials: 'Gold chain belt, hip chains, minimal jewelry coverage',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Chain belt design emphasizing hip curves and waist-to-hip dramatic ratio'
+    },
+    {
+      id: 'hip-lace-minimal',
+      name: 'Lace Hip Frame',
+      description: 'Minimal lace design framing spectacular hip curves, strategic coverage emphasizing waist-to-hip ratio with artistic reveal',
+      coverage: 'minimal-artistic',
+      intimacyLevel: 10,
+      style: 'Lace hip emphasis',
+      materials: 'Fine lace, hip framing design, minimal artistic coverage',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Fine lace creating artistic hip frame emphasizing dramatic curves'
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'hip-side-emphasis',
+      poseName: 'Side Hip Curve Emphasis',
+      description: 'Side profile with hand on hip emphasizing dramatic curves, confident stance showcasing waist-to-hip ratio',
+      aspectRatio: '4:5',
+      framing: 'Side profile emphasizing hip curves and waist'
+    },
+    {
+      id: 'hip-walking-sway',
+      poseName: 'Hip Sway Walk',
+      description: 'Walking pose with dramatic hip sway, curves in motion, confident sensual movement emphasizing hip power',
+      aspectRatio: '4:5',
+      framing: 'Dynamic shot capturing hip curves in motion'
+    },
+    {
+      id: 'hip-seated-curves',
+      poseName: 'Seated Hip Emphasis',
+      description: 'Seated position emphasizing hip spread and curves, sensual confident posture with hip celebration',
+      aspectRatio: '4:5',
+      framing: 'Seated angle showcasing hip curves'
+    },
+    {
+      id: 'hip-back-curve',
+      poseName: 'Back View Hip Curves',
+      description: 'Back view showcasing hip curves from behind, dramatic waist-to-hip ratio, looking back over shoulder',
+      aspectRatio: '4:5',
+      framing: 'Back view emphasizing hip curves and waist'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 14: THIGH & LEG GODDESS
+// ============================================================================
+
+export const MODEL_THIGH_GODDESS = {
+  id: 'erotic-model-014',
+  name: 'Tanvi Legs',
+  category: 'Thigh & Leg Artistry Specialist',
+  emphasis: 'Thigh curves, leg lines, inner thigh beauty, leg length celebration',
+  personalPhotographer: PHOTOGRAPHERS.CURVES_MAESTRO,
+
+  physicalTraits: {
+    height: '5\'10"',
+    figure: 'Long-legged with spectacular thigh curves',
+    bust: '36C"',
+    waist: '27"',
+    hips: '41"',
+    emphasis: 'Spectacular thigh curves with long elegant leg lines and inner thigh artistry',
+    skinTone: 'Golden wheat complexion with warm bronze tones',
+    features: 'Long legs, powerful thighs, elegant calves, confident stride',
+    fitness: 'Strong toned thighs with feminine curved power',
+    specialties: 'Thigh emphasis photography, leg artistry, inner thigh celebration, leg line mastery'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'thigh-high-minimal',
+      name: 'Thigh-High Minimal Design',
+      description: 'Minimal design with thigh-high emphasis, strategic thigh reveal with artistic leg celebration coverage',
+      coverage: 'minimal-legs',
+      intimacyLevel: 10,
+      style: 'Thigh emphasis minimal',
+      materials: 'Minimal thigh-high design, leg celebration, strategic coverage',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Thigh-high minimal design emphasizing leg curves and thigh beauty'
+    },
+    {
+      id: 'thigh-garter-minimal',
+      name: 'Minimal Garter Thigh Frame',
+      description: 'Decorative minimal garter emphasizing thigh curves, elegant leg celebration with artistic minimal coverage',
+      coverage: 'minimal-garter',
+      intimacyLevel: 10,
+      style: 'Garter leg emphasis',
+      materials: 'Elegant garter design, thigh straps, minimal coverage',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Decorative garter design framing thigh curves with elegant minimal straps'
+    },
+    {
+      id: 'thigh-mesh-reveal',
+      name: 'Sheer Thigh Mesh',
+      description: 'Ultra-sheer mesh revealing thigh curves and leg lines, artistic minimal coverage with sensual transparency',
+      coverage: 'minimal-sheer',
+      intimacyLevel: 10,
+      style: 'Sheer thigh minimal',
+      materials: 'Ultra-sheer mesh, minimal leg coverage, artistic design',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Ultra-sheer mesh fabric revealing thigh and leg artistry'
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'thigh-standing-leg-forward',
+      poseName: 'Leg Forward Thigh Emphasis',
+      description: 'Standing with one leg forward emphasizing thigh curve, confident posture showcasing leg length and thigh beauty',
+      aspectRatio: '4:5',
+      framing: 'Full body emphasizing leg lines and thigh curves'
+    },
+    {
+      id: 'thigh-seated-cross',
+      poseName: 'Seated Crossed Thighs',
+      description: 'Seated with legs crossed emphasizing thigh curves and inner thigh beauty, elegant sensual confidence',
+      aspectRatio: '4:5',
+      framing: 'Seated angle focusing on thigh curves'
+    },
+    {
+      id: 'thigh-reclining-legs',
+      poseName: 'Reclining Leg Extension',
+      description: 'Reclining with legs extended emphasizing thigh and leg lines, elegant leg celebration with sensual confidence',
+      aspectRatio: '4:5',
+      framing: 'Reclining angle showcasing leg length and thigh curves'
+    },
+    {
+      id: 'thigh-kneeling-emphasis',
+      poseName: 'Kneeling Thigh Showcase',
+      description: 'Kneeling position emphasizing thigh curves and leg positioning, artistic inner thigh celebration with confidence',
+      aspectRatio: '4:5',
+      framing: 'Kneeling angle focusing on thigh artistry'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
+// MODEL 15: POSTERIOR EMPRESS
+// ============================================================================
+
+export const MODEL_POSTERIOR_EMPRESS = {
+  id: 'erotic-model-015',
+  name: 'Sanya Curves',
+  category: 'Posterior Celebration & Back Curves Specialist',
+  emphasis: 'Posterior emphasis, back curves, spine beauty, rear silhouette artistry',
+  personalPhotographer: PHOTOGRAPHERS.CURVES_MAESTRO,
+
+  physicalTraits: {
+    height: '5\'8"',
+    figure: 'Curvaceous with spectacular posterior and back curves',
+    bust: '37C"',
+    waist: '28"',
+    hips: '45"',
+    emphasis: 'Dramatic posterior curves with elegant back lines and spine artistry',
+    skinTone: 'Deep mocha complexion with rich warm undertones',
+    features: 'Elegant spine curve, powerful posterior, graceful back muscles, confident presence',
+    fitness: 'Strong curved posterior with natural feminine power and toned back',
+    specialties: 'Posterior photography, back curve artistry, spine emphasis, rear silhouette mastery'
+  },
+
+  wardrobeCollection: [
+    {
+      id: 'posterior-minimal-back',
+      name: 'Backless Posterior Emphasis',
+      description: 'Minimal backless design emphasizing posterior curves and spine beauty, strategic rear coverage with artistic reveal',
+      coverage: 'minimal-back',
+      intimacyLevel: 10,
+      style: 'Backless posterior emphasis',
+      materials: 'Minimal backless fabric, posterior framing, strategic coverage',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Backless minimal design emphasizing posterior curves and spine elegance'
+    },
+    {
+      id: 'posterior-thong-minimal',
+      name: 'Minimal Posterior Frame',
+      description: 'Ultra-minimal design framing spectacular posterior, artistic minimal coverage celebrating rear curves with boldness',
+      coverage: 'minimal-rear',
+      intimacyLevel: 10,
+      style: 'Posterior celebration minimal',
+      materials: 'Ultra-minimal fabric, posterior emphasis, bold design',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Ultra-minimal fabric framing and celebrating posterior curves'
+    },
+    {
+      id: 'posterior-strappy-back',
+      name: 'Strappy Back Posterior Reveal',
+      description: 'Strategic strappy design emphasizing back curves and posterior, artistic minimal coverage with sensual confidence',
+      coverage: 'minimal-strappy',
+      intimacyLevel: 10,
+      style: 'Strappy back minimal',
+      materials: 'Strategic straps, back emphasis, posterior celebration',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      fabricDetails: 'Strategic strap design emphasizing back and posterior artistry'
+    }
+  ],
+
+  poseGallery: [
+    {
+      id: 'posterior-back-view',
+      poseName: 'Classic Back View Posterior',
+      description: 'Back view with posterior emphasized, looking back over shoulder, confident sensual back curve celebration',
+      aspectRatio: '4:5',
+      framing: 'Back view emphasizing posterior curves and spine'
+    },
+    {
+      id: 'posterior-arched-back',
+      poseName: 'Arched Back Posterior Emphasis',
+      description: 'Arched back position emphasizing posterior curves and spine beauty, dramatic rear silhouette with artistic confidence',
+      aspectRatio: '4:5',
+      framing: 'Side-back angle showcasing posterior arch'
+    },
+    {
+      id: 'posterior-bent-forward',
+      poseName: 'Forward Lean Posterior Showcase',
+      description: 'Leaning forward emphasizing posterior curves from rear, dramatic rear silhouette with sensual confidence',
+      aspectRatio: '4:5',
+      framing: 'Rear angle emphasizing posterior curves'
+    },
+    {
+      id: 'posterior-side-curve',
+      poseName: 'Side Posterior Curve',
+      description: 'Side profile emphasizing posterior curve and back line, elegant rear silhouette with artistic celebration',
+      aspectRatio: '4:5',
+      framing: 'Side profile showcasing posterior and back curves'
+    }
+  ],
+
+  environments: MODEL_UPPER_REVEAL.environments
+};
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
@@ -947,7 +1529,13 @@ export const EROTIC_GLAMOUR_MODELS = [
   MODEL_MAX_GLAMOUR_DIVA,
   MODEL_MIDNIGHT_MYSTIQUE,
   MODEL_ACTION_BOMBSHELL,
-  MODEL_FITNESS_VIXEN
+  MODEL_FITNESS_VIXEN,
+  MODEL_GLAMOUR_BUST,
+  MODEL_SHOULDER_GODDESS,
+  MODEL_CHEST_SCULPTURE,
+  MODEL_HIP_EMPRESS,
+  MODEL_THIGH_GODDESS,
+  MODEL_POSTERIOR_EMPRESS
 ];
 
 export const LIGHTING_PRESETS = {

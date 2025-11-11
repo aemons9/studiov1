@@ -62,35 +62,7 @@ const IndianModelsGallery: React.FC<IndianModelsGalleryProps> = ({ onGenerate, o
     const photographer = selectedModel.personalPhotographer;
     const cameraAngle = customCameraAngle || selectedCamera.angle;
 
-    return `Private intimate art erotica. Personal photography session. Intimacy ${intimacyLevel}/10. ${photographer.style}.
-
-subject: variant: Elite Indian artistic model ${selectedModel.name} specializing in ${selectedModel.category}. Height ${selectedModel.physicalTraits.height}. Physical traits: ${selectedModel.physicalTraits.bust} bust, ${selectedModel.physicalTraits.waist} waist, ${selectedModel.physicalTraits.hips} hips. ${selectedModel.physicalTraits.skinTone}. Emphasis: ${selectedModel.emphasis}.
-
-pose: ${selectedPose.description}. ${selectedPose.poseName}.
-
-hair_color: jet black, hair_style: Glamorous styling with flowing elegance, skin_finish: ${selectedModel.physicalTraits.skinTone} with natural luminosity, hand_and_nail_details: Graceful positioning with glamorous manicure, tattoos: none, piercings: none, body_art: none, nail_art: Glamour polish, high_heels: Designer stilettos.
-
-wardrobe: ${selectedWardrobe.description}. ${selectedWardrobe.fabricDetails || selectedWardrobe.materials}.
-
-environment: ${selectedEnvironment.name}. ${selectedEnvironment.description}. ${selectedEnvironment.atmosphere}. Place of indulgence with ultimate privacy.
-
-lighting: ${photographer.lightingSignature}. ${selectedEnvironment.lightingProfile}.
-
-camera: focal_length: ${selectedCamera.focal}, aperture: ${selectedCamera.aperture}, distance: ${selectedCamera.distance}, angle: ${cameraAngle}, framing: ${selectedPose.framing || selectedCamera.description}.
-
-color_grade: Dramatic tones with sensual warmth and natural color balance.
-
-style: ${photographer.style}. Private intimate encounter with ${selectedModel.name}. ${selectedModel.category} specialist with ${intimacyLevel}/10 intimacy. Personal and private intimate art erotica. Collaborative artistic expression with trust-based intimacy.
-
-quality: Ultra-high-end 8K glamour photography with exceptional detail and natural authenticity.
-
-figure_and_form: ${selectedModel.emphasis}. Natural form celebrating feminine curves and presence.
-
-skin_micro_details: Authentic skin texture with natural pores and subsurface scattering. Professional finish maintaining natural beauty.
-
-fabric_physics: ${selectedWardrobe.fabricDetails || selectedWardrobe.materials}. Natural draping following gravity with realistic folds and texture.
-
-material_properties: Authentic materials from environment with natural light interaction. Luxury fabrics with premium tactile quality.`;
+    return `Private intimate art photography in fine-art erotica style. Intimacy ${intimacyLevel}/10, personal artistic encounter. subject: variant: Elite Indian artistic model ${selectedModel.name} (height ${selectedModel.physicalTraits.height}) specializing in ${selectedModel.category} and ${selectedModel.physicalTraits.specialties || 'intimate fine-art photography'}. ${selectedModel.physicalTraits.figure} (bust ${selectedModel.physicalTraits.bust}, waist ${selectedModel.physicalTraits.waist}, hips ${selectedModel.physicalTraits.hips}). ${selectedModel.physicalTraits.skinTone}. ${selectedModel.physicalTraits.features}. ${selectedModel.physicalTraits.fitness}. pose: ${selectedPose.description}. ${selectedPose.poseName}. hair_color: jet black, hair_style: Glamorous fine-art styling with flowing elegant volume and sophisticated artistry, skin_finish: ${selectedModel.physicalTraits.skinTone} with natural luminosity and artistic glow, hand_and_nail_details: Graceful artistic positioning with glamorous manicure and expressive hand movement, tattoos: none, piercings: none, body_art: none, nail_art: Glamour polish with artistic sophistication, high_heels: Designer stilettos with artistic elegance. wardrobe: ${selectedWardrobe.description}. ${selectedWardrobe.fabricDetails || selectedWardrobe.materials}. ${selectedWardrobe.style} aesthetic with ${intimacyLevel}/10 intimacy level. environment: ${selectedEnvironment.name}. ${selectedEnvironment.description}. ${selectedEnvironment.atmosphere}. Place of indulgence with ultimate privacy and luxury setting. lighting: ${photographer.lightingSignature}. ${selectedEnvironment.lightingProfile}. Creating sculptural definition and intimate artistic atmosphere. camera: focal_length: ${selectedCamera.focal}, aperture: ${selectedCamera.aperture}, distance: ${selectedCamera.distance}, angle: ${cameraAngle}, framing: ${selectedPose.framing || selectedCamera.description} emphasizing ${selectedModel.emphasis}. color_grade: Dramatic artistic tones with sensual warmth and natural color balance. Rich shadows with intimate ambiance. style: ${photographer.style}. Private intimate photography celebrating ${selectedModel.category}. Power level ${intimacyLevel}/10. Personal photographer: ${photographer.name}, ${photographer.specialty}. Personal and private intimate art erotica. Collaborative artistic expression with trust-based intimacy. quality: Ultra-high-end 8K glamour photography with impeccable detail and professional retouching maintaining authentic texture and natural beauty. figure_and_form: ${selectedModel.emphasis}. Natural form celebrating feminine curves and presence through sophisticated artistic grace and intimate revelation. skin_micro_details: Premium high-resolution skin texture with authentic pores and subsurface scattering. Professional finish maintaining natural beauty and ${selectedModel.physicalTraits.skinTone} natural radiance while perfecting artistic appearance. fabric_physics: ${selectedWardrobe.fabricDetails || selectedWardrobe.materials}. Luxury fabric with natural draping following gravity with realistic folds and texture. Professional wardrobe with precise body-conscious elements. material_properties: Authentic materials from ${selectedEnvironment.name} with natural light interaction. Luxury fabrics and environmental materials with premium tactile quality and rich artistic detail.`;
   };
 
   const handleGenerate = () => {

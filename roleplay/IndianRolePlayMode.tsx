@@ -123,35 +123,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
   const generatePromptWithSelections = (model: any, wardrobe: any, pose: any, environment: any) => {
     const photographer = model.personalPhotographer;
 
-    return `Midnight role-playing photography. Intimacy ${intimacyLevel}/10. ${photographer.style}.
-
-subject: variant: Elite Indian artistic model specializing in ${model.category}. Height ${model.physicalTraits.height}. Physical traits: ${model.physicalTraits.bust} bust, ${model.physicalTraits.waist} waist, ${model.physicalTraits.hips} hips. ${model.physicalTraits.skinTone}. Specializing in ${model.physicalTraits.specialties || model.category}.
-
-pose: ${pose.description}. ${pose.poseName}.
-
-hair_color: jet black, hair_style: Midnight glamour with flowing elegance, skin_finish: ${model.physicalTraits.skinTone} with natural luminosity, hand_and_nail_details: Graceful positioning with glamorous manicure, tattoos: none, piercings: none, body_art: none, nail_art: Midnight glamour polish, high_heels: Designer stilettos.
-
-wardrobe: ${wardrobe.description}. ${wardrobe.fabricDetails}..
-
-environment: ${environment.name}. ${environment.description}. ${environment.atmosphere}..
-
-lighting: ${photographer.lightingSignature}. ${environment.lightingProfile}..
-
-camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: Eye level intimate perspective, framing: ${pose.framing || 'Medium shot emphasizing form'}.
-
-color_grade: Midnight dramatic tones with sensual warmth and natural color balance.
-
-style: ${photographer.style}. Midnight encounter with ${model.name}. ${model.category} specialist with ${intimacyLevel}/10 intimacy. Collaborative artistic expression with trust-based intimacy.
-
-quality: Ultra-high-end 8K glamour photography with exceptional detail and natural authenticity.
-
-figure_and_form: ${model.emphasis}. Natural form celebrating feminine curves and presence.
-
-skin_micro_details: Authentic skin texture with natural pores and subsurface scattering. Professional finish maintaining natural beauty.
-
-fabric_physics: ${wardrobe.fabricDetails}. Natural draping following gravity with realistic folds and texture.
-
-material_properties: Authentic materials from environment with natural light interaction. Luxury fabrics with premium tactile quality.`;
+    return `Midnight role-playing photography in fine-art style. Intimacy ${intimacyLevel}/10, intimate artistic encounter. subject: variant: Elite Indian artistic model ${model.name} (height ${model.physicalTraits.height}) specializing in ${model.category} and ${model.physicalTraits.specialties || 'intimate fine-art photography'}. ${model.physicalTraits.figure} (bust ${model.physicalTraits.bust}, waist ${model.physicalTraits.waist}, hips ${model.physicalTraits.hips}). ${model.physicalTraits.skinTone}. ${model.physicalTraits.features}. pose: ${pose.description}. ${pose.poseName}. hair_color: jet black, hair_style: Midnight glamour styling with flowing elegant volume, skin_finish: ${model.physicalTraits.skinTone} with natural luminosity and midnight glow, hand_and_nail_details: Graceful positioning with glamorous manicure and elegant hand movement, tattoos: none, piercings: none, body_art: none, nail_art: Midnight glamour polish with sophisticated finish, high_heels: Designer stilettos with luxury elegance. wardrobe: ${wardrobe.description}. ${wardrobe.fabricDetails || wardrobe.materials}. ${wardrobe.style} with ${intimacyLevel}/10 intimacy aesthetic. environment: ${environment.name}. ${environment.description}. ${environment.atmosphere}. Ultimate privacy with luxury setting. lighting: ${photographer.lightingSignature}. ${environment.lightingProfile}. Creating sculptural definition and intimate midnight atmosphere. camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: ${pose.angle || 'Eye level intimate perspective'}, framing: ${pose.framing || 'Medium shot emphasizing form and curves'}. color_grade: Midnight dramatic tones with sensual warmth and natural color balance. Rich shadows with luxury ambiance. style: ${photographer.style}. Midnight encounter photography celebrating ${model.category}. Power level ${intimacyLevel}/10. Personal photographer: ${photographer.name}, ${photographer.specialty}. Collaborative artistic expression with trust-based intimacy. quality: Ultra-high-end 8K glamour photography with impeccable detail and professional retouching maintaining authentic texture. figure_and_form: ${model.emphasis}. Natural form celebrating feminine curves and presence through sophisticated artistic grace. skin_micro_details: Premium high-resolution skin texture with authentic pores and subsurface scattering. Professional finish maintaining natural beauty and ${model.physicalTraits.skinTone} natural radiance. fabric_physics: ${wardrobe.fabricDetails || wardrobe.materials}. Luxury fabric with natural draping following gravity with realistic folds and texture. Professional wardrobe with subtle body-conscious elements. material_properties: Authentic materials from environment with natural light interaction. ${environment.name} luxury materials with premium tactile quality and rich detail.`;
   };
 
   // Generate the complete prompt based on selections

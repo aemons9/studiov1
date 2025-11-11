@@ -370,6 +370,234 @@ export const ROLEPLAY_SCENARIOS: RolePlayScenario[] = [
     promptTemplate: `Midnight beach photography. Villa fitness glamour seduction. Intimacy 10/10. Athletic elegance dynamics. subject: variant: Indian athletic fitness glamour specialist Nisha Vitality (height 5'9"). Athletic glamour hourglass with fitness curves. Bust 36D", waist 24", hips 38". Radiant golden bronze with fitness glow. Fitness glamour fusion specialist. pose: {ROLEPLAY_POSE} with athletic fitness positioning and glamorous midnight confidence. hair_color: jet black, hair_style: Natural beach waves with fitness glamour elegance and midnight ocean breeze, skin_finish: Radiant golden bronze with natural beach glow and fitness radiance, hand_and_nail_details: Athletic yoga positioning with glamorous fitness confidence, tattoos: none, piercings: none, body_art: none, nail_art: Natural rose polish with beach fitness sophistication, high_heels: None - natural barefoot beach elegance with organic fitness aesthetic. wardrobe: {ROLEPLAY_WARDROBE} with fitness glamour beach aesthetic and athletic bold reveals. environment: Luxury beachfront villa with private deck, midnight ocean views, natural beach atmosphere, intimate wellness setting. Privacy 10/10, luxury 9/10. lighting: Natural moonlight with villa ambient lights creating fitness glamour glow and beach midnight atmosphere. camera: focal_length: 85mm, aperture: f/2.0, distance: 2.5m, angle: {ROLEPLAY_ANGLE}, framing: {ROLEPLAY_FRAMING} celebrating athletic glamour curves. style: Beach midnight fitness glamour. Athletic elegance artistry. Personal photographer: Marcus Vigor, 10/10 intimacy.`,
     safetyTolerance: 6,
     aspectRatio: '16:9'
+  },
+
+  // ============================================================================
+  // SCENARIO 10: CHAMPAGNE LOUNGE MIDNIGHT (Zara Voluptuous)
+  // ============================================================================
+  {
+    id: 'roleplay-010',
+    name: 'Champagne Lounge Bust Celebration',
+    modelId: 'erotic-model-010',
+    modelName: 'Zara Voluptuous',
+    theme: 'Private Champagne Lounge Glamour',
+    environment: 'VIP Champagne Lounge - Midnight Luxury',
+    scenario: 'The exclusive champagne lounge is reserved for VIP guests only. Zara, known for her spectacular bust and dramatic glamour, invites you for a "private tasting" at midnight. Her voluptuous curves are accentuated by minimal luxury attire as she leans forward to pour champagne, creating mesmerizing cleavage artistry in the ambient lighting.',
+    intimacyLevel: 10,
+    difficultyLevel: 'expert',
+    gameElements: {
+      objective: 'Master bust emphasis photography while maintaining sophisticated champagne lounge elegance',
+      progressionSteps: [
+        'VIP lounge introduction with champagne service',
+        'Intimate conversation building with leaning positions',
+        'Strategic bust emphasis through natural movements',
+        'Dramatic cleavage artistry revelation',
+        'Ultimate voluptuous glamour celebration'
+      ],
+      rewards: [
+        'Unlock "Dramatic Cleavage" luxury wardrobes',
+        'Access VIP lounge premium environments',
+        'Achievement: "Bust Artistry Master"'
+      ],
+      challenges: [
+        'Maintain sophisticated lounge atmosphere',
+        'Balance dramatic bust emphasis with elegance',
+        'Navigate intimate framing with artistic taste'
+      ]
+    },
+    promptTemplate: `Midnight champagne photography. VIP lounge bust celebration. Intimacy 10/10. Voluptuous glamour dynamics. subject: variant: Indian glamour bust specialist Zara Voluptuous (height 5'9"). Ultra-voluptuous hourglass with spectacular chest. Bust 42E", waist 28", hips 39". Radiant golden complexion with warm bronze undertones. Maximum bust emphasis with dramatic cleavage celebration. pose: {ROLEPLAY_POSE} with dramatic bust emphasis positioning and midnight seductive confidence. hair_color: jet black, hair_style: Glamorous midnight styling with voluptuous sophistication, skin_finish: Radiant golden with champagne lounge glow, hand_and_nail_details: Elegant champagne glass positioning with glamorous confidence, tattoos: none, piercings: none, body_art: none, nail_art: Bold red glamour polish with luxury sophistication, high_heels: Designer luxury stilettos with VIP elegance. wardrobe: {ROLEPLAY_WARDROBE} with dramatic bust framing and luxury minimal glamour aesthetic. environment: Private VIP champagne lounge with ambient luxury lighting, velvet furnishings, midnight sophistication. Privacy 10/10, luxury 10/10. lighting: Warm ambient lounge lights emphasizing bust curves with dramatic champagne glow. camera: focal_length: 85mm, aperture: f/1.4, distance: 2m, angle: {ROLEPLAY_ANGLE}, framing: {ROLEPLAY_FRAMING} celebrating spectacular bust artistry. style: VIP midnight bust glamour. Dramatic cleavage artistry. Personal photographer: Dante Révélation, 10/10 intimacy.`,
+    safetyTolerance: 6,
+    aspectRatio: '4:5'
+  },
+
+  // ============================================================================
+  // SCENARIO 11: ART GALLERY MIDNIGHT (Simran Elegance)
+  // ============================================================================
+  {
+    id: 'roleplay-011',
+    name: 'Art Gallery Shoulder Elegance',
+    modelId: 'erotic-model-011',
+    modelName: 'Simran Elegance',
+    theme: 'Private Art Gallery After-Hours',
+    environment: 'Contemporary Art Gallery - Midnight Exhibition',
+    scenario: 'The contemporary art gallery hosts a private midnight viewing for select patrons. Simran, celebrated for her elegant shoulder lines and graceful neck, serves as your personal guide. Her backless minimal attire reveals stunning upper back curves as she gestures toward sculptures, the gallery lights creating dramatic shadows across her collarbones and shoulders.',
+    intimacyLevel: 10,
+    difficultyLevel: 'advanced',
+    gameElements: {
+      objective: 'Capture elegant shoulder and neck artistry within sophisticated gallery atmosphere',
+      progressionSteps: [
+        'Gallery midnight tour initiation',
+        'Sculpture viewing with shoulder emphasis',
+        'Strategic backless positioning reveals',
+        'Collarbone and neck celebration',
+        'Ultimate shoulder elegance revelation'
+      ],
+      rewards: [
+        'Unlock "Elegant Backless" shoulder wardrobes',
+        'Access art gallery cultural environments',
+        'Achievement: "Shoulder Artistry Expert"'
+      ],
+      challenges: [
+        'Maintain cultural gallery sophistication',
+        'Balance shoulder emphasis with artistic context',
+        'Create elegant back curve photography'
+      ]
+    },
+    promptTemplate: `Midnight gallery photography. Shoulder elegance art appreciation. Intimacy 10/10. Refined sophistication dynamics. subject: variant: Indian shoulder and neck specialist Simran Elegance (height 5'11"). Tall elegant hourglass with dramatic shoulder line. Bust 38D", waist 26", hips 37". Fair porcelain complexion with rosy undertones. Spectacular shoulder and neck elegance with upper back artistry. pose: {ROLEPLAY_POSE} with elegant shoulder emphasis and graceful midnight confidence. hair_color: jet black, hair_style: Sophisticated updo revealing elegant neck and shoulder lines with midnight gallery refinement, skin_finish: Fair porcelain with gallery lighting glow, hand_and_nail_details: Graceful art appreciation gestures emphasizing shoulder movement, tattoos: none, piercings: none, body_art: none, nail_art: Elegant nude polish with sophisticated simplicity, high_heels: Designer elegant stilettos with gallery sophistication. wardrobe: {ROLEPLAY_WARDROBE} with dramatic shoulder framing and elegant backless minimal design. environment: Contemporary art gallery with dramatic gallery lighting, sculptural exhibits, midnight cultural atmosphere. Privacy 10/10, luxury 9/10. lighting: Dramatic gallery spotlights creating shoulder and collarbone shadows with artistic emphasis. camera: focal_length: 85mm, aperture: f/1.4, distance: 2.5m, angle: {ROLEPLAY_ANGLE}, framing: {ROLEPLAY_FRAMING} celebrating elegant shoulder and neck artistry. style: Gallery midnight shoulder elegance. Upper back curve artistry. Personal photographer: Dante Révélation, 10/10 intimacy.`,
+    safetyTolerance: 6,
+    aspectRatio: '4:5'
+  },
+
+  // ============================================================================
+  // SCENARIO 12: ROOFTOP YOGA MIDNIGHT (Meera Sculpture)
+  // ============================================================================
+  {
+    id: 'roleplay-012',
+    name: 'Rooftop Yoga Chest Artistry',
+    modelId: 'erotic-model-012',
+    modelName: 'Meera Sculpture',
+    theme: 'Private Rooftop Yoga Session',
+    environment: 'Luxury Rooftop - Midnight Yoga Space',
+    scenario: 'The exclusive rooftop yoga studio is empty at midnight, city lights twinkling below. Meera, known for her athletic chest definition and ribcage artistry, offers a "private midnight flow session." Her minimal mesh attire reveals elegant chest curves and ribcage definition as she demonstrates increasingly intimate yoga positions under the moonlight.',
+    intimacyLevel: 10,
+    difficultyLevel: 'intermediate',
+    gameElements: {
+      objective: 'Capture chest and ribcage artistry through athletic yoga positioning with artistic sophistication',
+      progressionSteps: [
+        'Rooftop yoga session introduction',
+        'Basic stretches revealing torso definition',
+        'Partner yoga with chest emphasis',
+        'Intimate athletic positioning',
+        'Ultimate chest sculpture celebration'
+      ],
+      rewards: [
+        'Unlock "Athletic Mesh" chest wardrobes',
+        'Access rooftop wellness environments',
+        'Achievement: "Chest Sculpture Specialist"'
+      ],
+      challenges: [
+        'Maintain authentic yoga atmosphere',
+        'Balance athletic positioning with intimacy',
+        'Capture natural ribcage artistry'
+      ]
+    },
+    promptTemplate: `Midnight rooftop photography. Yoga chest sculpture artistry. Intimacy 10/10. Athletic elegance dynamics. subject: variant: Indian chest sculpture specialist Meera Sculpture (height 5'9"). Athletic elegant with defined chest and ribcage. Bust 36C", waist 25", hips 36". Warm caramel complexion with golden glow. Chest definition with ribcage artistry and sternum beauty. pose: {ROLEPLAY_POSE} with athletic chest emphasis and yoga midnight confidence. hair_color: jet black, hair_style: Athletic yoga styling with natural midnight elegance, skin_finish: Warm caramel with natural athletic glow, hand_and_nail_details: Yoga positioning hands with athletic grace, tattoos: none, piercings: none, body_art: none, nail_art: Natural polish with athletic sophistication, high_heels: None - barefoot yoga elegance. wardrobe: {ROLEPLAY_WARDROBE} with chest framing mesh design and athletic minimal artistry. environment: Luxury rooftop yoga space with city skyline views, moonlight atmosphere, midnight wellness setting. Privacy 10/10, luxury 8/10. lighting: Natural moonlight with soft rooftop ambient lights creating chest and ribcage definition emphasis. camera: focal_length: 85mm, aperture: f/1.8, distance: 2m, angle: {ROLEPLAY_ANGLE}, framing: {ROLEPLAY_FRAMING} celebrating chest sculpture and ribcage artistry. style: Rooftop midnight chest elegance. Athletic torso artistry. Personal photographer: Dante Révélation, 10/10 intimacy.`,
+    safetyTolerance: 6,
+    aspectRatio: '4:5'
+  },
+
+  // ============================================================================
+  // SCENARIO 13: LUXURY SPA MIDNIGHT (Ananya Curves)
+  // ============================================================================
+  {
+    id: 'roleplay-013',
+    name: 'Luxury Spa Hip Celebration',
+    modelId: 'erotic-model-013',
+    modelName: 'Ananya Curves',
+    theme: 'Private Spa Hip Worship',
+    environment: 'Five-Star Spa - Midnight Private Suite',
+    scenario: 'The five-star spa is closed to everyone except VIP appointments. Ananya, renowned for her extreme pear-shaped curves and spectacular 48" hips, welcomes you for a "midnight wellness consultation." Her minimal spa wrap emphasizes her dramatic waist-to-hip ratio as she demonstrates various positions on the massage table, her curves creating mesmerizing silhouettes.',
+    intimacyLevel: 10,
+    difficultyLevel: 'expert',
+    gameElements: {
+      objective: 'Master hip curve photography while celebrating extreme waist-to-hip ratios with spa sophistication',
+      progressionSteps: [
+        'Spa suite midnight welcome',
+        'Wellness positioning introduction',
+        'Side profile hip emphasis reveals',
+        'Dramatic curve celebration moments',
+        'Ultimate hip empress seduction'
+      ],
+      rewards: [
+        'Unlock "Hip Emphasis" minimal spa wardrobes',
+        'Access luxury spa premium environments',
+        'Achievement: "Hip Worship Master"'
+      ],
+      challenges: [
+        'Maintain spa wellness atmosphere',
+        'Balance extreme curves with elegance',
+        'Capture dramatic waist-to-hip artistry'
+      ]
+    },
+    promptTemplate: `Midnight spa photography. Hip curve celebration wellness. Intimacy 10/10. Dramatic curves dynamics. subject: variant: Indian hip emphasis specialist Ananya Curves (height 5'7"). Extreme pear-shaped with spectacular hip curves. Bust 34B", waist 24", hips 48". Rich chocolate complexion with deep warm tones. Maximum hip emphasis with dramatic waist-to-hip ratio and spectacular curves. pose: {ROLEPLAY_POSE} with dramatic hip emphasis and midnight spa confidence. hair_color: jet black, hair_style: Spa elegant styling with hip celebration sophistication, skin_finish: Rich chocolate with spa glow radiance, hand_and_nail_details: Spa positioning with hip emphasis grace, tattoos: none, piercings: none, body_art: none, nail_art: Bold berry polish with spa luxury, high_heels: None - spa barefoot elegance. wardrobe: {ROLEPLAY_WARDROBE} with dramatic hip framing and minimal spa aesthetic. environment: Five-star spa private suite with ambient spa lighting, massage tables, midnight wellness atmosphere. Privacy 10/10, luxury 10/10. lighting: Soft spa ambient lights emphasizing hip curves with dramatic side shadows. camera: focal_length: 70mm, aperture: f/2.0, distance: 3m, angle: {ROLEPLAY_ANGLE}, framing: {ROLEPLAY_FRAMING} celebrating spectacular hip curves and waist ratio. style: Spa midnight hip celebration. Curve empress artistry. Personal photographer: Lorenzo Curvas, 10/10 intimacy.`,
+    safetyTolerance: 6,
+    aspectRatio: '4:5'
+  },
+
+  // ============================================================================
+  // SCENARIO 14: PENTHOUSE BAR MIDNIGHT (Tanvi Legs)
+  // ============================================================================
+  {
+    id: 'roleplay-014',
+    name: 'Penthouse Bar Thigh Seduction',
+    modelId: 'erotic-model-014',
+    modelName: 'Tanvi Legs',
+    theme: 'Private Penthouse Bar After-Hours',
+    environment: 'Luxury Penthouse Bar - Midnight Cocktails',
+    scenario: 'The penthouse bar is exclusively yours tonight. Tanvi, famous for her spectacular thigh curves and endless legs, tends bar in thigh-high minimal attire. As she reaches for top-shelf liquor, her long legs and powerful thighs create stunning lines. She suggests crossing to your side of the bar for a "more intimate drink service."',
+    intimacyLevel: 10,
+    difficultyLevel: 'advanced',
+    gameElements: {
+      objective: 'Capture thigh and leg artistry through bar service positioning with luxury sophistication',
+      progressionSteps: [
+        'Penthouse bar midnight arrival',
+        'Cocktail service with leg emphasis',
+        'Bar-side positioning revealing thighs',
+        'Crossed leg intimate moments',
+        'Ultimate leg goddess seduction'
+      ],
+      rewards: [
+        'Unlock "Thigh-High Glamour" leg wardrobes',
+        'Access penthouse luxury environments',
+        'Achievement: "Leg Artistry Expert"'
+      ],
+      challenges: [
+        'Maintain upscale bar sophistication',
+        'Balance leg emphasis with natural service',
+        'Create elegant inner thigh artistry'
+      ]
+    },
+    promptTemplate: `Midnight penthouse photography. Bar service leg celebration. Intimacy 10/10. Leg goddess dynamics. subject: variant: Indian thigh and leg specialist Tanvi Legs (height 5'10"). Long-legged with spectacular thigh curves. Bust 36C", waist 27", hips 41". Golden wheat complexion with warm bronze tones. Spectacular thigh curves with long elegant leg lines and inner thigh artistry. pose: {ROLEPLAY_POSE} with dramatic leg and thigh emphasis and midnight bar confidence. hair_color: jet black, hair_style: Sleek bar service styling with leg celebration elegance, skin_finish: Golden wheat with penthouse lighting glow, hand_and_nail_details: Cocktail service positioning with leg emphasis grace, tattoos: none, piercings: none, body_art: none, nail_art: Metallic gold polish with bar luxury, high_heels: Designer sky-high stilettos emphasizing leg length. wardrobe: {ROLEPLAY_WARDROBE} with thigh-high emphasis and minimal bar aesthetic. environment: Luxury penthouse bar with city view windows, premium bar setup, midnight cocktail atmosphere. Privacy 10/10, luxury 10/10. lighting: Dramatic bar lighting creating leg and thigh shadows with glamorous emphasis. camera: focal_length: 85mm, aperture: f/2.0, distance: 2.5m, angle: {ROLEPLAY_ANGLE}, framing: {ROLEPLAY_FRAMING} celebrating spectacular leg lines and thigh curves. style: Penthouse midnight leg elegance. Thigh goddess artistry. Personal photographer: Lorenzo Curvas, 10/10 intimacy.`,
+    safetyTolerance: 6,
+    aspectRatio: '4:5'
+  },
+
+  // ============================================================================
+  // SCENARIO 15: DANCE STUDIO MIDNIGHT (Sanya Curves)
+  // ============================================================================
+  {
+    id: 'roleplay-015',
+    name: 'Dance Studio Posterior Artistry',
+    modelId: 'erotic-model-015',
+    modelName: 'Sanya Curves',
+    theme: 'Private Dance Studio Rehearsal',
+    environment: 'Professional Dance Studio - Midnight Practice',
+    scenario: 'The professional dance studio is reserved for your private midnight session. Sanya, celebrated for her dramatic posterior curves and elegant spine, offers to "demonstrate some movements." Her minimal dance attire and strategic positioning emphasize her spectacular back curves. The mirrored walls create endless perspectives of her posterior artistry as she moves.',
+    intimacyLevel: 10,
+    difficultyLevel: 'expert',
+    gameElements: {
+      objective: 'Master posterior and back curve photography through dance movements with artistic elegance',
+      progressionSteps: [
+        'Dance studio midnight introduction',
+        'Basic movement demonstrations',
+        'Arched back positioning reveals',
+        'Mirror perspective posterior emphasis',
+        'Ultimate posterior empress celebration'
+      ],
+      rewards: [
+        'Unlock "Backless Dance" posterior wardrobes',
+        'Access dance studio creative environments',
+        'Achievement: "Posterior Artistry Master"'
+      ],
+      challenges: [
+        'Maintain authentic dance atmosphere',
+        'Balance posterior emphasis with movement',
+        'Utilize mirror reflections artistically'
+      ]
+    },
+    promptTemplate: `Midnight dance photography. Posterior curve celebration movement. Intimacy 10/10. Back artistry dynamics. subject: variant: Indian posterior celebration specialist Sanya Curves (height 5'8"). Curvaceous with spectacular posterior and back curves. Bust 37C", waist 28", hips 45". Deep mocha complexion with rich warm undertones. Dramatic posterior curves with elegant back lines and spine artistry. pose: {ROLEPLAY_POSE} with dramatic posterior emphasis and midnight dance confidence. hair_color: jet black, hair_style: Dance rehearsal styling with posterior celebration elegance, skin_finish: Deep mocha with dance studio glow, hand_and_nail_details: Dance movement positioning with posterior emphasis grace, tattoos: none, piercings: none, body_art: none, nail_art: Deep burgundy polish with dance sophistication, high_heels: Dance practice heels with posterior emphasis. wardrobe: {ROLEPLAY_WARDROBE} with backless posterior emphasis and minimal dance aesthetic. environment: Professional dance studio with mirrored walls, ballet barres, midnight practice atmosphere. Privacy 10/10, luxury 8/10. lighting: Studio spotlights creating posterior and spine shadows with dramatic dance emphasis. camera: focal_length: 70mm, aperture: f/2.0, distance: 3m, angle: {ROLEPLAY_ANGLE}, framing: {ROLEPLAY_FRAMING} celebrating spectacular posterior curves and back artistry. style: Studio midnight posterior elegance. Back curve dance artistry. Personal photographer: Lorenzo Curvas, 10/10 intimacy.`,
+    safetyTolerance: 6,
+    aspectRatio: '4:5'
   }
 ];
 

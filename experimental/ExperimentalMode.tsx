@@ -3,15 +3,19 @@ import NodeCanvas from './NodeCanvas';
 import LevelIndicator from './LevelIndicator';
 import { calculateLevelsFromNodes, generateWarnings, type LevelWarning } from './levelCalculator';
 import { getNodeById } from './nodeDefinitions';
+import { mapNodesToPromptData } from './nodeToPromptMapper';
+import PromptGeneratorButton from '../components/PromptGeneratorButton';
 import type { CalculatedLevels } from '../types';
+import type { PromptModel } from '../services/aiPromptGenerator';
 
 interface ExperimentalModeProps {
   onGenerateWithConfig: (selectedNodes: string[], levels: CalculatedLevels) => void;
   onMigrateToMain: (selectedNodes: string[], levels: CalculatedLevels) => void;
   onExit: () => void;
+  accessToken: string;
 }
 
-const ExperimentalMode: React.FC<ExperimentalModeProps> = ({ onGenerateWithConfig, onMigrateToMain, onExit }) => {
+const ExperimentalMode: React.FC<ExperimentalModeProps> = ({ onGenerateWithConfig, onMigrateToMain, onExit, accessToken }) => {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [calculatedLevels, setCalculatedLevels] = useState<CalculatedLevels>({
     intimacy: 1,
@@ -59,6 +63,18 @@ const ExperimentalMode: React.FC<ExperimentalModeProps> = ({ onGenerateWithConfi
     }
     onMigrateToMain(selectedNodes, calculatedLevels);
   };
+
+  const handleAIPromptGenerated = (prompt: string, model: PromptModel) => {
+    console.log(`✅ AI-generated ${model} prompt from Experimental mode`);
+    // Copy to clipboard for user convenience
+    navigator.clipboard.writeText(prompt);
+    alert(`${model === 'imagen4' ? 'Imagen 4' : 'Flux'} prompt generated and copied to clipboard!`);
+  };
+
+  // Convert nodes to PromptData for AI prompt generation
+  const currentPromptData = selectedNodes.length > 0
+    ? mapNodesToPromptData(selectedNodes, calculatedLevels)
+    : undefined;
 
   const selectedNodeObjects = selectedNodes.map((id) => getNodeById(id)).filter((n) => n !== undefined);
 
@@ -220,8 +236,20 @@ const ExperimentalMode: React.FC<ExperimentalModeProps> = ({ onGenerateWithConfi
             </div>
           </div>
 
+          {/* AI Prompt Generator */}
+          {currentPromptData && (
+            <div style={{ padding: '16px', borderTop: '1px solid #374151' }}>
+              <PromptGeneratorButton
+                promptData={currentPromptData}
+                accessToken={accessToken}
+                onPromptGenerated={handleAIPromptGenerated}
+                disabled={selectedNodes.length === 0}
+              />
+            </div>
+          )}
+
           {/* Generate Button */}
-          <div style={{ padding: '16px', borderTop: '1px solid #374151' }}>
+          <div style={{ padding: '16px', borderTop: currentPromptData ? '1px solid #374151' : '1px solid #374151' }}>
             <button
               onClick={handleGenerate}
               disabled={selectedNodes.length === 0}

@@ -7,6 +7,8 @@
 import React, { useState } from 'react';
 import { PlatinumPromptEngine } from './promptEngine';
 import { PLATINUM_VARIANTS, getAllPlatinumVariants } from './platinumCollections';
+import TextPromptOptimizer from '../components/TextPromptOptimizer';
+import type { PromptModel } from '../services/aiPromptGenerator';
 import type { PlatinumModeState, PlatinumVariantId } from './types';
 
 interface PlatinumModeProps {
@@ -103,6 +105,12 @@ const PlatinumMode: React.FC<PlatinumModeProps> = ({
       return;
     }
     onMigrateToMain(generatedPrompt, state);
+  };
+
+  const handleOptimizedPrompt = (optimized: string, model: PromptModel) => {
+    console.log(`✅ AI-optimized ${model} prompt received in Platinum Mode`);
+    setGeneratedPrompt(optimized);
+    setShowPromptPreview(true);
   };
 
   const timeOptions = [
@@ -306,6 +314,19 @@ const PlatinumMode: React.FC<PlatinumModeProps> = ({
                 </>
               )}
             </div>
+
+            {/* AI Prompt Optimizer */}
+            {generatedPrompt && (
+              <div className="mt-4">
+                <TextPromptOptimizer
+                  currentPrompt={generatedPrompt}
+                  accessToken={generationSettings.accessToken || ''}
+                  onOptimizedPrompt={handleOptimizedPrompt}
+                  disabled={isGenerating}
+                  className="w-full"
+                />
+              </div>
+            )}
 
             {/* Prompt Preview */}
             {showPromptPreview && generatedPrompt && (

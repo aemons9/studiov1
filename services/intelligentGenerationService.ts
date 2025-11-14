@@ -454,7 +454,7 @@ async function executeNuclearFluxStrategy(
  * Vera Strategy: Advanced Imagen 4 prompt optimization
  * Uses quality triggers, cultural sensitivity, and intimacy-based wardrobe mappings
  */
-async function executeVeraStrategy(
+export async function executeVeraStrategy(
   prompt: string,
   promptData: PromptData | null,
   settings: GenerationSettings,
@@ -591,7 +591,7 @@ async function executeVeraStrategy(
  * Ultra Optimizer Strategy: Sophisticated prompt engineering with structured optimization
  * Uses the UltraPromptOptimizer class for comprehensive prompt transformation
  */
-async function executeUltraOptimizer(
+export async function executeUltraOptimizer(
   prompt: string,
   promptData: PromptData | null,
   settings: GenerationSettings,

@@ -33,6 +33,7 @@ import IndianRolePlayMode from './roleplay/IndianRolePlayMode';
 import IndianModelsGallery from './roleplay/IndianModelsGallery';
 import VideoGenerationMode from './video/VideoGenerationMode';
 import VeraMode from './vera/VeraMode';
+import VideoGeneratorUI from './components/VideoGeneratorUI';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
 import type { PlatinumModeState } from './platinum/types';
@@ -156,6 +157,9 @@ const App: React.FC = () => {
     driveFolderName: DEFAULT_DRIVE_FOLDER,
     driveAccessToken: '',
   });
+  const [videoPrompt, setVideoPrompt] = useState<string>('');
+  const [showVideoGenerator, setShowVideoGenerator] = useState<boolean>(false);
+  const [isGeneratingPrompt, setIsGeneratingPrompt] = useState<boolean>(false);
 
 
   const handlePromptChange = useCallback((newPromptData: PromptData) => {
@@ -1263,6 +1267,100 @@ const App: React.FC = () => {
     }
   };
 
+  const handleGenerateVideoPrompt = async () => {
+    setIsGeneratingPrompt(true);
+    setError(null);
+
+    try {
+      console.log('🎬 Generating optimized video prompt with strategy:', generationSettings.safetyBypassStrategy);
+
+      // Get base prompt from current mode
+      let basePrompt = promptMode === 'text' ? textPrompt : constructSimplePromptString(promptData);
+
+      if (!basePrompt.trim()) {
+        setError('Please enter a prompt before generating a video prompt.');
+        setIsGeneratingPrompt(false);
+        return;
+      }
+
+      // Apply the selected safety strategy to optimize the prompt
+      const strategy = generationSettings.safetyBypassStrategy || 'balanced';
+      let optimizedPrompt = basePrompt;
+
+      if (strategy === 'verastrategy' || strategy === 'ultraoptimizer') {
+        // Use intelligent generation service to optimize the prompt
+        const { executeVeraStrategy, executeUltraOptimizer } = await import('./services/intelligentGenerationService');
+
+        if (strategy === 'verastrategy') {
+          console.log('✨ Applying Vera Strategy optimization for video prompt');
+          const result = await executeVeraStrategy(
+            basePrompt,
+            promptMode === 'json' ? promptData : null,
+            generationSettings,
+            generationSettings.intimacyLevel
+          );
+          optimizedPrompt = result.finalPrompt;
+        } else if (strategy === 'ultraoptimizer') {
+          console.log('🎨 Applying Ultra Optimizer for video prompt');
+          const result = await executeUltraOptimizer(
+            basePrompt,
+            promptMode === 'json' ? promptData : null,
+            generationSettings,
+            generationSettings.intimacyLevel
+          );
+          optimizedPrompt = result.finalPrompt;
+        }
+      } else if (strategy !== 'conservative') {
+        // For other strategies, apply basic Gemini enhancement
+        try {
+          console.log('🤖 Applying Gemini enhancement for video prompt');
+          const response = await fetch(`https://us-east4-aiplatform.googleapis.com/v1/projects/${generationSettings.projectId}/locations/us-east4/publishers/google/models/gemini-2.5-pro:generateContent`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${generationSettings.accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              contents: [{
+                role: 'user',
+                parts: [{ text: `You are optimizing a prompt for video generation. Enhance this prompt for cinematic video output, maintaining the original intent but adding motion, timing, and cinematography details:\n\n${basePrompt}` }]
+              }],
+              generationConfig: {
+                temperature: 0.3,
+                maxOutputTokens: 2048,
+              }
+            })
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            optimizedPrompt = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || basePrompt;
+          }
+        } catch (enhanceError) {
+          console.warn('Enhancement failed, using original prompt:', enhanceError);
+        }
+      }
+
+      console.log('✅ Video prompt generated successfully');
+      console.log('📝 Prompt length:', optimizedPrompt.length, 'chars');
+
+      setVideoPrompt(optimizedPrompt);
+      setShowVideoGenerator(true);
+
+      // Scroll to video generator
+      setTimeout(() => {
+        const videoElement = document.getElementById('video-generator-section');
+        videoElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+
+    } catch (err) {
+      console.error('Video prompt generation error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to generate video prompt');
+    } finally {
+      setIsGeneratingPrompt(false);
+    }
+  };
+
   // Defensive rendering - ensure we always have valid state
   const safePromptData = promptData || JSON.parse(initialPromptJson);
   const safeGenerationSettings = generationSettings || {
@@ -1426,8 +1524,17 @@ const App: React.FC = () => {
                   isLoading={isLoading}
                 />
               )}
-              <div className="lg:sticky lg:top-8 self-start">
+              <div className="lg:sticky lg:top-8 self-start space-y-6">
                 <ImageDisplay imageData={generatedImages} isLoading={isLoading} error={error} wovenPrompt={wovenPrompt} generationStep={generationStep} />
+
+                {showVideoGenerator && (
+                  <div id="video-generator-section">
+                    <VideoGeneratorUI
+                      generationSettings={safeGenerationSettings}
+                      initialPrompt={videoPrompt}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </main>
@@ -1520,6 +1627,17 @@ const App: React.FC = () => {
               Vera Mode
             </button>
             <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
+              <button
+                onClick={handleGenerateVideoPrompt}
+                disabled={isLoading || isGeneratingPrompt || (!textPrompt.trim() && !promptData)}
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white font-bold text-base rounded-lg shadow-lg hover:from-purple-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-purple-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed transition-all duration-300 transform active:scale-95 shadow-purple-500/20 hover:shadow-purple-500/30"
+                title={`Generate optimized video prompt using ${generationSettings.safetyBypassStrategy || 'auto'} strategy`}
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+                {isGeneratingPrompt ? 'Generating...' : 'Generate Video Prompt'}
+              </button>
               <MasterGenerationControl
                 onGenerate={handleMasterGenerate}
                 isLoading={isLoading}

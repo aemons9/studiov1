@@ -120,6 +120,7 @@ export type SafetyBypassStrategy =
   | 'auto'           // Smart cascade - tries everything automatically
   | 'conservative'   // Only Gemini rewrite, no translation
   | 'balanced'       // Gemini + Translation if needed
+  | 'verastrategy'   // Vera mode's advanced prompt optimization for Imagen 4
   | 'aggressive'     // Gemini + Translation + Flux with high tolerance
   | 'nuclear';       // Direct to translation + Flux max tolerance
 

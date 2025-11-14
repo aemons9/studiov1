@@ -64,6 +64,12 @@ export async function generateWithMaximumSafety(
     return await executeVeraStrategy(currentPrompt, promptData, settings, intimacyLevel);
   }
 
+  // ULTRA OPTIMIZER MODE: Sophisticated prompt engineering with full structure
+  if (strategy === 'ultraoptimizer') {
+    console.log('🎨 ULTRA OPTIMIZER MODE: Sophisticated prompt engineering');
+    return await executeUltraOptimizer(currentPrompt, promptData, settings, intimacyLevel);
+  }
+
   // ============================================================================
   // STEP 1: Pre-screen with Natural Language API
   // ============================================================================
@@ -575,6 +581,115 @@ async function executeVeraStrategy(
         `Vera Strategy failed.\n` +
         `Attempts: ${attempts}\n` +
         `Strategies tried: ${strategies.join(' → ')}\n` +
+        `Final error: ${retryError instanceof Error ? retryError.message : 'Unknown error'}`
+      );
+    }
+  }
+}
+
+/**
+ * Ultra Optimizer Strategy: Sophisticated prompt engineering with structured optimization
+ * Uses the UltraPromptOptimizer class for comprehensive prompt transformation
+ */
+async function executeUltraOptimizer(
+  prompt: string,
+  promptData: PromptData,
+  settings: GenerationSettings,
+  intimacyLevel: number
+): Promise<GenerationResult> {
+  const strategies: string[] = ['Ultra Optimizer - Structured Engineering'];
+  let attempts = 0;
+
+  console.log('🎨 Ultra Optimizer: Applying sophisticated prompt engineering');
+
+  // Import the Ultra Optimizer
+  const { UltraPromptOptimizer, ULTRA_OPTIMIZER_PRESETS } = await import('./ultraOptimizer');
+
+  // Determine the appropriate preset based on intimacy level
+  let preset;
+  if (intimacyLevel <= 3) {
+    preset = ULTRA_OPTIMIZER_PRESETS.safeProfessional;
+  } else if (intimacyLevel <= 5) {
+    preset = ULTRA_OPTIMIZER_PRESETS.fashionEditorial;
+  } else if (intimacyLevel <= 7) {
+    preset = ULTRA_OPTIMIZER_PRESETS.artisticMasterpiece;
+  } else {
+    preset = ULTRA_OPTIMIZER_PRESETS.boundaryPushing;
+  }
+
+  // Override intimacy level with actual value
+  const config = {
+    ...preset,
+    intimacyLevel: intimacyLevel
+  };
+
+  // Create optimizer instance
+  const optimizer = new UltraPromptOptimizer(config);
+
+  // Optimize the prompt
+  const optimization = optimizer.optimize(promptData);
+
+  console.log('📝 Original prompt:', prompt.substring(0, 100) + '...');
+  console.log('✨ Optimized prompt length:', optimization.optimizedPrompt.length);
+  console.log('📊 Safety score:', optimization.safetyScore.toFixed(2));
+  console.log('🎯 Quality score:', optimization.qualityScore.toFixed(2));
+
+  // Log warnings if any
+  if (optimization.warnings.length > 0) {
+    console.log('⚠️ Warnings:');
+    optimization.warnings.forEach(w => console.log(`   ${w}`));
+  }
+
+  // Log enhancements
+  if (optimization.enhancements.length > 0) {
+    console.log('✨ Enhancements applied:');
+    optimization.enhancements.forEach(e => console.log(`   ${e}`));
+  }
+
+  // Try direct Imagen generation with ultra-optimized prompt
+  try {
+    attempts++;
+    console.log('🎨 Attempting Imagen 4 with Ultra-optimized prompt...');
+    const images = await generateImage(optimization.optimizedPrompt, settings);
+    strategies.push('Imagen 4 - Ultra Optimizer Success');
+
+    console.log('✅ Ultra Optimizer successful!');
+    return {
+      images,
+      usedApi: 'Imagen',
+      attempts,
+      strategies,
+      finalPrompt: optimization.optimizedPrompt
+    };
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+    console.warn('⚠️ Initial Ultra-optimized attempt blocked:', errorMessage);
+
+    // Try with Gemini rewrite as fallback
+    try {
+      attempts++;
+      console.log('🔄 Applying Gemini rewrite to Ultra-optimized prompt...');
+      const rewrittenPrompt = await adversarialRewrite(optimization.optimizedPrompt, errorMessage, settings);
+      strategies.push('Gemini Rewrite + Ultra Optimization');
+
+      const images = await generateImage(rewrittenPrompt, settings);
+      strategies.push('Imagen 4 - Success After Rewrite');
+
+      console.log('✅ Ultra Optimizer successful after rewrite!');
+      return {
+        images,
+        usedApi: 'Imagen',
+        attempts,
+        strategies,
+        finalPrompt: rewrittenPrompt
+      };
+    } catch (retryError) {
+      throw new Error(
+        `Ultra Optimizer Strategy failed.\n` +
+        `Attempts: ${attempts}\n` +
+        `Strategies tried: ${strategies.join(' → ')}\n` +
+        `Safety Score: ${optimization.safetyScore.toFixed(2)}\n` +
+        `Quality Score: ${optimization.qualityScore.toFixed(2)}\n` +
         `Final error: ${retryError instanceof Error ? retryError.message : 'Unknown error'}`
       );
     }

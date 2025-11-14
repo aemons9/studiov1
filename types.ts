@@ -121,6 +121,7 @@ export type SafetyBypassStrategy =
   | 'conservative'   // Only Gemini rewrite, no translation
   | 'balanced'       // Gemini + Translation if needed
   | 'verastrategy'   // Vera mode's advanced prompt optimization for Imagen 4
+  | 'ultraoptimizer' // Ultra Optimizer - Sophisticated prompt engineering with Art Directors Declaration
   | 'aggressive'     // Gemini + Translation + Flux with high tolerance
   | 'nuclear';       // Direct to translation + Flux max tolerance
 

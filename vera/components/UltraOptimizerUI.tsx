@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { GenerationSettings } from '../types';
-import { generateImage } from '../services/geminiService';
+import { generateImage } from '../services';
 import { 
   Imagen4PromptOptimizer,
   IMAGEN4_PRESETS,

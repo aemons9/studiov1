@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { generateVideo } from '../services/geminiService';
+import { generateVideo } from '../services';
 import { VideoIcon, SparklesIcon } from './Icons';
 import VideoLoader from './VideoLoader';
 

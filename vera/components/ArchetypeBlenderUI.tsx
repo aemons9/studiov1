@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import { GenerationSettings } from '../types';
-import { generateImage } from '../services/geminiService';
+import { generateImage } from '../services';
 import { 
   INDIAN_MODEL_ARCHETYPES, 
   generateArchetypePrompt, 

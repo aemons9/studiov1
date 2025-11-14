@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { Prompt } from './types';
-import { generateVideoPrompts, generateImage, generateVideo } from './services/geminiService';
+import { generateVideoPrompts, generateImage, generateVideo } from './services';
 import Header from './components/Header';
 import PromptInput from './components/PromptInput';
 import Imagen4GeneratorUI from './components/Imagen4GeneratorUI';

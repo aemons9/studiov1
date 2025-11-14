@@ -118,8 +118,18 @@ const App: React.FC = () => {
   const [lockedFields, setLockedFields] = useState<string[]>([]);
   const [generationSettings, setGenerationSettings] = useState<GenerationSettings>({
     provider: 'vertex-ai',
-    projectId: '', accessToken: '', numberOfImages: 1, aspectRatio: '9:16', personGeneration: 'allow_all',
-    safetySetting: 'block_few', addWatermark: true, enhancePrompt: true, modelId: 'imagen-4.0-ultra-generate-001', seed: null,
+    vertexAuthMethod: 'oauth', // Default to OAuth for backward compatibility
+    projectId: '',
+    accessToken: '',
+    vertexApiKey: '', // API Key option (can use same key as Vera mode)
+    numberOfImages: 1,
+    aspectRatio: '9:16',
+    personGeneration: 'allow_all',
+    safetySetting: 'block_few',
+    addWatermark: true,
+    enhancePrompt: true,
+    modelId: 'imagen-4.0-ultra-generate-001',
+    seed: null,
     intimacyLevel: 6,
     safetyBypassStrategy: 'auto',
     replicateApiToken: '',
@@ -161,9 +171,17 @@ const App: React.FC = () => {
   const validateCredentials = (options?: MasterGenerateOptions) => {
     // Validate generation provider credentials
     if (generationSettings.provider === 'vertex-ai') {
-      if (!generationSettings.projectId || !generationSettings.accessToken) {
-        setError('Please provide a valid Google Cloud Project ID and OAuth2 Access Token in the Generation Settings section.');
-        return false;
+      const authMethod = generationSettings.vertexAuthMethod || 'oauth';
+      if (authMethod === 'oauth') {
+        if (!generationSettings.projectId || !generationSettings.accessToken) {
+          setError('Please provide a valid Google Cloud Project ID and OAuth2 Access Token in the Generation Settings section.');
+          return false;
+        }
+      } else if (authMethod === 'apikey') {
+        if (!generationSettings.vertexApiKey) {
+          setError('Please provide a valid Google AI API Key in the Generation Settings section.');
+          return false;
+        }
       }
     } else if (generationSettings.provider === 'replicate-flux') {
       if (!generationSettings.replicateApiToken) {

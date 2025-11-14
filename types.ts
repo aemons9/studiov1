@@ -130,9 +130,17 @@ export interface GenerationSettings {
   // Safety Bypass Strategy
   safetyBypassStrategy?: SafetyBypassStrategy;
 
-  // Vertex AI Settings
+  // Vertex AI Authentication Method
+  vertexAuthMethod?: 'oauth' | 'apikey'; // OAuth (Project ID + Token) or API Key
+
+  // Vertex AI Settings - OAuth Method
   projectId: string;
   accessToken: string;
+
+  // Vertex AI Settings - API Key Method
+  vertexApiKey?: string; // Google AI API Key (same as Vera mode)
+
+  // Common Vertex AI Settings
   modelId: string;
   personGeneration: 'allow_all' | 'allow_adult' | 'dont_allow';
   safetySetting: 'block_few' | 'block_some' | 'block_most';

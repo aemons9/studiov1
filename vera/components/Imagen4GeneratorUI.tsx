@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { IndianModelArchetype, GenerationSettings } from '../types';
-import { generateImage } from '../services/geminiService';
+import { generateImage } from '../services';
 import { optimizePrompt, generateConcept } from '../services';
 import { INDIAN_MODEL_ARCHETYPES } from '../services/indianModelArchetypes';
 import { ModelIcon, SparklesIcon, SettingsIcon } from './Icons';

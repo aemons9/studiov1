@@ -456,7 +456,7 @@ async function executeNuclearFluxStrategy(
  */
 async function executeVeraStrategy(
   prompt: string,
-  promptData: PromptData,
+  promptData: PromptData | null,
   settings: GenerationSettings,
   intimacyLevel: number
 ): Promise<GenerationResult> {
@@ -593,7 +593,7 @@ async function executeVeraStrategy(
  */
 async function executeUltraOptimizer(
   prompt: string,
-  promptData: PromptData,
+  promptData: PromptData | null,
   settings: GenerationSettings,
   intimacyLevel: number
 ): Promise<GenerationResult> {
@@ -626,8 +626,8 @@ async function executeUltraOptimizer(
   // Create optimizer instance
   const optimizer = new UltraPromptOptimizer(config);
 
-  // Optimize the prompt
-  const optimization = optimizer.optimize(promptData);
+  // Optimize the prompt - handle null promptData by passing the string prompt
+  const optimization = optimizer.optimize(promptData || prompt);
 
   console.log('📝 Original prompt:', prompt.substring(0, 100) + '...');
   console.log('✨ Optimized prompt length:', optimization.optimizedPrompt.length);

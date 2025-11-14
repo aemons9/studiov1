@@ -182,12 +182,12 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
   const showApp = hasVeoApiKey || mode !== 'veo';
 
   return (
-    <div className="min-h-screen text-slate-200 p-4 sm:p-6 lg:p-8 selection:bg-cyan-400 selection:text-slate-900">
+    <div className="min-h-screen text-slate-200 p-4 sm:p-6 lg:p-8 selection:bg-cyan-400 selection:text-slate-900 relative">
        {!showApp && <ApiKeySelector onSelectKey={handleSelectKey} />}
-       <div className={`fixed inset-0 -z-10 h-full w-full bg-gradient-to-br from-[#0a0f1f] to-[#10162b] ${!showApp ? 'blur-md' : ''}`}></div>
-       <div className={`fixed inset-0 -z-10 h-full w-full bg-[url('https://res.cloudinary.com/dfhp1llal/image/upload/v1721245037/grid_vjexid.svg')] [background-position:calc(100%*var(--x,0))_calc(100%*var(--y,0))] ${!showApp ? 'blur-md' : ''}`}></div>
+       <div className="fixed inset-0 -z-10 h-full w-full bg-gradient-to-br from-[#0a0f1f] to-[#10162b]"></div>
+       <div className="fixed inset-0 -z-10 h-full w-full bg-[url('https://res.cloudinary.com/dfhp1llal/image/upload/v1721245037/grid_vjexid.svg')] [background-position:calc(100%*var(--x,0))_calc(100%*var(--y,0))]"></div>
 
-      <div className={`max-w-7xl mx-auto ${!showApp ? 'blur-md pointer-events-none' : ''}`}>
+      <div className="max-w-7xl mx-auto relative z-10">{/* Added relative z-10 */}
         <Header mode={mode} setMode={setMode} onExit={onExit} />
         <main className="mt-8">
           {mode === 'veo' && (

@@ -1,6 +1,23 @@
 import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+// Get API key from localStorage (user must provide it)
+let cachedApiKey: string | null = null;
+
+function getApiKey(): string {
+  if (cachedApiKey) return cachedApiKey;
+
+  const stored = localStorage.getItem('vera_api_key');
+  if (stored) {
+    cachedApiKey = stored;
+    return stored;
+  }
+
+  throw new Error('API Key not configured. Please set your Google AI API key in Vera settings.');
+}
+
+function getAiInstance(): GoogleGenAI {
+  return new GoogleGenAI({ apiKey: getApiKey() });
+}
 
 /**
  * Takes a simple user concept and uses Gemini to flesh it out into a more
@@ -28,6 +45,7 @@ Your output: "Navigating a vibrant, chaotic spice market at dusk, the air thick 
   const userPrompt = `Enhance the following concept: "${concept}"`;
   
   try {
+    const ai = getAiInstance();
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: userPrompt,

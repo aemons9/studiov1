@@ -3,12 +3,29 @@ import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 
-// This top-level instance is for non-Veo models
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+// Get API key from localStorage (user must provide it)
+let cachedApiKey: string | null = null;
 
-const MODEL_SPECIALTIES = INDIAN_GLAMOUR_MODELS.reduce((acc, model) => { 
-  acc[model.name] = model.category; 
-  return acc; 
+function getApiKey(): string {
+  if (cachedApiKey) return cachedApiKey;
+
+  // Try to get from localStorage
+  const stored = localStorage.getItem('vera_api_key');
+  if (stored) {
+    cachedApiKey = stored;
+    return stored;
+  }
+
+  throw new Error('API Key not configured. Please set your Google AI API key in Vera settings.');
+}
+
+function getAiInstance(): GoogleGenAI {
+  return new GoogleGenAI({ apiKey: getApiKey() });
+}
+
+const MODEL_SPECIALTIES = INDIAN_GLAMOUR_MODELS.reduce((acc, model) => {
+  acc[model.name] = model.category;
+  return acc;
 }, {} as Record<string, string>);
 
 
@@ -128,6 +145,7 @@ Your task is to synthesize all this information into the strict prompt format. T
   };
 
   try {
+    const ai = getAiInstance();
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: userPrompt,
@@ -184,6 +202,7 @@ export const generateImage = async (
   }
 
   try {
+    const ai = getAiInstance();
     const response = await ai.models.generateImages({
       model: 'imagen-4.0-generate-001',
       prompt: cleanPrompt,
@@ -198,7 +217,7 @@ export const generateImage = async (
       const base64ImageBytes: string = response.generatedImages[0].image.imageBytes;
       return `data:image/jpeg;base64,${base64ImageBytes}`;
     }
-    
+
     throw new Error("No image data found in the response.");
   } catch (error) {
     console.error("Error generating image:", error);
@@ -208,7 +227,7 @@ export const generateImage = async (
 
 export const generateVideo = async (prompt: string, onStatusUpdate: (status: string) => void): Promise<string> => {
   // Create a new instance right before the API call to use the latest API key.
-  const veoAi = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+  const veoAi = getAiInstance();
   
   try {
     onStatusUpdate('Submitting video generation job...');
@@ -237,7 +256,7 @@ export const generateVideo = async (prompt: string, onStatusUpdate: (status: str
       throw new Error("Video generation succeeded, but no download link was found.");
     }
 
-    const response = await fetch(`${downloadLink}&key=${process.env.API_KEY}`);
+    const response = await fetch(`${downloadLink}&key=${getApiKey()}`);
     if (!response.ok) {
         throw new Error(`Failed to download video: ${response.statusText}`);
     }

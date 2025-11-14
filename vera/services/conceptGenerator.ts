@@ -1,7 +1,24 @@
 import { GoogleGenAI } from "@google/genai";
 import { IndianModelArchetype } from '../types';
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY! });
+// Get API key from localStorage (user must provide it)
+let cachedApiKey: string | null = null;
+
+function getApiKey(): string {
+  if (cachedApiKey) return cachedApiKey;
+
+  const stored = localStorage.getItem('vera_api_key');
+  if (stored) {
+    cachedApiKey = stored;
+    return stored;
+  }
+
+  throw new Error('API Key not configured. Please set your Google AI API key in Vera settings.');
+}
+
+function getAiInstance(): GoogleGenAI {
+  return new GoogleGenAI({ apiKey: getApiKey() });
+}
 
 /**
  * Generates a detailed, SFW (Safe for Work) artistic prompt for Imagen 4.
@@ -45,12 +62,13 @@ export const generateConcept = async (archetype: IndianModelArchetype, optimized
   `;
   
   try {
+    const ai = getAiInstance();
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: userPrompt,
         config: { systemInstruction: systemInstruction },
       });
-      
+
     return response.text.trim();
   } catch (error) {
     console.error("Error in generateConcept:", error);

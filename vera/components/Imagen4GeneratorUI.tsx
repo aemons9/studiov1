@@ -18,7 +18,7 @@ const ControlCard: React.FC<{ title: string; icon: React.ReactNode; children: Re
 const LabeledSelect: React.FC<{ id: string; label: string; value: string; onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; disabled: boolean; children: React.ReactNode; }> = ({ id, label, value, onChange, disabled, children }) => (
   <div>
     <label htmlFor={id} className="block text-sm font-medium text-slate-400 mb-1.5">{label}</label>
-    <select id={id} value={value} onChange={onChange} disabled={disabled} className="w-full p-2.5 text-slate-200 bg-slate-900/70 border-2 border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
+    <select id={id} value={value} onChange={onChange} disabled={disabled} className="w-full p-2.5 text-slate-200 bg-slate-900/70 border-2 border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed [&>option]:text-slate-200 [&>option]:bg-slate-900">
       {children}
     </select>
   </div>

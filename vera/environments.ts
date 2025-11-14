@@ -70,5 +70,85 @@ export const ENVIRONMENTS_CATALOG: ModelEnvironment[] = [
     luxuryLevel: 9,
     lightingProfile: 'Soft, warm light from brass Art Deco sconces, creating an intimate and glamorous ambiance against the passing scenery.',
     materialPalette: ['Inlaid Marquetry Wood', 'Plush Velvet Seating', 'Polished Brass Fixtures', 'Etched Glass']
+  },
+  {
+    id: 'photography-studio',
+    name: 'Professional Photography Studio',
+    description: 'Minimalist photography studio with seamless grey backdrop, polished concrete floor creating subtle reflections, vast negative space for fine art compositions.',
+    atmosphere: 'Gallery-like fine art atmosphere with professional precision.',
+    privacyLevel: 10,
+    luxuryLevel: 8,
+    lightingProfile: 'Dramatic hard light from high side angle creating sharp shadows. Rim light separating form from background with luminous edge.',
+    materialPalette: ['Seamless Grey Backdrop', 'Polished Concrete', 'Professional Lighting Equipment', 'Negative Space']
+  },
+  {
+    id: 'industrial-minimal',
+    name: 'Industrial Minimalist Space',
+    description: 'Raw industrial space with textured concrete walls, dramatic shadows, and cold ambient light creating stark, powerful atmosphere.',
+    atmosphere: 'Urban edge with architectural power and theatrical drama.',
+    privacyLevel: 9,
+    luxuryLevel: 6,
+    lightingProfile: 'Hard directional lighting creating strong definition and theatrical shadows. Rim light for dimensional depth.',
+    materialPalette: ['Textured Concrete Walls', 'Raw Industrial Elements', 'Metal Surfaces', 'Dramatic Shadows']
+  },
+  {
+    id: 'luxury-boudoir',
+    name: 'Luxury Private Boudoir',
+    description: 'Intimate luxury bedroom with ivory silk sheets, soft white walls, sheer curtains, and warm morning light creating private sanctuary.',
+    atmosphere: 'Intimate, romantic, and dreamily vulnerable.',
+    privacyLevel: 10,
+    luxuryLevel: 10,
+    lightingProfile: 'Soft natural window light creating dreamy luminous quality. Gentle wrap-around lighting with minimal shadows.',
+    materialPalette: ['Ivory Silk Sheets', 'Soft White Walls', 'Sheer Curtains', 'Plush Pillows']
+  },
+  {
+    id: 'art-deco-suite',
+    name: 'Art Deco Hotel Suite',
+    description: 'Opulent art deco hotel suite with rich burgundy velvet furniture, gold accents, dramatic shadows, and warm amber lighting from vintage fixtures.',
+    atmosphere: 'Film noir luxury with classic Hollywood glamour.',
+    privacyLevel: 10,
+    luxuryLevel: 10,
+    lightingProfile: 'Classic film noir lighting with hard dramatic side light and warm practical lights adding amber glow. Atmospheric haze.',
+    materialPalette: ['Burgundy Velvet', 'Gold Art Deco Accents', 'Vintage Fixtures', 'Warm Amber Lighting']
+  },
+  {
+    id: 'infinity-pool',
+    name: 'Luxury Infinity Pool',
+    description: 'Crystal clear infinity pool or shallow natural water with pristine white background, water creating refraction and ripples in bright natural light.',
+    atmosphere: 'Ethereal, fresh, and naturally sensual.',
+    privacyLevel: 9,
+    luxuryLevel: 9,
+    lightingProfile: 'Bright natural overhead light with water acting as secondary light source through refraction. Light bounces creating magical quality.',
+    materialPalette: ['Crystal Clear Water', 'White Background', 'Water Ripples', 'Natural Light']
+  },
+  {
+    id: 'white-studio-minimalist',
+    name: 'Minimalist White Studio',
+    description: 'Minimalist white studio with seamless background and warm golden hour sunlight streaming through large diffused windows creating ethereal atmosphere.',
+    atmosphere: 'Heavenly, serene, and goddess-like.',
+    privacyLevel: 10,
+    luxuryLevel: 8,
+    lightingProfile: 'Golden hour natural light creating luminous wrap-around glow with pronounced subsurface scattering. Light emanates from within.',
+    materialPalette: ['Seamless White Background', 'Large Diffused Windows', 'Golden Sunlight', 'Ample Negative Space']
+  },
+  {
+    id: 'wooden-cabin',
+    name: 'Cozy Wooden Cabin',
+    description: 'Minimalist wooden cabin with warm crackling fireplace, natural wood textures, and sheepskin rugs creating intimate rustic comfort.',
+    atmosphere: 'Warm, intimate, and naturally sensual.',
+    privacyLevel: 10,
+    luxuryLevel: 7,
+    lightingProfile: 'Warm flickering fireplace light creating soft deep shadows and intimate enveloping atmosphere with romantic filmic quality.',
+    materialPalette: ['Natural Wood', 'Crackling Fireplace', 'Sheepskin Rug', 'Warm Textures']
+  },
+  {
+    id: 'underground-club',
+    name: 'Underground VIP Club',
+    description: 'Exclusive underground club VIP room with velvet furniture, dramatic dark lighting, and soundproof privacy creating mysterious midnight atmosphere.',
+    atmosphere: 'Mysterious, enigmatic, and darkly seductive.',
+    privacyLevel: 10,
+    luxuryLevel: 8,
+    lightingProfile: 'Dramatic low-key club lighting with mysterious shadows and midnight enigmatic glow creating high-contrast mood.',
+    materialPalette: ['Velvet Furniture', 'Dark Dramatic Lighting', 'Soundproof Privacy', 'Mysterious Atmosphere']
   }
 ];

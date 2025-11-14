@@ -1,7 +1,7 @@
 import { INDIAN_CORPORATE_VARIANTS } from './corporateModels';
 import { EROTIC_GLAMOUR_MODELS as ORIGINAL_GLAMOUR_MODELS } from './eroticGlamourModels';
 import { ARTISTIC_INTIMACY_MODELS } from './artisticIntimacyModels';
-import { ARTISTIC_CONCEPTS as ORIGINAL_CONCEPTS, NEW_ARTISTIC_CONCEPTS, ROLE_PLAY_CONCEPTS } from './experimentalConcepts';
+import { ARTISTIC_CONCEPTS as ORIGINAL_CONCEPTS, NEW_ARTISTIC_CONCEPTS, ROLE_PLAY_CONCEPTS, SEDUCTRESS_MAX_CONCEPTS } from './experimentalConcepts';
 import { ENVIRONMENTS_CATALOG } from './environments';
 import { WARDROBE_CATALOG } from './wardrobeCollection';
 import { seductressMaxCollection } from './seductressMaxCollection';
@@ -49,7 +49,7 @@ export const DEFAULT_WARDROBE_OPTIONS = WARDROBE_CATALOG.map(item => item.name);
 export const DEFAULT_POSE_OPTIONS = ["Confident Power Stance", "Seductive Recline", "Dynamic Action Pose", "Elegant Contemplation", "Playful Interaction", "Serene Stillness", "Sensual Movement", "Authoritative Presence", "Graceful Flexibility", "Intimate Gaze"];
 
 // Combine all artistic concepts into a single source of truth
-export const ALL_ARTISTIC_CONCEPTS = [...ORIGINAL_CONCEPTS, ...NEW_ARTISTIC_CONCEPTS, ...ROLE_PLAY_CONCEPTS, ...seductressMaxCollection, ...corporateSeductionCollection];
+export const ALL_ARTISTIC_CONCEPTS = [...ORIGINAL_CONCEPTS, ...NEW_ARTISTIC_CONCEPTS, ...ROLE_PLAY_CONCEPTS, ...SEDUCTRESS_MAX_CONCEPTS, ...seductressMaxCollection, ...corporateSeductionCollection];
 
 
 // Experimental Concepts list for the dropdown

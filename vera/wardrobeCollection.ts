@@ -86,5 +86,86 @@ export const WARDROBE_CATALOG: WardrobeOption[] = [
     artisticLanguage: 'Futuristic, fetishistic, and powerful. Creates a sleek, almost inhuman silhouette. For bold, high-impact concepts that are visually striking.',
     suitableForIntimacy: [8, 9, 10],
     masterStyleFit: ['Cyberpunk Futurism', 'High-Fashion Editorial', 'Midnight Drama']
+  },
+  // --- Premium Indian Sensual Collection ---
+  {
+    id: 'golden-chains-minimal',
+    name: 'Golden Body Chains',
+    category: 'architectural-minimal',
+    coverageLevel: 1,
+    description: 'Ultra-luxury golden body chains creating geometric patterns across décolletage, waist, and hips. Strategic minimal coverage emphasizing natural form with artistic precision.',
+    artisticLanguage: 'Goddess aesthetic celebrating feminine power and beauty. Ultimate luxury with maximum artistic expression.',
+    suitableForIntimacy: [9, 10],
+    masterStyleFit: ['Luxury Opulence', 'Romantic Glow', 'Minimalist Serenity']
+  },
+  {
+    id: 'leather-harness-architectural',
+    name: 'Architectural Leather Harness',
+    category: 'strappy-geometric',
+    coverageLevel: 1,
+    description: 'Intricate black leather harness with geometric straps creating graphic patterns. Strategic bands frame torso, waist, and hips with architectural precision.',
+    artisticLanguage: 'Power, strength, and edgy sensuality. Transforms body into living sculpture with bold confidence.',
+    suitableForIntimacy: [8, 9, 10],
+    masterStyleFit: ['Gritty Realism', 'Urban Contrast', 'High-Fashion Editorial']
+  },
+  {
+    id: 'mesh-minimal-thong',
+    name: 'Delicate Mesh Thong Set',
+    category: 'minimalist-boudoir',
+    coverageLevel: 1,
+    description: 'High-waisted black mesh thong with geometric details and matching sheer thigh-high stockings. Minimal fine art aesthetic sculpted by light.',
+    artisticLanguage: 'Celebrates natural form through minimalism. Perfect for artistic nude studies emphasizing curves and light.',
+    suitableForIntimacy: [9, 10],
+    masterStyleFit: ['Minimalist Serenity', 'High-Fashion Editorial', 'Gritty Realism']
+  },
+  {
+    id: 'silk-stockings-seamed',
+    name: 'Vintage Seamed Stockings',
+    category: 'lingerie-outerwear',
+    coverageLevel: 3,
+    description: 'Sheer black silk stockings with classic back seams and delicate lace tops. Pairs with corsetry for film noir glamour.',
+    artisticLanguage: 'Classic Hollywood elegance and vintage seduction. Perfect for noir and romantic concepts.',
+    suitableForIntimacy: [7, 8, 9],
+    masterStyleFit: ['Cinematic Noir', 'Vintage Film Grain', 'Romantic Glow']
+  },
+  {
+    id: 'lace-bralette-intimate',
+    name: 'Intimate Lace Bralette',
+    category: 'lingerie-outerwear',
+    coverageLevel: 2,
+    description: 'Delicate black lace bralette with intricate floral patterns and matching high-waisted lace-trimmed briefs. Natural beauty emphasis.',
+    artisticLanguage: 'Soft, vulnerable intimacy celebrating authentic beauty. Perfect for private boudoir moments.',
+    suitableForIntimacy: [7, 8, 9],
+    masterStyleFit: ['Romantic Glow', 'Ethereal Dreamscape', 'Minimalist Serenity']
+  },
+  {
+    id: 'corset-lace-ornate',
+    name: 'Ornate Lace Corset',
+    category: 'architectural-minimal',
+    coverageLevel: 3,
+    description: 'Black lace corset with intricate embroidery, structured boning, and dramatic waist cinching. Creates classic hourglass silhouette.',
+    artisticLanguage: 'Vintage glamour meets sculptural form. Emphasizes curves while projecting power and sensuality.',
+    suitableForIntimacy: [7, 8, 9],
+    masterStyleFit: ['Cinematic Noir', 'Luxury Opulence', 'Vintage Film Grain']
+  },
+  {
+    id: 'chiffon-robe-sheer',
+    name: 'Sheer Black Chiffon Robe',
+    category: 'sheer-layers',
+    coverageLevel: 4,
+    description: 'Floor-length completely sheer black chiffon robe with flowing movement. Creates hazy, mysterious silhouette worn open.',
+    artisticLanguage: 'Mystery and elegance. Suggests vulnerability with sophistication. Perfect for noir and romantic scenes.',
+    suitableForIntimacy: [6, 7, 8],
+    masterStyleFit: ['Cinematic Noir', 'Romantic Glow', 'Ethereal Dreamscape']
+  },
+  {
+    id: 'body-chain-minimal',
+    name: 'Minimal Body Chain Design',
+    category: 'architectural-minimal',
+    coverageLevel: 1,
+    description: 'Single continuous chain creating geometric patterns emphasizing chest, waist, and curves with artistic minimalism.',
+    artisticLanguage: 'Ultimate body confidence and artistic expression. Jewelry as wardrobe celebrating natural form.',
+    suitableForIntimacy: [9, 10],
+    masterStyleFit: ['Minimalist Serenity', 'Luxury Opulence', 'High-Fashion Editorial']
   }
 ];

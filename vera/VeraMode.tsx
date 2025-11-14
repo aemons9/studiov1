@@ -54,6 +54,20 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
   const isCreativeMode = experimentalConcept === EXPERIMENTAL_CONCEPTS[0];
 
   useEffect(() => {
+    // Debug logging for dropdowns
+    console.log('🔍 Vera Constants Debug:');
+    console.log('MODELS:', MODELS?.length, 'items -', MODELS?.slice(0, 2));
+    console.log('ENVIRONMENTS:', ENVIRONMENTS?.length, 'items -', ENVIRONMENTS?.slice(0, 2));
+    console.log('ARTISTIC_STYLES:', ARTISTIC_STYLES?.length, 'groups');
+    console.log('SHOT_TYPES:', SHOT_TYPES?.length, 'items');
+    console.log('EXPERIMENTAL_CONCEPTS:', EXPERIMENTAL_CONCEPTS?.length, 'items');
+    console.log('INDIAN_GLAMOUR_MODELS:', INDIAN_GLAMOUR_MODELS?.length, 'items');
+    console.log('DEFAULT_WARDROBE_OPTIONS:', DEFAULT_WARDROBE_OPTIONS?.length, 'items');
+    console.log('DEFAULT_POSE_OPTIONS:', DEFAULT_POSE_OPTIONS?.length, 'items');
+
+    if (MODELS?.length === 0) console.error('❌ MODELS array is EMPTY!');
+    if (ENVIRONMENTS?.length === 0) console.error('❌ ENVIRONMENTS array is EMPTY!');
+
     // This is a check for a platform-specific feature for Veo API key selection.
     if (window.aistudio && typeof window.aistudio.hasSelectedApiKey === 'function') {
       window.aistudio.hasSelectedApiKey().then(setHasVeoApiKey);

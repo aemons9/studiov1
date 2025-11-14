@@ -47,13 +47,14 @@ const LabeledSelect: React.FC<{ id: string; label: string; value: string; onChan
       value={value}
       onChange={onChange}
       disabled={disabled}
-      className="w-full p-2.5 text-slate-200 bg-slate-900/70 border-2 border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed appearance-none cursor-pointer"
+      className="w-full p-2.5 text-slate-200 bg-slate-900/70 border-2 border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed appearance-none cursor-pointer relative z-50"
       style={{
         backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
         backgroundPosition: 'right 0.5rem center',
         backgroundRepeat: 'no-repeat',
         backgroundSize: '1.5em 1.5em',
-        paddingRight: '2.5rem'
+        paddingRight: '2.5rem',
+        pointerEvents: 'auto'
       }}
     >
       {children}
@@ -103,13 +104,14 @@ const PromptInput: React.FC<PromptInputProps> = ({
             value={experimentalConcept}
             onChange={(e) => setExperimentalConcept(e.target.value)}
             disabled={isLoading}
-            className="w-full p-2.5 text-slate-200 bg-slate-900/70 border-2 border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-shadow duration-300 appearance-none cursor-pointer"
+            className="w-full p-2.5 text-slate-200 bg-slate-900/70 border-2 border-slate-700 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-shadow duration-300 appearance-none cursor-pointer relative z-50"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e")`,
               backgroundPosition: 'right 0.5rem center',
               backgroundRepeat: 'no-repeat',
               backgroundSize: '1.5em 1.5em',
-              paddingRight: '2.5rem'
+              paddingRight: '2.5rem',
+              pointerEvents: 'auto'
             }}
           >
             {EXPERIMENTAL_CONCEPTS.map(c => <option key={c} value={c}>{c}</option>)}

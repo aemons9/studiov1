@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import type { GenerationSettings } from '../types';
 
 interface TextPromptEditorProps {
@@ -7,6 +7,7 @@ interface TextPromptEditorProps {
   generationSettings: GenerationSettings;
   onSettingsChange: (key: keyof GenerationSettings, value: any) => void;
   isLoading: boolean;
+  onQuickGenerate?: () => void; // Optional quick generate callback
 }
 
 const TextPromptEditor: React.FC<TextPromptEditorProps> = ({
@@ -15,6 +16,7 @@ const TextPromptEditor: React.FC<TextPromptEditorProps> = ({
   generationSettings,
   onSettingsChange,
   isLoading,
+  onQuickGenerate,
 }) => {
   const charCount = textPrompt.length;
   const wordCount = textPrompt.split(/\s+/).filter(w => w.length > 0).length;
@@ -22,6 +24,16 @@ const TextPromptEditor: React.FC<TextPromptEditorProps> = ({
 
   const isVeryLong = charCount > 10000;
   const isLong = charCount > 5000;
+
+  // Handle Ctrl+Enter to quick generate
+  const handleKeyDown = useCallback((event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === 'Enter' && event.ctrlKey && onQuickGenerate) {
+      event.preventDefault();
+      if (textPrompt.trim() && !isLoading) {
+        onQuickGenerate();
+      }
+    }
+  }, [textPrompt, isLoading, onQuickGenerate]);
 
   return (
     <div className="bg-gray-800 rounded-lg shadow-lg border border-gray-700 p-6">
@@ -83,6 +95,7 @@ const TextPromptEditor: React.FC<TextPromptEditorProps> = ({
           id="textPrompt"
           value={textPrompt}
           onChange={(e) => onTextPromptChange(e.target.value)}
+          onKeyDown={handleKeyDown}
           disabled={isLoading}
           placeholder="Enter your complete prompt here. You can write any text description for image generation.
 
@@ -91,9 +104,68 @@ A stunning portrait of an Indian fashion model in elegant evening wear, photogra
           className="w-full h-80 bg-gray-900 border border-gray-600 rounded-lg p-4 text-gray-200 font-mono text-sm leading-relaxed focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-colors disabled:bg-gray-800/50 disabled:cursor-not-allowed resize-y"
         />
         <p className="text-xs text-gray-500 mt-2">
-          💡 Tip: You can write your prompt in natural language. Use the optional enhancement/weaving features below to improve it further.
+          💡 Tip: Press <kbd className="px-2 py-1 bg-gray-700 rounded text-xs">Ctrl+Enter</kbd> to quick generate, or use the Generate button below for advanced options.
         </p>
       </div>
+
+      {/* Quick Settings Row */}
+      {onQuickGenerate && (
+        <div className="mb-4 bg-gray-900/50 rounded-lg p-4 border border-gray-700">
+          <h3 className="text-sm font-semibold text-gray-300 mb-3 flex items-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+              <path fillRule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clipRule="evenodd" />
+            </svg>
+            Quick Generation Settings
+          </h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1.5">
+                Aspect Ratio
+              </label>
+              <select
+                value={generationSettings.aspectRatio}
+                onChange={(e) => onSettingsChange('aspectRatio', e.target.value)}
+                disabled={isLoading}
+                className="w-full p-2.5 text-gray-200 bg-gray-900/70 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                <option value="9:16">Portrait (9:16)</option>
+                <option value="3:4">Portrait (3:4)</option>
+                <option value="1:1">Square (1:1)</option>
+                <option value="4:3">Landscape (4:3)</option>
+                <option value="16:9">Landscape (16:9)</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-400 mb-1.5">
+                Number of Images
+              </label>
+              <input
+                type="number"
+                min={1}
+                max={4}
+                value={generationSettings.numberOfImages}
+                onChange={(e) => onSettingsChange('numberOfImages', parseInt(e.target.value))}
+                disabled={isLoading}
+                className="w-full p-2.5 text-gray-200 bg-gray-900/70 border-2 border-gray-700 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              />
+            </div>
+
+            <div className="flex items-end">
+              <button
+                onClick={onQuickGenerate}
+                disabled={isLoading || !textPrompt.trim()}
+                className="w-full px-4 py-2.5 text-white font-semibold bg-gradient-to-r from-emerald-500 to-teal-600 rounded-lg hover:from-emerald-600 hover:to-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-emerald-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed transition-all duration-300 transform active:scale-95 shadow-lg shadow-emerald-500/20 hover:shadow-emerald-500/30"
+              >
+                {isLoading ? 'Generating...' : '⚡ Quick Generate'}
+              </button>
+            </div>
+          </div>
+          <p className="text-xs text-gray-500 mt-3">
+            Quick generate uses default settings. For advanced options (enhance, weave, etc.), use the main Generate button at the bottom.
+          </p>
+        </div>
+      )}
 
       {/* Optional Processing Options */}
       <div className="bg-gray-900/50 rounded-lg p-4 border border-gray-700">

@@ -1176,6 +1176,26 @@ const App: React.FC = () => {
     }
   };
 
+  const handleQuickGenerateFromText = useCallback(async () => {
+    if (!textPrompt.trim()) {
+      setError('Please enter a text prompt before generating.');
+      return;
+    }
+
+    if (!validateCredentials()) return;
+
+    console.log('⚡ Quick Generate triggered from text mode');
+
+    // Use default options (no enhancement, no weaving)
+    const options: MasterGenerateOptions = {
+      enhance: { enabled: false, style: 'creative' },
+      weave: { enabled: false, adherence: 'balanced', weavingMode: 'passion' }
+    };
+
+    // Trigger generation
+    await handleMasterGenerate(options);
+  }, [textPrompt, validateCredentials, handleMasterGenerate]);
+
   const handleRolePlayGenerate = async (prompt: string, settings: any) => {
     console.log('🎭 Role-Play Generate triggered:', { prompt: prompt.substring(0, 100), settings });
 
@@ -1522,6 +1542,7 @@ const App: React.FC = () => {
                   generationSettings={safeGenerationSettings}
                   onSettingsChange={setGenerationSettings}
                   isLoading={isLoading}
+                  onQuickGenerate={handleQuickGenerateFromText}
                 />
               )}
               <div className="lg:sticky lg:top-8 self-start space-y-6">

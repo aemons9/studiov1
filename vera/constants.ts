@@ -6,6 +6,8 @@ import { ENVIRONMENTS_CATALOG } from './environments';
 import { WARDROBE_CATALOG } from './wardrobeCollection';
 import { seductressMaxCollection } from './seductressMaxCollection';
 import { corporateSeductionCollection } from './corporateSeduction';
+import { PHOTOGRAPHER_STYLES } from './photographerStyles';
+import { ALL_ENVIRONMENTS, ENVIRONMENT_CATEGORIES } from './environmentsExpanded';
 
 // Combine models into the main export used by the app
 export const INDIAN_GLAMOUR_MODELS = [...ORIGINAL_GLAMOUR_MODELS, ...ARTISTIC_INTIMACY_MODELS];
@@ -54,3 +56,7 @@ export const ALL_ARTISTIC_CONCEPTS = [...ORIGINAL_CONCEPTS, ...NEW_ARTISTIC_CONC
 
 // Experimental Concepts list for the dropdown
 export const EXPERIMENTAL_CONCEPTS = ["None (Creative Mode)", ...ALL_ARTISTIC_CONCEPTS.map(c => c.name)];
+
+// Export comprehensive collections from main mode
+export { PHOTOGRAPHER_STYLES } from './photographerStyles';
+export { ALL_ENVIRONMENTS, ENVIRONMENT_CATEGORIES } from './environmentsExpanded';

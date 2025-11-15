@@ -11,6 +11,7 @@ import PromptCard from './components/PromptCard';
 import Loader from './components/Loader';
 import ApiKeySelector from './components/ApiKeySelector';
 import AuthSettings from './components/AuthSettings';
+import CustomPromptGenerator from './components/CustomPromptGenerator';
 import { MODELS, ENVIRONMENTS, ARTISTIC_STYLES, SHOT_TYPES, DEFAULT_WARDROBE_OPTIONS, DEFAULT_POSE_OPTIONS, EXPERIMENTAL_CONCEPTS, INDIAN_GLAMOUR_MODELS } from './constants';
 
 type DisplayPrompt = Prompt & {
@@ -28,7 +29,7 @@ interface VeraModeProps {
 
 const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
   // Shared State
-  const [mode, setMode] = useState<'veo' | 'imagen4'>('veo');
+  const [mode, setMode] = useState<'veo' | 'imagen4' | 'custom'>('veo');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [prompts, setPrompts] = useState<DisplayPrompt[]>([]);
@@ -236,6 +237,11 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
               </div>
           )}
 
+          {mode === 'custom' && (
+            <div className="flex flex-col gap-8">
+              <CustomPromptGenerator />
+            </div>
+          )}
 
           {mode === 'veo' && error && (
             <div className="mt-8 text-center bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg" role="alert">

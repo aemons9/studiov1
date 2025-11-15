@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import ApiKeySettings from './ApiKeySettings';
 
 interface HeaderProps {
-  mode: 'veo' | 'imagen4';
-  setMode: (mode: 'veo' | 'imagen4') => void;
+  mode: 'veo' | 'imagen4' | 'custom';
+  setMode: (mode: 'veo' | 'imagen4' | 'custom') => void;
   onExit?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ mode, setMode, onExit }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  const getButtonClass = (buttonMode: 'veo' | 'imagen4') => {
+  const getButtonClass = (buttonMode: 'veo' | 'imagen4' | 'custom') => {
     const base = "px-4 py-2 text-sm font-semibold rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900";
     if (mode === buttonMode) {
       return `${base} bg-cyan-500 text-white shadow-lg shadow-cyan-500/20`;
@@ -48,19 +48,24 @@ const Header: React.FC<HeaderProps> = ({ mode, setMode, onExit }) => {
         </h1>
         <p className="mt-3 text-lg font-semibold text-cyan-300 tracking-wider">Indian Glamour Edition</p>
 
-        <div className="mt-8 flex justify-center gap-2">
+        <div className="mt-8 flex justify-center gap-2 flex-wrap">
           <button onClick={() => setMode('veo')} className={getButtonClass('veo')}>
             Veo Architect
           </button>
           <button onClick={() => setMode('imagen4')} className={getButtonClass('imagen4')}>
             Imagen 4 Architect
           </button>
+          <button onClick={() => setMode('custom')} className={getButtonClass('custom')}>
+            Custom Prompt
+          </button>
         </div>
 
         <p className="mt-8 max-w-3xl mx-auto text-lg text-slate-400 leading-relaxed">
           {mode === 'veo'
             ? "Visually architect stunning, cinematic video prompts for Google's Veo AI, featuring a curated collection of specialized Indian glamour models."
-            : "Generate breathtaking, high-fidelity still images with Imagen 4, using a powerful prompt generation engine based on Indian model archetypes."
+            : mode === 'imagen4'
+            ? "Generate breathtaking, high-fidelity still images with Imagen 4, using a powerful prompt generation engine based on Indian model archetypes."
+            : "Direct custom prompt input - type anything and generate images instantly with full control over your creative vision."
           }
         </p>
       </header>

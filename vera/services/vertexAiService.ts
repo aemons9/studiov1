@@ -144,8 +144,13 @@ export const generateImage = async (
     cleanPrompt = cleanPrompt.substring(preambleIndex + preambleEnd.length).trim();
   }
 
+  // Get the selected Imagen model variant from settings or localStorage
+  const imagenModel = settings?.imagenModel || localStorage.getItem('vera_imagen_model') || 'imagen-4.0-generate-001';
+
+  console.log(`🎨 Using Imagen model: ${imagenModel}`);
+
   try {
-    const response = await vertexAIRequest('publishers/google/models/imagen-4.0-generate-001:predict', {
+    const response = await vertexAIRequest(`publishers/google/models/${imagenModel}:predict`, {
       instances: [{
         prompt: cleanPrompt,
       }],

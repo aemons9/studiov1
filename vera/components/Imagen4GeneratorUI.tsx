@@ -35,9 +35,11 @@ const LabeledInput: React.FC<{ id: string; label: string; type: string; value: s
 const Imagen4GeneratorUI: React.FC = () => {
   const [selectedArchetypeId, setSelectedArchetypeId] = useState<string>(INDIAN_MODEL_ARCHETYPES[0].id);
   const [concept, setConcept] = useState<string>('');
+  const [authMethod, setAuthMethod] = useState<'apikey' | 'vertexai'>('apikey');
   const [settings, setSettings] = useState<GenerationSettings>({
     numImages: 1,
     aspectRatio: '9:16',
+    imagenModel: 'imagen-4.0-generate-001',
   });
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -45,11 +47,37 @@ const Imagen4GeneratorUI: React.FC = () => {
 
   const selectedArchetype = INDIAN_MODEL_ARCHETYPES.find(a => a.id === selectedArchetypeId)!;
 
+  // Check auth method on mount and when localStorage changes
+  React.useEffect(() => {
+    const checkAuthMethod = () => {
+      const method = (localStorage.getItem('vera_auth_method') as 'apikey' | 'vertexai') || 'apikey';
+      setAuthMethod(method);
+
+      // Load saved model preference
+      const savedModel = localStorage.getItem('vera_imagen_model') as GenerationSettings['imagenModel'];
+      if (savedModel) {
+        setSettings(prev => ({ ...prev, imagenModel: savedModel }));
+      }
+    };
+
+    checkAuthMethod();
+
+    // Listen for storage changes
+    window.addEventListener('storage', checkAuthMethod);
+    return () => window.removeEventListener('storage', checkAuthMethod);
+  }, []);
+
   const handleSettingsChange = (field: keyof GenerationSettings, value: any) => {
+    const newValue = field === 'numImages' ? Number(value) : value;
     setSettings(prev => ({
       ...prev,
-      [field]: field === 'numImages' ? Number(value) : value,
+      [field]: newValue,
     }));
+
+    // Save model preference to localStorage
+    if (field === 'imagenModel') {
+      localStorage.setItem('vera_imagen_model', value);
+    }
   };
 
   const handleGenerate = useCallback(async () => {
@@ -127,6 +155,27 @@ const Imagen4GeneratorUI: React.FC = () => {
                 <option value="4:3">Landscape (4:3)</option>
                 <option value="16:9">Landscape (16:9)</option>
             </LabeledSelect>
+
+            {authMethod === 'vertexai' && (
+              <LabeledSelect
+                id="model-select"
+                label="Imagen Model"
+                value={settings.imagenModel || 'imagen-4.0-generate-001'}
+                onChange={(e) => handleSettingsChange('imagenModel', e.target.value)}
+                disabled={isLoading}
+              >
+                <option value="imagen-4.0-generate-001">Imagen 4 (Standard)</option>
+                <option value="imagen-4.0-ultra-generate-001">Imagen 4 Ultra (Highest Quality)</option>
+                <option value="imagen-4.0-fast-generate-001">Imagen 4 Fast (Lower Cost)</option>
+              </LabeledSelect>
+            )}
+
+            {authMethod === 'apikey' && (
+              <div className="text-xs text-slate-400 p-2 bg-cyan-500/10 border border-cyan-500/30 rounded-lg">
+                <p>Using Imagen 4 (Standard) via API Key</p>
+                <p className="mt-1">Switch to Vertex AI for Ultra/Fast variants</p>
+              </div>
+            )}
         </ControlCard>
       </div>
       

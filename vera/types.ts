@@ -10,6 +10,7 @@ export interface Prompt {
 export interface GenerationSettings {
   numImages: number;
   aspectRatio: '1:1' | '3:4' | '4:3' | '9:16' | '16:9';
+  imagenModel?: 'imagen-4.0-generate-001' | 'imagen-4.0-ultra-generate-001' | 'imagen-4.0-fast-generate-001';
 }
 
 export interface LegacyModel {

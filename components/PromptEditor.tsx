@@ -363,6 +363,11 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
 
   const handleSettingsChange = useCallback((field: keyof GenerationSettings, value: string | number | boolean | null) => {
     onGenerationSettingsChange({ ...generationSettings, [field]: value });
+
+    // Save API key to localStorage so it can be shared with Vera mode
+    if (field === 'vertexApiKey' && value) {
+      localStorage.setItem('vertex_api_key', value as string);
+    }
   }, [generationSettings, onGenerationSettingsChange]);
 
   const handleConceptSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -419,6 +424,13 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
     onPromptChange(updatedPromptData);
   }, [promptData, onPromptChange]);
 
+  // Load API key from localStorage on mount
+  useEffect(() => {
+    const savedApiKey = localStorage.getItem('vertex_api_key');
+    if (savedApiKey && !generationSettings.vertexApiKey) {
+      onGenerationSettingsChange({ ...generationSettings, vertexApiKey: savedApiKey });
+    }
+  }, []); // Run only on mount
 
   useEffect(() => {
     if (debounceTimeout.current) {

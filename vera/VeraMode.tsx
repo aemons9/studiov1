@@ -10,6 +10,7 @@ import VeoGeneratorUI from './components/VeoGeneratorUI';
 import PromptCard from './components/PromptCard';
 import Loader from './components/Loader';
 import ApiKeySelector from './components/ApiKeySelector';
+import AuthSettings from './components/AuthSettings';
 import { MODELS, ENVIRONMENTS, ARTISTIC_STYLES, SHOT_TYPES, DEFAULT_WARDROBE_OPTIONS, DEFAULT_POSE_OPTIONS, EXPERIMENTAL_CONCEPTS, INDIAN_GLAMOUR_MODELS } from './constants';
 
 type DisplayPrompt = Prompt & {
@@ -189,6 +190,9 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
 
       <div className="max-w-7xl mx-auto relative z-10">{/* Added relative z-10 */}
         <Header mode={mode} setMode={setMode} onExit={onExit} />
+        <div className="mt-6">
+          <AuthSettings />
+        </div>
         <main className="mt-8">
           {mode === 'veo' && (
             <div className="flex flex-col gap-12">

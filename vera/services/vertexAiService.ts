@@ -22,21 +22,41 @@ async function vertexAIRequest(endpoint: string, body: any): Promise<any> {
 
   const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/${endpoint}`;
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${oauthToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Authorization': `Bearer ${oauthToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`VertexAI API error: ${response.status} - ${errorText}`);
+    if (!response.ok) {
+      const errorText = await response.text();
+
+      // Check for CORS errors
+      if (errorText.includes('CORS') || response.status === 0) {
+        throw new Error(`CORS Error: Direct browser access to Vertex AI is blocked. Please use API Key authentication instead or set up a backend proxy. Switch to API Key mode in Vera settings.`);
+      }
+
+      // Check for auth errors
+      if (response.status === 401 || response.status === 403) {
+        throw new Error(`Authentication error: ${errorText}. Please check your OAuth token is valid and not expired.`);
+      }
+
+      throw new Error(`VertexAI API error: ${response.status} - ${errorText}`);
+    }
+
+    return response.json();
+  } catch (error) {
+    // Handle network errors (including CORS)
+    if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+      throw new Error(`Network error: Cannot reach Vertex AI API. This is likely a CORS issue. Direct browser access to Vertex AI is blocked by Google Cloud. Please switch to API Key authentication in Vera settings or set up a backend proxy server.`);
+    }
+    throw error;
   }
-
-  return response.json();
 }
 
 const MODEL_SPECIALTIES = INDIAN_GLAMOUR_MODELS.reduce((acc, model) => {

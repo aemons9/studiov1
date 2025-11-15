@@ -144,6 +144,23 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
 
           {authMethod === 'vertexai' && (
             <div className="space-y-3">
+              <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-3">
+                <div className="flex items-start gap-2">
+                  <svg className="w-5 h-5 text-yellow-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                  </svg>
+                  <div className="text-sm text-yellow-300">
+                    <p className="font-semibold mb-1">⚠️ Browser Limitation Warning</p>
+                    <p className="text-yellow-200/80 mb-2">
+                      <strong>CORS Issue:</strong> Vertex AI cannot be called directly from the browser due to Google Cloud security policies. This method requires a backend proxy server.
+                    </p>
+                    <p className="text-yellow-200/80">
+                      <strong>Recommendation:</strong> Use API Key authentication for browser-based access, or deploy with a backend server for Vertex AI support.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
               <div className="bg-purple-500/10 border border-purple-500/30 rounded-lg p-3">
                 <div className="flex items-start gap-2">
                   <svg className="w-5 h-5 text-purple-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

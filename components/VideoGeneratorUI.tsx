@@ -15,9 +15,32 @@ const VideoGeneratorUI: React.FC<VideoGeneratorUIProps> = ({ generationSettings,
   const [error, setError] = useState<string | null>(null);
   const [status, setStatus] = useState<string>('');
 
+  // Check authentication method
+  const authMethod = generationSettings.vertexAuthMethod || 'oauth';
+  const hasApiKey = !!generationSettings.vertexApiKey || !!localStorage.getItem('vertex_api_key');
+  const canGenerateVideo = authMethod === 'apikey' && hasApiKey;
+
+  // Update prompt when initialPrompt changes
+  React.useEffect(() => {
+    if (initialPrompt) {
+      setPrompt(initialPrompt);
+    }
+  }, [initialPrompt]);
+
   const handleGenerate = useCallback(async () => {
     if (!prompt.trim()) {
       setError('Please enter a prompt to generate a video.');
+      return;
+    }
+
+    // Check if using OAuth (which doesn't work from browser)
+    if (authMethod === 'oauth') {
+      setError('Video generation requires API Key authentication due to browser limitations. Please switch to API Key method in Generation Settings (Vertex AI section).');
+      return;
+    }
+
+    if (!hasApiKey) {
+      setError('API Key is required for video generation. Please configure it in Generation Settings.');
       return;
     }
 
@@ -41,7 +64,7 @@ const VideoGeneratorUI: React.FC<VideoGeneratorUIProps> = ({ generationSettings,
     } finally {
       setIsLoading(false);
     }
-  }, [prompt, generationSettings]);
+  }, [prompt, generationSettings, authMethod, hasApiKey]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && event.ctrlKey) {
@@ -64,6 +87,38 @@ const VideoGeneratorUI: React.FC<VideoGeneratorUIProps> = ({ generationSettings,
       <p className="text-gray-400 text-sm -mt-2">
         Generate videos using Vertex AI Veo. You can use prompts generated from the main mode or enter your own.
       </p>
+
+      {authMethod === 'oauth' && (
+        <div className="bg-yellow-900/30 border border-yellow-600/50 rounded-lg p-4 flex items-start gap-3">
+          <svg className="w-6 h-6 text-yellow-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+          </svg>
+          <div className="flex-1">
+            <h4 className="text-yellow-200 font-semibold mb-1">Authentication Method Not Supported</h4>
+            <p className="text-yellow-100 text-sm">
+              Video generation from the browser requires <strong>API Key authentication</strong> due to CORS limitations.
+              Please switch to API Key method in the <strong>Generation Settings</strong> panel (Vertex AI section) to enable video generation.
+            </p>
+            <p className="text-yellow-100 text-xs mt-2">
+              💡 API Key uses Veo 3.0 via Generative Language API and works great from the browser!
+            </p>
+          </div>
+        </div>
+      )}
+
+      {authMethod === 'apikey' && !hasApiKey && (
+        <div className="bg-red-900/30 border border-red-600/50 rounded-lg p-4 flex items-start gap-3">
+          <svg className="w-6 h-6 text-red-400 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <div className="flex-1">
+            <h4 className="text-red-200 font-semibold mb-1">API Key Not Configured</h4>
+            <p className="text-red-100 text-sm">
+              Please enter your Google AI API Key in the <strong>Generation Settings</strong> panel (Vertex AI section) to enable video generation.
+            </p>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col gap-3">
         <label className="text-sm font-medium text-gray-300">
@@ -109,9 +164,10 @@ const VideoGeneratorUI: React.FC<VideoGeneratorUIProps> = ({ generationSettings,
         </div>
       )}
 
-      <div className="text-xs text-gray-500 mt-2">
+      <div className="text-xs text-gray-500 mt-2 space-y-1">
         <p>💡 <strong>Tip:</strong> Use the "Generate Prompt" button above to create optimized video prompts with safety strategies.</p>
         <p>🎬 <strong>Duration:</strong> Videos are approximately 5 seconds long in 9:16 aspect ratio.</p>
+        <p>🔑 <strong>Auth:</strong> Video generation requires API Key authentication (Veo 3.0). OAuth method doesn't work from browser due to CORS.</p>
       </div>
     </div>
   );

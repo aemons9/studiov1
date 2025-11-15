@@ -1,5 +1,5 @@
 import React from 'react';
-import { MODEL_ARCHETYPE_GROUPS, ARTISTIC_STYLES, SHOT_TYPES, EXPERIMENTAL_CONCEPTS, INDIAN_GLAMOUR_MODELS } from '../constants';
+import { MODEL_ARCHETYPE_GROUPS, ARTISTIC_STYLES, SHOT_TYPES, EXPERIMENTAL_CONCEPTS, INDIAN_GLAMOUR_MODELS, PHOTOGRAPHER_STYLES, ENVIRONMENT_CATEGORIES } from '../constants';
 import { ModelIcon, SceneIcon, StyleIcon, SettingsIcon, SparklesIcon } from './Icons';
 
 interface PromptInputProps {
@@ -21,6 +21,10 @@ interface PromptInputProps {
   setNumVariations: (num: number) => void;
   experimentalConcept: string;
   setExperimentalConcept: (concept: string) => void;
+  photographerStyle: string;
+  setPhotographerStyle: (style: string) => void;
+  environmentCategory: string;
+  setEnvironmentCategory: (category: string) => void;
   wardrobeOptions: string[];
   poseOptions: string[];
   environmentOptions: string[];
@@ -62,9 +66,9 @@ const LabeledSelect: React.FC<{ id: string; label: string; value: string; onChan
   </div>
 );
 
-const PromptInput: React.FC<PromptInputProps> = ({ 
-  idea, setIdea, 
-  model, setModel, 
+const PromptInput: React.FC<PromptInputProps> = ({
+  idea, setIdea,
+  model, setModel,
   environment, setEnvironment,
   wardrobe, setWardrobe,
   pose, setPose,
@@ -72,6 +76,8 @@ const PromptInput: React.FC<PromptInputProps> = ({
   shotType, setShotType,
   numVariations, setNumVariations,
   experimentalConcept, setExperimentalConcept,
+  photographerStyle, setPhotographerStyle,
+  environmentCategory, setEnvironmentCategory,
   wardrobeOptions, poseOptions, environmentOptions,
   onGenerate, isLoading, isCreativeMode
 }) => {
@@ -153,12 +159,24 @@ const PromptInput: React.FC<PromptInputProps> = ({
         {/* Column 2: Scene & Style */}
         <div className="flex flex-col gap-6">
           <ControlCard title="The Scene" icon={<SceneIcon />}>
-            <LabeledSelect id="environment-select" label="Environment" value={environment} onChange={(e) => setEnvironment(e.target.value)} disabled={isLoading || !isCreativeMode}>
+            <LabeledSelect id="environment-category-select" label="Environment Category" value={environmentCategory} onChange={(e) => setEnvironmentCategory(e.target.value)} disabled={isLoading || !isCreativeMode}>
+              <option value="All">All Categories</option>
+              {Object.keys(ENVIRONMENT_CATEGORIES).map(cat => (
+                <option key={cat} value={cat}>{cat}</option>
+              ))}
+            </LabeledSelect>
+            <LabeledSelect id="environment-select" label="Specific Environment" value={environment} onChange={(e) => setEnvironment(e.target.value)} disabled={isLoading || !isCreativeMode}>
               {environmentOptions.map(e => <option key={e} value={e}>{e}</option>)}
             </LabeledSelect>
           </ControlCard>
           <ControlCard title="Artistic Direction" icon={<StyleIcon />}>
-            <LabeledSelect id="style-select" label="Artistic Style" value={artisticStyle} onChange={(e) => setArtisticStyle(e.target.value)} disabled={isLoading || !isCreativeMode}>
+            <LabeledSelect id="photographer-select" label="Photographer Style" value={photographerStyle} onChange={(e) => setPhotographerStyle(e.target.value)} disabled={isLoading || !isCreativeMode}>
+              <option value="None">None (Use Artistic Style)</option>
+              {PHOTOGRAPHER_STYLES.map(p => (
+                <option key={p.id} value={p.id}>{p.name}</option>
+              ))}
+            </LabeledSelect>
+            <LabeledSelect id="style-select" label="Artistic Style" value={artisticStyle} onChange={(e) => setArtisticStyle(e.target.value)} disabled={isLoading || !isCreativeMode || photographerStyle !== 'None'}>
               {ARTISTIC_STYLES.map(group => (
                 <optgroup key={group.label} label={group.label}>
                   {group.options.map(s => <option key={s} value={s}>{s}</option>)}

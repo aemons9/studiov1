@@ -12,7 +12,19 @@ import Loader from './components/Loader';
 import ApiKeySelector from './components/ApiKeySelector';
 import AuthSettings from './components/AuthSettings';
 import CustomPromptGenerator from './components/CustomPromptGenerator';
-import { MODELS, ENVIRONMENTS, ARTISTIC_STYLES, SHOT_TYPES, DEFAULT_WARDROBE_OPTIONS, DEFAULT_POSE_OPTIONS, EXPERIMENTAL_CONCEPTS, INDIAN_GLAMOUR_MODELS } from './constants';
+import {
+  MODELS,
+  ENVIRONMENTS,
+  ARTISTIC_STYLES,
+  SHOT_TYPES,
+  DEFAULT_WARDROBE_OPTIONS,
+  DEFAULT_POSE_OPTIONS,
+  EXPERIMENTAL_CONCEPTS,
+  INDIAN_GLAMOUR_MODELS,
+  PHOTOGRAPHER_STYLES,
+  ALL_ENVIRONMENTS,
+  ENVIRONMENT_CATEGORIES
+} from './constants';
 
 type DisplayPrompt = Prompt & {
   imageUrl?: string;
@@ -45,6 +57,8 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
   const [shotType, setShotType] = useState<string>(SHOT_TYPES[0]);
   const [numVariations, setNumVariations] = useState<number>(3);
   const [experimentalConcept, setExperimentalConcept] = useState<string>(EXPERIMENTAL_CONCEPTS[0]);
+  const [photographerStyle, setPhotographerStyle] = useState<string>('None');
+  const [environmentCategory, setEnvironmentCategory] = useState<string>('All');
 
   const [wardrobeOptions, setWardrobeOptions] = useState<string[]>(DEFAULT_WARDROBE_OPTIONS);
   const [poseOptions, setPoseOptions] = useState<string[]>(DEFAULT_POSE_OPTIONS);
@@ -106,6 +120,22 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
     }
   }, [model]);
 
+  // Filter environments by category
+  useEffect(() => {
+    if (environmentCategory === 'All') {
+      // Use all expanded environments
+      const allEnvNames = ALL_ENVIRONMENTS.map(e => e.name);
+      setEnvironmentOptions(allEnvNames);
+      setEnvironment(allEnvNames[0] || ENVIRONMENTS[0]);
+    } else if (ENVIRONMENT_CATEGORIES[environmentCategory]) {
+      // Filter by category
+      const categoryEnvs = ENVIRONMENT_CATEGORIES[environmentCategory];
+      const categoryEnvNames = categoryEnvs.map(e => e.name);
+      setEnvironmentOptions(categoryEnvNames);
+      setEnvironment(categoryEnvNames[0] || ENVIRONMENTS[0]);
+    }
+  }, [environmentCategory]);
+
   const handleVeoGenerate = useCallback(async () => {
     if (!idea.trim() || isLoading) return;
 
@@ -114,7 +144,21 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
     setPrompts([]);
 
     try {
-      const generatedPrompts = await generateVideoPrompts(idea, model, environment, artisticStyle, shotType, numVariations, wardrobe, pose, experimentalConcept);
+      // Use photographer style if selected, otherwise use artisticStyle
+      const styleToUse = photographerStyle !== 'None' ? photographerStyle : artisticStyle;
+
+      const generatedPrompts = await generateVideoPrompts(
+        idea,
+        model,
+        environment,
+        styleToUse,
+        shotType,
+        numVariations,
+        wardrobe,
+        pose,
+        experimentalConcept,
+        photographerStyle !== 'None' ? photographerStyle : undefined
+      );
       setPrompts(generatedPrompts.map(p => ({ ...p, isImageLoading: true })));
 
       await Promise.all(
@@ -135,7 +179,7 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
     } finally {
       setIsLoading(false);
     }
-  }, [idea, model, environment, artisticStyle, shotType, numVariations, isLoading, wardrobe, pose, experimentalConcept]);
+  }, [idea, model, environment, artisticStyle, shotType, numVariations, isLoading, wardrobe, pose, experimentalConcept, photographerStyle]);
 
   const handleGenerateVideo = useCallback(async (promptId: number, promptText: string) => {
     if (!hasVeoApiKey) {
@@ -209,6 +253,8 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
                 shotType={shotType} setShotType={setShotType}
                 numVariations={numVariations} setNumVariations={setNumVariations}
                 experimentalConcept={experimentalConcept} setExperimentalConcept={setExperimentalConcept}
+                photographerStyle={photographerStyle} setPhotographerStyle={setPhotographerStyle}
+                environmentCategory={environmentCategory} setEnvironmentCategory={setEnvironmentCategory}
                 wardrobeOptions={wardrobeOptions} poseOptions={poseOptions}
                 environmentOptions={environmentOptions}
                 onGenerate={handleVeoGenerate}

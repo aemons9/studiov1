@@ -18,7 +18,8 @@ export const generateVideoPrompts = async (
   numVariations: number,
   wardrobeName: string,
   poseName: string,
-  experimentalConceptName: string
+  experimentalConceptName: string,
+  photographerStyle?: string
 ): Promise<Prompt[]> => {
   const authMethod = getAuthMethod();
 
@@ -32,7 +33,8 @@ export const generateVideoPrompts = async (
       numVariations,
       wardrobeName,
       poseName,
-      experimentalConceptName
+      experimentalConceptName,
+      photographerStyle
     );
   } else {
     return GenAIService.generateVideoPrompts(
@@ -44,7 +46,8 @@ export const generateVideoPrompts = async (
       numVariations,
       wardrobeName,
       poseName,
-      experimentalConceptName
+      experimentalConceptName,
+      photographerStyle
     );
   }
 };

@@ -1,7 +1,8 @@
 import { GoogleGenAI, Modality, Type } from "@google/genai";
 import { Prompt, GenerationSettings } from '../types';
-import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS } from '../constants';
+import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
+import { getPhotographerById } from '../photographerStyles';
 
 // Get API key from localStorage (user must provide it)
 let cachedApiKey: string | null = null;
@@ -38,7 +39,8 @@ export const generateVideoPrompts = async (
   numVariations: number,
   wardrobeName: string,
   poseName: string,
-  experimentalConceptName: string
+  experimentalConceptName: string,
+  photographerStyle?: string
 ): Promise<Prompt[]> => {
   
   const systemInstruction = `You are a world-class creative director for Veo, specializing in generating high-end, 8-second cinematic video prompt segments. Your task is to create a set of diverse, detailed, and evocative prompts based on user input, strictly adhering to a specific, highly detailed format.
@@ -97,7 +99,20 @@ You MUST use the provided template as the absolute base, preserving all its spec
 Your task is to synthesize all this information into the strict prompt format. The photographer's style dictates the lighting, camera, and mood. The model's traits must be described exactly. Follow all rules in the system instruction precisely.`;
   } else {
      // Fallback for any models not in the glamour list (e.g., archetypes)
-    userPrompt = `Generate ${numVariations} video prompt variations based on the following criteria. Follow all rules in the system instruction precisely.
+    const photographerDetails = photographerStyle ? getPhotographerById(photographerStyle) : null;
+
+    if (photographerDetails) {
+      userPrompt = `Generate ${numVariations} video prompt variations based on the following criteria, using the photographer's signature style. Follow all rules in the system instruction precisely.
+-   **Core Idea/Action:** "${idea}"
+-   **Model:** "${modelName}" (An Indian model embodying this archetype)
+-   **Environment:** "${environmentName}"
+-   **Photographer Style (CRITICAL - this defines the entire aesthetic):** ${JSON.stringify(photographerDetails)}
+-   **Primary Shot Type:** "${shotType}"
+-   **Wardrobe:** "${wardrobeName}"
+-   **Pose/Stance:** "${poseName}"
+The photographer's style dictates the lighting, camera settings, color grading, and overall mood. Use the photographer's specific technical specifications (lens, aperture, focal length, film stock, etc.) in the prompt.`;
+    } else {
+      userPrompt = `Generate ${numVariations} video prompt variations based on the following criteria. Follow all rules in the system instruction precisely.
 -   **Core Idea/Action:** "${idea}"
 -   **Model:** "${modelName}" (An Indian model embodying this archetype)
 -   **Environment:** "${environmentName}"
@@ -105,6 +120,7 @@ Your task is to synthesize all this information into the strict prompt format. T
 -   **Primary Shot Type:** "${shotType}"
 -   **Wardrobe:** "${wardrobeName}"
 -   **Pose/Stance:** "${poseName}"`;
+    }
   }
 
   const responseSchema = {

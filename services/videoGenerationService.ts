@@ -53,6 +53,7 @@ async function generateVideoWithApiKey(
 
   const response = await fetch(url, {
     method: 'POST',
+    mode: 'cors',
     headers: {
       'Content-Type': 'application/json',
     },
@@ -104,41 +105,61 @@ async function generateVideoWithOAuth(
 
   onStatusUpdate('🎬 Submitting video generation request to Veo 3.1...');
 
-  const response = await fetch(url, {
-    method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      prompt: prompt,
-      parameters: {
-        duration: '5s',
-        aspectRatio: '9:16',
-        quality: 'standard'
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        parameters: {
+          duration: '5s',
+          aspectRatio: '9:16',
+          quality: 'standard'
+        }
+      })
+    });
+
+    if (!response.ok) {
+      const errorText = await response.text();
+
+      // Check for auth errors
+      if (response.status === 401 || response.status === 403) {
+        throw new Error(`Authentication error: ${errorText}. Your OAuth token may be expired. Please refresh it.`);
       }
-    })
-  });
 
-  if (!response.ok) {
-    const errorText = await response.text();
-    throw new Error(`Video generation failed: ${response.statusText}. ${errorText}`);
+      // Check for CORS errors
+      if (errorText.includes('CORS') || response.status === 0) {
+        throw new Error(`CORS Error: Direct browser access to Vertex AI Veo is blocked. Please use API Key authentication or set up a backend proxy.`);
+      }
+
+      throw new Error(`Video generation failed: ${response.statusText}. ${errorText}`);
+    }
+
+    const operationData = await response.json();
+    const operationName = operationData.name;
+
+    if (!operationName) {
+      throw new Error('No operation name returned from video generation request');
+    }
+
+    onStatusUpdate('⏳ Video generation in progress...');
+
+    // Poll for completion
+    const videoUrl = await pollVideoOperation(operationName, accessToken, onStatusUpdate);
+
+    onStatusUpdate('✅ Video generated successfully!');
+    return videoUrl;
+  } catch (error) {
+    // Handle network errors (including CORS)
+    if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+      throw new Error(`Network error: Cannot reach Vertex AI. This is likely a CORS issue. Direct browser access to Vertex AI is blocked. Please use API Key authentication or set up a backend proxy.`);
+    }
+    throw error;
   }
-
-  const operationData = await response.json();
-  const operationName = operationData.name;
-
-  if (!operationName) {
-    throw new Error('No operation name returned from video generation request');
-  }
-
-  onStatusUpdate('⏳ Video generation in progress...');
-
-  // Poll for completion
-  const videoUrl = await pollVideoOperation(operationName, accessToken, onStatusUpdate);
-
-  onStatusUpdate('✅ Video generated successfully!');
-  return videoUrl;
 }
 
 /**
@@ -160,6 +181,7 @@ async function pollVideoOperation(
 
     const response = await fetch(pollUrl, {
       method: 'GET',
+      mode: 'cors',
       headers: {
         'Authorization': `Bearer ${accessToken}`,
         'Content-Type': 'application/json',

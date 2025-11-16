@@ -541,6 +541,198 @@ export const VERA_COMPREHENSIVE_WARDROBE: WardrobeOption[] = [
     suitableForIntimacy: [7, 8],
     fluxOptimized: true,
     imagenOptimized: true
+  },
+
+  // ============================================================================
+  // SUPER-SEDUCTRESS WARDROBE COLLECTION - 17 Variants
+  // ============================================================================
+
+  {
+    id: 'seductress-professional-elegance',
+    name: 'Seductress: Professional Elegance',
+    category: 'seductress-intimacy',
+    coverageLevel: 3,
+    description: 'Structured architectural foundation garments with executive sophistication',
+    artisticLanguage: 'A structured, architectural longline bodice in matte black with seamless construction, paired with high-waisted foundation garment that creates a flawless executive silhouette. Structured seams, boning-inspired details, and architectural lines. Topped with a perfectly tailored transparent black mesh blazer with sharp shoulders. Works best with Helmut Newton-inspired powerful compositions, corporate glamour lighting',
+    suitableForIntimacy: [5, 6, 7],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-sophisticated-allure',
+    name: 'Seductress: Sophisticated Allure',
+    category: 'seductress-intimacy',
+    coverageLevel: 3,
+    description: 'Haute couture intimates with designer details and moderate coverage',
+    artisticLanguage: 'A designer couture intimate collection in black silk and delicate lace, featuring intricate patterns and architectural seams. Includes a couture upper piece with unique strap configuration and high-waisted foundation. Fine lace appliqués, silk ribbons, pearl-tipped closures. Layered with a sheer black organza oversized blazer that flows to mid-thigh. Irving Penn studio elegance aesthetic',
+    suitableForIntimacy: [6, 7, 8],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-editorial-sensuality',
+    name: 'Seductress: Editorial Sensuality',
+    category: 'seductress-intimacy',
+    coverageLevel: 2,
+    description: 'Graphic editorial pieces with sheer mesh and architectural lines',
+    artisticLanguage: 'A sheer lace V-neck bodysuit with daringly deep, architecturally sharp neckline in black gossamer lace. The intricate net patterns create a graphic second skin effect. Geometric cutouts, architectural seaming, and mesh panels that play with opacity. Paired with a completely transparent formal blazer in structured organza with sharp lapels. Helmut Newton neo-noir sensuality',
+    suitableForIntimacy: [7, 8, 9],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-intimate-artistry',
+    name: 'Seductress: Intimate Artistry',
+    category: 'seductress-intimacy',
+    coverageLevel: 2,
+    description: 'High-fashion artistic bodysuits with transparent elements',
+    artisticLanguage: 'A geometric strap bodysuit in matte black, featuring interconnected architectural straps that create a cage-like framework of negative space. The straps sculpt the form while revealing through calculated cutouts. Minimalist hardware, strategic strap placement creating graphic lines. Layered with a transparent mesh blazer with only the seams remaining opaque. Herb Ritts sculptural form studies',
+    suitableForIntimacy: [8, 9, 10],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-high-concept',
+    name: 'Seductress: High Concept Seduction',
+    category: 'seductress-intimacy',
+    coverageLevel: 1,
+    description: 'Minimalist architectural pieces with maximum artistic expression',
+    artisticLanguage: 'A minimalist foundation piece consisting of interconnected straps and a structural wireframe design. An open framework bodice featuring architectural underwire but composed mostly of open space, creating graphic outlines. Strategic single-line straps, T-strap minimal design, and delicate chain details. The emphasis is on line, form, and negative space rather than coverage. Peter Lindbergh raw intimacy',
+    suitableForIntimacy: [9, 10],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-maximum-expression',
+    name: 'Seductress: Maximum Expression',
+    category: 'seductress-intimacy',
+    coverageLevel: 1,
+    description: 'Ultra-minimal foundation pieces and body adornments for fine art nude',
+    artisticLanguage: 'Delicate metallic body chains that drape over shoulders, torso, and hips, serving as jewelry-like minimal adornment. An absolute minimalist T-strap foundation piece consisting of a mere triangle of black silk. String-like connections, pearl-tipped closures, and strategic draping of fine metal chains that catch light. The wardrobe is conceptual - creating graphic lines through minimal material. Helmut Newton boldness meets Jock Sturges natural light intimacy',
+    suitableForIntimacy: [10],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-pure-artistry',
+    name: 'Seductress: Pure Artistry',
+    category: 'seductress-intimacy',
+    coverageLevel: 1,
+    description: 'Conceptual art wardrobe using shadow, light, and silk draping',
+    artisticLanguage: 'The wardrobe is created through artistic means rather than fabric: strategically draped liquid silk fabric that flows and reveals form, or artistic use of deep shadows and light patterns. The emphasis is on suggestion and classical artistic composition. A single long piece of flowing black or crimson silk, artistically draped. Or the use of venetian blind shadows, projected patterns, or chiaroscuro lighting to create the "clothing" effect through pure light manipulation. Bill Brandt surreal nudes and Edward Weston form studies',
+    suitableForIntimacy: [10],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-architectural-harness',
+    name: 'Seductress: Architectural Harness',
+    category: 'seductress-intimacy',
+    coverageLevel: 1,
+    description: 'Geometric leather harness system with graphic patterns',
+    artisticLanguage: 'An intricate black leather harness system with geometric straps creating graphic patterns across the torso and hips. High-waisted architectural brief with strategic cutouts. The design emphasizes and frames natural form rather than concealing. Leather shows realistic tension and compression across curves. Peter Lindbergh-inspired hard directional lighting. Industrial minimalist settings with textured concrete',
+    suitableForIntimacy: [8, 9],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-silk-boudoir',
+    name: 'Seductress: Silk and Shadow Boudoir',
+    category: 'seductress-intimacy',
+    coverageLevel: 3,
+    description: 'Delicate lace intimates for soft romantic aesthetic',
+    artisticLanguage: 'A delicate black lace bralette with intricate floral patterns and matching high-waisted lace-trimmed briefs. Emphasis on natural beauty and intimate moment rather than costume. Silk sheets drape naturally with realistic wrinkles, lace displays authentic structure with subtle transparency. Paolo Roversi-inspired soft natural window light. Warm and romantic color grading with creamy highlights and soft film grain',
+    suitableForIntimacy: [7, 8],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-body-chains',
+    name: 'Seductress: Goddess Body Chains',
+    category: 'seductress-intimacy',
+    coverageLevel: 1,
+    description: 'Delicate gold body chains for ethereal aesthetic',
+    artisticLanguage: 'Delicate gold body chains draped across shoulders and around waist, catching light. A minimal nude mesh brief. The focus entirely on illuminated form and ethereal presence. Body chains drape naturally with realistic weight and movement, creating specular highlights against luminous skin. Annie Leibovitz-inspired golden hour natural light. Warm and luminous color grading with golden tones and soft glowing highlights',
+    suitableForIntimacy: [10],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-noir-glamour',
+    name: 'Seductress: Noir Luxury',
+    category: 'seductress-intimacy',
+    coverageLevel: 3,
+    description: 'Classic Hollywood glamour with vintage aesthetic',
+    artisticLanguage: 'Sheer black silk stockings with seams and lace tops, ornate black lace corset with intricate embroidery, and a floor-length sheer black chiffon robe worn open. Classic Hollywood glamour aesthetic. Stockings show authentic sheen with visible seams, corset displays realistic structure and compression. Classic film noir lighting with hard dramatic side light. Art deco settings',
+    suitableForIntimacy: [7, 8],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-dance-minimal',
+    name: 'Seductress: Modern Dance Form',
+    category: 'seductress-intimacy',
+    coverageLevel: 2,
+    description: 'Athletic dance bodysuit with mesh panels',
+    artisticLanguage: 'A minimalist black dance bodysuit with strategic mesh panels and geometric cutouts emphasizing movement lines. Athletic yet artistic aesthetic. Dance bodysuit shows realistic stretch and compression across athletic movement, mesh panels display tension and transparency. Peter Lindbergh bright natural light from large studio windows. Clean and natural color grading with bright neutral tones',
+    suitableForIntimacy: [8, 9],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-royal-power',
+    name: 'Seductress: Velvet Throne Power',
+    category: 'seductress-intimacy',
+    coverageLevel: 3,
+    description: 'Regal opulent aesthetic with baroque elements',
+    artisticLanguage: 'An ornate black lace corset with gold accents and boning, high-waisted black lace brief, sheer black thigh-high stockings with decorative lace tops, and a dramatic floor-length black velvet cape worn off shoulders. Gold jewelry accents. Empress aesthetic creating dramatic hourglass silhouette. Helmut Newton-inspired dramatic single-source hard light from high angle',
+    suitableForIntimacy: [8, 9],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-rain-noir',
+    name: 'Seductress: Rain-Kissed Noir',
+    category: 'seductress-intimacy',
+    coverageLevel: 2,
+    description: 'Wet silk creating transparent second-skin effect',
+    artisticLanguage: 'A sheer black silk slip dress clinging to form from rain, becoming semi-transparent. Black lace bralette and high-waisted brief visible beneath. Rain-soaked fabric creating second-skin effect. Wet silk clings realistically with transparent areas where soaked, water droplets catching light. Film noir rain lighting with dramatic side light creating rim highlights on rain droplets',
+    suitableForIntimacy: [9],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-penthouse-dawn',
+    name: 'Seductress: Luxury Penthouse Dawn',
+    category: 'seductress-intimacy',
+    coverageLevel: 2,
+    description: 'Morning after vulnerable aesthetic with oversized shirt',
+    artisticLanguage: 'Wearing only an oversized men\'s white dress shirt, unbuttoned and worn loosely, falling off one shoulder. Shirt hem hits mid-thigh. Intimate, vulnerable aesthetic. Oversized shirt drapes naturally with authentic wrinkles from wear, cotton fabric shows directional weave in dawn light. Peter Lindbergh-inspired natural dawn light streaming through penthouse windows',
+    suitableForIntimacy: [8, 9],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-leather-dominance',
+    name: 'Seductress: Black Leather Dominance',
+    category: 'seductress-intimacy',
+    coverageLevel: 3,
+    description: 'Dominant power aesthetic with full leather ensemble',
+    artisticLanguage: 'A fitted black leather corset with metal hardware and buckle details, high-waisted black leather shorts with lacing details, leather opera gloves, and thigh-high leather boots. Full leather domination aesthetic with geometric harness elements. Leather shows realistic creasing and tension across form. Helmut Newton-inspired dramatic hard lighting from above creating strong shadows',
+    suitableForIntimacy: [8, 9],
+    fluxOptimized: true,
+    imagenOptimized: true
+  },
+  {
+    id: 'seductress-gothic-romance',
+    name: 'Seductress: Abandoned Mansion Gothic',
+    category: 'seductress-intimacy',
+    coverageLevel: 3,
+    description: 'Victorian gothic aesthetic with romantic decay',
+    artisticLanguage: 'A floor-length sheer black lace robe with dramatic sleeves worn open, revealing a vintage-inspired black lace corset and high-waisted lace brief. Victorian gothic aesthetic with modern edge. Flowing lace robe moves with atmospheric air currents, Victorian corset shows period-appropriate structure. Paolo Roversi-inspired soft natural light streaming through broken windows creating atmospheric shafts of light',
+    suitableForIntimacy: [8, 9],
+    fluxOptimized: true,
+    imagenOptimized: true
   }
 ];
 

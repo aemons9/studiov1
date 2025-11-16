@@ -200,6 +200,42 @@ export const MODEL_VOYAGER: GlamourModel = {
 
 
 // ============================================================================
+// SUPER-SEDUCTRESS MODELS - Based on Intimacy Levels (5-10)
+// ============================================================================
+
+export const MODEL_SEDUCTRESS_PROFESSIONAL: GlamourModel = {
+  id: 'seductress-001', name: 'Seductress: Professional Elegance', category: 'Executive Seduction Specialist', emphasis: 'Commanding executive presence, structured sophistication, corporate glamour', personalPhotographer: NEW_PHOTOGRAPHERS.DOMINANCE_ARTIST,
+  physicalTraits: { height: '5\'9"', figure: 'Powerful hourglass silhouette sculpted by architectural foundation garments', bust: '38D', waist: '26"', hips: '40"', emphasis: 'Commanding presence with strong posture and magnetic confidence', skinTone: 'Luminous complexion with executive glow and dewy finish', features: 'Strong features with direct eye contact, magnetic Indian beauty, sophisticated power', fitness: 'Toned executive fitness with confident power', specialties: 'Executive editorial photography, Helmut Newton powerful women series, corporate glamour' },
+  wardrobeCollection: [ { id: 'seductress-ward-001', name: 'Structured Executive Foundation', description: 'Architectural longline bodice in matte black with seamless construction, paired with high-waisted foundation and transparent mesh blazer with sharp shoulders.', coverage: 'minimal-executive', intimacyLevel: 5, style: 'Corporate Power', materials: 'Architectural Fabric, Seamless Mesh, Structured Panels', fluxOptimized: true, imagenOptimized: true } ],
+  poseGallery: [ { id: 'seductress-pose-001', name: 'Executive Power Stance', description: 'Standing with confidence, hands on hips, looking directly at camera with commanding expression.' }, { id: 'seductress-pose-002', name: 'Boardroom Dominance', description: 'Leaning back in executive chair with one foot on desk, exuding absolute authority.' } ],
+  environments: NEW_ENVIRONMENTS
+};
+
+export const MODEL_SEDUCTRESS_NOIR: GlamourModel = {
+  id: 'seductress-002', name: 'Seductress: Noir Luxury', category: 'Film Noir Glamour Specialist', emphasis: 'Classic Hollywood glamour, vintage aesthetic, film noir sensuality', personalPhotographer: NEW_PHOTOGRAPHERS.INTIMACY_POET,
+  physicalTraits: { height: '5\'8"', figure: 'Elegant hourglass with classic Hollywood proportions', bust: '38DD', waist: '26"', hips: '40"', emphasis: 'Timeless glamour and sultry vintage beauty', skinTone: 'Matte flawless complexion perfect for classic lighting', features: 'Vintage Hollywood waves, sultry knowing expression, timeless Indian beauty', fitness: 'Classic Hollywood curves with feminine grace', specialties: 'Classic film noir lighting, art deco settings, timeless Hollywood glamour photography' },
+  wardrobeCollection: [ { id: 'seductress-ward-002', name: 'Noir Luxury Ensemble', description: 'Sheer black silk stockings with seams and lace tops, ornate black lace corset with intricate embroidery, floor-length sheer black chiffon robe worn open.', coverage: 'minimal-glamour', intimacyLevel: 7, style: 'Film Noir Glamour', materials: 'Glossy Silk Stockings, Structured Satin, Translucent Chiffon', fluxOptimized: true, imagenOptimized: true } ],
+  poseGallery: [ { id: 'seductress-pose-003', name: 'Glamour Recline', description: 'Reclining luxuriously on velvet chaise, propped on one elbow, sultry knowing expression with half-lidded eyes.' }, { id: 'seductress-pose-004', name: 'Deco Ambiance', description: 'Standing in art deco suite, one hand on burgundy velvet furniture, film noir lighting creating dramatic shadows.' } ],
+  environments: NEW_ENVIRONMENTS
+};
+
+export const MODEL_SEDUCTRESS_GODDESS: GlamourModel = {
+  id: 'seductress-003', name: 'Seductress: Golden Goddess', category: 'Ethereal Divine Beauty Specialist', emphasis: 'Ethereal golden light, goddess presence, transcendent beauty', personalPhotographer: NEW_PHOTOGRAPHERS.INTIMACY_POET,
+  physicalTraits: { height: '5\'8"', figure: 'Elegant hourglass with ethereal goddess presence', bust: '36C', waist: '26"', hips: '38"', emphasis: 'Divine presence with transcendent beauty and luminous glow', skinTone: 'Luminous complexion with dewy finish and extreme subsurface scattering', features: 'Serene goddess-like features, eyes closed in blissful state, transcendent Indian beauty', fitness: 'Graceful dancer-like form with ethereal presence', specialties: 'Annie Leibovitz golden hour natural light, ethereal atmosphere, goddess photography' },
+  wardrobeCollection: [ { id: 'seductress-ward-003', name: 'Goddess Body Chains', description: 'Delicate gold body chains draped across shoulders and around waist, minimal foundation, ethereal minimal aesthetic.', coverage: 'minimal-goddess', intimacyLevel: 10, style: 'Ethereal Goddess', materials: 'Fine Gold Chains, Sheer Nude Mesh, Minimal Silk', fluxOptimized: true, imagenOptimized: true } ],
+  poseGallery: [ { id: 'seductress-pose-005', name: 'Dance of Light', description: 'Standing with arms raised gracefully above head in dance gesture, body in elegant contrapposto, eyes closed basking in golden light.' }, { id: 'seductress-pose-006', name: 'Heavenly Glow', description: 'Serene goddess pose in white studio with golden hour sunlight creating luminous wrap-around glow.' } ],
+  environments: NEW_ENVIRONMENTS
+};
+
+export const MODEL_SEDUCTRESS_ARCHITECTURAL: GlamourModel = {
+  id: 'seductress-004', name: 'Seductress: Architectural Form', category: 'Geometric Body Architecture Specialist', emphasis: 'Architectural minimalism, geometric patterns, graphic fashion editorial', personalPhotographer: NEW_PHOTOGRAPHERS.DOMINANCE_ARTIST,
+  physicalTraits: { height: '5\'9"', figure: 'Statuesque with architectural emphasis on geometric lines', bust: '38C', waist: '27"', hips: '40"', emphasis: 'Body becomes living sculpture with powerful architectural presence', skinTone: 'Luminous complexion with matte flawless finish', features: 'Severe beauty with high ponytail, sculptural bone structure, powerful Indian features', fitness: 'Athletic architectural form with dramatic definition', specialties: 'Peter Lindbergh hard directional lighting, industrial minimalist settings, architectural body photography' },
+  wardrobeCollection: [ { id: 'seductress-ward-004', name: 'Architectural Harness System', description: 'Intricate black leather harness system with geometric straps creating graphic patterns, high-waisted architectural brief with strategic cutouts.', coverage: 'minimal-architectural', intimacyLevel: 8, style: 'Geometric Architecture', materials: 'Matte and Glossy Leather, Metal Hardware, Structured Elastic', fluxOptimized: true, imagenOptimized: true } ],
+  poseGallery: [ { id: 'seductress-pose-007', name: 'Geometric Pose', description: 'Kneeling upright with back arched dramatically, both arms stretched overhead with hands clasped, head tilted back.' }, { id: 'seductress-pose-008', name: 'Industrial Power', description: 'Powerful stance in industrial space with textured concrete walls and dramatic shadows.' } ],
+  environments: NEW_ENVIRONMENTS
+};
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
@@ -220,5 +256,10 @@ export const ARTISTIC_INTIMACY_MODELS: GlamourModel[] = [
     MODEL_KEEPER,
     MODEL_HEALER,
     MODEL_LOVER,
-    MODEL_VOYAGER
+    MODEL_VOYAGER,
+    // Super-Seductress
+    MODEL_SEDUCTRESS_PROFESSIONAL,
+    MODEL_SEDUCTRESS_NOIR,
+    MODEL_SEDUCTRESS_GODDESS,
+    MODEL_SEDUCTRESS_ARCHITECTURAL
 ];

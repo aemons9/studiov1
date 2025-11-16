@@ -35,6 +35,20 @@ const STRATEGIES: Array<{
     color: 'yellow'
   },
   {
+    value: 'verastrategy',
+    label: 'Vera Strategy ✨',
+    description: 'Advanced Imagen 4 prompt optimization with cultural sensitivity and quality triggers (Vera mode technique)',
+    icon: '✨',
+    color: 'purple'
+  },
+  {
+    value: 'ultraoptimizer',
+    label: 'Ultra Optimizer 🎨',
+    description: 'Sophisticated prompt engineering with Art Directors Declaration, quality triggers, and structured optimization (main mode technique)',
+    icon: '🎨',
+    color: 'cyan'
+  },
+  {
     value: 'aggressive',
     label: 'Aggressive',
     description: 'All strategies including Flux fallback with high tolerance (5/6)',
@@ -81,6 +95,8 @@ const SafetyBypassStrategySelector: React.FC<SafetyBypassStrategySelectorProps> 
             blue: isSelected ? 'bg-blue-500/20 border-blue-500' : 'border-gray-700 hover:border-blue-500/50',
             green: isSelected ? 'bg-green-500/20 border-green-500' : 'border-gray-700 hover:border-green-500/50',
             yellow: isSelected ? 'bg-yellow-500/20 border-yellow-500' : 'border-gray-700 hover:border-yellow-500/50',
+            purple: isSelected ? 'bg-purple-500/20 border-purple-500' : 'border-gray-700 hover:border-purple-500/50',
+            cyan: isSelected ? 'bg-cyan-500/20 border-cyan-500' : 'border-gray-700 hover:border-cyan-500/50',
             orange: isSelected ? 'bg-orange-500/20 border-orange-500' : 'border-gray-700 hover:border-orange-500/50',
             red: isSelected ? 'bg-red-500/20 border-red-500' : 'border-gray-700 hover:border-red-500/50',
           };
@@ -121,6 +137,8 @@ const SafetyBypassStrategySelector: React.FC<SafetyBypassStrategySelectorProps> 
               <li><strong>Auto:</strong> NL API → Gemini Rewrite → Imagen 4 → Translation → Flux</li>
               <li><strong>Conservative:</strong> Gemini rewrite → Imagen 4 only</li>
               <li><strong>Balanced:</strong> + Translation API (FR/IT/ES/DE) → Imagen 4</li>
+              <li><strong>Vera Strategy:</strong> Advanced Imagen 4 prompt optimization (quality triggers + cultural sensitivity)</li>
+              <li><strong>Ultra Optimizer:</strong> Art Directors Declaration + Structured prompt engineering + Quality presets</li>
               <li><strong>Aggressive:</strong> + Flux API fallback (safety 5/6)</li>
               <li><strong>Nuclear Imagen:</strong> Translation (FR/IT/ES/DE) → Imagen 4 (no Flux)</li>
               <li><strong>Nuclear Flux:</strong> Translation (FR/IT/ES/DE) → Flux max (6/6)</li>

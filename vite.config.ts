@@ -4,10 +4,21 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig(({ mode }) => {
     const env = loadEnv(mode, '.', '');
+    const isDev = mode === 'development';
+
     return {
       server: {
         port: 3000,
         host: '0.0.0.0',
+        // Proxy only in development mode
+        ...(isDev && {
+          proxy: {
+            '/api': {
+              target: 'http://localhost:3001',
+              changeOrigin: true,
+            }
+          }
+        })
       },
       plugins: [react()],
       define: {
@@ -17,6 +28,20 @@ export default defineConfig(({ mode }) => {
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),
+        }
+      },
+      build: {
+        outDir: 'dist',
+        sourcemap: false,
+        // Optimize for production
+        minify: 'esbuild',
+        target: 'es2015',
+        rollupOptions: {
+          output: {
+            manualChunks: {
+              'react-vendor': ['react', 'react-dom'],
+            }
+          }
         }
       }
     };

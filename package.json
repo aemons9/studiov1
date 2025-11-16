@@ -11,7 +11,9 @@
     "dev:all:host": "npm run proxy & npm run dev:host",
     "build": "vite build",
     "preview": "vite preview",
-    "preview:host": "vite preview --host"
+    "preview:host": "vite preview --host",
+    "vercel:dev": "vercel dev",
+    "vercel:deploy": "vercel --prod"
   },
   "dependencies": {
     "@google/genai": "^1.28.0",

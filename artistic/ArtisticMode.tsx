@@ -10,6 +10,8 @@ import { IntimacyCalibrator } from '../artistic/intimacyCalibrator';
 import { ArtisticQualityAssurance } from '../artistic/qualityAssurance';
 import { getAllMasterStyles } from '../artistic/masterStyles';
 import { getAllModelArchetypes } from '../artistic/indianModels';
+import TextPromptOptimizer from '../components/TextPromptOptimizer';
+import type { PromptModel } from '../services/aiPromptGenerator';
 import {
   GLAMOUR_WARDROBE_CATALOG,
   getWardrobeByIntimacy,
@@ -206,6 +208,13 @@ const ArtisticMode: React.FC<ArtisticModeProps> = ({
       return;
     }
     onMigrateToMain(generatedPrompt, config, { scene, wardrobe, lighting, composition });
+  };
+
+  // Handle AI-optimized prompt
+  const handleOptimizedPrompt = (optimized: string, model: PromptModel) => {
+    console.log(`✅ AI-optimized ${model} prompt received in Artistic Mode`);
+    setGeneratedPrompt(optimized);
+    setShowPromptPreview(true);
   };
 
   const intimacyDescription = IntimacyCalibrator.getIntimacyDescription(config.intimacyLevel);
@@ -469,6 +478,19 @@ const ArtisticMode: React.FC<ArtisticModeProps> = ({
             >
               Build Prompt
             </button>
+
+            {/* AI Prompt Optimizer */}
+            {generatedPrompt && (
+              <div className="mb-3">
+                <TextPromptOptimizer
+                  currentPrompt={generatedPrompt}
+                  accessToken={generationSettings.accessToken || ''}
+                  onOptimizedPrompt={handleOptimizedPrompt}
+                  disabled={isGenerating}
+                  className="w-full"
+                />
+              </div>
+            )}
 
             <button
               onClick={handleGenerate}

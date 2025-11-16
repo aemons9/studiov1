@@ -8,6 +8,8 @@ import { CorporatePromptEngine, validateCorporatePrompt } from './promptEngine';
 import { CORPORATE_ROLES } from './corporateRoles';
 import { OFFICE_ENVIRONMENTS } from './corporateEnvironments';
 import { CORPORATE_WARDROBE_CATALOG } from './corporateWardrobe';
+import TextPromptOptimizer from '../components/TextPromptOptimizer';
+import type { PromptModel } from '../services/aiPromptGenerator';
 import type {
   CorporatePowerState,
   CorporateRole,
@@ -163,6 +165,13 @@ const CorporateMode: React.FC<CorporateModeProps> = ({
       return;
     }
     onMigrateToMain(generatedPrompt, corporateState);
+  };
+
+  // Handle AI-optimized prompt
+  const handleOptimizedPrompt = (optimized: string, model: PromptModel) => {
+    console.log(`✅ AI-optimized ${model} prompt received in Corporate Mode`);
+    setGeneratedPrompt(optimized);
+    setShowPromptPreview(true);
   };
 
   return (
@@ -338,6 +347,19 @@ const CorporateMode: React.FC<CorporateModeProps> = ({
             >
               Build Prompt
             </button>
+
+            {/* AI Prompt Optimizer */}
+            {generatedPrompt && (
+              <div className="mb-3">
+                <TextPromptOptimizer
+                  currentPrompt={generatedPrompt}
+                  accessToken={generationSettings.accessToken || ''}
+                  onOptimizedPrompt={handleOptimizedPrompt}
+                  disabled={isGenerating}
+                  className="w-full"
+                />
+              </div>
+            )}
 
             <button
               onClick={handleGenerate}

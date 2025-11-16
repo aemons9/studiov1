@@ -22,7 +22,9 @@ import SafetyBypassStrategySelector from './components/SafetyBypassStrategySelec
 import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
 import ImagenPromptLibrarySelector from './components/ImagenPromptLibrarySelector';
 import QuickCorporateGenerator from './components/QuickCorporateGenerator';
+import PromptGeneratorButton from './components/PromptGeneratorButton';
 import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
+import type { PromptModel } from './services/aiPromptGenerator';
 import { ImagenPromptTemplate } from './concepts/imagenPromptLibrary';
 import ExperimentalMode from './experimental/ExperimentalMode';
 import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
@@ -609,6 +611,12 @@ const App: React.FC = () => {
         alert(`Prompt "${name}" saved successfully!`);
       } catch (e) { console.error("Failed to save prompt:", e); alert("Error: Could not save the prompt."); }
     }
+  };
+
+  const handleAIPromptGenerated = (prompt: string, model: PromptModel) => {
+    console.log(`✅ AI-generated ${model} prompt received, setting as text prompt`);
+    setTextPrompt(prompt);
+    setPromptMode('text'); // Switch to text mode to show the generated prompt
   };
 
   const loadPromptsFromStorage = (): SavedPrompt[] => {
@@ -1406,6 +1414,7 @@ const App: React.FC = () => {
           onGenerateWithConfig={handleExperimentalGenerate}
           onMigrateToMain={handleMigrateFromExperimental}
           onExit={handleExitExperimental}
+          accessToken={generationSettings.accessToken || ''}
         />
       ) : uiMode === 'artistic' ? (
         // ARTISTIC MODE: Master Photographer Style Generator
@@ -1663,6 +1672,12 @@ const App: React.FC = () => {
                 onGenerate={handleMasterGenerate}
                 isLoading={isLoading}
                 generationStep={generationStep}
+              />
+              <PromptGeneratorButton
+                promptData={safePromptData}
+                accessToken={generationSettings.accessToken || ''}
+                onPromptGenerated={handleAIPromptGenerated}
+                disabled={isLoading}
               />
               <LockFieldsDropdown lockedFields={lockedFields} onLockedFieldsChange={setLockedFields} isBusy={isLoading} />
             </div>

@@ -814,8 +814,16 @@ export async function enhancePrompt(promptData: PromptData, settings: Generation
 }
 
 export async function generateImage(prompt: string, settings: GenerationSettings): Promise<string[]> {
-  const { projectId, accessToken, numberOfImages, personGeneration, safetySetting, addWatermark, enhancePrompt, modelId, seed } = settings;
-  if (!projectId || !accessToken) throw new Error("Project ID and Access Token required.");
+  const { vertexAuthMethod, vertexApiKey, projectId, accessToken, numberOfImages, personGeneration, safetySetting, addWatermark, enhancePrompt, modelId, seed } = settings;
+
+  // Check authentication method
+  const authMethod = vertexAuthMethod || 'oauth';
+
+  if (authMethod === 'oauth') {
+    if (!projectId || !accessToken) throw new Error("Project ID and Access Token required for OAuth authentication.");
+  } else if (authMethod === 'apikey') {
+    if (!vertexApiKey) throw new Error("API Key required. Please configure it in settings.");
+  }
 
   // Validate and convert aspect ratio for Imagen compatibility
   let aspectRatio = settings.aspectRatio;
@@ -832,36 +840,96 @@ export async function generateImage(prompt: string, settings: GenerationSettings
     }
   }
 
-  const region = 'us-east4';
-  const endpoint = `https://${region}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${region}/publishers/google/models/${modelId}:predict`;
+  if (authMethod === 'apikey') {
+    // Use Generative Language API with API Key
+    console.log('🔑 Using API Key authentication with Generative Language API');
 
-  const parameters: any = {
-    sampleCount: numberOfImages, aspectRatio, personGeneration, safetySetting, addWatermark, enhancePrompt, includeRaiReason: true,
-  };
-  if (seed) parameters.seed = seed;
+    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${vertexApiKey}`;
 
-  const body = { instances: [{ prompt }], parameters };
-
-  try {
-    const response = await fetch(endpoint, { method: 'POST', headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (!response.ok) {
-      const errorBody = await response.json();
-      throw new Error(`Vertex AI API Error: ${errorBody?.error?.message || `HTTP ${response.status}`}`);
-    }
-    const data = await response.json();
-    if (data.predictions?.length > 0) {
-      const images = data.predictions.map((pred: any) => pred.bytesBase64Encoded).filter(Boolean);
-      if (images.length > 0) return images;
-
-      const blocked = data.predictions[0];
-      if (blocked?.safetyAttributes?.blocked) {
-        const categories = blocked.safetyAttributes.categories || ['unspecified'];
-        throw new Error(`RAI_BLOCK: Blocked by safety filters. Detected categories: ${categories.join(', ')}.`);
+    const requestBody = {
+      contents: [{
+        parts: [{
+          text: prompt
+        }]
+      }],
+      generationConfig: {
+        responseModalities: ["image"],
+        sampleCount: numberOfImages,
+        aspectRatio: aspectRatio,
       }
-      throw new Error(blocked.raiReason || "Safety filters blocked generation.");
+    };
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(`Generative Language API Error: ${errorBody?.error?.message || `HTTP ${response.status}`}`);
+      }
+
+      const data = await response.json();
+
+      if (data.candidates && data.candidates.length > 0) {
+        const images: string[] = [];
+        for (const candidate of data.candidates) {
+          if (candidate.content?.parts) {
+            for (const part of candidate.content.parts) {
+              if (part.inlineData?.data) {
+                images.push(part.inlineData.data);
+              }
+            }
+          }
+        }
+
+        if (images.length > 0) return images;
+      }
+
+      throw new Error("No images returned from API. Check your prompt and try again.");
+    } catch (error) {
+      console.error("API Key generation error:", error);
+      throw error;
     }
-    throw new Error("The model did not return any images. This is likely due to the prompt violating safety policies.");
-  } catch (error) { console.error("Generation error:", error); throw error; }
+  } else {
+    // Use Vertex AI with OAuth
+    console.log('🔐 Using OAuth authentication with Vertex AI');
+
+    const region = 'us-east4';
+    const endpoint = `https://${region}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${region}/publishers/google/models/${modelId}:predict`;
+
+    const parameters: any = {
+      sampleCount: numberOfImages, aspectRatio, personGeneration, safetySetting, addWatermark, enhancePrompt, includeRaiReason: true,
+    };
+    if (seed) parameters.seed = seed;
+
+    const body = { instances: [{ prompt }], parameters };
+
+    try {
+      const response = await fetch(endpoint, { method: 'POST', headers: { 'Authorization': `Bearer ${accessToken}`, 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      if (!response.ok) {
+        const errorBody = await response.json();
+        throw new Error(`Vertex AI API Error: ${errorBody?.error?.message || `HTTP ${response.status}`}`);
+      }
+      const data = await response.json();
+      if (data.predictions?.length > 0) {
+        const images = data.predictions.map((pred: any) => pred.bytesBase64Encoded).filter(Boolean);
+        if (images.length > 0) return images;
+
+        const blocked = data.predictions[0];
+        if (blocked?.safetyAttributes?.blocked) {
+          const categories = blocked.safetyAttributes.categories || ['unspecified'];
+          throw new Error(`RAI_BLOCK: Blocked by safety filters. Detected categories: ${categories.join(', ')}.`);
+        }
+        throw new Error(blocked.raiReason || "Safety filters blocked generation.");
+      }
+      throw new Error("The model did not return any images. This is likely due to the prompt violating safety policies.");
+    } catch (error) { console.error("Generation error:", error); throw error; }
+  }
 }
 
 // ============================================================================

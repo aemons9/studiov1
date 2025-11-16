@@ -363,6 +363,11 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
 
   const handleSettingsChange = useCallback((field: keyof GenerationSettings, value: string | number | boolean | null) => {
     onGenerationSettingsChange({ ...generationSettings, [field]: value });
+
+    // Save API key to localStorage so it can be shared with Vera mode
+    if (field === 'vertexApiKey' && value) {
+      localStorage.setItem('vertex_api_key', value as string);
+    }
   }, [generationSettings, onGenerationSettingsChange]);
 
   const handleConceptSelect = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -419,6 +424,13 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
     onPromptChange(updatedPromptData);
   }, [promptData, onPromptChange]);
 
+  // Load API key from localStorage on mount
+  useEffect(() => {
+    const savedApiKey = localStorage.getItem('vertex_api_key');
+    if (savedApiKey && !generationSettings.vertexApiKey) {
+      onGenerationSettingsChange({ ...generationSettings, vertexApiKey: savedApiKey });
+    }
+  }, []); // Run only on mount
 
   useEffect(() => {
     if (debounceTimeout.current) {
@@ -660,17 +672,75 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         {/* Vertex AI Settings */}
         {generationSettings.provider === 'vertex-ai' && (
             <div className="space-y-4 p-4 bg-indigo-500/5 rounded-lg border border-indigo-500/20">
+                {/* Auth Method Selector */}
                 <div>
-                    <label htmlFor="projectId" className="font-semibold text-gray-300 block mb-2">Google Cloud Project ID</label>
-                    <input id="projectId" type="text" placeholder="e.g., my-gcp-project-123" value={generationSettings.projectId} onChange={(e) => handleSettingsChange('projectId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+                    <label className="font-semibold text-gray-300 block mb-2">Authentication Method</label>
+                    <div className="grid grid-cols-2 gap-2">
+                        <button
+                            type="button"
+                            onClick={() => handleSettingsChange('vertexAuthMethod', 'oauth')}
+                            disabled={isLoading}
+                            className={`p-2.5 rounded-md text-sm font-medium transition-all ${
+                                (generationSettings.vertexAuthMethod || 'oauth') === 'oauth'
+                                    ? 'bg-indigo-600 text-white'
+                                    : 'bg-gray-900/50 text-gray-400 border border-gray-600 hover:border-gray-500'
+                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        >
+                            OAuth (Project ID + Token)
+                        </button>
+                        <button
+                            type="button"
+                            onClick={() => handleSettingsChange('vertexAuthMethod', 'apikey')}
+                            disabled={isLoading}
+                            className={`p-2.5 rounded-md text-sm font-medium transition-all ${
+                                generationSettings.vertexAuthMethod === 'apikey'
+                                    ? 'bg-indigo-600 text-white'
+                                    : 'bg-gray-900/50 text-gray-400 border border-gray-600 hover:border-gray-500'
+                            } disabled:opacity-50 disabled:cursor-not-allowed`}
+                        >
+                            API Key
+                        </button>
+                    </div>
                 </div>
-                <div>
-                    <label htmlFor="accessToken" className="font-semibold text-gray-300 block mb-2">OAuth2 Access Token</label>
-                    <input id="accessToken" type="password" placeholder="Enter your temporary access token" value={generationSettings.accessToken} onChange={(e) => handleSettingsChange('accessToken', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
-                    <p className="text-xs text-gray-500 mt-1">
-                        You can generate a temporary token using the gcloud CLI: <code className="bg-gray-700 p-1 rounded">gcloud auth print-access-token</code>
-                    </p>
-                </div>
+
+                {/* OAuth Fields */}
+                {(generationSettings.vertexAuthMethod || 'oauth') === 'oauth' && (
+                    <>
+                        <div>
+                            <label htmlFor="projectId" className="font-semibold text-gray-300 block mb-2">Google Cloud Project ID</label>
+                            <input id="projectId" type="text" placeholder="e.g., my-gcp-project-123" value={generationSettings.projectId} onChange={(e) => handleSettingsChange('projectId', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+                        </div>
+                        <div>
+                            <label htmlFor="accessToken" className="font-semibold text-gray-300 block mb-2">OAuth2 Access Token</label>
+                            <input id="accessToken" type="password" placeholder="Enter your temporary access token" value={generationSettings.accessToken} onChange={(e) => handleSettingsChange('accessToken', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50" />
+                            <p className="text-xs text-gray-500 mt-1">
+                                You can generate a temporary token using the gcloud CLI: <code className="bg-gray-700 p-1 rounded">gcloud auth print-access-token</code>
+                            </p>
+                        </div>
+                    </>
+                )}
+
+                {/* API Key Field */}
+                {generationSettings.vertexAuthMethod === 'apikey' && (
+                    <div>
+                        <label htmlFor="vertexApiKey" className="font-semibold text-gray-300 block mb-2">Google AI API Key</label>
+                        <input
+                            id="vertexApiKey"
+                            type="password"
+                            placeholder="AIza..."
+                            value={generationSettings.vertexApiKey || ''}
+                            onChange={(e) => handleSettingsChange('vertexApiKey', e.target.value)}
+                            disabled={isLoading}
+                            className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50 font-mono text-sm"
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                            Get your API key from <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener noreferrer" className="text-indigo-400 hover:text-indigo-300 underline">Google AI Studio</a>
+                        </p>
+                        <p className="text-xs text-gray-400 mt-2">
+                            💡 Tip: You can use the same API key as Vera mode, or use a different key.
+                        </p>
+                    </div>
+                )}
             </div>
         )}
 

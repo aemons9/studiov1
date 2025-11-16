@@ -1,7 +1,8 @@
 import { INDIAN_CORPORATE_VARIANTS } from './corporateModels';
 import { EROTIC_GLAMOUR_MODELS as ORIGINAL_GLAMOUR_MODELS } from './eroticGlamourModels';
 import { ARTISTIC_INTIMACY_MODELS } from './artisticIntimacyModels';
-import { ARTISTIC_CONCEPTS as ORIGINAL_CONCEPTS, NEW_ARTISTIC_CONCEPTS, ROLE_PLAY_CONCEPTS, SEDUCTRESS_MAX_CONCEPTS } from './experimentalConcepts';
+import { PLATINUM_MODELS } from './platinumModels';
+import { ARTISTIC_CONCEPTS as ORIGINAL_CONCEPTS, NEW_ARTISTIC_CONCEPTS, ROLE_PLAY_CONCEPTS, SEDUCTRESS_MAX_CONCEPTS, SUPER_SEDUCTRESS_ARTIST_CONCEPTS } from './experimentalConcepts';
 import { ENVIRONMENTS_CATALOG } from './environments';
 import { WARDROBE_CATALOG } from './wardrobeCollection';
 import { seductressMaxCollection } from './seductressMaxCollection';
@@ -10,7 +11,7 @@ import { PHOTOGRAPHER_STYLES } from './photographerStyles';
 import { ALL_ENVIRONMENTS, ENVIRONMENT_CATEGORIES } from './environmentsExpanded';
 
 // Combine models into the main export used by the app
-export const INDIAN_GLAMOUR_MODELS = [...ORIGINAL_GLAMOUR_MODELS, ...ARTISTIC_INTIMACY_MODELS];
+export const INDIAN_GLAMOUR_MODELS = [...ORIGINAL_GLAMOUR_MODELS, ...ARTISTIC_INTIMACY_MODELS, ...PLATINUM_MODELS];
 
 // New grouped structure for model selection dropdown
 export const MODEL_ARCHETYPE_GROUPS = [
@@ -28,6 +29,11 @@ export const MODEL_ARCHETYPE_GROUPS = [
     label: 'The Executives (Corporate Power)',
     description: 'Commanding figures of the corporate world, embodying power, authority, and sophisticated sensuality in an executive setting.',
     options: INDIAN_CORPORATE_VARIANTS.map(variant => ({ name: variant.displayName, description: variant.description })),
+  },
+  {
+    label: 'Platinum Collection (Evening Seduction)',
+    description: '10 premium evening and midnight seduction specialists with unique environments and signature styles.',
+    options: PLATINUM_MODELS.map(model => ({ name: model.name, description: model.category })),
   },
 ];
 
@@ -51,7 +57,7 @@ export const DEFAULT_WARDROBE_OPTIONS = WARDROBE_CATALOG.map(item => item.name);
 export const DEFAULT_POSE_OPTIONS = ["Confident Power Stance", "Seductive Recline", "Dynamic Action Pose", "Elegant Contemplation", "Playful Interaction", "Serene Stillness", "Sensual Movement", "Authoritative Presence", "Graceful Flexibility", "Intimate Gaze"];
 
 // Combine all artistic concepts into a single source of truth
-export const ALL_ARTISTIC_CONCEPTS = [...ORIGINAL_CONCEPTS, ...NEW_ARTISTIC_CONCEPTS, ...ROLE_PLAY_CONCEPTS, ...SEDUCTRESS_MAX_CONCEPTS, ...seductressMaxCollection, ...corporateSeductionCollection];
+export const ALL_ARTISTIC_CONCEPTS = [...ORIGINAL_CONCEPTS, ...NEW_ARTISTIC_CONCEPTS, ...ROLE_PLAY_CONCEPTS, ...SEDUCTRESS_MAX_CONCEPTS, ...SUPER_SEDUCTRESS_ARTIST_CONCEPTS, ...seductressMaxCollection, ...corporateSeductionCollection];
 
 
 // Experimental Concepts list for the dropdown

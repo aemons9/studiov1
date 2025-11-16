@@ -1,9 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { IndianModelArchetype, GenerationSettings } from '../types';
 import { generateImage } from '../services';
 import { optimizePrompt, generateConcept } from '../services';
 import { INDIAN_MODEL_ARCHETYPES } from '../services/indianModelArchetypes';
 import { ModelIcon, SparklesIcon, SettingsIcon } from './Icons';
+import { ROLEPLAY_SCENARIOS, RolePlayScenario } from '../rolePlayConcepts';
 
 const ControlCard: React.FC<{ title: string; icon: React.ReactNode; children: React.ReactNode }> = ({ title, icon, children }) => (
   <div className="bg-slate-800/40 border border-slate-700 rounded-xl p-5 flex flex-col gap-4 h-full">
@@ -44,6 +45,11 @@ const Imagen4GeneratorUI: React.FC = () => {
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Role-Play Mode State
+  const [rolePlayMode, setRolePlayMode] = useState<boolean>(false);
+  const [selectedScenario, setSelectedScenario] = useState<RolePlayScenario | null>(null);
+  const [currentStep, setCurrentStep] = useState<number>(0);
 
   const selectedArchetype = INDIAN_MODEL_ARCHETYPES.find(a => a.id === selectedArchetypeId)!;
 
@@ -109,6 +115,20 @@ const Imagen4GeneratorUI: React.FC = () => {
     }
   }, [concept, selectedArchetype, settings]);
   
+  // Handle role-play scenario selection
+  useEffect(() => {
+    if (rolePlayMode && selectedScenario) {
+      const matchedArchetype = INDIAN_MODEL_ARCHETYPES.find(a => a.id === selectedScenario.modelId);
+      if (matchedArchetype) {
+        setSelectedArchetypeId(matchedArchetype.id);
+      }
+      // Set concept to current progression step
+      if (selectedScenario.gameElements.progressionSteps[currentStep]) {
+        setConcept(selectedScenario.gameElements.progressionSteps[currentStep]);
+      }
+    }
+  }, [selectedScenario, currentStep, rolePlayMode]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
@@ -118,6 +138,78 @@ const Imagen4GeneratorUI: React.FC = () => {
 
   return (
     <div className="max-w-6xl mx-auto flex flex-col gap-8">
+      {/* Role-Play Game Mode */}
+      <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-2 border-purple-500/30 p-6 rounded-xl">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <svg className="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="text-xl font-bold text-purple-300">🎭 Role-Play Game Mode</h3>
+          </div>
+          <button
+            onClick={() => {
+              setRolePlayMode(!rolePlayMode);
+              if (!rolePlayMode) {
+                setSelectedScenario(null);
+                setCurrentStep(0);
+              }
+            }}
+            className={`px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
+              rolePlayMode ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30' : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+            }`}
+          >
+            {rolePlayMode ? '✓ Active' : 'Activate'}
+          </button>
+        </div>
+
+        {rolePlayMode && (
+          <div className="space-y-4 mt-4">
+            <div>
+              <label htmlFor="scenario-select-imagen" className="block text-sm font-medium text-purple-300 mb-2">📖 Choose Your Scenario</label>
+              <select
+                id="scenario-select-imagen"
+                value={selectedScenario?.id || ''}
+                onChange={(e) => {
+                  const scenario = ROLEPLAY_SCENARIOS.find(s => s.id === e.target.value);
+                  setSelectedScenario(scenario || null);
+                  setCurrentStep(0);
+                }}
+                className="w-full p-3 text-purple-300 bg-slate-900/70 border-2 border-purple-500/30 rounded-lg focus:ring-2 focus:ring-purple-500"
+              >
+                <option value="">-- Select a Scenario --</option>
+                {ROLEPLAY_SCENARIOS.map(scenario => (
+                  <option key={scenario.id} value={scenario.id}>
+                    {scenario.name} - {scenario.theme} (Intimacy {scenario.intimacyLevel}/10)
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {selectedScenario && (
+              <div className="bg-slate-900/50 border border-purple-500/20 rounded-lg p-5 space-y-4">
+                <div>
+                  <h4 className="text-lg font-bold text-purple-200">{selectedScenario.name}</h4>
+                  <p className="text-sm text-slate-400 mt-2">{selectedScenario.scenario}</p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-purple-300 mb-2">🎯 Story Step</label>
+                  <select
+                    value={currentStep}
+                    onChange={(e) => setCurrentStep(Number(e.target.value))}
+                    className="w-full p-2.5 text-purple-300 bg-slate-900/70 border-2 border-purple-500/30 rounded-lg"
+                  >
+                    {selectedScenario.gameElements.progressionSteps.map((step, idx) => (
+                      <option key={idx} value={idx}>Step {idx + 1}: {step}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <ControlCard title="Model Archetype" icon={<ModelIcon />}>
             <LabeledSelect id="archetype-select" label="Select Archetype" value={selectedArchetypeId} onChange={(e) => setSelectedArchetypeId(e.target.value)} disabled={isLoading}>

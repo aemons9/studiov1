@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MODEL_ARCHETYPE_GROUPS, ARTISTIC_STYLES, SHOT_TYPES, EXPERIMENTAL_CONCEPTS, INDIAN_GLAMOUR_MODELS, PHOTOGRAPHER_STYLES, ENVIRONMENT_CATEGORIES } from '../constants';
 import { ModelIcon, SceneIcon, StyleIcon, SettingsIcon, SparklesIcon } from './Icons';
+import { ROLEPLAY_SCENARIOS, RolePlayScenario } from '../rolePlayConcepts';
 
 interface PromptInputProps {
   idea: string;
@@ -81,15 +82,31 @@ const PromptInput: React.FC<PromptInputProps> = ({
   wardrobeOptions, poseOptions, environmentOptions,
   onGenerate, isLoading, isCreativeMode
 }) => {
+  // Role-Play Mode State
+  const [rolePlayMode, setRolePlayMode] = useState<boolean>(false);
+  const [selectedScenario, setSelectedScenario] = useState<RolePlayScenario | null>(null);
+  const [currentStep, setCurrentStep] = useState<number>(0);
+
+  // Handle scenario selection
+  useEffect(() => {
+    if (rolePlayMode && selectedScenario) {
+      // Auto-fill fields based on scenario
+      const matchedModel = INDIAN_GLAMOUR_MODELS.find(m => m.id === selectedScenario.modelId);
+      if (matchedModel) {
+        setModel(matchedModel.name);
+      }
+    }
+  }, [selectedScenario, rolePlayMode, setModel]);
+
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (event.key === 'Enter' && !event.shiftKey) {
       event.preventDefault();
       onGenerate();
     }
   };
-  
+
   const selectedModelDetails = INDIAN_GLAMOUR_MODELS.find(m => m.name === model);
-  
+
   let currentArchetypeLabel: string | null = null;
   for (const group of MODEL_ARCHETYPE_GROUPS) {
       if(group.options.some(opt => opt.name === model)) {
@@ -123,6 +140,119 @@ const PromptInput: React.FC<PromptInputProps> = ({
             {EXPERIMENTAL_CONCEPTS.map(c => <option key={c} value={c}>{c}</option>)}
           </select>
           <p className="text-xs text-slate-500 mt-2">{isCreativeMode ? "Fine-tune your prompt with the creative controls below." : "Experimental mode selected. Creative controls are disabled."}</p>
+      </div>
+
+      {/* Role-Play Mode Toggle and Controls */}
+      <div className="bg-gradient-to-br from-purple-900/20 to-pink-900/20 border-2 border-purple-500/30 p-6 rounded-xl">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-3">
+            <svg className="w-7 h-7 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <h3 className="text-xl font-bold text-purple-300">🎭 Role-Play Game Mode</h3>
+          </div>
+          <button
+            onClick={() => {
+              setRolePlayMode(!rolePlayMode);
+              if (!rolePlayMode) {
+                setSelectedScenario(null);
+                setCurrentStep(0);
+              }
+            }}
+            className={`px-5 py-2.5 text-sm font-semibold rounded-lg transition-all duration-300 ${
+              rolePlayMode
+                ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30'
+                : 'bg-slate-700 text-slate-300 hover:bg-slate-600'
+            }`}
+          >
+            {rolePlayMode ? '✓ Active' : 'Activate'}
+          </button>
+        </div>
+
+        {rolePlayMode && (
+          <div className="space-y-4 mt-4">
+            {/* Scenario Selection */}
+            <div>
+              <label htmlFor="scenario-select" className="block text-sm font-medium text-purple-300 mb-2">
+                📖 Choose Your Scenario
+              </label>
+              <select
+                id="scenario-select"
+                value={selectedScenario?.id || ''}
+                onChange={(e) => {
+                  const scenario = ROLEPLAY_SCENARIOS.find(s => s.id === e.target.value);
+                  setSelectedScenario(scenario || null);
+                  setCurrentStep(0);
+                }}
+                className="w-full p-3 text-purple-300 bg-slate-900/70 border-2 border-purple-500/30 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all duration-300 appearance-none cursor-pointer"
+              >
+                <option value="">-- Select a Scenario --</option>
+                {ROLEPLAY_SCENARIOS.map(scenario => (
+                  <option key={scenario.id} value={scenario.id}>
+                    {scenario.name} ({scenario.theme}) - Intimacy {scenario.intimacyLevel}/10
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {selectedScenario && (
+              <div className="bg-slate-900/50 border border-purple-500/20 rounded-lg p-5 space-y-4">
+                {/* Scenario Details */}
+                <div>
+                  <h4 className="text-lg font-bold text-purple-200 mb-2">{selectedScenario.name}</h4>
+                  <p className="text-sm text-slate-400 mb-3">{selectedScenario.scenario}</p>
+                  <div className="flex flex-wrap gap-2">
+                    <span className="px-3 py-1 bg-purple-800/40 text-purple-300 text-xs rounded-full">
+                      Model: {selectedScenario.modelName}
+                    </span>
+                    <span className="px-3 py-1 bg-pink-800/40 text-pink-300 text-xs rounded-full">
+                      Difficulty: {selectedScenario.difficultyLevel}
+                    </span>
+                    <span className="px-3 py-1 bg-red-800/40 text-red-300 text-xs rounded-full">
+                      Intimacy: {selectedScenario.intimacyLevel}/10
+                    </span>
+                  </div>
+                </div>
+
+                {/* Progression Steps */}
+                <div>
+                  <label className="block text-sm font-medium text-purple-300 mb-2">
+                    🎯 Story Progression
+                  </label>
+                  <select
+                    value={currentStep}
+                    onChange={(e) => setCurrentStep(Number(e.target.value))}
+                    className="w-full p-2.5 text-purple-300 bg-slate-900/70 border-2 border-purple-500/30 rounded-lg focus:ring-2 focus:ring-purple-500"
+                  >
+                    {selectedScenario.gameElements.progressionSteps.map((step, idx) => (
+                      <option key={idx} value={idx}>
+                        Step {idx + 1}: {step}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Objective */}
+                <div className="bg-purple-900/20 border border-purple-500/20 rounded-lg p-3">
+                  <p className="text-xs font-semibold text-purple-400 mb-1">📋 Objective:</p>
+                  <p className="text-sm text-slate-300">{selectedScenario.gameElements.objective}</p>
+                </div>
+
+                {/* Rewards */}
+                <div>
+                  <p className="text-xs font-semibold text-purple-400 mb-2">🏆 Unlockable Rewards:</p>
+                  <ul className="space-y-1">
+                    {selectedScenario.gameElements.rewards.map((reward, idx) => (
+                      <li key={idx} className="text-xs text-slate-400 flex items-center gap-2">
+                        <span className="text-yellow-500">⭐</span> {reward}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

@@ -31,13 +31,16 @@ const WardrobeSelectorModal: React.FC<WardrobeSelectorModalProps> = ({ isOpen, o
 
   const filteredConcepts = useMemo(() => {
     return concepts.filter(c => {
+      // Skip concepts without tags
+      if (!c.tags) return false;
+
       const intimacyMatch = c.tags.intimacy <= intimacy;
       const categoryMatch = category === 'All' || c.category === category;
       const formalityMatch = formality === 'All' || c.tags.formality === formality;
       const coverageMatch = coverage === 'All' || c.tags.coverage === coverage;
       const styleMatch = style === 'All' || c.tags.style === style;
-      const searchMatch = searchTerm.trim() === '' || 
-                          c.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      const searchMatch = searchTerm.trim() === '' ||
+                          c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                           c.description.toLowerCase().includes(searchTerm.toLowerCase());
       return intimacyMatch && categoryMatch && formalityMatch && coverageMatch && styleMatch && searchMatch;
     });

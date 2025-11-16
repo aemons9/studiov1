@@ -1,5 +1,6 @@
 import type { ArtisticConcept } from './types';
 import rolePlayModeConcepts from './rolePlayModeConcepts';
+import { superSeductressArtistConcepts } from './superSeductressArtistConcepts';
 
 const defaultSkinMicroDetails = "Ultra-high-resolution authentic skin texture with visible pores, natural imperfections, and realistic subsurface scattering. Museum-grade detail with no artificial smoothing.";
 const defaultFabricPhysics = "Advanced fabric simulation with realistic draping, natural creases, and precise material interaction with body form. Visible fabric weave and texture.";
@@ -698,3 +699,6 @@ export const ROLE_PLAY_CONCEPTS: ArtisticConcept[] = [
   { name: '🎭 Role-Play: Curves in Midnight Cabin', data: rolePlayModeConcepts['roleplay-curves-cabin'] },
   { name: '🎭 Role-Play: Cinematic Office Scene', data: rolePlayModeConcepts['roleplay-actress-office'] }
 ];
+
+// Export super-seductress artist concepts directly from the imported array
+export const SUPER_SEDUCTRESS_ARTIST_CONCEPTS = superSeductressArtistConcepts;

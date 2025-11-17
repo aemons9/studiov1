@@ -814,15 +814,18 @@ export async function enhancePrompt(promptData: PromptData, settings: Generation
 }
 
 export async function generateImage(prompt: string, settings: GenerationSettings): Promise<string[]> {
-  const { vertexAuthMethod, vertexApiKey, projectId, accessToken, numberOfImages, personGeneration, safetySetting, addWatermark, enhancePrompt, modelId, seed } = settings;
+  const { vertexAuthMethod, projectId, accessToken, numberOfImages, personGeneration, safetySetting, addWatermark, enhancePrompt, modelId, seed } = settings;
 
   // Check authentication method
   const authMethod = vertexAuthMethod || 'oauth';
 
+  // Get API key from settings or environment variable
+  const vertexApiKey = settings.vertexApiKey || (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '';
+
   if (authMethod === 'oauth') {
     if (!projectId || !accessToken) throw new Error("Project ID and Access Token required for OAuth authentication.");
   } else if (authMethod === 'apikey') {
-    if (!vertexApiKey) throw new Error("API Key required. Please configure it in settings.");
+    if (!vertexApiKey) throw new Error("API Key required. Please configure it in settings or set GEMINI_API_KEY environment variable.");
   }
 
   // Validate and convert aspect ratio for Imagen compatibility

@@ -122,7 +122,7 @@ const App: React.FC = () => {
     vertexAuthMethod: 'oauth', // Default to OAuth for backward compatibility
     projectId: '',
     accessToken: '',
-    vertexApiKey: '', // API Key option (can use same key as Vera mode)
+    vertexApiKey: (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '', // Auto-populate from environment
     numberOfImages: 1,
     aspectRatio: '9:16',
     personGeneration: 'allow_all',
@@ -182,7 +182,8 @@ const App: React.FC = () => {
           return false;
         }
       } else if (authMethod === 'apikey') {
-        if (!generationSettings.vertexApiKey) {
+        const envApiKey = (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        if (!generationSettings.vertexApiKey && !envApiKey) {
           setError('Please provide a valid Google AI API Key in the Generation Settings section.');
           return false;
         }

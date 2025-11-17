@@ -1,11 +1,18 @@
 import { GoogleGenAI } from "@google/genai";
 import { IndianModelArchetype } from '../types';
 
-// Get API key from localStorage (user must provide it)
+// Get API key from environment variable or localStorage
 let cachedApiKey: string | null = null;
 
 function getApiKey(): string {
   if (cachedApiKey) return cachedApiKey;
+
+  // Try environment variable first
+  const envKey = (import.meta as any).env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : null);
+  if (envKey) {
+    cachedApiKey = envKey;
+    return envKey;
+  }
 
   const stored = localStorage.getItem('vera_api_key');
   if (stored) {
@@ -13,7 +20,7 @@ function getApiKey(): string {
     return stored;
   }
 
-  throw new Error('API Key not configured. Please set your Google AI API key in Vera settings.');
+  throw new Error('API Key not configured. Please set GEMINI_API_KEY environment variable or configure in Vera settings.');
 }
 
 function getAiInstance(): GoogleGenAI {

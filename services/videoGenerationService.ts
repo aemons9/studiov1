@@ -20,9 +20,11 @@ export async function generateVideo(
 
   if (vertexAuthMethod === 'apikey') {
     // Use API Key method with Generative Language API
-    const apiKey = localStorage.getItem('vertex_api_key');
+    // Try environment variable first, then localStorage
+    const envKey = (import.meta as any).env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : null);
+    const apiKey = envKey || localStorage.getItem('vertex_api_key');
     if (!apiKey) {
-      throw new Error('API Key not configured. Please set up authentication in settings.');
+      throw new Error('API Key not configured. Please set GEMINI_API_KEY environment variable or configure in settings.');
     }
 
     return await generateVideoWithApiKey(prompt, apiKey, onStatusUpdate);

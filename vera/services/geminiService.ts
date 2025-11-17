@@ -3,44 +3,11 @@ import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 import { getPhotographerById } from '../photographerStyles';
+import { getGeminiApiKey } from '../../services/apiKeyManager';
 
-// Get API key from environment variable or localStorage
-let cachedApiKey: string | null = null;
-
-function getApiKey(): string {
-  if (cachedApiKey) return cachedApiKey;
-
-  // Try environment variable first (check multiple sources)
-  const importMetaEnv = (import.meta as any).env?.GEMINI_API_KEY;
-  const processEnv = (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY);
-  const envKey = importMetaEnv || processEnv || null;
-
-  console.log('🔑 Vera API Key Debug:', {
-    importMetaEnv: importMetaEnv ? 'found' : 'not found',
-    processEnv: processEnv ? 'found' : 'not found',
-    hasEnvKey: !!envKey
-  });
-
-  if (envKey) {
-    cachedApiKey = envKey;
-    console.log('✅ Using environment API key for Vera');
-    return envKey;
-  }
-
-  // Try to get from localStorage
-  const stored = localStorage.getItem('vera_api_key');
-  if (stored) {
-    cachedApiKey = stored;
-    console.log('✅ Using localStorage API key for Vera');
-    return stored;
-  }
-
-  console.error('❌ No API key found in environment or localStorage for Vera');
-  throw new Error('API Key not configured. Please set GEMINI_API_KEY environment variable or configure in Vera settings.');
-}
-
-function getAiInstance(): GoogleGenAI {
-  return new GoogleGenAI({ apiKey: getApiKey() });
+async function getAiInstance(): Promise<GoogleGenAI> {
+  const apiKey = await getGeminiApiKey();
+  return new GoogleGenAI({ apiKey });
 }
 
 const MODEL_SPECIALTIES = INDIAN_GLAMOUR_MODELS.reduce((acc, model) => {
@@ -180,7 +147,7 @@ The photographer's style dictates the lighting, camera settings, color grading, 
   };
 
   try {
-    const ai = getAiInstance();
+    const ai = await getAiInstance();
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: userPrompt,
@@ -237,7 +204,7 @@ export const generateImage = async (
   }
 
   try {
-    const ai = getAiInstance();
+    const ai = await getAiInstance();
     const response = await ai.models.generateImages({
       model: 'imagen-4.0-generate-001',
       prompt: cleanPrompt,
@@ -262,7 +229,7 @@ export const generateImage = async (
 
 export const generateVideo = async (prompt: string, onStatusUpdate: (status: string) => void): Promise<string> => {
   // Create a new instance right before the API call to use the latest API key.
-  const veoAi = getAiInstance();
+  const veoAi = await getAiInstance();
   
   try {
     onStatusUpdate('Submitting video generation job...');

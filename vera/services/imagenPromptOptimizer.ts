@@ -1,29 +1,9 @@
 import { GoogleGenAI } from "@google/genai";
+import { getGeminiApiKey } from '../../services/apiKeyManager';
 
-// Get API key from environment variable or localStorage
-let cachedApiKey: string | null = null;
-
-function getApiKey(): string {
-  if (cachedApiKey) return cachedApiKey;
-
-  // Try environment variable first
-  const envKey = (import.meta as any).env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : null);
-  if (envKey) {
-    cachedApiKey = envKey;
-    return envKey;
-  }
-
-  const stored = localStorage.getItem('vera_api_key');
-  if (stored) {
-    cachedApiKey = stored;
-    return stored;
-  }
-
-  throw new Error('API Key not configured. Please set GEMINI_API_KEY environment variable or configure in Vera settings.');
-}
-
-function getAiInstance(): GoogleGenAI {
-  return new GoogleGenAI({ apiKey: getApiKey() });
+async function getAiInstance(): Promise<GoogleGenAI> {
+  const apiKey = await getGeminiApiKey();
+  return new GoogleGenAI({ apiKey });
 }
 
 /**
@@ -52,7 +32,7 @@ Your output: "Navigating a vibrant, chaotic spice market at dusk, the air thick 
   const userPrompt = `Enhance the following concept: "${concept}"`;
   
   try {
-    const ai = getAiInstance();
+    const ai = await getAiInstance();
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
         contents: userPrompt,

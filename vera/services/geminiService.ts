@@ -10,10 +10,20 @@ let cachedApiKey: string | null = null;
 function getApiKey(): string {
   if (cachedApiKey) return cachedApiKey;
 
-  // Try environment variable first
-  const envKey = (import.meta as any).env?.GEMINI_API_KEY || (typeof process !== 'undefined' ? process.env?.GEMINI_API_KEY : null);
+  // Try environment variable first (check multiple sources)
+  const importMetaEnv = (import.meta as any).env?.GEMINI_API_KEY;
+  const processEnv = (typeof process !== 'undefined' && process.env?.GEMINI_API_KEY);
+  const envKey = importMetaEnv || processEnv || null;
+
+  console.log('🔑 Vera API Key Debug:', {
+    importMetaEnv: importMetaEnv ? 'found' : 'not found',
+    processEnv: processEnv ? 'found' : 'not found',
+    hasEnvKey: !!envKey
+  });
+
   if (envKey) {
     cachedApiKey = envKey;
+    console.log('✅ Using environment API key for Vera');
     return envKey;
   }
 
@@ -21,9 +31,11 @@ function getApiKey(): string {
   const stored = localStorage.getItem('vera_api_key');
   if (stored) {
     cachedApiKey = stored;
+    console.log('✅ Using localStorage API key for Vera');
     return stored;
   }
 
+  console.error('❌ No API key found in environment or localStorage for Vera');
   throw new Error('API Key not configured. Please set GEMINI_API_KEY environment variable or configure in Vera settings.');
 }
 

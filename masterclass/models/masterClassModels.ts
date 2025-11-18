@@ -437,7 +437,7 @@ export const MASTERCLASS_MODELS: MasterClassModel[] = [
         {
           name: "Runway Ready",
           philosophy: "Clothes as performance",
-          keyPieces: ['Whatever's on the runway'],
+          keyPieces: ['Whatever\'s on the runway'],
           colorStory: "Seasonal trends",
           texturePlay: "Designer vision",
           silhouette: "Current collection",

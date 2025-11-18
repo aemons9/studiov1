@@ -39,7 +39,7 @@ export const MASTERCLASS_MODELS: MasterClassModel[] = [
     professionalMatrix: {
       experienceLevel: 'Iconic',
       specializations: ['Cinema Glamour', 'Song Sequences', 'Red Carpet', 'Brand Campaigns'],
-      brandAssociations: ['Sabyasachi', 'Manish Malhotra', 'L'Oréal Paris', 'Tanishq'],
+      brandAssociations: ['Sabyasachi', 'Manish Malhotra', 'L\'Oréal Paris', 'Tanishq'],
       signatureStyles: ['Classical Glamour', 'Modern Maharani', 'Global Desi'],
       industryReputation: "The face that launched a thousand films - synonymous with timeless Indian beauty",
       artisticRange: "From devotional purity to femme fatale - encompasses every shade of femininity"

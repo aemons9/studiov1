@@ -73,7 +73,7 @@ export const MASTERCLASS_MODELS: MasterClassModel[] = [
           texturePlay: "Flowing fabrics that catch wind and light",
           silhouette: "Draped to accentuate curves while maintaining elegance",
           culturalReference: "Madhubala meets modern Mumbai",
-          designerInspiration: "Sabyasachi's vintage glamour"
+          designerInspiration: "Sabyasachi\'s vintage glamour"
         }
       ],
       haute: [
@@ -408,7 +408,7 @@ export const MASTERCLASS_MODELS: MasterClassModel[] = [
     professionalMatrix: {
       experienceLevel: 'Iconic',
       specializations: ['Runway', 'Campaigns', 'Editorials', 'Brand Ambassador'],
-      brandAssociations: ['Chanel', 'Dior', 'Versace', 'Victoria's Secret'],
+      brandAssociations: ['Chanel', 'Dior', 'Versace', 'Victoria\'s Secret'],
       signatureStyles: ['High Fashion', 'Commercial Glamour', 'Avant-Garde'],
       industryReputation: "The face that represents India globally",
       artisticRange: "From haute couture to mass market - universal appeal"

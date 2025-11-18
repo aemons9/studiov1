@@ -33,6 +33,7 @@ interface CreativeSession {
   renderQuality: 'draft' | 'preview' | 'final' | 'masterpiece';
   platformTarget: 'instagram' | 'editorial' | 'gallery' | 'commercial' | 'artistic';
   images: Array<{ url: string; prompt: string; metadata: any }>;
+  lastGeneratedPrompt: string | null;
 }
 
 const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
@@ -49,7 +50,8 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
     outputResolution: '8K',
     renderQuality: 'masterpiece',
     platformTarget: 'artistic',
-    images: []
+    images: [],
+    lastGeneratedPrompt: null
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -109,20 +111,22 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
     }
   };
 
-  // Generate image with Master Strategy
-  const handleGenerate = async () => {
+  // Download image helper
+  const handleDownloadImage = (imageUrl: string, filename?: string) => {
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = filename || `masterclass-${Date.now()}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  // Generate prompt without creating image
+  const handleGeneratePrompt = () => {
     if (!session.model) {
       setError('Please select a model first');
       return;
     }
-
-    if (!projectId || !accessToken) {
-      setError('Please configure authentication settings first');
-      return;
-    }
-
-    setIsGenerating(true);
-    setError(null);
 
     try {
       const strategy = new MasterPromptStrategy();
@@ -145,6 +149,47 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
       };
 
       const masterPrompt = strategy.generatePlatformOptimizedPrompt(config, session.platformTarget);
+      setSession(prev => ({ ...prev, lastGeneratedPrompt: masterPrompt }));
+      setError(null);
+
+      console.log('📝 MasterClass Prompt Generated:', {
+        model: session.model.archetype,
+        promptLength: masterPrompt.length,
+        platform: session.platformTarget
+      });
+
+      // Copy to clipboard
+      navigator.clipboard.writeText(masterPrompt).then(() => {
+        console.log('✅ Prompt copied to clipboard');
+      });
+
+      return masterPrompt;
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Prompt generation failed');
+      console.error('MasterClass prompt generation error:', err);
+      return null;
+    }
+  };
+
+  // Generate image with Master Strategy
+  const handleGenerate = async () => {
+    if (!session.model) {
+      setError('Please select a model first');
+      return;
+    }
+
+    if (!projectId || !accessToken) {
+      setError('Please configure authentication settings first');
+      return;
+    }
+
+    setIsGenerating(true);
+    setError(null);
+
+    try {
+      // Generate the prompt
+      const masterPrompt = handleGeneratePrompt();
+      if (!masterPrompt) return;
 
       console.log('🎭 MasterClass Generation:', {
         model: session.model.archetype,
@@ -165,6 +210,8 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
         modelId: 'imagen-4.0-generate-001'
       });
 
+      console.log('🖼️ Images received:', images ? images.length : 0);
+
       // Add to gallery (images is an array of base64 strings)
       if (images && images.length > 0) {
         const imageUrl = `data:image/jpeg;base64,${images[0]}`;
@@ -182,8 +229,12 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
           }]
         }));
 
+        console.log('✅ Image added to gallery');
+
         // Switch to gallery view to show the generated image
         setViewMode('gallery');
+      } else {
+        throw new Error('No images returned from generation');
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Generation failed');
@@ -604,15 +655,52 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
           </div>
         )}
 
-        <button
-          onClick={handleGenerate}
-          disabled={isGenerating || !projectId || !accessToken}
-          className="w-full py-4 mt-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isGenerating ? '🎨 Creating Masterpiece...' :
-           (!projectId || !accessToken) ? '🔒 Configure Authentication First' :
-           '✨ Generate MasterClass Image'}
-        </button>
+        {/* Generated Prompt Display */}
+        {session.lastGeneratedPrompt && (
+          <div className="mt-4 p-4 bg-gray-900/50 rounded-lg border border-purple-500/30">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="text-sm font-semibold text-purple-300">Generated Prompt</h3>
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(session.lastGeneratedPrompt || '');
+                  console.log('✅ Prompt copied to clipboard');
+                }}
+                className="text-xs px-2 py-1 bg-purple-600/30 text-purple-300 rounded hover:bg-purple-600/50 transition"
+              >
+                📋 Copy
+              </button>
+            </div>
+            <div className="text-xs text-gray-400 font-mono max-h-40 overflow-y-auto bg-black/30 p-3 rounded">
+              {session.lastGeneratedPrompt}
+            </div>
+          </div>
+        )}
+
+        {/* Action Buttons */}
+        <div className="flex gap-3 mt-6">
+          <button
+            onClick={() => {
+              const prompt = handleGeneratePrompt();
+              if (prompt) {
+                alert('✅ Prompt generated and copied to clipboard!\n\nYou can now use it in any image generation tool.');
+              }
+            }}
+            disabled={!session.model}
+            className="flex-1 py-4 bg-gradient-to-r from-indigo-600 to-blue-600 text-white font-bold rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            📝 Generate Prompt Only
+          </button>
+
+          <button
+            onClick={handleGenerate}
+            disabled={isGenerating || !projectId || !accessToken}
+            className="flex-1 py-4 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isGenerating ? '🎨 Creating...' :
+             (!projectId || !accessToken) ? '🔒 Auth Required' :
+             '✨ Generate Image'}
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -628,20 +716,64 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
         {session.images.length === 0 ? (
           <p className="text-gray-400 text-center py-8">No images generated yet</p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-6">
             {session.images.map((img, idx) => (
-              <div key={idx} className="relative group">
-                <img
-                  src={img.url}
-                  alt={`Generation ${idx + 1}`}
-                  className="w-full rounded-lg"
-                />
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-75 transition-all rounded-lg flex items-end">
-                  <div className="p-4 text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                    <p className="text-sm font-bold">{img.metadata.model}</p>
-                    <p className="text-xs">{img.metadata.platform} • {img.metadata.quality}</p>
+              <div key={idx} className="bg-gray-800/50 rounded-xl p-4 space-y-4">
+                {/* Image Display */}
+                <div className="relative">
+                  <img
+                    src={img.url}
+                    alt={`Generation ${idx + 1}`}
+                    className="w-full rounded-lg shadow-2xl"
+                    onError={(e) => {
+                      console.error('Image failed to load:', e);
+                      const target = e.target as HTMLImageElement;
+                      target.src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect width="400" height="400" fill="%23333"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" dy=".3em" fill="%23999" font-family="sans-serif"%3EImage Load Error%3C/text%3E%3C/svg%3E';
+                    }}
+                  />
+                </div>
+
+                {/* Metadata */}
+                <div className="flex justify-between items-start">
+                  <div>
+                    <p className="text-lg font-semibold text-purple-300">{img.metadata.model}</p>
+                    <p className="text-sm text-gray-400">
+                      {img.metadata.platform} • {img.metadata.quality} • {new Date(img.metadata.timestamp).toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="flex gap-2">
+                    {/* Download Button */}
+                    <button
+                      onClick={() => handleDownloadImage(img.url, `masterclass-${img.metadata.model?.replace(/\s+/g, '-')}-${idx + 1}.jpg`)}
+                      className="px-4 py-2 bg-green-600/30 text-green-300 rounded-lg hover:bg-green-600/50 transition flex items-center gap-2"
+                    >
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clipRule="evenodd" />
+                      </svg>
+                      Download
+                    </button>
+                    {/* View Prompt Button */}
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(img.prompt);
+                        alert('Prompt copied to clipboard!');
+                      }}
+                      className="px-4 py-2 bg-purple-600/30 text-purple-300 rounded-lg hover:bg-purple-600/50 transition"
+                    >
+                      📋 Copy Prompt
+                    </button>
                   </div>
                 </div>
+
+                {/* Prompt Preview */}
+                <details className="bg-gray-900/50 rounded-lg p-3">
+                  <summary className="cursor-pointer text-sm font-semibold text-gray-400 hover:text-gray-300">
+                    View Prompt ({img.prompt.length} characters)
+                  </summary>
+                  <div className="mt-2 text-xs text-gray-500 font-mono max-h-40 overflow-y-auto">
+                    {img.prompt}
+                  </div>
+                </details>
               </div>
             ))}
           </div>

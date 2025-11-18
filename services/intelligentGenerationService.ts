@@ -520,13 +520,24 @@ export async function executeVeraStrategy(
                        intimacyLevel >= 4 ? 'premium' : 'standard';
   const qualityPrefix = qualityTriggers[qualityLevel][0];
 
-  // Enhance with cultural sensitivity
-  optimizedPrompt = optimizedPrompt
-    .replace(/\b(skin|complexion)\b/gi, culturalDescriptors.skinTone)
-    .replace(/\b(face|features)\b/gi, culturalDescriptors.features)
-    .replace(/\b(body|figure|physique)\b/gi, culturalDescriptors.figure);
+  // CRITICAL FIX: Do NOT destructively replace detailed prompts!
+  // Only enhance if prompt is generic (< 200 chars indicates simple/generic prompt)
+  const isDetailedPrompt = prompt.length > 200 ||
+    /\b(Indian|Asian|African|measurements|36-26-38|influencer|Instagram|bedroom mirror|crop top)\b/i.test(prompt);
 
-  // Add wardrobe optimization if wardrobe is mentioned
+  if (!isDetailedPrompt) {
+    // Only enhance generic/simple prompts - preserves detailed Instagram/Vera prompts
+    console.log('✨ Vera Strategy: Enhancing generic prompt with cultural descriptors');
+    optimizedPrompt = optimizedPrompt
+      .replace(/\b(skin|complexion)\b/gi, culturalDescriptors.skinTone)
+      .replace(/\b(face|features)\b/gi, culturalDescriptors.features)
+      .replace(/\b(body|figure|physique)\b/gi, culturalDescriptors.figure);
+  } else {
+    console.log('✅ Vera Strategy: Preserving detailed user prompt (Instagram/Vera concept detected)');
+    // Keep prompt as-is - it's already detailed
+  }
+
+  // Add wardrobe optimization if wardrobe is mentioned (unused in current implementation but kept for future)
   const intimacyRounded = Math.min(10, Math.max(1, Math.round(intimacyLevel)));
   const wardrobeOptions = wardrobeMappings.get(intimacyRounded) || wardrobeMappings.get(5)!;
 

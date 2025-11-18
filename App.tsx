@@ -22,6 +22,9 @@ import SafetyBypassStrategySelector from './components/SafetyBypassStrategySelec
 import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
 import ImagenPromptLibrarySelector from './components/ImagenPromptLibrarySelector';
 import QuickCorporateGenerator from './components/QuickCorporateGenerator';
+import QuickInstagramGenerator from './components/QuickInstagramGenerator';
+import QuickDirectGenerate from './components/QuickDirectGenerate';
+import AuthenticationSettings from './components/AuthenticationSettings';
 import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
 import { ImagenPromptTemplate } from './concepts/imagenPromptLibrary';
 import ExperimentalMode from './experimental/ExperimentalMode';
@@ -119,7 +122,7 @@ const App: React.FC = () => {
   const [lockedFields, setLockedFields] = useState<string[]>([]);
   const [generationSettings, setGenerationSettings] = useState<GenerationSettings>({
     provider: 'vertex-ai',
-    vertexAuthMethod: 'oauth', // Default to OAuth for backward compatibility
+    vertexAuthMethod: 'apikey', // Use API Key by default (easier setup)
     projectId: '',
     accessToken: '',
     vertexApiKey: (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '', // Auto-populate from environment
@@ -129,7 +132,7 @@ const App: React.FC = () => {
     safetySetting: 'block_few',
     addWatermark: true,
     enhancePrompt: true,
-    modelId: 'imagen-4.0-ultra-generate-001',
+    modelId: 'imagen-4.0-generate-001', // Use standard model for API key auth
     seed: null,
     intimacyLevel: 6,
     safetyBypassStrategy: 'auto',
@@ -145,6 +148,7 @@ const App: React.FC = () => {
   const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
   const [isStorageModalOpen, setIsStorageModalOpen] = useState(false);
   const [isPromptReviewModalOpen, setIsPromptReviewModalOpen] = useState(false);
+  const [isAuthSettingsOpen, setIsAuthSettingsOpen] = useState(false);
   const [pendingGeneration, setPendingGeneration] = useState<{
     finalPrompt: string;
     promptData: PromptData;
@@ -681,9 +685,9 @@ const App: React.FC = () => {
       const targetProvider = prev.provider || 'replicate-flux';
 
       // Convert aspect ratio if using Imagen
-      let aspectRatio = template.aspectRatio;
+      let aspectRatio: typeof template.aspectRatio = template.aspectRatio;
       if (targetProvider === 'vertex-ai' && template.aspectRatio === '4:5') {
-        aspectRatio = '3:4'; // Imagen doesn't support 4:5, use closest (3:4)
+        aspectRatio = '3:4' as typeof template.aspectRatio; // Imagen doesn't support 4:5, use closest (3:4)
         console.log('🔄 Converted aspect ratio 4:5 → 3:4 for Imagen compatibility');
       }
 
@@ -721,7 +725,9 @@ const App: React.FC = () => {
         // Set provider to Vertex AI (Imagen 4) for these optimized prompts
         provider: 'vertex-ai',
         personGeneration: template.personGeneration,
-        safetyFilter: template.safetyFilter
+        safetySetting: template.safetyFilter,
+        // Ensure modelId is set for Imagen templates
+        modelId: prev.modelId || 'imagen-4.0-generate-001'
       };
     });
 
@@ -1462,6 +1468,20 @@ const App: React.FC = () => {
         <>
           <Header />
 
+          {/* Auth Settings Button */}
+          <div className="fixed top-4 right-4 z-40">
+            <button
+              onClick={() => setIsAuthSettingsOpen(true)}
+              className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 font-semibold transition-all"
+              title="Authentication Settings"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clipRule="evenodd" />
+              </svg>
+              Auth
+            </button>
+          </div>
+
           {/* Mode Toggle */}
           <div className="p-4 md:px-8 md:pt-4 md:pb-0">
             <div className="flex items-center justify-center gap-2 bg-gray-800 rounded-lg p-1 border border-gray-700 w-fit mx-auto">
@@ -1504,6 +1524,23 @@ const App: React.FC = () => {
           </div>
 
           <main className="p-4 md:p-8">
+            {/* Quick Direct Generate - Prominent Position */}
+            <div className="mb-8">
+              <QuickDirectGenerate
+                generationSettings={safeGenerationSettings}
+                onGenerationComplete={(images) => {
+                  if (images.length > 0) {
+                    setGeneratedImages([{
+                      url: images[0],
+                      prompt: 'Quick Direct Generation',
+                      timestamp: new Date().toISOString(),
+                      settings: safeGenerationSettings
+                    }]);
+                  }
+                }}
+              />
+            </div>
+
             <SafetyBypassStrategySelector
               strategy={safeGenerationSettings.safetyBypassStrategy || 'auto'}
               onChange={(strategy) => setGenerationSettings(prev => ({ ...prev, safetyBypassStrategy: strategy }))}
@@ -1525,6 +1562,14 @@ const App: React.FC = () => {
 
             <div className="mt-6">
               <QuickCorporateGenerator
+                onGenerate={handleQuickCorporateGenerate}
+                onPopulateFields={handlePopulateFields}
+                isLoading={isLoading}
+              />
+            </div>
+
+            <div className="mt-6">
+              <QuickInstagramGenerator
                 onGenerate={handleQuickCorporateGenerate}
                 onPopulateFields={handlePopulateFields}
                 isLoading={isLoading}
@@ -1679,6 +1724,13 @@ const App: React.FC = () => {
         settings={storageSettings}
         onSettingsChange={setStorageSettings}
       />
+      {isAuthSettingsOpen && (
+        <AuthenticationSettings
+          settings={generationSettings}
+          onSettingsChange={setGenerationSettings}
+          onClose={() => setIsAuthSettingsOpen(false)}
+        />
+      )}
       <PromptReviewModal
         isOpen={isPromptReviewModalOpen}
         onClose={handlePromptReviewCancel}

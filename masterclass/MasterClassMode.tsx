@@ -153,34 +153,38 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
       });
 
       // Generate using Imagen with authentication
-      const imageUrl = await generateImage(masterPrompt, {
+      const images = await generateImage(masterPrompt, {
         numberOfImages: 1,
         aspectRatio: session.aspectRatio,
         personGeneration: 'allow_adult',
-        safetyFilterLevel: session.renderQuality === 'masterpiece' ? 'block_few' : 'block_only_high'
-      }, {
+        safetyFilterLevel: session.renderQuality === 'masterpiece' ? 'block_few' : 'block_only_high',
         projectId,
         accessToken,
         vertexAuthMethod: 'oauth',
-        provider: 'vertex-ai'
-      } as any);
+        provider: 'vertex-ai',
+        modelId: 'imagen-4.0-generate-001'
+      });
 
-      // Add to gallery
-      setSession(prev => ({
-        ...prev,
-        images: [...prev.images, {
-          url: imageUrl,
-          prompt: masterPrompt,
-          metadata: {
-            model: session.model?.archetype,
-            timestamp: new Date().toISOString(),
-            platform: session.platformTarget,
-            quality: session.renderQuality
-          }
-        }]
-      }));
+      // Add to gallery (images is an array of base64 strings)
+      if (images && images.length > 0) {
+        const imageUrl = `data:image/jpeg;base64,${images[0]}`;
+        setSession(prev => ({
+          ...prev,
+          images: [...prev.images, {
+            url: imageUrl,
+            prompt: masterPrompt,
+            metadata: {
+              model: session.model?.archetype,
+              timestamp: new Date().toISOString(),
+              platform: session.platformTarget,
+              quality: session.renderQuality
+            }
+          }]
+        }));
 
-      setViewMode('gallery');
+        // Switch to gallery view to show the generated image
+        setViewMode('gallery');
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Generation failed');
       console.error('MasterClass generation error:', err);

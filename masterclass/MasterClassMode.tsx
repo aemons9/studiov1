@@ -12,6 +12,7 @@ import { MasterPromptStrategy, MasterPromptConfig, MASTERCLASS_PRESETS } from '.
 import { generateImage } from '../services/geminiService';
 import { getGeminiApiKey } from '../services/apiKeyManager';
 import { MasterClassAuth } from './components/MasterClassAuth';
+import { MASTER_WARDROBE_COLLECTION, MasterWardrobeItem, WARDROBE_PRESETS, getWardrobeByIntimacy, getWardrobeByCategory } from './collections/masterWardrobeCollection';
 
 interface MasterClassModeProps {
   onExit: () => void;
@@ -418,36 +419,179 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
     </div>
   );
 
-  // Wardrobe styling view
-  const renderWardrobeStyling = () => (
-    <div className="space-y-6">
-      <div className="bg-gradient-to-r from-pink-900/20 to-purple-900/20 p-6 rounded-xl border border-pink-500/30">
-        <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-purple-300 mb-4">
-          Wardrobe & Styling
-        </h2>
+  // State for wardrobe view
+  const [intimacyFilter, setIntimacyFilter] = useState<number>(5);
+  const [categoryFilter, setCategoryFilter] = useState<string>('all');
+  const [selectedWardrobeItem, setSelectedWardrobeItem] = useState<MasterWardrobeItem | null>(null);
+  const [selectedWardrobePreset, setSelectedWardrobePreset] = useState<string | null>(null);
 
-        {session.model?.wardrobePhilosophy.signature.map((wardrobe, idx) => (
-          <div
-            key={idx}
-            onClick={() => setSession(prev => ({ ...prev, wardrobeSelection: wardrobe }))}
-            className={`p-4 mb-3 rounded-lg border-2 cursor-pointer transition-all ${
-              session.wardrobeSelection === wardrobe
-                ? 'border-pink-500 bg-pink-500/20'
-                : 'border-gray-700 hover:border-pink-500/50 bg-gray-800/50'
-            }`}
-          >
-            <h3 className="font-bold text-pink-300 mb-2">{wardrobe.name}</h3>
-            <p className="text-sm text-gray-300 mb-2">{wardrobe.philosophy}</p>
-            <p className="text-xs text-gray-400">
-              Key pieces: {wardrobe.keyPieces.join(', ')}
-            </p>
-            {wardrobe.culturalReference && (
-              <p className="text-xs text-pink-400 mt-1">
-                Reference: {wardrobe.culturalReference}
+  // Wardrobe styling view with comprehensive collection
+  const renderWardrobeStyling = () => {
+    // Filter wardrobe based on settings
+    const getFilteredWardrobe = () => {
+      let filtered = MASTER_WARDROBE_COLLECTION;
+
+      if (categoryFilter !== 'all') {
+        filtered = filtered.filter(item => item.category === categoryFilter);
+      }
+
+      // Filter by intimacy level (show items up to selected level)
+      filtered = filtered.filter(item => item.intimacyLevel <= intimacyFilter);
+
+      return filtered;
+    };
+
+    const filteredWardrobe = getFilteredWardrobe();
+
+    return (
+      <div className="space-y-6">
+        <div className="bg-gradient-to-r from-pink-900/20 to-purple-900/20 p-6 rounded-xl border border-pink-500/30">
+          <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-pink-300 to-purple-300 mb-4">
+            Wardrobe & Styling - Ultimate Sensual Artistry
+          </h2>
+
+          {/* Intimacy Level Slider */}
+          <div className="mb-6">
+            <label className="block text-sm font-semibold text-pink-300 mb-2">
+              🌡️ Intimacy Level: {intimacyFilter}/10
+              <span className="ml-2 text-xs text-gray-400">
+                ({intimacyFilter <= 3 ? 'Elegant' : intimacyFilter <= 6 ? 'Sensual' : intimacyFilter <= 8 ? 'Intimate' : 'Artistic'})
+              </span>
+            </label>
+            <input
+              type="range"
+              min="1"
+              max="10"
+              value={intimacyFilter}
+              onChange={(e) => setIntimacyFilter(parseInt(e.target.value))}
+              className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+              style={{
+                background: `linear-gradient(to right, #ec4899 0%, #ec4899 ${intimacyFilter * 10}%, #374151 ${intimacyFilter * 10}%, #374151 100%)`
+              }}
+            />
+            <div className="flex justify-between text-xs text-gray-400 mt-1">
+              <span>Conservative</span>
+              <span>Sensual</span>
+              <span>Ultimate Artistry</span>
+            </div>
+          </div>
+
+          {/* Category Filter */}
+          <div className="mb-6">
+            <label className="block text-sm font-semibold text-pink-300 mb-2">📦 Category</label>
+            <div className="grid grid-cols-4 gap-2">
+              {['all', 'elegant', 'sensual', 'intimate', 'artistic', 'cultural', 'avant-garde'].map(cat => (
+                <button
+                  key={cat}
+                  onClick={() => setCategoryFilter(cat)}
+                  className={`px-3 py-2 rounded-lg text-xs font-semibold transition ${
+                    categoryFilter === cat
+                      ? 'bg-pink-600 text-white'
+                      : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                  }`}
+                >
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Preset Collections */}
+          <div className="mb-6">
+            <label className="block text-sm font-semibold text-pink-300 mb-2">✨ Quick Presets</label>
+            <div className="grid grid-cols-2 gap-2">
+              {Object.entries(WARDROBE_PRESETS).map(([key, preset]) => (
+                <button
+                  key={key}
+                  onClick={() => {
+                    setSelectedWardrobePreset(key);
+                    // Select first item from preset
+                    const firstItemId = preset.items[0];
+                    const item = MASTER_WARDROBE_COLLECTION.find(w => w.id === firstItemId);
+                    if (item) {
+                      setSelectedWardrobeItem(item);
+                      setSession(prev => ({ ...prev, wardrobeSelection: item }));
+                    }
+                  }}
+                  className={`p-2 rounded-lg text-xs transition ${
+                    selectedWardrobePreset === key
+                      ? 'bg-purple-600 text-white'
+                      : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+                  }`}
+                >
+                  <div className="font-semibold">{preset.name}</div>
+                  <div className="text-xs opacity-75 mt-1">{preset.description}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Wardrobe Grid */}
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            {filteredWardrobe.length === 0 ? (
+              <p className="text-gray-400 text-center py-4">
+                No wardrobe items match your filters. Try increasing intimacy level or changing category.
               </p>
+            ) : (
+              filteredWardrobe.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => {
+                    setSelectedWardrobeItem(item);
+                    setSession(prev => ({ ...prev, wardrobeSelection: item }));
+                  }}
+                  className={`p-4 rounded-lg border-2 cursor-pointer transition-all ${
+                    selectedWardrobeItem?.id === item.id
+                      ? 'border-pink-500 bg-pink-500/20'
+                      : 'border-gray-700 hover:border-pink-500/50 bg-gray-800/50'
+                  }`}
+                >
+                  <div className="flex justify-between items-start mb-2">
+                    <h3 className="font-bold text-pink-300">{item.name}</h3>
+                    <div className="flex gap-2">
+                      <span className={`px-2 py-1 text-xs rounded-full ${
+                        item.intimacyLevel <= 3 ? 'bg-green-600/30 text-green-300' :
+                        item.intimacyLevel <= 6 ? 'bg-yellow-600/30 text-yellow-300' :
+                        item.intimacyLevel <= 8 ? 'bg-orange-600/30 text-orange-300' :
+                        'bg-red-600/30 text-red-300'
+                      }`}>
+                        Level {item.intimacyLevel}
+                      </span>
+                      <span className="px-2 py-1 bg-purple-600/30 text-purple-300 text-xs rounded-full">
+                        {item.category}
+                      </span>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-300 mb-2">{item.description}</p>
+                  <div className="space-y-1 text-xs text-gray-400">
+                    <p><span className="text-pink-400">Materials:</span> {item.materials.join(', ')}</p>
+                    <p><span className="text-pink-400">Colors:</span> {item.colorPalette.join(', ')}</p>
+                    <p><span className="text-pink-400">Styling:</span> {item.styling}</p>
+                    {item.culturalContext && (
+                      <p><span className="text-purple-400">Cultural:</span> {item.culturalContext}</p>
+                    )}
+                    {item.artisticReference && (
+                      <p><span className="text-blue-400">Reference:</span> {item.artisticReference}</p>
+                    )}
+                    <p className="text-yellow-400 mt-2">📸 {item.photographicNotes}</p>
+                  </div>
+                </div>
+              ))
             )}
           </div>
-        ))}
+
+          {/* Selected Wardrobe Summary */}
+          {selectedWardrobeItem && (
+            <div className="mt-4 p-3 bg-purple-900/30 rounded-lg border border-purple-500/30">
+              <p className="text-sm font-semibold text-purple-300">
+                Selected: {selectedWardrobeItem.name}
+              </p>
+              <p className="text-xs text-gray-400 mt-1">
+                This selection will influence the artistic direction and mood of your generation.
+              </p>
+            </div>
+          )}
+        </div>
 
         <button
           onClick={() => setViewMode('environment-design')}
@@ -456,8 +600,8 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
           Continue to Environment →
         </button>
       </div>
-    </div>
-  );
+    );
+  };
 
   // Environment design view
   const renderEnvironmentDesign = () => (

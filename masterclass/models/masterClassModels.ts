@@ -6,8 +6,9 @@
  */
 
 import { MasterClassModel, ModelCategory } from './modelTaxonomy';
+import { INSTAGRAM_MASTERCLASS_MODELS } from './instagramModels';
 
-export const MASTERCLASS_MODELS: MasterClassModel[] = [
+export const CORE_MASTERCLASS_MODELS: MasterClassModel[] = [
   // ============================================================================
   // GLAMOUR INDUSTRY ICONS
   // ============================================================================
@@ -704,3 +705,9 @@ export function getModelPhotographerSynergy(
 
   return Math.min(100, synergyScore);
 }
+
+// Combine all models including Instagram variants
+export const MASTERCLASS_MODELS: MasterClassModel[] = [
+  ...CORE_MASTERCLASS_MODELS,
+  ...INSTAGRAM_MASTERCLASS_MODELS
+];

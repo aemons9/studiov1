@@ -620,6 +620,12 @@ export const CORE_MASTERCLASS_MODELS: MasterClassModel[] = [
   }
 ];
 
+// Combine all models including Instagram variants
+export const MASTERCLASS_MODELS: MasterClassModel[] = [
+  ...CORE_MASTERCLASS_MODELS,
+  ...INSTAGRAM_MASTERCLASS_MODELS
+];
+
 /**
  * SPECIALIZED MODEL COLLECTIONS
  */
@@ -632,60 +638,65 @@ export const DESIGNER_MUSES = MASTERCLASS_MODELS.filter(m =>
   )
 );
 
-// Cultural Icons - Models who represent Indian heritage
+// Cultural Icons - Models who represent Indian heritage  
 export const CULTURAL_ICONS = MASTERCLASS_MODELS.filter(m =>
   m.category === ModelCategory.CULTURAL ||
   m.creativeCapabilities.culturalFluency.includes('heritage') ||
   m.creativeCapabilities.culturalFluency.includes('tradition')
 );
 
-// Avant-Garde Visionaries - Pushing boundaries
-export const AVANT_GARDE_VISIONARIES = MASTERCLASS_MODELS.filter(m =>
-  m.category === ModelCategory.AVANT_GARDE ||
-  m.category === ModelCategory.ARTSCHOOL
+// Art School Aesthetics - Models with artistic education background
+export const ART_SCHOOL_MODELS = MASTERCLASS_MODELS.filter(m =>
+  m.category === ModelCategory.ARTSCHOOL ||
+  m.professionalMatrix.specializations.includes('Fine Art')
 );
 
-// Editorial Virtuosos - Magazine and campaign specialists
-export const EDITORIAL_VIRTUOSOS = MASTERCLASS_MODELS.filter(m =>
-  m.professionalMatrix.specializations.includes('Editorials') ||
-  m.professionalMatrix.specializations.includes('Campaigns')
+// Editorial Excellence - Models perfect for magazine covers
+export const EDITORIAL_MODELS = MASTERCLASS_MODELS.filter(m =>
+  m.category === ModelCategory.EDITORIAL ||
+  m.professionalMatrix.artisticRange.includes('editorial')
 );
 
 /**
- * Model Selection by Aesthetic Requirements
+ * HELPER FUNCTIONS
  */
-export function getModelsByAesthetic(requirements: {
-  mood?: string;
-  location?: string;
-  wardrobe?: string;
-  lighting?: string;
-  category?: ModelCategory;
-}): MasterClassModel[] {
-  return MASTERCLASS_MODELS.filter(model => {
-    if (requirements.category && model.category !== requirements.category) return false;
-    if (requirements.mood && !model.aestheticProfile.temporalMood.toLowerCase().includes(requirements.mood.toLowerCase())) return false;
-    if (requirements.location) {
-      const matchesLocation = model.environmentalStages.some(stage =>
-        stage.name.toLowerCase().includes(requirements.location!.toLowerCase()) ||
-        stage.category.toLowerCase() === requirements.location!.toLowerCase()
-      );
-      if (!matchesLocation) return false;
+
+// Get models by specific aesthetic
+export function getModelsByAesthetic(aesthetic: string): MasterClassModel[] {
+  return MASTERCLASS_MODELS.filter(model =>
+    model.aestheticProfile.temporalMood.toLowerCase().includes(aesthetic.toLowerCase()) ||
+    model.creativeCapabilities.narrativeStrength.toLowerCase().includes(aesthetic.toLowerCase())
+  );
+}
+
+// Get models by height range
+export function getModelsByHeight(minHeight: string, maxHeight: string): MasterClassModel[] {
+  const parseHeight = (h: string) => {
+    const match = h.match(/(\d+)'(\d+)/);
+    if (match) {
+      return parseInt(match[1]) * 12 + parseInt(match[2]);
     }
-    return true;
+    return 0;
+  };
+
+  const min = parseHeight(minHeight);
+  const max = parseHeight(maxHeight);
+
+  return MASTERCLASS_MODELS.filter(model => {
+    const height = parseHeight(model.physicalProfile.height);
+    return height >= min && height <= max;
   });
 }
 
-/**
- * Model Compatibility Matrix
- * Determines which models work best with specific photographers/styles
- */
-export function getModelPhotographerSynergy(
-  modelId: string,
-  photographerStyle: string
-): number {
-  const model = MASTERCLASS_MODELS.find(m => m.id === modelId);
-  if (!model) return 0;
+// Get models by experience level
+export function getModelsByExperience(level: 'Emerging' | 'Established' | 'Iconic' | 'Legendary'): MasterClassModel[] {
+  return MASTERCLASS_MODELS.filter(model =>
+    model.professionalMatrix.experienceLevel === level
+  );
+}
 
+// Calculate photographer-model synergy score
+export function calculateSynergy(model: MasterClassModel, photographerStyle: string): number {
   // Calculate synergy score based on aesthetic alignment
   let synergyScore = 50; // Base score
 
@@ -705,9 +716,3 @@ export function getModelPhotographerSynergy(
 
   return Math.min(100, synergyScore);
 }
-
-// Combine all models including Instagram variants
-export const MASTERCLASS_MODELS: MasterClassModel[] = [
-  ...CORE_MASTERCLASS_MODELS,
-  ...INSTAGRAM_MASTERCLASS_MODELS
-];

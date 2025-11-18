@@ -36,6 +36,7 @@ import IndianRolePlayMode from './roleplay/IndianRolePlayMode';
 import IndianModelsGallery from './roleplay/IndianModelsGallery';
 import VideoGenerationMode from './video/VideoGenerationMode';
 import VeraMode from './vera/VeraMode';
+import MasterClassMode from './masterclass/MasterClassMode';
 import VideoGeneratorUI from './components/VideoGeneratorUI';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
@@ -104,7 +105,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -1463,6 +1464,11 @@ const App: React.FC = () => {
         <VeraMode
           onExit={handleExitVera}
         />
+      ) : uiMode === 'masterclass' ? (
+        // MASTERCLASS MODE: The Apex of AI-Driven Creative Direction
+        <MasterClassMode
+          onExit={() => setUiMode('classic')}
+        />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor
         <>
@@ -1692,6 +1698,14 @@ const App: React.FC = () => {
             >
               <span style={{ fontSize: '18px' }}>✨</span>
               Vera Mode
+            </button>
+            <button
+              onClick={() => setUiMode('masterclass')}
+              disabled={isLoading}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:via-pink-500 hover:to-rose-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
+            >
+              <span style={{ fontSize: '18px' }}>🎭</span>
+              MasterClass
             </button>
             <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
               <button

@@ -11,6 +11,7 @@ import { MASTERCLASS_MODELS, getModelsByAesthetic } from './models/masterClassMo
 import { MasterPromptStrategy, MasterPromptConfig, MASTERCLASS_PRESETS } from './services/masterPromptStrategy';
 import { generateImage } from '../services/geminiService';
 import { getGeminiApiKey } from '../services/apiKeyManager';
+import { MasterClassAuth } from './components/MasterClassAuth';
 
 interface MasterClassModeProps {
   onExit: () => void;
@@ -57,6 +58,34 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [error, setError] = useState<string | null>(null);
 
+  // Authentication settings
+  const [projectId, setProjectId] = useState<string>('');
+  const [accessToken, setAccessToken] = useState<string>('');
+
+  // Load authentication settings from localStorage on mount
+  useEffect(() => {
+    const savedProjectId = localStorage.getItem('masterclass_projectId');
+    const savedAccessToken = localStorage.getItem('masterclass_accessToken');
+
+    if (savedProjectId) setProjectId(savedProjectId);
+    if (savedAccessToken) setAccessToken(savedAccessToken);
+  }, []);
+
+  // Handle authentication updates
+  const handleAuthUpdate = (newProjectId: string, newAccessToken: string) => {
+    setProjectId(newProjectId);
+    setAccessToken(newAccessToken);
+
+    // Persist to localStorage
+    localStorage.setItem('masterclass_projectId', newProjectId);
+    localStorage.setItem('masterclass_accessToken', newAccessToken);
+
+    console.log('🔐 MasterClass Auth Updated:', {
+      projectId: newProjectId ? `${newProjectId.substring(0, 10)}...` : 'Not set',
+      token: newAccessToken ? `${newAccessToken.substring(0, 10)}...` : 'Not set'
+    });
+  };
+
   // Filter models based on category and search
   const filteredModels = MASTERCLASS_MODELS.filter(model => {
     const matchesCategory = filterCategory === 'all' || model.category === filterCategory;
@@ -84,6 +113,11 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
   const handleGenerate = async () => {
     if (!session.model) {
       setError('Please select a model first');
+      return;
+    }
+
+    if (!projectId || !accessToken) {
+      setError('Please configure authentication settings first');
       return;
     }
 
@@ -118,13 +152,18 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
         platform: session.platformTarget
       });
 
-      // Generate using Imagen
+      // Generate using Imagen with authentication
       const imageUrl = await generateImage(masterPrompt, {
         numberOfImages: 1,
         aspectRatio: session.aspectRatio,
         personGeneration: 'allow_adult',
         safetyFilterLevel: session.renderQuality === 'masterpiece' ? 'block_few' : 'block_only_high'
-      });
+      }, {
+        projectId,
+        accessToken,
+        vertexAuthMethod: 'oauth',
+        provider: 'vertex-ai'
+      } as any);
 
       // Add to gallery
       setSession(prev => ({
@@ -500,6 +539,26 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
   // Generation review view
   const renderGeneration = () => (
     <div className="space-y-6">
+      {/* Authentication Warning */}
+      {(!projectId || !accessToken) && (
+        <div className="bg-red-900/30 border-2 border-red-500/50 p-4 rounded-xl">
+          <div className="flex items-start gap-3">
+            <svg className="w-6 h-6 text-red-400 mt-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+            <div className="flex-1">
+              <h3 className="font-bold text-red-300 mb-1">Authentication Required</h3>
+              <p className="text-sm text-red-200">
+                Please configure your Google Cloud project ID and OAuth token above to enable image generation.
+              </p>
+              <p className="text-xs text-gray-400 mt-2">
+                The authentication settings are shown at the top of this page. Expand them to add your credentials.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="bg-gradient-to-r from-purple-900/20 to-pink-900/20 p-6 rounded-xl border border-purple-500/30">
         <h2 className="text-2xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300 mb-4">
           Final Review
@@ -543,10 +602,12 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
 
         <button
           onClick={handleGenerate}
-          disabled={isGenerating}
+          disabled={isGenerating || !projectId || !accessToken}
           className="w-full py-4 mt-6 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold text-lg rounded-lg hover:opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {isGenerating ? '🎨 Creating Masterpiece...' : '✨ Generate MasterClass Image'}
+          {isGenerating ? '🎨 Creating Masterpiece...' :
+           (!projectId || !accessToken) ? '🔒 Configure Authentication First' :
+           '✨ Generate MasterClass Image'}
         </button>
       </div>
     </div>
@@ -612,8 +673,18 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
         </div>
       </div>
 
-      {/* Navigation */}
+      {/* Authentication Settings */}
       <div className="container mx-auto px-6 py-4">
+        <MasterClassAuth
+          projectId={projectId}
+          accessToken={accessToken}
+          onUpdate={handleAuthUpdate}
+          isCollapsed={viewMode !== 'generation'}
+        />
+      </div>
+
+      {/* Navigation */}
+      <div className="container mx-auto px-6 pb-4">
         <div className="flex space-x-2 mb-6">
           {[
             { mode: 'model-selection', label: 'Model', icon: '👤' },

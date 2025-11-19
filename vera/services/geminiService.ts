@@ -258,7 +258,8 @@ export const generateVideo = async (prompt: string, onStatusUpdate: (status: str
       throw new Error("Video generation succeeded, but no download link was found.");
     }
 
-    const response = await fetch(`${downloadLink}&key=${getApiKey()}`);
+    const apiKey = await getGeminiApiKey();
+    const response = await fetch(`${downloadLink}&key=${apiKey}`);
     if (!response.ok) {
         throw new Error(`Failed to download video: ${response.statusText}`);
     }

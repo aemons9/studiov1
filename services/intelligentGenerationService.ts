@@ -240,6 +240,7 @@ export async function generateWithMaximumSafety(
     aspectRatio: settings.aspectRatio,
     numOutputs: settings.numberOfImages,
     seed: settings.seed || undefined,
+    imagePrompt: settings.fluxImagePrompt, // Support image-to-image generation
     ...optimalSettings,
     safetyTolerance
   };
@@ -421,6 +422,7 @@ async function executeNuclearFluxStrategy(
         aspectRatio: settings.aspectRatio,
         numOutputs: settings.numberOfImages,
         seed: settings.seed || undefined,
+        imagePrompt: settings.fluxImagePrompt, // Support image-to-image generation
         ...optimalSettings,
         safetyTolerance: 6 // Max tolerance
       };

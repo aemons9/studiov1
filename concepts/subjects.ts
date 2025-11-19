@@ -2,6 +2,22 @@ import type { SubjectVariant } from '../types';
 
 export const indianModelVariants: SubjectVariant[] = [
   {
+    name: "Instagram Hourglass Influencer (Golden-Bronze) 36-26-38",
+    value: "Indian Instagram influencer model (height 5'7\"), with curvaceous hourglass figure and exact measurements (bust 36\", waist 26\", hips 38\"). Features radiant golden-bronze complexion with sun-kissed glow. Bold influencer beauty: sultry bedroom eyes with dramatic lashes and winged liner, glossy plump lips, contoured cheekbones, perfect Instagram face. Age 22-26. Modern Indian social media star with bold confidence. Long dark brown hair with honey highlights in loose glamorous beach waves. Flawless Instagram-ready glow with highlighting on cheekbones and collarbones. Manicured hands with long stiletto nails in nude pink. Multiple ear piercings with gold hoops and studs, delicate nose ring."
+  },
+  {
+    name: "College Fresher Influencer (Honey-Bronze) 34-25-36",
+    value: "Indian college girl influencer (height 5'6\"), balanced curvy-athletic figure with measurements (bust 34\", waist 25\", hips 36\"), natural curves with youthful energy. Fresh honey-bronze complexion with natural radiance. College girl beauty: bright confident eyes with natural makeup, fresh glossy lips, genuine smile, accessible beauty with edge. Age 19-22. Dark brown hair with subtle caramel highlights. Natural fresh glow with minimal makeup showing youthful skin."
+  },
+  {
+    name: "Bollywood Actress Fantasy (Porcelain-Bronze) 36-24-36",
+    value: "Indian actress-style influencer model (height 5'8\"), perfect hourglass figure with measurements (bust 36\", waist 24\", hips 36\"), tiny waist with full curves. Flawless porcelain-bronze complexion with luminous radiance. Bollywood actress beauty: dramatic sultry eyes with heavy kohl and winged liner, glossy red lips, perfectly contoured face, high cheekbones, movie star presence. Age 24-28. Long jet black hair with voluminous Bollywood waves. High-glam finish with professional highlights."
+  },
+  {
+    name: "Morning Routine Influencer (Golden-Honey) 35-26-37",
+    value: "Indian lifestyle influencer (height 5'7\"), curvaceous figure with measurements (bust 35\", waist 26\", hips 37\"), natural feminine curves. Warm golden-honey complexion with fresh morning glow. Natural morning beauty: genuine warm eyes with minimal/no makeup, natural brows, fresh lips, authentic real skin. Age 23-27. Dark brown hair in messy morning texture. Fresh natural glow celebrating real skin texture."
+  },
+  {
     name: "Indian Cinematic Muse (Fair)",
     value: "Indian model with a modern, expressive face perfect for cinematic close-ups (height 5'8\"). Possesses a slender but soft athletic form (bust 36C\", waist 28\", hips 38\"). Her luminous fair skin tone interacts beautifully with dramatic chiaroscuro lighting, conveying deep emotion through a serene, direct gaze."
   },

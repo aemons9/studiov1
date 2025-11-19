@@ -14,6 +14,7 @@ import AuthSettings from './components/AuthSettings';
 import CustomPromptGenerator from './components/CustomPromptGenerator';
 import MoodboardConceptsUI from './components/MoodboardConceptsUI';
 import InstagramMoodboardsUI from './components/InstagramMoodboardsUI';
+import { VeraLabsCollectionsUI } from './components/VeraLabsCollectionsUI';
 import {
   MODELS,
   ENVIRONMENTS,
@@ -293,6 +294,7 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
 
           {mode === 'moodboard' && (
             <div className="flex flex-col gap-8">
+              <VeraLabsCollectionsUI />
               <MoodboardConceptsUI />
             </div>
           )}

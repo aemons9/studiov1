@@ -23,6 +23,7 @@ import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
 import ImagenPromptLibrarySelector from './components/ImagenPromptLibrarySelector';
 import QuickCorporateGenerator from './components/QuickCorporateGenerator';
 import QuickInstagramGenerator from './components/QuickInstagramGenerator';
+import { VeraLabsCollectionGenerator } from './components/VeraLabsCollectionGenerator';
 import QuickDirectGenerate from './components/QuickDirectGenerate';
 import AuthenticationSettings from './components/AuthenticationSettings';
 import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
@@ -362,6 +363,7 @@ const App: React.FC = () => {
           safetyTolerance: generationSettings.fluxSafetyTolerance || fluxOptimalSettings.safetyTolerance,
           numInferenceSteps: fluxOptimalSettings.numInferenceSteps,
           guidanceScale: fluxOptimalSettings.guidanceScale,
+          imagePrompt: options.fluxImagePrompt, // Pass the uploaded image if provided
         };
 
         console.log('🎨 Using Replicate Flux:', {
@@ -370,6 +372,7 @@ const App: React.FC = () => {
           safetyTolerance: fluxConfig.safetyTolerance,
           outputFormat: fluxConfig.outputFormat,
           intimacyLevel: generationSettings.intimacyLevel,
+          imageToImage: !!options.fluxImagePrompt,
         });
 
         const base64Images = await generateWithFlux(finalPrompt, fluxConfig);
@@ -1582,6 +1585,17 @@ const App: React.FC = () => {
               />
             </div>
 
+            <div className="mt-6">
+              <VeraLabsCollectionGenerator
+                onApplyPrompt={(promptData, finalPrompt) => {
+                  handlePromptChange(promptData);
+                  setTextPrompt(finalPrompt);
+                  setPromptMode('text');
+                }}
+                currentPromptData={promptData}
+              />
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
               {promptMode === 'json' ? (
                 <PromptEditor promptData={safePromptData} onPromptChange={handlePromptChange} isLoading={isLoading}
@@ -1723,6 +1737,11 @@ const App: React.FC = () => {
                 onGenerate={handleMasterGenerate}
                 isLoading={isLoading}
                 generationStep={generationStep}
+                generationSettings={generationSettings}
+                onImagePromptChange={(imageData) => setGenerationSettings(prev => ({
+                  ...prev,
+                  fluxImagePrompt: imageData
+                }))}
               />
               <LockFieldsDropdown lockedFields={lockedFields} onLockedFieldsChange={setLockedFields} isBusy={isLoading} />
             </div>

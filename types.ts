@@ -154,6 +154,7 @@ export interface GenerationSettings {
   fluxRawMode?: boolean; // For ultra model - hyper-realistic candid style
   fluxSafetyTolerance?: number; // 1-6, higher = more permissive
   fluxOutputFormat?: 'jpg' | 'png'; // Output image format (per Flux API schema)
+  fluxImagePrompt?: string; // Data URI of image for image-to-image generation
 
   // Weaving Settings (for using Google Gemini weaving with Flux generation)
   weavingProjectId?: string; // Google Cloud Project ID for weaving only

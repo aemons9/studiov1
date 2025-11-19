@@ -16,9 +16,41 @@ export function parseFluxPromptToData(prompt: string): PromptData {
   const shotMatch = prompt.match(/^([^.]+\. Intimacy \d+\/10[^.]*\.\.)/);
   const shot = shotMatch ? shotMatch[1].replace(/\.\.$/, '.').trim() : 'Fine-art photography with cinematic depth.';
 
-  // Extract subject variant (everything between "subject: variant:" and "pose:")
-  const variantMatch = prompt.match(/subject:\s*variant:\s*([^,]+(?:,[^,]+)*?)\s*(?:,\s*)?pose:/s);
-  const variant = variantMatch ? variantMatch[1].trim() : 'Elite artistic model with expressive presence.';
+  // Extract subject variant - handle BOTH formats:
+  // Format 1 (old): "subject: variant: ... pose:"
+  // Format 2 (Instagram): "subject: Indian Instagram influencer model, height 5'7"... pose:"
+
+  let variant: string;
+
+  // Try Format 1 first (explicit variant field)
+  const variantMatch1 = prompt.match(/subject:\s*variant:\s*([^]+?)\s*(?:,\s*)?pose:/s);
+
+  if (variantMatch1) {
+    variant = variantMatch1[1].trim();
+  } else {
+    // Try Format 2 (Instagram/direct format - everything between "subject:" and "pose:")
+    const variantMatch2 = prompt.match(/subject:\s*([^]+?)\s*pose:/s);
+
+    if (variantMatch2) {
+      // Extract the full subject description (excluding nested field labels)
+      let fullSubject = variantMatch2[1].trim();
+
+      // Remove any trailing field labels like "pose:", "hair_color:", etc.
+      fullSubject = fullSubject.replace(/\s*(?:pose|hair_color|hair_style|skin_finish|hand_and_nail_details|tattoos|piercings|body_art|nail_art|high_heels)\s*:\s*$/i, '').trim();
+
+      // CRITICAL: If it's an Instagram/detailed description, keep it completely
+      if (fullSubject.length > 100 || /\b(Indian|measurements|36-26-38|influencer|Instagram)\b/i.test(fullSubject)) {
+        variant = fullSubject;
+      } else {
+        variant = 'Elite artistic model with expressive presence.';
+      }
+    } else {
+      // No match at all - use default
+      variant = 'Elite artistic model with expressive presence.';
+    }
+  }
+
+  console.log('🔍 Parser extracted variant:', variant.substring(0, 100) + (variant.length > 100 ? '...' : ''));
 
   // Extract individual subject fields
   const pose = extractField(prompt, 'pose') || 'Natural confident pose expressing grace and power';

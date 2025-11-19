@@ -814,7 +814,14 @@ export async function enhancePrompt(promptData: PromptData, settings: Generation
 }
 
 export async function generateImage(prompt: string, settings: GenerationSettings): Promise<string[]> {
-  const { vertexAuthMethod, projectId, accessToken, numberOfImages, personGeneration, safetySetting, addWatermark, enhancePrompt, modelId, seed } = settings;
+  const { vertexAuthMethod, projectId, accessToken, numberOfImages, personGeneration, safetySetting, addWatermark, enhancePrompt, seed } = settings;
+
+  // Ensure modelId is set, use default if not provided
+  const modelId = settings.modelId || 'imagen-4.0-generate-001';
+
+  if (!settings.modelId) {
+    console.warn('⚠️ modelId was undefined, using default:', modelId);
+  }
 
   // Check authentication method
   const authMethod = vertexAuthMethod || 'oauth';
@@ -844,23 +851,24 @@ export async function generateImage(prompt: string, settings: GenerationSettings
   }
 
   if (authMethod === 'apikey') {
-    // Use Generative Language API with API Key
-    console.log('🔑 Using API Key authentication with Generative Language API');
-
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${modelId}:generateContent?key=${vertexApiKey}`;
-
-    const requestBody = {
-      contents: [{
-        parts: [{
-          text: prompt
-        }]
-      }],
-      generationConfig: {
-        responseModalities: ["image"],
-        sampleCount: numberOfImages,
-        aspectRatio: aspectRatio,
-      }
-    };
+    // Note: Generative Language API with API keys does NOT support image generation
+    // Only Vertex AI with OAuth supports Imagen.
+    console.error('❌ API Key authentication does not support image generation');
+    throw new Error(
+      '🔐 Image Generation Not Supported with API Keys\n\n' +
+      'The Gemini API (used with API keys) only supports text generation, not images.\n\n' +
+      '✅ Solutions:\n' +
+      '1. Switch to OAuth authentication (Settings → Auth → OAuth 2.0)\n' +
+      '   - Full Imagen 4 access with all models and features\n' +
+      '   - Requires: Google Cloud Project + OAuth token\n\n' +
+      '2. Use Replicate Flux for image generation\n' +
+      '   - Change provider to "Replicate Flux"\n' +
+      '   - Only needs Replicate API token\n\n' +
+      '💡 Your API key will still work for:\n' +
+      '   • Gemini prompt rewrites\n' +
+      '   • Risk analysis\n' +
+      '   • Other text-based AI features'
+    );
 
     try {
       const response = await fetch(endpoint, {

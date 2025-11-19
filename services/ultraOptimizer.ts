@@ -147,29 +147,37 @@ export class UltraPromptOptimizer {
 
   /**
    * Apply all optimization strategies
+   * CRITICAL: Preserve user specifications, only enhance empty/generic fields
    */
   private applyOptimizations(data: PromptData): PromptData {
     const optimized = JSON.parse(JSON.stringify(data)) as PromptData;
 
-    // 1. Optimize subject description
+    // 1. Optimize subject description (preserves ethnicity, measurements, specific features)
     optimized.subject = this.optimizeSubject(optimized.subject);
 
-    // 2. Enhance wardrobe based on intimacy level
+    // 2. Enhance wardrobe (preserves detailed Instagram/Vera wardrobes)
     optimized.wardrobe = this.optimizeWardrobe(optimized.wardrobe);
 
-    // 3. Improve lighting for photorealism
+    // 3. Preserve environment if specified, otherwise leave as-is
+    // Do NOT replace detailed environments like "Trendy bedroom with mirror, fairy lights, etc."
+    if (!optimized.environment || optimized.environment.trim().length === 0) {
+      optimized.environment = 'Professional studio environment';
+    }
+    // If environment is specified, keep it completely
+
+    // 4. Improve lighting (preserves detailed lighting specs)
     optimized.lighting = this.optimizeLighting(optimized.lighting);
 
-    // 4. Add quality triggers to style
+    // 5. Add quality triggers to style (enhances, doesn't replace)
     optimized.style = this.enhanceStyle(optimized.style);
 
-    // 5. Optimize camera settings
+    // 6. Optimize camera settings (preserves existing settings)
     optimized.camera = this.optimizeCamera(optimized.camera);
 
-    // 6. Enhance overall quality descriptors
+    // 7. Enhance overall quality descriptors (enhances, doesn't replace)
     optimized.quality = this.enhanceQuality(optimized.quality);
 
-    // 7. Add technical details
+    // 8. Add technical details to shot (enhances, doesn't replace)
     optimized.shot = this.optimizeShot(optimized.shot);
 
     return optimized;
@@ -177,50 +185,98 @@ export class UltraPromptOptimizer {
 
   /**
    * Optimize subject description
+   * CRITICAL: Preserve ALL original subject specifications (ethnicity, measurements, features)
    */
   private optimizeSubject(subject: any): any {
     const { safetyMode } = this.config;
 
-    // Use appropriate descriptors
-    const skinTone = this.SUBJECT_DESCRIPTORS.skinTone[safetyMode];
-    const features = this.SUBJECT_DESCRIPTORS.features[safetyMode];
-    const figure = this.SUBJECT_DESCRIPTORS.figure[safetyMode];
+    // CRITICAL PRESERVATION: Keep original variant if it exists
+    // Only enhance if there's no specific variant (fallback mode)
+    let variant: string;
 
-    // Build optimized variant description
-    const variant = `Professional fashion model with ${features}, ${skinTone}, and ${figure}. ` +
-      `High-fashion physique with natural beauty and professional presence. ` +
-      `Age 24-30, perfectly proportioned for editorial photography.`;
+    if (subject.variant && subject.variant.trim().length > 0) {
+      // PRESERVE ORIGINAL VARIANT - User specified ethnicity, measurements, features
+      // Only ADD enhancements, never replace
+      const originalVariant = subject.variant;
 
-    // The original subject.pose contains the user's raw idea
-    const originalIdea = subject.pose || 'elegant standing pose';
+      // Extract key identity markers
+      const hasEthnicity = /\b(Indian|Asian|African|Latina|European|Middle Eastern|indigenous)\b/i.test(originalVariant);
+      const hasMeasurements = /\d+-\d+-\d+/.test(originalVariant); // e.g., 36-26-38
 
-    // Optimize pose based on intimacy level
-    const poseCategory = this.getPoseCategory();
-    const poses = this.POSE_LIBRARY[poseCategory];
-    const libraryPose = poses[Math.floor(Math.random() * poses.length)];
+      if (hasEthnicity || hasMeasurements) {
+        // User provided specific model - PRESERVE IT COMPLETELY
+        variant = originalVariant;
+        console.log('✅ Ultra Optimizer: Preserving specific model variant (ethnicity/measurements detected)');
+      } else {
+        // Generic variant - enhance safely
+        const skinTone = this.SUBJECT_DESCRIPTORS.skinTone[safetyMode];
+        const features = this.SUBJECT_DESCRIPTORS.features[safetyMode];
+        const figure = this.SUBJECT_DESCRIPTORS.figure[safetyMode];
 
-    // Combine them intelligently
-    const pose = originalIdea.includes('pose') ? originalIdea : `${originalIdea}, captured in ${libraryPose}`;
+        variant = `${originalVariant}. Professional fashion model with ${features}, ${skinTone}, and ${figure}`;
+      }
+    } else {
+      // No variant provided - create generic one
+      const skinTone = this.SUBJECT_DESCRIPTORS.skinTone[safetyMode];
+      const features = this.SUBJECT_DESCRIPTORS.features[safetyMode];
+      const figure = this.SUBJECT_DESCRIPTORS.figure[safetyMode];
+
+      variant = `Professional fashion model with ${features}, ${skinTone}, and ${figure}. ` +
+        `High-fashion physique with natural beauty and professional presence. ` +
+        `Age 24-30, perfectly proportioned for editorial photography.`;
+    }
+
+    // CRITICAL: Preserve original pose - only enhance if empty
+    let pose: string;
+
+    if (subject.pose && subject.pose.trim().length > 0) {
+      // User specified a pose - keep it exactly as is
+      pose = subject.pose;
+      console.log('✅ Ultra Optimizer: Preserving user-specified pose');
+    } else {
+      // No pose provided - suggest one from library
+      const poseCategory = this.getPoseCategory();
+      const poses = this.POSE_LIBRARY[poseCategory];
+      pose = poses[Math.floor(Math.random() * poses.length)];
+    }
 
     return {
       ...subject,
       variant,
       pose,
-      hair_style: this.optimizeHairStyle(subject.hair_style),
-      skin_finish: 'Natural healthy glow with professional makeup, visible skin texture for photorealistic rendering'
+      hair_style: subject.hair_style || this.optimizeHairStyle(subject.hair_style),
+      skin_finish: subject.skin_finish || 'Natural healthy glow with professional makeup, visible skin texture for photorealistic rendering'
     };
   }
 
   /**
    * Optimize wardrobe descriptions for safety and quality
+   * CRITICAL: Preserve user-specified wardrobe, only enhance if empty
    */
   private optimizeWardrobe(wardrobe: string): string {
+    // CRITICAL PRESERVATION: If user specified wardrobe, keep it
+    if (wardrobe && wardrobe.trim().length > 0) {
+      // Check if it's a detailed Instagram/Vera wardrobe specification
+      const isDetailedWardrobe = wardrobe.length > 50 ||
+        /\b(lingerie|bralette|bodysuit|crop top|denim shorts|lace)\b/i.test(wardrobe);
+
+      if (isDetailedWardrobe) {
+        // User provided detailed wardrobe - PRESERVE COMPLETELY
+        console.log('✅ Ultra Optimizer: Preserving detailed user wardrobe specification');
+        return wardrobe;
+      } else {
+        // Simple wardrobe - enhance with materials
+        const materials = this.getMaterials(this.config.intimacyLevel);
+        return `${wardrobe} made of ${materials}, with impeccable tailoring and realistic fabric draping`;
+      }
+    }
+
+    // No wardrobe provided - generate one based on intimacy level
     const { intimacyLevel } = this.config;
     const wardrobeOptions = this.WARDROBE_MAPPINGS.get(
       Math.min(intimacyLevel, 10)
     ) || this.WARDROBE_MAPPINGS.get(5)!;
 
-    // Add fabric and material details for realism
     const materials = this.getMaterials(intimacyLevel);
     const selectedWardrobe = wardrobeOptions[0];
 
@@ -230,8 +286,25 @@ export class UltraPromptOptimizer {
 
   /**
    * Optimize lighting for Imagen 4's strengths
+   * CRITICAL: Preserve user lighting if specified
    */
   private optimizeLighting(lighting: string): string {
+    // CRITICAL PRESERVATION: Keep user-specified lighting
+    if (lighting && lighting.trim().length > 0) {
+      // Check if it's a detailed lighting specification
+      const isDetailedLighting = lighting.length > 50 ||
+        /\b(golden hour|ring light|studio|chiaroscuro|rim light|three-point)\b/i.test(lighting);
+
+      if (isDetailedLighting) {
+        console.log('✅ Ultra Optimizer: Preserving detailed user lighting specification');
+        return lighting;
+      } else {
+        // Simple lighting - enhance it
+        return `${lighting} with professional quality and dimensional depth`;
+      }
+    }
+
+    // No lighting provided - use quality preset templates
     const lightingTemplates = {
       masterpiece: 'Rembrandt lighting with golden hour warmth, subtle rim lighting for dimensional depth. ' +
         'Professional 3-point studio setup with key light at 45 degrees, fill light for shadow detail, ' +

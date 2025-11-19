@@ -1,0 +1,1493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeraLabs - Fashion Moodboard Studio</title>
+    <meta name="description" content="Create stunning fashion moodboards and editorial collections with VeraLabs - your digital atelier for fashion visualization.">
+
+    <style>
+        /* ==================== CSS RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-dark: #0a0a0a;
+            --secondary-dark: #1a1a1a;
+            --accent-gold: #d4af37;
+            --accent-rose: #e8b4b8;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==================== TYPOGRAPHY ==================== */
+        .heading-xl {
+            font-size: clamp(3rem, 8vw, 7rem);
+            font-weight: 200;
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+        }
+
+        .heading-lg {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+
+        .heading-md {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-weight: 300;
+            letter-spacing: -0.01em;
+        }
+
+        .body-text {
+            font-size: clamp(1rem, 2vw, 1.125rem);
+            line-height: 1.8;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 2rem 4rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(10, 10, 10, 0);
+            backdrop-filter: blur(0px);
+            transition: all 0.6s var(--transition-smooth);
+        }
+
+        .navbar.scrolled {
+            padding: 1rem 4rem;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--text-primary);
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .logo::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.5s var(--transition-smooth);
+        }
+
+        .logo:hover::after {
+            width: 100%;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 6px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+            z-index: 1001;
+        }
+
+        .mobile-menu-toggle span {
+            display: block;
+            width: 28px;
+            height: 2px;
+            background: var(--text-primary);
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            transition: color 0.3s var(--transition-smooth);
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 1px;
+            background: var(--accent-gold);
+            transition: width 0.3s var(--transition-smooth);
+        }
+
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-links a:hover::before {
+            width: 100%;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .hero-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.1) 0%, rgba(10, 10, 10, 1) 70%);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 1200px;
+            padding: 2rem;
+            animation: fadeInUp 1.2s var(--transition-smooth);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-title {
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            margin-bottom: 3rem;
+            animation: fadeInUp 1.2s 0.3s var(--transition-smooth) backwards;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: transparent;
+            border: 1px solid var(--accent-gold);
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            transition: all 0.4s var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1.2s 0.6s var(--transition-smooth) backwards;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-gold);
+            transition: left 0.5s var(--transition-smooth);
+            z-index: -1;
+        }
+
+        .cta-button:hover {
+            color: var(--primary-dark);
+            border-color: var(--accent-gold);
+        }
+
+        .cta-button:hover::before {
+            left: 0;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(10px); }
+        }
+
+        .scroll-indicator::after {
+            content: '↓';
+            font-size: 2rem;
+            color: var(--accent-gold);
+            opacity: 0.6;
+        }
+
+        /* ==================== ABOUT SECTION ==================== */
+        .about-section {
+            padding: 8rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 6rem;
+            align-items: center;
+        }
+
+        .about-content h2 {
+            margin-bottom: 2rem;
+            color: var(--accent-gold);
+        }
+
+        .about-content p {
+            margin-bottom: 1.5rem;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature-item {
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: all 0.4s var(--transition-smooth);
+        }
+
+        .feature-item:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--accent-gold);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* ==================== GALLERY SECTION ==================== */
+        .gallery-section {
+            padding: 8rem 0;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, var(--secondary-dark) 100%);
+        }
+
+        .gallery-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            padding: 0 2rem;
+        }
+
+        .gallery-header h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Category Filters */
+        .concept-filters {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 2rem;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.3s var(--transition-smooth);
+            border-radius: 2px;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-gold);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-gold);
+            border-color: var(--accent-gold);
+            color: var(--primary-dark);
+        }
+
+        /* Concepts Grid */
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 3rem;
+            padding: 0 4rem;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .concept-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.5s var(--transition-smooth);
+            cursor: pointer;
+        }
+
+        .concept-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-gold);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.2);
+        }
+
+        .concept-card.hidden {
+            display: none;
+        }
+
+        .concept-image {
+            position: relative;
+            aspect-ratio: 3/4;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15) 0%, rgba(232, 180, 184, 0.15) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .concept-placeholder {
+            font-size: 5rem;
+            opacity: 0.4;
+            transition: transform 0.5s var(--transition-smooth);
+        }
+
+        .concept-card:hover .concept-placeholder {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .intimacy-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--accent-gold);
+            padding: 0.5rem 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            border-radius: 4px;
+            border: 1px solid var(--accent-gold);
+        }
+
+        .concept-details {
+            padding: 2rem;
+        }
+
+        .concept-title {
+            font-size: 1.3rem;
+            font-weight: 300;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .concept-category {
+            font-size: 0.85rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .concept-description {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .concept-meta {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .meta-tag {
+            font-size: 0.75rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+
+        .color-swatch {
+            width: 32px;
+            height: 32px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s var(--transition-smooth);
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.2);
+        }
+
+        /* ==================== MODAL/LIGHTBOX ==================== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            animation: fadeIn 0.3s var(--transition-smooth);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90%;
+            position: relative;
+            animation: zoomIn 0.4s var(--transition-smooth);
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 3rem;
+            color: var(--text-primary);
+            cursor: pointer;
+            background: none;
+            border: none;
+            transition: all 0.3s var(--transition-smooth);
+            z-index: 2001;
+        }
+
+        .lightbox-close:hover {
+            color: var(--accent-gold);
+            transform: rotate(90deg);
+        }
+
+        /* ==================== TECHNOLOGY SECTION ==================== */
+        .tech-section {
+            padding: 8rem 4rem;
+            background: var(--primary-dark);
+        }
+
+        .tech-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .tech-container h2 {
+            margin-bottom: 4rem;
+        }
+
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .tech-card {
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.5s var(--transition-smooth);
+        }
+
+        .tech-card:hover {
+            background: rgba(212, 175, 55, 0.05);
+            border-color: var(--accent-gold);
+            transform: translateY(-10px);
+        }
+
+        .tech-icon {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-name {
+            font-size: 1.2rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .tech-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            padding: 6rem 4rem 3rem;
+            background: var(--secondary-dark);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 4rem;
+            margin-bottom: 4rem;
+        }
+
+        .footer-brand h3 {
+            font-size: 2rem;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-gold) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .footer-brand p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .footer-links h4 {
+            font-size: 1rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            color: var(--accent-gold);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s var(--transition-smooth);
+            font-size: 0.95rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-gold);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .social-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: all 0.3s var(--transition-smooth);
+        }
+
+        .social-links a:hover {
+            color: var(--accent-gold);
+            transform: translateY(-3px);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 1024px) {
+            .navbar {
+                padding: 1.5rem 2rem;
+            }
+
+            .navbar.scrolled {
+                padding: 1rem 2rem;
+            }
+
+            .nav-links {
+                gap: 2rem;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 4rem;
+            }
+
+            .concepts-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                padding: 0 2rem;
+                gap: 2rem;
+            }
+
+            .concept-filters {
+                gap: 0.8rem;
+            }
+
+            .filter-btn {
+                padding: 0.6rem 1.5rem;
+                font-size: 0.85rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 2rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 70%;
+                height: 100vh;
+                background: rgba(10, 10, 10, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 6rem 2rem 2rem;
+                gap: 2rem;
+                transition: right 0.5s var(--transition-smooth);
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.2rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .hero {
+                height: 80vh;
+            }
+
+            .about-section,
+            .gallery-section,
+            .tech-section {
+                padding: 4rem 1.5rem;
+            }
+
+            .features-list {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .concepts-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .concept-filters {
+                flex-direction: column;
+                gap: 0.6rem;
+            }
+
+            .filter-btn {
+                width: 100%;
+            }
+
+            .footer {
+                padding: 4rem 1.5rem 2rem;
+            }
+        }
+
+        /* ==================== SMOOTH SCROLL ANIMATIONS ==================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+        }
+
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+        }
+
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <a href="#" class="logo">VERALABS</a>
+        <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        <ul class="nav-links" id="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#process">Process</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-background"></div>
+        <div class="hero-content">
+            <h1 class="heading-xl hero-title">Your Fashion Atelier</h1>
+            <p class="heading-md hero-subtitle">Curate stunning moodboards and editorial collections</p>
+            <a href="#gallery" class="cta-button">Explore Collections</a>
+        </div>
+        <div class="scroll-indicator"></div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="about-grid">
+            <div class="about-content slide-in-left">
+                <h2 class="heading-lg">Your Digital Fashion Atelier</h2>
+                <p class="body-text">
+                    VeraLabs is a sophisticated moodboard and visual curation platform designed for fashion creatives.
+                    We provide the tools to organize, visualize, and present your fashion concepts with editorial-grade
+                    precision and aesthetic excellence.
+                </p>
+                <p class="body-text">
+                    Whether you're a designer seeking inspiration, a creative director building seasonal concepts, or
+                    a stylist curating looks, VeraLabs offers an intuitive digital workspace to bring your vision to life.
+                    From minimalist elegance to bold editorial statements, create collections that inspire.
+                </p>
+            </div>
+            <div class="features-list slide-in-right">
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">📋</div>
+                    <h3 class="feature-title">Moodboard Creation</h3>
+                    <p class="feature-description">Build beautiful, cohesive moodboards with intuitive drag-and-drop tools</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">🎨</div>
+                    <h3 class="feature-title">Collection Curation</h3>
+                    <p class="feature-description">Organize imagery by theme, season, color palette, or editorial direction</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">✨</div>
+                    <h3 class="feature-title">Visual Refinement</h3>
+                    <p class="feature-description">Fine-tune layouts, compositions, and visual hierarchies with precision</p>
+                </div>
+                <div class="feature-item fade-in">
+                    <div class="feature-icon">💼</div>
+                    <h3 class="feature-title">Professional Presentation</h3>
+                    <p class="feature-description">Export polished, presentation-ready boards for clients and collaborators</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pre-Built Moodboard Concepts Section -->
+    <section id="gallery" class="gallery-section">
+        <div class="gallery-header fade-in">
+            <h2 class="heading-lg">Pre-Built Editorial Concepts</h2>
+            <p class="body-text">Professional fashion moodboard templates featuring Indian models with diverse aesthetics</p>
+
+            <!-- Category Filters -->
+            <div class="concept-filters">
+                <button class="filter-btn active" data-filter="all">All Concepts</button>
+                <button class="filter-btn" data-filter="minimalist">Minimalist Luxury</button>
+                <button class="filter-btn" data-filter="urban">Urban Contemporary</button>
+                <button class="filter-btn" data-filter="natural">Natural Glamour</button>
+                <button class="filter-btn" data-filter="artistic">Artistic Sensuality</button>
+            </div>
+        </div>
+
+        <div class="concepts-grid">
+            <!-- Concept 1: Silk Dawn Minimalism -->
+            <div class="concept-card fade-in" data-category="minimalist"
+                 data-concept-id="moodboard-001"
+                 data-intimacy="2"
+                 data-style="Architectural Minimalism"
+                 data-palette="#F5F1E8,#C9B8A3,#8B7355"
+                 data-season="Spring/Summer 2025">
+                <div class="concept-image">
+                    <span class="concept-placeholder">🌅</span>
+                    <span class="intimacy-badge">Editorial 2/10</span>
+                </div>
+                <div class="concept-details">
+                    <h3 class="concept-title">Silk Dawn Minimalism</h3>
+                    <p class="concept-category">Contemporary Luxury</p>
+                    <p class="concept-description">Dawn-lit minimalist editorial featuring flowing silk and architectural shadows</p>
+                    <div class="concept-meta">
+                        <span class="meta-tag">Vogue India Style</span>
+                        <span class="meta-tag">Spring/Summer</span>
+                    </div>
+                    <div class="color-palette">
+                        <span class="color-swatch" style="background: #F5F1E8;"></span>
+                        <span class="color-swatch" style="background: #C9B8A3;"></span>
+                        <span class="color-swatch" style="background: #8B7355;"></span>
+                        <span class="color-swatch" style="background: #2C2416;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 2: Monsoon Drape Editorial -->
+            <div class="concept-card fade-in" data-category="minimalist"
+                 data-concept-id="moodboard-002"
+                 data-intimacy="3"
+                 data-style="Cultural Fusion Editorial"
+                 data-palette="#2C5F7C,#7BA39B,#E8DCC4"
+                 data-season="Monsoon Collection">
+                <div class="concept-image">
+                    <span class="concept-placeholder">🌧️</span>
+                    <span class="intimacy-badge">Editorial 3/10</span>
+                </div>
+                <div class="concept-details">
+                    <h3 class="concept-title">Monsoon Drape Poetry</h3>
+                    <p class="concept-category">Cultural Contemporary</p>
+                    <p class="concept-description">Sculptural draping inspired by monsoon rainfall and traditional Indian textiles</p>
+                    <div class="concept-meta">
+                        <span class="meta-tag">Harper's Bazaar Style</span>
+                        <span class="meta-tag">Monsoon</span>
+                    </div>
+                    <div class="color-palette">
+                        <span class="color-swatch" style="background: #2C5F7C;"></span>
+                        <span class="color-swatch" style="background: #7BA39B;"></span>
+                        <span class="color-swatch" style="background: #E8DCC4;"></span>
+                        <span class="color-swatch" style="background: #8B6F47;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 3: Bombay Noir Nights -->
+            <div class="concept-card fade-in" data-category="urban"
+                 data-concept-id="moodboard-003"
+                 data-intimacy="4"
+                 data-style="Cinematic Urban Editorial"
+                 data-palette="#0D0D0D,#FFC857,#DB3A34"
+                 data-season="Fall/Winter 2025">
+                <div class="concept-image">
+                    <span class="concept-placeholder">🌃</span>
+                    <span class="intimacy-badge">Editorial 4/10</span>
+                </div>
+                <div class="concept-details">
+                    <h3 class="concept-title">Bombay Noir Nights</h3>
+                    <p class="concept-category">Urban Contemporary</p>
+                    <p class="concept-description">Cinematic urban fashion capturing Mumbai's nighttime glamour</p>
+                    <div class="concept-meta">
+                        <span class="meta-tag">GQ India Style</span>
+                        <span class="meta-tag">Fall/Winter</span>
+                    </div>
+                    <div class="color-palette">
+                        <span class="color-swatch" style="background: #0D0D0D;"></span>
+                        <span class="color-swatch" style="background: #FFC857;"></span>
+                        <span class="color-swatch" style="background: #DB3A34;"></span>
+                        <span class="color-swatch" style="background: #573280;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 4: Delhi Rooftop Golden Hour -->
+            <div class="concept-card fade-in" data-category="urban"
+                 data-concept-id="moodboard-004"
+                 data-intimacy="3"
+                 data-style="Warm Contemporary Editorial"
+                 data-palette="#F4A261,#E76F51,#8D5524"
+                 data-season="Resort 2025">
+                <div class="concept-image">
+                    <span class="concept-placeholder">🌇</span>
+                    <span class="intimacy-badge">Editorial 3/10</span>
+                </div>
+                <div class="concept-details">
+                    <h3 class="concept-title">Delhi Rooftop Golden Hour</h3>
+                    <p class="concept-category">Contemporary Elegance</p>
+                    <p class="concept-description">Warm golden hour editorial on Delhi rooftop with contemporary Indian fashion</p>
+                    <div class="concept-meta">
+                        <span class="meta-tag">Cosmopolitan Style</span>
+                        <span class="meta-tag">Resort</span>
+                    </div>
+                    <div class="color-palette">
+                        <span class="color-swatch" style="background: #F4A261;"></span>
+                        <span class="color-swatch" style="background: #E76F51;"></span>
+                        <span class="color-swatch" style="background: #8D5524;"></span>
+                        <span class="color-swatch" style="background: #264653;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 5: Goan Beach Bohemian -->
+            <div class="concept-card fade-in" data-category="natural"
+                 data-concept-id="moodboard-005"
+                 data-intimacy="5"
+                 data-style="Natural Bohemian Editorial"
+                 data-palette="#F7EDE2,#F5CAC3,#84A59D"
+                 data-season="Resort/Cruise 2025">
+                <div class="concept-image">
+                    <span class="concept-placeholder">🏖️</span>
+                    <span class="intimacy-badge">Editorial 5/10</span>
+                </div>
+                <div class="concept-details">
+                    <h3 class="concept-title">Goan Beach Bohemian</h3>
+                    <p class="concept-category">Natural Glamour</p>
+                    <p class="concept-description">Effortless beach editorial capturing natural Indian beauty in coastal setting</p>
+                    <div class="concept-meta">
+                        <span class="meta-tag">Travel + Leisure Style</span>
+                        <span class="meta-tag">Resort</span>
+                    </div>
+                    <div class="color-palette">
+                        <span class="color-swatch" style="background: #F7EDE2;"></span>
+                        <span class="color-swatch" style="background: #F5CAC3;"></span>
+                        <span class="color-swatch" style="background: #84A59D;"></span>
+                        <span class="color-swatch" style="background: #28536B;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 6: Jaipur Palace Boudoir -->
+            <div class="concept-card fade-in" data-category="artistic"
+                 data-concept-id="moodboard-006"
+                 data-intimacy="7"
+                 data-style="Fine Art Intimate Editorial"
+                 data-palette="#8B0000,#FFD700,#2C1810"
+                 data-season="Timeless Heritage">
+                <div class="concept-image">
+                    <span class="concept-placeholder">👑</span>
+                    <span class="intimacy-badge">Editorial 7/10</span>
+                </div>
+                <div class="concept-details">
+                    <h3 class="concept-title">Jaipur Palace Boudoir</h3>
+                    <p class="concept-category">Artistic Sensuality</p>
+                    <p class="concept-description">Luxurious intimate editorial in heritage palace setting with artistic tasteful sensuality</p>
+                    <div class="concept-meta">
+                        <span class="meta-tag">Luxury Bridal Style</span>
+                        <span class="meta-tag">Heritage</span>
+                    </div>
+                    <div class="color-palette">
+                        <span class="color-swatch" style="background: #8B0000;"></span>
+                        <span class="color-swatch" style="background: #FFD700;"></span>
+                        <span class="color-swatch" style="background: #2C1810;"></span>
+                        <span class="color-swatch" style="background: #F5E6D3;"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Concept 7: Kerala Monsoon Intimate -->
+            <div class="concept-card fade-in" data-category="artistic"
+                 data-concept-id="moodboard-007"
+                 data-intimacy="6"
+                 data-style="Natural Artistic Intimate"
+                 data-palette="#1B4332,#52796F,#A8DADC"
+                 data-season="Monsoon Season">
+                <div class="concept-image">
+                    <span class="concept-placeholder">🌿</span>
+                    <span class="intimacy-badge">Editorial 6/10</span>
+                </div>
+                <div class="concept-details">
+                    <h3 class="concept-title">Kerala Monsoon Intimacy</h3>
+                    <p class="concept-category">Natural Sensuality</p>
+                    <p class="concept-description">Artistic intimate editorial in Kerala monsoon rain with natural sensuality</p>
+                    <div class="concept-meta">
+                        <span class="meta-tag">Fine Art Style</span>
+                        <span class="meta-tag">Monsoon</span>
+                    </div>
+                    <div class="color-palette">
+                        <span class="color-swatch" style="background: #1B4332;"></span>
+                        <span class="color-swatch" style="background: #52796F;"></span>
+                        <span class="color-swatch" style="background: #A8DADC;"></span>
+                        <span class="color-swatch" style="background: #FFFFFF;"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="process" class="tech-section">
+        <div class="tech-container">
+            <h2 class="heading-lg fade-in">Creative Process</h2>
+            <p class="body-text fade-in">From concept to presentation—a refined workflow for fashion professionals</p>
+            <div class="tech-grid">
+                <div class="tech-card fade-in">
+                    <div class="tech-icon">🔍</div>
+                    <h3 class="tech-name">Curate Inspiration</h3>
+                    <p class="tech-description">Collect imagery, textures, color palettes, and references from diverse sources</p>
+                </div>
+                <div class="tech-card fade-in">
+                    <div class="tech-icon">📐</div>
+                    <h3 class="tech-name">Compose & Arrange</h3>
+                    <p class="tech-description">Build visual narratives through intuitive layout tools and flexible grid systems</p>
+                </div>
+                <div class="tech-card fade-in">
+                    <div class="tech-icon">✨</div>
+                    <h3 class="tech-name">Refine Details</h3>
+                    <p class="tech-description">Perfect spacing, hierarchy, and visual flow to achieve editorial precision</p>
+                </div>
+                <div class="tech-card fade-in">
+                    <div class="tech-icon">📤</div>
+                    <h3 class="tech-name">Present & Share</h3>
+                    <p class="tech-description">Export high-resolution boards ready for client presentations and team collaboration</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact" class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>VERALABS</h3>
+                <p class="body-text">
+                    A sophisticated digital atelier for fashion creatives. Curate, compose, and present
+                    stunning moodboards with editorial precision.
+                </p>
+            </div>
+            <div class="footer-links">
+                <h4>Platform</h4>
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#technology">Technology</a></li>
+                    <li><a href="#">Documentation</a></li>
+                </ul>
+            </div>
+            <div class="footer-links">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 VeraLabs. All rights reserved.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Instagram">📷</a>
+                <a href="#" aria-label="Twitter">🐦</a>
+                <a href="#" aria-label="LinkedIn">💼</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <button class="lightbox-close" id="lightbox-close">&times;</button>
+        <div class="lightbox-content" id="lightbox-content"></div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        // ==================== NAVBAR SCROLL EFFECT ====================
+        const navbar = document.getElementById('navbar');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ==================== MOBILE MENU TOGGLE ====================
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navLinks = document.getElementById('nav-links');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        // Close mobile menu when clicking a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // ==================== SMOOTH SCROLL ANIMATIONS ====================
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all elements with animation classes
+        document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right').forEach(el => {
+            observer.observe(el);
+        });
+
+        // ==================== CONCEPT FILTERS ====================
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const conceptCards = document.querySelectorAll('.concept-card');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active state
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                const filter = button.dataset.filter;
+
+                // Filter concept cards
+                conceptCards.forEach(card => {
+                    if (filter === 'all' || card.dataset.category === filter) {
+                        card.classList.remove('hidden');
+                        card.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                    } else {
+                        card.classList.add('hidden');
+                    }
+                });
+            });
+        });
+
+        // ==================== CONCEPT CARD LIGHTBOX ====================
+        const conceptCardsClickable = document.querySelectorAll('.concept-card');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxContent = document.getElementById('lightbox-content');
+
+        conceptCardsClickable.forEach(card => {
+            card.addEventListener('click', () => {
+                const conceptId = card.dataset.conceptId;
+                const title = card.querySelector('.concept-title').textContent;
+                const category = card.querySelector('.concept-category').textContent;
+                const description = card.querySelector('.concept-description').textContent;
+                const intimacy = card.dataset.intimacy;
+                const style = card.dataset.style;
+                const season = card.dataset.season;
+                const palette = card.dataset.palette.split(',');
+                const metaTags = Array.from(card.querySelectorAll('.meta-tag')).map(tag => tag.textContent);
+
+                lightboxContent.innerHTML = `
+                    <div style="max-width: 800px; padding: 3rem; background: rgba(10, 10, 10, 0.95); border-radius: 8px; border: 1px solid rgba(212, 175, 55, 0.3);">
+                        <div style="text-align: center; margin-bottom: 2rem;">
+                            <div style="font-size: 6rem; opacity: 0.3; margin-bottom: 1.5rem;">${card.querySelector('.concept-placeholder').textContent}</div>
+                            <h2 style="font-size: 2.5rem; font-weight: 300; margin-bottom: 0.5rem;">${title}</h2>
+                            <p style="color: var(--accent-gold); font-size: 0.9rem; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 1rem;">${category}</p>
+                            <span style="display: inline-block; background: rgba(212, 175, 55, 0.2); color: var(--accent-gold); padding: 0.5rem 1rem; font-size: 0.8rem; letter-spacing: 0.1em; border-radius: 4px; border: 1px solid var(--accent-gold);">
+                                Intimacy Level: ${intimacy}/10
+                            </span>
+                        </div>
+
+                        <div style="border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 2rem;">
+                            <p style="color: var(--text-secondary); line-height: 1.8; margin-bottom: 2rem; text-align: center;">${description}</p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; text-align: left;">
+                                <div>
+                                    <h4 style="color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 0.5rem; text-transform: uppercase;">Editorial Style</h4>
+                                    <p style="color: var(--text-primary); font-size: 0.95rem;">${style}</p>
+                                </div>
+                                <div>
+                                    <h4 style="color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 0.5rem; text-transform: uppercase;">Season/Theme</h4>
+                                    <p style="color: var(--text-primary); font-size: 0.95rem;">${season}</p>
+                                </div>
+                            </div>
+
+                            <div style="margin-bottom: 2rem;">
+                                <h4 style="color: var(--accent-gold); font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 1rem; text-transform: uppercase;">Color Palette</h4>
+                                <div style="display: flex; gap: 1rem; justify-content: center;">
+                                    ${palette.map(color => `<div style="width: 50px; height: 50px; background: ${color}; border-radius: 8px; border: 2px solid rgba(255, 255, 255, 0.3);"></div>`).join('')}
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem;">
+                                ${metaTags.map(tag => `<span style="font-size: 0.75rem; padding: 0.5rem 1rem; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 4px; color: var(--text-secondary);">${tag}</span>`).join('')}
+                            </div>
+
+                            <div style="text-align: center; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                                <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">This is a pre-built professional moodboard concept ready to use in your creative workflow.</p>
+                                <button style="padding: 1rem 3rem; background: var(--accent-gold); color: var(--primary-dark); border: none; font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; border-radius: 4px; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 10px 20px rgba(212, 175, 55, 0.3)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none';">
+                                    Use This Concept
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                lightbox.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close lightbox with Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && lightbox.classList.contains('active')) {
+                closeLightbox();
+            }
+        });
+
+        // ==================== SMOOTH SCROLLING FOR ANCHOR LINKS ====================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // ==================== PARALLAX EFFECT ====================
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const heroBackground = document.querySelector('.hero-background');
+            if (heroBackground) {
+                heroBackground.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // ==================== CONCEPT CARD STAGGER ANIMATION ====================
+        const conceptObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 100);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.concept-card').forEach(card => {
+            conceptObserver.observe(card);
+        });
+
+        // ==================== FEATURE CARDS STAGGER ====================
+        const featureObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-item').forEach(item => {
+            featureObserver.observe(item);
+        });
+
+        // ==================== TECH CARDS STAGGER ====================
+        const techObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 120);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.tech-card').forEach(item => {
+            techObserver.observe(item);
+        });
+
+        // ==================== PERFORMANCE OPTIMIZATION ====================
+        // Debounce scroll events
+        let scrollTimeout;
+        window.addEventListener('scroll', () => {
+            if (scrollTimeout) {
+                window.cancelAnimationFrame(scrollTimeout);
+            }
+            scrollTimeout = window.requestAnimationFrame(() => {
+                // Scroll-dependent updates happen here
+            });
+        });
+
+        // ==================== CONSOLE BRANDING ====================
+        console.log('%c VERALABS ', 'background: #d4af37; color: #0a0a0a; font-size: 20px; font-weight: bold; padding: 10px;');
+        console.log('%c AI-Powered Fashion Editorial ', 'background: #1a1a1a; color: #d4af37; font-size: 14px; padding: 5px;');
+    </script>
+</body>
+</html>

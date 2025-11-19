@@ -2,6 +2,7 @@ import { INDIAN_CORPORATE_VARIANTS } from './corporateModels';
 import { EROTIC_GLAMOUR_MODELS as ORIGINAL_GLAMOUR_MODELS } from './eroticGlamourModels';
 import { ARTISTIC_INTIMACY_MODELS } from './artisticIntimacyModels';
 import { PLATINUM_MODELS } from './platinumModels';
+import { INSTAGRAM_INFLUENCER_MODELS } from './instagramInfluencerModels';
 import { ARTISTIC_CONCEPTS as ORIGINAL_CONCEPTS, NEW_ARTISTIC_CONCEPTS, ROLE_PLAY_CONCEPTS, SEDUCTRESS_MAX_CONCEPTS, SUPER_SEDUCTRESS_ARTIST_CONCEPTS } from './experimentalConcepts';
 import { ENVIRONMENTS_CATALOG } from './environments';
 import { WARDROBE_CATALOG } from './wardrobeCollection';
@@ -11,10 +12,15 @@ import { PHOTOGRAPHER_STYLES } from './photographerStyles';
 import { ALL_ENVIRONMENTS, ENVIRONMENT_CATEGORIES } from './environmentsExpanded';
 
 // Combine models into the main export used by the app
-export const INDIAN_GLAMOUR_MODELS = [...ORIGINAL_GLAMOUR_MODELS, ...ARTISTIC_INTIMACY_MODELS, ...PLATINUM_MODELS];
+export const INDIAN_GLAMOUR_MODELS = [...ORIGINAL_GLAMOUR_MODELS, ...ARTISTIC_INTIMACY_MODELS, ...PLATINUM_MODELS, ...INSTAGRAM_INFLUENCER_MODELS];
 
 // New grouped structure for model selection dropdown
 export const MODEL_ARCHETYPE_GROUPS = [
+  {
+    label: 'Instagram Influencers (Viral Social Media)',
+    description: 'Viral Instagram influencer models with bedroom mirror selfie aesthetics, measurements 34-38 range, optimized for social media content.',
+    options: INSTAGRAM_INFLUENCER_MODELS.map(model => ({ name: model.name, description: model.category })),
+  },
   {
     label: 'The Divas (Glamour Specialists)',
     description: 'Elite specialists embodying diverse archetypes of Indian beauty and sensuality, each with a unique backstory and style.',

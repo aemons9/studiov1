@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import ApiKeySettings from './ApiKeySettings';
 
 interface HeaderProps {
-  mode: 'veo' | 'imagen4' | 'custom';
-  setMode: (mode: 'veo' | 'imagen4' | 'custom') => void;
+  mode: 'veo' | 'imagen4' | 'custom' | 'moodboard' | 'instagram';
+  setMode: (mode: 'veo' | 'imagen4' | 'custom' | 'moodboard' | 'instagram') => void;
   onExit?: () => void;
 }
 
 const Header: React.FC<HeaderProps> = ({ mode, setMode, onExit }) => {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
 
-  const getButtonClass = (buttonMode: 'veo' | 'imagen4' | 'custom') => {
+  const getButtonClass = (buttonMode: 'veo' | 'imagen4' | 'custom' | 'moodboard' | 'instagram') => {
     const base = "px-4 py-2 text-sm font-semibold rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-900";
     if (mode === buttonMode) {
       return `${base} bg-cyan-500 text-white shadow-lg shadow-cyan-500/20`;
@@ -49,11 +49,20 @@ const Header: React.FC<HeaderProps> = ({ mode, setMode, onExit }) => {
         <p className="mt-3 text-lg font-semibold text-cyan-300 tracking-wider">Indian Glamour Edition</p>
 
         <div className="mt-8 flex justify-center gap-2 flex-wrap">
-          <button onClick={() => setMode('veo')} className={getButtonClass('veo')}>
-            Veo Architect
+          <button onClick={() => setMode('moodboard')} className={getButtonClass('moodboard')}>
+            🎨 Fashion Moodboards
+          </button>
+          <button onClick={() => setMode('instagram')} className={getButtonClass('instagram')}>
+            <span className="flex items-center gap-1">
+              📱 Instagram Viral
+              <span className="px-1.5 py-0.5 bg-pink-600 text-white rounded text-xs ml-1">NEW</span>
+            </span>
           </button>
           <button onClick={() => setMode('imagen4')} className={getButtonClass('imagen4')}>
             Imagen 4 Architect
+          </button>
+          <button onClick={() => setMode('veo')} className={getButtonClass('veo')}>
+            Veo Architect
           </button>
           <button onClick={() => setMode('custom')} className={getButtonClass('custom')}>
             Custom Prompt
@@ -61,7 +70,11 @@ const Header: React.FC<HeaderProps> = ({ mode, setMode, onExit }) => {
         </div>
 
         <p className="mt-8 max-w-3xl mx-auto text-lg text-slate-400 leading-relaxed">
-          {mode === 'veo'
+          {mode === 'moodboard'
+            ? "Pre-built professional fashion editorial concepts featuring Indian models with diverse aesthetics. Inspired by Vogue India, Harper's Bazaar, and international fashion weeks."
+            : mode === 'instagram'
+            ? "Bold, sensual, glamorous Instagram-optimized concepts for viral content. Featuring Indian influencer-style models with maximum engagement potential. Perfect for VeraLabs Instagram page! 🔥📱"
+            : mode === 'veo'
             ? "Visually architect stunning, cinematic video prompts for Google's Veo AI, featuring a curated collection of specialized Indian glamour models."
             : mode === 'imagen4'
             ? "Generate breathtaking, high-fidelity still images with Imagen 4, using a powerful prompt generation engine based on Indian model archetypes."

@@ -12,6 +12,8 @@ import Loader from './components/Loader';
 import ApiKeySelector from './components/ApiKeySelector';
 import AuthSettings from './components/AuthSettings';
 import CustomPromptGenerator from './components/CustomPromptGenerator';
+import MoodboardConceptsUI from './components/MoodboardConceptsUI';
+import InstagramMoodboardsUI from './components/InstagramMoodboardsUI';
 import {
   MODELS,
   ENVIRONMENTS,
@@ -41,7 +43,7 @@ interface VeraModeProps {
 
 const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
   // Shared State
-  const [mode, setMode] = useState<'veo' | 'imagen4' | 'custom'>('veo');
+  const [mode, setMode] = useState<'veo' | 'imagen4' | 'custom' | 'moodboard' | 'instagram'>('moodboard');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [prompts, setPrompts] = useState<DisplayPrompt[]>([]);
@@ -286,6 +288,18 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
           {mode === 'custom' && (
             <div className="flex flex-col gap-8">
               <CustomPromptGenerator />
+            </div>
+          )}
+
+          {mode === 'moodboard' && (
+            <div className="flex flex-col gap-8">
+              <MoodboardConceptsUI />
+            </div>
+          )}
+
+          {mode === 'instagram' && (
+            <div className="flex flex-col gap-8">
+              <InstagramMoodboardsUI />
             </div>
           )}
 

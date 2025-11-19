@@ -7,6 +7,7 @@
 
 import { MasterClassModel, ModelCategory } from './modelTaxonomy';
 import { INSTAGRAM_MASTERCLASS_MODELS } from './instagramModels';
+import { INDIAN_HOURGLASS_MUSE_MASTERCLASS } from './indianHourglassMuseMasterClass';
 
 export const CORE_MASTERCLASS_MODELS: MasterClassModel[] = [
   // ============================================================================
@@ -620,10 +621,11 @@ export const CORE_MASTERCLASS_MODELS: MasterClassModel[] = [
   }
 ];
 
-// Combine all models including Instagram variants
+// Combine all models including Instagram variants and the Indian Hourglass Muse
 export const MASTERCLASS_MODELS: MasterClassModel[] = [
   ...CORE_MASTERCLASS_MODELS,
-  ...INSTAGRAM_MASTERCLASS_MODELS
+  ...INSTAGRAM_MASTERCLASS_MODELS,
+  INDIAN_HOURGLASS_MUSE_MASTERCLASS
 ];
 
 /**

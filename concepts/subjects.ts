@@ -84,5 +84,47 @@ export const indianModelVariants: SubjectVariant[] = [
   {
     name: "Indian Bohemian Dreamer (Freckled)",
     value: "An Indian model (height 5'6\") with a unique, unconventional beauty. She has a slender, willowy frame (bust 34A\", waist 26\", hips 35\") and a sun-kissed wheatish complexion adorned with a dusting of natural freckles across her nose and cheeks. She embodies a free-spirited, bohemian, and artistic soul."
+  },
+
+  // Artistic Midnight Collection - Intimate Fine-Art Models (Intimacy Level 9-10)
+  {
+    name: "Midnight Floor Artist (Golden-Bronze) 36-26-38",
+    value: "Elite Indian Instagram model (height 5'7\") specializing in intimate fine-art floor photography. Perfect hourglass measurements (bust 36\", waist 26\", hips 38\") with golden-bronze skin that glows in candlelight. Master of vulnerable floor poses creating Rembrandt-style chiaroscuro. Age 22-26. Expressive eyes conveying deep intimacy, naturally full lips, sculpted features perfect for dramatic shadow play. Specializes in artistic nude and implied nude photography with champagne silk and scattered rose petals."
+  },
+  {
+    name: "Balcony Moonlight Muse (Golden-Bronze) 36-26-38",
+    value: "Indian Instagram influencer (height 5'7\") expert in moonlit balcony photography. Curvaceous figure (bust 36\", waist 26\", hips 38\") with luminescent golden-bronze skin. Creates cinematic tension with city lights backdrop. Age 22-26. Wind-swept hair, penetrating gaze, natural grace in movement. Specializes in gossamer robes and ethereal midnight photography with urban romance aesthetic."
+  },
+  {
+    name: "Private Chamber Poetess (Golden-Bronze) 36-26-38",
+    value: "Sophisticated Indian model (height 5'7\") channeling Pre-Raphaelite beauty. Classic measurements (bust 36\", waist 26\", hips 38\") with warm golden-bronze complexion. Age 22-26. Intellectual sensuality with expressive features, romantic eyes, classical beauty. Expert in vintage negligee styling with velvet and lace, creating painterly portraits in Victorian settings."
+  },
+  {
+    name: "Library Midnight Scholar (Golden-Bronze) 36-26-38",
+    value: "Indian Instagram model (height 5'7\") embodying intellectual seduction. Perfect proportions (bust 36\", waist 26\", hips 38\") with radiant golden-bronze skin. Age 22-26. Scholarly beauty with intelligent eyes, natural elegance, subtle sensuality. Specializes in 'undressed academic' aesthetic - oversized oxford shirts in ancient library settings after hours."
+  },
+  {
+    name: "Alley Noir Siren (Golden-Bronze) 36-26-38",
+    value: "Urban Indian influencer (height 5'7\") mastering film noir aesthetics. Hourglass figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin catching neon reflections. Age 22-26. Dangerous beauty with smoky eyes, rebellious attitude, mysterious allure. Expert in leather-and-lace contrast styling, creating Wong Kar-wai inspired urban narratives."
+  },
+  {
+    name: "Wooden Cabin Recluse (Golden-Bronze) 36-26-38",
+    value: "Indian Instagram model (height 5'7\") specializing in cozy intimate settings. Natural curves (bust 36\", waist 26\", hips 38\") with warm golden-bronze glow enhanced by firelight. Age 22-26. Natural beauty with relaxed sensuality, genuine warmth, approachable intimacy. Master of oversized knit sweaters and fireside photography with Terrence Malick natural light philosophy."
+  },
+  {
+    name: "Rooftop Sunrise Goddess (Golden-Bronze) 36-26-38",
+    value: "Indian wellness influencer (height 5'7\") capturing dawn's first light. Yoga-toned figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin creating perfect rim lighting. Age 22-26. Ethereal beauty with peaceful expression, graceful movement, transcendent presence. Specializes in backlit sheer wraps and golden hour urban goddess aesthetic."
+  },
+  {
+    name: "Vintage Bathroom Venus (Golden-Bronze) 36-26-38",
+    value: "Classic beauty Indian model (height 5'7\") recreating Degas-inspired bathing scenes. Statuesque measurements (bust 36\", waist 26\", hips 38\") with wet golden-bronze skin creating artistic reflections. Age 22-26. Timeless features with classical proportions, serene expression, Venus-like grace. Expert in artistic nude photography with water, foam, and rose petals in vintage clawfoot tubs."
+  },
+  {
+    name: "Artist Studio Muse (Golden-Bronze) 36-26-38",
+    value: "Bohemian Indian model (height 5'7\") embodying creative energy. Artist's dream figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin contrasting paint splatters. Age 22-26. Expressive features with artistic soul, raw authenticity, creative passion. Specializes in paint-splattered shirts and artist studio environmental portraits channeling Lucian Freud's honesty."
+  },
+  {
+    name: "Secret Garden Nymph (Golden-Bronze) 36-26-38",
+    value: "Mystical Indian influencer (height 5'7\") creating fairy-tale narratives. Nature-perfect curves (bust 36\", waist 26\", hips 38\") with golden-bronze skin luminous in moonlight. Age 22-26. Ethereal beauty with dreamy eyes, natural grace, fantasy presence. Master of botanical sheer wraps and Tim Walker-inspired garden conservatory midnight sessions."
   }
 ];

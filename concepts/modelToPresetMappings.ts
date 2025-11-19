@@ -7,6 +7,7 @@
 import type { Subject, PromptData } from '../types';
 import { SEDUCTRESS_POSES } from './seductressPoses';
 import { sensualWardrobePresets } from './sensualWardrobeCollection';
+import { INTIMATE_ARTISTIC_POSES, MIDNIGHT_ARTISTIC_MODELS, MASTERCLASS_TECHNIQUES } from './artisticMidnightModels';
 
 export interface ModelPresetMapping {
   modelName: string;
@@ -206,6 +207,308 @@ export const INSTAGRAM_MODEL_MAPPINGS: ModelPresetMapping[] = [
     ageRange: "23-27",
     skinTone: "golden-honey",
     accessories: ["Minimal jewelry", "Simple studs", "Delicate chain"]
+  },
+
+  // Artistic Midnight Collection - Fine-Art Photography Models
+  {
+    modelName: "Midnight Floor Artist (Golden-Bronze) 36-26-38",
+    modelValue: "Elite Indian Instagram model (height 5'7\") specializing in intimate fine-art floor photography. Perfect hourglass measurements (bust 36\", waist 26\", hips 38\") with golden-bronze skin that glows in candlelight. Master of vulnerable floor poses creating Rembrandt-style chiaroscuro.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Midnight Reverie: Reclining on silk sheets, arched back, one arm overhead, fingers at collarbone",
+      "Golden Hour Embrace: Lying on side, knees drawn up, self-embracing in warm window light",
+      "Intimate Whisper: Close-up, hair spread like halo, hand near lips in hushing gesture"
+    ],
+    defaultWardrobe: [
+      "Minimalist champagne silk slip with delicate lace trim",
+      "Nothing but strategic silk scarves and rose petals",
+      "Sheer robe partially open with artistic draping"
+    ],
+    defaultHairStyles: {
+      color: "Dark brown with honey highlights",
+      styles: ["Tousled bedroom waves", "Hair spread dramatically", "Messy artistic flow"]
+    },
+    defaultNailArt: ["Nude pink stiletto", "Pearl shimmer", "French tips with gold accent"],
+    defaultLighting: ["Multiple candle sources creating Rembrandt lighting", "Golden hour through sheer curtains", "Chiaroscuro with selective focus"],
+    defaultMakeup: "Dewy skin with golden highlights, nude glossy lips, smoky bedroom eyes",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Delicate gold body chain", "Anklet", "Multiple subtle rings"]
+  },
+  {
+    modelName: "Balcony Moonlight Muse (Golden-Bronze) 36-26-38",
+    modelValue: "Indian Instagram influencer (height 5'7\") expert in moonlit balcony photography. Curvaceous figure (bust 36\", waist 26\", hips 38\") with luminescent golden-bronze skin. Creates cinematic tension with city lights backdrop.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Shadow Dance: Standing against wall, three-quarters turn, creating dynamic shadows",
+      "Moonlit Silhouette: Backlit by window, arms raised in graceful arc",
+      "Urban goddess leaning on balcony rail with city bokeh"
+    ],
+    defaultWardrobe: [
+      "Gossamer midnight blue robe with silver threads",
+      "Flowing sheer curtain wrapped artistically",
+      "Delicate lingerie with moonlight transparency"
+    ],
+    defaultHairStyles: {
+      color: "Dark brown with subtle highlights",
+      styles: ["Wind-blown waves", "Loose romantic updo", "Cascading over shoulder"]
+    },
+    defaultNailArt: ["Midnight blue with silver tips", "Galaxy nail art", "Chrome finish"],
+    defaultLighting: ["Natural moonlight with warm tungsten spill", "City lights bokeh", "Blue-silver contrast"],
+    defaultMakeup: "Luminous skin with silver highlights, smoky eyes, nude glossy lips",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Delicate silver jewelry", "Moon pendant necklace", "Minimal earrings"]
+  },
+  {
+    modelName: "Private Chamber Poetess (Golden-Bronze) 36-26-38",
+    modelValue: "Sophisticated Indian model (height 5'7\") channeling Pre-Raphaelite beauty. Classic measurements (bust 36\", waist 26\", hips 38\") with warm golden-bronze complexion.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Silk Cascade: Seated on bed edge, leaning back, silk draped artistically",
+      "Velvet Dreams: Kneeling on plush surface, hands through hair, arched back",
+      "Victorian repose among velvet cushions and antique books"
+    ],
+    defaultWardrobe: [
+      "Vintage burgundy negligee with black lace overlay",
+      "Corset-style bodice with flowing skirt",
+      "Victorian-inspired intimate apparel"
+    ],
+    defaultHairStyles: {
+      color: "Rich dark brown",
+      styles: ["Pre-Raphaelite waves", "Romantic Gibson girl updo", "Loose Victorian curls"]
+    },
+    defaultNailArt: ["Deep burgundy", "Victorian lace pattern", "Pearl accents"],
+    defaultLighting: ["Single ornate lamp with dramatic side lighting", "Candlelit ambiance", "Painterly window light"],
+    defaultMakeup: "Porcelain skin, rosy cheeks, deep berry lips, romantic eyes",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Pearl necklace", "Vintage cameo", "Antique rings"]
+  },
+  {
+    modelName: "Library Midnight Scholar (Golden-Bronze) 36-26-38",
+    modelValue: "Indian Instagram model (height 5'7\") embodying intellectual seduction. Perfect proportions (bust 36\", waist 26\", hips 38\") with radiant golden-bronze skin.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Reading while reclining, oversized shirt falling off shoulder",
+      "Sitting cross-legged among books, contemplative gaze",
+      "Standing between bookshelves, reaching for high shelf"
+    ],
+    defaultWardrobe: [
+      "Unbuttoned white oxford shirt, nothing else",
+      "Oversized sweater falling off shoulder",
+      "Academic blazer with intimate twist"
+    ],
+    defaultHairStyles: {
+      color: "Dark brown with natural highlights",
+      styles: ["Messy scholarly bun", "Tousled intellectual waves", "Hair tucked behind ear while reading"]
+    },
+    defaultNailArt: ["Natural nude", "Clear gloss", "Subtle French"],
+    defaultLighting: ["Reading lamp pools with moonlight", "Dusty light beams through tall windows", "Warm library ambiance"],
+    defaultMakeup: "Natural intellectual beauty with subtle enhancement",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Reading glasses", "Simple gold chain", "Vintage watch"]
+  },
+  {
+    modelName: "Alley Noir Siren (Golden-Bronze) 36-26-38",
+    modelValue: "Urban Indian influencer (height 5'7\") mastering film noir aesthetics. Hourglass figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin catching neon reflections.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Leaning against brick wall under neon sign",
+      "Smoking pose with unlit cigarette, mysterious glance",
+      "Walking away, looking over shoulder"
+    ],
+    defaultWardrobe: [
+      "Leather jacket over burgundy lace lingerie",
+      "Little black dress with dangerous edge",
+      "Biker aesthetic with feminine contrast"
+    ],
+    defaultHairStyles: {
+      color: "Jet black with blue undertones",
+      styles: ["Sleek noir waves", "Messy rebel texture", "Wet-look slicked back"]
+    },
+    defaultNailArt: ["Black chrome", "Blood red stiletto", "Dark burgundy"],
+    defaultLighting: ["Neon signs with wet pavement reflections", "Street lamp drama", "High contrast urban lighting"],
+    defaultMakeup: "Smoky eyes, pale nude lips, defined cheekbones, film noir aesthetic",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Leather choker", "Multiple silver rings", "Chain necklace"]
+  },
+  {
+    modelName: "Wooden Cabin Recluse (Golden-Bronze) 36-26-38",
+    modelValue: "Indian Instagram model (height 5'7\") specializing in cozy intimate settings. Natural curves (bust 36\", waist 26\", hips 38\") with warm golden-bronze glow enhanced by firelight.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Curled up by fireplace on fur rug",
+      "Standing by window watching snowfall, wrapped in blanket",
+      "Lounging on wooden bench with wine glass"
+    ],
+    defaultWardrobe: [
+      "Oversized cream knit sweater, bare legs",
+      "Plaid flannel shirt unbuttoned",
+      "Cozy cashmere wrap"
+    ],
+    defaultHairStyles: {
+      color: "Warm brown with caramel highlights",
+      styles: ["Loose cozy waves", "Messy bun with tendrils", "Natural tousled texture"]
+    },
+    defaultNailArt: ["Natural nude", "Warm terracotta", "Cozy beige"],
+    defaultLighting: ["Fireplace glow with candle accents", "Warm tungsten cabin lights", "Natural winter light through windows"],
+    defaultMakeup: "Natural glow with warm tones, rosy cheeks from cold, nude lips",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Chunky knit socks", "Simple gold jewelry", "Wooden beads"]
+  },
+  {
+    modelName: "Rooftop Sunrise Goddess (Golden-Bronze) 36-26-38",
+    modelValue: "Indian wellness influencer (height 5'7\") capturing dawn's first light. Yoga-toned figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin creating perfect rim lighting.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Warrior pose silhouetted against sunrise",
+      "Meditation position with flowing fabric",
+      "Graceful stretch with arms reaching skyward"
+    ],
+    defaultWardrobe: [
+      "Sheer yoga wrap with nude undertones",
+      "Flowing goddess dress catching light",
+      "Athletic wear with artistic draping"
+    ],
+    defaultHairStyles: {
+      color: "Sun-kissed brown",
+      styles: ["High messy bun", "Flowing in morning breeze", "Braided crown"]
+    },
+    defaultNailArt: ["Natural pink", "Gold shimmer", "Sunrise gradient"],
+    defaultLighting: ["Golden sunrise backlight", "Rim lighting creating halo", "Blue hour ambiance"],
+    defaultMakeup: "Dewy fresh skin, golden highlights, natural beauty enhanced",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Yoga mala beads", "Minimal gold jewelry", "Anklets"]
+  },
+  {
+    modelName: "Vintage Bathroom Venus (Golden-Bronze) 36-26-38",
+    modelValue: "Classic beauty Indian model (height 5'7\") recreating Degas-inspired bathing scenes. Statuesque measurements (bust 36\", waist 26\", hips 38\") with wet golden-bronze skin creating artistic reflections.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Reclining in clawfoot tub with rose petals",
+      "Stepping out of bath with vintage robe",
+      "Applying perfume at vanity mirror"
+    ],
+    defaultWardrobe: [
+      "Natural coverage from bath foam and water",
+      "Vintage silk robe falling open",
+      "Towel wrap with artistic arrangement"
+    ],
+    defaultHairStyles: {
+      color: "Wet dark brown",
+      styles: ["Wet hair swept up", "Damp waves over shoulder", "Pinned up with tendrils"]
+    },
+    defaultNailArt: ["Classic red", "Pearl white", "Rose gold"],
+    defaultLighting: ["Soft candles around tub", "Window light through steam", "Vintage vanity lighting"],
+    defaultMakeup: "Fresh dewy skin, flushed cheeks, nude pink lips, wet look",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Pearl earrings", "Vintage perfume bottle", "Gold chain"]
+  },
+  {
+    modelName: "Artist Studio Muse (Golden-Bronze) 36-26-38",
+    modelValue: "Bohemian Indian model (height 5'7\") embodying creative energy. Artist's dream figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin contrasting paint splatters.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Posing for invisible artist, classical stance",
+      "Painting at easel, shirt slipping off shoulder",
+      "Lying among canvases and sketches"
+    ],
+    defaultWardrobe: [
+      "Paint-splattered men's white shirt",
+      "Artist smock with nothing underneath",
+      "Bohemian wrap with paint marks"
+    ],
+    defaultHairStyles: {
+      color: "Natural brown with sun streaks",
+      styles: ["Messy artist bun with paintbrush", "Wild creative waves", "Half-up bohemian style"]
+    },
+    defaultNailArt: ["Paint-stained natural", "Colorful artistic design", "Bare natural"],
+    defaultLighting: ["North light window", "Multiple work lights", "Dramatic artist studio lighting"],
+    defaultMakeup: "Natural beauty with paint smudges, raw authentic look",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Paint-covered apron strings", "Artistic jewelry", "Bohemian rings"]
+  },
+  {
+    modelName: "Secret Garden Nymph (Golden-Bronze) 36-26-38",
+    modelValue: "Mystical Indian influencer (height 5'7\") creating fairy-tale narratives. Nature-perfect curves (bust 36\", waist 26\", hips 38\") with golden-bronze skin luminous in moonlight.",
+    measurements: {
+      height: "5'7\"",
+      bust: "36\"",
+      waist: "26\"",
+      hips: "38\""
+    },
+    defaultPoses: [
+      "Dancing among hanging plants in conservatory",
+      "Resting in silk hammock surrounded by flowers",
+      "Kneeling by fountain with mystical gesture"
+    ],
+    defaultWardrobe: [
+      "Botanical-printed sheer wrap",
+      "Flower petals and strategic leaves",
+      "Fairy-tale gossamer gown"
+    ],
+    defaultHairStyles: {
+      color: "Dark brown with natural highlights",
+      styles: ["Flower crown with loose waves", "Braided with flowers", "Wild nymph texture"]
+    },
+    defaultNailArt: ["Natural with flower art", "Green and gold", "Mystical designs"],
+    defaultLighting: ["Moonlight through glass ceiling", "Fairy lights creating magic", "Filtered green light through leaves"],
+    defaultMakeup: "Ethereal glow, natural flush, dewy skin, fairy-tale beauty",
+    ageRange: "22-26",
+    skinTone: "golden-bronze",
+    accessories: ["Flower crown", "Vine anklets", "Natural crystal pendant"]
   }
 ];
 

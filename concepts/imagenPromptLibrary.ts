@@ -14,6 +14,7 @@
 
 import { IMAGEN_ART_DIRECTOR_DECLARATION } from '../services/imagenOptimizer';
 import { fluxPromptLibrary } from './fluxPromptLibrary';
+import { imagenMusePromptLibrary } from './imagenMusePromptLibrary';
 
 export interface ImagenPromptTemplate {
   id: string;
@@ -164,6 +165,22 @@ export const imagenPromptLibrary: ImagenPromptTemplate[] = [
   INSTAGRAM_MIRROR_BODYSUIT,
   INSTAGRAM_MIRROR_RECLINED,
   INSTAGRAM_MIRROR_ARCHED,
+  // Add all Indian Hourglass Muse prompts with varied locations and wardrobes
+  ...imagenMusePromptLibrary.map(template => ({
+    id: template.id,
+    name: `MUSE: ${template.name}`,
+    category: template.category === 'urban_nights' ? 'editorial' as const :
+              template.category === 'intimate_spaces' ? 'editorial' as const :
+              template.category === 'artistic_expression' ? 'artistic' as const :
+              template.category === 'natural_elements' ? 'artistic' as const :
+              template.category === 'architectural' ? 'architectural' as const :
+              'editorial' as const,
+    intimacyLevel: template.intimacyLevel,
+    aspectRatio: template.aspectRatio,
+    personGeneration: template.personGeneration,
+    safetyFilter: template.safetyFilter,
+    prompt: template.prompt
+  })),
   ...fluxPromptLibrary
     .filter(template => template.id.startsWith('erotic-'))
     .map(template => ({

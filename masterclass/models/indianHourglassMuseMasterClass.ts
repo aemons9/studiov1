@@ -427,12 +427,12 @@ export const INDIAN_HOURGLASS_MUSE_MASTERCLASS: MasterClassModel = {
       },
       {
         name: 'Golden Hour Goddess',
-        philosophy: 'Nature's most flattering light',
+        philosophy: 'Nature\'s most flattering light',
         keyLight: 'Setting sun through windows or outdoors',
         fillRatio: '2:1 with natural fill from sky',
         colorTemperature: '3500K deep golden warmth',
         shadows: 'Long and romantic without being harsh',
-        highlights: 'Skin glowing like it's lit from within',
+        highlights: 'Skin glowing like it\'s lit from within',
         mood: 'Romantic luxury with natural beauty'
       },
       {

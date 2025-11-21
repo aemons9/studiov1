@@ -589,14 +589,23 @@
         // Load images from photo folder
         async function loadGalleryImages() {
             try {
-                // Attempt to load images from the photo directory
-                const response = await fetch('/api/gallery-images');
+                // First, try to load from static gallery-data.json (for GitHub Pages)
+                const response = await fetch('gallery-data.json');
 
                 if (response.ok) {
-                    galleryImages = await response.json();
+                    const data = await response.json();
+                    galleryImages = data.images || [];
+                    console.log(`Loaded ${galleryImages.length} images from gallery-data.json`);
                 } else {
-                    // Fallback: try to load from photo folder directly
-                    galleryImages = await loadImagesFromPhotoFolder();
+                    // Fallback: try API endpoint (for local server)
+                    const apiResponse = await fetch('/api/gallery-images');
+                    if (apiResponse.ok) {
+                        galleryImages = await apiResponse.json();
+                        console.log(`Loaded ${galleryImages.length} images from API`);
+                    } else {
+                        // Final fallback: try to load from photo folder directly
+                        galleryImages = await loadImagesFromPhotoFolder();
+                    }
                 }
 
                 if (galleryImages.length === 0) {
@@ -605,7 +614,7 @@
                     renderGallery();
                 }
             } catch (error) {
-                console.log('Using fallback image loading method');
+                console.log('Error loading images, using fallback method:', error);
                 galleryImages = await loadImagesFromPhotoFolder();
 
                 if (galleryImages.length === 0) {

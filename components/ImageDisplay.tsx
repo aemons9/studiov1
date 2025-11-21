@@ -1,6 +1,7 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import type { GeneratedImageData, GenerationStep } from '../types';
+import AddToGalleryModal from './AddToGalleryModal';
 
 interface ImageDisplayProps {
   imageData: GeneratedImageData[] | null;
@@ -125,6 +126,16 @@ const ErrorDisplay: React.FC<{ message: string }> = ({ message }) => {
 };
 
 const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error, wovenPrompt, generationStep }) => {
+  const [galleryModalState, setGalleryModalState] = useState<{
+    isOpen: boolean;
+    imageUrl: string | null;
+    imageIndex: number | null;
+  }>({
+    isOpen: false,
+    imageUrl: null,
+    imageIndex: null
+  });
+
   const getGridCols = (count: number) => {
     if (count <= 1) return 'grid-cols-1';
     if (count <= 4) return 'grid-cols-2';
@@ -138,6 +149,32 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+  };
+
+  const handleAddToGallery = (url: string, index: number) => {
+    setGalleryModalState({
+      isOpen: true,
+      imageUrl: url,
+      imageIndex: index
+    });
+  };
+
+  const handleCategorySelect = (category: string) => {
+    if (!galleryModalState.imageUrl) return;
+
+    const timestamp = Date.now();
+    const link = document.createElement('a');
+    link.href = galleryModalState.imageUrl;
+    link.download = `${category}-${timestamp}.jpg`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Close modal and show success message
+    setGalleryModalState({ isOpen: false, imageUrl: null, imageIndex: null });
+
+    // You could add a toast notification here
+    alert(`Image downloaded as "${category}-${timestamp}.jpg"\n\nNext steps:\n1. Upload this file to the "photo/" folder on GitHub\n2. The gallery will auto-update via GitHub Actions!`);
   };
 
   const handleDownloadAll = () => {
@@ -174,13 +211,24 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
                                 </div>
                            </div>
                         </div>
-                         <button
+                        <div className="absolute top-2 right-2 flex gap-2">
+                          <button
+                            onClick={() => handleAddToGallery(data.url, index)}
+                            className="p-2 bg-teal-600/90 rounded-full text-white hover:bg-teal-500 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                            aria-label={`Add image ${index + 1} to gallery`}
+                          >
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                          </button>
+                          <button
                             onClick={() => handleDownload(data.url, index)}
-                            className="absolute top-2 right-2 p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
+                            className="p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                             aria-label={`Download image ${index + 1}`}
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                           </button>
+                        </div>
                     </div>
                 ))}
             </div>
@@ -194,6 +242,13 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
           </div>
       )}
       {!isLoading && !error && (!imageData || imageData.length === 0) && <Placeholder />}
+
+      <AddToGalleryModal
+        isOpen={galleryModalState.isOpen}
+        onClose={() => setGalleryModalState({ isOpen: false, imageUrl: null, imageIndex: null })}
+        onSelectCategory={handleCategorySelect}
+        imageUrl={galleryModalState.imageUrl || ''}
+      />
     </div>
   );
 };

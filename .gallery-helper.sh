@@ -56,12 +56,12 @@ case $choice in
         echo ""
         echo "Press Ctrl+C to stop the server"
         echo ""
-        node simple-server.js
+        node simple-server.cjs
         ;;
     2)
         echo ""
         echo "🔍 Scanning photo directory..."
-        node load-gallery-images.js
+        node load-gallery-images.cjs
         ;;
     3)
         echo ""

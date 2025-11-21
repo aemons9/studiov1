@@ -10,7 +10,7 @@ npm run gallery:server
 
 Or use Node directly:
 ```bash
-node simple-server.js
+node simple-server.cjs
 ```
 
 ### 2. Open Your Browser

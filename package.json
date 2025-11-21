@@ -14,8 +14,8 @@
     "preview:host": "vite preview --host",
     "vercel:dev": "vercel dev",
     "vercel:deploy": "vercel --prod",
-    "gallery:server": "node simple-server.js",
-    "gallery:load": "node load-gallery-images.js",
+    "gallery:server": "node simple-server.cjs",
+    "gallery:load": "node load-gallery-images.cjs",
     "gallery:help": "bash .gallery-helper.sh"
   },
   "dependencies": {

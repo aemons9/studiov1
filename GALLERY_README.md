@@ -30,7 +30,7 @@ The simple server automatically loads images from the `/photo` folder:
 
 ```bash
 # Start the server
-node simple-server.js
+node simple-server.cjs
 
 # Then open in your browser:
 # http://localhost:8080/veralabs-landing-v2.html
@@ -81,22 +81,22 @@ If you already have a server running, just add your images to the `/photo` folde
 
 ## 🛠️ Scripts
 
-### load-gallery-images.js
+### load-gallery-images.cjs
 
 Scans the `/photo` folder and generates `gallery-data.json`:
 
 ```bash
-node load-gallery-images.js
+node load-gallery-images.cjs
 ```
 
 This creates a JSON file with all your images and their metadata.
 
-### simple-server.js
+### simple-server.cjs
 
 Starts a local development server with API endpoint for gallery images:
 
 ```bash
-node simple-server.js
+node simple-server.cjs
 ```
 
 Features:

@@ -24,10 +24,10 @@ const AddToGalleryModal: React.FC<AddToGalleryModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (selectedCategory) {
-      onSelectCategory(selectedCategory);
-      onClose();
+      await onSelectCategory(selectedCategory);
+      // Note: Parent component (ImageDisplay) will handle closing the modal
     }
   };
 
@@ -126,9 +126,10 @@ const AddToGalleryModal: React.FC<AddToGalleryModalProps> = ({
               How it works
             </h4>
             <ul className="text-xs text-gray-300 space-y-1">
-              <li>• Image will be downloaded with category-specific filename</li>
-              <li>• Upload to GitHub: <code className="text-blue-300">photo/</code> folder</li>
-              <li>• Gallery updates automatically on GitHub Pages!</li>
+              <li>• Image will be uploaded directly to GitHub repository</li>
+              <li>• Saved to: <code className="text-blue-300">photo/{'{category}'}-{'{timestamp}'}.jpg</code></li>
+              <li>• Gallery updates automatically via GitHub Actions!</li>
+              <li>• Requires GitHub token in localStorage</li>
             </ul>
           </div>
         </div>

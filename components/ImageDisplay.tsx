@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import type { GeneratedImageData, GenerationStep } from '../types';
 import AddToGalleryModal from './AddToGalleryModal';
+import { uploadImageToGallery } from '../services/githubUploadService';
 
 interface ImageDisplayProps {
   imageData: GeneratedImageData[] | null;
@@ -159,22 +160,41 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
     });
   };
 
-  const handleCategorySelect = (category: string) => {
+  const handleCategorySelect = async (category: string) => {
     if (!galleryModalState.imageUrl) return;
 
-    const timestamp = Date.now();
-    const link = document.createElement('a');
-    link.href = galleryModalState.imageUrl;
-    link.download = `${category}-${timestamp}.jpg`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    // Get GitHub token from localStorage
+    const githubToken = localStorage.getItem('githubToken');
 
-    // Close modal and show success message
-    setGalleryModalState({ isOpen: false, imageUrl: null, imageIndex: null });
+    if (!githubToken) {
+      alert('GitHub token not found!\n\nPlease set your GitHub token first:\nlocalStorage.setItem("githubToken", "YOUR_GITHUB_TOKEN");\n\nGet a token from: https://github.com/settings/tokens\nRequired permissions: repo');
+      setGalleryModalState({ isOpen: false, imageUrl: null, imageIndex: null });
+      return;
+    }
 
-    // You could add a toast notification here
-    alert(`Image downloaded as "${category}-${timestamp}.jpg"\n\nNext steps:\n1. Upload this file to the "photo/" folder on GitHub\n2. The gallery will auto-update via GitHub Actions!`);
+    try {
+      // Show loading state (you could enhance this with a better UI)
+      alert('⏳ Uploading image to GitHub...\n\nThis may take a few seconds.');
+
+      // Upload to GitHub
+      const result = await uploadImageToGallery(
+        galleryModalState.imageUrl,
+        category,
+        githubToken
+      );
+
+      // Close modal
+      setGalleryModalState({ isOpen: false, imageUrl: null, imageIndex: null });
+
+      if (result.success) {
+        alert(`✅ Success!\n\nImage uploaded to GitHub gallery!\n\nCategory: ${category}\n\nThe gallery page will auto-update via GitHub Actions within a few minutes.`);
+      } else {
+        alert(`❌ Upload failed:\n\n${result.message}\n\nPlease check your GitHub token and try again.`);
+      }
+    } catch (error) {
+      setGalleryModalState({ isOpen: false, imageUrl: null, imageIndex: null });
+      alert(`❌ Error uploading image:\n\n${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
   };
 
   const handleDownloadAll = () => {

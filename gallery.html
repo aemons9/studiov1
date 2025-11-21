@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | VeraLabs</title>
+    <meta name="description" content="Explore our curated collection of haute couture fashion photography">
+
+    <!-- Sophisticated Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@100;200;300;400;500&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================== DESIGN SYSTEM ==================== */
+        :root {
+            /* Creamy Minimalist Palette */
+            --cream-white: #FAF8F5;
+            --ivory: #F7F3ED;
+            --champagne: #E8DFD3;
+            --nude-beige: #D4C4B0;
+            --warm-taupe: #B8A28E;
+            --soft-charcoal: #3E3A37;
+            --deep-espresso: #1C1917;
+
+            /* Accent Colors */
+            --rose-gold: #E8B4B8;
+            --pale-gold: #D4AF37;
+            --dusty-mauve: #C8A2B8;
+            --sage-green: #9CAF88;
+            --steel-blue: #7C93A3;
+
+            /* Typography Scale */
+            --font-editorial: 'Playfair Display', serif;
+            --font-modern: 'Inter', sans-serif;
+            --font-luxury: 'Bodoni Moda', serif;
+
+            /* Spacing Rhythm */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 3rem;
+            --space-xl: 5rem;
+            --space-2xl: 8rem;
+
+            /* Transitions */
+            --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==================== RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background: var(--rose-gold);
+            color: var(--cream-white);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-modern);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--soft-charcoal);
+            background: var(--cream-white);
+            overflow-x: hidden;
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(216, 207, 195, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-luxury);
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--deep-espresso);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: var(--space-lg);
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--soft-charcoal);
+            text-decoration: none;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--pale-gold);
+            transition: width 0.4s var(--ease-luxury);
+        }
+
+        .nav-link:hover {
+            color: var(--deep-espresso);
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--cream-white) 0%, var(--ivory) 50%, var(--champagne) 100%);
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            padding: var(--space-lg);
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-family: var(--font-luxury);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--deep-espresso);
+            margin-bottom: var(--space-md);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-editorial);
+            font-size: clamp(1.25rem, 2.5vw, 1.75rem);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--warm-taupe);
+            margin-bottom: var(--space-md);
+        }
+
+        /* ==================== GALLERY SECTION ==================== */
+        .gallery-section {
+            padding: var(--space-2xl) var(--space-lg);
+            background: var(--cream-white);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-family: var(--font-editorial);
+            font-style: italic;
+            color: var(--soft-charcoal);
+            margin-bottom: var(--space-lg);
+            position: relative;
+            text-align: center;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+        }
+
+        /* Gallery Filters */
+        .gallery-filters {
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+            margin: var(--space-xl) 0;
+        }
+
+        .filter-chip {
+            padding: 0.625rem 1.5rem;
+            font-family: var(--font-modern);
+            font-size: 0.8125rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--soft-charcoal);
+            background: transparent;
+            border: 1px solid var(--champagne);
+            cursor: pointer;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .filter-chip:hover,
+        .filter-chip.active {
+            color: var(--cream-white);
+            background: var(--soft-charcoal);
+            border-color: var(--soft-charcoal);
+        }
+
+        /* Modern Masonry Grid Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            grid-auto-rows: 20px;
+            gap: 24px;
+            margin-top: var(--space-xl);
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            background: var(--ivory);
+            cursor: pointer;
+            transition: all 0.5s var(--ease-luxury);
+            border-radius: 4px;
+        }
+
+        .gallery-item:nth-child(4n+1) {
+            grid-row-end: span 20;
+        }
+
+        .gallery-item:nth-child(4n+2) {
+            grid-row-end: span 25;
+        }
+
+        .gallery-item:nth-child(4n+3) {
+            grid-row-end: span 22;
+        }
+
+        .gallery-item:nth-child(4n+4) {
+            grid-row-end: span 18;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(62, 58, 55, 0.15);
+            z-index: 10;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: all 0.5s var(--ease-luxury);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(28, 25, 23, 0.8) 100%);
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-luxury);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-md);
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-title {
+            font-family: var(--font-editorial);
+            font-size: 1.25rem;
+            color: var(--cream-white);
+            margin-bottom: var(--space-xs);
+        }
+
+        .gallery-meta {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            color: var(--champagne);
+            letter-spacing: 0.05em;
+        }
+
+        /* Lightbox Modal */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(28, 25, 23, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            font-size: 2rem;
+            color: var(--cream-white);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-modern);
+            font-weight: 300;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .lightbox-close:hover {
+            color: var(--pale-gold);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 3rem;
+            color: var(--cream-white);
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-modern);
+            font-weight: 300;
+            transition: all 0.3s var(--ease-gentle);
+            padding: var(--space-md);
+        }
+
+        .lightbox-nav:hover {
+            color: var(--pale-gold);
+            transform: translateY(-50%) scale(1.2);
+        }
+
+        .lightbox-prev {
+            left: 20px;
+        }
+
+        .lightbox-next {
+            right: 20px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-2xl) var(--space-lg);
+            color: var(--warm-taupe);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-md);
+            opacity: 0.3;
+        }
+
+        .empty-state-title {
+            font-family: var(--font-editorial);
+            font-size: 2rem;
+            color: var(--soft-charcoal);
+            margin-bottom: var(--space-sm);
+        }
+
+        .empty-state-text {
+            font-family: var(--font-modern);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            padding: var(--space-xl) var(--space-lg) var(--space-lg);
+            background: var(--deep-espresso);
+            color: var(--champagne);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            color: var(--warm-taupe);
+        }
+
+        .footer-link {
+            color: var(--pale-gold);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .footer-link:hover {
+            color: var(--champagne);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 16px;
+            }
+
+            .gallery-item:nth-child(n) {
+                grid-row-end: span 15;
+            }
+
+            .lightbox-nav {
+                font-size: 2rem;
+                padding: var(--space-sm);
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gallery-item {
+            animation: fadeIn 0.6s var(--ease-luxury) backwards;
+        }
+
+        .gallery-item:nth-child(n) {
+            animation-delay: calc(0.05s * var(--index, 0));
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="veralabs-landing-v2.html" class="logo">VERALABS</a>
+            <ul class="nav-menu">
+                <li><a href="veralabs-landing-v2.html" class="nav-link">Home</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="moodboards.html" class="nav-link">Moodboards</a></li>
+                <li><a href="veralabs-landing-v2.html#aesthetics" class="nav-link">Aesthetics</a></li>
+                <li><a href="veralabs-landing-v2.html#studio" class="nav-link">Studio</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Gallery</h1>
+            <p class="hero-subtitle">Curated Collection of Haute Couture Imagery</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <h2 class="section-title">Visual Portfolio</h2>
+
+            <!-- Gallery Filters -->
+            <div class="gallery-filters">
+                <button class="filter-chip active" data-filter="all">All</button>
+                <button class="filter-chip" data-filter="editorial">Editorial</button>
+                <button class="filter-chip" data-filter="minimalist">Minimalist</button>
+                <button class="filter-chip" data-filter="couture">Couture</button>
+                <button class="filter-chip" data-filter="contemporary">Contemporary</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Images will be loaded dynamically from /photo folder -->
+            </div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-icon">◈</div>
+                <h3 class="empty-state-title">No Images Yet</h3>
+                <p class="empty-state-text">
+                    Add your images (PNG or JPG format) to the <strong>/photo</strong> folder in your project directory.
+                    <br><br>
+                    The gallery will automatically display all images from that folder.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" id="lightboxClose">×</button>
+            <button class="lightbox-nav lightbox-prev" id="lightboxPrev">‹</button>
+            <img src="" alt="" id="lightboxImage">
+            <button class="lightbox-nav lightbox-next" id="lightboxNext">›</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            © 2025 VeraLabs. All rights reserved. |
+            <a href="veralabs-landing-v2.html" class="footer-link">Back to Home</a>
+        </p>
+    </footer>
+
+    <script>
+        // Gallery data - will be populated dynamically
+        let galleryImages = [];
+        let currentFilter = 'all';
+        let currentLightboxIndex = 0;
+
+        // Load images from photo folder
+        async function loadGalleryImages() {
+            try {
+                // Attempt to load images from the photo directory
+                const response = await fetch('/api/gallery-images');
+
+                if (response.ok) {
+                    galleryImages = await response.json();
+                } else {
+                    // Fallback: try to load from photo folder directly
+                    galleryImages = await loadImagesFromPhotoFolder();
+                }
+
+                if (galleryImages.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                } else {
+                    renderGallery();
+                }
+            } catch (error) {
+                console.log('Using fallback image loading method');
+                galleryImages = await loadImagesFromPhotoFolder();
+
+                if (galleryImages.length === 0) {
+                    document.getElementById('emptyState').style.display = 'block';
+                } else {
+                    renderGallery();
+                }
+            }
+        }
+
+        // Fallback method to load images from photo folder
+        async function loadImagesFromPhotoFolder() {
+            const images = [];
+            const imageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+
+            // Try common naming patterns
+            const testPatterns = [
+                'image-', 'photo-', 'img-', 'gallery-',
+                '1', '2', '3', '4', '5', '6', '7', '8', '9', '10',
+                'portrait-', 'editorial-', 'fashion-'
+            ];
+
+            for (const pattern of testPatterns) {
+                for (let i = 1; i <= 50; i++) {
+                    for (const ext of imageExtensions) {
+                        const filename = pattern + i + '.' + ext;
+                        const path = `/photo/${filename}`;
+
+                        try {
+                            const img = new Image();
+                            img.src = path;
+                            await new Promise((resolve, reject) => {
+                                img.onload = () => {
+                                    images.push({
+                                        src: path,
+                                        title: filename.replace(/\.[^/.]+$/, "").replace(/-|_/g, ' '),
+                                        category: inferCategory(filename)
+                                    });
+                                    resolve();
+                                };
+                                img.onerror = reject;
+                                setTimeout(reject, 1000); // Timeout after 1s
+                            });
+                        } catch (e) {
+                            // Image doesn't exist, continue
+                        }
+                    }
+                }
+            }
+
+            return images;
+        }
+
+        // Infer category from filename
+        function inferCategory(filename) {
+            const lower = filename.toLowerCase();
+            if (lower.includes('editorial')) return 'editorial';
+            if (lower.includes('minimal')) return 'minimalist';
+            if (lower.includes('couture')) return 'couture';
+            if (lower.includes('contemporary') || lower.includes('modern')) return 'contemporary';
+            return 'editorial';
+        }
+
+        // Render gallery
+        function renderGallery() {
+            const grid = document.getElementById('galleryGrid');
+            const emptyState = document.getElementById('emptyState');
+
+            const filteredImages = currentFilter === 'all'
+                ? galleryImages
+                : galleryImages.filter(img => img.category === currentFilter);
+
+            if (filteredImages.length === 0) {
+                grid.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            grid.innerHTML = filteredImages.map((img, index) => `
+                <div class="gallery-item" style="--index: ${index};" data-index="${index}" data-category="${img.category}">
+                    <img src="${img.src}" alt="${img.title}" loading="lazy">
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">${img.title}</h3>
+                        <p class="gallery-meta">${img.category}</p>
+                    </div>
+                </div>
+            `).join('');
+
+            // Add click listeners
+            document.querySelectorAll('.gallery-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = parseInt(item.dataset.index);
+                    openLightbox(index);
+                });
+            });
+        }
+
+        // Filter functionality
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                chip.classList.add('active');
+                currentFilter = chip.dataset.filter;
+                renderGallery();
+            });
+        });
+
+        // Lightbox functionality
+        function openLightbox(index) {
+            currentLightboxIndex = index;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateLightbox() {
+            const filteredImages = currentFilter === 'all'
+                ? galleryImages
+                : galleryImages.filter(img => img.category === currentFilter);
+
+            if (filteredImages[currentLightboxIndex]) {
+                document.getElementById('lightboxImage').src = filteredImages[currentLightboxIndex].src;
+            }
+        }
+
+        function nextImage() {
+            const filteredImages = currentFilter === 'all'
+                ? galleryImages
+                : galleryImages.filter(img => img.category === currentFilter);
+
+            currentLightboxIndex = (currentLightboxIndex + 1) % filteredImages.length;
+            updateLightbox();
+        }
+
+        function prevImage() {
+            const filteredImages = currentFilter === 'all'
+                ? galleryImages
+                : galleryImages.filter(img => img.category === currentFilter);
+
+            currentLightboxIndex = (currentLightboxIndex - 1 + filteredImages.length) % filteredImages.length;
+            updateLightbox();
+        }
+
+        // Event listeners
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxNext').addEventListener('click', nextImage);
+        document.getElementById('lightboxPrev').addEventListener('click', prevImage);
+
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        // Initialize
+        loadGalleryImages();
+    </script>
+</body>
+</html>

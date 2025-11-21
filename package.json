@@ -13,7 +13,10 @@
     "preview": "vite preview",
     "preview:host": "vite preview --host",
     "vercel:dev": "vercel dev",
-    "vercel:deploy": "vercel --prod"
+    "vercel:deploy": "vercel --prod",
+    "gallery:server": "node simple-server.js",
+    "gallery:load": "node load-gallery-images.js",
+    "gallery:help": "bash .gallery-helper.sh"
   },
   "dependencies": {
     "@google/genai": "^1.28.0",

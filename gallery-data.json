@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2025-11-21T17:54:06.338Z",
-  "totalImages": 74,
+  "generatedAt": "2025-11-21T17:59:50.414Z",
+  "totalImages": 77,
   "categories": {
     "editorial": 7,
-    "minimalist": 15,
+    "minimalist": 18,
     "couture": 44,
     "contemporary": 8
   },
@@ -591,6 +591,30 @@
       "category": "minimalist",
       "extension": "jpg",
       "size": "1.5 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747951158.jpg",
+      "filename": "minimalist-1763747951158.jpg",
+      "title": "Minimalist 1763747951158",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.6 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747961303.jpg",
+      "filename": "minimalist-1763747961303.jpg",
+      "title": "Minimalist 1763747961303",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747970776.jpg",
+      "filename": "minimalist-1763747970776.jpg",
+      "title": "Minimalist 1763747970776",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
     },
     {
       "src": "photo/portrait-1.jpg",

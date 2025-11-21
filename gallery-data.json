@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2025-11-21T09:57:19.421Z",
-  "totalImages": 30,
+  "generatedAt": "2025-11-21T11:14:55.398Z",
+  "totalImages": 38,
   "categories": {
     "editorial": 7,
-    "minimalist": 5,
+    "minimalist": 13,
     "couture": 11,
     "contemporary": 7
   },
@@ -209,6 +209,38 @@
       "size": "1.0 MB"
     },
     {
+      "src": "/photo/minimal-10.jpeg",
+      "filename": "minimal-10.jpeg",
+      "title": "Minimal 10",
+      "category": "minimalist",
+      "extension": "jpeg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "/photo/minimal-11.jpg",
+      "filename": "minimal-11.jpg",
+      "title": "Minimal 11",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.0 MB"
+    },
+    {
+      "src": "/photo/minimal-12.jpg",
+      "filename": "minimal-12.jpg",
+      "title": "Minimal 12",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "/photo/minimal-13.jpg",
+      "filename": "minimal-13.jpg",
+      "title": "Minimal 13",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
       "src": "/photo/minimal-2.jpg",
       "filename": "minimal-2.jpg",
       "title": "Minimal 2",
@@ -231,6 +263,38 @@
       "category": "minimalist",
       "extension": "png",
       "size": "1.4 MB"
+    },
+    {
+      "src": "/photo/minimal-6.jpg",
+      "filename": "minimal-6.jpg",
+      "title": "Minimal 6",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "/photo/minimal-7.jpg",
+      "filename": "minimal-7.jpg",
+      "title": "Minimal 7",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "/photo/minimal-8.jpg",
+      "filename": "minimal-8.jpg",
+      "title": "Minimal 8",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "/photo/minimal-9.jpg",
+      "filename": "minimal-9.jpg",
+      "title": "Minimal 9",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.3 MB"
     },
     {
       "src": "/photo/minimal-portrait-1.png",

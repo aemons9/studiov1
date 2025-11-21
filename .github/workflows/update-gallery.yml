@@ -9,6 +9,9 @@ on:
       - 'photo/**'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update-gallery:
     runs-on: ubuntu-latest

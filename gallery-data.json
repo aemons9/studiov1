@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2025-11-21T16:32:42.409Z",
-  "totalImages": 48,
+  "generatedAt": "2025-11-21T16:39:45.622Z",
+  "totalImages": 49,
   "categories": {
     "editorial": 7,
     "minimalist": 13,
-    "couture": 21,
+    "couture": 22,
     "contemporary": 7
   },
   "images": [
@@ -167,6 +167,14 @@
       "category": "couture",
       "extension": "jpg",
       "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763743152266.jpg",
+      "filename": "couture-1763743152266.jpg",
+      "title": "Couture 1763743152266",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.4 MB"
     },
     {
       "src": "photo/couture-2.jpg",

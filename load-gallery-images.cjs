@@ -74,7 +74,7 @@ function scanPhotoDirectory() {
 
         if (SUPPORTED_EXTENSIONS.includes(ext)) {
             images.push({
-                src: `/photo/${file}`,
+                src: `photo/${file}`,  // Relative path for GitHub Pages compatibility
                 filename: file,
                 title: formatTitle(file),
                 category: inferCategory(file),

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2025-11-21T11:14:55.398Z",
+  "generatedAt": "2025-11-21T12:23:45.770Z",
   "totalImages": 38,
   "categories": {
     "editorial": 7,
@@ -9,7 +9,7 @@
   },
   "images": [
     {
-      "src": "/photo/contemporary-urban-style-2.jpg",
+      "src": "photo/contemporary-urban-style-2.jpg",
       "filename": "contemporary-urban-style-2.jpg",
       "title": "Contemporary Urban Style 2",
       "category": "contemporary",
@@ -17,7 +17,7 @@
       "size": "427.5 KB"
     },
     {
-      "src": "/photo/contemporary-urban-style-3.jpg",
+      "src": "photo/contemporary-urban-style-3.jpg",
       "filename": "contemporary-urban-style-3.jpg",
       "title": "Contemporary Urban Style 3",
       "category": "contemporary",
@@ -25,7 +25,7 @@
       "size": "1.3 MB"
     },
     {
-      "src": "/photo/contemporary-urban-style-4.jpg",
+      "src": "photo/contemporary-urban-style-4.jpg",
       "filename": "contemporary-urban-style-4.jpg",
       "title": "Contemporary Urban Style 4",
       "category": "contemporary",
@@ -33,7 +33,7 @@
       "size": "1.1 MB"
     },
     {
-      "src": "/photo/contemporary-urban-style-5.jpg",
+      "src": "photo/contemporary-urban-style-5.jpg",
       "filename": "contemporary-urban-style-5.jpg",
       "title": "Contemporary Urban Style 5",
       "category": "contemporary",
@@ -41,7 +41,7 @@
       "size": "1.2 MB"
     },
     {
-      "src": "/photo/contemporary-urban-style-6.jpg",
+      "src": "photo/contemporary-urban-style-6.jpg",
       "filename": "contemporary-urban-style-6.jpg",
       "title": "Contemporary Urban Style 6",
       "category": "contemporary",
@@ -49,7 +49,7 @@
       "size": "1.5 MB"
     },
     {
-      "src": "/photo/contemporary-urban-style-7.jpg",
+      "src": "photo/contemporary-urban-style-7.jpg",
       "filename": "contemporary-urban-style-7.jpg",
       "title": "Contemporary Urban Style 7",
       "category": "contemporary",
@@ -57,7 +57,7 @@
       "size": "2.2 MB"
     },
     {
-      "src": "/photo/contemporary-urban-style.jpg",
+      "src": "photo/contemporary-urban-style.jpg",
       "filename": "contemporary-urban-style.jpg",
       "title": "Contemporary Urban Style",
       "category": "contemporary",
@@ -65,7 +65,7 @@
       "size": "533.5 KB"
     },
     {
-      "src": "/photo/couture-1.jpg",
+      "src": "photo/couture-1.jpg",
       "filename": "couture-1.jpg",
       "title": "Couture 1",
       "category": "couture",
@@ -73,7 +73,7 @@
       "size": "1.8 MB"
     },
     {
-      "src": "/photo/couture-1.png",
+      "src": "photo/couture-1.png",
       "filename": "couture-1.png",
       "title": "Couture 1",
       "category": "couture",
@@ -81,7 +81,7 @@
       "size": "1.5 MB"
     },
     {
-      "src": "/photo/couture-10.jpg",
+      "src": "photo/couture-10.jpg",
       "filename": "couture-10.jpg",
       "title": "Couture 10",
       "category": "couture",
@@ -89,7 +89,7 @@
       "size": "1.3 MB"
     },
     {
-      "src": "/photo/couture-2.jpg",
+      "src": "photo/couture-2.jpg",
       "filename": "couture-2.jpg",
       "title": "Couture 2",
       "category": "couture",
@@ -97,7 +97,7 @@
       "size": "1.4 MB"
     },
     {
-      "src": "/photo/couture-3.png",
+      "src": "photo/couture-3.png",
       "filename": "couture-3.png",
       "title": "Couture 3",
       "category": "couture",
@@ -105,7 +105,7 @@
       "size": "1.4 MB"
     },
     {
-      "src": "/photo/couture-4.jpg",
+      "src": "photo/couture-4.jpg",
       "filename": "couture-4.jpg",
       "title": "Couture 4",
       "category": "couture",
@@ -113,7 +113,7 @@
       "size": "1.3 MB"
     },
     {
-      "src": "/photo/couture-5.jpg",
+      "src": "photo/couture-5.jpg",
       "filename": "couture-5.jpg",
       "title": "Couture 5",
       "category": "couture",
@@ -121,7 +121,7 @@
       "size": "403.2 KB"
     },
     {
-      "src": "/photo/couture-6.jpg",
+      "src": "photo/couture-6.jpg",
       "filename": "couture-6.jpg",
       "title": "Couture 6",
       "category": "couture",
@@ -129,7 +129,7 @@
       "size": "354.2 KB"
     },
     {
-      "src": "/photo/couture-7.jpg",
+      "src": "photo/couture-7.jpg",
       "filename": "couture-7.jpg",
       "title": "Couture 7",
       "category": "couture",
@@ -137,7 +137,7 @@
       "size": "416.2 KB"
     },
     {
-      "src": "/photo/couture-8.jpg",
+      "src": "photo/couture-8.jpg",
       "filename": "couture-8.jpg",
       "title": "Couture 8",
       "category": "couture",
@@ -145,7 +145,7 @@
       "size": "387.8 KB"
     },
     {
-      "src": "/photo/couture-9.jpg",
+      "src": "photo/couture-9.jpg",
       "filename": "couture-9.jpg",
       "title": "Couture 9",
       "category": "couture",
@@ -153,7 +153,7 @@
       "size": "1.3 MB"
     },
     {
-      "src": "/photo/editorial-fashion-shoot-1.jpg",
+      "src": "photo/editorial-fashion-shoot-1.jpg",
       "filename": "editorial-fashion-shoot-1.jpg",
       "title": "Editorial Fashion Shoot 1",
       "category": "editorial",
@@ -161,7 +161,7 @@
       "size": "1.1 MB"
     },
     {
-      "src": "/photo/editorial-fashion-shoot-2.jpg",
+      "src": "photo/editorial-fashion-shoot-2.jpg",
       "filename": "editorial-fashion-shoot-2.jpg",
       "title": "Editorial Fashion Shoot 2",
       "category": "editorial",
@@ -169,7 +169,7 @@
       "size": "344.7 KB"
     },
     {
-      "src": "/photo/editorial-fashion-shoot-3.jpg",
+      "src": "photo/editorial-fashion-shoot-3.jpg",
       "filename": "editorial-fashion-shoot-3.jpg",
       "title": "Editorial Fashion Shoot 3",
       "category": "editorial",
@@ -177,7 +177,7 @@
       "size": "2.1 MB"
     },
     {
-      "src": "/photo/editorial-fashion-shoot-4.jpg",
+      "src": "photo/editorial-fashion-shoot-4.jpg",
       "filename": "editorial-fashion-shoot-4.jpg",
       "title": "Editorial Fashion Shoot 4",
       "category": "editorial",
@@ -185,7 +185,7 @@
       "size": "1.4 MB"
     },
     {
-      "src": "/photo/editorial-fashion-shoot-5.jpg",
+      "src": "photo/editorial-fashion-shoot-5.jpg",
       "filename": "editorial-fashion-shoot-5.jpg",
       "title": "Editorial Fashion Shoot 5",
       "category": "editorial",
@@ -193,7 +193,7 @@
       "size": "1.2 MB"
     },
     {
-      "src": "/photo/editorial-fashion-shoot-6.jpg",
+      "src": "photo/editorial-fashion-shoot-6.jpg",
       "filename": "editorial-fashion-shoot-6.jpg",
       "title": "Editorial Fashion Shoot 6",
       "category": "editorial",
@@ -201,7 +201,7 @@
       "size": "1.3 MB"
     },
     {
-      "src": "/photo/minimal-1.jpg",
+      "src": "photo/minimal-1.jpg",
       "filename": "minimal-1.jpg",
       "title": "Minimal 1",
       "category": "minimalist",
@@ -209,7 +209,7 @@
       "size": "1.0 MB"
     },
     {
-      "src": "/photo/minimal-10.jpeg",
+      "src": "photo/minimal-10.jpeg",
       "filename": "minimal-10.jpeg",
       "title": "Minimal 10",
       "category": "minimalist",
@@ -217,7 +217,7 @@
       "size": "1.2 MB"
     },
     {
-      "src": "/photo/minimal-11.jpg",
+      "src": "photo/minimal-11.jpg",
       "filename": "minimal-11.jpg",
       "title": "Minimal 11",
       "category": "minimalist",
@@ -225,7 +225,7 @@
       "size": "1.0 MB"
     },
     {
-      "src": "/photo/minimal-12.jpg",
+      "src": "photo/minimal-12.jpg",
       "filename": "minimal-12.jpg",
       "title": "Minimal 12",
       "category": "minimalist",
@@ -233,7 +233,7 @@
       "size": "1.1 MB"
     },
     {
-      "src": "/photo/minimal-13.jpg",
+      "src": "photo/minimal-13.jpg",
       "filename": "minimal-13.jpg",
       "title": "Minimal 13",
       "category": "minimalist",
@@ -241,7 +241,7 @@
       "size": "1.4 MB"
     },
     {
-      "src": "/photo/minimal-2.jpg",
+      "src": "photo/minimal-2.jpg",
       "filename": "minimal-2.jpg",
       "title": "Minimal 2",
       "category": "minimalist",
@@ -249,7 +249,7 @@
       "size": "1.2 MB"
     },
     {
-      "src": "/photo/minimal-2.png",
+      "src": "photo/minimal-2.png",
       "filename": "minimal-2.png",
       "title": "Minimal 2",
       "category": "minimalist",
@@ -257,7 +257,7 @@
       "size": "1.5 MB"
     },
     {
-      "src": "/photo/minimal-4.png",
+      "src": "photo/minimal-4.png",
       "filename": "minimal-4.png",
       "title": "Minimal 4",
       "category": "minimalist",
@@ -265,7 +265,7 @@
       "size": "1.4 MB"
     },
     {
-      "src": "/photo/minimal-6.jpg",
+      "src": "photo/minimal-6.jpg",
       "filename": "minimal-6.jpg",
       "title": "Minimal 6",
       "category": "minimalist",
@@ -273,7 +273,7 @@
       "size": "1.2 MB"
     },
     {
-      "src": "/photo/minimal-7.jpg",
+      "src": "photo/minimal-7.jpg",
       "filename": "minimal-7.jpg",
       "title": "Minimal 7",
       "category": "minimalist",
@@ -281,7 +281,7 @@
       "size": "1.3 MB"
     },
     {
-      "src": "/photo/minimal-8.jpg",
+      "src": "photo/minimal-8.jpg",
       "filename": "minimal-8.jpg",
       "title": "Minimal 8",
       "category": "minimalist",
@@ -289,7 +289,7 @@
       "size": "1.1 MB"
     },
     {
-      "src": "/photo/minimal-9.jpg",
+      "src": "photo/minimal-9.jpg",
       "filename": "minimal-9.jpg",
       "title": "Minimal 9",
       "category": "minimalist",
@@ -297,7 +297,7 @@
       "size": "1.3 MB"
     },
     {
-      "src": "/photo/minimal-portrait-1.png",
+      "src": "photo/minimal-portrait-1.png",
       "filename": "minimal-portrait-1.png",
       "title": "Minimal Portrait 1",
       "category": "minimalist",
@@ -305,7 +305,7 @@
       "size": "1.2 MB"
     },
     {
-      "src": "/photo/portrait-1.jpg",
+      "src": "photo/portrait-1.jpg",
       "filename": "portrait-1.jpg",
       "title": "Portrait 1",
       "category": "editorial",

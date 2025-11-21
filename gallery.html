@@ -641,7 +641,7 @@
                 for (let i = 1; i <= 50; i++) {
                     for (const ext of imageExtensions) {
                         const filename = pattern + i + '.' + ext;
-                        const path = `/photo/${filename}`;
+                        const path = `photo/${filename}`;  // Relative path for GitHub Pages
 
                         try {
                             const img = new Image();

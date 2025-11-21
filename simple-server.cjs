@@ -72,7 +72,7 @@ function getGalleryImages() {
         const ext = path.extname(file).toLowerCase();
         if (SUPPORTED_EXTENSIONS.includes(ext)) {
             images.push({
-                src: `/photo/${file}`,
+                src: `photo/${file}`,  // Relative path for consistency
                 filename: file,
                 title: formatTitle(file),
                 category: inferCategory(file)

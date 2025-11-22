@@ -20,6 +20,7 @@ interface MobileControlBarProps {
   onVideoMode: () => void;
   onVera: () => void;
   onMasterClass: () => void;
+  onVisualNovel: () => void;
   isGeneratingPrompt?: boolean;
   hasPrompt?: boolean;
   hasProjectId?: boolean;
@@ -45,6 +46,7 @@ const MobileControlBar: React.FC<MobileControlBarProps> = ({
   onVideoMode,
   onVera,
   onMasterClass,
+  onVisualNovel,
   isGeneratingPrompt = false,
   hasPrompt = true,
   hasProjectId = true
@@ -218,6 +220,9 @@ const MobileControlBar: React.FC<MobileControlBarProps> = ({
 
             <button onClick={onMasterClass} disabled={isLoading} className="flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white font-semibold text-xs rounded-lg hover:from-purple-500 hover:via-pink-500 hover:to-rose-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all active:scale-95">
               <span>🎭</span> MasterClass
+            </button>
+            <button onClick={onVisualNovel} disabled={isLoading} className="flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 text-white font-semibold text-xs rounded-lg hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all active:scale-95">
+              <span>📖</span> Visual Novel
             </button>
           </div>
         )}

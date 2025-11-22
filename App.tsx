@@ -39,6 +39,7 @@ import IndianModelsGallery from './roleplay/IndianModelsGallery';
 import VideoGenerationMode from './video/VideoGenerationMode';
 import VeraMode from './vera/VeraMode';
 import MasterClassMode from './masterclass/MasterClassMode';
+import VisualNovelMode from './visualnovel/VisualNovelMode';
 import VideoGeneratorUI from './components/VideoGeneratorUI';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
@@ -107,7 +108,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'visualnovel'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -1241,6 +1242,42 @@ const App: React.FC = () => {
     }
   };
 
+  const handleVisualNovelGenerate = async (prompt: string, settings: any) => {
+    console.log('📖 Visual Novel Generate triggered:', { prompt: prompt.substring(0, 100), settings });
+
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Merge settings properly
+    const mergedSettings = { ...generationSettings, ...settings };
+    setGenerationSettings(mergedSettings);
+
+    // Auto-generate with the visual novel prompt
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      const result = await generateWithMaximumSafety(
+        prompt,           // wovenPrompt: string
+        null,            // promptData: PromptData | null
+        mergedSettings   // settings: GenerationSettings
+      );
+
+      setGeneratedImages(result.images);
+      setWovenPrompt(result.wovenPrompt);
+      setGenerationStep(result.step);
+    } catch (err: any) {
+      console.error('📖 Visual Novel Generation Error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExitVisualNovel = () => {
+    setUiMode('classic');
+  };
+
   const handleMigrateFromRolePlay = (promptTemplate: string) => {
     try {
       // Parse the role-play prompt template into PromptData
@@ -1473,6 +1510,13 @@ const App: React.FC = () => {
         <MasterClassMode
           onExit={() => setUiMode('classic')}
         />
+      ) : uiMode === 'visualnovel' ? (
+        // VISUAL NOVEL MODE: Interactive Story with Instagram Model
+        <VisualNovelMode
+          onGenerate={handleVisualNovelGenerate}
+          onExit={handleExitVisualNovel}
+          generationSettings={safeGenerationSettings}
+        />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor
         <>
@@ -1651,6 +1695,7 @@ const App: React.FC = () => {
             onVideoMode={() => setUiMode('video')}
             onVera={() => setUiMode('vera')}
             onMasterClass={() => setUiMode('masterclass')}
+            onVisualNovel={() => setUiMode('visualnovel')}
             isGeneratingPrompt={isGeneratingPrompt}
             hasPrompt={!!(textPrompt.trim() || promptData)}
             hasProjectId={!!generationSettings.projectId}

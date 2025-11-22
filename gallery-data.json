@@ -1,11 +1,11 @@
 {
-  "generatedAt": "2025-11-21T18:17:13.235Z",
-  "totalImages": 79,
+  "generatedAt": "2025-11-22T08:06:21.587Z",
+  "totalImages": 85,
   "categories": {
-    "editorial": 7,
+    "editorial": 12,
     "minimalist": 20,
     "couture": 44,
-    "contemporary": 8
+    "contemporary": 9
   },
   "images": [
     {
@@ -473,6 +473,22 @@
       "size": "1.3 MB"
     },
     {
+      "src": "photo/fluid.jpg",
+      "filename": "fluid.jpg",
+      "title": "Fluid",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/gilded.jpg",
+      "filename": "gilded.jpg",
+      "title": "Gilded",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
       "src": "photo/minimal-1.jpg",
       "filename": "minimal-1.jpg",
       "title": "Minimal 1",
@@ -633,12 +649,44 @@
       "size": "1.4 MB"
     },
     {
+      "src": "photo/monsoon.jpg",
+      "filename": "monsoon.jpg",
+      "title": "Monsoon",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
       "src": "photo/portrait-1.jpg",
       "filename": "portrait-1.jpg",
       "title": "Portrait 1",
       "category": "editorial",
       "extension": "jpg",
       "size": "1.4 MB"
+    },
+    {
+      "src": "photo/quiet.jpg",
+      "filename": "quiet.jpg",
+      "title": "Quiet",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/silk.jpg",
+      "filename": "silk.jpg",
+      "title": "Silk",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/urban.jpg",
+      "filename": "urban.jpg",
+      "title": "Urban",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "1.5 MB"
     }
   ]
 }

@@ -26,6 +26,7 @@ import QuickInstagramGenerator from './components/QuickInstagramGenerator';
 import { VeraLabsCollectionGenerator } from './components/VeraLabsCollectionGenerator';
 import QuickDirectGenerate from './components/QuickDirectGenerate';
 import AuthenticationSettings from './components/AuthenticationSettings';
+import MobileControlBar from './components/MobileControlBar';
 import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
 import { ImagenPromptTemplate } from './concepts/imagenPromptLibrary';
 import ExperimentalMode from './experimental/ExperimentalMode';
@@ -1626,125 +1627,50 @@ const App: React.FC = () => {
             </div>
           </main>
 
-          <div className="sticky bottom-0 left-0 right-0 p-4 bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
-            <button onClick={handleOpenLoadModal} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Load
-            </button>
-            <button onClick={() => setIsStorageModalOpen(true)} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z" /></svg>
-              Storage
-            </button>
-            <button onClick={() => setIsGalleryModalOpen(true)} disabled={isLoading || !generationSettings.projectId} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-indigo-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>Gallery
-            </button>
-            <button onClick={handleOpenHistoryModal} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>History
-            </button>
-            <button onClick={handleSavePrompt} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 014-4h4a4 4 0 014 4v2H7v-2z" /></svg>Save
-            </button>
-             <button onClick={handleCopyPrompt} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>Copy
-            </button>
-            <button onClick={handleResetPrompt} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>Reset
-            </button>
-            <button
-              onClick={() => setUiMode('experimental')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:to-pink-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🔬</span>
-              Experimental Mode
-            </button>
-            <button
-              onClick={() => setUiMode('artistic')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-rose-500 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-400 hover:to-rose-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎨</span>
-              Artistic Mode
-            </button>
-            <button
-              onClick={() => setUiMode('corporate')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-emerald-500 text-white font-semibold text-base rounded-lg shadow-md hover:from-indigo-400 hover:to-emerald-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>💼</span>
-              Corporate Mode
-            </button>
-            <button
-              onClick={() => setUiMode('platinum')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:via-pink-400 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>💎</span>
-              Platinum Collection
-            </button>
-            <button
-              onClick={() => setUiMode('roleplay')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-600 via-purple-500 to-pink-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-pink-500 hover:via-purple-400 hover:to-pink-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎭</span>
-              Role-Play Mode
-            </button>
-            <button
-              onClick={() => setUiMode('gallery')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-500 via-pink-500 to-fuchsia-500 text-white font-semibold text-base rounded-lg shadow-md hover:from-rose-400 hover:via-pink-400 hover:to-fuchsia-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎨</span>
-              Models Gallery
-            </button>
-            <button
-              onClick={() => setUiMode('video')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-violet-500 hover:via-purple-500 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎬</span>
-              Video Mode
-            </button>
-            <button
-              onClick={() => setUiMode('vera')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-cyan-500 hover:via-teal-500 hover:to-emerald-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>✨</span>
-              Vera Mode
-            </button>
-            <button
-              onClick={() => setUiMode('masterclass')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:via-pink-500 hover:to-rose-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎭</span>
-              MasterClass
-            </button>
-            <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
-              <button
-                onClick={handleGenerateVideoPrompt}
-                disabled={isLoading || isGeneratingPrompt || (!textPrompt.trim() && !promptData)}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white font-bold text-base rounded-lg shadow-lg hover:from-purple-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-purple-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed transition-all duration-300 transform active:scale-95 shadow-purple-500/20 hover:shadow-purple-500/30"
-                title={`Generate optimized video prompt using ${generationSettings.safetyBypassStrategy || 'auto'} strategy`}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                {isGeneratingPrompt ? 'Generating...' : 'Generate Video Prompt'}
-              </button>
-              <MasterGenerationControl
-                onGenerate={handleMasterGenerate}
-                isLoading={isLoading}
-                generationStep={generationStep}
-                generationSettings={generationSettings}
-                onImagePromptChange={(imageData) => setGenerationSettings(prev => ({
-                  ...prev,
-                  fluxImagePrompt: imageData
-                }))}
-              />
-              <LockFieldsDropdown lockedFields={lockedFields} onLockedFieldsChange={setLockedFields} isBusy={isLoading} />
-            </div>
+          <MobileControlBar
+            isLoading={isLoading}
+            onLoad={handleOpenLoadModal}
+            onStorage={() => setIsStorageModalOpen(true)}
+            onGallery={() => setIsGalleryModalOpen(true)}
+            onHistory={handleOpenHistoryModal}
+            onSave={handleSavePrompt}
+            onCopy={handleCopyPrompt}
+            onReset={handleResetPrompt}
+            onGenerateVideo={handleGenerateVideoPrompt}
+            onMasterGenerate={() => {
+              // Trigger master generate via ref
+              const masterBtn = document.querySelector('[data-master-generate]') as HTMLButtonElement;
+              masterBtn?.click();
+            }}
+            onExperimental={() => setUiMode('experimental')}
+            onArtistic={() => setUiMode('artistic')}
+            onCorporate={() => setUiMode('corporate')}
+            onPlatinum={() => setUiMode('platinum')}
+            onRoleplay={() => setUiMode('roleplay')}
+            onGalleryMode={() => setUiMode('gallery')}
+            onVideoMode={() => setUiMode('video')}
+            onVera={() => setUiMode('vera')}
+            onMasterClass={() => setUiMode('masterclass')}
+            isGeneratingPrompt={isGeneratingPrompt}
+            hasPrompt={!!(textPrompt.trim() || promptData)}
+            hasProjectId={!!generationSettings.projectId}
+          />
+          {/* Hidden MasterGenerationControl for functionality */}
+          <div className="hidden">
+            <MasterGenerationControl
+              onGenerate={handleMasterGenerate}
+              isLoading={isLoading}
+              generationStep={generationStep}
+              generationSettings={generationSettings}
+              onImagePromptChange={(imageData) => setGenerationSettings(prev => ({
+                ...prev,
+                fluxImagePrompt: imageData
+              }))}
+            />
+          </div>
+          {/* Hidden LockFieldsDropdown for functionality */}
+          <div className="hidden">
+            <LockFieldsDropdown lockedFields={lockedFields} onLockedFieldsChange={setLockedFields} isBusy={isLoading} />
           </div>
         </>
       )}

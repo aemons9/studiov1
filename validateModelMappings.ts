@@ -18,7 +18,7 @@ console.log(`Total Instagram Models Configured: ${modelNames.length}\n`);
 // Verify each model has correct measurements
 modelNames.forEach((modelName, index) => {
   console.log(`\n[${index + 1}] TESTING: ${modelName}`);
-  console.log("="."repeat(60));
+  console.log("=".repeat(60));
 
   const testPrompt = generateTestPrompt(modelName);
   console.log(testPrompt);

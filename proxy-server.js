@@ -1,8 +1,12 @@
 /**
- * REPLICATE API PROXY SERVER
+ * API PROXY SERVER
  *
- * This server proxies requests to Replicate API to avoid CORS issues.
- * Browsers cannot directly call Replicate API due to CORS restrictions.
+ * This server proxies requests to Replicate and Vertex AI APIs to avoid CORS issues.
+ * Browsers cannot directly call these APIs due to CORS restrictions.
+ *
+ * Supported APIs:
+ *   - Replicate API (Flux models)
+ *   - Vertex AI (Imagen 4, Veo 3.1)
  *
  * Usage:
  *   npm run proxy
@@ -23,7 +27,105 @@ app.use(express.json({ limit: '50mb' }));
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'replicate-proxy' });
+  res.json({ status: 'ok', service: 'api-proxy', supports: ['replicate', 'vertex-ai'] });
+});
+
+// ============================================================================
+// VERTEX AI PROXY ENDPOINTS
+// ============================================================================
+
+// Proxy Vertex AI prediction requests (Imagen, Gemini, etc.)
+app.post('/api/vertex-ai/predict', async (req, res) => {
+  try {
+    const { projectId, location, model, oauthToken, instances, parameters } = req.body;
+
+    if (!projectId || !oauthToken) {
+      return res.status(400).json({ error: 'Project ID and OAuth token required' });
+    }
+
+    const defaultLocation = location || 'us-central1';
+    const endpoint = `https://${defaultLocation}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${defaultLocation}/publishers/google/models/${model}:predict`;
+
+    console.log('🎨 Proxying Vertex AI request...');
+    console.log('   Model:', model);
+    console.log('   Location:', defaultLocation);
+    console.log('   Endpoint:', endpoint);
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${oauthToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        instances: instances || [{}],
+        parameters: parameters || {}
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Vertex AI error:', data);
+      return res.status(response.status).json(data);
+    }
+
+    console.log('✅ Vertex AI prediction successful');
+    res.json(data);
+  } catch (error) {
+    console.error('❌ Proxy error:', error);
+    res.status(500).json({
+      error: 'Proxy server error',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+// Proxy Vertex AI generateContent requests (Gemini)
+app.post('/api/vertex-ai/generate-content', async (req, res) => {
+  try {
+    const { projectId, location, model, oauthToken, contents, systemInstruction, generationConfig } = req.body;
+
+    if (!projectId || !oauthToken) {
+      return res.status(400).json({ error: 'Project ID and OAuth token required' });
+    }
+
+    const defaultLocation = location || 'us-east4';
+    const endpoint = `https://${defaultLocation}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${defaultLocation}/publishers/google/models/${model}:generateContent`;
+
+    console.log('🤖 Proxying Gemini generateContent request...');
+    console.log('   Model:', model);
+    console.log('   Location:', defaultLocation);
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${oauthToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents,
+        systemInstruction,
+        generationConfig
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Vertex AI error:', data);
+      return res.status(response.status).json(data);
+    }
+
+    console.log('✅ Gemini generation successful');
+    res.json(data);
+  } catch (error) {
+    console.error('❌ Proxy error:', error);
+    res.status(500).json({
+      error: 'Proxy server error',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
 });
 
 // Proxy POST /predictions
@@ -182,17 +284,23 @@ app.get('/api/replicate/download', async (req, res) => {
 
 app.listen(PORT, () => {
   console.log('');
-  console.log('🚀 Replicate API Proxy Server Started');
+  console.log('🚀 API Proxy Server Started');
   console.log('====================================');
   console.log(`✅ Running on: http://localhost:${PORT}`);
   console.log('✅ CORS enabled for all origins');
-  console.log('✅ Ready to proxy Replicate API calls');
+  console.log('✅ Ready to proxy Replicate & Vertex AI calls');
   console.log('');
   console.log('Endpoints:');
+  console.log('');
+  console.log('Replicate API:');
   console.log(`  GET  /health                           - Health check`);
   console.log(`  POST /api/replicate/predictions        - Create prediction`);
   console.log(`  GET  /api/replicate/predictions/:id    - Poll prediction`);
   console.log(`  GET  /api/replicate/models/:model      - Get model info`);
   console.log(`  GET  /api/replicate/download?url=...   - Download image`);
+  console.log('');
+  console.log('Vertex AI:');
+  console.log(`  POST /api/vertex-ai/predict            - Imagen/Veo predictions`);
+  console.log(`  POST /api/vertex-ai/generate-content   - Gemini generateContent`);
   console.log('');
 });

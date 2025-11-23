@@ -16,46 +16,102 @@ function getVertexAICredentials(): { projectId: string; oauthToken: string } {
 }
 
 // Helper function to make authenticated requests to VertexAI
+// Uses proxy server to bypass CORS restrictions
 async function vertexAIRequest(endpoint: string, body: any): Promise<any> {
   const { projectId, oauthToken } = getVertexAICredentials();
   const location = 'us-central1'; // You can make this configurable if needed
 
-  const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/${endpoint}`;
+  // Check if proxy server is available
+  const useProxy = localStorage.getItem('vera_use_proxy') !== 'false'; // Default to true
+  const proxyUrl = localStorage.getItem('vera_proxy_url') || 'http://localhost:3001';
 
-  try {
-    const response = await fetch(url, {
-      method: 'POST',
-      mode: 'cors',
-      headers: {
-        'Authorization': `Bearer ${oauthToken}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(body),
-    });
+  if (useProxy) {
+    // Use proxy server to avoid CORS issues
+    console.log(`🔄 Using proxy server: ${proxyUrl}`);
 
-    if (!response.ok) {
-      const errorText = await response.text();
+    // Extract model from endpoint (e.g., "publishers/google/models/imagen-4.0-ultra-generate-001:predict")
+    const modelMatch = endpoint.match(/models\/([^:]+)/);
+    const model = modelMatch ? modelMatch[1] : endpoint;
 
-      // Check for CORS errors
-      if (errorText.includes('CORS') || response.status === 0) {
-        throw new Error(`CORS Error: Direct browser access to Vertex AI is blocked. Please use API Key authentication instead or set up a backend proxy. Switch to API Key mode in Vera settings.`);
+    try {
+      const response = await fetch(`${proxyUrl}/api/vertex-ai/predict`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          projectId,
+          location,
+          model,
+          oauthToken,
+          ...body
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(`Vertex AI API error: ${response.status} - ${errorData.error?.message || JSON.stringify(errorData)}`);
       }
 
-      // Check for auth errors
-      if (response.status === 401 || response.status === 403) {
-        throw new Error(`Authentication error: ${errorText}. Please check your OAuth token is valid and not expired.`);
+      return response.json();
+    } catch (error) {
+      // If proxy fails, provide helpful error message
+      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+        throw new Error(
+          `Cannot connect to proxy server at ${proxyUrl}.\n\n` +
+          `Please start the proxy server:\n` +
+          `  npm run proxy\n\n` +
+          `Or switch to API Key authentication in Vera settings.`
+        );
+      }
+      throw error;
+    }
+  } else {
+    // Direct call (will likely fail due to CORS)
+    console.warn('⚠️ Making direct Vertex AI call (CORS may block this)');
+
+    const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/${endpoint}`;
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {
+          'Authorization': `Bearer ${oauthToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+
+        // Check for CORS errors
+        if (errorText.includes('CORS') || response.status === 0) {
+          throw new Error(`CORS Error: Direct browser access to Vertex AI is blocked. Please start the proxy server (npm run proxy) or switch to API Key authentication.`);
+        }
+
+        // Check for auth errors
+        if (response.status === 401 || response.status === 403) {
+          throw new Error(`Authentication error: ${errorText}. Please check your OAuth token is valid and not expired.`);
+        }
+
+        throw new Error(`VertexAI API error: ${response.status} - ${errorText}`);
       }
 
-      throw new Error(`VertexAI API error: ${response.status} - ${errorText}`);
+      return response.json();
+    } catch (error) {
+      // Handle network errors (including CORS)
+      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+        throw new Error(
+          `Network error: Cannot reach Vertex AI API. This is likely a CORS issue.\n\n` +
+          `Solutions:\n` +
+          `1. Start the proxy server: npm run proxy\n` +
+          `2. Switch to API Key authentication in Vera settings\n`
+        );
+      }
+      throw error;
     }
-
-    return response.json();
-  } catch (error) {
-    // Handle network errors (including CORS)
-    if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
-      throw new Error(`Network error: Cannot reach Vertex AI API. This is likely a CORS issue. Direct browser access to Vertex AI is blocked by Google Cloud. Please switch to API Key authentication in Vera settings or set up a backend proxy server.`);
-    }
-    throw error;
   }
 }
 
@@ -201,7 +257,12 @@ export const generateImage = async (
       parameters: {
         sampleCount: settings?.numImages || 1,
         aspectRatio: finalAspectRatio,
-        outputMimeType: 'image/jpeg',
+        personGeneration: 'allow_adult',
+        safetySetting: 'block_few',
+        addWatermark: true,
+        enhancePrompt: false,
+        includeRaiReason: true,
+        language: 'auto',
       }
     });
 

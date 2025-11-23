@@ -772,7 +772,34 @@ export async function generateImage(prompt: string, settings: GenerationSettings
     }
   }
 
-  // Use the new API helper for image generation
+  // Check if using Vertex AI OAuth (not Gemini API)
+  if (settings.vertexAuthMethod === 'oauth' && settings.projectId && settings.accessToken) {
+    // Use Vertex AI Imagen endpoint with OAuth
+    const { generateWithVertexImagen, mapAspectRatioForVertex } = await import('./vertexImagenService');
+
+    try {
+      console.log(`🎨 Generating images with Vertex AI Imagen (OAuth) - ${modelId}...`);
+
+      const images = await generateWithVertexImagen(prompt, {
+        projectId: settings.projectId,
+        location: 'us-central1',
+        accessToken: settings.accessToken,
+        model: modelId
+      }, {
+        aspectRatio: mapAspectRatioForVertex(aspectRatio),
+        sampleCount: numberOfImages,
+        personGeneration: settings.personGeneration || 'allow_adult',
+        safetySetting: settings.safetySetting || 'block_few'
+      });
+
+      return images;
+    } catch (error) {
+      console.error("Vertex AI Imagen generation error:", error);
+      throw error;
+    }
+  }
+
+  // Fall back to Gemini API (for API key authentication)
   const { callGeminiImage } = await import('./geminiApiHelper');
 
   try {

@@ -40,6 +40,7 @@ import VideoGenerationMode from './video/VideoGenerationMode';
 import VeraMode from './vera/VeraMode';
 import MasterClassMode from './masterclass/MasterClassMode';
 import RealVisualNovel from './visualnovel/RealVisualNovel';
+import VisualNovelAssetGenerator from './visualnovel/VisualNovelAssetGenerator';
 import VideoGeneratorUI from './components/VideoGeneratorUI';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
@@ -108,7 +109,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'visualnovel'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'visualnovel' | 'vnassets'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -1510,6 +1511,13 @@ const App: React.FC = () => {
         <MasterClassMode
           onExit={() => setUiMode('classic')}
         />
+      ) : uiMode === 'vnassets' ? (
+        // VISUAL NOVEL ASSET GENERATOR: Generate all sprites, backgrounds, CGs, videos
+        <VisualNovelAssetGenerator
+          onExit={() => setUiMode('classic')}
+          generationSettings={safeGenerationSettings}
+          onGenerate={handleVisualNovelGenerate}
+        />
       ) : uiMode === 'visualnovel' ? (
         // VISUAL NOVEL MODE: Real visual novel game (like Steam games)
         <RealVisualNovel
@@ -1694,6 +1702,7 @@ const App: React.FC = () => {
             onVera={() => setUiMode('vera')}
             onMasterClass={() => setUiMode('masterclass')}
             onVisualNovel={() => setUiMode('visualnovel')}
+            onVNAssets={() => setUiMode('vnassets')}
             isGeneratingPrompt={isGeneratingPrompt}
             hasPrompt={!!(textPrompt.trim() || promptData)}
             hasProjectId={!!generationSettings.projectId}

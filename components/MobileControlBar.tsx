@@ -21,6 +21,7 @@ interface MobileControlBarProps {
   onVera: () => void;
   onMasterClass: () => void;
   onVisualNovel: () => void;
+  onVNAssets: () => void;
   isGeneratingPrompt?: boolean;
   hasPrompt?: boolean;
   hasProjectId?: boolean;
@@ -47,6 +48,7 @@ const MobileControlBar: React.FC<MobileControlBarProps> = ({
   onVera,
   onMasterClass,
   onVisualNovel,
+  onVNAssets,
   isGeneratingPrompt = false,
   hasPrompt = true,
   hasProjectId = true
@@ -223,6 +225,10 @@ const MobileControlBar: React.FC<MobileControlBarProps> = ({
             </button>
             <button onClick={onVisualNovel} disabled={isLoading} className="flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 text-white font-semibold text-xs rounded-lg hover:from-pink-500 hover:via-purple-500 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all active:scale-95">
               <span>📖</span> Visual Novel
+            </button>
+
+            <button onClick={onVNAssets} disabled={isLoading} className="flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-green-600 via-teal-600 to-cyan-600 text-white font-semibold text-xs rounded-lg hover:from-green-500 hover:via-teal-500 hover:to-cyan-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all active:scale-95">
+              <span>🎨</span> VN Assets
             </button>
           </div>
         )}

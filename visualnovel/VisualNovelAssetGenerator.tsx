@@ -60,13 +60,19 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
       currentGeneratingAssetId
     ) {
       console.log(`📊 Image count changed: ${lastProcessedImageCount} -> ${currentImageCount} for asset ${currentGeneratingAssetId}`);
+      console.log(`🔍 Full images array:`, latestGeneratedImages);
+      console.log(`🔍 Array length:`, latestGeneratedImages.length);
+      console.log(`🔍 Last image index:`, latestGeneratedImages.length - 1);
 
       // Generation just completed - store the latest image
       const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
+      console.log(`🔍 Latest image data:`, latestImageData);
+      console.log(`🔍 Latest image data type:`, typeof latestImageData);
 
       // Check if latestImageData exists and has a url property
       if (!latestImageData || !latestImageData.url) {
         console.error('❌ Invalid image data received:', latestImageData);
+        console.error('❌ Full array:', latestGeneratedImages);
         setCurrentGeneratingAssetId(null);
         return;
       }

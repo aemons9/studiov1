@@ -99,8 +99,8 @@ export async function callGeminiImage(
       }
     ],
     generationConfig: {
-      responseModalities: ["image"],
-      outputMimeType: "image/jpeg"
+      responseModalities: ["image"]
+      // Note: outputMimeType is not supported by Imagen 4.0 via generativelanguage API
     }
   };
 

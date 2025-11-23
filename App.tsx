@@ -1700,8 +1700,8 @@ const App: React.FC = () => {
             hasPrompt={!!(textPrompt.trim() || promptData)}
             hasProjectId={!!generationSettings.projectId}
           />
-          {/* Hidden MasterGenerationControl for functionality */}
-          <div className="hidden">
+          {/* MasterGenerationControl - Hidden on mobile, visible on desktop */}
+          <div className="hidden md:block">
             <MasterGenerationControl
               onGenerate={handleMasterGenerate}
               isLoading={isLoading}

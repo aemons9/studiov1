@@ -718,13 +718,49 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
     if (nextScene?.autoGenerate && nextScene.promptTemplate) {
       setIsGenerating(true);
       try {
-        await onGenerate(nextScene.promptTemplate, {
-          provider: 'replicate-flux',
+        // Use current provider from generation settings
+        const currentProvider = generationSettings.provider || 'replicate-flux';
+
+        // Build settings based on current provider
+        const generateSettings: any = {
+          provider: currentProvider,
           aspectRatio: '9:16',
           intimacyLevel: newIntimacy / 10,
-          fluxSafetyTolerance: Math.floor(newIntimacy / 20) + 2,
-          fluxRawMode: true
-        });
+        };
+
+        // Add provider-specific settings
+        if (currentProvider === 'vertex-ai') {
+          // Vertex AI (Imagen) settings
+          generateSettings.vertexAuthMethod = generationSettings.vertexAuthMethod || 'apikey';
+          generateSettings.projectId = generationSettings.projectId;
+          generateSettings.accessToken = generationSettings.accessToken;
+          generateSettings.vertexApiKey = generationSettings.vertexApiKey;
+          generateSettings.modelId = generationSettings.modelId || 'imagen-4.0-generate-001';
+          generateSettings.personGeneration = 'allow_all';
+          generateSettings.safetySetting = 'block_few';
+          generateSettings.numberOfImages = 1;
+
+          console.log('📖 Visual Novel generating with Vertex AI (Imagen)', {
+            authMethod: generateSettings.vertexAuthMethod,
+            modelId: generateSettings.modelId,
+            hasProjectId: !!generateSettings.projectId,
+            hasToken: !!(generateSettings.vertexAuthMethod === 'oauth' ? generateSettings.accessToken : generateSettings.vertexApiKey)
+          });
+        } else {
+          // Replicate Flux settings
+          generateSettings.replicateApiToken = generationSettings.replicateApiToken;
+          generateSettings.fluxModel = generationSettings.fluxModel || 'black-forest-labs/flux-1.1-pro-ultra';
+          generateSettings.fluxSafetyTolerance = Math.floor(newIntimacy / 20) + 2;
+          generateSettings.fluxRawMode = true;
+
+          console.log('📖 Visual Novel generating with Replicate Flux', {
+            model: generateSettings.fluxModel,
+            safetyTolerance: generateSettings.fluxSafetyTolerance,
+            hasToken: !!generateSettings.replicateApiToken
+          });
+        }
+
+        await onGenerate(nextScene.promptTemplate, generateSettings);
 
         // Add to gallery
         setGameState(prev => ({
@@ -741,6 +777,7 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
         }));
       } catch (error) {
         console.error('Generation failed:', error);
+        alert(`⚠️ Image generation failed: ${error instanceof Error ? error.message : 'Unknown error'}. Continue playing without the image?`);
       } finally {
         setIsGenerating(false);
       }
@@ -845,6 +882,29 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-2">
+            {/* Provider Status Indicator */}
+            <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-gray-800/50 rounded-lg border border-gray-700/50">
+              <span className="text-xs text-gray-400">
+                {generationSettings.provider === 'vertex-ai' ? (
+                  <>
+                    🖼️ Imagen {generationSettings.vertexAuthMethod === 'apikey' ? '(API)' : '(OAuth)'}
+                    {generationSettings.vertexAuthMethod === 'oauth' && !generationSettings.projectId && (
+                      <span className="ml-1 text-red-400">⚠️</span>
+                    )}
+                    {generationSettings.vertexAuthMethod === 'apikey' && !generationSettings.vertexApiKey && (
+                      <span className="ml-1 text-red-400">⚠️</span>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    ⚡ Flux
+                    {!generationSettings.replicateApiToken && (
+                      <span className="ml-1 text-red-400">⚠️</span>
+                    )}
+                  </>
+                )}
+              </span>
+            </div>
             <button
               onClick={() => setShowGallery(true)}
               className="px-3 py-1.5 bg-pink-600 hover:bg-pink-500 rounded-lg transition-all flex items-center gap-2 text-sm"
@@ -1070,6 +1130,17 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
             <li>• ✨ <strong>Adornment:</strong> Style & elegance</li>
             <li className="text-pink-400 mt-2">• Unlock boudoir sessions by building stats!</li>
           </ul>
+          <div className="mt-3 pt-3 border-t border-purple-500/20">
+            <p className="text-xs text-gray-400">
+              <strong className="text-purple-300">AI Provider:</strong> Using{' '}
+              {generationSettings.provider === 'vertex-ai' ? (
+                <>Vertex AI Imagen</>
+              ) : (
+                <>Replicate Flux</>
+              )}
+              {' '}for scene generation. Change in main app settings.
+            </p>
+          </div>
         </div>
       </div>
     </div>

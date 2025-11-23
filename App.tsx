@@ -1517,6 +1517,7 @@ const App: React.FC = () => {
           onExit={() => setUiMode('classic')}
           generationSettings={safeGenerationSettings}
           onGenerate={handleVisualNovelGenerate}
+          generatedImages={generatedImages}
         />
       ) : uiMode === 'visualnovel' ? (
         // VISUAL NOVEL MODE: Real visual novel game (like Steam games)

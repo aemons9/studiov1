@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { COMPLETE_ASSET_MANIFEST, getAssetsByPriority, getAssetsByType, getAssetStats, type AssetRequirement } from './assetManifest';
 import type { GenerationSettings } from '../types';
 
@@ -6,20 +6,49 @@ interface VisualNovelAssetGeneratorProps {
   onExit: () => void;
   generationSettings: GenerationSettings;
   onGenerate: (prompt: string, settings: any) => Promise<void>;
+  generatedImages: string[]; // Base64 images from App.tsx
 }
 
 const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   onExit,
   generationSettings,
-  onGenerate
+  onGenerate,
+  generatedImages: latestGeneratedImages
 }) => {
   const [selectedAsset, setSelectedAsset] = useState<AssetRequirement | null>(null);
   const [filterType, setFilterType] = useState<'all' | AssetRequirement['type']>('all');
   const [filterPriority, setFilterPriority] = useState<'all' | 'critical' | 'high' | 'medium' | 'low'>('all');
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedImages, setGeneratedImages] = useState<Record<string, string>>({});
+  const [assetImageMap, setAssetImageMap] = useState<Record<string, string>>({});
+  const [currentGeneratingAssetId, setCurrentGeneratingAssetId] = useState<string | null>(null);
 
-  const stats = getAssetStats();
+  const baseStats = getAssetStats();
+
+  // Override stats with actual generated count from assetImageMap
+  const stats = {
+    ...baseStats,
+    generated: Object.keys(assetImageMap).length,
+    progress: (Object.keys(assetImageMap).length / baseStats.total) * 100
+  };
+
+  // Capture newly generated images and associate them with the current asset
+  useEffect(() => {
+    if (latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
+      // Generation just completed - store the latest image
+      const latestImage = latestGeneratedImages[latestGeneratedImages.length - 1];
+      console.log(`✅ Captured generated image for asset ${currentGeneratingAssetId}:`, {
+        imageLength: latestImage.length,
+        assetId: currentGeneratingAssetId
+      });
+
+      setAssetImageMap(prev => ({
+        ...prev,
+        [currentGeneratingAssetId]: latestImage
+      }));
+
+      setCurrentGeneratingAssetId(null);
+    }
+  }, [latestGeneratedImages, currentGeneratingAssetId, isGenerating]);
 
   // Filter assets
   const filteredAssets = COMPLETE_ASSET_MANIFEST.filter(asset => {
@@ -31,6 +60,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   const handleGenerateAsset = async (asset: AssetRequirement) => {
     setIsGenerating(true);
     setSelectedAsset(asset);
+    setCurrentGeneratingAssetId(asset.id); // Track which asset we're generating
 
     try {
       // Determine which provider to use based on asset type
@@ -54,6 +84,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         if (generationSettings.vertexAuthMethod !== 'oauth') {
           alert('⚠️ Imagen requires OAuth authentication. Please configure in settings or switch to Flux.');
           setIsGenerating(false);
+          setCurrentGeneratingAssetId(null);
           return;
         }
 
@@ -75,13 +106,13 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
       await onGenerate(asset.prompt, settings);
 
-      // Mark as generated (in real app, would save to file system)
+      // Mark as generated (image will be captured by useEffect)
       asset.generated = true;
-      setGeneratedImages(prev => ({ ...prev, [asset.id]: 'generated' }));
 
     } catch (error) {
       console.error('Asset generation failed:', error);
       alert(`❌ Generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setCurrentGeneratingAssetId(null);
     } finally {
       setIsGenerating(false);
     }
@@ -246,10 +277,25 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
                         <div className="text-sm text-gray-300">{asset.prompt}</div>
                       </div>
                     )}
+
+                    {/* Image Preview */}
+                    {assetImageMap[asset.id] && (
+                      <div className="mt-4">
+                        <div className="text-xs text-gray-400 mb-2">Generated Image Preview:</div>
+                        <img
+                          src={`data:image/png;base64,${assetImageMap[asset.id]}`}
+                          alt={asset.name}
+                          className="w-full rounded-lg border border-gray-700 shadow-lg"
+                        />
+                        <div className="text-xs text-gray-500 mt-1">
+                          Size: {Math.round(assetImageMap[asset.id].length / 1024)} KB
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="flex flex-col gap-2 ml-4">
-                    {asset.generated || generatedImages[asset.id] ? (
+                    {assetImageMap[asset.id] ? (
                       <div className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-bold">
                         ✓ Generated
                       </div>

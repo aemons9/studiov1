@@ -1283,6 +1283,14 @@ const App: React.FC = () => {
           }))
         : null;
 
+      console.log('🔄 Converted to GeneratedImageData:', {
+        hasData: !!generatedImageData,
+        count: generatedImageData?.length || 0,
+        firstItemType: typeof generatedImageData?.[0],
+        firstItemHasUrl: !!generatedImageData?.[0]?.url,
+        firstItemUrlLength: generatedImageData?.[0]?.url?.length
+      });
+
       setGeneratedImages(generatedImageData);
       setWovenPrompt(result.wovenPrompt);
       setGenerationStep(result.step);

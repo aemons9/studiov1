@@ -126,19 +126,19 @@ const AuthenticationSettings: React.FC<AuthenticationSettingsProps> = ({
                 <div className="flex-1">
                   <div className="font-semibold text-white flex items-center gap-2">
                     API Key (Gemini API)
-                    <span className="px-2 py-0.5 bg-yellow-600 text-white text-xs rounded">
-                      LIMITED - TEXT ONLY
+                    <span className="px-2 py-0.5 bg-red-600 text-white text-xs rounded font-bold">
+                      NO IMAGE GENERATION
                     </span>
                   </div>
                   <p className="text-sm text-gray-300 mt-1">
-                    Simple setup but limited functionality
+                    Simple setup but <strong className="text-red-400">cannot generate images</strong>
                   </p>
                   <div className="mt-2 text-xs text-gray-400">
                     ✅ Easy setup with API key<br />
                     ✅ No OAuth needed<br />
                     ✅ Works for Gemini text features (rewrites, analysis)<br />
-                    ❌ <span className="text-red-400 font-semibold">Cannot generate images</span><br />
-                    💡 Use with Replicate Flux for image generation
+                    ❌ <span className="text-red-400 font-bold">IMAGEN NOT AVAILABLE</span> (Imagen requires OAuth)<br />
+                    💡 <strong>Must use Replicate Flux</strong> for image generation
                   </div>
                 </div>
               </div>

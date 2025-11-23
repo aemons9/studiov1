@@ -730,21 +730,46 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
 
         // Add provider-specific settings
         if (currentProvider === 'vertex-ai') {
-          // Vertex AI (Imagen) settings
-          generateSettings.vertexAuthMethod = generationSettings.vertexAuthMethod || 'apikey';
+          // Vertex AI (Imagen) settings - REQUIRES OAUTH AUTHENTICATION
+          const authMethod = generationSettings.vertexAuthMethod || 'apikey';
+
+          // CRITICAL: Imagen is NOT available via API key authentication
+          // It only works with OAuth + Vertex AI
+          if (authMethod === 'apikey') {
+            throw new Error(
+              '❌ Imagen requires OAuth authentication!\n\n' +
+              'Imagen models are only available through Vertex AI with OAuth, not API keys.\n\n' +
+              'Please either:\n' +
+              '1. Switch to OAuth authentication in Settings (requires Google Cloud Project)\n' +
+              '2. Change provider to Replicate Flux in main app settings\n\n' +
+              'Current auth method: API Key (incompatible with Imagen)'
+            );
+          }
+
+          // Check OAuth credentials
+          if (!generationSettings.projectId || !generationSettings.accessToken) {
+            throw new Error(
+              '❌ Missing Vertex AI OAuth credentials!\n\n' +
+              'To use Imagen, you need:\n' +
+              '• Google Cloud Project ID\n' +
+              '• OAuth Access Token\n\n' +
+              'Configure these in Settings → Authentication → OAuth 2.0'
+            );
+          }
+
+          generateSettings.vertexAuthMethod = 'oauth';
           generateSettings.projectId = generationSettings.projectId;
           generateSettings.accessToken = generationSettings.accessToken;
-          generateSettings.vertexApiKey = generationSettings.vertexApiKey;
           generateSettings.modelId = generationSettings.modelId || 'imagen-4.0-generate-001';
           generateSettings.personGeneration = 'allow_all';
           generateSettings.safetySetting = 'block_few';
           generateSettings.numberOfImages = 1;
 
           console.log('📖 Visual Novel generating with Vertex AI (Imagen)', {
-            authMethod: generateSettings.vertexAuthMethod,
+            authMethod: 'oauth',
             modelId: generateSettings.modelId,
             hasProjectId: !!generateSettings.projectId,
-            hasToken: !!(generateSettings.vertexAuthMethod === 'oauth' ? generateSettings.accessToken : generateSettings.vertexApiKey)
+            hasToken: !!generateSettings.accessToken
           });
         } else {
           // Replicate Flux settings
@@ -887,12 +912,18 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
               <span className="text-xs text-gray-400">
                 {generationSettings.provider === 'vertex-ai' ? (
                   <>
-                    🖼️ Imagen {generationSettings.vertexAuthMethod === 'apikey' ? '(API)' : '(OAuth)'}
-                    {generationSettings.vertexAuthMethod === 'oauth' && !generationSettings.projectId && (
-                      <span className="ml-1 text-red-400">⚠️</span>
-                    )}
-                    {generationSettings.vertexAuthMethod === 'apikey' && !generationSettings.vertexApiKey && (
-                      <span className="ml-1 text-red-400">⚠️</span>
+                    🖼️ Imagen
+                    {generationSettings.vertexAuthMethod === 'apikey' ? (
+                      <span className="ml-1 text-red-400 font-semibold" title="Imagen requires OAuth, not API key!">
+                        (API Key - NOT SUPPORTED ❌)
+                      </span>
+                    ) : (
+                      <>
+                        (OAuth)
+                        {(!generationSettings.projectId || !generationSettings.accessToken) && (
+                          <span className="ml-1 text-red-400">⚠️</span>
+                        )}
+                      </>
                     )}
                   </>
                 ) : (
@@ -1132,13 +1163,37 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
           </ul>
           <div className="mt-3 pt-3 border-t border-purple-500/20">
             <p className="text-xs text-gray-400">
-              <strong className="text-purple-300">AI Provider:</strong> Using{' '}
+              <strong className="text-purple-300">AI Provider:</strong>{' '}
               {generationSettings.provider === 'vertex-ai' ? (
-                <>Vertex AI Imagen</>
+                <>
+                  Vertex AI Imagen
+                  {generationSettings.vertexAuthMethod === 'apikey' ? (
+                    <span className="block text-red-400 font-semibold mt-1">
+                      ⚠️ ERROR: Imagen requires OAuth, not API key!
+                    </span>
+                  ) : !generationSettings.projectId || !generationSettings.accessToken ? (
+                    <span className="block text-red-400 font-semibold mt-1">
+                      ⚠️ Missing OAuth credentials!
+                    </span>
+                  ) : (
+                    <span className="block text-green-400 mt-1">✓ OAuth configured</span>
+                  )}
+                </>
               ) : (
-                <>Replicate Flux</>
+                <>
+                  Replicate Flux
+                  {!generationSettings.replicateApiToken ? (
+                    <span className="block text-red-400 font-semibold mt-1">
+                      ⚠️ Missing API token!
+                    </span>
+                  ) : (
+                    <span className="block text-green-400 mt-1">✓ API token configured</span>
+                  )}
+                </>
               )}
-              {' '}for scene generation. Change in main app settings.
+            </p>
+            <p className="text-xs text-gray-500 mt-2">
+              Change provider in main app settings
             </p>
           </div>
         </div>

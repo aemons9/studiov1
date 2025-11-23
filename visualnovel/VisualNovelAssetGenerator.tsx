@@ -52,15 +52,14 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   useEffect(() => {
     const currentImageCount = latestGeneratedImages?.length || 0;
 
-    // Only process if we have images AND the count has increased (new images added)
+    // Only process if we have images AND the count has increased (new images added) AND we have an asset ID
     if (
       latestGeneratedImages &&
       currentImageCount > 0 &&
       currentImageCount > lastProcessedImageCount &&
-      currentGeneratingAssetId &&
-      isGenerating
+      currentGeneratingAssetId
     ) {
-      console.log(`📊 Image count changed: ${lastProcessedImageCount} -> ${currentImageCount}`);
+      console.log(`📊 Image count changed: ${lastProcessedImageCount} -> ${currentImageCount} for asset ${currentGeneratingAssetId}`);
 
       // Generation just completed - store the latest image
       const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
@@ -69,14 +68,14 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
       if (!latestImageData || !latestImageData.url) {
         console.error('❌ Invalid image data received:', latestImageData);
         setCurrentGeneratingAssetId(null);
-        setIsGenerating(false);
         return;
       }
 
       const latestImage = latestImageData.url; // Extract the base64 URL
       console.log(`✅ Captured generated image for asset ${currentGeneratingAssetId}:`, {
         imageLength: latestImage.length,
-        assetId: currentGeneratingAssetId
+        assetId: currentGeneratingAssetId,
+        startsWithData: latestImage.startsWith('data:')
       });
 
       // Find the asset
@@ -94,11 +93,11 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         console.log(`💾 Auto-saved ${asset.name} to localStorage`);
       }
 
-      // Update the last processed count
+      // Update the last processed count and clear the generating asset ID
       setLastProcessedImageCount(currentImageCount);
       setCurrentGeneratingAssetId(null);
     }
-  }, [latestGeneratedImages, currentGeneratingAssetId, isGenerating, lastProcessedImageCount]);
+  }, [latestGeneratedImages, currentGeneratingAssetId, lastProcessedImageCount]);
 
   // Filter assets
   const filteredAssets = COMPLETE_ASSET_MANIFEST.filter(asset => {

@@ -52,6 +52,15 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
     if (latestGeneratedImages && latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
       // Generation just completed - store the latest image
       const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
+
+      // Check if latestImageData exists and has a url property
+      if (!latestImageData || !latestImageData.url) {
+        console.error('❌ Invalid image data received:', latestImageData);
+        setCurrentGeneratingAssetId(null);
+        setIsGenerating(false);
+        return;
+      }
+
       const latestImage = latestImageData.url; // Extract the base64 URL
       console.log(`✅ Captured generated image for asset ${currentGeneratingAssetId}:`, {
         imageLength: latestImage.length,
@@ -310,7 +319,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
                       <div className="mt-4">
                         <div className="text-xs text-gray-400 mb-2">Generated Image Preview:</div>
                         <img
-                          src={`data:image/png;base64,${assetImageMap[asset.id]}`}
+                          src={assetImageMap[asset.id].startsWith('data:') ? assetImageMap[asset.id] : `data:image/png;base64,${assetImageMap[asset.id]}`}
                           alt={asset.name}
                           className="w-full rounded-lg border border-gray-700 shadow-lg"
                         />

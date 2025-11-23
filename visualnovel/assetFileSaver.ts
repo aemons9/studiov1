@@ -1,0 +1,144 @@
+/**
+ * Asset File Saver - Handles saving generated assets to files
+ * Since this is a browser app, we provide download functionality
+ */
+
+import type { AssetRequirement } from './assetManifest';
+
+/**
+ * Convert base64 image to Blob
+ */
+function base64ToBlob(base64: string, mimeType: string = 'image/png'): Blob {
+  const byteCharacters = atob(base64);
+  const byteNumbers = new Array(byteCharacters.length);
+
+  for (let i = 0; i < byteCharacters.length; i++) {
+    byteNumbers[i] = byteCharacters.charCodeAt(i);
+  }
+
+  const byteArray = new Uint8Array(byteNumbers);
+  return new Blob([byteArray], { type: mimeType });
+}
+
+/**
+ * Download a file to user's computer
+ */
+function downloadFile(blob: Blob, filename: string): void {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+/**
+ * Get filename for an asset
+ */
+export function getAssetFilename(asset: AssetRequirement): string {
+  const name = asset.name.toLowerCase().replace(/[^a-z0-9]+/g, '_');
+  const ext = asset.specifications.format.toLowerCase();
+  return `${name}.${ext}`;
+}
+
+/**
+ * Save asset image to file (downloads to user's computer)
+ */
+export function saveAssetToFile(asset: AssetRequirement, base64Image: string): void {
+  try {
+    const blob = base64ToBlob(base64Image);
+    const filename = getAssetFilename(asset);
+
+    console.log(`💾 Downloading asset: ${filename}`);
+    downloadFile(blob, filename);
+
+  } catch (error) {
+    console.error('Failed to save asset:', error);
+    throw new Error(`Failed to save ${asset.name}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
+}
+
+/**
+ * Store asset in localStorage for persistence
+ */
+export function storeAssetInLocalStorage(asset: AssetRequirement, base64Image: string): void {
+  try {
+    const key = `vn_asset_${asset.id}`;
+    const data = {
+      id: asset.id,
+      name: asset.name,
+      type: asset.type,
+      image: base64Image,
+      timestamp: Date.now()
+    };
+
+    localStorage.setItem(key, JSON.stringify(data));
+    console.log(`💾 Stored ${asset.name} in localStorage`);
+
+  } catch (error) {
+    console.warn(`Failed to store ${asset.name} in localStorage (may be too large):`, error);
+  }
+}
+
+/**
+ * Load asset from localStorage
+ */
+export function loadAssetFromLocalStorage(assetId: string): string | null {
+  try {
+    const key = `vn_asset_${assetId}`;
+    const dataStr = localStorage.getItem(key);
+
+    if (!dataStr) return null;
+
+    const data = JSON.parse(dataStr);
+    return data.image;
+
+  } catch (error) {
+    console.error(`Failed to load asset ${assetId}:`, error);
+    return null;
+  }
+}
+
+/**
+ * Load all assets from localStorage
+ */
+export function loadAllAssetsFromLocalStorage(): Record<string, string> {
+  const assetMap: Record<string, string> = {};
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('vn_asset_')) {
+      try {
+        const dataStr = localStorage.getItem(key);
+        if (dataStr) {
+          const data = JSON.parse(dataStr);
+          assetMap[data.id] = data.image;
+        }
+      } catch (error) {
+        console.error(`Failed to load asset from ${key}:`, error);
+      }
+    }
+  }
+
+  console.log(`📂 Loaded ${Object.keys(assetMap).length} assets from localStorage`);
+  return assetMap;
+}
+
+/**
+ * Clear all stored assets
+ */
+export function clearAllStoredAssets(): void {
+  const keys: string[] = [];
+
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key && key.startsWith('vn_asset_')) {
+      keys.push(key);
+    }
+  }
+
+  keys.forEach(key => localStorage.removeItem(key));
+  console.log(`🗑️ Cleared ${keys.length} stored assets`);
+}

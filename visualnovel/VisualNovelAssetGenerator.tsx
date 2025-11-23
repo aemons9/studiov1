@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { COMPLETE_ASSET_MANIFEST, getAssetsByPriority, getAssetsByType, getAssetStats, type AssetRequirement } from './assetManifest';
 import type { GenerationSettings } from '../types';
+import {
+  saveAssetToFile,
+  storeAssetInLocalStorage,
+  loadAllAssetsFromLocalStorage,
+  clearAllStoredAssets,
+  getAssetFilename
+} from './assetFileSaver';
 
 interface VisualNovelAssetGeneratorProps {
   onExit: () => void;
@@ -31,6 +38,15 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
     progress: (Object.keys(assetImageMap).length / baseStats.total) * 100
   };
 
+  // Load saved assets from localStorage on mount
+  useEffect(() => {
+    const savedAssets = loadAllAssetsFromLocalStorage();
+    if (Object.keys(savedAssets).length > 0) {
+      setAssetImageMap(savedAssets);
+      console.log(`📂 Loaded ${Object.keys(savedAssets).length} saved assets from localStorage`);
+    }
+  }, []);
+
   // Capture newly generated images and associate them with the current asset
   useEffect(() => {
     if (latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
@@ -41,10 +57,20 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         assetId: currentGeneratingAssetId
       });
 
-      setAssetImageMap(prev => ({
-        ...prev,
-        [currentGeneratingAssetId]: latestImage
-      }));
+      // Find the asset
+      const asset = COMPLETE_ASSET_MANIFEST.find(a => a.id === currentGeneratingAssetId);
+
+      if (asset) {
+        // Store in component state
+        setAssetImageMap(prev => ({
+          ...prev,
+          [currentGeneratingAssetId]: latestImage
+        }));
+
+        // Auto-save to localStorage for persistence
+        storeAssetInLocalStorage(asset, latestImage);
+        console.log(`💾 Auto-saved ${asset.name} to localStorage`);
+      }
 
       setCurrentGeneratingAssetId(null);
     }
@@ -296,9 +322,17 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
                   <div className="flex flex-col gap-2 ml-4">
                     {assetImageMap[asset.id] ? (
-                      <div className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-bold">
-                        ✓ Generated
-                      </div>
+                      <>
+                        <div className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-bold text-center">
+                          ✓ Generated
+                        </div>
+                        <button
+                          onClick={() => saveAssetToFile(asset, assetImageMap[asset.id])}
+                          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm transition-all"
+                        >
+                          💾 Download
+                        </button>
+                      </>
                     ) : (
                       <>
                         <button
@@ -375,6 +409,43 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
               className="px-6 py-4 bg-teal-600 hover:bg-teal-500 rounded-lg font-bold transition-all"
             >
               🔊 Generate All SFX (7 sounds)
+            </button>
+            <button
+              onClick={() => {
+                const generatedCount = Object.keys(assetImageMap).length;
+                if (generatedCount === 0) {
+                  alert('No assets generated yet. Generate some assets first!');
+                  return;
+                }
+
+                // Download all generated assets
+                for (const asset of COMPLETE_ASSET_MANIFEST) {
+                  if (assetImageMap[asset.id]) {
+                    setTimeout(() => {
+                      saveAssetToFile(asset, assetImageMap[asset.id]);
+                    }, 100);
+                  }
+                }
+
+                alert(`Downloading ${generatedCount} generated assets...`);
+              }}
+              disabled={Object.keys(assetImageMap).length === 0}
+              className="px-6 py-4 bg-yellow-600 hover:bg-yellow-500 disabled:bg-gray-600 rounded-lg font-bold transition-all disabled:cursor-not-allowed"
+            >
+              💾 Download All Generated ({Object.keys(assetImageMap).length})
+            </button>
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to clear all stored assets? This cannot be undone!')) {
+                  clearAllStoredAssets();
+                  setAssetImageMap({});
+                  alert('All stored assets cleared!');
+                }
+              }}
+              disabled={Object.keys(assetImageMap).length === 0}
+              className="px-6 py-4 bg-red-700 hover:bg-red-600 disabled:bg-gray-600 rounded-lg font-bold transition-all disabled:cursor-not-allowed"
+            >
+              🗑️ Clear All Stored
             </button>
           </div>
         </div>

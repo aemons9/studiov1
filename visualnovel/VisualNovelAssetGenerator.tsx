@@ -104,6 +104,9 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
       case 'cg_image': return '✨';
       case 'cutscene_video': return '🎬';
       case 'ui_element': return '🎨';
+      case 'bgm': return '🎵';
+      case 'sfx': return '🔊';
+      case 'location_map': return '🗺️';
       default: return '📦';
     }
   };
@@ -173,8 +176,11 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
                 <option value="all">All Types</option>
                 <option value="character_sprite">🧍 Character Sprites</option>
                 <option value="background">🖼️ Backgrounds</option>
+                <option value="location_map">🗺️ Location Maps</option>
                 <option value="cg_image">✨ CG Images</option>
                 <option value="cutscene_video">🎬 Cutscene Videos</option>
+                <option value="bgm">🎵 Background Music</option>
+                <option value="sfx">🔊 Sound Effects</option>
                 <option value="ui_element">🎨 UI Elements</option>
               </select>
             </div>
@@ -278,7 +284,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         {/* Quick Actions */}
         <div className="mt-6 bg-black/40 backdrop-blur-md border border-yellow-500/30 rounded-xl p-6">
           <h3 className="font-bold text-xl mb-4 text-yellow-400">⚡ Quick Actions</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             <button
               onClick={() => {
                 const critical = getAssetsByPriority('critical');
@@ -306,6 +312,172 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
             >
               🖼️ Generate All Backgrounds (5 total)
             </button>
+            <button
+              onClick={() => {
+                const bgm = getAssetsByType('bgm');
+                alert(`Found ${bgm.length} background music tracks. Use Lyria (Vertex AI) or Suno/Udio for generation!`);
+              }}
+              className="px-6 py-4 bg-green-600 hover:bg-green-500 rounded-lg font-bold transition-all"
+            >
+              🎵 Generate All BGM (6 tracks)
+            </button>
+            <button
+              onClick={() => {
+                const sfx = getAssetsByType('sfx');
+                alert(`Found ${sfx.length} sound effects. Use free SFX libraries or AI generation!`);
+              }}
+              className="px-6 py-4 bg-teal-600 hover:bg-teal-500 rounded-lg font-bold transition-all"
+            >
+              🔊 Generate All SFX (7 sounds)
+            </button>
+          </div>
+        </div>
+
+        {/* Audio Generation Tools Info */}
+        <div className="mt-6 bg-black/40 backdrop-blur-md border border-cyan-500/30 rounded-xl p-6">
+          <h3 className="font-bold text-xl mb-4 text-cyan-400">🎵 Audio Generation Tools</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Background Music */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-lg text-white">Background Music (BGM)</h4>
+
+              <div className="p-4 bg-purple-900/30 border border-purple-500/30 rounded-lg">
+                <h5 className="font-bold text-purple-300 mb-2">🎹 Lyria (Google Vertex AI)</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Google's music generation model - high-quality instrumental tracks
+                </p>
+                <p className="text-xs text-gray-400">
+                  • Use Vertex AI console<br />
+                  • Text-to-music generation<br />
+                  • 2-5 minute tracks<br />
+                  • Multiple genres/styles
+                </p>
+                <a
+                  href="https://cloud.google.com/vertex-ai/generative-ai/docs/music/overview"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-purple-400 hover:text-purple-300 mt-2 block"
+                >
+                  View Lyria Docs →
+                </a>
+              </div>
+
+              <div className="p-4 bg-blue-900/30 border border-blue-500/30 rounded-lg">
+                <h5 className="font-bold text-blue-300 mb-2">🎼 Suno AI (Free Tier)</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Popular music generation tool with free credits
+                </p>
+                <p className="text-xs text-gray-400">
+                  • 50 free credits/month<br />
+                  • Text-to-music<br />
+                  • Instrumental & vocal options<br />
+                  • Download MP3
+                </p>
+                <a
+                  href="https://suno.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-blue-400 hover:text-blue-300 mt-2 block"
+                >
+                  Try Suno →
+                </a>
+              </div>
+
+              <div className="p-4 bg-indigo-900/30 border border-indigo-500/30 rounded-lg">
+                <h5 className="font-bold text-indigo-300 mb-2">🎧 Udio (Free)</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Alternative music generation with free tier
+                </p>
+                <p className="text-xs text-gray-400">
+                  • Free daily generations<br />
+                  • High-quality output<br />
+                  • Genre control<br />
+                  • Commercial use (paid tier)
+                </p>
+                <a
+                  href="https://udio.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-indigo-400 hover:text-indigo-300 mt-2 block"
+                >
+                  Try Udio →
+                </a>
+              </div>
+
+              <div className="p-4 bg-gray-900/30 border border-gray-500/30 rounded-lg">
+                <h5 className="font-bold text-gray-300 mb-2">🎹 Free Music Archives</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Royalty-free music libraries (no AI)
+                </p>
+                <p className="text-xs text-gray-400">
+                  • YouTube Audio Library<br />
+                  • Free Music Archive<br />
+                  • Incompetech<br />
+                  • CC0 Music
+                </p>
+              </div>
+            </div>
+
+            {/* Sound Effects */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-lg text-white">Sound Effects (SFX)</h4>
+
+              <div className="p-4 bg-green-900/30 border border-green-500/30 rounded-lg">
+                <h5 className="font-bold text-green-300 mb-2">🔊 ElevenLabs Sound Effects</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  AI sound effect generation (limited free tier)
+                </p>
+                <p className="text-xs text-gray-400">
+                  • Text-to-SFX<br />
+                  • Professional quality<br />
+                  • Quick generation<br />
+                  • WAV format
+                </p>
+                <a
+                  href="https://elevenlabs.io/sound-effects"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-green-400 hover:text-green-300 mt-2 block"
+                >
+                  Try ElevenLabs SFX →
+                </a>
+              </div>
+
+              <div className="p-4 bg-teal-900/30 border border-teal-500/30 rounded-lg">
+                <h5 className="font-bold text-teal-300 mb-2">🎚️ Free SFX Libraries</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Download pre-made sound effects (recommended!)
+                </p>
+                <p className="text-xs text-gray-400">
+                  • <strong>Freesound.org</strong> - Massive library<br />
+                  • <strong>Zapsplat</strong> - UI sounds<br />
+                  • <strong>Sonniss GDC</strong> - Game audio<br />
+                  • <strong>BBC Sound Effects</strong> - Pro quality
+                </p>
+                <a
+                  href="https://freesound.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-teal-400 hover:text-teal-300 mt-2 block"
+                >
+                  Browse Freesound →
+                </a>
+              </div>
+
+              <div className="p-4 bg-yellow-900/30 border border-yellow-500/30 rounded-lg">
+                <h5 className="font-bold text-yellow-300 mb-2">💡 Recommendation</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  For SFX, download from free libraries first!
+                </p>
+                <p className="text-xs text-gray-400">
+                  Sound effects are hard to generate with AI and free libraries have everything you need. Search for:<br />
+                  • "UI click sound"<br />
+                  • "menu select chime"<br />
+                  • "camera shutter"<br />
+                  • "achievement unlock"
+                </p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -314,13 +486,21 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
           <h3 className="font-bold text-xl mb-4">📋 Instructions</h3>
           <ol className="list-decimal list-inside space-y-2 text-gray-300">
             <li><strong>Start with Critical Assets:</strong> Generate the 🔴 critical priority assets first - these are essential for gameplay.</li>
-            <li><strong>Character Sprites:</strong> Generate all 6 Zara sprites (neutral, smile, flirty, shy, studio outfit, boudoir outfit).</li>
-            <li><strong>Background Scenes:</strong> Generate all 5 background locations (gallery, studio, bedroom, cafe, showroom).</li>
-            <li><strong>CG Images:</strong> Generate special event images for key story moments.</li>
-            <li><strong>Videos (Optional):</strong> Use Veo to generate cutscene videos for polished transitions.</li>
-            <li><strong>Save Assets:</strong> After generating, save images to <code>/visualnovel/assets/</code> folder.</li>
-            <li><strong>Update Visual Novel:</strong> Once all critical assets are generated, update the visual novel code to use real images instead of placeholders.</li>
+            <li><strong>Character Sprites (6 assets):</strong> Generate all Zara sprites using Imagen/Flux (neutral, smile, flirty, shy, studio outfit, boudoir outfit).</li>
+            <li><strong>Background Scenes (5 assets):</strong> Generate all background locations using Imagen/Flux (gallery, studio, bedroom, cafe, showroom).</li>
+            <li><strong>Background Music (6 tracks):</strong> Generate BGM using Lyria (Vertex AI), Suno, or Udio. See audio generation tools section below.</li>
+            <li><strong>Sound Effects (7 sounds):</strong> Download from Freesound.org, Zapsplat, or generate with ElevenLabs SFX.</li>
+            <li><strong>CG Images (5 assets):</strong> Generate special event images for key story moments using Imagen/Flux.</li>
+            <li><strong>Videos (3 optional):</strong> Use Veo to generate cutscene videos for polished transitions.</li>
+            <li><strong>Save Assets:</strong> Organize files into <code>/visualnovel/assets/</code> subfolders (sprites, backgrounds, bgm, sfx, cg, videos).</li>
+            <li><strong>Update Visual Novel:</strong> Once all critical assets are generated, update the visual novel code to use real assets instead of placeholders.</li>
           </ol>
+          <div className="mt-4 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+            <p className="text-sm text-blue-300">
+              <strong>💡 Tip:</strong> Total asset count is now <strong>41 assets</strong> (6 sprites + 5 backgrounds + 6 location maps + 5 CGs + 3 videos + 2 UI + 6 BGM + 7 SFX + 1 time UI).
+              Start with the 11 critical visual assets (sprites + backgrounds), then add maps for travel system, then audio!
+            </p>
+          </div>
         </div>
       </div>
     </div>

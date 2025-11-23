@@ -1267,10 +1267,23 @@ const App: React.FC = () => {
       console.log('📖 Visual Novel Generation Result:', {
         hasImages: !!result.images,
         imageCount: result.images?.length || 0,
-        firstImage: result.images?.[0] ? { hasUrl: !!result.images[0].url, urlLength: result.images[0].url?.length } : null
+        firstImageType: typeof result.images?.[0],
+        firstImageLength: result.images?.[0]?.length
       });
 
-      setGeneratedImages(result.images || null);
+      // Convert string[] to GeneratedImageData[]
+      const generatedImageData: GeneratedImageData[] | null = result.images
+        ? result.images.map(url => ({
+            url,
+            settings: {
+              modelId: mergedSettings.modelId,
+              seed: mergedSettings.seed,
+              aspectRatio: mergedSettings.aspectRatio
+            }
+          }))
+        : null;
+
+      setGeneratedImages(generatedImageData);
       setWovenPrompt(result.wovenPrompt);
       setGenerationStep(result.step);
     } catch (err: any) {

@@ -28,6 +28,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   const [isGenerating, setIsGenerating] = useState(false);
   const [assetImageMap, setAssetImageMap] = useState<Record<string, string>>({});
   const [currentGeneratingAssetId, setCurrentGeneratingAssetId] = useState<string | null>(null);
+  const [lastProcessedImageCount, setLastProcessedImageCount] = useState<number>(0);
 
   const baseStats = getAssetStats();
 
@@ -49,7 +50,18 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
   // Capture newly generated images and associate them with the current asset
   useEffect(() => {
-    if (latestGeneratedImages && latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
+    const currentImageCount = latestGeneratedImages?.length || 0;
+
+    // Only process if we have images AND the count has increased (new images added)
+    if (
+      latestGeneratedImages &&
+      currentImageCount > 0 &&
+      currentImageCount > lastProcessedImageCount &&
+      currentGeneratingAssetId &&
+      isGenerating
+    ) {
+      console.log(`📊 Image count changed: ${lastProcessedImageCount} -> ${currentImageCount}`);
+
       // Generation just completed - store the latest image
       const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
 
@@ -82,9 +94,11 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         console.log(`💾 Auto-saved ${asset.name} to localStorage`);
       }
 
+      // Update the last processed count
+      setLastProcessedImageCount(currentImageCount);
       setCurrentGeneratingAssetId(null);
     }
-  }, [latestGeneratedImages, currentGeneratingAssetId, isGenerating]);
+  }, [latestGeneratedImages, currentGeneratingAssetId, isGenerating, lastProcessedImageCount]);
 
   // Filter assets
   const filteredAssets = COMPLETE_ASSET_MANIFEST.filter(asset => {
@@ -96,6 +110,11 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   const handleGenerateAsset = async (asset: AssetRequirement) => {
     setIsGenerating(true);
     setSelectedAsset(asset);
+
+    // Store the current image count before generation
+    const imageCountBefore = latestGeneratedImages?.length || 0;
+    console.log(`🎨 Starting generation for ${asset.name}, current image count: ${imageCountBefore}`);
+
     setCurrentGeneratingAssetId(asset.id); // Track which asset we're generating
 
     try {

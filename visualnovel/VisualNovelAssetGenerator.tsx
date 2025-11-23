@@ -13,7 +13,7 @@ interface VisualNovelAssetGeneratorProps {
   onExit: () => void;
   generationSettings: GenerationSettings;
   onGenerate: (prompt: string, settings: any) => Promise<void>;
-  generatedImages: string[]; // Base64 images from App.tsx
+  generatedImages: string[] | null; // Base64 images from App.tsx
 }
 
 const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
@@ -49,7 +49,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
   // Capture newly generated images and associate them with the current asset
   useEffect(() => {
-    if (latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
+    if (latestGeneratedImages && latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
       // Generation just completed - store the latest image
       const latestImage = latestGeneratedImages[latestGeneratedImages.length - 1];
       console.log(`✅ Captured generated image for asset ${currentGeneratingAssetId}:`, {

@@ -8,6 +8,7 @@ import {
   clearAllStoredAssets,
   getAssetFilename
 } from './assetFileSaver';
+import { getAssetStatus } from './assetLoader';
 
 interface VisualNovelAssetGeneratorProps {
   onExit: () => void;
@@ -491,6 +492,32 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
             >
               🗑️ Clear All Stored
             </button>
+            <button
+              onClick={() => {
+                const assetStatus = getAssetStatus();
+                const message = `
+🎮 Visual Novel Asset Status:
+
+✅ Generated: ${assetStatus.generated}/${assetStatus.total} assets (${Math.round(assetStatus.progress)}%)
+🔴 Critical: ${assetStatus.criticalGenerated}/${assetStatus.critical} complete
+
+Your Visual Novel will automatically use generated assets!
+
+How it works:
+• Generated assets are saved to localStorage
+• Visual Novel checks for new assets every 5 seconds
+• Falls back to placeholder images for missing assets
+• Works even with incomplete asset sets
+
+Ready to see your assets in action? Play the Visual Novel now!
+                `.trim();
+
+                alert(message);
+              }}
+              className="px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-lg font-bold transition-all"
+            >
+              🎮 Update Visual Novel
+            </button>
           </div>
         </div>
 
@@ -653,8 +680,8 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
             <li><strong>Sound Effects (7 sounds):</strong> Download from Freesound.org, Zapsplat, or generate with ElevenLabs SFX.</li>
             <li><strong>CG Images (5 assets):</strong> Generate special event images for key story moments using Imagen/Flux.</li>
             <li><strong>Videos (3 optional):</strong> Use Veo to generate cutscene videos for polished transitions.</li>
-            <li><strong>Save Assets:</strong> Organize files into <code>/visualnovel/assets/</code> subfolders (sprites, backgrounds, bgm, sfx, cg, videos).</li>
-            <li><strong>Update Visual Novel:</strong> Once all critical assets are generated, update the visual novel code to use real assets instead of placeholders.</li>
+            <li><strong>Auto-Save:</strong> All generated assets are automatically saved to localStorage for instant use in the Visual Novel!</li>
+            <li><strong>Play Visual Novel:</strong> Assets automatically load when you play! The game checks for new assets every 5 seconds and works even with incomplete sets.</li>
           </ol>
           <div className="mt-4 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
             <p className="text-sm text-blue-300">

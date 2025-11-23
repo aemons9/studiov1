@@ -1,4 +1,12 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import {
+  loadAllVisualNovelAssets,
+  getBackgroundForScene,
+  getSpriteForExpression,
+  getCGForScene,
+  hasNewAssets,
+  type LoadedAssets
+} from './assetLoader';
 
 // ============================================================================
 // TYPES
@@ -462,6 +470,22 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
 
+  // Asset Loading State
+  const [loadedAssets, setLoadedAssets] = useState<LoadedAssets>(() => loadAllVisualNovelAssets());
+
+  // Hot-reload: Check for new assets periodically
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const newAssets = loadAllVisualNovelAssets();
+      if (hasNewAssets(loadedAssets, newAssets)) {
+        console.log('🔄 New assets detected! Reloading...');
+        setLoadedAssets(newAssets);
+      }
+    }, 5000); // Check every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [loadedAssets]);
+
   const currentScene = SCENES[gameState.currentSceneId];
   const currentLine = currentScene.dialogue[gameState.currentLineIndex];
   const isLastLine = gameState.currentLineIndex >= currentScene.dialogue.length - 1;
@@ -541,8 +565,9 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
     }));
   };
 
-  // Get background image
-  const backgroundImage = currentLine?.background || currentScene.background;
+  // Get background image - prioritize generated assets over hardcoded URLs
+  const backgroundImage = currentLine?.background ||
+    getBackgroundForScene(gameState.currentSceneId, loadedAssets);
 
   return (
     <div
@@ -558,8 +583,24 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
         }}
       />
 
-      {/* Character Sprite would go here */}
-      {/* For now using background only, can add sprite images later */}
+      {/* Character Sprite */}
+      {currentLine?.expression && currentLine.speaker === 'Zara' && (
+        (() => {
+          const spriteUrl = getSpriteForExpression(currentLine.expression, loadedAssets);
+          return spriteUrl ? (
+            <div className="absolute bottom-0 right-1/4 h-[80%] w-auto pointer-events-none transition-opacity duration-500">
+              <img
+                src={spriteUrl}
+                alt={`Zara - ${currentLine.expression}`}
+                className="h-full w-auto object-contain drop-shadow-2xl"
+                style={{
+                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8))'
+                }}
+              />
+            </div>
+          ) : null;
+        })()
+      )}
 
       {/* Dialogue Box */}
       <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/95 to-transparent p-8">

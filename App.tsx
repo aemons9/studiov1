@@ -38,6 +38,7 @@ import IndianModelsGallery from './roleplay/IndianModelsGallery';
 import VideoGenerationMode from './video/VideoGenerationMode';
 import VeraMode from './vera/VeraMode';
 import MasterClassMode from './masterclass/MasterClassMode';
+import VNMode from './vn/VNMode';
 import VideoGeneratorUI from './components/VideoGeneratorUI';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
@@ -106,7 +107,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'vn'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -1472,6 +1473,12 @@ const App: React.FC = () => {
         <MasterClassMode
           onExit={() => setUiMode('classic')}
         />
+      ) : uiMode === 'vn' ? (
+        // VN MODE: Visual Novel Asset Generator
+        <VNMode
+          onExit={() => setUiMode('classic')}
+          generationSettings={safeGenerationSettings}
+        />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor
         <>
@@ -1720,6 +1727,14 @@ const App: React.FC = () => {
             >
               <span style={{ fontSize: '18px' }}>🎭</span>
               MasterClass
+            </button>
+            <button
+              onClick={() => setUiMode('vn')}
+              disabled={isLoading}
+              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-indigo-500 hover:via-purple-500 hover:to-pink-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
+            >
+              <span style={{ fontSize: '18px' }}>📖</span>
+              VN Assets
             </button>
             <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
               <button

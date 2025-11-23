@@ -12,6 +12,22 @@ function getVertexAICredentials(): { projectId: string; oauthToken: string } {
     throw new Error('VertexAI credentials not configured. Please set your Project ID and OAuth token in Vera settings.');
   }
 
+  // Validate project ID format
+  if (projectId.includes('...') || projectId.length < 6) {
+    throw new Error(`Invalid Project ID format: "${projectId}". Please enter your complete Google Cloud Project ID (not truncated).`);
+  }
+
+  // Validate OAuth token
+  if (oauthToken.includes('...') || oauthToken.length < 20) {
+    throw new Error('OAuth token appears incomplete. Please refresh your token in Vera settings.');
+  }
+
+  console.log('🔑 VertexAI Credentials loaded:', {
+    projectId: projectId,
+    tokenLength: oauthToken.length,
+    tokenPrefix: oauthToken.substring(0, 10) + '...'
+  });
+
   return { projectId, oauthToken };
 }
 
@@ -43,7 +59,31 @@ async function vertexAIRequest(endpoint: string, body: any): Promise<any> {
 
       // Check for auth errors
       if (response.status === 401 || response.status === 403) {
-        throw new Error(`Authentication error: ${errorText}. Please check your OAuth token is valid and not expired.`);
+        let authError = `Authentication error (${response.status}): `;
+
+        if (errorText.includes('Permission') && errorText.includes('denied')) {
+          authError += `\n\n❌ PERMISSION DENIED\n\nYour OAuth token doesn't have permission to access Vertex AI Imagen.\n\n` +
+                      `Required IAM roles:\n` +
+                      `- Vertex AI User (roles/aiplatform.user)\n` +
+                      `- Service Usage Consumer (roles/serviceusage.serviceUsageConsumer)\n\n` +
+                      `To fix:\n` +
+                      `1. Go to https://console.cloud.google.com/iam-admin/iam\n` +
+                      `2. Find your account\n` +
+                      `3. Click "Edit" (pencil icon)\n` +
+                      `4. Click "Add Another Role"\n` +
+                      `5. Add "Vertex AI User" role\n` +
+                      `6. Save changes\n` +
+                      `7. Regenerate your OAuth token\n\n` +
+                      `Full error: ${errorText}`;
+        } else if (response.status === 401) {
+          authError += `OAuth token is invalid or expired.\n\n` +
+                      `Please refresh your token in Vera settings.\n\n` +
+                      `Full error: ${errorText}`;
+        } else {
+          authError += errorText;
+        }
+
+        throw new Error(authError);
       }
 
       throw new Error(`VertexAI API error: ${response.status} - ${errorText}`);

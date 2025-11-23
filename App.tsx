@@ -1283,15 +1283,19 @@ const App: React.FC = () => {
           }))
         : null;
 
-      console.log('🔄 Converted to GeneratedImageData:', {
+      const conversionId = Date.now();
+      console.log(`🔄 Converted to GeneratedImageData [ID:${conversionId}]:`, {
         hasData: !!generatedImageData,
         count: generatedImageData?.length || 0,
         firstItemType: typeof generatedImageData?.[0],
         firstItemHasUrl: !!generatedImageData?.[0]?.url,
-        firstItemUrlLength: generatedImageData?.[0]?.url?.length
+        firstItemUrlLength: generatedImageData?.[0]?.url?.length,
+        data: generatedImageData
       });
 
+      console.log(`📤 Calling setGeneratedImages with conversion ID:${conversionId}`);
       setGeneratedImages(generatedImageData);
+      console.log(`✅ setGeneratedImages called with ID:${conversionId}`);
       setWovenPrompt(result.wovenPrompt);
       setGenerationStep(result.step);
     } catch (err: any) {

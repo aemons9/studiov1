@@ -114,6 +114,7 @@ const App: React.FC = () => {
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
   const [generatedImages, setGeneratedImages] = useState<GeneratedImageData[] | null>(null);
+  const [visualNovelImages, setVisualNovelImages] = useState<GeneratedImageData[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
@@ -1293,9 +1294,9 @@ const App: React.FC = () => {
         data: generatedImageData
       });
 
-      console.log(`📤 Calling setGeneratedImages with conversion ID:${conversionId}`);
-      setGeneratedImages(generatedImageData);
-      console.log(`✅ setGeneratedImages called with ID:${conversionId}`);
+      console.log(`📤 Calling setVisualNovelImages (NOT setGeneratedImages) with conversion ID:${conversionId}`);
+      setVisualNovelImages(generatedImageData);
+      console.log(`✅ setVisualNovelImages called with ID:${conversionId} - images isolated from main UI`);
       setWovenPrompt(result.wovenPrompt);
       setGenerationStep(result.step);
     } catch (err: any) {
@@ -1548,7 +1549,7 @@ const App: React.FC = () => {
           onExit={() => setUiMode('classic')}
           generationSettings={safeGenerationSettings}
           onGenerate={handleVisualNovelGenerate}
-          generatedImages={generatedImages}
+          generatedImages={visualNovelImages}
         />
       ) : uiMode === 'visualnovel' ? (
         // VISUAL NOVEL MODE: Real visual novel game (like Steam games)

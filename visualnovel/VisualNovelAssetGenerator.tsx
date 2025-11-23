@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { COMPLETE_ASSET_MANIFEST, getAssetsByPriority, getAssetsByType, getAssetStats, type AssetRequirement } from './assetManifest';
-import type { GenerationSettings } from '../types';
+import type { GenerationSettings, GeneratedImageData } from '../types';
 import {
   saveAssetToFile,
   storeAssetInLocalStorage,
@@ -13,7 +13,7 @@ interface VisualNovelAssetGeneratorProps {
   onExit: () => void;
   generationSettings: GenerationSettings;
   onGenerate: (prompt: string, settings: any) => Promise<void>;
-  generatedImages: string[]; // Base64 images from App.tsx
+  generatedImages: GeneratedImageData[] | null; // Images from App.tsx
 }
 
 const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
@@ -49,9 +49,10 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
   // Capture newly generated images and associate them with the current asset
   useEffect(() => {
-    if (latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
+    if (latestGeneratedImages && latestGeneratedImages.length > 0 && currentGeneratingAssetId && isGenerating) {
       // Generation just completed - store the latest image
-      const latestImage = latestGeneratedImages[latestGeneratedImages.length - 1];
+      const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
+      const latestImage = latestImageData.url; // Extract the base64 URL
       console.log(`✅ Captured generated image for asset ${currentGeneratingAssetId}:`, {
         imageLength: latestImage.length,
         assetId: currentGeneratingAssetId

@@ -39,7 +39,7 @@ import IndianModelsGallery from './roleplay/IndianModelsGallery';
 import VideoGenerationMode from './video/VideoGenerationMode';
 import VeraMode from './vera/VeraMode';
 import MasterClassMode from './masterclass/MasterClassMode';
-import VisualNovelMode from './visualnovel/VisualNovelMode';
+import RealVisualNovel from './visualnovel/RealVisualNovel';
 import VideoGeneratorUI from './components/VideoGeneratorUI';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
@@ -1511,11 +1511,9 @@ const App: React.FC = () => {
           onExit={() => setUiMode('classic')}
         />
       ) : uiMode === 'visualnovel' ? (
-        // VISUAL NOVEL MODE: Interactive Story with Instagram Model
-        <VisualNovelMode
-          onGenerate={handleVisualNovelGenerate}
+        // VISUAL NOVEL MODE: Real visual novel game (like Steam games)
+        <RealVisualNovel
           onExit={handleExitVisualNovel}
-          generationSettings={safeGenerationSettings}
         />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor

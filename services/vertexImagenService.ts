@@ -31,6 +31,45 @@ export async function generateWithVertexImagen(
   config: VertexImagenConfig,
   parameters: VertexImagenParameters = {}
 ): Promise<string[]> {
+  // Validate configuration
+  if (!config.projectId || config.projectId.trim().length === 0) {
+    throw new Error('❌ Project ID is required for Vertex AI Imagen');
+  }
+
+  if (!config.accessToken || config.accessToken.trim().length === 0) {
+    throw new Error('❌ OAuth Access Token is required for Vertex AI Imagen');
+  }
+
+  // Check for truncated project ID (common issue)
+  if (config.projectId.includes('...') || config.projectId.includes('…')) {
+    throw new Error(
+      `❌ PROJECT ID IS TRUNCATED\n\n` +
+      `Your project ID appears to be cut off: "${config.projectId}"\n\n` +
+      `Please enter your COMPLETE Google Cloud Project ID.\n` +
+      `You can find it at: https://console.cloud.google.com/home/dashboard`
+    );
+  }
+
+  // Check for suspiciously short project ID
+  if (config.projectId.length < 6) {
+    throw new Error(
+      `❌ PROJECT ID TOO SHORT\n\n` +
+      `The project ID "${config.projectId}" seems incomplete.\n\n` +
+      `A valid Google Cloud Project ID is typically 20-30 characters.\n` +
+      `Please check and enter the complete project ID.`
+    );
+  }
+
+  // Check for suspiciously short OAuth token
+  if (config.accessToken.length < 20) {
+    throw new Error(
+      `❌ OAUTH TOKEN TOO SHORT\n\n` +
+      `The OAuth token appears incomplete (${config.accessToken.length} characters).\n\n` +
+      `A valid OAuth token is typically hundreds of characters long.\n` +
+      `Please regenerate and copy the complete token.`
+    );
+  }
+
   const location = config.location || 'us-central1';
   const model = config.model || 'imagen-4.0-ultra-generate-001';
 
@@ -62,9 +101,11 @@ export async function generateWithVertexImagen(
     model,
     location,
     projectId: config.projectId,
+    projectIdLength: config.projectId.length,
     aspectRatio: requestBody.parameters.aspectRatio,
     sampleCount: requestBody.parameters.sampleCount,
-    hasToken: !!config.accessToken
+    tokenLength: config.accessToken.length,
+    tokenPrefix: config.accessToken.substring(0, 20) + '...'
   });
 
   try {
@@ -81,9 +122,61 @@ export async function generateWithVertexImagen(
       const errorBody = await response.json().catch(() => ({ error: { message: `HTTP ${response.status}` } }));
       console.error('❌ Vertex AI Imagen Error:', errorBody);
 
-      throw new Error(
-        `Vertex AI Imagen Error (${response.status}): ${errorBody?.error?.message || 'Unknown error'}`
-      );
+      // Enhanced error handling for common issues
+      let errorMessage = `Vertex AI Imagen Error (${response.status}): `;
+
+      if (response.status === 403) {
+        const fullError = errorBody?.error?.message || '';
+
+        if (fullError.includes('Permission') && fullError.includes('denied')) {
+          errorMessage = `🔒 VERTEX AI PERMISSION DENIED (403)\n\n` +
+                        `❌ Your OAuth token doesn't have permission to access Vertex AI Imagen.\n\n` +
+                        `🔍 Project ID: ${config.projectId}\n` +
+                        `📍 Location: ${location}\n` +
+                        `🎨 Model: ${model}\n\n` +
+                        `✅ REQUIRED IAM ROLES:\n` +
+                        `  1. Vertex AI User (roles/aiplatform.user)\n` +
+                        `  2. Service Usage Consumer (roles/serviceusage.serviceUsageConsumer)\n\n` +
+                        `📝 HOW TO FIX:\n` +
+                        `  1. Go to: https://console.cloud.google.com/iam-admin/iam?project=${config.projectId}\n` +
+                        `  2. Find your account in the IAM table\n` +
+                        `  3. Click the Edit icon (pencil) next to your account\n` +
+                        `  4. Click "ADD ANOTHER ROLE"\n` +
+                        `  5. Search for and add "Vertex AI User"\n` +
+                        `  6. Click "ADD ANOTHER ROLE" again\n` +
+                        `  7. Search for and add "Service Usage Consumer"\n` +
+                        `  8. Click "SAVE"\n` +
+                        `  9. Wait 1-2 minutes for permissions to propagate\n` +
+                        `  10. Regenerate your OAuth token\n\n` +
+                        `💡 TIP: Make sure your project ID is complete (not truncated)\n\n` +
+                        `📋 Full error: ${fullError}`;
+        } else {
+          errorMessage += fullError || 'Forbidden - Check your project ID and OAuth token';
+        }
+      } else if (response.status === 401) {
+        errorMessage = `🔐 AUTHENTICATION FAILED (401)\n\n` +
+                      `❌ Your OAuth token is invalid or expired.\n\n` +
+                      `📝 HOW TO FIX:\n` +
+                      `  1. Regenerate your OAuth token\n` +
+                      `  2. Update it in your settings\n\n` +
+                      `📋 Full error: ${errorBody?.error?.message || 'Unauthorized'}`;
+      } else if (response.status === 404) {
+        errorMessage = `🔍 NOT FOUND (404)\n\n` +
+                      `❌ The Vertex AI endpoint or model was not found.\n\n` +
+                      `🔍 Check your settings:\n` +
+                      `  • Project ID: ${config.projectId}\n` +
+                      `  • Location: ${location}\n` +
+                      `  • Model: ${model}\n\n` +
+                      `💡 Make sure:\n` +
+                      `  1. Your project ID is complete and correct\n` +
+                      `  2. Vertex AI API is enabled in your project\n` +
+                      `  3. The model name is correct\n\n` +
+                      `📋 Full error: ${errorBody?.error?.message || 'Not Found'}`;
+      } else {
+        errorMessage += errorBody?.error?.message || 'Unknown error';
+      }
+
+      throw new Error(errorMessage);
     }
 
     const data = await response.json();

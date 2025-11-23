@@ -38,6 +38,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   const [assetImageMap, setAssetImageMap] = useState<Record<string, string>>({});
   const [currentGeneratingAssetId, setCurrentGeneratingAssetId] = useState<string | null>(null);
   const [lastProcessedImageCount, setLastProcessedImageCount] = useState<number>(0);
+  const [processedGenerations, setProcessedGenerations] = useState<Set<string>>(new Set());
 
   const baseStats = getAssetStats();
 
@@ -59,23 +60,23 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
   // Capture newly generated images and associate them with the current asset
   useEffect(() => {
-    const currentImageCount = latestGeneratedImages?.length || 0;
+    // Only process if we have images AND an asset ID AND we haven't processed this generation yet
+    if (latestGeneratedImages && latestGeneratedImages.length > 0 && currentGeneratingAssetId) {
+      // Create a unique key for this generation
+      const generationKey = `${currentGeneratingAssetId}-${latestGeneratedImages[0]?.url?.substring(0, 50)}`;
 
-    // Only process if we have images AND the count has increased (new images added) AND we have an asset ID
-    if (
-      latestGeneratedImages &&
-      currentImageCount > 0 &&
-      currentImageCount > lastProcessedImageCount &&
-      currentGeneratingAssetId
-    ) {
-      console.log(`📊 Image count changed: ${lastProcessedImageCount} -> ${currentImageCount} for asset ${currentGeneratingAssetId}`);
+      // Skip if we've already processed this exact generation
+      if (processedGenerations.has(generationKey)) {
+        console.log(`⏭️ Skipping already processed generation for ${currentGeneratingAssetId}`);
+        return;
+      }
+
+      console.log(`📊 Processing new generation for asset ${currentGeneratingAssetId}`);
       console.log(`🔍 Full images array:`, latestGeneratedImages);
       console.log(`🔍 Array length:`, latestGeneratedImages.length);
-      console.log(`🔍 Last image index:`, latestGeneratedImages.length - 1);
 
       // Generation just completed - store the latest image
       const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
-      console.log(`🔍 Latest image data:`, latestImageData);
       console.log(`🔍 Latest image data type:`, typeof latestImageData);
 
       // Check if latestImageData exists and has a url property
@@ -108,11 +109,11 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         console.log(`💾 Auto-saved ${asset.name} to localStorage`);
       }
 
-      // Update the last processed count and clear the generating asset ID
-      setLastProcessedImageCount(currentImageCount);
+      // Mark this generation as processed
+      setProcessedGenerations(prev => new Set(prev).add(generationKey));
       setCurrentGeneratingAssetId(null);
     }
-  }, [latestGeneratedImages, currentGeneratingAssetId, lastProcessedImageCount]);
+  }, [latestGeneratedImages, currentGeneratingAssetId, processedGenerations]);
 
   // Filter assets
   const filteredAssets = COMPLETE_ASSET_MANIFEST.filter(asset => {

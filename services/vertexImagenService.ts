@@ -89,17 +89,29 @@ export async function generateWithVertexImagen(
     const data = await response.json();
     console.log('✅ Vertex AI Response received:', {
       hasPredictions: !!data.predictions,
-      predictionCount: data.predictions?.length || 0
+      predictionCount: data.predictions?.length || 0,
+      fullResponse: data // Log entire response to debug structure
     });
 
     // Extract base64 images from predictions
     const images: string[] = [];
 
     if (data.predictions && Array.isArray(data.predictions)) {
-      for (const prediction of data.predictions) {
+      for (let i = 0; i < data.predictions.length; i++) {
+        const prediction = data.predictions[i];
+
+        console.log(`🔍 Prediction ${i} structure:`, {
+          keys: Object.keys(prediction),
+          hasBytesBase64Encoded: !!prediction.bytesBase64Encoded,
+          bytesLength: prediction.bytesBase64Encoded?.length || 0,
+          prediction: prediction // Full prediction object
+        });
+
         // Vertex AI returns base64 images in bytesBase64Encoded field
         if (prediction.bytesBase64Encoded) {
-          images.push(prediction.bytesBase64Encoded);
+          const imageData = prediction.bytesBase64Encoded;
+          console.log(`📦 Image data length: ${imageData.length} bytes`);
+          images.push(imageData);
         }
         // Or sometimes in mimeType/bytesBase64Encoded structure
         else if (prediction.mimeType && prediction.bytesBase64Encoded) {

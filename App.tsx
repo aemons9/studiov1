@@ -1264,7 +1264,13 @@ const App: React.FC = () => {
         mergedSettings   // settings: GenerationSettings
       );
 
-      setGeneratedImages(result.images);
+      console.log('📖 Visual Novel Generation Result:', {
+        hasImages: !!result.images,
+        imageCount: result.images?.length || 0,
+        firstImage: result.images?.[0] ? { hasUrl: !!result.images[0].url, urlLength: result.images[0].url?.length } : null
+      });
+
+      setGeneratedImages(result.images || null);
       setWovenPrompt(result.wovenPrompt);
       setGenerationStep(result.step);
     } catch (err: any) {

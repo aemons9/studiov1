@@ -22,6 +22,15 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   onGenerate,
   generatedImages: latestGeneratedImages
 }) => {
+  // Debug: Log what we receive as props
+  console.log('🎯 VisualNovelAssetGenerator received props:', {
+    hasImages: !!latestGeneratedImages,
+    imageCount: latestGeneratedImages?.length || 0,
+    firstItemType: typeof latestGeneratedImages?.[0],
+    firstItemIsObject: typeof latestGeneratedImages?.[0] === 'object',
+    firstItemHasUrl: !!(latestGeneratedImages?.[0] as any)?.url
+  });
+
   const [selectedAsset, setSelectedAsset] = useState<AssetRequirement | null>(null);
   const [filterType, setFilterType] = useState<'all' | AssetRequirement['type']>('all');
   const [filterPriority, setFilterPriority] = useState<'all' | 'critical' | 'high' | 'medium' | 'low'>('all');

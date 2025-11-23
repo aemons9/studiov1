@@ -9,7 +9,16 @@ import type { AssetRequirement } from './assetManifest';
  * Convert base64 image to Blob
  */
 function base64ToBlob(base64: string, mimeType: string = 'image/png'): Blob {
-  const byteCharacters = atob(base64);
+  // Strip data URI prefix if present (e.g., "data:image/png;base64,")
+  let cleanBase64 = base64;
+  if (cleanBase64.includes(',')) {
+    cleanBase64 = cleanBase64.split(',')[1];
+  }
+
+  // Remove any whitespace, newlines, or other invalid characters
+  cleanBase64 = cleanBase64.replace(/\s/g, '');
+
+  const byteCharacters = atob(cleanBase64);
   const byteNumbers = new Array(byteCharacters.length);
 
   for (let i = 0; i < byteCharacters.length; i++) {

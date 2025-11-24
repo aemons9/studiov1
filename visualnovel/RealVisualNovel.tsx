@@ -469,6 +469,7 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
   const [showingChoices, setShowingChoices] = useState(false);
   const [displayedText, setDisplayedText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [sceneTransition, setSceneTransition] = useState(false);
 
   // Asset Loading State
   const [loadedAssets, setLoadedAssets] = useState<LoadedAssets>(() => loadAllVisualNovelAssets());
@@ -565,15 +566,23 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
     return () => window.removeEventListener('keydown', handleKeyPress);
   }, [advanceDialogue, showingChoices, onExit]);
 
-  // Handle choice selection
+  // Handle choice selection with smooth transition
   const selectChoice = (choice: Choice) => {
     setShowingChoices(false);
-    setGameState(prev => ({
-      ...prev,
-      currentSceneId: choice.nextScene,
-      currentLineIndex: 0,
-      history: [...prev.history, { sceneId: prev.currentSceneId, lineIndex: prev.currentLineIndex }]
-    }));
+    setSceneTransition(true);
+
+    // Fade out, then change scene
+    setTimeout(() => {
+      setGameState(prev => ({
+        ...prev,
+        currentSceneId: choice.nextScene,
+        currentLineIndex: 0,
+        history: [...prev.history, { sceneId: prev.currentSceneId, lineIndex: prev.currentLineIndex }]
+      }));
+
+      // Fade back in
+      setTimeout(() => setSceneTransition(false), 50);
+    }, 500);
   };
 
   // Get background image - prioritize generated assets over hardcoded URLs
@@ -585,6 +594,13 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
       className="fixed inset-0 w-screen h-screen bg-black text-white overflow-hidden"
       onClick={() => !showingChoices && advanceDialogue()}
     >
+      {/* Scene Transition Overlay */}
+      <div
+        className={`absolute inset-0 bg-black z-50 pointer-events-none transition-opacity duration-500 ${
+          sceneTransition ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
@@ -618,35 +634,57 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
         })()
       )}
 
-      {/* Dialogue Box */}
-      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black via-black/95 to-transparent p-8">
-        <div className="max-w-5xl mx-auto">
-          {/* Character Name */}
-          {currentLine && (
-            <div className="mb-3">
-              <span className="bg-purple-600/80 px-4 py-2 rounded-t-lg font-bold text-lg inline-block">
-                {currentLine.speaker}
-              </span>
+      {/* Professional Dialogue Box */}
+      <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+        {/* Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+
+        {/* Dialogue Container */}
+        <div className="relative max-w-6xl mx-auto px-8 pb-8 pt-16 pointer-events-auto">
+          {/* Character Name Tag */}
+          {currentLine && currentLine.speaker !== 'Narrator' && (
+            <div className="mb-2 ml-2">
+              <div className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2 rounded-t-xl shadow-lg">
+                <span className="font-bold text-lg tracking-wide drop-shadow-md">
+                  {currentLine.speaker}
+                </span>
+              </div>
             </div>
           )}
 
-          {/* Dialogue Text */}
-          <div className="bg-black/60 backdrop-blur-sm border-2 border-purple-500/30 rounded-lg p-6 min-h-[120px] relative">
-            <p className="text-xl leading-relaxed">
-              {displayedText}
-            </p>
+          {/* Main Dialogue Box */}
+          <div className="relative">
+            {/* Dialogue Box Background with Professional Styling */}
+            <div className="bg-gradient-to-br from-gray-900/95 via-purple-900/90 to-gray-900/95 backdrop-blur-md border-2 border-purple-500/40 rounded-2xl shadow-2xl overflow-hidden">
+              {/* Decorative Top Border */}
+              <div className="h-1 bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500" />
 
-            {/* Continue Indicator */}
-            {!isTyping && !isLastLine && !showingChoices && (
-              <div className="absolute bottom-4 right-4 animate-bounce">
-                <span className="text-purple-400">▼</span>
+              {/* Dialogue Content */}
+              <div className="p-8 min-h-[140px] relative">
+                <p className="text-xl leading-relaxed font-light text-white drop-shadow-md" style={{
+                  textShadow: '0 2px 4px rgba(0,0,0,0.5)',
+                  fontFamily: '"Segoe UI", "Helvetica Neue", Arial, sans-serif',
+                  letterSpacing: '0.02em'
+                }}>
+                  {displayedText}
+                </p>
+
+                {/* Continue Indicator */}
+                {!isTyping && !isLastLine && !showingChoices && (
+                  <div className="absolute bottom-6 right-6">
+                    <div className="animate-bounce">
+                      <div className="w-3 h-3 bg-gradient-to-br from-purple-400 to-pink-400 rounded-full shadow-lg"
+                           style={{ animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite' }} />
+                    </div>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
 
-          {/* Choices */}
+          {/* Professional Choice Buttons */}
           {showingChoices && currentScene.choices && (
-            <div className="mt-6 space-y-3">
+            <div className="mt-6 space-y-4">
               {currentScene.choices.map((choice, index) => (
                 <button
                   key={index}
@@ -654,9 +692,22 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                     e.stopPropagation();
                     selectChoice(choice);
                   }}
-                  className="w-full bg-gradient-to-r from-purple-600/80 to-pink-600/80 hover:from-purple-500 hover:to-pink-500 border-2 border-purple-400 text-white font-semibold text-lg py-4 px-6 rounded-lg transition-all transform hover:scale-105 text-left"
+                  className="group w-full bg-gradient-to-r from-purple-600/90 to-pink-600/90 hover:from-purple-500 hover:to-pink-500 border-2 border-purple-400/50 hover:border-purple-300 text-white font-semibold text-lg py-5 px-8 rounded-xl transition-all duration-300 transform hover:scale-[1.02] hover:shadow-2xl text-left relative overflow-hidden"
+                  style={{
+                    backdropFilter: 'blur(8px)',
+                    boxShadow: '0 8px 32px rgba(168, 85, 247, 0.3)'
+                  }}
                 >
-                  {choice.text}
+                  {/* Hover Glow Effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+                  {/* Choice Text */}
+                  <span className="relative z-10 drop-shadow-md">{choice.text}</span>
+
+                  {/* Choice Indicator Arrow */}
+                  <div className="absolute right-6 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 group-hover:translate-x-2 transition-all duration-300">
+                    <span className="text-2xl">→</span>
+                  </div>
                 </button>
               ))}
             </div>

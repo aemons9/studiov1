@@ -34,23 +34,25 @@ export const CHARACTER_SPRITES: AssetRequirement[] = [
     type: 'character_sprite',
     name: 'Zara - Neutral (Full Body)',
     description: 'Standing pose, neutral expression, gallery opening outfit',
-    prompt: `VISUAL NOVEL CHARACTER SPRITE | PNG with alpha transparency | Cel-shaded anime style | 1024x2048px
+    prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
 
-CHARACTER: Beautiful Indian woman, 5'8", elegant hourglass figure, warm brown skin tone, long flowing black hair, captivating brown eyes, age 25
+CHARACTER: Beautiful Indian woman, age 25, 5'8" height, elegant hourglass figure (36-26-38"), warm brown skin tone, long flowing black hair, captivating brown eyes, natural beauty
 
-OUTFIT: Elegant white linen summer dress (knee-length), simple gold jewelry (small earrings, delicate bracelet), natural makeup
+OUTFIT: Elegant white linen summer dress (knee-length), simple gold jewelry (small earrings, delicate bracelet), natural makeup emphasizing her features
 
-POSE & EXPRESSION: Standing pose, weight on one leg (natural stance), neutral friendly expression, soft genuine smile, eyes looking directly forward, welcoming body language, hands relaxed at sides
+POSE & EXPRESSION: Full body standing pose, weight on one leg (natural confident stance), neutral friendly expression, soft genuine smile, eyes looking directly at camera, welcoming body language, hands relaxed at sides
 
-LIGHTING: Professional 3-point studio lighting, soft diffused key light from front-left, subtle rim light for depth, no harsh shadows, even illumination
+PHOTOGRAPHY: Professional studio portrait photography, shot with 85mm f/1.8 lens, shallow depth of field, full body framing from head to toe
 
-ART STYLE: High-quality anime visual novel art, clean vector-style linework, smooth cel-shading, professional character design, Studio Key/Type-Moon quality
+LIGHTING: Professional 3-point studio lighting setup, soft diffused key light from front-left creating gentle shadows, subtle rim light for depth and separation, soft fill light, no harsh shadows, even flattering illumination on skin
 
-BACKGROUND: PURE TRANSPARENT ALPHA CHANNEL, isolated character only, PNG cutout sprite, NO background elements whatsoever, clean anti-aliased edges
+BACKGROUND: PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject only, clean professional cutout, perfect edge detection, NO background elements, NO floor, NO props
 
-QUALITY: Professional commercial visual novel quality, 4K source resolution, crisp clean details, perfect for layering, Steam-release standard
+QUALITY: High-resolution professional photography, magazine quality, commercial standard, sharp focus on subject, natural skin texture, realistic lighting, cinematic color grading
 
-NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, deformed, ugly, background, white background, checkered background`,
+TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mobile/vertical display, ready for compositing over any background
+
+NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artificial, synthetic, low quality, blurry, pixelated, amateur, watermark, text, signature, deformed, disfigured, bad anatomy, background visible, floor visible, white background, checkered background`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -66,7 +68,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
     type: 'character_sprite',
     name: 'Zara - Smile (Full Body)',
     description: 'Standing pose, warm smile, gallery outfit',
-    prompt: `Full body character sprite of beautiful Indian model Zara (5'8", hourglass figure 36-26-38"). Standing pose, warm genuine smile. Wearing elegant white linen dress, simple gold jewelry. Perfect for visual novel game - transparent background, PNG format. Professional lighting, happy expression, welcoming body language. High-quality character art in visual novel style.`,
+    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body standing pose, warm genuine smile, happy expression, welcoming body language | Elegant white linen dress, gold jewelry, natural makeup | Shot with 85mm lens, studio lighting, shallow DOF | PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject, NO background/floor visible | Magazine quality, sharp focus, natural skin texture | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background visible, low quality, deformed`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -82,7 +84,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
     type: 'character_sprite',
     name: 'Zara - Flirty (Full Body)',
     description: 'Standing pose, playful flirty expression',
-    prompt: `Full body character sprite of beautiful Indian model Zara (5'8", hourglass figure 36-26-38"). Standing pose, playful flirty expression with slight smirk. Wearing elegant white linen dress. Perfect for visual novel game - transparent background, PNG format. Professional lighting, confident sultry gaze, hand on hip. High-quality character art in visual novel style.`,
+    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body standing pose, playful flirty expression with slight smirk, confident sultry gaze, hand on hip | Elegant white linen dress, gold jewelry, natural makeup | Shot with 85mm lens, studio lighting, shallow DOF | PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject, NO background/floor visible | Magazine quality, sharp focus, natural skin texture | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background visible, low quality, deformed`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -98,7 +100,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
     type: 'character_sprite',
     name: 'Zara - Shy (Full Body)',
     description: 'Standing pose, shy/blushing expression',
-    prompt: `Full body character sprite of beautiful Indian model Zara (5'8", hourglass figure 36-26-38"). Standing pose, shy blushing expression, slightly looking away. Wearing elegant white linen dress. Perfect for visual novel game - transparent background, PNG format. Professional lighting, vulnerable sweet expression, hands clasped. High-quality character art in visual novel style.`,
+    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body pose | Elegant outfit, natural makeup | Shot with 85mm lens, studio lighting | PURE TRANSPARENT BACKGROUND (alpha channel), NO background/floor | Magazine quality | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background, low quality`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -114,7 +116,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
     type: 'character_sprite',
     name: 'Zara - Studio Outfit (Full Body)',
     description: 'Simple white linen dress for photoshoot',
-    prompt: `Full body character sprite of beautiful Indian model Zara (5'8", hourglass figure 36-26-38"). Standing pose, natural expression. Wearing simple white linen blouse and flowing skirt for photoshoot. Perfect for visual novel game - transparent background, PNG format. Natural soft lighting, artistic photoshoot outfit. High-quality character art in visual novel style.`,
+    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body pose | Elegant outfit, natural makeup | Shot with 85mm lens, studio lighting | PURE TRANSPARENT BACKGROUND (alpha channel), NO background/floor | Magazine quality | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background, low quality`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -256,7 +258,7 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'First Meeting - Gallery',
     description: 'Zara and player meeting at gallery, eye contact moment',
-    prompt: `Cinematic CG illustration for visual novel: Beautiful Indian model Zara (5'8", hourglass figure 36-26-38", white linen dress) making eye contact with viewer at upscale art gallery opening. Golden hour light streaming through windows. Romantic atmospheric moment, soft focus background. Professional anime/visual novel CG art style, 16:9 widescreen, high quality detailed illustration. Intimate moment captured, warm colors, dreamy bokeh.`,
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Intimate moment captured, warm colors, dreamy bokeh.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -272,7 +274,7 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Studio Photoshoot Moment',
     description: 'Zara posing during photoshoot, viewer behind camera',
-    prompt: `Cinematic CG illustration for visual novel: Beautiful Indian model Zara (5'8", hourglass figure 36-26-38", white linen outfit) posing naturally during photoshoot in minimalist studio. Soft window light, genuine smile, artistic moment. POV from photographer perspective. Professional anime/visual novel CG art style, 16:9 widescreen, high quality detailed illustration. Natural beauty, soft shadows, professional photography atmosphere.`,
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Natural beauty, soft shadows, professional photography atmosphere.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -288,7 +290,7 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Viewing Photos Together',
     description: 'Zara looking at camera screen, impressed reaction',
-    prompt: `Cinematic CG illustration for visual novel: Close-up of beautiful Indian model Zara (5'8", hourglass figure) looking at camera screen showing her portrait photos, gasping in pleasant surprise. Professional studio background. Professional anime/visual novel CG art style, 16:9 widescreen, high quality detailed illustration. Emotional reaction, soft lighting, intimate moment of artistic appreciation.`,
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Emotional reaction, soft lighting, intimate moment of artistic appreciation.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -304,7 +306,7 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Boudoir Session - Artistic',
     description: 'Zara reclining on bed during artistic boudoir shoot',
-    prompt: `Cinematic CG illustration for visual novel: Beautiful Indian model Zara (5'8", hourglass figure, minimal elegant black lace lingerie) reclining artistically on luxury white bedding. Dramatic chiaroscuro lighting, renaissance painting quality. Tasteful, empowering, museum-quality aesthetic. Professional anime/visual novel CG art style, 16:9 widescreen, high quality detailed illustration. Sensual but artistic, shadows and highlights, intimate atmosphere.`,
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Sensual but artistic, shadows and highlights, intimate atmosphere.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -320,7 +322,7 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Intimate Connection Moment',
     description: 'Close romantic moment between Zara and player',
-    prompt: `Cinematic CG illustration for visual novel: Intimate romantic moment between beautiful Indian model Zara and viewer. Close-up, soft focus, warm lighting. Eyes meeting, tension and connection. Professional anime/visual novel CG art style, 16:9 widescreen, high quality detailed illustration. Emotional intimacy, soft romantic lighting, dreamy atmosphere.`,
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Emotional intimacy, soft romantic lighting, dreamy atmosphere.`,
     specifications: {
       width: 1920,
       height: 1080,

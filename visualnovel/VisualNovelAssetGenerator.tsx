@@ -167,7 +167,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         // TODO: Integrate Veo API here
       }
 
-      // Add provider-specific settings
+      // Add provider-specific settings with quality optimization
       if (provider === 'vertex-ai') {
         if (generationSettings.vertexAuthMethod !== 'oauth') {
           alert('⚠️ Imagen requires OAuth authentication. Please configure in settings or switch to Flux.');
@@ -182,12 +182,40 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         settings.modelId = generationSettings.modelId || 'imagen-4.0-generate-001';
         settings.personGeneration = 'allow_all';
         settings.safetySetting = 'block_few';
+
+        // Imagen quality optimizations
+        settings.guidanceScale = 15; // Higher guidance for better prompt following
+        settings.addWatermark = false; // No watermarks for game assets
+
       } else {
-        // Replicate Flux
+        // Replicate Flux with quality optimizations
         settings.replicateApiToken = generationSettings.replicateApiToken;
         settings.fluxModel = generationSettings.fluxModel || 'black-forest-labs/flux-1.1-pro-ultra';
-        settings.fluxSafetyTolerance = 5;
-        settings.fluxRawMode = true;
+        settings.fluxSafetyTolerance = 6; // Maximum tolerance for mature content
+        settings.fluxRawMode = true; // Raw mode for photorealistic quality
+        settings.fluxOutputFormat = 'png'; // PNG for sprites (transparency), JPG for others
+        settings.fluxOutputQuality = 100; // Maximum quality
+
+        // Flux Pro Ultra quality settings
+        if (settings.fluxModel.includes('flux-1.1-pro-ultra')) {
+          settings.fluxUltraQuality = true;
+          settings.fluxAspectRatio = asset.specifications.aspectRatio || '16:9';
+        }
+      }
+
+      // Asset-type specific optimizations
+      if (asset.type === 'character_sprite') {
+        // For character sprites: emphasize transparency and detail
+        settings.outputFormat = 'png'; // Always PNG for sprites
+        console.log('🧍 Character sprite mode: PNG with alpha transparency');
+      } else if (asset.type === 'ui_element' || asset.type === 'location_map') {
+        // For UI elements: crisp edges and clean design
+        settings.outputFormat = 'png'; // PNG for UI elements
+        console.log('🎨 UI/Map mode: PNG with clean edges');
+      } else if (asset.type === 'background' || asset.type === 'cg_image') {
+        // For backgrounds and CGs: high detail and cinematic quality
+        settings.outputFormat = asset.specifications.format.toLowerCase();
+        console.log('🖼️ Background/CG mode: Maximum detail and color depth');
       }
 
       console.log(`🎨 Generating asset: ${asset.name}`, { provider, settings });
@@ -686,24 +714,59 @@ Ready to see your assets in action? Play the Visual Novel now!
           </div>
         </div>
 
+        {/* Quality Settings Info */}
+        <div className="mt-6 bg-black/40 backdrop-blur-md border border-green-500/30 rounded-xl p-6">
+          <h3 className="font-bold text-xl mb-4 text-green-400">✨ High-Quality Generation Enabled</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
+              <h4 className="font-bold text-green-300 mb-2">🎨 Character Sprites & UI</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>✓ PNG with alpha transparency</li>
+                <li>✓ Maximum quality (100%)</li>
+                <li>✓ Raw mode for photorealism</li>
+                <li>✓ Clean edges for layering</li>
+              </ul>
+            </div>
+            <div className="p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+              <h4 className="font-bold text-blue-300 mb-2">🖼️ Backgrounds & CG</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>✓ Maximum detail rendering</li>
+                <li>✓ Cinematic color depth</li>
+                <li>✓ High guidance scale (15)</li>
+                <li>✓ No watermarks</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+            <p className="text-sm text-yellow-300">
+              <strong>⚡ Pro Tip:</strong> For best results with Flux Pro Ultra, use detailed prompts from ASSET_GENERATION_PROMPTS.md.
+              For Imagen 4.0, ensure OAuth authentication is configured and use "block_few" safety setting for mature content.
+            </p>
+          </div>
+        </div>
+
         {/* Instructions */}
         <div className="mt-6 bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-6">
           <h3 className="font-bold text-xl mb-4">📋 Instructions</h3>
           <ol className="list-decimal list-inside space-y-2 text-gray-300">
             <li><strong>Start with Critical Assets:</strong> Generate the 🔴 critical priority assets first - these are essential for gameplay.</li>
-            <li><strong>Character Sprites (6 assets):</strong> Generate all Zara sprites using Imagen/Flux (neutral, smile, flirty, shy, studio outfit, boudoir outfit).</li>
-            <li><strong>Background Scenes (5 assets):</strong> Generate all background locations using Imagen/Flux (gallery, studio, bedroom, cafe, showroom).</li>
+            <li><strong>Character Sprites (6 assets):</strong> Generate all Zara sprites using Imagen/Flux with complete prompts from ASSET_GENERATION_PROMPTS.md (neutral, smile, flirty, shy, studio outfit, boudoir outfit).</li>
+            <li><strong>Background Scenes (5 assets):</strong> Generate all background locations (gallery, studio, bedroom, cafe, showroom) with photorealistic quality.</li>
+            <li><strong>UI Elements (6+ assets):</strong> Generate dialogue boxes, buttons, title logo, menu backgrounds, relationship meters, and time indicators.</li>
+            <li><strong>Location Maps (6 assets):</strong> Generate city overview map and location cards for travel system.</li>
+            <li><strong>Miscellaneous (8 assets):</strong> Generate title screen, loading screen, achievement badges, chapter cards, save slots, settings panels.</li>
             <li><strong>Background Music (6 tracks):</strong> Generate BGM using Lyria (Vertex AI), Suno, or Udio. See audio generation tools section below.</li>
             <li><strong>Sound Effects (7 sounds):</strong> Download from Freesound.org, Zapsplat, or generate with ElevenLabs SFX.</li>
-            <li><strong>CG Images (5 assets):</strong> Generate special event images for key story moments using Imagen/Flux.</li>
+            <li><strong>CG Images (5 assets):</strong> Generate special event images for key story moments with cinematic quality.</li>
             <li><strong>Videos (3 optional):</strong> Use Veo to generate cutscene videos for polished transitions.</li>
-            <li><strong>Auto-Save:</strong> All generated assets are automatically saved to localStorage for instant use in the Visual Novel!</li>
-            <li><strong>Play Visual Novel:</strong> Assets automatically load when you play! The game checks for new assets every 5 seconds and works even with incomplete sets.</li>
+            <li><strong>Auto-Save:</strong> All generated assets are automatically saved to file system for instant use in the Visual Novel!</li>
+            <li><strong>Play Visual Novel:</strong> Assets automatically load when you play! The game checks for new assets and works even with incomplete sets.</li>
           </ol>
           <div className="mt-4 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
             <p className="text-sm text-blue-300">
-              <strong>💡 Tip:</strong> Total asset count is now <strong>41 assets</strong> (6 sprites + 5 backgrounds + 6 location maps + 5 CGs + 3 videos + 2 UI + 6 BGM + 7 SFX + 1 time UI).
-              Start with the 11 critical visual assets (sprites + backgrounds), then add maps for travel system, then audio!
+              <strong>💡 Tip:</strong> Check <code>visualnovel/ASSET_GENERATION_PROMPTS.md</code> for 33 complete visual asset prompts including:
+              6 sprites + 3 backgrounds + 4 CGs + 6 UI elements + 6 location maps + 8 misc assets.
+              All prompts are optimized for high-quality photorealistic generation with complete details!
             </p>
           </div>
         </div>

@@ -304,6 +304,473 @@ TECHNICAL: 16:9 aspect ratio, foreground clear for sprites, intimate evening lig
 
 ---
 
+## 🎨 UI Elements - Complete Prompts
+
+### UI 1: Dialogue Box Background
+```
+PHOTOREALISTIC UI ELEMENT | Professional graphic design | PNG with alpha transparency
+
+DESIGN: Semi-transparent modern dialogue box background for visual novel text display, elegant dark gradient design
+
+APPEARANCE: Sophisticated gradient from deep black (opacity 85%) at bottom fading to transparent at top edges, subtle purple-to-pink gradient edge glow (2px), modern minimalist aesthetic, clean professional design
+
+DIMENSIONS: 1920x300 pixels, horizontal layout spanning full screen width
+
+COMPOSITION: Lower 200px solid dark area for text readability, upper 100px gradual fade to transparency for seamless blending with game background, subtle inner shadow creating depth
+
+EFFECTS: Soft purple (#9333EA) to pink (#EC4899) gradient border glow with 20px blur radius, glassmorphism effect with subtle backdrop blur suggestion, premium modern UI aesthetic
+
+QUALITY: High-resolution professional UI design, AAA game quality, modern visual novel standard, crisp edges, smooth gradients
+
+TECHNICAL: PNG format with alpha transparency channel, ready for text overlay, optimized for 1080p display
+
+USAGE: Overlays at bottom of screen during dialogue scenes, text appears in center with character name on left
+```
+
+### UI 2: Choice Button Template
+```
+PHOTOREALISTIC UI ELEMENT | Professional graphic design | PNG with alpha transparency
+
+DESIGN: Interactive choice button with elegant purple-to-pink gradient, modern visual novel UI element
+
+APPEARANCE: Smooth gradient from purple (#9333EA) on left to pink (#EC4899) on right, rounded corners (20px radius), subtle outer glow matching gradient colors (10px blur), glossy finish with subtle highlight along top edge suggesting depth and interactivity
+
+DIMENSIONS: 800x100 pixels, horizontal button layout
+
+COMPOSITION: Centered content area with 40px padding on all sides, space for single line of choice text, hover-ready design suggesting clickability
+
+EFFECTS: Soft drop shadow (black, 30% opacity, 5px offset, 15px blur), subtle inner highlight along top 30% (white, 15% opacity) creating dimensional appearance, professional game UI quality
+
+QUALITY: High-resolution professional UI design, AAA visual novel standard, modern elegant aesthetic, polished commercial quality
+
+TECHNICAL: PNG format with alpha transparency, ready for text overlay, suitable for hover/click states
+
+USAGE: Player choice buttons during decision points, 2-4 buttons displayed vertically centered on screen
+```
+
+### UI 3: Title Screen Logo
+```
+PHOTOREALISTIC GRAPHIC DESIGN | Professional logo design | PNG with alpha transparency
+
+DESIGN: Elegant title logo for "The Golden Hour Connection" - Visual Novel title screen
+
+TYPOGRAPHY: Elegant serif font (resembling Playfair Display or Cormorant Garamond), "The Golden Hour" in larger text (120px), "Connection" below in smaller size (80px), refined sophisticated aesthetic
+
+APPEARANCE: Gold metallic text effect with warm gradient from bright gold (#FFD700) to deeper bronze (#CD7F32), subtle emboss effect creating dimensional quality, soft outer glow (warm amber, 20px blur) creating cinematic title feeling
+
+EFFECTS: Subtle lens flare effect on letter edges suggesting golden hour sunlight, professional film title quality, museum exhibition aesthetic, high-end romantic drama branding
+
+DIMENSIONS: 1200x400 pixels, horizontal composition
+
+QUALITY: Professional logo design, AAA game title quality, cinema poster standard, elegant luxury branding
+
+TECHNICAL: PNG with alpha transparency, suitable for overlay on various backgrounds, crisp text rendering
+
+USAGE: Main title screen, chapter title cards, promotional materials
+```
+
+### UI 4: Menu Background Pattern
+```
+PHOTOREALISTIC ABSTRACT DESIGN | Professional graphic design | 1920x1080
+
+DESIGN: Elegant abstract background for menu screens, modern sophisticated aesthetic
+
+APPEARANCE: Deep gradient from dark purple (#1a0b2e) through violet (#2d1b4e) to dark pink (#4a1942), subtle organic flowing shapes creating depth, soft bokeh light particles scattered throughout suggesting gallery lighting or camera lens flares
+
+COMPOSITION: Asymmetric balance with darker tones in corners, lighter gradient areas near center, abstract flowing curves suggesting artistic movement, professional graphic design following golden ratio
+
+EFFECTS: Gaussian blur on background elements creating depth layers, subtle film grain texture (5% opacity) adding cinematic quality, soft light leaks in warm amber tones, high-end aesthetic matching gallery opening theme
+
+QUALITY: Professional graphic design, AAA game menu quality, elegant sophisticated atmosphere, luxury brand aesthetic
+
+TECHNICAL: 1920x1080 pixels, 16:9 aspect ratio, JPG format for menu backgrounds
+
+USAGE: Main menu background, settings screen, gallery mode background, save/load menu
+```
+
+### UI 5: Health/Relationship Meter
+```
+PHOTOREALISTIC UI ELEMENT | Professional game UI design | PNG with alpha transparency
+
+DESIGN: Elegant relationship progress indicator showing connection level with Zara
+
+APPEARANCE: Horizontal bar (400x60px) with rounded ends (30px radius), elegant frame in rose gold metallic finish, interior gradient fill showing progress from empty (dark purple) to full (bright pink to gold gradient), heart icon on left side in matching rose gold
+
+COMPOSITION: Outer frame (3px) in rose gold (#B76E79) with subtle emboss, inner progress bar with smooth gradient animation-ready design, small text area below for relationship status label
+
+EFFECTS: Soft inner shadow creating depth in empty portion, radiant glow on filled portion suggesting warmth and connection, professional game UI polish, smooth gradient transitions
+
+QUALITY: High-resolution game UI, modern visual novel standard, professional polish, AAA quality
+
+TECHNICAL: PNG with alpha transparency, 400x60 pixels, suitable for UI overlay top-right corner
+
+USAGE: Displays during dialogue choices, updates based on player decisions, visual feedback for relationship building
+```
+
+### UI 6: Time of Day Indicator
+```
+PHOTOREALISTIC UI ELEMENT | Professional icon design | PNG with alpha transparency
+
+DESIGN: Four-state time indicator showing morning/afternoon/evening/night for game time system
+
+APPEARANCE: Four circular icons (200x60px each, displayed as 800x60px strip):
+- Morning: Sunrise icon with warm orange (#FF6B35) sun half-visible on horizon with light rays
+- Afternoon: Full bright sun in yellow-gold (#FFD93D) at peak position with short rays
+- Evening: Sunset with deep orange to purple gradient (#FF6B35 to #9B5DE5) sun low with long rays
+- Night: Crescent moon in cool silver-blue (#A8DADC) with stars, dark background
+
+COMPOSITION: Each icon 60x60px centered in 200x60px space, clean modern iconography, easily distinguishable at a glance, professional weather app quality
+
+EFFECTS: Subtle glow matching time of day colors, soft shadow for depth, polished modern UI aesthetic
+
+QUALITY: High-resolution icon design, modern app quality, clean professional vector-style appearance
+
+TECHNICAL: PNG with alpha transparency, 800x60 pixels (4 icons side-by-side), suitable for UI overlay
+
+USAGE: Displayed in top-left corner during gameplay, updates when time advances, visual feedback for time-based events
+```
+
+---
+
+## 🗺️ Location Map Assets - Complete Prompts
+
+### Map 1: City Overview Map
+```
+PHOTOREALISTIC ILLUSTRATED MAP | Professional UI design | PNG format | 1920x1080
+
+DESIGN: Interactive location map showing upscale city district with all available locations for Visual Novel travel system
+
+STYLE: Stylized illustrated map combining photorealistic textures with clean UI design, aerial/isometric perspective showing city blocks, warm sophisticated color palette matching game aesthetic
+
+LOCATIONS SHOWN:
+- The Golden Hour Gallery (center-left, modern glass building icon)
+- Lightworks Studio (upper-right, loft-style building icon)
+- Zara's Apartment (lower-right, upscale residential tower icon)
+- Aroma & Light Cafe (center, street-level shop icon)
+- Fashion District Boutique (left, storefront icon)
+
+APPEARANCE: Clean illustrated map with simplified streets in warm gray, buildings shown as elegant icon illustrations with depth, location markers as glowing purple-pink gradient pins with location names in elegant typography, subtle shadows creating depth
+
+COMPOSITION: Balanced layout with all locations easily visible and clickable, clear pathways between locations shown as subtle dotted lines, professional game UI cartography, mobile-game quality location map
+
+LIGHTING: Warm afternoon lighting suggesting golden hour theme, soft shadows from buildings, inviting atmosphere
+
+EFFECTS: Subtle texture overlay on streets (5% opacity) adding realism, soft glow on location markers for interactivity, clean modern UI design, AAA game quality
+
+TECHNICAL: 1920x1080 pixels, 16:9 aspect ratio, PNG format for UI overlay, clickable regions for each location
+
+USAGE: Travel system screen for selecting destinations, shows locked/unlocked locations, time advance system integration
+```
+
+### Map 2: Art Gallery Location Card
+```
+PHOTOREALISTIC ILLUSTRATION | Professional UI art | PNG format | 800x600
+
+DESIGN: Location selection card for "The Golden Hour Gallery" showing exterior during golden hour
+
+STYLE: Illustrated exterior architectural rendering combining photorealistic lighting with stylized clean UI aesthetic, commercial illustration quality
+
+APPEARANCE: Modern contemporary art gallery building, glass and white stone facade, 2-3 stories, floor-to-ceiling windows revealing gallery interior lighting, elegant entrance with gallery name signage visible, surrounding upscale neighborhood context
+
+LIGHTING: Warm amber golden hour sunlight (late afternoon, 5:30 PM) hitting building facade, dramatic sun rays, warm glow from interior gallery lights visible through windows, professional architectural photography lighting translated to illustration
+
+ATMOSPHERE: Sophisticated upscale cultural venue, inviting warm tones, artistic sophistication, evening gallery opening ambiance
+
+COMPOSITION: 3/4 angle view showing building entrance prominently, foreground with subtle street elements (no people in focus), clean professional composition, suitable for UI card display
+
+EFFECTS: Soft depth of field blur on background, subtle film grain adding photographic quality, warm color grading emphasizing golden hour, professional game art quality
+
+TEXT OVERLAY: Location name "The Golden Hour Gallery" in elegant typography at bottom of card with semi-transparent dark overlay for readability
+
+TECHNICAL: 800x600 pixels, PNG format, rounded corners (20px radius) ready for UI card display
+
+USAGE: Location selection menu, gallery mode, travel system destination preview
+```
+
+### Map 3: Photography Studio Location Card
+```
+PHOTOREALISTIC ILLUSTRATION | Professional UI art | PNG format | 800x600
+
+DESIGN: Location selection card for "Lightworks Studio" showing exterior during bright day
+
+STYLE: Illustrated architectural exterior combining photorealistic detail with clean commercial illustration aesthetic
+
+APPEARANCE: Modern loft-style photography studio building, industrial-chic aesthetic, large windows revealing studio lighting equipment inside, converted warehouse or modern creative space architecture, brick and glass facade, professional creative district setting
+
+LIGHTING: Bright natural daylight (midday, clear sky), clean even illumination showing professional creative workspace, sunlight reflecting on windows, inviting creative energy
+
+ATMOSPHERE: Professional creative environment, inspiring artistic space, modern photographer's studio, upscale creative district
+
+COMPOSITION: Angled view showing entrance and large studio windows, foreground clean, background with subtle urban creative district context, professional game UI illustration
+
+EFFECTS: Clean sharp details, slight depth of field on distant background, modern illustration style matching game aesthetic, professional quality
+
+TEXT OVERLAY: Location name "Lightworks Studio" in modern clean typography at bottom with semi-transparent overlay
+
+TECHNICAL: 800x600 pixels, PNG format, rounded corners ready for UI integration
+
+USAGE: Location selection menu when studio becomes available, photographer path scenes
+```
+
+### Map 4: Zara's Apartment Location Card
+```
+PHOTOREALISTIC ILLUSTRATION | Professional UI art | PNG format | 800x600
+
+DESIGN: Location selection card for "Zara's Apartment" showing exterior during evening
+
+STYLE: Illustrated architectural exterior with photorealistic lighting and stylized clean aesthetic
+
+APPEARANCE: Modern upscale apartment building (8-12 stories), contemporary luxury residential architecture, glass balconies, warm interior lights glowing from several windows including highlighted apartment, sophisticated urban living aesthetic, high-end neighborhood
+
+LIGHTING: Evening lighting (7:00 PM), deep blue twilight sky with last hints of sunset orange on horizon, warm yellow-amber lights from apartment windows creating inviting atmosphere, street lights beginning to glow, romantic evening ambiance
+
+ATMOSPHERE: Intimate personal space, romantic potential, upscale luxury living, warm inviting evening mood suggesting dinner or intimate visit
+
+COMPOSITION: Building shown from street view angle, Zara's apartment window subtly highlighted with warm inviting glow, clean professional illustration, suitable for UI card
+
+EFFECTS: Warm color grading emphasizing evening intimacy, soft bokeh on background city lights, professional game art quality, inviting atmosphere
+
+TEXT OVERLAY: Location name "Zara's Apartment" in elegant script typography at bottom with dark semi-transparent overlay
+
+TECHNICAL: 800x600 pixels, PNG format, rounded corners for UI display
+
+USAGE: Location selection menu (unlocks after building trust), intimate evening scenes, boudoir path
+```
+
+### Map 5: Trendy Cafe Location Card
+```
+PHOTOREALISTIC ILLUSTRATION | Professional UI art | PNG format | 800x600
+
+DESIGN: Location selection card for "Aroma & Light Cafe" showing exterior during morning
+
+STYLE: Illustrated commercial exterior with photorealistic detail and clean UI aesthetic
+
+APPEARANCE: Modern upscale cafe with large storefront windows, outdoor seating area with elegant furniture visible, contemporary design with plants and warm interior visible through windows, inviting coffee shop aesthetic, upscale neighborhood street setting
+
+LIGHTING: Bright morning light (9:00 AM), fresh daylight, sunlight streaming through cafe windows, warm inviting interior lighting, morning coffee shop atmosphere, energizing bright tones
+
+ATMOSPHERE: Casual sophisticated meeting place, comfortable conversation setting, trendy upscale cafe culture, relaxed yet refined
+
+COMPOSITION: Street-level view showing entrance and large windows with glimpse of interior, outdoor seating area visible, people silhouettes blurred in background suggesting popular venue, professional illustration
+
+EFFECTS: Bright clean color grading, slight depth of field, warm welcoming atmosphere, modern coffee shop aesthetic
+
+TEXT OVERLAY: Location name "Aroma & Light Cafe" in modern clean typography at bottom with light semi-transparent overlay
+
+TECHNICAL: 800x600 pixels, PNG format, rounded corners for UI integration
+
+USAGE: Location selection menu for coffee date scenes, relationship building conversations, casual meetups
+```
+
+### Map 6: Fashion Boutique Location Card
+```
+PHOTOREALISTIC ILLUSTRATION | Professional UI art | PNG format | 800x600
+
+DESIGN: Location selection card for "Fashion District Boutique" showing luxury retail exterior
+
+STYLE: Illustrated high-end retail exterior with photorealistic lighting and stylized aesthetic
+
+APPEARANCE: Upscale fashion boutique storefront, large display windows showing luxury clothing and mannequins, modern minimalist architecture with elegant signage, premium retail design, fashion district setting
+
+LIGHTING: Afternoon natural light with professional retail window lighting, bright inviting storefront illumination, sophisticated retail lighting design
+
+ATMOSPHERE: Luxury fashion shopping, personal styling session setting, high-end retail experience, sophisticated glamorous environment
+
+COMPOSITION: Angled storefront view showing entrance and display windows clearly, elegant presentation, professional retail photography aesthetic as illustration
+
+EFFECTS: Clean sharp details, sophisticated color grading, luxury brand aesthetic, professional game art quality
+
+TEXT OVERLAY: Location name "Atelier Mode" in elegant fashion typography at bottom with semi-transparent overlay
+
+TECHNICAL: 800x600 pixels, PNG format, rounded corners ready for UI
+
+USAGE: Location selection menu for fashion/styling path scenes, wardrobe selection events
+```
+
+---
+
+## 🌟 Miscellaneous Assets - Complete Prompts
+
+### Misc 1: Title Screen Background
+```
+PHOTOREALISTIC PHOTOGRAPHY | Professional cinematography | 1920x1080 | 16:9
+
+DESIGN: Cinematic title screen background for "The Golden Hour Connection" Visual Novel
+
+SCENE: Elegant art gallery interior during golden hour, camera focused on large floor-to-ceiling windows with warm amber sunlight streaming through creating dramatic light rays, silhouette of beautiful woman (Zara) standing by window looking at art, figure slightly out of focus creating mystery and intrigue
+
+PHOTOGRAPHY: Shot with RED cinema camera, 35mm cinema lens, shallow depth of field (f/2.0), cinematic color grading with warm golden tones, professional film production quality
+
+LIGHTING: Golden hour backlight from windows creating halo effect around figure, dramatic light rays with visible dust particles, chiaroscuro effect with deep shadows contrasted against bright window light, warm amber and orange tones dominating palette
+
+COMPOSITION: Rule of thirds with figure positioned off-center, large window area leaving space for title logo overlay in upper third, clean foreground for UI elements, professional film poster composition
+
+ATMOSPHERE: Romantic mysterious invitation, sophisticated artistic setting, golden hour magic, intimate connection promise, museum-quality aesthetic, cinematic drama
+
+QUALITY: Cinema quality, high-budget production standard, professional color grading with teal shadows and warm highlights, film-like quality, AAA game title screen standard
+
+TECHNICAL: 1920x1080 pixels, 16:9 aspect ratio, JPG format, space reserved for title logo and menu UI overlay
+
+USAGE: Main title screen on game launch, first impression for players, sets tone for entire experience
+```
+
+### Misc 2: Loading Screen
+```
+PHOTOREALISTIC ABSTRACT | Professional graphic design | 1920x1080 | 16:9
+
+DESIGN: Elegant loading screen with abstract photography-themed aesthetic
+
+APPEARANCE: Deep gradient background from dark purple (#1a0b2e) to dark pink (#4a1942), abstract bokeh light particles floating throughout suggesting camera lens flares and out-of-focus gallery lights, subtle golden light streaks, elegant minimalist design
+
+COMPOSITION: Center area clear for loading spinner animation, lower third reserved for loading bar and text ("Loading..." or percentage), upper corners with subtle decorative light elements, balanced asymmetric design
+
+EFFECTS: Animated bokeh particles slowly floating upward, subtle light pulse effects, soft gaussian blur layers creating depth, film grain texture (3% opacity) adding cinematic quality, professional motion graphics aesthetic
+
+LOADING ELEMENTS: Purple-to-pink gradient loading bar (800x20px) in lower third, elegant sans-serif text "Loading..." in white with subtle glow, optional loading percentage display, modern clean UI
+
+QUALITY: Professional motion graphics quality, AAA game loading screen standard, smooth animations, elegant sophisticated aesthetic
+
+TECHNICAL: 1920x1080 pixels, 16:9 aspect ratio, suitable for animation overlay, modern visual novel standard
+
+USAGE: Displays during scene transitions, asset loading, chapter changes, provides feedback during longer load times
+```
+
+### Misc 3: Achievement/Trophy Badge Template
+```
+PHOTOREALISTIC GRAPHIC DESIGN | Professional badge design | PNG with alpha transparency | 512x512
+
+DESIGN: Elegant achievement badge for Visual Novel milestone rewards
+
+APPEARANCE: Circular badge (512x512px) with ornate but modern frame, center area for achievement icon (300x300px), outer ring with decorative elements suggesting camera aperture blades or gallery frame molding
+
+FRAME: Rose gold metallic outer ring (50px width) with subtle emboss and engraving details, inner circle with deep purple-to-pink gradient background, elegant sophisticated aesthetic matching game theme
+
+EFFECTS: Metallic shine with highlights suggesting 3D depth, subtle drop shadow creating floating effect, radiant glow when unlocked (gold) vs muted appearance when locked (gray), professional game achievement quality
+
+VARIATIONS NEEDED:
+- "First Meeting" - Heart icon in rose gold
+- "Photographer's Eye" - Camera icon in rose gold
+- "Building Trust" - Clasped hands icon in rose gold
+- "Artistic Vision" - Paintbrush icon in rose gold
+- "Intimate Connection" - Abstract connection symbol in rose gold
+- "Golden Hour Master" - Sun/golden hour icon in rose gold
+
+QUALITY: AAA game achievement quality, professional icon design, polished commercial standard, mobile game achievement aesthetic
+
+TECHNICAL: 512x512 pixels, PNG with alpha transparency, suitable for UI overlay notifications
+
+USAGE: Achievement unlock notifications, gallery/collection screen, player progress tracking, reward system
+```
+
+### Misc 4: Chapter Title Card
+```
+PHOTOREALISTIC TYPOGRAPHY DESIGN | Professional graphic design | 1920x1080 | 16:9
+
+DESIGN: Elegant chapter title card displaying "Chapter 1: The Golden Hour Connection"
+
+BACKGROUND: Subtle blurred photographic background showing art gallery setting with golden hour lighting heavily blurred (gaussian blur 50px), deep vignette darkening edges, cinematic letterbox bars (top and bottom 100px black bars)
+
+TYPOGRAPHY:
+- "Chapter 1" in elegant sans-serif (60px) in light gray (#CCCCCC) centered upper third
+- "The Golden Hour Connection" in elegant serif font (100px) resembling Playfair Display, gold metallic gradient (#FFD700 to #CD7F32), centered middle, subtle emboss and outer glow
+
+COMPOSITION: Centered text layout, cinematic presentation, clean professional design, film chapter card aesthetic
+
+EFFECTS: Subtle lens flare in background, soft golden particles floating, text with gentle pulsing glow animation suggestion, fade-in ready design, professional film quality
+
+QUALITY: Cinema quality chapter card, AAA game standard, professional title sequence design, elegant sophisticated presentation
+
+TECHNICAL: 1920x1080 pixels, 16:9 aspect ratio, suitable for fade-in/fade-out transitions
+
+USAGE: Displays at chapter start, scene transitions, creates cinematic pacing, enhances narrative structure
+```
+
+### Misc 5: Save/Load Slot Thumbnail Frame
+```
+PHOTOREALISTIC UI ELEMENT | Professional game UI design | PNG with alpha transparency | 400x225
+
+DESIGN: Elegant frame for save game screenshot thumbnails (16:9 miniature)
+
+APPEARANCE: Decorative frame surrounding screenshot area (380x214px inner space), elegant border (10px width) with purple-to-pink gradient, rounded corners (15px radius), subtle drop shadow
+
+FRAME DESIGN: Gradient border from purple (#9333EA) to pink (#EC4899), subtle inner shadow creating depth, glossy finish suggesting premium UI element, small decorative corners with art deco inspired details
+
+INFORMATION OVERLAY: Semi-transparent dark gradient overlay at bottom (60px height) for save info text:
+- Save slot number "Save 01" upper left
+- Date/time stamp "Nov 24, 2025 - 3:45 PM" upper right
+- Current scene location "Art Gallery Opening" center
+- Playtime "2h 15min" lower left
+- Chapter progress "Chapter 1" lower right
+
+EFFECTS: Hover state ready (brighter glow), selected state ready (thicker border), professional game UI polish
+
+QUALITY: AAA game UI quality, modern visual novel standard, polished commercial design
+
+TECHNICAL: 400x225 pixels (16:9 ratio), PNG with alpha transparency, thumbnail screenshot goes behind frame
+
+USAGE: Save/load menu display, shows game progress visually, allows player to identify save files easily
+```
+
+### Misc 6: Settings/Options Background Panel
+```
+PHOTOREALISTIC UI ELEMENT | Professional graphic design | PNG with alpha transparency | 1200x800
+
+DESIGN: Semi-transparent modal panel for settings menu display
+
+APPEARANCE: Large rounded rectangle (1200x800px) with semi-transparent dark background (black 80% opacity), elegant border with purple-to-pink gradient glow (3px width, 15px blur), glassmorphism effect with backdrop blur suggestion
+
+COMPOSITION: Title area at top (100px height) with "Settings" text centered, main content area (600px height) for settings options in two columns, bottom action area (100px) for "Apply" and "Cancel" buttons
+
+EFFECTS: Subtle glass reflection effect, soft inner shadow creating depth, premium modern UI aesthetic, clean professional design
+
+QUALITY: Professional UI design, AAA game settings menu quality, modern sophisticated aesthetic
+
+TECHNICAL: 1200x800 pixels, PNG with alpha transparency, backdrop blur ready, overlay on game scene
+
+USAGE: Settings/options menu, audio controls, display settings, content warnings toggle, accessibility options
+```
+
+### Misc 7: Relationship Status Display
+```
+PHOTOREALISTIC UI ELEMENT | Professional game UI design | PNG with alpha transparency | 600x150
+
+DESIGN: Elegant status panel showing current relationship level with Zara
+
+LAYOUT: Horizontal panel with three sections:
+- Left: Circular portrait frame (120x120px) for Zara's portrait with rose gold border
+- Center: Relationship info - "Zara Cinématique" name in elegant typography, current status "Building Connection" below, relationship points display "Trust: 75/100"
+- Right: Heart meter showing visual progress (filled hearts in rose gold)
+
+APPEARANCE: Semi-transparent dark background with purple-pink gradient border, elegant sophisticated design, premium UI aesthetic
+
+EFFECTS: Soft glow on portrait frame, gradient fills on progress bars, subtle animation-ready design for stat increases, professional game UI polish
+
+QUALITY: AAA visual novel UI quality, modern sophisticated design, polished commercial standard
+
+TECHNICAL: 600x150 pixels, PNG with alpha transparency, suitable for top-right corner overlay during gameplay
+
+USAGE: Displays during relationship-building scenes, updates after choices, provides visual feedback on romance progress
+```
+
+### Misc 8: Mini-Map Navigation Indicator
+```
+PHOTOREALISTIC UI ELEMENT | Professional icon design | PNG with alpha transparency | 300x300
+
+DESIGN: Circular mini-map showing current location within city district
+
+APPEARANCE: Circular transparent overlay (300x300px) showing simplified top-down map view of city district, current location marked with glowing purple-pink pin, adjacent locations shown as smaller gray pins, streets shown as subtle light lines
+
+EFFECTS: Current location pulsing glow animation-ready, semi-transparent background allowing game scene to show through, elegant modern GPS aesthetic
+
+QUALITY: Modern app UI quality, professional game navigation design, clean sophisticated aesthetic
+
+TECHNICAL: 300x300 pixels, PNG with alpha transparency, suitable for top-left corner overlay
+
+USAGE: Displays during exploration, shows available nearby locations, provides spatial context for player navigation
+```
+
+---
+
 ## 🎯 Key Principles for Intimate Visual Novel
 
 1. **Character Authenticity**: Use Zara Cinématique's actual description (5'7", 38DD-27-39", fair complexion, dramatic features)
@@ -316,8 +783,28 @@ TECHNICAL: 16:9 aspect ratio, foreground clear for sprites, intimate evening lig
 
 ---
 
+## 📊 Complete Asset Summary
+
+**Total Prompts Included:**
+- 6 Character Sprites (Full body with expressions and outfits)
+- 4 CG Event Images (Cinematic story moments)
+- 3 Background Scenes (Gallery, Studio, Bedroom)
+- 6 UI Elements (Dialogue box, buttons, logo, menu, meters, time indicator)
+- 6 Location Maps (City overview + 5 location cards)
+- 8 Miscellaneous Assets (Title screen, loading, achievements, chapter cards, save slots, settings, relationship display, mini-map)
+
+**Total: 33 Complete Visual Asset Prompts**
+
+Plus additional prompts in manifest for:
+- 6 BGM Tracks (Use Lyria, Suno, or Udio)
+- 7 Sound Effects (Use ElevenLabs or free SFX libraries)
+- 3 Cutscene Videos (Use Veo for video generation)
+
+---
+
 **Character:** Zara Cinématique - Elite Indian artistic model
 **Style:** Photorealistic Photography - Fine Art & Editorial
 **Context:** Intimate & Sensuous Visual Novel
 **Quality:** Museum/Cinema/Editorial Standard
 **Last Updated:** November 24, 2025
+**Version:** 2.0 - Complete Edition with UI, Maps, and Misc Assets

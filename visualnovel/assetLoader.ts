@@ -2,13 +2,23 @@
  * Asset Loader Service - Bridge between generated assets and Visual Novel game
  *
  * This service:
- * 1. Loads generated assets from localStorage
- * 2. Maps asset IDs to scene/character references
- * 3. Provides fallback URLs if assets not generated
- * 4. Hot-reloads when new assets are generated
+ * 1. Loads generated assets from file system (PRIMARY - unlimited size)
+ * 2. Falls back to localStorage (SECONDARY - ~5MB limit)
+ * 3. Maps asset IDs to scene/character references
+ * 4. Provides fallback URLs if assets not generated
+ * 5. Hot-reloads when new assets are generated
+ *
+ * Asset Priority: File System → localStorage → Unsplash Fallback
  */
 
 import { COMPLETE_ASSET_MANIFEST, type AssetRequirement } from './assetManifest';
+
+// Dynamically import all assets from the file system using Vite's glob import
+// This makes assets available at runtime without localStorage size limits
+const fileSystemAssets = import.meta.glob<{ default: string }>('./assets/**/*.{png,jpg,jpeg,mp4,mp3,wav}', {
+  eager: true,
+  import: 'default'
+});
 
 export interface LoadedAssets {
   backgrounds: Record<string, string>; // sceneId -> imageUrl (base64 or fallback)
@@ -80,9 +90,58 @@ const FALLBACK_BACKGROUNDS: Record<string, string> = {
 };
 
 /**
- * Load a single asset from localStorage
+ * Get asset filename from manifest
  */
-function loadAssetFromStorage(assetId: string): string | null {
+function getAssetFilename(assetId: string): string {
+  const asset = COMPLETE_ASSET_MANIFEST.find(a => a.id === assetId);
+  return asset?.filename || `${assetId}.png`;
+}
+
+/**
+ * Get asset subfolder based on type
+ */
+function getAssetSubfolder(assetId: string): string {
+  const asset = COMPLETE_ASSET_MANIFEST.find(a => a.id === assetId);
+  if (!asset) return 'sprites';
+
+  switch (asset.type) {
+    case 'character_sprite': return 'sprites';
+    case 'background': return 'backgrounds';
+    case 'cg_image': return 'cg';
+    case 'cutscene_video': return 'videos';
+    case 'ui_element': return 'ui';
+    case 'bgm': return 'bgm';
+    case 'sfx': return 'sfx';
+    case 'location_map': return 'maps';
+    default: return 'sprites';
+  }
+}
+
+/**
+ * Load a single asset - checks file system first, then localStorage
+ *
+ * Priority:
+ * 1. File System (visualnovel/assets/**) - Unlimited size
+ * 2. localStorage - ~5MB limit
+ * 3. null if not found
+ */
+function loadAsset(assetId: string): string | null {
+  // 1. Try file system first (PRIMARY)
+  try {
+    const filename = getAssetFilename(assetId);
+    const subfolder = getAssetSubfolder(assetId);
+    const path = `./assets/${subfolder}/${filename}`;
+
+    // Check if file exists in our imported assets
+    if (fileSystemAssets[path]) {
+      console.log(`📁 Loaded ${assetId} from file system`);
+      return fileSystemAssets[path] as string;
+    }
+  } catch (error) {
+    console.debug(`Asset ${assetId} not found in file system, trying localStorage...`);
+  }
+
+  // 2. Fall back to localStorage (SECONDARY)
   try {
     const key = `vn_asset_${assetId}`;
     const dataStr = localStorage.getItem(key);
@@ -90,6 +149,7 @@ function loadAssetFromStorage(assetId: string): string | null {
     if (!dataStr) return null;
 
     const data = JSON.parse(dataStr);
+    console.log(`💾 Loaded ${assetId} from localStorage`);
     return data.image; // Base64 string
   } catch (error) {
     console.error(`Failed to load asset ${assetId}:`, error);
@@ -98,7 +158,12 @@ function loadAssetFromStorage(assetId: string): string | null {
 }
 
 /**
- * Load all generated visual novel assets from localStorage
+ * Load all generated visual novel assets
+ *
+ * Priority for each asset:
+ * 1. File System (visualnovel/assets/**) - PRIMARY, unlimited size
+ * 2. localStorage - SECONDARY, ~5MB limit
+ * 3. Unsplash fallback - used in getBackgroundForScene if asset not found
  */
 export function loadAllVisualNovelAssets(): LoadedAssets {
   const loaded: LoadedAssets = {
@@ -112,7 +177,7 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
 
   // Load backgrounds and map to scenes
   Object.entries(BACKGROUND_MAP).forEach(([assetId, sceneIds]) => {
-    const imageData = loadAssetFromStorage(assetId);
+    const imageData = loadAsset(assetId);
     if (imageData) {
       // Apply this background to all its scenes
       sceneIds.forEach(sceneId => {
@@ -123,7 +188,7 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
 
   // Load character sprites
   Object.entries(SPRITE_MAP).forEach(([assetId, expressionKey]) => {
-    const imageData = loadAssetFromStorage(assetId);
+    const imageData = loadAsset(assetId);
     if (imageData) {
       loaded.sprites[expressionKey] = imageData;
     }
@@ -131,7 +196,7 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
 
   // Load CG images
   Object.entries(CG_MAP).forEach(([assetId, sceneId]) => {
-    const imageData = loadAssetFromStorage(assetId);
+    const imageData = loadAsset(assetId);
     if (imageData) {
       loaded.cg[sceneId] = imageData;
     }
@@ -140,7 +205,7 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
   // Load UI elements
   const uiElements = ['ui_dialogue_box', 'ui_choice_button'];
   uiElements.forEach(assetId => {
-    const imageData = loadAssetFromStorage(assetId);
+    const imageData = loadAsset(assetId);
     if (imageData) {
       loaded.ui[assetId] = imageData;
     }
@@ -149,7 +214,7 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
   // Load location maps
   const mapElements = ['map_city_overview', 'map_art_gallery', 'map_photo_studio', 'map_luxury_apartment', 'map_cozy_cafe'];
   mapElements.forEach(assetId => {
-    const imageData = loadAssetFromStorage(assetId);
+    const imageData = loadAsset(assetId);
     if (imageData) {
       loaded.maps[assetId] = imageData;
     }
@@ -215,6 +280,7 @@ export function hasNewAssets(oldAssets: LoadedAssets, newAssets: LoadedAssets): 
 
 /**
  * Get asset generation status for UI display
+ * Checks both file system and localStorage
  */
 export function getAssetStatus(): {
   total: number;
@@ -228,7 +294,7 @@ export function getAssetStatus(): {
   let criticalGeneratedCount = 0;
 
   COMPLETE_ASSET_MANIFEST.forEach(asset => {
-    if (loadAssetFromStorage(asset.id)) {
+    if (loadAsset(asset.id)) {
       generatedCount++;
       if (asset.priority === 'critical') {
         criticalGeneratedCount++;

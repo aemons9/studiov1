@@ -234,17 +234,29 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
  * Get background for a scene, with fallback to Unsplash
  */
 export function getBackgroundForScene(sceneId: string, loadedAssets: LoadedAssets): string {
-  // Try loaded asset first
-  if (loadedAssets.backgrounds[sceneId]) {
-    return loadedAssets.backgrounds[sceneId];
+  // Find which asset ID maps to this scene
+  let assetId: string | null = null;
+  for (const [bgAssetId, scenes] of Object.entries(BACKGROUND_MAP)) {
+    if (scenes.includes(sceneId)) {
+      assetId = bgAssetId;
+      break;
+    }
+  }
+
+  // Try loaded asset using the mapped asset ID
+  if (assetId && loadedAssets.backgrounds[assetId]) {
+    console.log(`🖼️ Loading background for scene "${sceneId}" from asset "${assetId}"`);
+    return loadedAssets.backgrounds[assetId];
   }
 
   // Fall back to Unsplash
   if (FALLBACK_BACKGROUNDS[sceneId]) {
+    console.log(`🌐 Using Unsplash fallback for scene "${sceneId}"`);
     return FALLBACK_BACKGROUNDS[sceneId];
   }
 
   // Ultimate fallback
+  console.log(`⚠️ No background found for scene "${sceneId}", using intro fallback`);
   return FALLBACK_BACKGROUNDS['intro'];
 }
 

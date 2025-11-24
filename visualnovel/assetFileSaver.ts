@@ -71,6 +71,7 @@ export function saveAssetToFile(asset: AssetRequirement, base64Image: string): v
 
 /**
  * Store asset in localStorage for persistence
+ * DEPRECATED: Use saveAssetToFileSystem instead to avoid localStorage limits
  */
 export function storeAssetInLocalStorage(asset: AssetRequirement, base64Image: string): void {
   try {
@@ -88,6 +89,41 @@ export function storeAssetInLocalStorage(asset: AssetRequirement, base64Image: s
 
   } catch (error) {
     console.warn(`Failed to store ${asset.name} in localStorage (may be too large):`, error);
+  }
+}
+
+/**
+ * Save asset to file system via backend API (NO localStorage limits!)
+ */
+export async function saveAssetToFileSystem(asset: AssetRequirement, base64Image: string): Promise<void> {
+  try {
+    const filename = getAssetFilename(asset);
+
+    const response = await fetch('http://localhost:3001/api/save-asset', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        assetId: asset.id,
+        type: asset.type,
+        base64Image: base64Image,
+        filename: filename
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.error || 'Failed to save asset');
+    }
+
+    const result = await response.json();
+    console.log(`✅ Saved to file system: ${result.path} (${(result.size / 1024).toFixed(1)} KB)`);
+    console.log(`🔄 Visual Novel will auto-reload with new asset!`);
+
+  } catch (error) {
+    console.error(`❌ Failed to save ${asset.name} to file system:`, error);
+    throw error;
   }
 }
 

@@ -4,6 +4,7 @@ import type { GenerationSettings, GeneratedImageData } from '../types';
 import {
   saveAssetToFile,
   storeAssetInLocalStorage,
+  saveAssetToFileSystem,
   loadAllAssetsFromLocalStorage,
   clearAllStoredAssets,
   getAssetFilename
@@ -105,9 +106,15 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
           [currentGeneratingAssetId]: latestImage
         }));
 
-        // Auto-save to localStorage for persistence
-        storeAssetInLocalStorage(asset, latestImage);
-        console.log(`💾 Auto-saved ${asset.name} to localStorage`);
+        // Auto-save to file system (NO localStorage limits!)
+        saveAssetToFileSystem(asset, latestImage)
+          .then(() => {
+            console.log(`✅ Auto-saved ${asset.name} to file system - Visual Novel will auto-reload!`);
+          })
+          .catch((error) => {
+            console.error(`❌ Failed to save ${asset.name}:`, error);
+            alert(`Failed to save asset: ${error.message}\n\nMake sure the Asset Server is running: node assetServer.js`);
+          });
       }
 
       // Mark this generation as processed

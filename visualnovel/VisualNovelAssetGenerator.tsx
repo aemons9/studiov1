@@ -150,12 +150,16 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
       // Determine which provider to use based on asset type
       const provider = generationSettings.provider || 'replicate-flux';
 
-      // Build generation settings
+      // Build generation settings with random seed to force unique images
+      const randomSeed = Math.floor(Math.random() * 2147483647);
       const settings: any = {
         provider,
         aspectRatio: asset.specifications.aspectRatio || '16:9',
         numberOfImages: 1,
+        seed: randomSeed, // Force unique generation (prevent Imagen caching)
       };
+
+      console.log(`🎲 Using random seed ${randomSeed} to ensure unique generation`);
 
       if (asset.type === 'cutscene_video') {
         // Use Veo for videos

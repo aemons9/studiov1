@@ -596,7 +596,8 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                 style={{
                   filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8))',
                   objectPosition: 'bottom center',
-                  maxHeight: '85vh'
+                  maxHeight: '85vh',
+                  mixBlendMode: 'multiply' // Helps blend white backgrounds
                 }}
               />
             </div>

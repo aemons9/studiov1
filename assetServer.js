@@ -166,5 +166,5 @@ app.delete('/api/assets/:type/:filename', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Asset Server running on http://localhost:${PORT}`);
   console.log(`📁 Saving assets to: ${ASSETS_DIR}`);
-  console.log(`🔗 CORS enabled for: http://localhost:5173`);
+  console.log(`🔗 CORS enabled for all localhost ports (3000, 5173, 5174)`);
 });

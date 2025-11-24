@@ -1258,6 +1258,7 @@ const App: React.FC = () => {
     try {
       setIsLoading(true);
       setError(null);
+      setVisualNovelImages(null); // Clear old images BEFORE generating new one
 
       const result = await generateWithMaximumSafety(
         prompt,           // wovenPrompt: string

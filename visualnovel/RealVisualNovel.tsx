@@ -475,16 +475,27 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
 
   // Hot-reload: Check for new assets periodically
   useEffect(() => {
-    const interval = setInterval(() => {
-      const newAssets = loadAllVisualNovelAssets();
-      if (hasNewAssets(loadedAssets, newAssets)) {
-        console.log('🔄 New assets detected! Reloading...');
-        setLoadedAssets(newAssets);
-      }
-    }, 5000); // Check every 5 seconds
+    let interval: NodeJS.Timeout | null = null;
 
-    return () => clearInterval(interval);
-  }, [loadedAssets]);
+    // Only set up hot-reload interval after component mount
+    const setupHotReload = () => {
+      interval = setInterval(() => {
+        const newAssets = loadAllVisualNovelAssets();
+        if (hasNewAssets(loadedAssets, newAssets)) {
+          console.log('🔄 New assets detected! Reloading...');
+          setLoadedAssets(newAssets);
+        }
+      }, 5000); // Check every 5 seconds
+    };
+
+    // Delay initial setup to avoid loading loop
+    const timer = setTimeout(setupHotReload, 1000);
+
+    return () => {
+      clearTimeout(timer);
+      if (interval) clearInterval(interval);
+    };
+  }, []); // Empty deps to run once on mount
 
   const currentScene = SCENES[gameState.currentSceneId];
   const currentLine = currentScene.dialogue[gameState.currentLineIndex];

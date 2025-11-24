@@ -132,10 +132,18 @@ function loadAsset(assetId: string): string | null {
     const subfolder = getAssetSubfolder(assetId);
     const path = `./assets/${subfolder}/${filename}`;
 
+    console.log(`🔍 Checking asset: ${assetId}`);
+    console.log(`   Filename: ${filename}`);
+    console.log(`   Subfolder: ${subfolder}`);
+    console.log(`   Full path: ${path}`);
+    console.log(`   Available paths:`, Object.keys(fileSystemAssets).filter(p => p.includes(subfolder)).slice(0, 5));
+
     // Check if file exists in our imported assets
     if (fileSystemAssets[path]) {
-      console.log(`📁 Loaded ${assetId} from file system`);
+      console.log(`✅ 📁 Loaded ${assetId} from file system`);
       return fileSystemAssets[path] as string;
+    } else {
+      console.log(`❌ Not found in file system: ${path}`);
     }
   } catch (error) {
     console.debug(`Asset ${assetId} not found in file system, trying localStorage...`);
@@ -146,10 +154,13 @@ function loadAsset(assetId: string): string | null {
     const key = `vn_asset_${assetId}`;
     const dataStr = localStorage.getItem(key);
 
-    if (!dataStr) return null;
+    if (!dataStr) {
+      console.log(`❌ Not found in localStorage: ${assetId}`);
+      return null;
+    }
 
     const data = JSON.parse(dataStr);
-    console.log(`💾 Loaded ${assetId} from localStorage`);
+    console.log(`✅ 💾 Loaded ${assetId} from localStorage`);
     return data.image; // Base64 string
   } catch (error) {
     console.error(`Failed to load asset ${assetId}:`, error);

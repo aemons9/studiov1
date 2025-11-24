@@ -34,7 +34,7 @@ export interface LoadedAssets {
  */
 const BACKGROUND_MAP: Record<string, string[]> = {
   // Art Gallery - used in intro and multiple paths
-  'bg_art_gallery_daytime': ['intro', 'photographer_path', 'stylist_path', 'charm_path'],
+  'bg_art_gallery': ['intro', 'photographer_path', 'stylist_path', 'charm_path'],
 
   // Photography Studio - photographer path
   'bg_photography_studio': ['photographer_studio', 'photographer_intimate'],

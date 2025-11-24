@@ -132,21 +132,13 @@ function loadAsset(assetId: string): string | null {
     const subfolder = getAssetSubfolder(assetId);
     const path = `./assets/${subfolder}/${filename}`;
 
-    console.log(`🔍 Checking asset: ${assetId}`);
-    console.log(`   Filename: ${filename}`);
-    console.log(`   Subfolder: ${subfolder}`);
-    console.log(`   Full path: ${path}`);
-    console.log(`   Available paths:`, Object.keys(fileSystemAssets).filter(p => p.includes(subfolder)).slice(0, 5));
-
     // Check if file exists in our imported assets
     if (fileSystemAssets[path]) {
       console.log(`✅ 📁 Loaded ${assetId} from file system`);
       return fileSystemAssets[path] as string;
-    } else {
-      console.log(`❌ Not found in file system: ${path}`);
     }
   } catch (error) {
-    console.debug(`Asset ${assetId} not found in file system, trying localStorage...`);
+    // Silent fallback to localStorage
   }
 
   // 2. Fall back to localStorage (SECONDARY)
@@ -154,16 +146,12 @@ function loadAsset(assetId: string): string | null {
     const key = `vn_asset_${assetId}`;
     const dataStr = localStorage.getItem(key);
 
-    if (!dataStr) {
-      console.log(`❌ Not found in localStorage: ${assetId}`);
-      return null;
-    }
+    if (!dataStr) return null;
 
     const data = JSON.parse(dataStr);
     console.log(`✅ 💾 Loaded ${assetId} from localStorage`);
     return data.image; // Base64 string
   } catch (error) {
-    console.error(`Failed to load asset ${assetId}:`, error);
     return null;
   }
 }
@@ -332,4 +320,25 @@ export function preloadSceneAssets(currentSceneId: string, loadedAssets: LoadedA
   img.src = bgUrl;
 
   console.log(`🔄 Preloading assets for scene: ${currentSceneId}`);
+}
+
+/**
+ * Debug helper - call from browser console to see what files Vite found
+ * Usage: window.debugAssets()
+ */
+export function debugAssetPaths(): void {
+  console.log('=== FILE SYSTEM ASSETS DEBUG ===');
+  console.log('Total files found by Vite:', Object.keys(fileSystemAssets).length);
+  console.log('\nAll asset paths:');
+  Object.keys(fileSystemAssets).forEach(path => {
+    console.log(`  ${path}`);
+  });
+  console.log('\n=== EXPECTED PATHS ===');
+  console.log('Backgrounds:', ['bg_art_gallery', 'bg_photography_studio', 'bg_luxury_bedroom', 'bg_cafe_exterior', 'bg_fashion_showroom'].map(id => `./assets/backgrounds/${id}.png`));
+  console.log('Sprites:', ['zara_neutral_full', 'zara_smile_full', 'zara_flirty_full', 'zara_shy_full', 'zara_studio_outfit', 'zara_boudoir_outfit'].map(id => `./assets/sprites/${id}.png`));
+}
+
+// Expose to window for console debugging
+if (typeof window !== 'undefined') {
+  (window as any).debugAssets = debugAssetPaths;
 }

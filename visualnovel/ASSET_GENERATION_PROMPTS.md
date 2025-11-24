@@ -28,7 +28,6 @@ QUALITY: High-resolution professional photography, magazine quality, commercial 
 
 TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mobile/vertical display, ready for compositing over any background
 
-NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artificial, synthetic, low quality, blurry, pixelated, amateur, watermark, text, signature, deformed, disfigured, bad anatomy, background visible, floor visible, white background, checkered background
 ```
 
 ### Specific Expressions
@@ -72,7 +71,6 @@ QUALITY: High-resolution cinematic photography, film quality, commercial standar
 
 TECHNICAL: 16:9 aspect ratio, widescreen composition, photograph (not illustration)
 
-NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artificial, synthetic, low quality, blurry, amateur, watermark, text, signature, deformed, bad anatomy
 ```
 
 ---
@@ -102,7 +100,6 @@ QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional
 
 TECHNICAL: 16:9 aspect ratio, photograph (not illustration or rendering)
 
-NEGATIVE: cartoon, anime, illustration, drawing, 3D render, CGI, people in foreground, busy foreground, low quality, blurry, amateur, watermark, text
 ```
 
 ---
@@ -114,7 +111,7 @@ NEGATIVE: cartoon, anime, illustration, drawing, 3D render, CGI, people in foreg
 | **Style Keywords** | anime, cel-shaded, visual novel art, character sprite | professional photography, portrait, studio shot |
 | **Quality Reference** | Studio Key, Type-Moon | magazine quality, commercial photography |
 | **Camera Details** | N/A | 85mm f/1.8 lens, shallow DOF |
-| **Negative Prompts** | background, low quality | cartoon, anime, illustration, drawing, 3D, CGI |
+| **Focus** | illustrated character art | photograph of real person |
 | **Art Medium** | digital illustration, linework | photograph, camera |
 | **Skin Rendering** | smooth cel-shading | natural skin texture, realistic |
 
@@ -149,8 +146,9 @@ NEGATIVE: cartoon, anime, illustration, drawing, 3D render, CGI, people in foreg
 1. **Always specify:** "professional photography", "studio portrait", "85mm lens"
 2. **Transparent background:** Emphasize "PURE TRANSPARENT BACKGROUND (alpha channel)"
 3. **Natural skin:** "natural skin texture", "realistic lighting"
-4. **Strong negatives:** Include "cartoon, anime, illustration, drawing, 3D, CGI"
+4. **Real person:** Use "photograph of real person" not "character" or "sprite"
 5. **Photography details:** Mention camera, lens, lighting setup
+6. **Note:** Imagen doesn't support negative prompts - use strong positive descriptions
 
 ### For CG Scenes:
 1. **Cinematic language:** "shot with cinema camera", "film quality"
@@ -170,8 +168,10 @@ NEGATIVE: cartoon, anime, illustration, drawing, 3D render, CGI, people in foreg
 
 ### Issue: Getting cartoon/anime style instead of photos
 **Fix:**
-- Add strong negative prompts: `cartoon, anime, illustration, drawing, 3D render, CGI`
-- Use photography keywords: `professional photography`, `studio portrait`, `shot with camera`
+- Use strong positive descriptions: `professional photography`, `photograph of real person`, `studio portrait`
+- Add camera details: `shot with 85mm lens`, `cinema camera`, `full-frame camera`
+- Emphasize: `photorealistic`, `magazine quality`, `natural skin texture`
+- Note: Imagen doesn't support negative prompts, so focus on what you WANT
 
 ### Issue: Background not transparent (checkerboard visible)
 **Fix:**
@@ -224,12 +224,13 @@ QUALITY: High-resolution professional photography, magazine quality, commercial 
 
 TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mobile/vertical display, ready for compositing over any background
 
-NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artificial, synthetic, low quality, blurry, pixelated, amateur, watermark, text, signature, deformed, disfigured, bad anatomy, background visible, floor visible, white background, checkered background
 ```
 
 ### Example 2: Art Gallery Background
 ```
-PHOTOREALISTIC INTERIOR PHOTOGRAPHY | 16:9 widescreen | Upscale contemporary art gallery, high ceilings, white walls, modern art, polished concrete floors | Golden hour afternoon light streaming through floor-to-ceiling windows, warm amber glow, dramatic light rays, dust particles visible | Rule of thirds composition, clear empty foreground (lower third) for character sprites, gallery extends into background with beautiful bokeh blur | Shot with full-frame camera, 24mm wide lens, f/2.8, shallow depth of field | Professional architectural photography, cinema-quality color grading, teal and orange tones, film grain | NO people in foreground, sophisticated upscale atmosphere, museum quality | 4K quality photograph | NEGATIVE: cartoon, anime, illustration, 3D render, people in foreground, low quality, blurry
+PHOTOREALISTIC INTERIOR PHOTOGRAPHY | 16:9 widescreen | Upscale contemporary art gallery, high ceilings, white walls, modern art, polished concrete floors | Golden hour afternoon light streaming through floor-to-ceiling windows, warm amber glow, dramatic light rays, dust particles visible | Rule of thirds composition, clear empty foreground (lower third) for character sprites, gallery extends into background with beautiful bokeh blur | Shot with full-frame camera, 24mm wide lens, f/2.8, shallow depth of field | Professional architectural photography, cinema-quality color grading, teal and orange tones, film grain | NO people in foreground, sophisticated upscale atmosphere, museum quality | 4K quality photograph
+
+NOTE: Imagen does not support negative prompts. Focus on strong positive descriptions of what you want instead.
 ```
 
 ---

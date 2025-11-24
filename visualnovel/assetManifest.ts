@@ -52,7 +52,6 @@ QUALITY: High-resolution professional photography, magazine quality, commercial 
 
 TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mobile/vertical display, ready for compositing over any background
 
-NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artificial, synthetic, low quality, blurry, pixelated, amateur, watermark, text, signature, deformed, disfigured, bad anatomy, background visible, floor visible, white background, checkered background`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -68,7 +67,6 @@ NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artif
     type: 'character_sprite',
     name: 'Zara - Smile (Full Body)',
     description: 'Standing pose, warm smile, gallery outfit',
-    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body standing pose, warm genuine smile, happy expression, welcoming body language | Elegant white linen dress, gold jewelry, natural makeup | Shot with 85mm lens, studio lighting, shallow DOF | PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject, NO background/floor visible | Magazine quality, sharp focus, natural skin texture | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background visible, low quality, deformed`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -84,7 +82,6 @@ NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artif
     type: 'character_sprite',
     name: 'Zara - Flirty (Full Body)',
     description: 'Standing pose, playful flirty expression',
-    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body standing pose, playful flirty expression with slight smirk, confident sultry gaze, hand on hip | Elegant white linen dress, gold jewelry, natural makeup | Shot with 85mm lens, studio lighting, shallow DOF | PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject, NO background/floor visible | Magazine quality, sharp focus, natural skin texture | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background visible, low quality, deformed`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -100,7 +97,6 @@ NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artif
     type: 'character_sprite',
     name: 'Zara - Shy (Full Body)',
     description: 'Standing pose, shy/blushing expression',
-    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body pose | Elegant outfit, natural makeup | Shot with 85mm lens, studio lighting | PURE TRANSPARENT BACKGROUND (alpha channel), NO background/floor | Magazine quality | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background, low quality`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -116,7 +112,6 @@ NEGATIVE: cartoon, anime, illustration, drawing, painting, 3D render, CGI, artif
     type: 'character_sprite',
     name: 'Zara - Studio Outfit (Full Body)',
     description: 'Simple white linen dress for photoshoot',
-    prompt: `PHOTOREALISTIC PORTRAIT | Professional photography | Beautiful Indian woman age 25, 5'8", hourglass figure, warm brown skin, long black hair, brown eyes | Full body pose | Elegant outfit, natural makeup | Shot with 85mm lens, studio lighting | PURE TRANSPARENT BACKGROUND (alpha channel), NO background/floor | Magazine quality | PNG 9:16 | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, background, low quality`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -171,7 +166,6 @@ TECHNICAL: NO people in foreground (reserved for sprite layer), professional arc
 
 QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional photography, Steam-release quality, Makoto Shinkai background quality
 
-NEGATIVE: people in foreground, busy foreground, low quality, blurry, amateur, watermark, text`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -258,7 +252,6 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'First Meeting - Gallery',
     description: 'Zara and player meeting at gallery, eye contact moment',
-    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Intimate moment captured, warm colors, dreamy bokeh.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -274,7 +267,6 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Studio Photoshoot Moment',
     description: 'Zara posing during photoshoot, viewer behind camera',
-    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Natural beauty, soft shadows, professional photography atmosphere.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -290,7 +282,6 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Viewing Photos Together',
     description: 'Zara looking at camera screen, impressed reaction',
-    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Emotional reaction, soft lighting, intimate moment of artistic appreciation.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -306,7 +297,6 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Boudoir Session - Artistic',
     description: 'Zara reclining on bed during artistic boudoir shoot',
-    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Sensual but artistic, shadows and highlights, intimate atmosphere.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -322,7 +312,6 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Intimate Connection Moment',
     description: 'Close romantic moment between Zara and player',
-    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | Beautiful Indian woman age 25 | Cinematic composition, shot with cinema camera | Natural lighting | High-resolution photograph | 16:9 widescreen | NEGATIVE: cartoon, anime, illustration, drawing, 3D, CGI, low quality Emotional intimacy, soft romantic lighting, dreamy atmosphere.`,
     specifications: {
       width: 1920,
       height: 1080,

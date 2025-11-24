@@ -55,7 +55,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
       width: 1024,
       height: 2048,
       format: 'PNG',
-      aspectRatio: '1:2'
+      aspectRatio: '9:16'
     },
     priority: 'critical',
     sceneUsage: ['intro', 'photographer_path', 'stylist_path', 'charm_path'],
@@ -71,7 +71,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
       width: 1024,
       height: 2048,
       format: 'PNG',
-      aspectRatio: '1:2'
+      aspectRatio: '9:16'
     },
     priority: 'critical',
     sceneUsage: ['intro', 'photographer_path', 'stylist_path'],
@@ -87,7 +87,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
       width: 1024,
       height: 2048,
       format: 'PNG',
-      aspectRatio: '1:2'
+      aspectRatio: '9:16'
     },
     priority: 'high',
     sceneUsage: ['intro', 'boudoir_artistic'],
@@ -103,7 +103,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
       width: 1024,
       height: 2048,
       format: 'PNG',
-      aspectRatio: '1:2'
+      aspectRatio: '9:16'
     },
     priority: 'high',
     sceneUsage: ['photographer_studio', 'boudoir_artistic'],
@@ -119,7 +119,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
       width: 1024,
       height: 2048,
       format: 'PNG',
-      aspectRatio: '1:2'
+      aspectRatio: '9:16'
     },
     priority: 'high',
     sceneUsage: ['photographer_studio'],
@@ -135,7 +135,7 @@ NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, d
       width: 1024,
       height: 2048,
       format: 'PNG',
-      aspectRatio: '1:2'
+      aspectRatio: '9:16'
     },
     priority: 'critical',
     sceneUsage: ['boudoir_artistic'],

@@ -91,7 +91,9 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         imageLength: latestImage.length,
         assetId: currentGeneratingAssetId,
         startsWithData: latestImage.startsWith('data:'),
-        imagePreview: latestImage.substring(0, 100) + '...'
+        imagePreview: latestImage.substring(0, 100) + '...',
+        imageSignature: latestImage.substring(0, 30), // First 30 chars to identify uniqueness
+        timestampCheck: latestImageData.settings?.seed || 'no-seed'
       });
 
       // Find the asset

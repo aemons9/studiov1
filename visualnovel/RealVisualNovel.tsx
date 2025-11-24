@@ -621,10 +621,10 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                 alt={`Zara - ${currentLine.expression}`}
                 className="max-h-full w-auto object-contain drop-shadow-2xl"
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8)) brightness(1.1) contrast(1.05)',
+                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8)) brightness(1.15) contrast(1.1)',
                   objectPosition: 'bottom center',
                   maxHeight: '85vh',
-                  mixBlendMode: 'darken', // Better than multiply for white backgrounds
+                  // Remove blend mode - it was making sprite hard to see
                   WebkitMaskImage: 'linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1))',
                   maskImage: 'linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1))'
                 }}
@@ -635,12 +635,12 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
       )}
 
       {/* Professional Dialogue Box */}
-      <div className="absolute bottom-0 left-0 right-0 pointer-events-none">
+      <div className="absolute bottom-0 left-0 right-0">
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/80 to-transparent pointer-events-none" />
 
         {/* Dialogue Container */}
-        <div className="relative max-w-6xl mx-auto px-8 pb-8 pt-16 pointer-events-auto">
+        <div className="relative max-w-6xl mx-auto px-8 pb-8 pt-16">
           {/* Character Name Tag */}
           {currentLine && currentLine.speaker !== 'Narrator' && (
             <div className="mb-2 ml-2">

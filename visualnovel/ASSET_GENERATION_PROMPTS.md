@@ -783,6 +783,256 @@ USAGE: Displays during exploration, shows available nearby locations, provides s
 
 ---
 
+## 📝 Asset Naming Convention Guide
+
+### File Naming Rules
+- Use lowercase with underscores (snake_case)
+- Format: `{category}_{name}_{variant}.{extension}`
+- No spaces, special characters, or capital letters
+- Keep names descriptive but concise
+
+---
+
+### 🧍 Character Sprites (6 assets)
+```
+sprite_zara_neutral.png          // Neutral expression, gallery outfit
+sprite_zara_smile.png             // Warm smile, gallery outfit
+sprite_zara_flirty.png            // Flirty expression, gallery outfit
+sprite_zara_shy.png               // Shy expression, gallery outfit
+sprite_zara_studio.png            // Studio outfit (white linen blouse + cream skirt)
+sprite_zara_boudoir.png           // Boudoir outfit (black lace lingerie)
+```
+
+### 🖼️ Background Scenes (3 assets)
+```
+bg_gallery.jpg                    // Art gallery during golden hour
+bg_studio.jpg                     // Photography studio interior
+bg_bedroom.jpg                    // Luxury bedroom with dramatic lighting
+```
+
+### ✨ CG Event Images (4 assets)
+```
+cg_first_meeting.jpg              // First meeting at gallery, eye contact moment
+cg_photoshoot.jpg                 // Studio photoshoot moment
+cg_viewing_photos.jpg             // Viewing photos together reaction
+cg_boudoir_session.jpg            // Artistic boudoir scene on bed
+```
+
+### 🎨 UI Elements (6 assets)
+```
+ui_dialogue_box.png               // Semi-transparent dialogue box background
+ui_choice_button.png              // Purple-pink gradient button template
+ui_title_logo.png                 // "The Golden Hour Connection" logo
+ui_menu_background.jpg            // Abstract menu background pattern
+ui_relationship_meter.png         // Rose gold heart progress bar
+ui_time_indicator.png             // 4-state time icons (morning/afternoon/evening/night)
+```
+
+### 🗺️ Location Maps (6 assets)
+```
+map_city_overview.png             // Interactive city district map
+map_gallery_card.png              // Art gallery location card
+map_studio_card.png               // Photography studio location card
+map_apartment_card.png            // Zara's apartment location card
+map_cafe_card.png                 // Trendy cafe location card
+map_boutique_card.png             // Fashion boutique location card
+```
+
+### 🌟 Miscellaneous Assets (8 assets)
+```
+misc_title_screen.jpg             // Title screen background with Zara silhouette
+misc_loading_screen.jpg           // Loading screen with bokeh particles
+misc_achievement_badge.png        // Achievement badge template (base)
+misc_chapter_card.jpg             // Chapter 1 title card
+misc_save_frame.png               // Save slot thumbnail frame
+misc_settings_panel.png           // Settings menu background panel
+misc_relationship_display.png     // Relationship status display panel
+misc_minimap.png                  // Mini-map navigation indicator
+```
+
+### 🎵 Background Music (6 tracks)
+```
+bgm_main_menu.mp3                 // Main menu theme (2 min)
+bgm_gallery_opening.mp3           // Art gallery social event (3 min)
+bgm_photoshoot.mp3                // Creative photoshoot energy (4 min)
+bgm_intimate_conversation.mp3    // Soft romantic moments (3 min)
+bgm_boudoir.mp3                   // Artistic boudoir session (5 min)
+bgm_emotional_ending.mp3          // Emotional ending theme (2 min)
+```
+
+### 🔊 Sound Effects (7 sounds)
+```
+sfx_ui_click.wav                  // UI button click (0.1 sec)
+sfx_choice_select.wav             // Choice confirmation chime (0.3 sec)
+sfx_text_advance.wav              // Dialogue text advance (0.2 sec)
+sfx_scene_transition.wav          // Scene transition whoosh (0.8 sec)
+sfx_achievement_unlock.wav        // Achievement unlock sparkle (1.0 sec)
+sfx_menu_open.wav                 // Menu panel open (0.4 sec)
+sfx_camera_shutter.wav            // Camera shutter click (0.3 sec)
+```
+
+### 🎬 Cutscene Videos (3 assets)
+```
+video_chapter_intro.mp4           // Chapter 1 opening cutscene (10 sec)
+video_photoshoot_montage.mp4      // Photoshoot montage (8 sec)
+video_boudoir_transition.mp4      // Boudoir session transition (6 sec)
+```
+
+---
+
+### 📁 Directory Structure
+```
+visualnovel/
+├── assets/
+│   ├── sprites/
+│   │   ├── sprite_zara_neutral.png
+│   │   ├── sprite_zara_smile.png
+│   │   ├── sprite_zara_flirty.png
+│   │   ├── sprite_zara_shy.png
+│   │   ├── sprite_zara_studio.png
+│   │   └── sprite_zara_boudoir.png
+│   │
+│   ├── backgrounds/
+│   │   ├── bg_gallery.jpg
+│   │   ├── bg_studio.jpg
+│   │   └── bg_bedroom.jpg
+│   │
+│   ├── cg/
+│   │   ├── cg_first_meeting.jpg
+│   │   ├── cg_photoshoot.jpg
+│   │   ├── cg_viewing_photos.jpg
+│   │   └── cg_boudoir_session.jpg
+│   │
+│   ├── ui/
+│   │   ├── ui_dialogue_box.png
+│   │   ├── ui_choice_button.png
+│   │   ├── ui_title_logo.png
+│   │   ├── ui_menu_background.jpg
+│   │   ├── ui_relationship_meter.png
+│   │   └── ui_time_indicator.png
+│   │
+│   ├── maps/
+│   │   ├── map_city_overview.png
+│   │   ├── map_gallery_card.png
+│   │   ├── map_studio_card.png
+│   │   ├── map_apartment_card.png
+│   │   ├── map_cafe_card.png
+│   │   └── map_boutique_card.png
+│   │
+│   ├── misc/
+│   │   ├── misc_title_screen.jpg
+│   │   ├── misc_loading_screen.jpg
+│   │   ├── misc_achievement_badge.png
+│   │   ├── misc_chapter_card.jpg
+│   │   ├── misc_save_frame.png
+│   │   ├── misc_settings_panel.png
+│   │   ├── misc_relationship_display.png
+│   │   └── misc_minimap.png
+│   │
+│   ├── audio/
+│   │   ├── bgm/
+│   │   │   ├── bgm_main_menu.mp3
+│   │   │   ├── bgm_gallery_opening.mp3
+│   │   │   ├── bgm_photoshoot.mp3
+│   │   │   ├── bgm_intimate_conversation.mp3
+│   │   │   ├── bgm_boudoir.mp3
+│   │   │   └── bgm_emotional_ending.mp3
+│   │   │
+│   │   └── sfx/
+│   │       ├── sfx_ui_click.wav
+│   │       ├── sfx_choice_select.wav
+│   │       ├── sfx_text_advance.wav
+│   │       ├── sfx_scene_transition.wav
+│   │       ├── sfx_achievement_unlock.wav
+│   │       ├── sfx_menu_open.wav
+│   │       └── sfx_camera_shutter.wav
+│   │
+│   └── video/
+│       ├── video_chapter_intro.mp4
+│       ├── video_photoshoot_montage.mp4
+│       └── video_boudoir_transition.mp4
+```
+
+---
+
+### 🎯 Quick Reference Table
+
+| Category | Count | Prefix | Extension | Example |
+|----------|-------|--------|-----------|---------|
+| Character Sprites | 6 | `sprite_` | `.png` | `sprite_zara_neutral.png` |
+| Backgrounds | 3 | `bg_` | `.jpg` | `bg_gallery.jpg` |
+| CG Images | 4 | `cg_` | `.jpg` | `cg_first_meeting.jpg` |
+| UI Elements | 6 | `ui_` | `.png` or `.jpg` | `ui_dialogue_box.png` |
+| Location Maps | 6 | `map_` | `.png` | `map_city_overview.png` |
+| Misc Assets | 8 | `misc_` | `.png` or `.jpg` | `misc_title_screen.jpg` |
+| Background Music | 6 | `bgm_` | `.mp3` | `bgm_main_menu.mp3` |
+| Sound Effects | 7 | `sfx_` | `.wav` | `sfx_ui_click.wav` |
+| Videos | 3 | `video_` | `.mp4` | `video_chapter_intro.mp4` |
+| **TOTAL** | **49** | | | |
+
+---
+
+### 📋 Asset Generation Checklist
+
+#### Visual Assets (33 total)
+- [ ] sprite_zara_neutral.png
+- [ ] sprite_zara_smile.png
+- [ ] sprite_zara_flirty.png
+- [ ] sprite_zara_shy.png
+- [ ] sprite_zara_studio.png
+- [ ] sprite_zara_boudoir.png
+- [ ] bg_gallery.jpg
+- [ ] bg_studio.jpg
+- [ ] bg_bedroom.jpg
+- [ ] cg_first_meeting.jpg
+- [ ] cg_photoshoot.jpg
+- [ ] cg_viewing_photos.jpg
+- [ ] cg_boudoir_session.jpg
+- [ ] ui_dialogue_box.png
+- [ ] ui_choice_button.png
+- [ ] ui_title_logo.png
+- [ ] ui_menu_background.jpg
+- [ ] ui_relationship_meter.png
+- [ ] ui_time_indicator.png
+- [ ] map_city_overview.png
+- [ ] map_gallery_card.png
+- [ ] map_studio_card.png
+- [ ] map_apartment_card.png
+- [ ] map_cafe_card.png
+- [ ] map_boutique_card.png
+- [ ] misc_title_screen.jpg
+- [ ] misc_loading_screen.jpg
+- [ ] misc_achievement_badge.png
+- [ ] misc_chapter_card.jpg
+- [ ] misc_save_frame.png
+- [ ] misc_settings_panel.png
+- [ ] misc_relationship_display.png
+- [ ] misc_minimap.png
+
+#### Audio Assets (13 total)
+- [ ] bgm_main_menu.mp3
+- [ ] bgm_gallery_opening.mp3
+- [ ] bgm_photoshoot.mp3
+- [ ] bgm_intimate_conversation.mp3
+- [ ] bgm_boudoir.mp3
+- [ ] bgm_emotional_ending.mp3
+- [ ] sfx_ui_click.wav
+- [ ] sfx_choice_select.wav
+- [ ] sfx_text_advance.wav
+- [ ] sfx_scene_transition.wav
+- [ ] sfx_achievement_unlock.wav
+- [ ] sfx_menu_open.wav
+- [ ] sfx_camera_shutter.wav
+
+#### Video Assets (3 total)
+- [ ] video_chapter_intro.mp4
+- [ ] video_photoshoot_montage.mp4
+- [ ] video_boudoir_transition.mp4
+
+**Grand Total: 49 Assets**
+
+---
+
 ## 📊 Complete Asset Summary
 
 **Total Prompts Included:**

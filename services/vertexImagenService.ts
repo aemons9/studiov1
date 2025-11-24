@@ -172,6 +172,15 @@ export async function generateWithVertexImagen(
                       `  2. Vertex AI API is enabled in your project\n` +
                       `  3. The model name is correct\n\n` +
                       `📋 Full error: ${errorBody?.error?.message || 'Not Found'}`;
+      } else if (response.status === 429) {
+        const fullError = errorBody?.error?.message || '';
+        errorMessage = `⏱️ QUOTA EXCEEDED (429)\n\n` +
+                      `❌ You've exceeded your quota for model: ${model}\n\n` +
+                      `🔄 AUTOMATIC FALLBACK OPTIONS:\n` +
+                      `  • Imagen 4.0 Ultra (imagen-4.0-ultra-generate-001)\n` +
+                      `  • Imagen 4.0 Fast (imagen-4.0-fast-generate-001)\n\n` +
+                      `💡 TIP: The system will automatically try alternative models\n\n` +
+                      `📋 Full error: ${fullError}`;
       } else {
         errorMessage += errorBody?.error?.message || 'Unknown error';
       }

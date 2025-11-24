@@ -777,26 +777,65 @@ export async function generateImage(prompt: string, settings: GenerationSettings
     // Use Vertex AI Imagen endpoint with OAuth
     const { generateWithVertexImagen, mapAspectRatioForVertex } = await import('./vertexImagenService');
 
-    try {
-      console.log(`🎨 Generating images with Vertex AI Imagen (OAuth) - ${modelId}...`);
+    // Model fallback order: Base → Ultra → Fast
+    const modelFallbackOrder = [
+      modelId, // Try user's preferred model first
+      'imagen-4.0-ultra-generate-001', // Ultra (higher quality, may have separate quota)
+      'imagen-4.0-fast-generate-001'   // Fast (faster generation, separate quota)
+    ];
 
-      const images = await generateWithVertexImagen(prompt, {
-        projectId: settings.projectId,
-        location: 'us-central1',
-        accessToken: settings.accessToken,
-        model: modelId
-      }, {
-        aspectRatio: mapAspectRatioForVertex(aspectRatio),
-        sampleCount: numberOfImages,
-        personGeneration: settings.personGeneration || 'allow_adult',
-        safetySetting: settings.safetySetting || 'block_few'
-      });
+    // Remove duplicates while preserving order
+    const uniqueModels = [...new Set(modelFallbackOrder)];
 
-      return images;
-    } catch (error) {
-      console.error("Vertex AI Imagen generation error:", error);
-      throw error;
+    let lastError: Error | null = null;
+
+    for (let i = 0; i < uniqueModels.length; i++) {
+      const currentModel = uniqueModels[i];
+
+      try {
+        if (i > 0) {
+          console.log(`🔄 Trying fallback model ${i}/${uniqueModels.length - 1}: ${currentModel}`);
+        } else {
+          console.log(`🎨 Generating images with Vertex AI Imagen (OAuth) - ${currentModel}...`);
+        }
+
+        const images = await generateWithVertexImagen(prompt, {
+          projectId: settings.projectId,
+          location: 'us-central1',
+          accessToken: settings.accessToken,
+          model: currentModel
+        }, {
+          aspectRatio: mapAspectRatioForVertex(aspectRatio),
+          sampleCount: numberOfImages,
+          personGeneration: settings.personGeneration || 'allow_adult',
+          safetySetting: settings.safetySetting || 'block_few'
+        });
+
+        if (i > 0) {
+          console.log(`✅ Successfully generated with fallback model: ${currentModel}`);
+        }
+
+        return images;
+      } catch (error) {
+        lastError = error as Error;
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+
+        // Check if this is a quota exceeded error (429)
+        const isQuotaError = errorMessage.includes('429') || errorMessage.includes('QUOTA EXCEEDED');
+
+        if (isQuotaError && i < uniqueModels.length - 1) {
+          console.warn(`⚠️ Quota exceeded for ${currentModel}, trying next model...`);
+          continue; // Try next model
+        } else {
+          // Not a quota error, or no more models to try
+          console.error(`❌ Vertex AI Imagen generation error with ${currentModel}:`, error);
+          throw error;
+        }
+      }
     }
+
+    // All models failed
+    throw new Error(`All Imagen models exhausted. Last error: ${lastError?.message}`);
   }
 
   // Fall back to Gemini API (for API key authentication)

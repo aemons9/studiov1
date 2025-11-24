@@ -62,10 +62,22 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
   // Capture newly generated images and associate them with the current asset
   useEffect(() => {
-    // Only process if we have images AND an asset ID AND we haven't processed this generation yet
+    // Only process if we have images AND an asset ID
     if (latestGeneratedImages && latestGeneratedImages.length > 0 && currentGeneratingAssetId) {
-      // Create a unique key for this generation
-      const generationKey = `${currentGeneratingAssetId}-${latestGeneratedImages[0]?.url?.substring(0, 50)}`;
+      // Get the LATEST image (last in array)
+      const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
+
+      // Check if latestImageData exists and has a url property
+      if (!latestImageData || !latestImageData.url) {
+        console.error('❌ Invalid image data received:', latestImageData);
+        setCurrentGeneratingAssetId(null);
+        return;
+      }
+
+      const latestImage = latestImageData.url; // Extract the base64 URL
+
+      // Create deduplication key using the SAME image we're storing (not the first one!)
+      const generationKey = `${currentGeneratingAssetId}-${latestImage.substring(0, 50)}`;
 
       // Skip if we've already processed this exact generation
       if (processedGenerations.has(generationKey)) {
@@ -74,37 +86,29 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
       }
 
       console.log(`📊 Processing new generation for asset ${currentGeneratingAssetId}`);
-      console.log(`🔍 Full images array:`, latestGeneratedImages);
-      console.log(`🔍 Array length:`, latestGeneratedImages.length);
-
-      // Generation just completed - store the latest image
-      const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
-      console.log(`🔍 Latest image data type:`, typeof latestImageData);
-
-      // Check if latestImageData exists and has a url property
-      if (!latestImageData || !latestImageData.url) {
-        console.error('❌ Invalid image data received:', latestImageData);
-        console.error('❌ Full array:', latestGeneratedImages);
-        setCurrentGeneratingAssetId(null);
-        return;
-      }
-
-      const latestImage = latestImageData.url; // Extract the base64 URL
-      console.log(`✅ Captured generated image for asset ${currentGeneratingAssetId}:`, {
+      console.log(`🔍 Image count in array: ${latestGeneratedImages.length}`);
+      console.log(`✅ Captured image for asset ${currentGeneratingAssetId}:`, {
         imageLength: latestImage.length,
         assetId: currentGeneratingAssetId,
-        startsWithData: latestImage.startsWith('data:')
+        startsWithData: latestImage.startsWith('data:'),
+        imagePreview: latestImage.substring(0, 100) + '...'
       });
 
       // Find the asset
       const asset = COMPLETE_ASSET_MANIFEST.find(a => a.id === currentGeneratingAssetId);
 
       if (asset) {
+        console.log(`💾 Mapping asset "${asset.name}" (ID: ${asset.id}) to new image`);
+
         // Store in component state
-        setAssetImageMap(prev => ({
-          ...prev,
-          [currentGeneratingAssetId]: latestImage
-        }));
+        setAssetImageMap(prev => {
+          const updated = {
+            ...prev,
+            [currentGeneratingAssetId]: latestImage
+          };
+          console.log(`📊 Asset map now has ${Object.keys(updated).length} assets:`, Object.keys(updated));
+          return updated;
+        });
 
         // Auto-save to file system (NO localStorage limits!)
         saveAssetToFileSystem(asset, latestImage)
@@ -113,7 +117,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
           })
           .catch((error) => {
             console.error(`❌ Failed to save ${asset.name}:`, error);
-            alert(`Failed to save asset: ${error.message}\n\nMake sure the Asset Server is running: node assetServer.js`);
+            alert(`Failed to save asset: ${error.message}\n\nMake sure the Asset Server is running: npm run asset-server`);
           });
       }
 

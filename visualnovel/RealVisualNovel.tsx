@@ -588,13 +588,15 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
         (() => {
           const spriteUrl = getSpriteForExpression(currentLine.expression, loadedAssets);
           return spriteUrl ? (
-            <div className="absolute bottom-0 right-1/4 h-[80%] w-auto pointer-events-none transition-opacity duration-500">
+            <div className="absolute bottom-0 right-1/4 max-h-[85%] w-auto pointer-events-none transition-opacity duration-500 flex items-end">
               <img
                 src={spriteUrl}
                 alt={`Zara - ${currentLine.expression}`}
-                className="h-full w-auto object-contain drop-shadow-2xl"
+                className="max-h-full w-auto object-contain drop-shadow-2xl"
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8))'
+                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8))',
+                  objectPosition: 'bottom center',
+                  maxHeight: '85vh'
                 }}
               />
             </div>

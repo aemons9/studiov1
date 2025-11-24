@@ -34,7 +34,23 @@ export const CHARACTER_SPRITES: AssetRequirement[] = [
     type: 'character_sprite',
     name: 'Zara - Neutral (Full Body)',
     description: 'Standing pose, neutral expression, gallery opening outfit',
-    prompt: `Full body character sprite of beautiful Indian model Zara (5'8", hourglass figure 36-26-38"). Standing pose, neutral friendly expression. Wearing elegant white linen dress, simple gold jewelry. Perfect for visual novel game - transparent background, PNG format. Professional lighting, soft smile, direct gaze. High-quality character art in visual novel style, crisp details, perfect for layering over backgrounds.`,
+    prompt: `VISUAL NOVEL CHARACTER SPRITE | PNG with alpha transparency | Cel-shaded anime style | 1024x2048px
+
+CHARACTER: Beautiful Indian woman, 5'8", elegant hourglass figure, warm brown skin tone, long flowing black hair, captivating brown eyes, age 25
+
+OUTFIT: Elegant white linen summer dress (knee-length), simple gold jewelry (small earrings, delicate bracelet), natural makeup
+
+POSE & EXPRESSION: Standing pose, weight on one leg (natural stance), neutral friendly expression, soft genuine smile, eyes looking directly forward, welcoming body language, hands relaxed at sides
+
+LIGHTING: Professional 3-point studio lighting, soft diffused key light from front-left, subtle rim light for depth, no harsh shadows, even illumination
+
+ART STYLE: High-quality anime visual novel art, clean vector-style linework, smooth cel-shading, professional character design, Studio Key/Type-Moon quality
+
+BACKGROUND: PURE TRANSPARENT ALPHA CHANNEL, isolated character only, PNG cutout sprite, NO background elements whatsoever, clean anti-aliased edges
+
+QUALITY: Professional commercial visual novel quality, 4K source resolution, crisp clean details, perfect for layering, Steam-release standard
+
+NEGATIVE: low quality, blurry, pixelated, amateur, watermark, text, signature, deformed, ugly, background, white background, checkered background`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -137,7 +153,23 @@ export const BACKGROUND_SCENES: AssetRequirement[] = [
     type: 'background',
     name: 'Art Gallery Opening',
     description: 'Upscale modern art gallery during golden hour',
-    prompt: `Cinematic background for visual novel: Upscale modern art gallery interior during golden hour. Large windows with warm sunlight streaming in, white walls with contemporary art pieces, polished concrete floors. Elegant crowd mingling in background (blurred). Professional architectural photography, 16:9 widescreen format. No people in foreground. Perfect for layering character sprites. High quality, atmospheric lighting, bokeh background.`,
+    prompt: `VISUAL NOVEL BACKGROUND | Cinematic photography | 16:9 widescreen | 1920x1080px
+
+LOCATION: Upscale contemporary art gallery interior, modern minimalist architecture, high ceilings with track lighting, white walls with large contemporary art pieces, polished light grey concrete floors
+
+TIME & LIGHTING: Golden hour (late afternoon), warm amber sunlight streaming through floor-to-ceiling windows, dramatic light rays with dust particles visible, chiaroscuro effect (high contrast light/shadow), professional color grading
+
+COMPOSITION: Rule of thirds, clear foreground for character placement (lower third empty), gallery depth extending into background, blurred figures in far background (bokeh effect), architectural lines leading eye to center
+
+DEPTH OF FIELD: Shallow DoF, foreground sharp, mid-ground slightly soft, background with beautiful bokeh blur, professional cinema lens aesthetic (f/2.8)
+
+ATMOSPHERE: Sophisticated upscale ambiance, warm inviting tones, artistic cultural vibe, evening cocktail event atmosphere, museum-quality space
+
+TECHNICAL: NO people in foreground (reserved for sprite layer), professional architectural photography, cinema-quality color grading, teal and orange complementary colors, film-like grain texture
+
+QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional photography, Steam-release quality, Makoto Shinkai background quality
+
+NEGATIVE: people in foreground, busy foreground, low quality, blurry, amateur, watermark, text`,
     specifications: {
       width: 1920,
       height: 1080,

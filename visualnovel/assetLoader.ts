@@ -31,6 +31,7 @@ export interface LoadedAssets {
 
 /**
  * Map asset IDs from assetManifest to RealVisualNovel scene backgrounds
+ * These map to the actual asset IDs in assetManifest.ts
  */
 const BACKGROUND_MAP: Record<string, string[]> = {
   // Art Gallery - used in intro and multiple paths
@@ -39,14 +40,14 @@ const BACKGROUND_MAP: Record<string, string[]> = {
   // Photography Studio - photographer path
   'bg_photography_studio': ['photographer_studio', 'photographer_intimate'],
 
-  // Luxury Loft - intimate scenes
-  'bg_luxury_loft': ['stylist_loft', 'charm_apartment'],
+  // Luxury Bedroom - intimate/boudoir scenes
+  'bg_luxury_bedroom': ['stylist_loft', 'charm_apartment', 'boudoir_artistic', 'boudoir_empowering'],
 
-  // Bedroom - boudoir scenes
-  'bg_intimate_bedroom': ['boudoir_artistic', 'boudoir_empowering'],
+  // Upscale Cafe - conversation scenes
+  'bg_upscale_cafe': ['cafe_conversation'],
 
-  // Cafe - conversation scenes
-  'bg_cozy_cafe': ['cafe_conversation'],
+  // Fashion Showroom - stylist path
+  'bg_fashion_showroom': ['stylist_path'],
 };
 
 /**
@@ -63,13 +64,14 @@ const SPRITE_MAP: Record<string, string> = {
 
 /**
  * Map CG asset IDs to special event scenes
+ * These map to the actual asset IDs in assetManifest.ts
  */
 const CG_MAP: Record<string, string> = {
-  'cg_first_meeting_gallery': 'intro',
-  'cg_creative_photoshoot': 'photographer_studio',
-  'cg_silk_styling': 'stylist_loft',
-  'cg_deep_connection': 'charm_apartment',
-  'cg_artistic_boudoir': 'boudoir_artistic',
+  'cg_first_meeting': 'intro',
+  'cg_studio_photoshoot': 'photographer_studio',
+  'cg_viewing_photos': 'photographer_intimate',
+  'cg_boudoir_session': 'boudoir_artistic',
+  'cg_intimate_moment': 'boudoir_empowering',
 };
 
 /**
@@ -90,11 +92,25 @@ const FALLBACK_BACKGROUNDS: Record<string, string> = {
 };
 
 /**
- * Get asset filename from manifest
+ * Get asset filename from asset ID using our naming convention
+ *
+ * Naming convention:
+ * - Character sprites: zara_*.png (e.g., zara_neutral_full.png)
+ * - Backgrounds: bg_*.png (e.g., bg_art_gallery.png)
+ * - CG images: cg_*.png (e.g., cg_first_meeting.png)
+ * - UI elements: ui_*.png (e.g., ui_dialogue_box.png)
+ * - Location maps: map_*.png (e.g., map_city_overview.png)
+ * - BGM: bgm_*.mp3 (e.g., bgm_main_menu.mp3)
+ * - SFX: sfx_*.wav (e.g., sfx_ui_click.wav)
+ * - Videos: cutscene_*.mp4 (e.g., cutscene_chapter_intro.mp4)
  */
 function getAssetFilename(assetId: string): string {
   const asset = COMPLETE_ASSET_MANIFEST.find(a => a.id === assetId);
-  return asset?.filename || `${assetId}.png`;
+  if (!asset) return `${assetId}.png`;
+
+  // Use the asset ID as the filename, add appropriate extension
+  const ext = asset.specifications.format ? asset.specifications.format.toLowerCase() : 'png';
+  return `${assetId}.${ext}`;
 }
 
 /**
@@ -234,19 +250,10 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
  * Get background for a scene, with fallback to Unsplash
  */
 export function getBackgroundForScene(sceneId: string, loadedAssets: LoadedAssets): string {
-  // Find which asset ID maps to this scene
-  let assetId: string | null = null;
-  for (const [bgAssetId, scenes] of Object.entries(BACKGROUND_MAP)) {
-    if (scenes.includes(sceneId)) {
-      assetId = bgAssetId;
-      break;
-    }
-  }
-
-  // Try loaded asset using the mapped asset ID
-  if (assetId && loadedAssets.backgrounds[assetId]) {
-    console.log(`🖼️ Loading background for scene "${sceneId}" from asset "${assetId}"`);
-    return loadedAssets.backgrounds[assetId];
+  // Check if we have a direct mapping
+  if (loadedAssets.backgrounds[sceneId]) {
+    console.log(`✅ Loading background for scene "${sceneId}" from file system/localStorage`);
+    return loadedAssets.backgrounds[sceneId];
   }
 
   // Fall back to Unsplash
@@ -341,13 +348,33 @@ export function preloadSceneAssets(currentSceneId: string, loadedAssets: LoadedA
 export function debugAssetPaths(): void {
   console.log('=== FILE SYSTEM ASSETS DEBUG ===');
   console.log('Total files found by Vite:', Object.keys(fileSystemAssets).length);
-  console.log('\nAll asset paths:');
-  Object.keys(fileSystemAssets).forEach(path => {
-    console.log(`  ${path}`);
+  console.log('\n📁 All asset paths found:');
+  Object.keys(fileSystemAssets).sort().forEach(path => {
+    console.log(`  ✓ ${path}`);
   });
-  console.log('\n=== EXPECTED PATHS ===');
-  console.log('Backgrounds:', ['bg_art_gallery', 'bg_photography_studio', 'bg_luxury_bedroom', 'bg_cafe_exterior', 'bg_fashion_showroom'].map(id => `./assets/backgrounds/${id}.png`));
-  console.log('Sprites:', ['zara_neutral_full', 'zara_smile_full', 'zara_flirty_full', 'zara_shy_full', 'zara_studio_outfit', 'zara_boudoir_outfit'].map(id => `./assets/sprites/${id}.png`));
+
+  console.log('\n=== EXPECTED PATHS (based on naming convention) ===');
+  console.log('🧍 Sprites (6):');
+  ['zara_neutral_full', 'zara_smile_full', 'zara_flirty_full', 'zara_shy_full', 'zara_studio_outfit', 'zara_boudoir_outfit']
+    .forEach(id => console.log(`  ./assets/sprites/${id}.png`));
+
+  console.log('\n🖼️ Backgrounds (5):');
+  ['bg_art_gallery', 'bg_photography_studio', 'bg_luxury_bedroom', 'bg_upscale_cafe', 'bg_fashion_showroom']
+    .forEach(id => console.log(`  ./assets/backgrounds/${id}.png`));
+
+  console.log('\n✨ CG Images (5):');
+  ['cg_first_meeting', 'cg_studio_photoshoot', 'cg_viewing_photos', 'cg_boudoir_session', 'cg_intimate_moment']
+    .forEach(id => console.log(`  ./assets/cg/${id}.png`));
+
+  console.log('\n🎨 UI Elements (2):');
+  ['ui_dialogue_box', 'ui_choice_button']
+    .forEach(id => console.log(`  ./assets/ui/${id}.png`));
+
+  console.log('\n🗺️ Location Maps (6):');
+  ['map_city_overview', 'map_location_gallery', 'map_location_studio', 'map_location_apartment', 'map_location_cafe', 'map_time_indicator']
+    .forEach(id => console.log(`  ./assets/maps/${id}.png`));
+
+  console.log('\n💡 TIP: Place your generated PNG files in visualnovel/assets/ with the exact paths shown above.');
 }
 
 // Expose to window for console debugging

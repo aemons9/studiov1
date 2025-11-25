@@ -69,7 +69,7 @@ TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mob
     description: 'Standing pose, warm smile, gallery outfit',
     prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
 
-CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, height 5'7", versatile actress physique with dramatic curves (bust 38DD", waist 27", hips 39"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure
+CHARACTER: Elite Indian fit artistic model Zara, age 25, height 5'8", versatile actress physique with dramatic curves (bust 38DD", waist 27", hips 39"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure
 
 OUTFIT: Same elegant ivory silk wrap dress, gold jewelry, professional makeup emphasizing natural beauty
 
@@ -101,7 +101,7 @@ TECHNICAL: PNG with alpha transparency, 9:16 aspect ratio, professional modeling
     description: 'Standing pose, playful flirty expression',
     prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
 
-CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, 5'7", dramatic curves (38DD-27-39"), fair complexion with warm glow, long flowing black hair with natural movement, intensely expressive brown eyes with playful sparkle
+CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion with warm glow, long flowing black hair with natural movement, intensely expressive brown eyes with playful sparkle
 
 OUTFIT: Ivory silk wrap dress with intentionally looser draping revealing elegant neckline, gold jewelry catching light, sophisticated makeup with emphasis on sultry eyes and defined lips
 
@@ -133,7 +133,7 @@ TECHNICAL: PNG with alpha transparency, 9:16 aspect ratio, fashion editorial sta
     description: 'Standing pose, shy/blushing expression',
     prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
 
-CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, 5'7", dramatic curves (38DD-27-39"), fair complexion with subtle blush on cheeks, long black hair framing face softly, expressive brown eyes showing vulnerability and shyness
+CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion with subtle blush on cheeks, long black hair framing face softly, expressive brown eyes showing vulnerability and shyness
 
 OUTFIT: Ivory silk wrap dress, delicate gold jewelry, natural makeup with emphasis on gentle beauty, soft romantic styling
 
@@ -165,7 +165,7 @@ TECHNICAL: PNG with alpha transparency, 9:16 aspect ratio, soft romantic photogr
     description: 'Simple white linen dress for photoshoot',
     prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
 
-CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, 5'7", dramatic curves (38DD-27-39"), fair complexion, long black hair styled naturally for photoshoot, expressive brown eyes, natural professional beauty
+CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion, long black hair styled naturally for photoshoot, expressive brown eyes, natural professional beauty
 
 OUTFIT: Elegant white linen blouse with subtle texture (loose-fitting, artistic), flowing cream-colored silk midi skirt, barefoot or minimal neutral sandals, minimal jewelry (small stud earrings), natural makeup emphasizing fresh beauty, artistic casual-elegant styling perfect for photography session
 
@@ -324,7 +324,7 @@ export const CG_IMAGES: AssetRequirement[] = [
 
 SCENE: First meeting at art gallery during golden hour - eye contact moment between viewer and Zara
 
-CHARACTER: Elite Indian artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), wearing elegant ivory silk wrap dress, fair complexion glowing in golden hour light, long black hair, expressive brown eyes meeting viewer's gaze
+CHARACTER: Elite Indian fit artistic model Zara, 5'8", dramatic curves (38DD-27-39"), wearing elegant ivory silk wrap dress, fair complexion glowing in golden hour light, long black hair, expressive brown eyes meeting viewer's gaze
 
 SETTING: Upscale contemporary art gallery interior, white walls with modern art, floor-to-ceiling windows with warm amber sunlight streaming through, elegant sophisticate atmosphere
 
@@ -358,7 +358,7 @@ TECHNICAL: 16:9 widescreen aspect ratio, cinematic composition`,
 
 SCENE: Behind-the-scenes moment during creative photoshoot - Zara in natural candid pose
 
-CHARACTER: Elite artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), wearing white linen blouse and cream silk skirt (studio outfit), fair complexion in natural daylight, authentic smile mid-laugh, relaxed professional presence
+CHARACTER: Elite Indian fit artistic model Zara, 5'8", dramatic curves (38DD-27-39"), wearing white linen blouse and cream silk skirt (studio outfit), fair complexion in natural daylight, authentic smile mid-laugh, relaxed professional presence
 
 SETTING: Minimalist photography studio, large north-facing window with soft natural light, white walls, hardwood floors, professional photography equipment subtly visible (lights, reflectors)
 
@@ -392,7 +392,7 @@ TECHNICAL: 16:9 aspect ratio, natural color grading, professional photography`,
 
 SCENE: Intimate moment viewing photos together - Zara's emotional reaction to seeing her portraits
 
-CHARACTER: Elite artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), close-up on face showing genuine emotional response, fair complexion with warm lighting, eyes showing impressed delight and vulnerability, authentic emotion
+CHARACTER: Elite Indian fit artistic model Zara, 5'8", dramatic curves (38DD-27-39"), close-up on face showing genuine emotional response, fair complexion with warm lighting, eyes showing impressed delight and vulnerability, authentic emotion
 
 SETTING: Photography studio, soft background blur showing studio environment, focus entirely on Zara's face and emotional reaction
 
@@ -426,7 +426,7 @@ TECHNICAL: 16:9 aspect ratio, cinematic close-up composition, professional photo
 
 SCENE: Fine art boudoir photography - Zara reclining artistically on luxury white bedding in tasteful intimate pose
 
-CHARACTER: Elite artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), wearing elegant minimal black lace lingerie, sophisticated styling, confident empowered sensual expression, fair complexion glowing in dramatic lighting
+CHARACTER: Elite Indian fit artistic model Zara, 5'8", dramatic curves (38DD-27-39"), wearing elegant minimal black lace lingerie, sophisticated styling, confident empowered sensual expression, fair complexion glowing in dramatic lighting
 
 SETTING: Luxury bedroom with white silk bedding, minimalist elegant decor, soft textiles, sophisticated intimate environment, museum-quality aesthetic
 
@@ -462,7 +462,7 @@ NOTE: This represents fine art boudoir photography in the tradition of celebrate
 
 SCENE: Close intimate moment between viewer (photographer) and Zara, emotional connection culminating scene
 
-CHARACTER: Elite Indian artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), fair complexion with warm emotional glow, long flowing black hair, intensely expressive brown eyes conveying deep emotion and connection, wearing elegant ivory silk wrap dress from gallery opening, vulnerable genuine expression
+CHARACTER: Elite Indian fit artistic model Zara, 5'8", dramatic curves (38DD-27-39"), fair complexion with warm emotional glow, long flowing black hair, intensely expressive brown eyes conveying deep emotion and connection, wearing elegant ivory silk wrap dress from gallery opening, vulnerable genuine expression
 
 SETTING: Luxury bedroom interior with soft ambient lighting, white silk bedding visible softly blurred in background, intimate private space, evening atmosphere with warm golden light from bedside lamps
 

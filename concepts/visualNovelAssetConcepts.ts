@@ -8,7 +8,7 @@ import type { ArtisticConcept } from './concepts';
  */
 
 // ============================================================================
-// CHARACTER SPRITES - Zara Cinématique (6 sprites)
+// CHARACTER SPRITES - Zara (6 sprites)
 // ============================================================================
 
 export const vnSpriteNeutral: ArtisticConcept = {
@@ -16,7 +16,7 @@ export const vnSpriteNeutral: ArtisticConcept = {
   data: {
     shot: "PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical portrait",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique, age 25, height 5'7\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion with warm undertones, long flowing black hair with natural shine, intensely expressive brown eyes, dramatic facial structure, cinematic beauty",
+      variant: "Elite Indian fit artistic model Zara, age 25, height 5'8\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion with warm undertones, long flowing black hair with natural shine, intensely expressive brown eyes, dramatic facial structure, cinematic beauty",
       pose: "Full body standing pose, weight shifted to one leg creating elegant S-curve silhouette, one hand relaxed at side, other hand lightly touching collarbone in natural gesture, neutral friendly expression with soft genuine smile, eyes looking directly at camera with warm inviting gaze, welcoming confident body language, shoulders back, chin slightly lifted",
       hair_color: "black",
       hair_style: "long flowing black hair with natural shine and movement",
@@ -53,7 +53,7 @@ export const vnSpriteSmile: ArtisticConcept = {
   data: {
     shot: "PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical portrait",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique, age 25, height 5'7\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
+      variant: "Elite Indian fit artistic model Zara, age 25, height 5'8\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
       pose: "Full body standing pose, weight on one leg with hip slightly cocked, one hand at side, other hand gesturing gracefully in welcoming motion, warm genuine smile showing warmth and openness, eyes sparkling with joy and invitation, welcoming body language radiating positive energy, face lit with happiness, natural confident posture",
       hair_color: "black",
       hair_style: "long flowing with natural movement",
@@ -90,7 +90,7 @@ export const vnSpriteFlirty: ArtisticConcept = {
   data: {
     shot: "PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical portrait",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique, age 25, height 5'7\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
+      variant: "Elite Indian fit artistic model Zara, age 25, height 5'8\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
       pose: "Full body standing pose, hip cocked to one side creating S-curve, one hand on hip in confident stance, other hand playing with hair in flirtatious gesture, playful coy smile with slightly raised eyebrow, eyes with mischievous sparkle making direct eye contact, body language playful and teasing, head tilted slightly, confident sensual energy",
       hair_color: "black",
       hair_style: "long flowing, one hand playfully touching hair",
@@ -127,7 +127,7 @@ export const vnSpriteShy: ArtisticConcept = {
   data: {
     shot: "PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical portrait",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique, age 25, height 5'7\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
+      variant: "Elite Indian fit artistic model Zara, age 25, height 5'8\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
       pose: "Full body standing pose, weight on both feet creating gentle stance, shoulders slightly turned inward, one hand nervously touching other arm in protective gesture, other hand at side, shy gentle smile with slight blush, eyes cast slightly downward before meeting gaze, vulnerable body language showing softness, head slightly lowered, gentle reserved energy",
       hair_color: "black",
       hair_style: "long flowing, slightly falling forward framing face",
@@ -164,7 +164,7 @@ export const vnSpriteStudio: ArtisticConcept = {
   data: {
     shot: "PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical portrait",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique, age 25, height 5'7\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
+      variant: "Elite Indian fit artistic model Zara, age 25, height 5'8\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure",
       pose: "Full body standing pose, confident professional model stance, weight shifted creating natural curve, one hand on hip in strong pose, other hand relaxed, confident serious expression showing professionalism, direct eye contact with intensity, powerful body language exuding competence, chin up, shoulders back, commanding presence",
       hair_color: "black",
       hair_style: "long flowing styled for professional photoshoot",
@@ -201,7 +201,7 @@ export const vnSpriteBoudoir: ArtisticConcept = {
   data: {
     shot: "PHOTOREALISTIC CHARACTER PORTRAIT | Fine art boudoir photography | PNG with alpha transparency | 9:16 vertical portrait",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique, age 25, height 5'7\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure, cinematic beauty",
+      variant: "Elite Indian fit artistic model Zara, age 25, height 5'8\", versatile actress physique with dramatic curves (bust 38DD\", waist 27\", hips 39\"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure, cinematic beauty",
       pose: "Full body standing pose with elegant sensual energy, weight on one leg with hip elegantly cocked, one hand gently touching collarbone, other hand at side with relaxed fingers, confident sensual expression with soft inviting smile, eyes with warmth and intimacy, body language combining elegance with allure, graceful posture, natural confidence",
       hair_color: "black",
       hair_style: "long flowing loose waves cascading naturally",
@@ -431,7 +431,7 @@ export const vnCgFirstMeeting: ArtisticConcept = {
   data: {
     shot: "VISUAL NOVEL CG IMAGE | Cinematic scene photography | 16:9 widescreen | 1920x1080px | Key emotional moment capture",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique (age 25, height 5'7\", dramatic curves bust 38DD\", waist 27\", hips 39\", fair complexion, long flowing black hair, intensely expressive brown eyes) making eye contact with viewer in crowded art gallery",
+      variant: "Elite Indian fit artistic model Zara (age 25, height 5'8\", dramatic curves bust 38DD\", waist 27\", hips 39\", fair complexion, long flowing black hair, intensely expressive brown eyes) making eye contact with viewer in crowded art gallery",
       pose: "Zara standing in three-quarter profile, head turning to make direct eye contact with camera (representing player), caught mid-conversation with someone off-screen, warm surprised smile beginning to form, eyes wide with interest and curiosity, natural candid body language showing moment of connection, elegant ivory silk dress, gallery opening atmosphere",
       hair_color: "black",
       hair_style: "long flowing black hair with natural movement",
@@ -468,7 +468,7 @@ export const vnCgStudioPhotoshoot: ArtisticConcept = {
   data: {
     shot: "VISUAL NOVEL CG IMAGE | Behind-the-scenes photography | 16:9 widescreen | 1920x1080px | Intimate creative moment",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique in professional photography studio, wearing studio outfit (black turtleneck, charcoal trousers), engaged in photoshoot with viewer as photographer",
+      variant: "Elite Indian fit artistic model Zara in professional photography studio, wearing studio outfit (black turtleneck, charcoal trousers), engaged in photoshoot with viewer as photographer",
       pose: "Zara mid-pose for camera, looking toward viewer/photographer with confident professional smile mixed with personal warmth, standing under studio lights, modeling stance showing professionalism but eyes showing personal connection, professional yet intimate atmosphere of creative collaboration",
       hair_color: "black",
       hair_style: "styled for professional photoshoot",
@@ -505,7 +505,7 @@ export const vnCgViewingPhotos: ArtisticConcept = {
   data: {
     shot: "VISUAL NOVEL CG IMAGE | Intimate close-up scene | 16:9 widescreen | 1920x1080px | Emotional connection moment",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique viewing photographs with viewer, close-up emotional scene showing vulnerability and beauty",
+      variant: "Elite Indian fit artistic model Zara viewing photographs with viewer, close-up emotional scene showing vulnerability and beauty",
       pose: "Zara in close intimate framing, looking down at photographs (held in hands or on table, partially visible), expression shifting from thoughtful to emotional, eyes beginning to glisten with tears of joy or nostalgia, soft vulnerable smile, intimate personal moment of sharing and connection, guard down showing authentic emotion",
       hair_color: "black",
       hair_style: "natural loose styling, slightly messy from intimate moment",
@@ -542,7 +542,7 @@ export const vnCgBoudoirSession: ArtisticConcept = {
   data: {
     shot: "VISUAL NOVEL CG IMAGE | Fine art boudoir photography | 16:9 widescreen | 1920x1080px | Artistic intimate scene",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique in fine art boudoir setting, wearing elegant boudoir ensemble, captured in moment of artistic sensual beauty",
+      variant: "Elite Indian fit artistic model Zara in fine art boudoir setting, wearing elegant boudoir ensemble, captured in moment of artistic sensual beauty",
       pose: "Zara positioned in artistic boudoir pose (could be reclining on furniture, seated elegantly, or standing with graceful sensual posture), looking toward camera/viewer with confident sensual expression mixed with artistic vulnerability, elegant ivory silk robe artfully draped, pose combining elegance with intimate artistic energy, in tradition of Helmut Newton fine art boudoir",
       hair_color: "black",
       hair_style: "long flowing loose waves, natural sensual styling",
@@ -579,7 +579,7 @@ export const vnCgIntimateConnection: ArtisticConcept = {
   data: {
     shot: "VISUAL NOVEL CG IMAGE | Cinematic emotional scene | 16:9 widescreen | 1920x1080px | Culminating intimate moment",
     subject: {
-      variant: "Elite Indian artistic model Zara Cinématique in deeply intimate emotional moment with viewer, close romantic scene",
+      variant: "Elite Indian fit artistic model Zara in deeply intimate emotional moment with viewer, close romantic scene",
       pose: "Zara in extremely close intimate framing, face filling much of frame, gazing directly at camera/viewer with deep emotional connection, eyes full of warmth and intimacy, soft tender smile, close enough to feel personal and romantic, vulnerable authentic expression showing complete emotional openness and connection, this is the emotional culmination of their relationship journey",
       hair_color: "black",
       hair_style: "natural loose styling, intimate casual",
@@ -612,6 +612,195 @@ export const vnCgIntimateConnection: ArtisticConcept = {
 };
 
 // ============================================================================
+// INTIMATE CUTSCENE VIDEOS - Veo Generated (5 levels)
+// ============================================================================
+
+export const vnCutsceneFirstTouch: ArtisticConcept = {
+  name: 'VN Cutscene: First Touch',
+  data: {
+    shot: "VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Emotional connection moment",
+    subject: {
+      variant: "Elite Indian fit artistic model Zara, age 25, 5'8\", dramatic curves (38DD-27-39\"), fair complexion, long flowing black hair, expressive brown eyes, wearing elegant ivory silk wrap dress from gallery scene",
+      pose: "Standing close to viewer, eyes locked in emotional moment, viewer's hand (partially visible in frame) gently reaching toward Zara's hand, Zara responding with vulnerable smile, fingers beginning to intertwine, gentle intimate proximity, emotional connection building",
+      hair_color: "black",
+      hair_style: "long flowing naturally with soft movement",
+      skin_finish: "Natural emotional glow in romantic lighting",
+      hand_and_nail_details: "Hands moving toward each other, elegant manicure, gentle touching beginning",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Elegant neutral polish",
+      high_heels: "elegant heels visible"
+    },
+    wardrobe: "Elegant ivory silk wrap dress, gold jewelry, sophisticated styling",
+    environment: "LOCATION: Art gallery interior with golden hour lighting, soft focus background, intimate moment during gallery event. CAMERA MOVEMENT: Slow push-in toward hands and faces, creating emotional intimacy. 8 seconds capturing the exact moment of first intentional touch.",
+    lighting: "Warm golden hour sunlight creating romantic atmosphere, soft diffused key light on faces and hands, rim light creating emotional glow, warm inviting tones emphasizing vulnerable moment",
+    camera: {
+      focal_length: "85mm f/1.4",
+      aperture: "f/1.4",
+      distance: "1.5m slowly moving closer",
+      angle: "Eye level, viewer POV, slow push-in on emotional moment",
+      framing: "Medium close-up transitioning to close-up, 16:9 cinematic"
+    },
+    color_grade: "Warm romantic golden tones, cinema-quality emotional color grading, soft dreamy quality",
+    style: "Cinematic visual novel cutscene, emotional first touch moment, romantic A24 indie film aesthetic, slow motion emphasizing vulnerable connection, professional narrative cinematography capturing relationship beginning",
+    quality: "Premium VEO video quality, 8-second emotional cutscene, cinematic romance, professional film quality, intimate moment capture",
+    figure_and_form: "Elegant curves in sophisticated dress, vulnerable body language, romantic connection energy",
+    skin_micro_details: "Fair complexion luminous in golden hour light, natural emotion visible",
+    fabric_physics: "Silk dress moving naturally with subtle movement, realistic draping",
+    material_properties: "Ivory silk catching golden light, gold jewelry glinting, warm romantic atmosphere"
+  }
+};
+
+export const vnCutsceneFirstKiss: ArtisticConcept = {
+  name: 'VN Cutscene: First Kiss',
+  data: {
+    shot: "VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Romantic kiss moment",
+    subject: {
+      variant: "Elite Indian fit artistic model Zara, age 25, 5'8\", dramatic curves (38DD-27-39\"), fair complexion glowing in romantic lighting, long flowing black hair, expressive brown eyes showing deep emotion, wearing elegant ivory silk wrap dress",
+      pose: "Zara and viewer (partially visible - shoulder/back) in close intimate proximity, faces very close, Zara's eyes slowly closing as they lean together, gentle first kiss beginning, hands visible - one of Zara's hands on viewer's shoulder, tender vulnerable moment, slow motion capturing emotional significance",
+      hair_color: "black",
+      hair_style: "long flowing, slightly disheveled from intimate moment",
+      skin_finish: "Luminous with emotional glow and romantic lighting",
+      hand_and_nail_details: "One hand on viewer's shoulder, gentle intimate touch, elegant manicure",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Elegant neutral",
+      high_heels: "not visible in close framing"
+    },
+    wardrobe: "Elegant ivory silk wrap dress, minimal jewelry, romantic styling",
+    environment: "LOCATION: Private moment after gallery event, soft focus background suggesting intimate space. CAMERA MOVEMENT: Slow gentle orbit around the couple, creating cinematic romantic capture. 8 seconds showing approach and first kiss moment.",
+    lighting: "Soft romantic warm lighting creating tender atmosphere, gentle key light on faces, rim light creating dreamy glow around couple, warm golden tones emphasizing emotional intimacy, professional romantic cinematography lighting",
+    camera: {
+      focal_length: "85mm f/1.4",
+      aperture: "f/1.2",
+      distance: "1m, slow gentle orbit movement",
+      angle: "Eye level transitioning to slight side angle, intimate romantic perspective",
+      framing: "Close-up intimate framing, 16:9 cinematic, faces filling frame"
+    },
+    color_grade: "Warm romantic golden tones, soft dreamy color grading, emotional depth, film-like intimate quality",
+    style: "Cinematic romantic visual novel cutscene, first kiss capture, A24 romantic drama aesthetic, slow motion at critical moment (60fps to 24fps), professional romance cinematography capturing vulnerable authentic connection",
+    quality: "Premium VEO video quality, 8-second romantic cutscene, cinema-quality first kiss, professional intimate cinematography, emotional breakthrough moment",
+    figure_and_form: "Close intimate framing emphasizing emotional connection, elegant forms softly blurred in shallow depth of field",
+    skin_micro_details: "Fair complexion luminous in soft romantic lighting, authentic emotion visible in expressions",
+    fabric_physics: "Silk dress draping naturally in close intimate positioning",
+    material_properties: "Soft romantic lighting creating dreamy atmosphere on all visible elements"
+  }
+};
+
+export const vnCutsceneBoudoirBeginning: ArtisticConcept = {
+  name: 'VN Cutscene: Boudoir Session Beginning',
+  data: {
+    shot: "VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Artistic intimate transition",
+    subject: {
+      variant: "Elite Indian fit artistic model Zara, age 25, 5'8\", dramatic curves (38DD-27-39\"), fair complexion glowing in dramatic lighting, long flowing black hair loose waves, expressive brown eyes showing trust and vulnerability, wearing elegant ivory silk robe over ivory lace foundation garments",
+      pose: "Zara standing by luxury bedroom window, slowly turning from window toward camera/viewer, silk robe falling off one shoulder naturally revealing elegant lace beneath, confident vulnerable expression, eyes meeting viewer with trust and anticipation, graceful movement emphasizing artistic sensuality",
+      hair_color: "black",
+      hair_style: "long flowing loose waves cascading naturally",
+      skin_finish: "Luminous with dramatic artistic lighting creating sculptural shadows",
+      hand_and_nail_details: "One hand lightly touching robe, other hand relaxed, elegant manicure",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Elegant neutral",
+      high_heels: "not visible"
+    },
+    wardrobe: "Fine art boudoir ensemble: elegant ivory silk robe (short, thigh-length) loosely draped, ivory lace foundation garments tastefully visible, minimal jewelry, styled for Helmut Newton fine art aesthetic",
+    environment: "LOCATION: Luxury bedroom with dramatic window lighting, white silk bedding visible in soft focus background, intimate artistic atmosphere. CAMERA MOVEMENT: Slow tracking movement following Zara's turn from window, creating artistic revealing composition. 8 seconds capturing transition from window to facing viewer.",
+    lighting: "Fine art boudoir lighting, dramatic chiaroscuro from window creating artistic shadows and highlights, key light sculpting form beautifully, rim light creating luminous glow on fair complexion, museum-quality dramatic lighting in tradition of fine art masters",
+    camera: {
+      focal_length: "85mm f/1.4",
+      aperture: "f/1.8",
+      distance: "2.5m, slow tracking following movement",
+      angle: "Slightly below eye level creating elegant composition, artistic angle",
+      framing: "Full body to medium shot, 16:9 cinematic, fine art composition"
+    },
+    color_grade: "Warm romantic cinema tones, fine art color grading, rich shadows and luminous highlights, museum-quality film aesthetic",
+    style: "Fine art boudoir cinematography in tradition of Helmut Newton and Ellen von Unwerth, museum-quality intimate portraiture video, tasteful elegant sensuality, artistic excellence, visual novel premium cutscene aesthetic capturing trust and vulnerability",
+    quality: "Premium VEO video quality, 8-second artistic intimate cutscene, fine art boudoir cinematography, professional artistic sensuality, museum-standard intimate video capture",
+    figure_and_form: "Dramatic curves elegantly showcased by silk robe movement and artistic lighting, fine art sensual aesthetic",
+    skin_micro_details: "Fair complexion luminous in dramatic artistic lighting, natural beauty with fine art cinematography finish",
+    fabric_physics: "Ivory silk robe flowing naturally with movement, realistic draping and revealing, lace with delicate realistic texture movement",
+    material_properties: "Luxurious ivory silk with elegant sheen catching dramatic light, delicate lace texture, warm cinematic lighting creating fine art atmosphere"
+  }
+};
+
+export const vnCutsceneDeepConnection: ArtisticConcept = {
+  name: 'VN Cutscene: Deep Emotional Connection',
+  data: {
+    shot: "VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Profound intimate moment",
+    subject: {
+      variant: "Elite Indian fit artistic model Zara, age 25, 5'8\", dramatic curves (38DD-27-39\"), fair complexion with warm emotional glow, long flowing black hair naturally disheveled, intensely expressive brown eyes conveying profound emotion and connection, wearing minimal elegant attire or continuation of boudoir styling",
+      pose: "Extreme close-up intimate moment, Zara's face very close to camera/viewer suggesting profound physical and emotional closeness, eyes locked with viewer showing deep vulnerability and connection, subtle movements - gentle breathing, eyes closing and opening slowly, lips parting slightly, hand visible reaching toward viewer's face (viewer partially visible), tender profound intimacy",
+      hair_color: "black",
+      hair_style: "naturally loose and slightly disheveled from intimate moment",
+      skin_finish: "Natural luminous glow with emotional warmth and intimate lighting",
+      hand_and_nail_details: "One hand visible reaching tenderly toward viewer's face, intimate gentle touch, elegant natural manicure",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural elegant",
+      high_heels: "not visible"
+    },
+    wardrobe: "Minimal focus on clothing, emphasis on emotional and physical connection, intimate casual or continuation of previous scene",
+    environment: "LOCATION: Intimate private setting with soft focus abstract background (bedroom environment implied), everything secondary to profound emotional connection. CAMERA MOVEMENT: Extremely slow push-in toward eyes and faces, creating intensifying emotional intimacy. 8 seconds capturing depth of emotional and physical connection.",
+    lighting: "Soft romantic warm lighting creating tender intimate atmosphere, gentle key light on face emphasizing eyes and emotional expression, warm golden tones creating profound romantic mood, perfect lighting for capturing emotional and physical vulnerability",
+    camera: {
+      focal_length: "85mm f/1.2",
+      aperture: "f/1.2",
+      distance: "0.5m extremely close, slow push-in even closer",
+      angle: "Eye level, extremely close intimate perspective suggesting profound closeness",
+      framing: "Extreme close-up, face filling entire frame, 16:9 cinematic"
+    },
+    color_grade: "Warm romantic golden tones, cinema-quality emotional color grading, soft dreamy quality emphasizing profound intimacy, A24 intimate film aesthetic",
+    style: "Cinematic profound intimate cinematography, visual novel premium cutscene capturing relationship culmination, deepest emotional and physical connection aesthetic, professional intimate cinematography at its most vulnerable and profound, tasteful mature intimate moment capture",
+    quality: "Premium VEO video quality, 8-second profound intimate cutscene, cinema-quality emotional and physical connection, professional narrative cinematography capturing ultimate vulnerability and trust, Steam visual novel premium intimate quality",
+    figure_and_form: "Extreme close-up framing emphasizing face and profound emotional connection rather than full figure",
+    skin_micro_details: "Fair complexion luminous in soft romantic lighting, natural authentic emotion visible in vulnerable intimate moment, subtle movements of breathing and emotional response",
+    fabric_physics: "Minimal focus on fabric, all emphasis on emotional and physical connection",
+    material_properties: "Soft warm intimate lighting creating profound romantic atmosphere on all visible elements"
+  }
+};
+
+export const vnCutsceneTenderAftermath: ArtisticConcept = {
+  name: 'VN Cutscene: Tender Aftermath',
+  data: {
+    shot: "VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Post-intimate tenderness",
+    subject: {
+      variant: "Elite Indian fit artistic model Zara, age 25, 5'8\", dramatic curves (38DD-27-39\"), fair complexion with natural post-intimate glow, long flowing black hair naturally tousled across pillow, expressive brown eyes showing contentment and deep affection, minimal covering with white silk sheets",
+      pose: "Zara reclining on white silk bedding, propped on one elbow, looking at viewer with tender affectionate expression, white silk sheet artfully draped across body creating tasteful aesthetic composition, gentle intimate smile, relaxed vulnerable body language showing trust and contentment, natural post-intimate atmosphere",
+      hair_color: "black",
+      hair_style: "naturally tousled and spread across white pillows, intimate natural styling",
+      skin_finish: "Natural luminous glow with warm post-intimate radiance",
+      hand_and_nail_details: "One hand supporting head, other hand visible on white sheets, natural elegant manicure",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural elegant",
+      high_heels: "not visible"
+    },
+    wardrobe: "White silk sheets artfully draped creating tasteful fine art aesthetic composition, minimal styling emphasizing natural intimate beauty",
+    environment: "LOCATION: Luxury bedroom morning light, white silk bedding, soft morning glow from windows, intimate private space atmosphere. CAMERA MOVEMENT: Slow gentle zoom from medium to close-up on Zara's face and expression, creating emotional tender capture. 8 seconds capturing post-intimate tender emotional connection.",
+    lighting: "Soft morning window light creating gentle natural glow, warm tender atmosphere, key light from window creating natural beautiful illumination, soft shadows, warm intimate morning quality lighting",
+    camera: {
+      focal_length: "50mm f/1.4",
+      aperture: "f/1.8",
+      distance: "2m, slow gentle zoom closer to face",
+      angle: "Slightly above eye level creating intimate tender perspective",
+      framing: "Medium to close-up, 16:9 cinematic, white silk and face composition"
+    },
+    color_grade: "Soft warm morning tones, natural intimate color grading, tender emotional depth, film-like quality emphasizing natural beauty and contentment",
+    style: "Tasteful post-intimate cinematography, fine art tender moment capture, Helmut Newton influence with tasteful aesthetic, visual novel mature relationship portrayal, professional intimate aftermath cinematography emphasizing emotional connection and trust",
+    quality: "Premium VEO video quality, 8-second tender aftermath cutscene, tasteful intimate cinematography, professional mature relationship video, emotional tender moment capture",
+    figure_and_form: "Elegant reclining composition with white silk creating tasteful fine art aesthetic, natural relaxed post-intimate posture",
+    skin_micro_details: "Fair complexion with natural morning glow, authentic contentment and affection visible in expression",
+    fabric_physics: "White silk sheets draping naturally with realistic fabric movement and realistic intimate positioning",
+    material_properties: "White silk with natural sheen in morning light, soft tender atmosphere on all elements"
+  }
+};
+
+// ============================================================================
 // EXPORT ALL VN CONCEPTS
 // ============================================================================
 
@@ -636,7 +825,14 @@ export const visualNovelAssetConcepts: ArtisticConcept[] = [
   vnCgStudioPhotoshoot,
   vnCgViewingPhotos,
   vnCgBoudoirSession,
-  vnCgIntimateConnection
+  vnCgIntimateConnection,
+
+  // Intimate Cutscene Videos (5 levels)
+  vnCutsceneFirstTouch,
+  vnCutsceneFirstKiss,
+  vnCutsceneBoudoirBeginning,
+  vnCutsceneDeepConnection,
+  vnCutsceneTenderAftermath
 ];
 
 export default visualNovelAssetConcepts;

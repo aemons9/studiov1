@@ -67,6 +67,23 @@ TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mob
     type: 'character_sprite',
     name: 'Zara - Smile (Full Body)',
     description: 'Standing pose, warm smile, gallery outfit',
+    prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
+
+CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, height 5'7", versatile actress physique with dramatic curves (bust 38DD", waist 27", hips 39"), fair complexion, long flowing black hair, intensely expressive brown eyes, dramatic facial structure
+
+OUTFIT: Same elegant ivory silk wrap dress, gold jewelry, professional makeup emphasizing natural beauty
+
+POSE & EXPRESSION: Full body standing pose, weight on one leg with hip slightly cocked, one hand at side, other hand gesturing gracefully in welcoming motion, warm genuine smile showing warmth and openness, eyes sparkling with joy and invitation, welcoming body language radiating positive energy, face lit with happiness, natural confident posture
+
+PHOTOGRAPHY: Professional studio portrait, Canon EOS R5, 85mm f/1.4 lens, shallow depth of field, full body framing, fashion editorial style
+
+LIGHTING: Soft studio lighting emphasizing warm expression, key light highlighting smile and eyes, creating warmth in fair complexion, gentle shadows enhancing curves, rim light creating glow effect, professional beauty lighting
+
+BACKGROUND: PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject, clean cutout, NO background elements
+
+QUALITY: Vogue editorial quality, professional fashion photography, natural warmth, cinematic beauty, magazine standard
+
+TECHNICAL: PNG with alpha transparency, 9:16 aspect ratio, professional modeling standard`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -82,6 +99,23 @@ TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mob
     type: 'character_sprite',
     name: 'Zara - Flirty (Full Body)',
     description: 'Standing pose, playful flirty expression',
+    prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
+
+CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, 5'7", dramatic curves (38DD-27-39"), fair complexion with warm glow, long flowing black hair with natural movement, intensely expressive brown eyes with playful sparkle
+
+OUTFIT: Ivory silk wrap dress with intentionally looser draping revealing elegant neckline, gold jewelry catching light, sophisticated makeup with emphasis on sultry eyes and defined lips
+
+POSE & EXPRESSION: Full body standing pose with pronounced S-curve, weight on back leg creating dramatic hip tilt, one hand on hip in confident pose, other hand playing with hair in flirtatious gesture, head slightly tilted with playful smirk, eyes with sultry inviting gaze directed at viewer, body language radiating confident playful seduction, lips slightly parted in teasing smile
+
+PHOTOGRAPHY: Professional fashion photography, Canon EOS R5, 85mm f/1.2 lens, very shallow depth of field (f/1.2), creating dreamy quality, editorial fashion style
+
+LIGHTING: Dramatic beauty lighting with strong key light creating highlights and shadows emphasizing curves, rim light creating halo effect around hair, lighting emphasizing fair skin and creating alluring atmosphere
+
+BACKGROUND: PURE TRANSPARENT BACKGROUND (alpha channel), clean professional cutout
+
+QUALITY: High-fashion editorial, Vogue Italia standard, sophisticated sensuality, professional modeling portfolio quality
+
+TECHNICAL: PNG with alpha transparency, 9:16 aspect ratio, fashion editorial standard`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -97,6 +131,23 @@ TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mob
     type: 'character_sprite',
     name: 'Zara - Shy (Full Body)',
     description: 'Standing pose, shy/blushing expression',
+    prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
+
+CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, 5'7", dramatic curves (38DD-27-39"), fair complexion with subtle blush on cheeks, long black hair framing face softly, expressive brown eyes showing vulnerability and shyness
+
+OUTFIT: Ivory silk wrap dress, delicate gold jewelry, natural makeup with emphasis on gentle beauty, soft romantic styling
+
+POSE & EXPRESSION: Full body standing pose with vulnerable body language, weight evenly distributed with slight inward turn suggesting shyness, hands clasped together nervously in front of body or one hand touching opposite arm in protective gesture, shoulders slightly hunched inward, head tilted down with eyes looking up through lashes at camera, shy gentle smile, cheeks with natural blush, expression showing endearing vulnerability and sweetness, body language conveying innocent charm
+
+PHOTOGRAPHY: Professional portrait photography, Canon EOS R5, 85mm f/1.8 lens, soft focus creating gentle dreamy quality, natural beauty photography style
+
+LIGHTING: Soft diffused lighting creating gentle atmosphere, avoiding harsh shadows, key light from front creating even flattering illumination, soft fill light wrapping around subject, lighting emphasizing delicate fair complexion and natural blush, warm gentle quality
+
+BACKGROUND: PURE TRANSPARENT BACKGROUND (alpha channel), clean isolation
+
+QUALITY: Editorial beauty photography, natural gentle aesthetic, professional modeling standard, emphasis on authentic emotion and vulnerability
+
+TECHNICAL: PNG with alpha transparency, 9:16 aspect ratio, soft romantic photography style`,
     specifications: {
       width: 1024,
       height: 2048,
@@ -112,6 +163,23 @@ TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mob
     type: 'character_sprite',
     name: 'Zara - Studio Outfit (Full Body)',
     description: 'Simple white linen dress for photoshoot',
+    prompt: `PHOTOREALISTIC CHARACTER PORTRAIT | Professional photography | PNG with alpha transparency | 9:16 vertical
+
+CHARACTER: Elite Indian artistic model Zara Cinématique, age 25, 5'7", dramatic curves (38DD-27-39"), fair complexion, long black hair styled naturally for photoshoot, expressive brown eyes, natural professional beauty
+
+OUTFIT: Elegant white linen blouse with subtle texture (loose-fitting, artistic), flowing cream-colored silk midi skirt, barefoot or minimal neutral sandals, minimal jewelry (small stud earrings), natural makeup emphasizing fresh beauty, artistic casual-elegant styling perfect for photography session
+
+POSE & EXPRESSION: Full body standing pose with natural relaxed posture, weight on one leg with slight hip tilt, arms relaxed at sides or one hand lightly touching skirt in natural gesture, neutral to slightly curious expression, eyes engaged with camera showing professional comfort, body language showing ease and readiness for creative collaboration, artistic model presence
+
+PHOTOGRAPHY: Professional studio photography, Canon EOS R5, 50mm f/1.8 lens for natural perspective, moderate depth of field, editorial photography style, natural light simulation
+
+LIGHTING: Soft natural window-light quality studio lighting, bright airy atmosphere, diffused key light from large softbox creating gentle wraparound light, minimal shadows, clean professional illumination emphasizing white and cream tones, fresh daylight aesthetic
+
+BACKGROUND: PURE TRANSPARENT BACKGROUND (alpha channel), clean professional isolation
+
+QUALITY: Professional fashion photography, editorial standard, clean natural aesthetic, commercial photography quality, emphasis on artistic simplicity
+
+TECHNICAL: PNG with alpha transparency, 9:16 aspect ratio, professional studio photography standard`,
     specifications: {
       width: 1024,
       height: 2048,

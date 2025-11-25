@@ -2,13 +2,12 @@
  * Asset Loader Service - Bridge between generated assets and Visual Novel game
  *
  * This service:
- * 1. Loads generated assets from file system (PRIMARY - unlimited size)
- * 2. Falls back to localStorage (SECONDARY - ~5MB limit)
- * 3. Maps asset IDs to scene/character references
- * 4. Provides fallback URLs if assets not generated
- * 5. Hot-reloads when new assets are generated
+ * 1. Loads generated assets from local file system only
+ * 2. Maps asset IDs to scene/character references
+ * 3. Provides fallback URLs if assets not generated
+ * 4. Hot-reloads when new assets are generated
  *
- * Asset Priority: File System → localStorage → Unsplash Fallback
+ * Asset Priority: File System → Unsplash Fallback
  */
 
 import { COMPLETE_ASSET_MANIFEST, type AssetRequirement } from './assetManifest';
@@ -21,11 +20,11 @@ const fileSystemAssets = import.meta.glob<{ default: string }>('./assets/**/*.{p
 });
 
 export interface LoadedAssets {
-  backgrounds: Record<string, string>; // sceneId -> imageUrl (base64 or fallback)
-  sprites: Record<string, string>;     // expressionKey -> imageUrl
-  cg: Record<string, string>;          // cgId -> imageUrl
-  ui: Record<string, string>;          // uiId -> imageUrl
-  maps: Record<string, string>;        // mapId -> imageUrl
+  backgrounds: Record<string, string>; // sceneId -> imageUrl from file system
+  sprites: Record<string, string>;     // expressionKey -> imageUrl from file system
+  cg: Record<string, string>;          // cgId -> imageUrl from file system
+  ui: Record<string, string>;          // uiId -> imageUrl from file system
+  maps: Record<string, string>;        // mapId -> imageUrl from file system
   lastUpdated: number;                 // Timestamp for hot-reload detection
 }
 
@@ -134,15 +133,14 @@ function getAssetSubfolder(assetId: string): string {
 }
 
 /**
- * Load a single asset - checks file system first, then localStorage
+ * Load a single asset from file system only
  *
- * Priority:
- * 1. File System (visualnovel/assets/**) - Unlimited size
- * 2. localStorage - ~5MB limit
- * 3. null if not found
+ * Returns:
+ * - Asset URL if file exists in visualnovel/assets/**
+ * - null if not found
  */
 function loadAsset(assetId: string): string | null {
-  // 1. Try file system first (PRIMARY)
+  // Load from file system only
   try {
     const filename = getAssetFilename(assetId);
     const subfolder = getAssetSubfolder(assetId);
@@ -150,35 +148,24 @@ function loadAsset(assetId: string): string | null {
 
     // Check if file exists in our imported assets
     if (fileSystemAssets[path]) {
-      console.log(`✅ 📁 Loaded ${assetId} from file system`);
+      console.log(`✅ 📁 Loaded ${assetId} from file system: ${path}`);
       return fileSystemAssets[path] as string;
     }
+
+    console.log(`❌ Asset not found: ${assetId} (expected at ${path})`);
+    return null;
   } catch (error) {
-    // Silent fallback to localStorage
-  }
-
-  // 2. Fall back to localStorage (SECONDARY)
-  try {
-    const key = `vn_asset_${assetId}`;
-    const dataStr = localStorage.getItem(key);
-
-    if (!dataStr) return null;
-
-    const data = JSON.parse(dataStr);
-    console.log(`✅ 💾 Loaded ${assetId} from localStorage`);
-    return data.image; // Base64 string
-  } catch (error) {
+    console.error(`❌ Error loading asset ${assetId}:`, error);
     return null;
   }
 }
 
 /**
- * Load all generated visual novel assets
+ * Load all generated visual novel assets from local file system
  *
  * Priority for each asset:
- * 1. File System (visualnovel/assets/**) - PRIMARY, unlimited size
- * 2. localStorage - SECONDARY, ~5MB limit
- * 3. Unsplash fallback - used in getBackgroundForScene if asset not found
+ * 1. File System (visualnovel/assets/**) - Loads from local folders
+ * 2. Unsplash fallback - Used in getBackgroundForScene if asset not found
  */
 export function loadAllVisualNovelAssets(): LoadedAssets {
   const loaded: LoadedAssets = {
@@ -250,9 +237,9 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
  * Get background for a scene, with fallback to Unsplash
  */
 export function getBackgroundForScene(sceneId: string, loadedAssets: LoadedAssets): string {
-  // Check if we have a direct mapping
+  // Check if we have a direct mapping from file system
   if (loadedAssets.backgrounds[sceneId]) {
-    console.log(`✅ Loading background for scene "${sceneId}" from file system/localStorage`);
+    console.log(`✅ Loading background for scene "${sceneId}" from file system`);
     return loadedAssets.backgrounds[sceneId];
   }
 
@@ -298,7 +285,7 @@ export function hasNewAssets(oldAssets: LoadedAssets, newAssets: LoadedAssets): 
 
 /**
  * Get asset generation status for UI display
- * Checks both file system and localStorage
+ * Checks file system only
  */
 export function getAssetStatus(): {
   total: number;

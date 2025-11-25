@@ -286,6 +286,21 @@ Also works well:
 2. **Sprites**: Should be 9:16 (1024x2048)
 3. **Backgrounds/CGs**: Should be 16:9 (1920x1080)
 
+## Asset Loading
+
+**IMPORTANT**: The Visual Novel now loads assets **only from local file folders**:
+- ✅ File system: `visualnovel/assets/` folders
+- ✅ Fallback: Unsplash URLs (temporary placeholders)
+- ❌ localStorage: Disabled (no longer used)
+
+This means you **must place generated assets** in the correct folders:
+```
+visualnovel/assets/
+├── sprites/        ← Place zara_*.png here
+├── backgrounds/    ← Place bg_*.png here
+└── cg/            ← Place cg_*.png here
+```
+
 ## Advantages of This Approach
 
 ### vs. Separate VN Asset Generator Mode

@@ -82,15 +82,14 @@ All assets should follow the naming convention from `assetManifest.ts`:
 2. **Download**: Click "💾 Download" to save assets to your hard drive
 3. **Organize**: Place downloaded files in the appropriate subfolder with correct filename
 4. **Auto-Load**: Visual Novel automatically detects and loads file system assets
-5. **Priority**: File system → localStorage → Unsplash fallback
+5. **Priority**: File system → Unsplash fallback
 
 ## Asset Loading Priority
 
 The Visual Novel checks for assets in this order:
 
-1. **File System** (this folder) - Highest priority, unlimited size ✅
-2. **localStorage** (browser) - Backup, ~5MB limit
-3. **Unsplash URLs** - Placeholder fallbacks
+1. **File System** (this folder) - Loads from visualnovel/assets/ folders ✅
+2. **Unsplash URLs** - Placeholder fallbacks if asset not found
 
 ## File Formats
 

@@ -602,21 +602,32 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
       />
 
       {/* Background Image */}
-      <div
-        className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-1000"
-        style={{
-          backgroundImage: `url(${backgroundImage})`,
-          filter: 'brightness(0.7)',
-          backgroundColor: '#000'
-        }}
-      />
+      <div className="absolute inset-0 flex items-center justify-center bg-black">
+        <img
+          src={backgroundImage}
+          alt="Background"
+          className="w-full h-full object-contain transition-all duration-1000"
+          style={{
+            filter: 'brightness(0.7)',
+            maxWidth: '100%',
+            maxHeight: '100%'
+          }}
+        />
+      </div>
 
       {/* Character Sprite */}
       {currentLine?.expression && currentLine.speaker === 'Zara' && (
         (() => {
           const spriteUrl = getSpriteForExpression(currentLine.expression, loadedAssets);
           return spriteUrl ? (
-            <div className="absolute bottom-0 right-1/4 max-h-[85%] w-auto pointer-events-none transition-opacity duration-500 flex items-end">
+            <div
+              className="absolute bottom-0 right-1/4 max-h-[85%] w-auto pointer-events-none transition-opacity duration-500 flex items-end"
+              style={{
+                background: 'none',
+                border: 'none',
+                outline: 'none'
+              }}
+            >
               <img
                 src={spriteUrl}
                 alt={`Zara - ${currentLine.expression}`}
@@ -627,10 +638,10 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                   maxHeight: '85vh',
                   // AGGRESSIVE: Make white backgrounds disappear
                   mixBlendMode: 'multiply',
-                  // Isolate to prevent blend mode from affecting other elements
-                  isolation: 'auto',
-                  // Additional backup: darken mode as fallback
-                  WebkitMixBlendMode: 'multiply'
+                  // Remove any borders or outlines
+                  border: 'none',
+                  outline: 'none',
+                  display: 'block'
                 }}
               />
             </div>

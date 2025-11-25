@@ -51,7 +51,7 @@ BACKGROUND: PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject only, 
 QUALITY: High-resolution professional photography, magazine quality, commercial standard, sharp focus on subject, natural skin texture, realistic lighting, cinematic color grading
 
 TECHNICAL: PNG format with alpha transparency, 9:16 aspect ratio perfect for mobile/vertical display, ready for compositing over any background
-
+`,
     specifications: {
       width: 1024,
       height: 2048,

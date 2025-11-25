@@ -99,9 +99,11 @@ export async function generateWithVertexImagen(
       addWatermark: parameters.addWatermark !== undefined ? parameters.addWatermark : false,
       includeRaiReason: parameters.includeRaiReason !== undefined ? parameters.includeRaiReason : true,
       language: parameters.language || 'auto',
-      // Output format configuration
-      outputMimeType: mimeType,
-      compressionQuality: compressionQuality
+      // Output format configuration (nested structure per API docs)
+      outputOptions: {
+        mimeType: mimeType,
+        compressionQuality: compressionQuality
+      }
     }
   };
 
@@ -113,8 +115,7 @@ export async function generateWithVertexImagen(
     projectIdLength: config.projectId.length,
     aspectRatio: requestBody.parameters.aspectRatio,
     sampleCount: requestBody.parameters.sampleCount,
-    outputMimeType: mimeType,
-    compressionQuality: compressionQuality,
+    outputOptions: requestBody.parameters.outputOptions,
     tokenLength: config.accessToken.length,
     tokenPrefix: config.accessToken.substring(0, 20) + '...'
   });

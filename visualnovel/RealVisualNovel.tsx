@@ -629,7 +629,8 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                 border: 'none',
                 outline: 'none',
                 padding: 0,
-                margin: 0
+                margin: 0,
+                overflow: 'visible'
               }}
             >
               <img
@@ -641,9 +642,11 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                   objectFit: 'contain',
                   objectPosition: 'bottom center',
                   display: 'block',
-                  // VERY AGGRESSIVE: Remove white backgrounds
-                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.9)) brightness(1.8) contrast(1.5) saturate(1.2)',
-                  mixBlendMode: 'multiply',
+                  // NO blend mode - preserve original colors
+                  filter: 'drop-shadow(0 0 40px rgba(0,0,0,0.95)) contrast(1.2) saturate(1.1) brightness(1.05)',
+                  // Feather edges to hide rectangular boundary
+                  WebkitMaskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, black 60%, transparent 100%)',
+                  maskImage: 'radial-gradient(ellipse 100% 100% at 50% 50%, black 60%, transparent 100%)',
                   // Ensure no box visible
                   border: 'none',
                   outline: 'none',

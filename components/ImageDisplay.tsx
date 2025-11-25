@@ -144,9 +144,19 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
   };
 
   const handleDownload = (url: string, index: number) => {
+    // Detect actual image format from data URL
+    let extension = 'jpeg'; // default
+    if (url.startsWith('data:image/png')) {
+      extension = 'png';
+    } else if (url.startsWith('data:image/jpeg') || url.startsWith('data:image/jpg')) {
+      extension = 'jpeg';
+    } else if (url.startsWith('data:image/webp')) {
+      extension = 'webp';
+    }
+
     const link = document.createElement('a');
     link.href = url;
-    link.download = `ai-image-studio-${Date.now()}-${index + 1}.jpeg`;
+    link.download = `ai-image-studio-${Date.now()}-${index + 1}.${extension}`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

@@ -410,8 +410,11 @@ const App: React.FC = () => {
         };
       }
 
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = generationSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+
       const newImageData = result.images.map(b64 => ({
-        url: `data:image/jpeg;base64,${b64}`,
+        url: `data:${mimeType};base64,${b64}`,
         settings: {
           modelId: generationSettings.provider === 'vertex-ai'
             ? generationSettings.modelId
@@ -859,16 +862,18 @@ const App: React.FC = () => {
     setGenerationStep({ step: 'generating', message: 'Generating artistic image...' });
 
     try {
-      const images = await generateImage(
-        prompt,
-        {
-          ...generationSettings,
-          ...settings,
-        }
-      );
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
 
       setGeneratedImages(images.map(img => ({
-        url: `data:image/jpeg;base64,${img}`,
+        url: `data:${mimeType};base64,${img}`,
         settings: {
           modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
           seed: generationSettings.seed,
@@ -898,16 +903,18 @@ const App: React.FC = () => {
     setGenerationStep({ step: 'generating', message: 'Generating corporate image...' });
 
     try {
-      const images = await generateImage(
-        prompt,
-        {
-          ...generationSettings,
-          ...settings,
-        }
-      );
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
 
       setGeneratedImages(images.map(img => ({
-        url: `data:image/jpeg;base64,${img}`,
+        url: `data:${mimeType};base64,${img}`,
         settings: {
           modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
           seed: generationSettings.seed,
@@ -1094,16 +1101,18 @@ const App: React.FC = () => {
     setGenerationStep({ step: 'generating', message: 'Generating platinum collection image...' });
 
     try {
-      const images = await generateImage(
-        prompt,
-        {
-          ...generationSettings,
-          ...settings,
-        }
-      );
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
 
       setGeneratedImages(images.map(img => ({
-        url: `data:image/jpeg;base64,${img}`,
+        url: `data:${mimeType};base64,${img}`,
         settings: {
           modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
           seed: generationSettings.seed,

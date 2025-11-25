@@ -59,7 +59,7 @@ const SPRITE_MAP: Record<string, string> = {
   'zara_flirty_full': 'flirty',
   'zara_shy_full': 'shy',
   'zara_studio_outfit': 'confident',
-  'zara_luxury_silk': 'sensual',
+  'zara_boudoir_outfit': 'sensual',
 };
 
 /**
@@ -227,7 +227,7 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
   });
 
   // Load location maps
-  const mapElements = ['map_city_overview', 'map_art_gallery', 'map_photo_studio', 'map_luxury_apartment', 'map_cozy_cafe'];
+  const mapElements = ['map_city_overview', 'map_location_gallery', 'map_location_studio', 'map_location_apartment', 'map_location_cafe', 'map_time_indicator'];
   mapElements.forEach(assetId => {
     const imageData = loadAsset(assetId);
     if (imageData) {

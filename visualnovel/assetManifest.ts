@@ -237,7 +237,7 @@ QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'critical',
@@ -253,7 +253,7 @@ QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'critical',
@@ -269,7 +269,7 @@ QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'critical',
@@ -285,7 +285,7 @@ QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'medium',
@@ -301,7 +301,7 @@ QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'medium',
@@ -342,7 +342,7 @@ TECHNICAL: 16:9 widescreen aspect ratio, cinematic composition`,
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'high',
@@ -376,7 +376,7 @@ TECHNICAL: 16:9 aspect ratio, natural color grading, professional photography`,
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'high',
@@ -410,7 +410,7 @@ TECHNICAL: 16:9 aspect ratio, cinematic close-up composition, professional photo
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'high',
@@ -446,7 +446,7 @@ NOTE: This represents fine art boudoir photography in the tradition of celebrate
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'critical',
@@ -484,7 +484,7 @@ CONTEXT: This is the emotional culmination scene representing the deepening conn
     specifications: {
       width: 1920,
       height: 1080,
-      format: 'JPG',
+      format: 'PNG',
       aspectRatio: '16:9'
     },
     priority: 'high',

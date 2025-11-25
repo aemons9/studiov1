@@ -622,12 +622,15 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                 alt={`Zara - ${currentLine.expression}`}
                 className="max-h-full w-auto object-contain drop-shadow-2xl"
                 style={{
-                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8)) brightness(1.15) contrast(1.1)',
+                  filter: 'drop-shadow(0 0 40px rgba(0,0,0,0.9)) brightness(1.3) contrast(1.2) saturate(1.1)',
                   objectPosition: 'bottom center',
                   maxHeight: '85vh',
-                  // Ensure proper alpha transparency rendering
-                  mixBlendMode: 'normal',
-                  isolation: 'isolate'
+                  // AGGRESSIVE: Make white backgrounds disappear
+                  mixBlendMode: 'multiply',
+                  // Isolate to prevent blend mode from affecting other elements
+                  isolation: 'auto',
+                  // Additional backup: darken mode as fallback
+                  WebkitMixBlendMode: 'multiply'
                 }}
               />
             </div>

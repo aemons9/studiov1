@@ -621,27 +621,34 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
           const spriteUrl = getSpriteForExpression(currentLine.expression, loadedAssets);
           return spriteUrl ? (
             <div
-              className="absolute bottom-0 right-1/4 max-h-[85%] w-auto pointer-events-none transition-opacity duration-500 flex items-end"
+              className="absolute bottom-0 right-1/4 pointer-events-none transition-opacity duration-500"
               style={{
-                background: 'none',
+                height: '60vh',
+                width: 'auto',
+                background: 'transparent',
                 border: 'none',
-                outline: 'none'
+                outline: 'none',
+                padding: 0,
+                margin: 0
               }}
             >
               <img
                 src={spriteUrl}
                 alt={`Zara - ${currentLine.expression}`}
-                className="max-h-full w-auto object-contain drop-shadow-2xl"
                 style={{
-                  filter: 'drop-shadow(0 0 40px rgba(0,0,0,0.9)) brightness(1.3) contrast(1.2) saturate(1.1)',
+                  height: '100%',
+                  width: 'auto',
+                  objectFit: 'contain',
                   objectPosition: 'bottom center',
-                  maxHeight: '85vh',
-                  // AGGRESSIVE: Make white backgrounds disappear
+                  display: 'block',
+                  // VERY AGGRESSIVE: Remove white backgrounds
+                  filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.9)) brightness(1.8) contrast(1.5) saturate(1.2)',
                   mixBlendMode: 'multiply',
-                  // Remove any borders or outlines
+                  // Ensure no box visible
                   border: 'none',
                   outline: 'none',
-                  display: 'block'
+                  boxShadow: 'none',
+                  background: 'transparent'
                 }}
               />
             </div>

@@ -799,7 +799,7 @@ export async function generateImage(prompt: string, settings: GenerationSettings
           console.log(`🎨 Generating images with Vertex AI Imagen (OAuth) - ${currentModel}...`);
         }
 
-        const images = await generateWithVertexImagen(prompt, {
+        let images = await generateWithVertexImagen(prompt, {
           projectId: settings.projectId,
           location: 'us-central1',
           accessToken: settings.accessToken,
@@ -812,6 +812,15 @@ export async function generateImage(prompt: string, settings: GenerationSettings
           outputMimeType: settings.outputFormat === 'png' ? 'image/png' : 'image/jpeg',
           compressionQuality: settings.outputFormat === 'jpeg' ? (settings.jpegQuality || 95) : 100
         });
+
+        // Convert to PNG if user requested PNG format
+        // (Imagen generation endpoint doesn't support format selection, only upscale does)
+        if (settings.outputFormat === 'png') {
+          console.log('🔄 Converting images to PNG format (client-side)...');
+          const { convertMultipleToPNG } = await import('./imageFormatConverter');
+          images = await convertMultipleToPNG(images);
+          console.log('✅ Images converted to PNG');
+        }
 
         if (i > 0) {
           console.log(`✅ Successfully generated with fallback model: ${currentModel}`);

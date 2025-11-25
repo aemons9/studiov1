@@ -233,7 +233,7 @@ ATMOSPHERE: Sophisticated upscale ambiance, warm inviting tones, artistic cultur
 TECHNICAL: NO people in foreground (reserved for sprite layer), professional architectural photography, cinema-quality color grading, teal and orange complementary colors, film-like grain texture
 
 QUALITY: Commercial visual novel standard, 4K downsampled to 1080p, professional photography, Steam-release quality, Makoto Shinkai background quality
-
+`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -320,6 +320,25 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'First Meeting - Gallery',
     description: 'Zara and player meeting at gallery, eye contact moment',
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | 16:9 widescreen
+
+SCENE: First meeting at art gallery during golden hour - eye contact moment between viewer and Zara
+
+CHARACTER: Elite Indian artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), wearing elegant ivory silk wrap dress, fair complexion glowing in golden hour light, long black hair, expressive brown eyes meeting viewer's gaze
+
+SETTING: Upscale contemporary art gallery interior, white walls with modern art, floor-to-ceiling windows with warm amber sunlight streaming through, elegant sophisticate atmosphere
+
+COMPOSITION: Medium shot capturing both Zara and partial view of viewer's shoulder/back in foreground, Zara positioned using rule of thirds looking directly at camera/viewer with genuine smile and eye contact, shallow depth of field with background softly blurred, intimate moment of connection
+
+PHOTOGRAPHY: Shot with RED cinema camera, 50mm cinema lens, f/2.8, cinematic color grading, professional film quality
+
+LIGHTING: Golden hour sunlight from windows creating warm amber glow, soft natural light on faces, rim light creating separation, warm inviting atmosphere
+
+MOOD: First encounter electricity, mutual attraction, sophisticated gallery setting, romantic potential, warm genuine connection
+
+QUALITY: Cinema-quality photography, A24 indie film aesthetic, professional relationship cinematography
+
+TECHNICAL: 16:9 widescreen aspect ratio, cinematic composition`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -335,6 +354,25 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Studio Photoshoot Moment',
     description: 'Zara posing during photoshoot, viewer behind camera',
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | 16:9 widescreen
+
+SCENE: Behind-the-scenes moment during creative photoshoot - Zara in natural candid pose
+
+CHARACTER: Elite artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), wearing white linen blouse and cream silk skirt (studio outfit), fair complexion in natural daylight, authentic smile mid-laugh, relaxed professional presence
+
+SETTING: Minimalist photography studio, large north-facing window with soft natural light, white walls, hardwood floors, professional photography equipment subtly visible (lights, reflectors)
+
+COMPOSITION: Widescreen shot from viewer's (photographer's) POV behind camera, Zara in natural relaxed pose adjusting outfit or hair between shots, genuine candid moment showing authentic personality, camera equipment edge visible in extreme foreground suggesting POV
+
+PHOTOGRAPHY: Shot with Canon EOS R5, 35mm lens for natural perspective, f/2.2, bright airy quality, editorial photography style
+
+LIGHTING: Soft diffused natural window light, bright clean professional studio lighting, minimal shadows, fresh daylight aesthetic
+
+MOOD: Creative collaboration, authentic behind-the-scenes moment, professional comfort, artistic partnership developing, genuine connection
+
+QUALITY: Editorial photography, Vogue behind-the-scenes quality, professional fashion shoot aesthetic
+
+TECHNICAL: 16:9 aspect ratio, natural color grading, professional photography`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -350,6 +388,25 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Viewing Photos Together',
     description: 'Zara looking at camera screen, impressed reaction',
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | 16:9 widescreen
+
+SCENE: Intimate moment viewing photos together - Zara's emotional reaction to seeing her portraits
+
+CHARACTER: Elite artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), close-up on face showing genuine emotional response, fair complexion with warm lighting, eyes showing impressed delight and vulnerability, authentic emotion
+
+SETTING: Photography studio, soft background blur showing studio environment, focus entirely on Zara's face and emotional reaction
+
+COMPOSITION: Close-up shot of Zara's face from slight side angle as she views camera screen (out of frame), camera screen's light creating soft glow on her face, shallow depth of field isolating her expression, intimate proximity
+
+PHOTOGRAPHY: Shot with Canon EOS R5, 85mm f/1.4 lens, extremely shallow depth of field, close-up portrait cinematography
+
+LIGHTING: Soft light from camera screen reflecting on face creating gentle glow, rim light from studio window, warm intimate lighting emphasizing emotional moment
+
+MOOD: Emotional vulnerability, artistic appreciation, genuine reaction to seeing herself through photographer's eyes, moment of connection and trust
+
+QUALITY: Professional emotional cinematography, intimate portrait quality, A24 character study aesthetic
+
+TECHNICAL: 16:9 aspect ratio, cinematic close-up composition, professional photography`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -365,6 +422,27 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Boudoir Session - Artistic',
     description: 'Zara reclining on bed during artistic boudoir shoot',
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | 16:9 widescreen
+
+SCENE: Fine art boudoir photography - Zara reclining artistically on luxury white bedding in tasteful intimate pose
+
+CHARACTER: Elite artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), wearing elegant minimal black lace lingerie, sophisticated styling, confident empowered sensual expression, fair complexion glowing in dramatic lighting
+
+SETTING: Luxury bedroom with white silk bedding, minimalist elegant decor, soft textiles, sophisticated intimate environment, museum-quality aesthetic
+
+COMPOSITION: Widescreen cinematic framing with Zara positioned using rule of thirds, reclining in tasteful artistic pose on white bedding creating contrast with black lace, one arm supporting upper body, legs elegantly positioned, body creating sculptural S-curve, head turned toward camera with confident sensual gaze, composition emphasizing artistic beauty and form
+
+PHOTOGRAPHY: Shot with RED cinema camera, 50mm cinema lens, shallow depth of field (f/2.0), cinematic color grading with high contrast, fine art photography in tradition of Helmut Newton and Ellen von Unwerth, museum-quality erotic art aesthetic
+
+LIGHTING: Dramatic chiaroscuro lighting in Renaissance painting style, strong directional key light from side creating dramatic shadows and highlights along curves and musculature, sculpting three-dimensional form through light and shadow, rim light from behind creating separation and glow, lighting emphasizing fair skin tones and creating artistic contrast with black lace, museum-quality lighting
+
+MOOD: Empowering artistic sensuality, confident feminine power, fine art erotic photography, sophisticated intimate atmosphere, tasteful museum-quality aesthetic, emotional vulnerability combined with strength
+
+QUALITY: Museum-quality fine art photography, Helmut Newton aesthetic, high-fashion intimate apparel editorial, professional cinematic quality, sophisticated artistic sensuality suitable for fine art gallery
+
+TECHNICAL: 16:9 widescreen aspect ratio, cinematic composition, fine art photography standard, professional color grading
+
+NOTE: This represents fine art boudoir photography in the tradition of celebrated fashion photographers, appropriate for mature visual novel content with artistic merit.`,
     specifications: {
       width: 1920,
       height: 1080,
@@ -380,6 +458,29 @@ export const CG_IMAGES: AssetRequirement[] = [
     type: 'cg_image',
     name: 'Intimate Connection Moment',
     description: 'Close romantic moment between Zara and player',
+    prompt: `PHOTOREALISTIC CINEMATIC SCENE | Professional photography | 16:9 widescreen
+
+SCENE: Close intimate moment between viewer (photographer) and Zara, emotional connection culminating scene
+
+CHARACTER: Elite Indian artistic model Zara Cinématique, 5'7", dramatic curves (38DD-27-39"), fair complexion with warm emotional glow, long flowing black hair, intensely expressive brown eyes conveying deep emotion and connection, wearing elegant ivory silk wrap dress from gallery opening, vulnerable genuine expression
+
+SETTING: Luxury bedroom interior with soft ambient lighting, white silk bedding visible softly blurred in background, intimate private space, evening atmosphere with warm golden light from bedside lamps
+
+COMPOSITION: Close-up intimate framing focusing on upper body and face, shot from viewer's POV suggesting physical closeness, Zara positioned center frame looking directly at camera (viewer) with profound emotional intensity, very shallow depth of field isolating her from background, intimate proxemics suggesting closeness and trust built throughout story
+
+PHOTOGRAPHY: Shot with RED cinema camera, 85mm cinema lens at wide aperture (f/1.4), extremely shallow depth of field creating dreamlike intimate quality, cinematic color grading emphasizing warm romantic tones, professional film intimacy coordinator quality, tasteful romantic cinematography
+
+LIGHTING: Soft warm golden hour quality lighting from beside creating gentle glow on fair complexion, rim light creating halo effect around hair, soft fill light from opposite side ensuring flattering illumination, warm color temperature (2700K) creating romantic intimate atmosphere, natural window light mixed with practical bedside lamp, soft diffused quality
+
+MOOD: Profound emotional intimacy, genuine connection and vulnerability, romantic culmination, trust and understanding, tender moment of closeness, emotional breakthrough, sophisticated mature romance, museum-quality emotional portraiture
+
+EXPRESSION & BODY LANGUAGE: Eyes locked with viewer showing profound emotion - mixture of vulnerability, trust, affection, and desire, slight genuine smile suggesting contentment and connection, relaxed natural posture indicating comfort and trust, one hand visible reaching gently toward viewer in welcoming gesture, facial expression radiating warmth and genuine emotional connection
+
+QUALITY: Cinema-quality intimate portraiture, high-budget romantic drama standard, professional emotional cinematography, A24 indie film aesthetic, sophisticated mature relationship portrayal, tasteful intimate moment capture
+
+TECHNICAL: 16:9 widescreen aspect ratio, close-up to medium close-up framing, cinematic composition following rule of thirds, professional color grading with warm romantic palette
+
+CONTEXT: This is the emotional culmination scene representing the deepening connection between player and Zara, appropriate for mature visual novel romantic narrative, emphasizing emotional intimacy over explicit content, sophisticated relationship storytelling.`,
     specifications: {
       width: 1920,
       height: 1080,

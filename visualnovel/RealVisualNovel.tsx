@@ -603,10 +603,11 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
 
       {/* Background Image */}
       <div
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
+        className="absolute inset-0 bg-contain bg-center bg-no-repeat transition-all duration-1000"
         style={{
           backgroundImage: `url(${backgroundImage})`,
-          filter: 'brightness(0.7)'
+          filter: 'brightness(0.7)',
+          backgroundColor: '#000'
         }}
       />
 
@@ -624,9 +625,9 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
                   filter: 'drop-shadow(0 0 30px rgba(0,0,0,0.8)) brightness(1.15) contrast(1.1)',
                   objectPosition: 'bottom center',
                   maxHeight: '85vh',
-                  // Remove blend mode - it was making sprite hard to see
-                  WebkitMaskImage: 'linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1))',
-                  maskImage: 'linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1))'
+                  // Ensure proper alpha transparency rendering
+                  mixBlendMode: 'normal',
+                  isolation: 'isolate'
                 }}
               />
             </div>

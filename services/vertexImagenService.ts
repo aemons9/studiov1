@@ -78,6 +78,10 @@ export async function generateWithVertexImagen(
   // Build Vertex AI endpoint (aiplatform, not generativelanguage!)
   const endpoint = `https://${location}-aiplatform.googleapis.com/v1/projects/${config.projectId}/locations/${location}/publishers/google/models/${model}:predict`;
 
+  // Determine output mime type
+  const mimeType = parameters.outputMimeType || 'image/png';
+  const compressionQuality = parameters.compressionQuality || 100;
+
   // Build request body in Vertex AI format
   const requestBody = {
     instances: [
@@ -95,10 +99,9 @@ export async function generateWithVertexImagen(
       addWatermark: parameters.addWatermark !== undefined ? parameters.addWatermark : false,
       includeRaiReason: parameters.includeRaiReason !== undefined ? parameters.includeRaiReason : true,
       language: parameters.language || 'auto',
-      outputOptions: {
-        mimeType: parameters.outputMimeType || 'image/png',
-        compressionQuality: parameters.compressionQuality || 100
-      }
+      // Output format configuration
+      outputMimeType: mimeType,
+      compressionQuality: compressionQuality
     }
   };
 
@@ -110,9 +113,13 @@ export async function generateWithVertexImagen(
     projectIdLength: config.projectId.length,
     aspectRatio: requestBody.parameters.aspectRatio,
     sampleCount: requestBody.parameters.sampleCount,
+    outputMimeType: mimeType,
+    compressionQuality: compressionQuality,
     tokenLength: config.accessToken.length,
     tokenPrefix: config.accessToken.substring(0, 20) + '...'
   });
+
+  console.log('📋 Full request parameters:', JSON.stringify(requestBody.parameters, null, 2));
 
   try {
     const response = await fetch(endpoint, {

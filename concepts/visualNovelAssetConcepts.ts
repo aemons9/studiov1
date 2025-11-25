@@ -574,7 +574,7 @@ export const vnCgBoudoirSession: ArtisticConcept = {
   }
 };
 
-export const vnCgIntimate Moment: ArtisticConcept = {
+export const vnCgIntimateConnection: ArtisticConcept = {
   name: 'VN CG: Intimate Connection',
   data: {
     shot: "VISUAL NOVEL CG IMAGE | Cinematic emotional scene | 16:9 widescreen | 1920x1080px | Culminating intimate moment",
@@ -636,7 +636,7 @@ export const visualNovelAssetConcepts: ArtisticConcept[] = [
   vnCgStudioPhotoshoot,
   vnCgViewingPhotos,
   vnCgBoudoirSession,
-  vnCgIntimate Moment
+  vnCgIntimateConnection
 ];
 
 export default visualNovelAssetConcepts;

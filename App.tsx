@@ -137,6 +137,8 @@ const App: React.FC = () => {
     personGeneration: 'allow_all',
     safetySetting: 'block_few',
     addWatermark: true,
+    outputFormat: 'png',
+    jpegQuality: 95,
     enhancePrompt: true,
     modelId: 'imagen-4.0-generate-001', // Use standard model for API key auth
     seed: null,

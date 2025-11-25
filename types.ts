@@ -147,6 +147,8 @@ export interface GenerationSettings {
   personGeneration: 'allow_all' | 'allow_adult' | 'dont_allow';
   safetySetting: 'block_few' | 'block_some' | 'block_most';
   addWatermark: boolean;
+  outputFormat?: 'png' | 'jpeg'; // Output format for Vertex AI Imagen
+  jpegQuality?: number; // JPEG quality 0-100, default 95
 
   // Replicate Flux Settings
   replicateApiToken?: string;

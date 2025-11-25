@@ -808,7 +808,9 @@ export async function generateImage(prompt: string, settings: GenerationSettings
           aspectRatio: mapAspectRatioForVertex(aspectRatio),
           sampleCount: numberOfImages,
           personGeneration: settings.personGeneration || 'allow_adult',
-          safetySetting: settings.safetySetting || 'block_few'
+          safetySetting: settings.safetySetting || 'block_few',
+          outputMimeType: settings.outputFormat === 'png' ? 'image/png' : 'image/jpeg',
+          compressionQuality: settings.outputFormat === 'jpeg' ? (settings.jpegQuality || 95) : 100
         });
 
         if (i > 0) {

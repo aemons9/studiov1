@@ -935,6 +935,37 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
                           <option value="block_most">Block Most</option>
                       </select>
                   </div>
+                  <div>
+                      <label htmlFor="outputFormat" className="font-semibold text-gray-300 block mb-2">
+                        Output Format
+                        <span className="text-xs text-gray-500 ml-2">(PNG for sprites/transparency)</span>
+                      </label>
+                      <select id="outputFormat" value={generationSettings.outputFormat || 'png'} onChange={(e) => handleSettingsChange('outputFormat', e.target.value)} disabled={isLoading} className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50">
+                          <option value="png">PNG (Lossless, supports transparency)</option>
+                          <option value="jpeg">JPEG (Smaller file size)</option>
+                      </select>
+                  </div>
+                  {generationSettings.outputFormat === 'jpeg' && (
+                    <div>
+                        <label htmlFor="jpegQuality" className="font-semibold text-gray-300 block mb-2">
+                          JPEG Quality: {generationSettings.jpegQuality || 95}%
+                        </label>
+                        <input
+                          id="jpegQuality"
+                          type="range"
+                          min="50"
+                          max="100"
+                          value={generationSettings.jpegQuality || 95}
+                          onChange={(e) => handleSettingsChange('jpegQuality', parseInt(e.target.value))}
+                          disabled={isLoading}
+                          className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                        />
+                        <div className="flex justify-between text-xs text-gray-500 mt-1">
+                          <span>50% (Smaller)</span>
+                          <span>100% (Best Quality)</span>
+                        </div>
+                    </div>
+                  )}
               </div>
              )}
              {generationSettings.provider === 'vertex-ai' && (

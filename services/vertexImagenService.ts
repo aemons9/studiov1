@@ -20,6 +20,8 @@ export interface VertexImagenParameters {
   addWatermark?: boolean;
   includeRaiReason?: boolean;
   language?: string; // "auto" or language code
+  outputMimeType?: 'image/png' | 'image/jpeg'; // Output format
+  compressionQuality?: number; // 0-100, for JPEG only
 }
 
 /**
@@ -92,7 +94,11 @@ export async function generateWithVertexImagen(
       safetySetting: parameters.safetySetting || 'block_few',
       addWatermark: parameters.addWatermark !== undefined ? parameters.addWatermark : false,
       includeRaiReason: parameters.includeRaiReason !== undefined ? parameters.includeRaiReason : true,
-      language: parameters.language || 'auto'
+      language: parameters.language || 'auto',
+      outputOptions: {
+        mimeType: parameters.outputMimeType || 'image/png',
+        compressionQuality: parameters.compressionQuality || 100
+      }
     }
   };
 

@@ -820,8 +820,338 @@ export const vnCgFirstGreeting: ArtisticConcept = {
   }
 };
 
-// Additional CG concepts would follow the same detailed pattern...
-// (Abbreviated for space - production would include full 10 CG concepts)
+export const vnCgLighttestTechnical: ArtisticConcept = {
+  name: 'VN CG: Light Test Technical',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Documentary scene | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", during technical light test, professional focus",
+      pose: "Zara standing in studio center under test lighting, photographer (viewer POV - hands adjusting light meter visible in foreground) checking exposure, Zara holding professional pose while light is adjusted, collaborative technical moment",
+      hair_color: "black",
+      hair_style: "long flowing naturally",
+      skin_finish: "Fair complexion under test lighting",
+      hand_and_nail_details: "Hands in professional modeling pose",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Clean neutral",
+      high_heels: "not visible"
+    },
+    wardrobe: "Casual-professional arrival outfit",
+    environment: "Studio center with lighting equipment visible, technical setup atmosphere, professional collaboration moment",
+    lighting: "Test lighting being adjusted, various light positions visible, professional studio atmosphere",
+    camera: {
+      focal_length: "35mm",
+      aperture: "f/2.8",
+      distance: "2.5 m",
+      angle: "Photographer POV showing technical setup",
+      framing: "Wide shot showing studio setup, 16:9 cinematic"
+    },
+    color_grade: "Neutral professional tones, documentary aesthetic",
+    style: "Behind-the-scenes documentary, authentic professional collaboration",
+    quality: "Premium CG quality, 1920x1080, technical moment capture",
+    figure_and_form: "Professional modeling stance during technical preparation",
+    skin_micro_details: "Fair complexion in test lighting conditions",
+    fabric_physics: "Natural professional draping",
+    material_properties: "Studio equipment and professional atmosphere"
+  }
+};
+
+export const vnCgFirstFrameVulnerable: ArtisticConcept = {
+  name: 'VN CG: First Frame - Vulnerable',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Intimate portrait | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", first signature shot, vulnerable emotional approach",
+      pose: "Zara in vulnerable portrait pose, soft eyes downcast then lifting to camera, one hand nervously touching neck, shoulders relaxed forward, genuine emotional vulnerability, intimate moment of trust being built",
+      hair_color: "black",
+      hair_style: "long flowing softly framing face",
+      skin_finish: "Fair complexion with soft emotional glow",
+      hand_and_nail_details: "Nervous vulnerable hand placement at neck",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Clean neutral",
+      high_heels: "not visible"
+    },
+    wardrobe: "Current mode outfit with vulnerable energy",
+    environment: "Studio shooting area, soft focus background emphasizing emotional intimacy of the moment",
+    lighting: "Soft diffused lighting emphasizing vulnerability and emotional honesty",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/1.4",
+      distance: "1.5 m",
+      angle: "Slightly above eye level, gentle vulnerable perspective",
+      framing: "Medium close-up, 16:9 emotional portrait"
+    },
+    color_grade: "Soft warm tones, emotional vulnerability emphasized",
+    style: "Intimate portrait photography, emotional breakthrough moment",
+    quality: "Premium CG quality, 1920x1080, pivotal emotional moment",
+    figure_and_form: "Vulnerable posture showcasing emotional trust",
+    skin_micro_details: "Fair complexion with authentic emotion visible",
+    fabric_physics: "Soft draping with vulnerable movement",
+    material_properties: "Tender emotional lighting on all elements"
+  }
+};
+
+export const vnCgFirstFrameCommanding: ArtisticConcept = {
+  name: 'VN CG: First Frame - Commanding',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Power portrait | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", first signature shot, commanding powerful approach",
+      pose: "Zara in powerful editorial pose, chin up, shoulders back, intense direct gaze into camera, one hand on hip in strong stance, dominant confident energy, professional model power radiating, fashion editorial command",
+      hair_color: "black",
+      hair_style: "long flowing with dramatic volume",
+      skin_finish: "Fair complexion with powerful dramatic lighting",
+      hand_and_nail_details: "Strong hand on hip, commanding placement",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Professional neutral",
+      high_heels: "not visible"
+    },
+    wardrobe: "Current mode outfit with powerful commanding presence",
+    environment: "Studio shooting area with dramatic lighting setup visible, powerful editorial atmosphere",
+    lighting: "Strong dramatic lighting emphasizing power and confidence, high contrast",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/2.0",
+      distance: "2 m",
+      angle: "Slightly below eye level to emphasize commanding power",
+      framing: "Medium shot, 16:9 powerful editorial composition"
+    },
+    color_grade: "High contrast dramatic tones, powerful editorial aesthetic",
+    style: "High-fashion editorial photography, commanding presence capture",
+    quality: "Premium CG quality, 1920x1080, powerful signature moment",
+    figure_and_form: "Dramatic curves showcased with powerful commanding stance",
+    skin_micro_details: "Fair complexion in dramatic powerful lighting",
+    fabric_physics: "Strong confident draping",
+    material_properties: "Dramatic lighting creating powerful atmosphere"
+  }
+};
+
+export const vnCgFirstFramePlayful: ArtisticConcept = {
+  name: 'VN CG: First Frame - Playful',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Candid moment | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", first signature shot, playful spontaneous approach",
+      pose: "Zara mid-laugh, genuine spontaneous joy, eyes bright and sparkling, one hand gesturing in animated conversation with photographer, head tilted naturally with happiness, relaxed playful body language, authentic joyful moment captured",
+      hair_color: "black",
+      hair_style: "long flowing with natural movement from laughter",
+      skin_finish: "Fair complexion glowing with genuine happiness",
+      hand_and_nail_details: "Animated playful gesture mid-conversation",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Clean neutral",
+      high_heels: "not visible"
+    },
+    wardrobe: "Current mode outfit with playful joyful energy",
+    environment: "Studio shooting area, bright welcoming atmosphere capturing spontaneous moment",
+    lighting: "Bright warm lighting emphasizing joy and spontaneous energy",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.0",
+      distance: "1.5 m",
+      angle: "Eye level capturing candid playful moment",
+      framing: "Medium shot, 16:9 candid joyful composition"
+    },
+    color_grade: "Bright warm inviting tones, joyful spontaneous energy",
+    style: "Candid fashion photography, authentic spontaneous beauty",
+    quality: "Premium CG quality, 1920x1080, joyful signature moment",
+    figure_and_form: "Relaxed playful posture, natural joy radiating",
+    skin_micro_details: "Fair complexion glowing with genuine laughter",
+    fabric_physics: "Natural animated movement with playful energy",
+    material_properties: "Bright cheerful lighting on all elements"
+  }
+};
+
+export const vnCgPersonalReveal: ArtisticConcept = {
+  name: 'VN CG: Personal Reveal',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Emotional intimate moment | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", mid-shoot emotional breakthrough, personal story moment",
+      pose: "Zara in close intimate framing, eyes glistening with emotional memory, one hand touching face in vulnerable gesture, mixture of professional composure with raw authentic emotion, personal story being shared, vulnerable breakthrough moment",
+      hair_color: "black",
+      hair_style: "long flowing naturally, slightly disheveled from emotional moment",
+      skin_finish: "Fair complexion with authentic emotional depth",
+      hand_and_nail_details: "Hand touching face in vulnerable emotional gesture",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural neutral",
+      high_heels: "not visible"
+    },
+    wardrobe: "Current mode outfit with emotional vulnerability visible",
+    environment: "Studio background softly blurred, all focus on emotional intimate moment of personal sharing",
+    lighting: "Soft emotional lighting capturing vulnerable authentic moment",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/1.4",
+      distance: "1 m",
+      angle: "Eye level capturing intimate emotional honesty",
+      framing: "Close-up, 16:9 intimate emotional moment"
+    },
+    color_grade: "Warm emotional tones, authentic vulnerability emphasized",
+    style: "Intimate documentary portrait, emotional breakthrough capture",
+    quality: "Premium CG quality, 1920x1080, pivotal emotional story moment",
+    figure_and_form: "Vulnerable emotional posture, authentic human connection",
+    skin_micro_details: "Fair complexion with real emotion and tears visible",
+    fabric_physics: "Natural draping in emotional authentic moment",
+    material_properties: "Soft emotional lighting creating intimate atmosphere"
+  }
+};
+
+export const vnCgClimaxExperimental: ArtisticConcept = {
+  name: 'VN CG: Climax - Experimental Mode',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Conceptual art photography | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", climactic experimental conceptual shot",
+      pose: "Zara in dramatic conceptual art pose, sculptural body positioning emphasizing form and shadow, intense powerful gaze, draped conceptual black fabric creating geometric sculptural silhouette, contemporary art aesthetic, body as art form",
+      hair_color: "black",
+      hair_style: "long flowing with dramatic edgy styling",
+      skin_finish: "Fair complexion in high-contrast dramatic chiaroscuro",
+      hand_and_nail_details: "Dramatic conceptual hand positioning as sculptural element",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Edgy dark manicure",
+      high_heels: "visible - dramatic heels as part of composition"
+    },
+    wardrobe: "EXPERIMENTAL MODE: Draped conceptual black fabric creating sculptural geometric forms, edgy minimalist accessories, dramatic editorial makeup",
+    environment: "Dark minimalist studio setup emphasizing sculptural form, conceptual art gallery aesthetic",
+    lighting: "High-contrast dramatic rim lighting creating strong sculptural shadows, Newton-esque chiaroscuro",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.8",
+      distance: "2.5 m",
+      angle: "Dramatic angle emphasizing sculptural composition",
+      framing: "Full to medium shot, 16:9 conceptual art composition"
+    },
+    color_grade: "High contrast desaturated with selective color, edgy editorial aesthetic",
+    style: "Contemporary art photography, Helmut Newton influence, body as sculptural form",
+    quality: "Premium CG quality, 1920x1080, conceptual art masterpiece",
+    figure_and_form: "Dramatic curves as sculptural geometric art, contemporary aesthetic",
+    skin_micro_details: "Fair complexion in dramatic conceptual lighting",
+    fabric_physics: "Conceptual fabric creating sculptural architectural forms",
+    material_properties: "Matte black fabric with dramatic light/shadow interaction"
+  }
+};
+
+export const vnCgClimaxPlatinum: ArtisticConcept = {
+  name: 'VN CG: Climax - Platinum Mode',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Luxury editorial photography | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", climactic platinum luxury editorial shot",
+      pose: "Zara in sophisticated luxury editorial pose, elegant sensual stance, one hand gracefully positioned, confident glamorous presence radiating, polished Vogue cover energy, luxury fashion campaign aesthetic, sophisticated beauty",
+      hair_color: "black",
+      hair_style: "long flowing with luxury salon styling, polished elegant waves",
+      skin_finish: "Fair complexion with luminous luxury finish",
+      hand_and_nail_details: "Elegant luxury hand positioning, glamorous manicure",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Luxury metallic or nude polish",
+      high_heels: "visible - luxury designer heels"
+    },
+    wardrobe: "PLATINUM MODE: Champagne silk slip dress with subtle lace, luxury draped fabrics, designer jewelry (statement earrings, delicate bracelet), sophisticated glamorous makeup",
+    environment: "Polished luxury studio setup, jewel-toned accent elements, high-end editorial atmosphere",
+    lighting: "Polished professional luxury lighting, soft key with refined fill, sophisticated glamorous illumination",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/1.8",
+      distance: "2 m",
+      angle: "Eye level luxury editorial perspective",
+      framing: "Medium shot, 16:9 sophisticated luxury composition"
+    },
+    color_grade: "Rich warm tones with jewel accents, luxury editorial color grading",
+    style: "Vogue editorial photography, luxury fashion campaign, sophisticated glamour",
+    quality: "Premium CG quality, 1920x1080, luxury editorial masterpiece",
+    figure_and_form: "Dramatic curves elegantly showcased in luxury silk, sophisticated sensuality",
+    skin_micro_details: "Fair complexion with luminous professional retouching",
+    fabric_physics: "Luxury silk draping elegantly with sophisticated flow",
+    material_properties: "Champagne silk with elegant sheen, designer jewelry with realistic luxury materials"
+  }
+};
+
+export const vnCgClimaxVera: ArtisticConcept = {
+  name: 'VN CG: Climax - Vera Mode',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Intimate emotional portrait | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", climactic vera intimate emotional shot",
+      pose: "Zara in deeply vulnerable intimate pose, eyes showing profound emotional connection, soft genuine expression of trust and openness, natural authentic beauty emphasized, intimate personal moment of complete emotional honesty and vulnerability",
+      hair_color: "black",
+      hair_style: "long flowing naturally loose, intimate casual authentic styling",
+      skin_finish: "Fair complexion with natural emotional radiance",
+      hand_and_nail_details: "Gentle vulnerable hand placement showing trust",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural clean polish",
+      high_heels: "not visible"
+    },
+    wardrobe: "VERA MODE: Simple ivory camisole with delicate straps, soft intimacy emphasizing vulnerability over sexuality, minimal jewelry, natural emotional makeup",
+    environment: "Intimate studio setting with soft focus, all emphasis on emotional connection and vulnerability",
+    lighting: "Soft diffused natural light, gentle tender shadows, warm intimate tones",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/1.4",
+      distance: "1.5 m",
+      angle: "Eye level intimate emotional perspective",
+      framing: "Medium close-up, 16:9 intimate emotional composition"
+    },
+    color_grade: "Warm soft natural tones, emotional documentary aesthetic",
+    style: "Intimate documentary portrait, emotional vulnerability and honesty",
+    quality: "Premium CG quality, 1920x1080, intimate emotional masterpiece",
+    figure_and_form: "Natural curves softly visible, vulnerability and authenticity emphasized",
+    skin_micro_details: "Fair complexion with natural emotional authenticity",
+    fabric_physics: "Soft intimate fabric draping naturally",
+    material_properties: "Gentle intimate lighting creating tender atmosphere"
+  }
+};
+
+export const vnCgClimaxArtistic: ArtisticConcept = {
+  name: 'VN CG: Climax - Artistic Mode',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Fine art nude photography | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", climactic artistic fine art nude shot, museum quality",
+      pose: "Zara in classical fine art nude pose, sculptural stance emphasizing light, shadow, and form, confident artistic presence, museum-quality composition following Helmut Newton tradition, body as sculptural art form, NO explicit detail, emphasis on artistic merit and classical beauty",
+      hair_color: "black",
+      hair_style: "long flowing naturally, classical art styling",
+      skin_finish: "Fair complexion with dramatic sculptural chiaroscuro lighting",
+      hand_and_nail_details: "Classical art pose hand placement creating sculptural lines",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural clean",
+      high_heels: "not visible or tastefully integrated"
+    },
+    wardrobe: "ARTISTIC MODE: Tasteful fine art nude with minimal strategic silk wrap, emphasis on light/shadow/form, NO explicit detail, museum-quality classical aesthetic",
+    environment: "Minimal sculptural studio setting, dramatic chiaroscuro, fine art gallery atmosphere",
+    lighting: "Dramatic single-source chiaroscuro creating strong sculptural shadows, museum-quality illumination, Helmut Newton aesthetic",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/2.0",
+      distance: "2.5 m",
+      angle: "Classical art angle emphasizing sculptural beauty",
+      framing: "Full to medium shot, 16:9 fine art classical composition"
+    },
+    color_grade: "High contrast black & white or desaturated tones, fine art museum aesthetic",
+    style: "Helmut Newton, Irving Penn, Robert Mapplethorpe (form emphasis), fine art nude tradition",
+    quality: "Premium CG quality, 1920x1080, museum-quality fine art masterpiece",
+    figure_and_form: "Dramatic curves as sculptural classical art form, light/shadow emphasis",
+    skin_micro_details: "Fair complexion with dramatic chiaroscuro, sculptural skin rendering",
+    fabric_physics: "Minimal silk wrap creating tasteful fine art aesthetic",
+    material_properties: "Dramatic lighting creating museum-quality atmosphere"
+  }
+};
 
 // ============================================================================
 // EXPORT ALL VN CONCEPTS
@@ -856,15 +1186,17 @@ export const visualNovelAssetConcepts: ArtisticConcept[] = [
   vnBgStudioArtistic,
   vnBgStudioWrap,
 
-  // CG Images (abbreviated - production would include all 10)
-  vnCgFirstGreeting
-
-  // Note: Additional CG concepts for:
-  // - cg_lighttest_technical
-  // - cg_first_frame_vulnerable / commanding / playful
-  // - cg_personal_reveal
-  // - cg_climax_experimental / platinum / vera / artistic
-  // Would be added following the same detailed pattern
+  // CG Images (10)
+  vnCgFirstGreeting,
+  vnCgLighttestTechnical,
+  vnCgFirstFrameVulnerable,
+  vnCgFirstFrameCommanding,
+  vnCgFirstFramePlayful,
+  vnCgPersonalReveal,
+  vnCgClimaxExperimental,
+  vnCgClimaxPlatinum,
+  vnCgClimaxVera,
+  vnCgClimaxArtistic
 ];
 
 export default visualNovelAssetConcepts;

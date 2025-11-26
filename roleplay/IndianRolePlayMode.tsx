@@ -1,14 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { EROTIC_GLAMOUR_MODELS } from '../concepts/eroticGlamourModels';
 import { ROLEPLAY_SCENARIOS, RolePlayScenario } from './rolePlayConcepts';
+import ImageDisplay from '../components/ImageDisplay';
+import type { GeneratedImageData, GenerationStep } from '../types';
 
 interface IndianRolePlayModeProps {
   onGenerate: (prompt: string, settings: any) => void;
   onMigrateToMain: (prompt: string) => void;
   onExit: () => void;
+  generatedImages: GeneratedImageData[] | null;
+  isLoading: boolean;
+  error: string | null;
+  wovenPrompt: string | null;
+  generationStep: GenerationStep | null;
 }
 
-const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onMigrateToMain, onExit }) => {
+const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
+  onGenerate,
+  onMigrateToMain,
+  onExit,
+  generatedImages,
+  isLoading,
+  error,
+  wovenPrompt,
+  generationStep
+}) => {
   const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
   const [selectedWardrobe, setSelectedWardrobe] = useState<any | null>(null);
   const [selectedPose, setSelectedPose] = useState<any | null>(null);
@@ -305,6 +321,10 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
       </div>
 
       <div style={{ padding: '32px', maxWidth: '1800px', margin: '0 auto' }}>
+        {/* Two-Column Layout: Controls + Image Display */}
+        <div style={{ display: 'grid', gridTemplateColumns: isReadyToGenerate || generatedImages || isLoading ? '1fr 1fr' : '1fr', gap: '32px', marginBottom: '32px' }}>
+          {/* LEFT COLUMN: Controls */}
+          <div>
         {/* Quick Action Buttons */}
         <div style={{
           marginBottom: '32px',
@@ -1208,6 +1228,24 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
             </div>
           </>
         )}
+          </div>
+
+          {/* RIGHT COLUMN: Image Display */}
+          {(isReadyToGenerate || generatedImages || isLoading) && (
+            <div style={{ position: 'sticky', top: '32px', height: 'fit-content' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', color: '#F472B6' }}>
+                🎬 Generated Scene
+              </h2>
+              <ImageDisplay
+                imageData={generatedImages}
+                isLoading={isLoading}
+                error={error}
+                wovenPrompt={wovenPrompt}
+                generationStep={generationStep}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Enhanced Info Footer */}
         <div style={{ marginTop: '48px', padding: '24px', backgroundColor: 'rgba(147, 51, 234, 0.1)', border: '1px solid rgba(147, 51, 234, 0.3)', borderRadius: '12px' }}>

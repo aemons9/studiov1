@@ -1531,6 +1531,11 @@ const App: React.FC = () => {
           onGenerate={handleRolePlayGenerate}
           onMigrateToMain={handleMigrateFromRolePlay}
           onExit={handleExitRolePlay}
+          generatedImages={generatedImages}
+          isLoading={isLoading}
+          error={error}
+          wovenPrompt={wovenPrompt}
+          generationStep={generationStep}
         />
       ) : uiMode === 'gallery' ? (
         // INDIAN MODELS GALLERY: Comprehensive Selector

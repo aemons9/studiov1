@@ -161,16 +161,21 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
 
       console.log(`🎲 Using random seed ${randomSeed} to ensure unique generation`);
 
+      // Video generation with Veo (Vertex AI required)
       if (asset.type === 'cutscene_video') {
-        // Use Veo for videos
-        alert('Video generation with Veo coming soon! For now, we\'ll generate a static preview image.');
-        // TODO: Integrate Veo API here
+        if (provider !== 'vertex-ai') {
+          alert('⚠️ Video cutscenes require Vertex AI with Veo. Please switch to Vertex AI in settings.');
+          setIsGenerating(false);
+          setCurrentGeneratingAssetId(null);
+          return;
+        }
+        console.log('🎬 Video cutscene generation: Using Veo (Vertex AI)');
       }
 
       // Add provider-specific settings with quality optimization
       if (provider === 'vertex-ai') {
         if (generationSettings.vertexAuthMethod !== 'oauth') {
-          alert('⚠️ Imagen requires OAuth authentication. Please configure in settings or switch to Flux.');
+          alert('⚠️ Imagen/Veo requires OAuth authentication. Please configure in settings or switch to Flux.');
           setIsGenerating(false);
           setCurrentGeneratingAssetId(null);
           return;
@@ -179,12 +184,20 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         settings.vertexAuthMethod = 'oauth';
         settings.projectId = generationSettings.projectId;
         settings.accessToken = generationSettings.accessToken;
-        settings.modelId = generationSettings.modelId || 'imagen-4.0-generate-001';
+
+        // Use Veo for videos, Imagen for images
+        if (asset.type === 'cutscene_video') {
+          settings.modelId = 'veo-002'; // Veo 2 for video generation
+          settings.videoDuration = 8; // 8-second cutscenes
+          settings.aspectRatio = '16:9'; // Widescreen cinematic
+          console.log('🎬 Veo settings: 8-second video, 16:9 aspect ratio');
+        } else {
+          settings.modelId = generationSettings.modelId || 'imagen-4.0-generate-001';
+          settings.guidanceScale = 15; // Higher guidance for better prompt following
+        }
+
         settings.personGeneration = 'allow_all';
         settings.safetySetting = 'block_few';
-
-        // Imagen quality optimizations
-        settings.guidanceScale = 15; // Higher guidance for better prompt following
         settings.addWatermark = false; // No watermarks for game assets
 
       } else {
@@ -758,7 +771,7 @@ Ready to see your assets in action? Play the Visual Novel now!
             <li><strong>Background Music (6 tracks):</strong> Generate BGM using Lyria (Vertex AI), Suno, or Udio. See audio generation tools section below.</li>
             <li><strong>Sound Effects (7 sounds):</strong> Download from Freesound.org, Zapsplat, or generate with ElevenLabs SFX.</li>
             <li><strong>CG Images (5 assets):</strong> Generate special event images for key story moments with cinematic quality.</li>
-            <li><strong>Videos (3 optional):</strong> Use Veo to generate cutscene videos for polished transitions.</li>
+            <li><strong>Intimate Cutscene Videos (5 videos):</strong> Generate 8-second cinematic cutscenes with Veo (Vertex AI required). Five progressive intimacy levels from first touch to tender aftermath.</li>
             <li><strong>Auto-Save:</strong> All generated assets are automatically saved to file system for instant use in the Visual Novel!</li>
             <li><strong>Play Visual Novel:</strong> Assets automatically load when you play! The game checks for new assets and works even with incomplete sets.</li>
           </ol>

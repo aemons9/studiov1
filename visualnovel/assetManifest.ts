@@ -545,6 +545,86 @@ export const CUTSCENE_VIDEOS: AssetRequirement[] = [
     priority: 'low',
     sceneUsage: ['boudoir_artistic'],
     generated: false
+  },
+  {
+    id: 'cutscene_first_touch',
+    type: 'cutscene_video',
+    name: 'Intimate Cutscene: First Touch',
+    description: 'First intentional touch moment (Intimacy Level 1)',
+    prompt: `VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Emotional connection moment. CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion, long flowing black hair, expressive brown eyes, wearing elegant ivory silk wrap dress from gallery scene. SCENE: Standing close to viewer in art gallery, eyes locked in emotional moment, viewer's hand (partially visible in frame) gently reaching toward Zara's hand, Zara responding with vulnerable smile, fingers beginning to intertwine, gentle intimate proximity, emotional connection building. LOCATION: Art gallery interior with golden hour lighting, soft focus background, intimate moment during gallery event. CAMERA MOVEMENT: Slow push-in toward hands and faces, creating emotional intimacy. 8 seconds capturing the exact moment of first intentional touch. CAMERA: 85mm f/1.4, aperture f/1.4, medium close-up transitioning to close-up, eye level viewer POV. STYLE: Romantic cinematography, visual novel cutscene, emotional connection moment, professional intimate storytelling, Terrence Malick influence.`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'MP4',
+      aspectRatio: '16:9'
+    },
+    priority: 'medium',
+    sceneUsage: ['art_gallery_evening'],
+    generated: false
+  },
+  {
+    id: 'cutscene_first_kiss',
+    type: 'cutscene_video',
+    name: 'Intimate Cutscene: First Kiss',
+    description: 'First kiss moment (Intimacy Level 2)',
+    prompt: `VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Romantic kiss moment. CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion glowing in romantic lighting, long flowing black hair, expressive brown eyes showing deep emotion, wearing elegant ivory silk wrap dress. SCENE: Zara and viewer (partially visible - shoulder/back) in close intimate proximity, faces very close, Zara's eyes slowly closing as they lean together, gentle first kiss beginning, hands visible - one of Zara's hands on viewer's shoulder, tender vulnerable moment, slow motion capturing emotional significance. LOCATION: Art gallery near windows, romantic golden hour atmosphere with soft bokeh background lights. CAMERA MOVEMENT: Slow gentle orbit movement around the kiss, emotional romantic cinematography. 8 seconds capturing the intimate first kiss moment. CAMERA: 85mm f/1.4, aperture f/1.2, 1m distance, close-up intimate framing, faces filling frame. STYLE: Romantic cinematography masterclass, visual novel romantic cutscene, Wong Kar-wai influence.`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'MP4',
+      aspectRatio: '16:9'
+    },
+    priority: 'medium',
+    sceneUsage: ['art_gallery_evening'],
+    generated: false
+  },
+  {
+    id: 'cutscene_boudoir_beginning',
+    type: 'cutscene_video',
+    name: 'Intimate Cutscene: Boudoir Session Beginning',
+    description: 'Artistic intimate transition (Intimacy Level 3)',
+    prompt: `VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Artistic intimate transition. CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion, long flowing black hair, expressive brown eyes. SCENE: Zara standing by luxury bedroom window, slowly turning from window toward camera/viewer, silk robe falling off one shoulder naturally revealing elegant lace beneath, confident vulnerable expression, eyes meeting viewer with trust and anticipation, graceful movement emphasizing artistic sensuality. WARDROBE: Fine art boudoir ensemble - elegant ivory silk robe (short, thigh-length) loosely draped, ivory lace foundation garments tastefully visible, minimal jewelry, styled for Helmut Newton fine art aesthetic. LOCATION: Luxury bedroom interior with tall windows, golden hour light streaming in, white silk bedding visible, upscale intimate setting. LIGHTING: Fine art boudoir lighting, dramatic chiaroscuro from window creating artistic shadows and highlights, key light sculpting form beautifully, rim light creating luminous glow on fair complexion, museum-quality dramatic lighting in tradition of fine art masters. CAMERA: 85mm f/1.4, aperture f/1.4, full body to medium shot transition. STYLE: Helmut Newton/Ellen von Unwerth fine art boudoir cinematography.`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'MP4',
+      aspectRatio: '16:9'
+    },
+    priority: 'medium',
+    sceneUsage: ['boudoir_artistic'],
+    generated: false
+  },
+  {
+    id: 'cutscene_deep_connection',
+    type: 'cutscene_video',
+    name: 'Intimate Cutscene: Deep Emotional Connection',
+    description: 'Profound intimate moment (Intimacy Level 4)',
+    prompt: `VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Profound intimate moment. CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion with natural sensual glow, long flowing black hair, expressive brown eyes showing deep vulnerability and passion. SCENE: Extreme close-up intimate moment, Zara's face very close to camera/viewer suggesting profound physical and emotional closeness, eyes locked with viewer showing deep vulnerability and connection, subtle movements - gentle breathing, eyes closing and opening slowly, lips parting slightly, hand visible reaching toward viewer's face (viewer partially visible), tender profound intimacy. LOCATION: Luxury bedroom, dramatic side lighting, intimate private setting. LIGHTING: Dramatic chiaroscuro lighting, single source creating depth and intimacy, warm color temperature, cinematic depth of field with background blur, professional intimate cinematography lighting. CAMERA: 85mm f/1.2, aperture f/1.2, 0.5m extremely close, slow push-in even closer, extreme close-up with face filling entire frame. STYLE: Cinematic profound intimate cinematography, visual novel premium cutscene capturing relationship culmination, deepest emotional and physical connection aesthetic, professional intimate cinematography at its most vulnerable and profound, tasteful mature intimate moment capture.`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'MP4',
+      aspectRatio: '16:9'
+    },
+    priority: 'low',
+    sceneUsage: ['boudoir_artistic'],
+    generated: false
+  },
+  {
+    id: 'cutscene_tender_aftermath',
+    type: 'cutscene_video',
+    name: 'Intimate Cutscene: Tender Aftermath',
+    description: 'Post-intimate tenderness (Intimacy Level 5)',
+    prompt: `VEO VIDEO CUTSCENE | 8-second cinematic video | 16:9 widescreen | Post-intimate tenderness. CHARACTER: Elite Indian fit artistic model Zara, age 25, 5'8", dramatic curves (38DD-27-39"), fair complexion with natural post-intimate glow, long flowing black hair naturally tousled, expressive brown eyes showing tender affection. SCENE: Zara reclining on white silk bedding, propped on one elbow, looking at viewer with tender affectionate expression, white silk sheet artfully draped across body creating tasteful aesthetic composition, gentle intimate smile, relaxed vulnerable body language showing trust and contentment, natural post-intimate atmosphere. WARDROBE: White silk sheets artfully draped creating tasteful fine art aesthetic composition, minimal styling emphasizing natural intimate beauty. LOCATION: Luxury bedroom, morning light through windows creating soft natural atmosphere. LIGHTING: Soft morning window light creating gentle natural glow, warm tender atmosphere, key light from window creating natural beautiful illumination, soft shadows, warm intimate morning quality lighting. CAMERA: 85mm f/1.4, aperture f/1.8, medium shot, gentle slow camera movement. STYLE: Tasteful post-intimate cinematography, fine art tender moment capture, Helmut Newton influence with tasteful aesthetic, visual novel mature relationship portrayal.`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'MP4',
+      aspectRatio: '16:9'
+    },
+    priority: 'low',
+    sceneUsage: ['boudoir_artistic'],
+    generated: false
   }
 ];
 

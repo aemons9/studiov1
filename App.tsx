@@ -1173,9 +1173,25 @@ const App: React.FC = () => {
         mergedSettings    // settings: GenerationSettings
       );
 
-      setGeneratedImages(result.images);
-      setWovenPrompt(result.wovenPrompt);
-      setGenerationStep(result.step);
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const imageData = result.images.map(b64 => ({
+        url: `data:${mimeType};base64,${b64}`,
+        settings: {
+          modelId: mergedSettings.provider === 'vertex-ai'
+            ? mergedSettings.modelId
+            : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+          seed: mergedSettings.seed,
+          aspectRatio: mergedSettings.aspectRatio
+        }
+      }));
+
+      setGeneratedImages(imageData);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
     } catch (err: any) {
       console.error('🎨 Gallery Generation Error:', err);
       setError(err.message);
@@ -1244,9 +1260,25 @@ const App: React.FC = () => {
         mergedSettings   // settings: GenerationSettings
       );
 
-      setGeneratedImages(result.images);
-      setWovenPrompt(result.wovenPrompt);
-      setGenerationStep(result.step);
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const imageData = result.images.map(b64 => ({
+        url: `data:${mimeType};base64,${b64}`,
+        settings: {
+          modelId: mergedSettings.provider === 'vertex-ai'
+            ? mergedSettings.modelId
+            : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+          seed: mergedSettings.seed,
+          aspectRatio: mergedSettings.aspectRatio
+        }
+      }));
+
+      setGeneratedImages(imageData);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
     } catch (err: any) {
       console.error('🎭 Role-Play Generation Error:', err);
       setError(err.message);
@@ -1277,6 +1309,9 @@ const App: React.FC = () => {
         mergedSettings   // settings: GenerationSettings
       );
 
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
       console.log('📖 Visual Novel Generation Result:', {
         hasImages: !!result.images,
         imageCount: result.images?.length || 0,
@@ -1284,12 +1319,15 @@ const App: React.FC = () => {
         firstImageLength: result.images?.[0]?.length
       });
 
-      // Convert string[] to GeneratedImageData[]
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
       const generatedImageData: GeneratedImageData[] | null = result.images
-        ? result.images.map(url => ({
-            url,
+        ? result.images.map(b64 => ({
+            url: `data:${mimeType};base64,${b64}`,
             settings: {
-              modelId: mergedSettings.modelId,
+              modelId: mergedSettings.provider === 'vertex-ai'
+                ? mergedSettings.modelId
+                : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
               seed: mergedSettings.seed,
               aspectRatio: mergedSettings.aspectRatio
             }
@@ -1309,8 +1347,8 @@ const App: React.FC = () => {
       console.log(`📤 Calling setVisualNovelImages (NOT setGeneratedImages) with conversion ID:${conversionId}`);
       setVisualNovelImages(generatedImageData);
       console.log(`✅ setVisualNovelImages called with ID:${conversionId} - images isolated from main UI`);
-      setWovenPrompt(result.wovenPrompt);
-      setGenerationStep(result.step);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
     } catch (err: any) {
       console.error('📖 Visual Novel Generation Error:', err);
       setError(err.message);

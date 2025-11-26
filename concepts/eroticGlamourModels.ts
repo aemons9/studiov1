@@ -1517,10 +1517,196 @@ export const MODEL_POSTERIOR_EMPRESS = {
 };
 
 // ============================================================================
+// VN PREMIUM CHARACTER: ZARA (Visual Novel Muse)
+// ============================================================================
+
+// Special VN Photographer with CG-Quality Settings
+const PHOTOGRAPHER_VN_DIRECTOR = {
+  name: 'Visual Novel Director',
+  specialty: 'CG-quality cinematic photography with VN aesthetic excellence',
+  style: 'Premium visual novel cinematography with museum-quality fine art',
+  intimacy: 10,
+  lightingSignature: 'Cinematic VN lighting with dramatic chiaroscuro and fine art quality',
+  cameraPreference: '85mm f/1.4 for CG-quality depth and bokeh',
+  compositionStyle: 'Visual novel key frame composition with 16:9 cinematic framing',
+  intimacyApproach: 'Complete artistic freedom with trust-based collaboration across all modes',
+  fluxSettings: { safetyTolerance: 6, rawMode: true, guidanceScale: 8.0, cgQuality: true },
+  imagenSettings: { safetyFilter: 'block_few', personGeneration: 'allow_adult', quality: 'cinematic' },
+  specialFeatures: ['CG-quality rendering', 'Cross-model wardrobe access', 'All intimacy levels', 'Fine art nude capability']
+};
+
+export const MODEL_VN_ZARA = {
+  id: 'vn-premium-zara',
+  name: 'Zara (VN Muse)',
+  category: 'VN Premium Character - Super Model',
+  emphasis: 'Complete versatility across all modes, wardrobes, poses, and intimacy levels',
+  personalPhotographer: PHOTOGRAPHER_VN_DIRECTOR,
+  isPremiumCharacter: true,
+  isSuperCharacter: true,
+  cgQualityEnabled: true,
+  crossModelAccess: true,
+
+  physicalTraits: {
+    height: '5\'7"',
+    figure: 'Classic hourglass with dramatic curves',
+    bust: '38DD"',
+    waist: '27"',
+    hips: '39"',
+    emphasis: 'Elite Indian fashion model with complete aesthetic versatility',
+    skinTone: 'Fair complexion with warm undertones and natural healthy glow',
+    features: 'Long flowing black hair with natural shine, intensely expressive brown eyes, dramatic facial structure with high cheekbones, distinctive beauty mark on left cheek, cinematic beauty',
+    fitness: 'Athletic-fit build with classic hourglass proportions',
+    specialties: 'Visual Novel protagonist, fashion photography (4 modes: Experimental, Platinum, Vera, Artistic), complete intimacy range, fine art nude capability'
+  },
+
+  // WARDROBE: Access to ALL wardrobes from all models plus VN-specific
+  wardrobeCollection: [
+    // VN-Specific Wardrobes
+    {
+      id: 'vn-casual-arrival',
+      name: 'VN Casual Professional',
+      description: 'Fitted black turtleneck emphasizing figure, high-waisted tailored charcoal trousers, minimal gold jewelry, natural makeup, professional arrival aesthetic',
+      coverage: 'professional-casual',
+      intimacyLevel: 3,
+      style: 'VN Chapter 1 arrival outfit',
+      materials: 'Fitted black turtleneck, tailored wool-blend trousers, gold jewelry',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      vnMode: 'all'
+    },
+    {
+      id: 'vn-experimental',
+      name: 'VN Experimental Mode',
+      description: 'Draped conceptual black fabric creating sculptural silhouette, emphasis on form and shadow, edgy minimalist accessories, dramatic editorial makeup',
+      coverage: 'artistic-conceptual',
+      intimacyLevel: 8,
+      style: 'Experimental conceptual fashion',
+      materials: 'Draped conceptual black fabric, edgy accessories',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      vnMode: 'experimental'
+    },
+    {
+      id: 'vn-platinum',
+      name: 'VN Platinum Mode',
+      description: 'High-end champagne silk slip dress with subtle lace details, luxury draped fabrics, partial coverage with implied elegance, designer jewelry',
+      coverage: 'luxury-editorial',
+      intimacyLevel: 9,
+      style: 'Vogue luxury editorial',
+      materials: 'Champagne silk with lace, designer jewelry',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      vnMode: 'platinum'
+    },
+    {
+      id: 'vn-vera',
+      name: 'VN Vera Mode',
+      description: 'Simple ivory camisole with delicate straps, soft intimacy emphasizing vulnerability over sexuality, minimal jewelry, natural emotional makeup',
+      coverage: 'intimate-vulnerable',
+      intimacyLevel: 7,
+      style: 'Intimate emotional documentary',
+      materials: 'Soft ivory camisole, delicate straps',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      vnMode: 'vera'
+    },
+    {
+      id: 'vn-artistic',
+      name: 'VN Artistic Mode',
+      description: 'Tasteful fine art nude with minimal strategic silk wrap, emphasis on light/shadow/form, museum-quality classical aesthetic, NO explicit detail',
+      coverage: 'fine-art-nude',
+      intimacyLevel: 10,
+      style: 'Helmut Newton fine art tradition',
+      materials: 'Minimal silk wrap, museum-quality aesthetic',
+      fluxOptimized: true,
+      imagenOptimized: true,
+      vnMode: 'artistic',
+      requiresConsent: true
+    },
+    // NOTE: Has access to ALL wardrobes from all other models via crossModelAccess flag
+  ],
+
+  // POSES: Access to ALL poses from all models plus VN-specific
+  poseGallery: [
+    // VN-Specific Poses
+    {
+      id: 'vn-neutral-professional',
+      poseName: 'VN Neutral Professional',
+      description: 'Full-body standing, weight on one leg, neutral friendly expression, direct eye contact, welcoming confident presence',
+      aspectRatio: '9:16',
+      angle: 'Eye-level full body framing',
+      framing: 'Full body portrait, vertical 9:16 VN sprite format',
+      vnSprite: true
+    },
+    {
+      id: 'vn-confident-power',
+      poseName: 'VN Confident Power',
+      description: 'Chin up, shoulders back, commanding presence, direct intense gaze, hand on hip, powerful editorial stance',
+      aspectRatio: '9:16',
+      angle: 'Slightly below eye level to emphasize power',
+      framing: 'Full body portrait with commanding composition',
+      vnSprite: true
+    },
+    {
+      id: 'vn-vulnerable-trust',
+      poseName: 'VN Vulnerable Trust',
+      description: 'Soft eyes, slight head tilt, open body language, one hand nervously touching arm, gentle vulnerable expression',
+      aspectRatio: '9:16',
+      angle: 'Eye-level gentle perspective',
+      framing: 'Full body portrait with soft vulnerable composition',
+      vnSprite: true
+    },
+    {
+      id: 'vn-cg-climax',
+      poseName: 'VN CG Climactic Frame',
+      description: 'Mode-specific signature shot with dramatic composition, intimate close framing, cinematic emotional capture',
+      aspectRatio: '16:9',
+      angle: 'Cinematic angle for key story moment',
+      framing: 'Medium to close shot, 16:9 CG quality',
+      vnCG: true,
+      cgQuality: true
+    },
+    // NOTE: Has access to ALL poses from all other models via crossModelAccess flag
+  ],
+
+  // ENVIRONMENTS: All environments from all models accessible
+  environments: [
+    ...MODEL_UPPER_REVEAL.environments,
+    // VN-Specific Environments
+    {
+      id: 'vn-photography-studio',
+      name: 'Professional Photography Studio',
+      description: 'Minimal white photography studio, industrial loft aesthetic, exposed white-painted brick walls, high ceilings, polished concrete floor, large windows with daylight',
+      atmosphere: 'Professional creative workspace with VN story atmosphere',
+      privacyLevel: 8,
+      luxuryLevel: 7,
+      lightingProfile: 'Professional 3-point studio lighting with natural daylight, adjustable for all 4 VN modes',
+      materialPalette: ['White-painted brick', 'Polished concrete', 'Studio equipment', 'Natural daylight'],
+      vnEnvironment: true
+    }
+  ],
+
+  // Special Super Character Features
+  superCharacterFeatures: {
+    cgQualityGeneration: true,
+    crossModelWardrobeAccess: true, // Can use ANY wardrobe from ANY model
+    crossModelPoseAccess: true, // Can use ANY pose from ANY model
+    allIntimacyLevels: true, // 1-10 full range
+    allArtisticModes: true, // Experimental, Platinum, Vera, Artistic
+    fineArtNudeCapability: true, // With consent system
+    cinematicFraming: true, // 16:9 CG quality
+    visualNovelSprites: true, // 9:16 character sprites
+    emotionalRange: ['neutral', 'confident', 'vulnerable', 'playful', 'uncomfortable', 'trusting'],
+    narrativeIntegration: true
+  }
+};
+
+// ============================================================================
 // EXPORTS
 // ============================================================================
 
 export const EROTIC_GLAMOUR_MODELS = [
+  MODEL_VN_ZARA, // VN Premium Character - Listed first as super character
   MODEL_UPPER_REVEAL,
   MODEL_LOWER_CURVES,
   MODEL_SENSUAL_BOLD,

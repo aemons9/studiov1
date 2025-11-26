@@ -15,6 +15,9 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
   const [selectedEnvironment, setSelectedEnvironment] = useState<any | null>(null);
   const [intimacyLevel, setIntimacyLevel] = useState<number>(10);
   const [hoveredModel, setHoveredModel] = useState<string | null>(null);
+  const [cgQualityEnabled, setCgQualityEnabled] = useState<boolean>(false);
+  const [showAllWardrobes, setShowAllWardrobes] = useState<boolean>(false);
+  const [showAllPoses, setShowAllPoses] = useState<boolean>(false);
 
   // Gamification state
   const [currentScenario, setCurrentScenario] = useState<RolePlayScenario | null>(null);
@@ -24,6 +27,50 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
   const [showGameElements, setShowGameElements] = useState<boolean>(true);
 
   const selectedModel = EROTIC_GLAMOUR_MODELS.find(m => m.id === selectedModelId);
+
+  // Get all wardrobes from all models (for Zara's super character access)
+  const getAllWardrobes = () => {
+    const all: any[] = [];
+    EROTIC_GLAMOUR_MODELS.forEach(model => {
+      if (model.wardrobeCollection) {
+        model.wardrobeCollection.forEach(w => {
+          all.push({ ...w, originalModel: model.name });
+        });
+      }
+    });
+    return all;
+  };
+
+  // Get all poses from all models (for Zara's super character access)
+  const getAllPoses = () => {
+    const all: any[] = [];
+    EROTIC_GLAMOUR_MODELS.forEach(model => {
+      if (model.poseGallery) {
+        model.poseGallery.forEach(p => {
+          all.push({ ...p, originalModel: model.name });
+        });
+      }
+    });
+    return all;
+  };
+
+  // Determine which wardrobes to show
+  const getDisplayWardrobes = () => {
+    if (!selectedModel) return [];
+    if (selectedModel.crossModelAccess && showAllWardrobes) {
+      return getAllWardrobes();
+    }
+    return selectedModel.wardrobeCollection || [];
+  };
+
+  // Determine which poses to show
+  const getDisplayPoses = () => {
+    if (!selectedModel) return [];
+    if (selectedModel.crossModelAccess && showAllPoses) {
+      return getAllPoses();
+    }
+    return selectedModel.poseGallery || [];
+  };
 
   // Auto-select scenario when model is selected
   useEffect(() => {
@@ -142,10 +189,13 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
 
     const prompt = generatePrompt();
     const settings = {
-      aspectRatio: selectedPose.aspectRatio || '4:5',
+      aspectRatio: selectedPose.aspectRatio || (cgQualityEnabled && selectedPose.vnCG ? '16:9' : selectedPose.vnSprite ? '9:16' : '4:5'),
       intimacyLevel: intimacyLevel,
       fluxSafetyTolerance: selectedModel.personalPhotographer.fluxSettings.safetyTolerance,
-      provider: 'replicate-flux'
+      provider: 'replicate-flux',
+      cgQuality: cgQualityEnabled,
+      guidanceScale: cgQualityEnabled ? 8.0 : selectedModel.personalPhotographer.fluxSettings.guidanceScale,
+      quality: cgQualityEnabled ? 'cinematic' : 'standard'
     };
 
     onGenerate(prompt, settings);
@@ -632,9 +682,26 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
-                  <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#F3F4F6', margin: 0 }}>
-                    {model.name}
-                  </h3>
+                  <div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#F3F4F6', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {model.name}
+                      {model.isSuperCharacter && (
+                        <span style={{
+                          fontSize: '10px',
+                          padding: '2px 8px',
+                          borderRadius: '10px',
+                          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                          color: '#000',
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px',
+                          boxShadow: '0 2px 8px rgba(255, 215, 0, 0.4)'
+                        }}>
+                          ⭐ VN PREMIUM
+                        </span>
+                      )}
+                    </h3>
+                  </div>
                   {selectedModelId === model.id && (
                     <span style={{
                       fontSize: '20px',
@@ -645,6 +712,24 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 <p style={{ fontSize: '13px', color: '#C084FC', marginBottom: '12px' }}>
                   {model.category}
                 </p>
+                {model.isSuperCharacter && (
+                  <div style={{
+                    padding: '8px',
+                    marginBottom: '12px',
+                    background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1))',
+                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    borderRadius: '8px',
+                    fontSize: '11px',
+                    color: '#FCD34D',
+                    lineHeight: '1.4'
+                  }}>
+                    <strong>Super Character Features:</strong><br/>
+                    ✨ CG-Quality Generation<br/>
+                    🎭 All Wardrobes & Poses Access<br/>
+                    🎨 4 VN Modes + Full Intimacy Range<br/>
+                    🖼️ 16:9 Cinematic & 9:16 Sprite Framing
+                  </div>
+                )}
                 <div style={{ fontSize: '12px', color: '#9CA3AF', lineHeight: '1.6' }}>
                   <div style={{ marginBottom: '6px' }}>
                     <strong style={{ color: '#F472B6' }}>Emphasis:</strong> {model.emphasis}
@@ -661,6 +746,113 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
           </div>
         </div>
 
+        {/* Zara Super Character Controls */}
+        {selectedModel && selectedModel.isSuperCharacter && (
+          <div style={{
+            marginBottom: '32px',
+            padding: '20px',
+            background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.15))',
+            border: '2px solid rgba(255, 215, 0, 0.4)',
+            borderRadius: '16px',
+            boxShadow: '0 8px 24px rgba(255, 215, 0, 0.2)'
+          }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#FCD34D', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              ⭐ VN Premium Character Controls
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+              {/* CG Quality Toggle */}
+              <div style={{
+                padding: '16px',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 215, 0, 0.2)'
+              }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={cgQualityEnabled}
+                    onChange={(e) => setCgQualityEnabled(e.target.checked)}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#FFD700' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#FCD34D' }}>
+                      🎬 CG-Quality Mode
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#FDE68A', marginTop: '2px' }}>
+                      16:9 cinematic framing, guidance 8.0
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* All Wardrobes Access */}
+              <div style={{
+                padding: '16px',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 215, 0, 0.2)'
+              }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={showAllWardrobes}
+                    onChange={(e) => setShowAllWardrobes(e.target.checked)}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#FFD700' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#FCD34D' }}>
+                      👗 All Wardrobes Access
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#FDE68A', marginTop: '2px' }}>
+                      Use wardrobes from all {EROTIC_GLAMOUR_MODELS.length} models
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* All Poses Access */}
+              <div style={{
+                padding: '16px',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 215, 0, 0.2)'
+              }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={showAllPoses}
+                    onChange={(e) => setShowAllPoses(e.target.checked)}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#FFD700' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#FCD34D' }}>
+                      💃 All Poses Access
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#FDE68A', marginTop: '2px' }}>
+                      Use poses from all {EROTIC_GLAMOUR_MODELS.length} models
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {(showAllWardrobes || showAllPoses) && (
+              <div style={{
+                marginTop: '12px',
+                padding: '12px',
+                background: 'rgba(34, 197, 94, 0.2)',
+                border: '1px solid rgba(34, 197, 94, 0.4)',
+                borderRadius: '8px',
+                fontSize: '12px',
+                color: '#6EE7B7'
+              }}>
+                ✨ Cross-model access enabled! Zara can now use {showAllWardrobes ? `${getAllWardrobes().length} wardrobes` : ''}{showAllWardrobes && showAllPoses ? ' and ' : ''}{showAllPoses ? `${getAllPoses().length} poses` : ''} from all characters.
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Wardrobe, Pose, Environment Selectors (only shown after model selection) */}
         {selectedModel && (
           <>
@@ -671,7 +863,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                   👗 Step 2: Select Wardrobe {selectedWardrobe && '✓'}
                 </h2>
                 <span style={{ fontSize: '13px', color: '#9CA3AF' }}>
-                  {selectedModel.wardrobeCollection?.length || 0} options available
+                  {getDisplayWardrobes().length} options available {showAllWardrobes && '(All Models)'}
                 </span>
               </div>
               <div style={{
@@ -679,7 +871,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
                 gap: '16px'
               }}>
-                {selectedModel.wardrobeCollection?.map((wardrobe) => (
+                {getDisplayWardrobes().map((wardrobe) => (
                   <div
                     key={wardrobe.id}
                     onClick={() => setSelectedWardrobe(wardrobe)}
@@ -703,9 +895,24 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                      <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
-                        {wardrobe.name}
-                      </h4>
+                      <div>
+                        <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
+                          {wardrobe.name}
+                        </h4>
+                        {wardrobe.originalModel && showAllWardrobes && (
+                          <span style={{
+                            fontSize: '10px',
+                            padding: '2px 8px',
+                            borderRadius: '8px',
+                            background: 'rgba(139, 92, 246, 0.3)',
+                            color: '#C084FC',
+                            marginTop: '4px',
+                            display: 'inline-block'
+                          }}>
+                            From: {wardrobe.originalModel}
+                          </span>
+                        )}
+                      </div>
                       {selectedWardrobe?.id === wardrobe.id && (
                         <span style={{ fontSize: '18px' }}>✓</span>
                       )}
@@ -728,7 +935,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                   💃 Step 3: Select Pose {selectedPose && '✓'}
                 </h2>
                 <span style={{ fontSize: '13px', color: '#9CA3AF' }}>
-                  {selectedModel.poseGallery?.length || 0} signature poses
+                  {getDisplayPoses().length} signature poses {showAllPoses && '(All Models)'}
                 </span>
               </div>
               <div style={{
@@ -736,7 +943,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: '16px'
               }}>
-                {selectedModel.poseGallery?.map((pose) => (
+                {getDisplayPoses().map((pose) => (
                   <div
                     key={pose.id}
                     onClick={() => setSelectedPose(pose)}
@@ -760,14 +967,29 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                      <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
-                        {pose.poseName}
-                      </h4>
+                      <div>
+                        <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
+                          {pose.poseName}
+                        </h4>
+                        {pose.originalModel && showAllPoses && (
+                          <span style={{
+                            fontSize: '10px',
+                            padding: '2px 8px',
+                            borderRadius: '8px',
+                            background: 'rgba(139, 92, 246, 0.3)',
+                            color: '#C084FC',
+                            marginTop: '4px',
+                            display: 'inline-block'
+                          }}>
+                            From: {pose.originalModel}
+                          </span>
+                        )}
+                      </div>
                       {selectedPose?.id === pose.id && (
                         <span style={{ fontSize: '18px' }}>✓</span>
                       )}
                     </div>
-                    <p style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.5' }}>
+                    <p style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.5', marginTop: '8px' }}>
                       {pose.description}
                     </p>
                     {pose.aspectRatio && (

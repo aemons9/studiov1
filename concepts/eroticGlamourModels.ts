@@ -1547,19 +1547,21 @@ export const MODEL_VN_ZARA = {
   crossModelAccess: true,
 
   physicalTraits: {
-    height: '5\'8"',
-    figure: 'Curvaceous fit hourglass figure',
-    bust: '37DD"',
-    waist: '26"',
+    height: '5\'9"',
+    figure: 'Versatile fit actress physique with dramatic curves',
+    bust: '38DD"',
+    waist: '27"',
     hips: '39"',
-    emphasis: 'Indian Instagram influencer fit model with complete aesthetic versatility',
-    skinTone: 'Radiant golden-bronze complexion with sun-kissed glow. Flawless Instagram-ready glow with highlighting on cheekbones and collarbones',
-    features: 'Long dark brown hair with honey highlights in loose glamorous beach waves. Bold influencer beauty: sultry bedroom eyes with dramatic lashes and winged liner, glossy plump lips, contoured cheekbones, perfect Instagram face. Multiple ear piercings with gold hoops and studs',
-    fitness: 'Curvaceous fit build with dramatic hourglass proportions',
-    hands: 'Manicured hands with stiletto nails',
+    emphasis: 'Indian erotic-art film specialist actress with complete aesthetic versatility and method acting range',
+    skinTone: 'Fair complexion with dramatic lighting potential for cinematic character depth. Film set lighting creating authentic character texture',
+    features: 'Long dark brown hair with natural character styling. Method acting specialist features: complete emotional range, sultry dramatic eyes, expressive lips, cinematic cheekbones. No tattoos, piercings, or body art - clean canvas for character embodiment',
+    fitness: 'Versatile fit actress build with dramatic curves and emotional embodiment',
+    hands: 'Natural manicured hands with character-appropriate dramatic polish',
     age: '22-26',
-    style: 'Modern Indian social media star with bold confidence',
-    specialties: 'Visual Novel protagonist, fashion photography (4 modes: Experimental, Platinum, Vera, Artistic), complete intimacy range, fine art nude capability'
+    style: 'Modern Indian actress with bold confidence and cinematic aesthetic',
+    photographer: 'Marcello Eros, erotic-art film specialist',
+    quality: 'Ultra-high-end 8K photography with impeccable detail and professional retouching maintaining authentic texture',
+    specialties: 'Visual Novel protagonist, erotic-art film specialist, fashion photography (4 modes: Experimental, Platinum, Vera, Artistic), complete intimacy range with narrative depth, fine art nude capability, method acting emotional range'
   },
 
   // WARDROBE: Access to ALL wardrobes from all models plus VN-specific

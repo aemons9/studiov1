@@ -19,7 +19,7 @@ import type { ArtisticConcept } from './concepts';
 // CHARACTER BASELINE - Used in all sprite prompts for consistency
 // ============================================================================
 
-const ZARA_CHARACTER_BASE = `CHARACTER: Zara, an Indian Instagram influencer fit model (height 5'8"), with curvaceous fit hourglass figure and exact measurements (bust 37DD", waist 26", hips 39"). Features radiant golden-bronze complexion with sun-kissed glow. Bold influencer beauty: sultry bedroom eyes with dramatic lashes and winged liner, glossy plump lips, contoured cheekbones, perfect Instagram face. Age 22-26. Modern Indian social media star with bold confidence. Long dark brown hair with honey highlights in loose glamorous beach waves. Flawless Instagram-ready glow with highlighting on cheekbones and collarbones. Manicured hands with stiletto nails. Multiple ear piercings with gold hoops and studs`;
+const ZARA_CHARACTER_BASE = `CHARACTER: Zara, an Indian erotic-art film specialist actress (height 5'9"), with versatile fit actress physique featuring dramatic curves and exact measurements (bust 38DD", waist 27", hips 39"). Fair complexion with dramatic lighting potential for cinematic character depth. Method acting specialist with complete emotional range and authentic character embodiment. Age 22-26. Modern Indian actress with bold confidence and cinematic aesthetic. Long dark brown hair with natural character styling. Natural manicured hands with character-appropriate dramatic polish. No tattoos, piercings, or body art - clean canvas for pure character work. Classic film-appropriate character heels. Photographed by Marcello Eros, erotic-art film specialist - ultra-high-end 8K photography with impeccable detail and professional retouching maintaining authentic texture. Modern wardrobe with cinematic character aesthetic and narrative intimate reveals`;
 
 // ============================================================================
 // CHARACTER SPRITES - Zara (12 sprites)
@@ -36,13 +36,13 @@ export const vnSpriteNeutral: ArtisticConcept = {
       pose: "Full-body standing, weight on one leg (natural model stance), neutral friendly expression with soft professional smile, direct eye contact with camera, welcoming confident presence, hands relaxed at sides, perfect posture",
       hair_color: "black",
       hair_style: "long flowing black hair with natural shine",
-      skin_finish: "Fair complexion with warm undertones, natural healthy glow",
-      hand_and_nail_details: "Hands relaxed, graceful natural placement, impeccably manicured with clean neutral polish",
+      skin_finish: "Fair skin with dramatic film set lighting creating character depth",
+      hand_and_nail_details: "Hands relaxed, graceful natural placement, natural manicured with character-appropriate dramatic polish",
       tattoos: "none",
       piercings: "none",
       body_art: "none",
-      nail_art: "Clean neutral polish",
-      high_heels: "not visible"
+      nail_art: "Natural manicured character-appropriate dramatic polish",
+      high_heels: "classic, film-appropriate character heels"
     },
     wardrobe: "Casual-professional arrival outfit: fitted black turtleneck emphasizing figure, high-waisted tailored charcoal trousers, minimal gold jewelry (small hoop earrings, delicate necklace), natural makeup, hair loose and flowing",
     environment: "PURE TRANSPARENT BACKGROUND (alpha channel), isolated subject, clean professional cutout, NO background elements",
@@ -54,10 +54,10 @@ export const vnSpriteNeutral: ArtisticConcept = {
       angle: "Eye-level, full body framing",
       framing: "Full body portrait, vertical 9:16 format, fashion editorial style"
     },
-    color_grade: "Natural warm tones, balanced skin tones, cinematic beauty",
-    style: "Vogue editorial quality, professional modeling portfolio standard, photorealistic",
-    quality: "Canon EOS R5, 85mm lens, PNG with alpha, 1080x1920, magazine quality",
-    figure_and_form: "Classic hourglass figure, natural confident posture, professional model presence",
+    color_grade: "Natural warm tones, balanced skin tones, cinematic beauty with dramatic character depth",
+    style: "Cinematic film quality, erotic-art film specialist aesthetic, photorealistic with character authenticity",
+    quality: "Ultra-high-end 8K photography with impeccable detail and professional retouching maintaining authentic texture. Marcello Eros, erotic-art film specialist. PNG with alpha, 1080x1920",
+    figure_and_form: "Versatile fit actress physique with dramatic curves and emotional embodiment",
     skin_micro_details: "Natural skin texture with soft glow, professional beauty photography",
     fabric_physics: "Fitted garments with natural draping",
     material_properties: "Matte black turtleneck, tailored wool-blend trousers, gold jewelry with realistic metallic sheen"

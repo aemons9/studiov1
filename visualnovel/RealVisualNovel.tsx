@@ -18,7 +18,7 @@ import {
   determineEnding
 } from './chapterOneScenes';
 import VariableTracker from './VariableTracker';
-import { gameStateReducer, type ExtendedGameState, INITIAL_STATE } from './GameStateManager';
+import { gameStateReducer, type ExtendedGameState, INITIAL_GAME_STATE } from './GameStateManager';
 
 // ============================================================================
 // NEW STORY: Zara — Chapter 1: Light & Shadow
@@ -31,11 +31,7 @@ interface RealVisualNovelProps {
 
 const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
   // Use the advanced game state reducer
-  const [gameState, dispatch] = useReducer(gameStateReducer, {
-    ...INITIAL_STATE,
-    currentSceneId: 'scene_1_calltime',
-    ...INITIAL_VARIABLES
-  });
+  const [gameState, dispatch] = useReducer(gameStateReducer, INITIAL_GAME_STATE);
 
   const [showingChoices, setShowingChoices] = useState(false);
   const [sceneTransition, setSceneTransition] = useState(false);

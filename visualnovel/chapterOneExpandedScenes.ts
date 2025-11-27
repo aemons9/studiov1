@@ -682,42 +682,424 @@ export const SCENES: Record<string, Scene> = {
 
   scene_7_artistic_intimacy: {
     id: 'scene_7_artistic_intimacy',
-    title: 'Artistic Intimate Photography',
-    setting: 'Progressive intimate photography session.',
-    objectives: ['Capture artistic intimate imagery'],
-    sceneFlow: [],
-    choices: [],
-    requiredAssets: { backgrounds: [], characters: [], cgs: [] }
+    title: 'Fine Art',
+    setting: 'Luxury boudoir with dramatic lighting. The session evolves from sensual boudoir to museum-quality fine art. Fabric, form, shadow, and light converge into something transcendent.',
+    objectives: [
+      'Transition from boudoir to fine art aesthetic',
+      'Introduce artistic draping and fabric work',
+      'Capture museum-quality intimate portraiture',
+      'Deepen trust through artistic vulnerability'
+    ],
+    sceneFlow: [
+      {
+        beat: 'ArtisticSetup',
+        content: 'Shifting from boudoir to fine art. New location, new approach.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You move to the luxury boudoir—rich velvet curtains, dramatic side lighting, shadows that sculpt like Caravaggio. The aesthetic shifts immediately. Less sensual, more artistic. Museum quality.' },
+          { speaker: 'player', line: 'I want to try something different. Less boudoir, more fine art. Think Renaissance painting—fabric, shadow, form.' },
+          { speaker: 'zara', line: 'I trust you. What do you need from me?', emotion: 'intimate_trust' },
+          { speaker: 'narrator', line: 'You show her the silk draping fabric—translucent ivory, flowing like water. Her eyes light up with understanding.' },
+          { speaker: 'zara', line: 'Like classical sculpture. I love it.', emotion: 'intimate_trust' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_intimate_trust'
+      },
+      {
+        beat: 'DrapingMoment',
+        content: 'Intimate collaboration arranging fabric. Artistic vulnerability.',
+        dialogue: [
+          { speaker: 'narrator', line: 'She slips out of the lingerie. You approach with the silk fabric, hands steady, professional yet intimate. You drape it across her shoulder, arrange it carefully around her form.' },
+          { speaker: 'player', line: 'May I adjust this?' },
+          { speaker: 'zara', line: 'Yes. I trust your vision completely.', emotion: 'artistic_drape_partial' },
+          { speaker: 'narrator', line: 'You work together—fabric flowing around curves, concealing and revealing simultaneously. Every adjustment is collaboration. Artist and muse, photographer and subject, merged into creative partnership.' },
+          { speaker: 'zara', line: 'This feels... different. Powerful. Like I\'m part of something timeless.', emotion: 'artistic_drape_partial' },
+          { speaker: 'player', line: 'You are. This is fine art. You\'re creating art with your body.' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_artistic_drape_partial',
+        cg: 'cg_artistic_draping_moment'
+      },
+      {
+        beat: 'ArtisticBreakthrough',
+        content: 'Capturing transcendent images. Pure artistic intimacy.',
+        dialogue: [
+          { speaker: 'narrator', line: 'The camera captures magic. Dramatic side lighting sculpts her form through translucent silk. Shadows define curves. Highlights trace edges. Museum-worthy composition materializes frame by frame.' },
+          { speaker: 'zara', line: 'How does it look?', emotion: 'artistic_drape_partial' },
+          { speaker: 'player', line: 'Breathtaking. Honestly breathtaking. These belong in a gallery.' },
+          { speaker: 'narrator', line: 'You show her the screen. She gasps—hand to mouth, eyes wide.' },
+          { speaker: 'zara', line: 'That\'s... that\'s art. Real art. I\'m crying—this is the most beautiful thing I\'ve ever been part of.', emotion: 'intimate_trust' },
+          { speaker: 'player', line: 'You made this. Your trust, your vulnerability, your presence—that\'s what creates this beauty.' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_intimate_trust'
+      },
+      {
+        beat: 'MuseumQuality',
+        content: 'Creating signature fine art portfolio pieces.',
+        dialogue: [
+          { speaker: 'narrator', line: 'The session flows effortlessly now. Direction becomes intuition. She moves like water—each pose perfect, each expression authentic. You capture image after image, each one worthy of museum walls.' },
+          { speaker: 'zara', line: 'I never knew my body could be art like this. Not sexy—actually artistic.', emotion: 'artistic_drape_partial' },
+          { speaker: 'player', line: 'Sensuality and artistry aren\'t opposites. They merge at the highest level. That\'s what we\'re creating.' },
+          { speaker: 'zara', line: 'I want to go further. I want to see how far we can push this artistry.', emotion: 'intimate_trust' },
+          { speaker: 'narrator', line: 'She stands before you—completely comfortable, completely trusting, completely ready to create something extraordinary.' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_intimate_trust'
+      }
+    ],
+    choices: [
+      {
+        id: 'choice_7_conclude_fine_art',
+        text: 'Conclude here—we\'ve created museum-quality fine art. Perfect stopping point.',
+        effects: {
+          ZaraComfort: 25,
+          Trust: 22,
+          IntimacyLevel: 20,
+          ArtisticCohesion: 40,
+          Flag_ArtisticDrapeUsed: true
+        },
+        nextScene: 'scene_8_emotional_depth'
+      },
+      {
+        id: 'choice_7_progress_minimal',
+        text: 'Propose minimal artistic coverage—pure form, maximum artistry, ultimate trust.',
+        conditions: 'Trust >= 20 && IntimacyLevel >= 45 && ArtisticCohesion >= 30',
+        effects: {
+          ZaraComfort: -20,
+          Trust: 25,
+          IntimacyLevel: 65,
+          ArtisticCohesion: 50,
+          RequiresNudityConsent: true,
+          Flag_MinimalCoverageUsed: true,
+          selectedMode: 'minimal_artistic'
+        },
+        nextScene: 'scene_9_climax_intimate'
+      },
+      {
+        id: 'choice_7_emotional_connection',
+        text: 'Pause and connect personally—this intimacy deserves acknowledgment.',
+        conditions: 'Trust >= 18',
+        effects: {
+          ZaraComfort: 30,
+          Trust: 28,
+          IntimacyLevel: 15,
+          ArtisticCohesion: 35
+        },
+        nextScene: 'scene_8_emotional_depth'
+      }
+    ],
+    requiredAssets: {
+      backgrounds: ['bg_boudoir_luxury_dramatic', 'bg_studio_intimate_corner'],
+      characters: ['zara_intimate_trust', 'zara_artistic_drape_partial', 'zara_silk_robe_open'],
+      cgs: ['cg_artistic_draping_moment']
+    }
   },
 
   scene_8_emotional_depth: {
     id: 'scene_8_emotional_depth',
-    title: 'Emotional Connection',
-    setting: 'Deep personal moment between shoots.',
-    objectives: ['Deepen emotional connection'],
-    sceneFlow: [],
-    choices: [],
-    requiredAssets: { backgrounds: [], characters: [], cgs: [] }
+    title: 'Connection',
+    setting: 'Natural light loft. Golden hour sunlight streams through floor-to-ceiling windows. Break between shoots. Raw, unguarded conversation—the kind that only happens when walls come down.',
+    objectives: [
+      'Deepen emotional connection beyond photography',
+      'Share personal vulnerability',
+      'Acknowledge the intimacy created',
+      'Decide final direction for the session'
+    ],
+    sceneFlow: [
+      {
+        beat: 'GoldenHourPause',
+        content: 'Break from shooting. Sitting together in golden light.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You move to the natural light loft for a break. Golden hour sunlight floods through massive windows—warm, forgiving, beautiful. Zara wraps herself in a silk robe, relaxed and open.' },
+          { speaker: 'zara', line: 'Can we just... sit for a minute? I need to process what we\'ve been creating.', emotion: 'thoughtful' },
+          { speaker: 'player', line: 'Of course. Take all the time you need.' },
+          { speaker: 'narrator', line: 'You sit together on the window ledge. Silence settles—comfortable, companionable. Outside, the city glows in afternoon light.' },
+          { speaker: 'zara', line: 'I\'ve never felt this seen before. Not just photographed—actually seen.', emotion: 'vulnerable' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_thoughtful'
+      },
+      {
+        beat: 'VulnerableSharing',
+        content: 'Opening up. Personal stories and connection.',
+        dialogue: [
+          { speaker: 'player', line: 'That\'s the highest compliment you could give me. Being truly seen—that\'s what this work is about.' },
+          { speaker: 'zara', line: 'I\'ve done photoshoots before. Fashion, commercial, even some "artistic" work. But this... this is different. You see me as a whole person, not just a body.', emotion: 'trusting' },
+          { speaker: 'narrator', line: 'She turns to face you fully. Eyes bright with unshed tears—good tears, cathartic tears.' },
+          { speaker: 'zara', line: 'Can I tell you something? I almost canceled this session. I was scared. Scared of being vulnerable, scared of being judged, scared of... feeling too much.', emotion: 'vulnerable' },
+          { speaker: 'player', line: 'What changed your mind?' },
+          { speaker: 'zara', line: 'Your portfolio. The way you photograph people—there\'s so much respect. So much humanity. I knew I\'d be safe with you.', emotion: 'trusting' },
+          { speaker: 'narrator', line: 'The moment hangs between you—charged with unspoken understanding.' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_vulnerable',
+        cg: 'cg_intimate_close_moment'
+      },
+      {
+        beat: 'ArtistAndMuse',
+        content: 'Acknowledging the creative partnership formed.',
+        dialogue: [
+          { speaker: 'player', line: 'You made this possible. Your courage, your trust—that\'s what creates beauty like this.' },
+          { speaker: 'zara', line: 'We made it together. Artist and muse. But also... more than that. Friends? Partners? I don\'t even know what to call this.', emotion: 'thoughtful' },
+          { speaker: 'player', line: 'We don\'t need to label it. This connection—whatever it is—it\'s real. It shows in every image.' },
+          { speaker: 'zara', line: 'I want to finish strong. Whatever we do next, I want it to honor everything we\'ve built together.', emotion: 'confident' },
+          { speaker: 'narrator', line: 'She stands, letting the silk robe slip slightly. Not provocative—natural, comfortable, trusting completely.' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_confident'
+      },
+      {
+        beat: 'DecisionPoint',
+        content: 'Choosing how to conclude the session.',
+        dialogue: [
+          { speaker: 'zara', line: 'So what\'s next? How do we bring this home?', emotion: 'confident' },
+          { speaker: 'player', line: 'That depends on what feels right to you. We could wrap here with what we have—it\'s already extraordinary. Or we could push further, create one final definitive piece.' },
+          { speaker: 'zara', line: 'Part of me wants to stay safe. But a bigger part wants to see how far we can go together.', emotion: 'thoughtful' },
+          { speaker: 'narrator', line: 'She looks at you—eyes clear, decision forming. Trust earned, connection established, boundaries understood.' },
+          { speaker: 'zara', line: 'I\'m ready. Let\'s create something unforgettable.', emotion: 'trusting' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_trusting'
+      }
+    ],
+    choices: [
+      {
+        id: 'choice_8_wrap_here',
+        text: 'Suggest wrapping the session—we\'ve created more than enough beautiful work.',
+        effects: {
+          ZaraComfort: 30,
+          Trust: 25,
+          IntimacyLevel: 10,
+          ArtisticCohesion: 35
+        },
+        nextScene: 'scene_10_reflection'
+      },
+      {
+        id: 'choice_8_final_boudoir',
+        text: 'Return to boudoir setting—one final sensual session honoring the connection.',
+        conditions: 'Trust >= 15 && Flag_BoudoirSessionDone === true',
+        effects: {
+          ZaraComfort: 10,
+          Trust: 28,
+          IntimacyLevel: 50,
+          ArtisticCohesion: 40,
+          selectedMode: 'boudoir_sensual'
+        },
+        nextScene: 'scene_9_climax_intimate'
+      },
+      {
+        id: 'choice_8_ultimate_artistic',
+        text: 'Create ultimate artistic piece—push to highest level of intimacy and artistry.',
+        conditions: 'Trust >= 25 && IntimacyLevel >= 45 && ArtisticCohesion >= 35',
+        effects: {
+          ZaraComfort: -10,
+          Trust: 35,
+          IntimacyLevel: 75,
+          ArtisticCohesion: 60,
+          RequiresNudityConsent: true,
+          selectedMode: 'minimal_artistic'
+        },
+        nextScene: 'scene_9_climax_intimate'
+      }
+    ],
+    requiredAssets: {
+      backgrounds: ['bg_natural_light_loft', 'bg_boudoir_bedroom_natural'],
+      characters: ['zara_thoughtful', 'zara_vulnerable', 'zara_confident', 'zara_trusting'],
+      cgs: ['cg_intimate_close_moment']
+    }
   },
 
   scene_9_climax_intimate: {
     id: 'scene_9_climax_intimate',
-    title: 'Ultimate Intimate Session',
-    setting: 'Culmination of trust and intimacy.',
-    objectives: ['Create signature intimate portfolio'],
-    sceneFlow: [],
-    choices: [],
-    requiredAssets: { backgrounds: [], characters: [], cgs: [] }
+    title: 'Masterpiece',
+    setting: 'The ultimate session. Every moment of trust, every shared vulnerability, every artistic choice converges here. This is the image that defines the entire portfolio—the masterpiece created together.',
+    objectives: [
+      'Create the defining portfolio piece',
+      'Honor the trust and intimacy built',
+      'Capture ultimate artistic vision',
+      'Celebrate vulnerability as strength'
+    ],
+    sceneFlow: [
+      {
+        beat: 'UltimatePreparation',
+        content: 'Preparing for the final, definitive session.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You return to the luxury boudoir—transformed now by everything you\'ve shared. The same dramatic lighting, the same elegant space, but charged with deeper meaning. This isn\'t just another shot. This is the culmination.' },
+          { speaker: 'zara', line: 'I can feel it. This is going to be the one, isn\'t it?', emotion: 'intimate_trust' },
+          { speaker: 'player', line: 'Everything we\'ve done has led here. All the trust we\'ve built, all the boundaries we\'ve navigated together—this is where it pays off.' },
+          { speaker: 'narrator', line: 'She prepares with deliberate care. Not nervous—focused. An artist preparing to create her greatest work, using her own body as the medium.' },
+          { speaker: 'zara', line: 'I\'m ready. Let\'s make something extraordinary.', emotion: 'intimate_trust' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_intimate_trust'
+      },
+      {
+        beat: 'IntimateCollaboration',
+        content: 'Working together at the highest level of artistry.',
+        dialogue: [
+          { speaker: 'narrator', line: 'Direction becomes telepathy. You gesture; she moves. You suggest; she interprets and improves. This isn\'t photographer and model—this is co-creation at its purest.' },
+          { speaker: 'player', line: 'Try shifting your weight slightly... yes, perfect. The light catches you perfectly there.' },
+          { speaker: 'zara', line: 'Like this?', emotion: 'minimal_artistic' },
+          { speaker: 'player', line: 'Exactly like that. God, you\'re stunning. Hold it...' },
+          { speaker: 'narrator', line: 'The shutter clicks. Through the viewfinder, you see it immediately—the image that transcends technique, that captures not just form but feeling. Museum-worthy. Portfolio-defining. Perfect.' },
+          { speaker: 'zara', line: 'Did we get it?', emotion: 'minimal_artistic' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_minimal_artistic'
+      },
+      {
+        beat: 'TheMasterpiece',
+        content: 'Reviewing the defining image. Recognition of something profound.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You show her the screen. She goes completely still—breath caught, eyes wide. For a long moment, neither of you speaks.' },
+          { speaker: 'zara', line: 'That\'s... I don\'t even have words. That\'s the most beautiful photograph I\'ve ever seen.', emotion: 'minimal_artistic' },
+          { speaker: 'player', line: 'You created that. Your courage, your trust, your willingness to be completely vulnerable—that\'s what makes it transcendent.' },
+          { speaker: 'zara', line: 'We created it. Together. Artist and muse, photographer and subject, but also... partners in something rare.', emotion: 'intimate_trust' },
+          { speaker: 'narrator', line: 'She looks at you—not through the camera, not through any protective lens. Just human to human, sharing the profound understanding of having created something timeless together.' },
+          { speaker: 'zara', line: 'Thank you. For seeing me. For honoring me. For creating this with me.', emotion: 'intimate_trust' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_intimate_trust',
+        cg: 'cg_climax_minimal'
+      },
+      {
+        beat: 'ContinuedExcellence',
+        content: 'Building on the masterpiece. Creating an entire series.',
+        dialogue: [
+          { speaker: 'narrator', line: 'The first masterpiece unlocks something. You continue shooting—each image building on the last, creating not just one perfect photograph but an entire series worthy of gallery walls.' },
+          { speaker: 'zara', line: 'I\'ve never felt more powerful and more vulnerable at the same time. How is that possible?', emotion: 'boudoir_confident' },
+          { speaker: 'player', line: 'Because true power comes from choosing vulnerability. That\'s what you\'re demonstrating in every frame.' },
+          { speaker: 'narrator', line: 'She moves with complete confidence now—owning her sensuality, her artistry, her agency. Every pose deliberate, every expression authentic.' },
+          { speaker: 'zara', line: 'I never want this to end. But I also know it\'s perfect exactly as it is.', emotion: 'boudoir_confident' },
+          { speaker: 'player', line: 'Then let\'s create one more perfect moment. The final frame.' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_boudoir_confident',
+        cg: 'cg_climax_boudoir'
+      },
+      {
+        beat: 'FinalFrame',
+        content: 'The last image. Completion.',
+        dialogue: [
+          { speaker: 'narrator', line: 'She takes position for the final shot. Everything you\'ve learned about her, everything she\'s revealed—distilled into one last perfect composition.' },
+          { speaker: 'zara', line: 'How do you want me?', emotion: 'intimate_trust' },
+          { speaker: 'player', line: 'However you want to be remembered. This is your image. Your choice. Your power.' },
+          { speaker: 'narrator', line: 'She smiles—radiant, knowing, complete. She arranges herself with perfect instinct, embodying everything the session has been: trust, beauty, vulnerability, strength, artistry, intimacy.' },
+          { speaker: 'player', line: 'Perfect. Absolutely perfect. Three... two... one...' },
+          { speaker: 'narrator', line: 'Click. The final frame captures everything. You both feel it—the completion, the perfection, the profound creative intimacy achieved.' },
+          { speaker: 'zara', line: 'We did it. We actually did it.', emotion: 'intimate_trust' },
+          { speaker: 'player', line: 'We did. And it\'s extraordinary.' }
+        ],
+        background: 'bg_boudoir_luxury_dramatic',
+        character: 'zara_intimate_trust'
+      }
+    ],
+    choices: [
+      {
+        id: 'choice_9_complete',
+        text: 'Wrap the session—the portfolio is complete and perfect.',
+        effects: {
+          ZaraComfort: 40,
+          Trust: 40,
+          IntimacyLevel: 30,
+          ArtisticCohesion: 70,
+          Flag_MinimalCoverageUsed: true
+        },
+        nextScene: 'scene_10_reflection'
+      }
+    ],
+    requiredAssets: {
+      backgrounds: ['bg_boudoir_luxury_dramatic', 'bg_studio_intimate_corner'],
+      characters: ['zara_intimate_trust', 'zara_minimal_artistic', 'zara_boudoir_confident', 'zara_lingerie_minimal'],
+      cgs: ['cg_climax_boudoir', 'cg_climax_minimal']
+    }
   },
 
   scene_10_reflection: {
     id: 'scene_10_reflection',
-    title: 'Reflection & Future',
-    setting: 'Post-session review and connection.',
-    objectives: ['Review work, discuss future collaboration'],
-    sceneFlow: [],
+    title: 'Reflection',
+    setting: 'Natural light loft as the day transitions to evening. The session complete, you sit together reviewing the portfolio—processing what was created, what was shared, what it means.',
+    objectives: [
+      'Review the complete portfolio together',
+      'Process the experience and connection',
+      'Acknowledge the intimacy and trust shared',
+      'Discuss future possibilities'
+    ],
+    sceneFlow: [
+      {
+        beat: 'PortfolioReview',
+        content: 'Reviewing the complete body of work together.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You sit together in the natural light loft—golden hour fading to twilight. The camera between you, screen glowing with the day\'s work. Image after image scrolls past, each one a moment of trust captured, a boundary crossed together, a creative triumph shared.' },
+          { speaker: 'zara', line: 'I can\'t believe we created all this in one session. It feels like a lifetime.', emotion: 'thoughtful' },
+          { speaker: 'player', line: 'We went on a journey together. These images tell that story—every moment of growth, every deepening of trust.' },
+          { speaker: 'narrator', line: 'She scrolls slowly through the collection. Early images—professional, beautiful, safe. Middle images—boudoir elegance, sensual confidence emerging. Final images—transcendent artistry, complete vulnerability as ultimate strength.' },
+          { speaker: 'zara', line: 'Look at the difference. That\'s me in the first photo—guarded, uncertain. And that\'s me in the last one—completely open. Completely myself.', emotion: 'vulnerable' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_thoughtful'
+      },
+      {
+        beat: 'ProcessingIntimacy',
+        content: 'Acknowledging what was shared and created.',
+        dialogue: [
+          { speaker: 'player', line: 'You were extraordinary today. Your courage, your trust—that\'s what made this possible.' },
+          { speaker: 'zara', line: 'I\'ve never let anyone see me like this. Not just physically—emotionally. You created space for me to be completely authentic.', emotion: 'trusting' },
+          { speaker: 'narrator', line: 'She turns to face you—eyes bright, smile soft. The professional boundary has transformed into something deeper. Not romantic necessarily, but profoundly intimate. Creative partnership at its truest.' },
+          { speaker: 'zara', line: 'Thank you. For seeing me. For respecting my boundaries. For pushing me gently past them when I was ready. For creating this with me, not just photographing me.', emotion: 'trusting' },
+          { speaker: 'player', line: 'Thank you for trusting me. For being vulnerable. For bringing your whole self to this work. These aren\'t just my photographs—they\'re our art.' },
+          { speaker: 'narrator', line: 'Silence settles—warm, comfortable, complete. Outside, the city lights begin to glow.' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_trusting'
+      },
+      {
+        beat: 'FutureDiscussion',
+        content: 'Discussing what comes next.',
+        dialogue: [
+          { speaker: 'zara', line: 'So what happens with these images?', emotion: 'confident' },
+          { speaker: 'player', line: 'That\'s entirely up to you. They\'re your images as much as mine. We can keep them private, submit to galleries, build a published series—whatever feels right.' },
+          { speaker: 'zara', line: 'I want people to see them. Not for validation—because they\'re genuinely beautiful art. Because they might help someone else feel brave enough to be vulnerable.', emotion: 'confident' },
+          { speaker: 'player', line: 'Then that\'s what we\'ll do. I have gallery contacts who specialize in fine art intimate portraiture. Museum-quality work like this.' },
+          { speaker: 'zara', line: 'I like the sound of that. Museum walls. Our collaboration honored publicly.', emotion: 'confident' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_confident'
+      },
+      {
+        beat: 'FutureCollaboration',
+        content: 'Possibility of working together again.',
+        dialogue: [
+          { speaker: 'player', line: 'I\'d love to work together again. If you\'re interested. We\'ve only scratched the surface of what we could create.' },
+          { speaker: 'zara', line: 'I\'d like that. Very much. Maybe next time we push even further. Different locations, different concepts—building on what we\'ve established.', emotion: 'thoughtful' },
+          { speaker: 'narrator', line: 'She stands, stretches. The session complete, the creative work done. But the connection remains—artistic partnership forged through shared vulnerability.' },
+          { speaker: 'zara', line: 'This was... I don\'t have words adequate to what this meant to me. Life-changing doesn\'t even cover it.', emotion: 'trusting' },
+          { speaker: 'player', line: 'I feel the same way. This is why I do this work—these moments of genuine human connection through art.' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_thoughtful'
+      },
+      {
+        beat: 'Conclusion',
+        content: 'Parting with gratitude and connection.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You walk her to the door. The session ending, but the impact permanent. Changed by creating together, by trusting together, by being vulnerable together.' },
+          { speaker: 'zara', line: 'I\'ll text you tomorrow once I\'ve processed everything. We should discuss the gallery submissions.', emotion: 'confident' },
+          { speaker: 'player', line: 'Absolutely. And Zara? Today was extraordinary. Thank you.' },
+          { speaker: 'zara', line: 'Thank you. For everything. For seeing me.', emotion: 'trusting' },
+          { speaker: 'narrator', line: 'She leaves. You return to the studio, scrolling through the images once more. Every frame tells the story—trust built, boundaries navigated, beauty created. This is what great art requires: courage, vulnerability, human connection. You\'ve captured all three.' },
+          { speaker: 'narrator', line: 'Chapter One complete. The foundation established. Future chapters await.' }
+        ],
+        background: 'bg_natural_light_loft',
+        character: 'zara_confident'
+      }
+    ],
     choices: [],
-    requiredAssets: { backgrounds: [], characters: [], cgs: [] }
+    requiredAssets: {
+      backgrounds: ['bg_natural_light_loft', 'bg_studio_morning_arrival'],
+      characters: ['zara_thoughtful', 'zara_vulnerable', 'zara_confident', 'zara_trusting'],
+      cgs: []
+    }
   }
 };
 

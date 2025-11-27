@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { COMPLETE_ASSET_MANIFEST, getAssetsByPriority, getAssetsByType, getAssetStats, type AssetRequirement } from './assetManifest';
+import { COMPLETE_ASSET_MANIFEST, getAssetsByPriority, getAssetsByType, getAssetStats, getAssetsByContentRating, type AssetRequirement } from './assetManifest';
 import type { GenerationSettings, GeneratedImageData } from '../types';
 import {
   saveAssetToFile,
@@ -36,6 +36,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   const [selectedAsset, setSelectedAsset] = useState<AssetRequirement | null>(null);
   const [filterType, setFilterType] = useState<'all' | AssetRequirement['type']>('all');
   const [filterPriority, setFilterPriority] = useState<'all' | 'critical' | 'high' | 'medium' | 'low'>('all');
+  const [filterContentRating, setFilterContentRating] = useState<'all' | 'general' | 'mature' | 'erotic_art' | 'artistic_nudity'>('all');
   const [isGenerating, setIsGenerating] = useState(false);
   const [assetImageMap, setAssetImageMap] = useState<Record<string, string>>({});
   const [currentGeneratingAssetId, setCurrentGeneratingAssetId] = useState<string | null>(null);
@@ -133,6 +134,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
   const filteredAssets = COMPLETE_ASSET_MANIFEST.filter(asset => {
     if (filterType !== 'all' && asset.type !== filterType) return false;
     if (filterPriority !== 'all' && asset.priority !== filterPriority) return false;
+    if (filterContentRating !== 'all' && asset.contentRating !== filterContentRating) return false;
     return true;
   });
 
@@ -278,7 +280,8 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-3xl font-bold mb-2">🎮 Visual Novel Asset Generator</h1>
-            <p className="text-purple-300">Generate all assets for Chapter 1: The Golden Hour Connection</p>
+            <p className="text-purple-300">Generate all 51 assets for Chapter 1: Erotic-Art Photography Journey</p>
+            <p className="text-sm text-pink-300">30 original + 21 expanded boudoir & intimate assets</p>
           </div>
           <button
             onClick={onExit}
@@ -325,7 +328,7 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
         {/* Filters */}
         <div className="bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-6 mb-6">
           <h3 className="font-bold mb-4">Filters</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div>
               <label className="block text-sm text-gray-400 mb-2">Asset Type</label>
               <select
@@ -334,10 +337,10 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
                 className="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-2"
               >
                 <option value="all">All Types</option>
-                <option value="character_sprite">🧍 Character Sprites</option>
-                <option value="background">🖼️ Backgrounds</option>
+                <option value="character_sprite">🧍 Character Sprites (20)</option>
+                <option value="background">🖼️ Backgrounds (13)</option>
+                <option value="cg_image">✨ CG Images (18)</option>
                 <option value="location_map">🗺️ Location Maps</option>
-                <option value="cg_image">✨ CG Images</option>
                 <option value="cutscene_video">🎬 Cutscene Videos</option>
                 <option value="bgm">🎵 Background Music</option>
                 <option value="sfx">🔊 Sound Effects</option>
@@ -356,6 +359,20 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
                 <option value="high">🟠 High</option>
                 <option value="medium">🟡 Medium</option>
                 <option value="low">🟢 Low</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Content Rating</label>
+              <select
+                value={filterContentRating}
+                onChange={(e) => setFilterContentRating(e.target.value as any)}
+                className="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-2"
+              >
+                <option value="all">All Ratings</option>
+                <option value="general">👔 General (Professional)</option>
+                <option value="mature">💃 Mature (Boudoir/Lingerie)</option>
+                <option value="erotic_art">🎨 Erotic Art (Intimate Artistic)</option>
+                <option value="artistic_nudity">🖼️ Artistic Nudity (Fine Art)</option>
               </select>
             </div>
           </div>
@@ -480,20 +497,29 @@ const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
             <button
               onClick={() => {
                 const sprites = getAssetsByType('character_sprite');
-                alert(`Found ${sprites.length} character sprites. Generate them to bring Zara to life!`);
+                alert(`Found ${sprites.length} character sprites. Generate them to bring Zara to life!\n\n12 original + 8 intimate wardrobe sprites`);
               }}
               className="px-6 py-4 bg-purple-600 hover:bg-purple-500 rounded-lg font-bold transition-all"
             >
-              🧍 Generate All Sprites (6 total)
+              🧍 Generate All Sprites (20 total)
             </button>
             <button
               onClick={() => {
                 const backgrounds = getAssetsByType('background');
-                alert(`Found ${backgrounds.length} background scenes. Generate them to build the world!`);
+                alert(`Found ${backgrounds.length} background scenes. Generate them to build the world!\n\n8 original studio + 5 boudoir/intimate locations`);
               }}
               className="px-6 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold transition-all"
             >
-              🖼️ Generate All Backgrounds (5 total)
+              🖼️ Generate All Backgrounds (13 total)
+            </button>
+            <button
+              onClick={() => {
+                const cgs = getAssetsByType('cg_image');
+                alert(`Found ${cgs.length} CG images. Generate them for key story moments!\n\n10 original + 8 intimate moment CGs`);
+              }}
+              className="px-6 py-4 bg-pink-600 hover:bg-pink-500 rounded-lg font-bold transition-all"
+            >
+              ✨ Generate All CG Images (18 total)
             </button>
             <button
               onClick={() => {
@@ -761,25 +787,42 @@ Ready to see your assets in action? Play the Visual Novel now!
         {/* Instructions */}
         <div className="mt-6 bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-6">
           <h3 className="font-bold text-xl mb-4">📋 Instructions</h3>
+          <div className="mb-4 p-4 bg-pink-900/20 border border-pink-500/30 rounded-lg">
+            <h4 className="font-bold text-pink-300 mb-2">🎨 Expanded Chapter 1 Story</h4>
+            <p className="text-sm text-gray-300">
+              This expansion transforms Chapter 1 from 6 scenes to <strong>10 comprehensive scenes</strong> with progressive intimacy pathways:
+            </p>
+            <ul className="text-xs text-gray-400 mt-2 space-y-1 ml-4">
+              <li>• <strong>Scenes 1-4:</strong> Professional fashion photography (original path)</li>
+              <li>• <strong>Scene 5:</strong> Intimacy Gateway - player chooses progression level</li>
+              <li>• <strong>Scene 6:</strong> Boudoir Session - elegant lingerie photography</li>
+              <li>• <strong>Scene 7:</strong> Fine Art - artistic draping and museum-quality work</li>
+              <li>• <strong>Scene 8:</strong> Emotional Connection - deep personal moment</li>
+              <li>• <strong>Scene 9:</strong> Masterpiece - ultimate intimate session</li>
+              <li>• <strong>Scene 10:</strong> Reflection - portfolio review and future possibilities</li>
+            </ul>
+            <p className="text-xs text-pink-300 mt-2">
+              <strong>Total:</strong> 51 assets (30 original + 21 expanded boudoir/intimate)
+            </p>
+          </div>
           <ol className="list-decimal list-inside space-y-2 text-gray-300">
             <li><strong>Start with Critical Assets:</strong> Generate the 🔴 critical priority assets first - these are essential for gameplay.</li>
-            <li><strong>Character Sprites (6 assets):</strong> Generate all Zara sprites using Imagen/Flux with complete prompts from ASSET_GENERATION_PROMPTS.md (neutral, smile, flirty, shy, studio outfit, boudoir outfit).</li>
-            <li><strong>Background Scenes (5 assets):</strong> Generate all background locations (gallery, studio, bedroom, cafe, showroom) with photorealistic quality.</li>
-            <li><strong>UI Elements (6+ assets):</strong> Generate dialogue boxes, buttons, title logo, menu backgrounds, relationship meters, and time indicators.</li>
+            <li><strong>Character Sprites (20 assets):</strong> Generate all Zara sprites including 12 original (neutral, smile, flirty, shy, etc.) + 8 intimate wardrobe (lingerie_elegant, lingerie_minimal, artistic_drape, silk_robe, intimate_trust, etc.).</li>
+            <li><strong>Background Scenes (13 assets):</strong> Generate all locations including 8 original studio spaces + 5 boudoir/intimate locations (boudoir_bedroom_natural, boudoir_luxury_dramatic, natural_light_loft, etc.).</li>
+            <li><strong>CG Images (18 assets):</strong> Generate all special moments including 10 original + 8 intimate moments (wardrobe_discussion, mirror_preparation, boudoir_pose, artistic_draping_moment, climax_boudoir, climax_minimal, etc.).</li>
+            <li><strong>UI Elements (6+ assets):</strong> Generate dialogue boxes, buttons, title logo, menu backgrounds, relationship meters, and intimacy level indicators.</li>
             <li><strong>Location Maps (6 assets):</strong> Generate city overview map and location cards for travel system.</li>
             <li><strong>Miscellaneous (8 assets):</strong> Generate title screen, loading screen, achievement badges, chapter cards, save slots, settings panels.</li>
             <li><strong>Background Music (6 tracks):</strong> Generate BGM using Lyria (Vertex AI), Suno, or Udio. See audio generation tools section below.</li>
             <li><strong>Sound Effects (7 sounds):</strong> Download from Freesound.org, Zapsplat, or generate with ElevenLabs SFX.</li>
-            <li><strong>CG Images (5 assets):</strong> Generate special event images for key story moments with cinematic quality.</li>
-            <li><strong>Intimate Cutscene Videos (5 videos):</strong> Generate 8-second cinematic cutscenes with Veo (Vertex AI required). Five progressive intimacy levels from first touch to tender aftermath.</li>
+            <li><strong>Content Ratings:</strong> Use filters to generate by rating level: General (professional), Mature (boudoir/lingerie), Erotic Art (intimate artistic), Artistic Nudity (fine art).</li>
             <li><strong>Auto-Save:</strong> All generated assets are automatically saved to file system for instant use in the Visual Novel!</li>
             <li><strong>Play Visual Novel:</strong> Assets automatically load when you play! The game checks for new assets and works even with incomplete sets.</li>
           </ol>
           <div className="mt-4 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
             <p className="text-sm text-blue-300">
-              <strong>💡 Tip:</strong> Check <code>visualnovel/ASSET_GENERATION_PROMPTS.md</code> for 33 complete visual asset prompts including:
-              6 sprites + 3 backgrounds + 4 CGs + 6 UI elements + 6 location maps + 8 misc assets.
-              All prompts are optimized for high-quality photorealistic generation with complete details!
+              <strong>💡 Tip:</strong> Check <code>visualnovel/assetManifest.ts</code> for all 51 complete asset prompts with detailed specifications.
+              All prompts include updated Zara character baseline (Indian erotic-art film athletic glamourous, 5'9", 38D-27-39) and are optimized for high-quality photorealistic generation!
             </p>
           </div>
         </div>

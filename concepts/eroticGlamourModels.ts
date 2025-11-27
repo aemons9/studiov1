@@ -1548,20 +1548,20 @@ export const MODEL_VN_ZARA = {
 
   physicalTraits: {
     height: '5\'9"',
-    figure: 'Versatile fit actress physique with dramatic curves',
-    bust: '38DD"',
+    figure: 'Athletic glamourous fit and toned body structure',
+    bust: '38D"',
     waist: '27"',
     hips: '39"',
-    emphasis: 'Indian erotic-art film specialist actress with complete aesthetic versatility and method acting range',
+    emphasis: 'Indian erotic-art film athletic glamourous with complete aesthetic versatility and method acting range',
     skinTone: 'Fair complexion with dramatic lighting potential for cinematic character depth. Film set lighting creating authentic character texture',
     features: 'Long dark brown hair with natural character styling. Method acting specialist features: complete emotional range, sultry dramatic eyes, expressive lips, cinematic cheekbones. No tattoos, piercings, or body art - clean canvas for character embodiment',
-    fitness: 'Versatile fit actress build with dramatic curves and emotional embodiment',
+    fitness: 'Athletic glamourous fit and toned body structure with emotional embodiment',
     hands: 'Natural manicured hands with character-appropriate dramatic polish',
     age: '22-26',
     style: 'Modern Indian actress with bold confidence and cinematic aesthetic',
     photographer: 'Marcello Eros, erotic-art film specialist',
     quality: 'Ultra-high-end 8K photography with impeccable detail and professional retouching maintaining authentic texture',
-    specialties: 'Visual Novel protagonist, erotic-art film specialist, fashion photography (4 modes: Experimental, Platinum, Vera, Artistic), complete intimacy range with narrative depth, fine art nude capability, method acting emotional range'
+    specialties: 'Visual Novel protagonist, erotic-art film athletic glamourous, fashion photography (4 modes: Experimental, Platinum, Vera, Artistic), complete intimacy range with narrative depth, fine art nude capability, method acting emotional range'
   },
 
   // WARDROBE: Access to ALL wardrobes from all models plus VN-specific

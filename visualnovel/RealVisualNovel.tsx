@@ -56,11 +56,11 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
 
   // Get current scene, beat, and dialogue
   const currentScene = SCENES[gameState.currentSceneId];
-  const currentBeat = currentScene?.beats[gameState.currentBeatIndex];
-  const currentDialogue = currentBeat?.dialogue[gameState.currentDialogueIndex];
+  const currentBeat = currentScene?.sceneFlow[gameState.currentBeatIndex];
+  const currentDialogue = currentBeat?.dialogue?.[gameState.currentDialogueIndex];
 
-  const isLastDialogueInBeat = currentBeat && gameState.currentDialogueIndex >= currentBeat.dialogue.length - 1;
-  const isLastBeat = currentScene && gameState.currentBeatIndex >= currentScene.beats.length - 1;
+  const isLastDialogueInBeat = currentBeat && currentBeat.dialogue && gameState.currentDialogueIndex >= currentBeat.dialogue.length - 1;
+  const isLastBeat = currentScene && gameState.currentBeatIndex >= currentScene.sceneFlow.length - 1;
 
   // Text typing effect
   useEffect(() => {
@@ -69,7 +69,7 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
     setIsTyping(true);
     setDisplayedText('');
 
-    const text = currentDialogue.text;
+    const text = currentDialogue.line;
     let index = 0;
 
     const interval = setInterval(() => {
@@ -89,7 +89,7 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
   const advanceDialogue = useCallback(() => {
     if (isTyping) {
       // Skip typing
-      setDisplayedText(currentDialogue?.text || '');
+      setDisplayedText(currentDialogue?.line || '');
       setIsTyping(false);
       return;
     }
@@ -159,9 +159,9 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
   // Get background
   const backgroundImage = currentScene?.background || getBackgroundForScene(gameState.currentSceneId, loadedAssets);
 
-  // Get sprite based on scene and expression
-  const spriteExpression = currentDialogue?.expression || currentScene?.defaultExpression || 'neutral';
-  const spriteUrl = getSpriteForExpression(spriteExpression as any, loadedAssets);
+  // Get sprite based on scene and emotion
+  const spriteEmotion = currentDialogue?.emotion || 'neutral';
+  const spriteUrl = getSpriteForExpression(spriteEmotion as any, loadedAssets);
 
   if (!currentScene || !currentBeat || !currentDialogue) {
     return (
@@ -198,11 +198,11 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
       </div>
 
       {/* Character Sprite */}
-      {spriteUrl && currentDialogue.speaker === 'Zara' && (
+      {spriteUrl && currentDialogue.speaker === 'zara' && (
         <div className="absolute bottom-0 right-1/4 pointer-events-none" style={{ height: '60vh' }}>
           <img
             src={spriteUrl}
-            alt={`Zara - ${spriteExpression}`}
+            alt={`Zara - ${spriteEmotion}`}
             style={{
               height: '100%',
               width: 'auto',
@@ -227,11 +227,11 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
 
         <div className="relative max-w-6xl mx-auto px-8 pb-8 pt-16">
           {/* Speaker Name */}
-          {currentDialogue.speaker !== 'Narrator' && (
+          {currentDialogue.speaker !== 'narrator' && (
             <div className="mb-2 ml-2">
               <div className="inline-block bg-gradient-to-r from-purple-600 to-pink-600 px-6 py-2 rounded-t-xl shadow-lg">
                 <span className="font-bold text-lg tracking-wide">
-                  {currentDialogue.speaker}
+                  {currentDialogue.speaker.charAt(0).toUpperCase() + currentDialogue.speaker.slice(1)}
                 </span>
               </div>
             </div>
@@ -309,7 +309,7 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
       {/* Progress */}
       <div className="absolute top-4 left-4 bg-black/60 backdrop-blur-sm border border-purple-500/30 px-4 py-2 rounded-lg z-40">
         <p className="text-sm text-purple-300">
-          📖 {currentScene.title} | Scene {gameState.currentSceneId} | Beat {gameState.currentBeatIndex + 1}/{currentScene.beats.length}
+          📖 {currentScene.title} | Scene {gameState.currentSceneId} | Beat {gameState.currentBeatIndex + 1}/{currentScene.sceneFlow.length}
         </p>
       </div>
 

@@ -495,6 +495,318 @@ TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, warm satisfied`,
     mode: 'all',
     contentRating: 'general',
     generated: false
+  },
+
+  // ==========================================================================
+  // INTIMATE WARDROBE SPRITES (8 new for boudoir expansion)
+  // ==========================================================================
+
+  {
+    id: 'zara_lingerie_elegant',
+    type: 'character_sprite',
+    name: 'Zara - Elegant Lingerie',
+    description: 'Sophisticated lace lingerie, boudoir aesthetic',
+    prompt: `INTIMATE BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: ELEGANT LINGERIE - Sophisticated ivory/champagne lace bra and high-waisted briefs set, delicate lace details, classic elegant design, subtle gold body chain, natural glamorous makeup, hair in soft waves
+
+POSE & EXPRESSION: Full-body standing, weight on one leg creating elegant curve, confident sensual expression, direct warm eye contact, one hand on hip, other arm relaxed, sophisticated boudoir model presence, comfortable in intimate attire
+
+EMOTION: Confident sensuality - sophisticated, elegant, comfortable
+
+LIGHTING: Soft flattering boudoir lighting - diffused key light creating gentle shadows, warm color temperature, intimate atmosphere, beauty lighting emphasizing curves tastefully
+
+PHOTOGRAPHY: Canon EOS R5, 85mm f/1.4 at f/2.0, intimate portrait framing, boudoir editorial standard
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Sophisticated boudoir photography, elegant intimate portraiture, tasteful sensual aesthetic
+
+CONTENT NOTE: Elegant lingerie, mature content, tasteful coverage
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, warm intimate quality`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_2_wardrobe_intimacy', 'scene_4_initial_shoot', 'scene_6_boudoir_session'],
+    mode: 'boudoir_elegant',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'zara_lingerie_minimal',
+    type: 'character_sprite',
+    name: 'Zara - Minimal Lingerie',
+    description: 'Minimal coverage lingerie, sensual aesthetic',
+    prompt: `INTIMATE BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: MINIMAL LINGERIE - Delicate black minimal lace bralette and matching briefs, minimal coverage emphasizing athletic form, simple elegant design, natural confident makeup, hair flowing loose
+
+POSE & EXPRESSION: Full-body sensual pose, body creating elegant lines, confident intimate expression, sultry direct gaze, hand touching hair or collarbone naturally, athletic curves emphasized, comfortable sensual presence
+
+EMOTION: Confident intimacy - bold, sensual, trusting
+
+LIGHTING: Intimate boudoir lighting with subtle drama - key light creating gentle modeling, rim light adding dimension, warm intimate atmosphere
+
+PHOTOGRAPHY: Canon EOS R5, 85mm f/1.2 at f/1.8, shallow depth, intimate boudoir framing
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Sensual boudoir photography, intimate editorial, confident sensuality
+
+CONTENT NOTE: Minimal lingerie, mature intimate content, tasteful sensual aesthetic
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, intimate warm quality`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_6_boudoir_session', 'scene_7_artistic_intimacy'],
+    mode: 'boudoir_sensual',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'zara_silk_robe_open',
+    type: 'character_sprite',
+    name: 'Zara - Silk Robe Partially Open',
+    description: 'Silk robe suggesting intimacy, vulnerable elegance',
+    prompt: `INTIMATE PORTRAIT PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: SILK ROBE - Luxurious silk robe in deep jewel tone (emerald or sapphire), partially open revealing shoulder and suggesting form beneath without explicit nudity, elegant draping, minimal jewelry, natural soft makeup, hair loose and natural
+
+POSE & EXPRESSION: Full-body relaxed intimate stance, robe falling naturally off one shoulder, vulnerable open expression, soft trusting eyes, slight genuine smile, one hand holding robe loosely, body language open and comfortable
+
+EMOTION: Vulnerable trust - intimate, honest, comfortable
+
+LIGHTING: Soft natural-style lighting creating tender intimate atmosphere, gentle key light, minimal shadows, warm color temperature
+
+PHOTOGRAPHY: Canon EOS R5, 85mm f/1.4 at f/2.0, intimate portrait style, emotional connection
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Intimate portrait photography, vulnerable beauty, honest sensuality
+
+CONTENT NOTE: Implied intimacy with silk robe, mature content, tasteful suggestion
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, soft intimate quality`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_2_wardrobe_intimacy', 'scene_7_artistic_intimacy', 'scene_8_emotional_depth'],
+    mode: 'artistic_intimate',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'zara_artistic_drape_partial',
+    type: 'character_sprite',
+    name: 'Zara - Artistic Fabric Draping',
+    description: 'Artistic fabric creating partial coverage, fine art aesthetic',
+    prompt: `FINE ART PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: ARTISTIC DRAPING - Single flowing ivory fabric piece draped artistically creating tasteful partial coverage, emphasis on form and light, fabric creating beautiful lines and shadows, no jewelry (pure form focus), minimal natural makeup, hair elegant
+
+POSE & EXPRESSION: Full-body artistic pose inspired by classical sculpture, fabric draped tastefully, body creating beautiful sculptural lines, serene confident expression, calm direct gaze, artistic presence
+
+EMOTION: Artistic serenity - confident, timeless, embodying art
+
+LIGHTING: Dramatic chiaroscuro lighting - strong key light from side creating sculptural shadows, high contrast, Helmut Newton-inspired fine art lighting
+
+PHOTOGRAPHY: Hasselblad medium format aesthetic, 80mm lens, fine art framing, museum-quality composition
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Fine art photography, sculptural human form, classical aesthetic
+
+CONTENT NOTE: Artistic partial nudity with fabric draping, artistic_nudity rating, tasteful fine art
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, fine art quality`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_7_artistic_intimacy', 'scene_9_climax_intimate'],
+    mode: 'artistic_intimate',
+    contentRating: 'artistic_nudity',
+    requiresConsent: true,
+    generated: false
+  },
+
+  {
+    id: 'zara_minimal_artistic',
+    type: 'character_sprite',
+    name: 'Zara - Minimal Artistic Coverage',
+    description: 'Minimal coverage fine art pose, museum quality',
+    prompt: `FINE ART PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: MINIMAL ARTISTIC - Minimal artistic coverage using strategic fabric placement, emphasis on form, light, and shadow as primary subjects, classical fine art approach, no jewelry, minimal makeup, hair pulled back elegantly
+
+POSE & EXPRESSION: Full-body classical art pose (contrapposto or similar), minimal fabric creating tasteful coverage, body as living sculpture, serene confident expression, timeless beauty, museum-quality presence
+
+EMOTION: Artistic transcendence - pure form and light
+
+LIGHTING: DRAMATIC FINE ART LIGHTING - single powerful key light creating strong shadows and highlights, deep chiaroscuro, minimal fill, sculptural emphasis, Helmut Newton/Irving Penn aesthetic
+
+PHOTOGRAPHY: Hasselblad medium format, 80mm lens, classical fine art composition
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Museum-quality fine art photography, classical nude study tradition, emphasis on form and light
+
+CONTENT NOTE: Minimal artistic coverage, artistic_nudity, NON-EXPLICIT fine art approach, requires consent
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, fine art museum quality`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'medium',
+    sceneUsage: ['scene_9_climax_intimate'],
+    mode: 'minimal_artistic',
+    contentRating: 'artistic_nudity',
+    requiresConsent: true,
+    generated: false
+  },
+
+  {
+    id: 'zara_boudoir_confident',
+    type: 'character_sprite',
+    name: 'Zara - Boudoir Confident',
+    description: 'Boudoir wardrobe with powerful confident expression',
+    prompt: `BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: Elegant boudoir lingerie or silk robe (mode-dependent)
+
+POSE & EXPRESSION: Full-body powerful confident stance - shoulders back, chin up, fierce direct gaze radiating ownership of space, one hand on hip, commanding boudoir presence, "I own my sensuality" energy
+
+EMOTION: Powerful confidence - commanding, self-assured, bold
+
+LIGHTING: Strong flattering boudoir lighting emphasizing confidence and power, rim light adding separation
+
+PHOTOGRAPHY: Canon EOS R5, 85mm f/1.4, confident boudoir editorial
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Empowered boudoir photography, confident sensual aesthetic
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, powerful presence`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_6_boudoir_session', 'scene_9_climax_intimate'],
+    mode: 'boudoir_elegant',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'zara_boudoir_vulnerable',
+    type: 'character_sprite',
+    name: 'Zara - Boudoir Vulnerable',
+    description: 'Boudoir wardrobe with soft vulnerable expression',
+    prompt: `BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: Intimate boudoir attire (lingerie or silk robe)
+
+POSE & EXPRESSION: Full-body with vulnerable softness - relaxed shoulders, gentle expression, eyes showing emotional openness, slight head tilt, one arm crossing body gently (protective but open), "letting you see me" vulnerability
+
+EMOTION: Soft vulnerability - tender, open, trusting
+
+LIGHTING: Soft tender boudoir lighting creating intimate safe atmosphere, gentle warm key light
+
+PHOTOGRAPHY: Canon EOS R5, 85mm f/1.4 at f/2.0, intimate emotional portrait
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Intimate vulnerable boudoir photography, emotional honesty
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, tender quality`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_6_boudoir_session', 'scene_8_emotional_depth'],
+    mode: 'boudoir_sensual',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'zara_intimate_trust',
+    type: 'character_sprite',
+    name: 'Zara - Deep Intimate Trust',
+    description: 'Intimate wardrobe with profound trusting connection',
+    prompt: `INTIMATE PORTRAIT PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait
+
+${ZARA_CHARACTER_BASE}
+
+OUTFIT: Intimate wardrobe (silk robe or artistic drape depending on chosen path)
+
+POSE & EXPRESSION: Full-body deeply relaxed and trusting - complete comfort visible in body language, profound trust radiating from eyes, genuine warm smile, completely open presence, "absolute trust and connection" energy
+
+EMOTION: Deep profound trust - complete comfort, emotional intimacy, partnership
+
+LIGHTING: Warm intimate lighting creating deep connection atmosphere, soft flattering illumination
+
+PHOTOGRAPHY: Canon EOS R5, 85mm f/1.4 at f/2.0, intimate connection portraiture
+
+BACKGROUND: PURE TRANSPARENT (alpha channel)
+
+STYLE: Intimate portrait photography emphasizing emotional connection and deep trust
+
+TECHNICAL: PNG with alpha, 1080x1920 (9:16), photorealistic, profound warmth`,
+    specifications: {
+      width: 1080,
+      height: 1920,
+      format: 'PNG',
+      aspectRatio: '9:16'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_8_emotional_depth', 'scene_9_climax_intimate', 'scene_10_reflection'],
+    mode: 'all',
+    contentRating: 'mature',
+    generated: false
   }
 ];
 
@@ -777,6 +1089,189 @@ TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, warm color temperature, comfor
     priority: 'medium',
     sceneUsage: ['scene_6_wrap'],
     mode: 'all',
+    contentRating: 'general',
+    generated: false
+  },
+
+  // ==========================================================================
+  // BOUDOIR & INTIMATE LOCATIONS (5 new for intimate expansion)
+  // ==========================================================================
+
+  {
+    id: 'bg_boudoir_bedroom_natural',
+    type: 'background',
+    name: 'Boudoir - Bedroom Natural Light',
+    description: 'Intimate bedroom with soft natural window light, white linens',
+    prompt: `INTIMATE BOUDOIR PHOTOGRAPHY LOCATION | Photorealistic | 16:9 widescreen
+
+LOCATION: Intimate bedroom with soft romantic atmosphere, white/cream aesthetic
+
+FURNISHINGS: Elegant bed with white linen sheets and plush pillows, soft cream duvet naturally rumpled, minimal elegant nightstand with single fresh flower in vase, sheer white curtains, warm wooden floor or cream carpet, minimal elegant decor
+
+LIGHTING: NATURAL WINDOW LIGHT - Soft diffused sunlight streaming through sheer curtains creating gentle glow, warm natural illumination, no harsh shadows, golden hour quality light, intimate tender atmosphere
+
+ATMOSPHERE: Soft romantic intimate, private bedroom sanctuary, comfortable vulnerable space, elegant minimalism, warm inviting, safe intimate environment
+
+COLOR PALETTE: Whites, creams, soft beiges, warm wood tones, natural light creating gentle warmth
+
+COMPOSITION: Medium-wide shot showing bed and window, clear foreground space for intimate photography, depth showing intimate bedroom layers, soft focus background
+
+STYLE: Intimate boudoir photography location, elegant bedroom editorial, soft romantic aesthetic, natural light boudoir
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, soft natural light, warm intimate quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'critical',
+    sceneUsage: ['scene_6_boudoir_session', 'scene_8_emotional_depth'],
+    mode: 'boudoir_elegant',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'bg_boudoir_luxury_dramatic',
+    type: 'background',
+    name: 'Boudoir - Luxury Dramatic',
+    description: 'Luxury bedroom with dramatic lighting, rich fabrics',
+    prompt: `LUXURY BOUDOIR PHOTOGRAPHY LOCATION | Photorealistic | Dramatic lighting | 16:9 widescreen
+
+LOCATION: Luxury intimate bedroom with dramatic sophisticated atmosphere
+
+FURNISHINGS: Elegant bed with rich jewel-toned silk/velvet bedding (deep emerald, sapphire, or burgundy), multiple plush pillows, elegant upholstered headboard, sophisticated nightstands, elegant chair or chaise, luxury carpet, sophisticated wall art, high-end intimate bedroom
+
+LIGHTING: DRAMATIC LUXURY LIGHTING - Strategic dramatic lighting creating strong contrasts, warm golden key light from side creating sculptural shadows, rim lighting adding depth and luxury, sophisticated intimate atmosphere with dramatic flair, Helmut Newton-inspired boudoir lighting
+
+ATMOSPHERE: Sophisticated luxury intimacy, dramatic sensual space, high-end boudoir editorial environment, expensive intimate aesthetic, powerful yet comfortable
+
+COLOR PALETTE: Rich jewel tones, gold accents, deep sophisticated colors, dramatic luxury
+
+COMPOSITION: Medium-wide shot showing luxury bed and dramatic lighting setup, clear foreground for intimate photography, sophisticated depth and layers
+
+STYLE: High-end luxury boudoir photography, dramatic intimate editorial, sophisticated sensual aesthetic
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, dramatic lighting, luxury quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_7_artistic_intimacy', 'scene_9_climax_intimate'],
+    mode: 'boudoir_sensual',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'bg_studio_intimate_corner',
+    type: 'background',
+    name: 'Studio - Intimate Private Corner',
+    description: 'Private corner of studio with soft lighting, intimate setup',
+    prompt: `PHOTOGRAPHY STUDIO INTERIOR | Intimate setup | Photorealistic | 16:9 widescreen
+
+LOCATION: Private intimate corner of photography studio, separated from main space
+
+SETUP: INTIMATE CORNER - Elegant backdrop (soft gray or cream muslin), comfortable seating (elegant chair or small chaise), intimate props (soft throw blanket, small table with flowers), soft area rug defining intimate space, minimal but sophisticated, warm personal touches
+
+LIGHTING: SOFT INTIMATE LIGHTING - Multiple large softboxes creating wrapping light, warm gentle illumination, beauty dish for controlled highlights, no harsh shadows, comfortable safe lighting creating intimate atmosphere, soft romantic glow
+
+ATMOSPHERE: Private intimate sanctuary within studio, comfortable vulnerable space, soft romantic professional, warm safe environment for intimate work
+
+DETAILS: Elegant minimal props, soft textures (fabric, flowers), warm personal touches, professional yet intimate, everything creating comfort
+
+COMPOSITION: Medium shot showing intimate corner setup, clear foreground for intimate photography, soft focused background, cozy intimate framing
+
+STYLE: Intimate studio photography setup, professional boudoir environment, soft romantic aesthetic
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, soft warm lighting, intimate quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_5_intimacy_gateway', 'scene_7_artistic_intimacy'],
+    mode: 'artistic_intimate',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'bg_dressing_room_private',
+    type: 'background',
+    name: 'Private Dressing Room',
+    description: 'Private dressing area with elegant wardrobe displays',
+    prompt: `PHOTOGRAPHY STUDIO DRESSING ROOM | Photorealistic | 16:9 widescreen
+
+LOCATION: Private elegant dressing room area
+
+FURNISHINGS: Elegant wardrobe rack with hanging intimate garments (lingerie, silk robes, elegant attire) artfully displayed, Hollywood-lit vanity mirror, comfortable upholstered chair, full-length standing mirror, elegant storage, soft area rug, warm lighting fixtures
+
+LIGHTING: WARM INTIMATE DRESSING ROOM - Hollywood mirror lights creating even warm glow, soft overhead lighting, warm inviting color temperature, comfortable private atmosphere
+
+ATMOSPHERE: Private intimate preparation space, elegant sophisticated, comfortable vulnerable environment, warm safe dressing sanctuary
+
+DETAILS: Elegant intimate wardrobe displayed tastefully, beauty products organized at vanity, soft textures (velvet chair, silk garments), warm personal touches, sophisticated intimate aesthetic
+
+COLOR PALETTE: Warm neutrals (creams, soft grays, warm wood), gold/brass accents from lighting, pops of color from elegant garments
+
+COMPOSITION: Medium-wide shot showing wardrobe and vanity area, clear space for intimate wardrobe selection moments, sophisticated depth
+
+STYLE: Elegant private dressing room, intimate preparation space, sophisticated boudoir aesthetic
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, warm intimate lighting, elegant quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'critical',
+    sceneUsage: ['scene_2_wardrobe_intimacy'],
+    mode: 'all',
+    contentRating: 'general',
+    generated: false
+  },
+
+  {
+    id: 'bg_natural_light_loft',
+    type: 'background',
+    name: 'Natural Light Loft Space',
+    description: 'Large windows with golden hour light, minimal furniture',
+    prompt: `NATURAL LIGHT PHOTOGRAPHY SPACE | Photorealistic | 16:9 widescreen
+
+LOCATION: Loft-style photography space with massive windows
+
+ARCHITECTURE: Large industrial-style windows (floor to ceiling), exposed brick or clean white walls, warm wooden floor, high ceilings, open spacious feel, minimal elegant furniture (simple chair or bench), potted plants catching light
+
+LIGHTING: NATURAL GOLDEN HOUR LIGHT - Soft warm sunlight streaming through large windows creating beautiful natural glow, golden hour color temperature, gentle natural shadows, no artificial lights visible, pure natural light intimate atmosphere
+
+ATMOSPHERE: Warm natural intimate, honest vulnerable space, soft romantic natural light, comfortable open environment, connection with natural beauty
+
+DETAILS: Minimal elegant furniture, plants and natural elements, warm wood tones, clean simple aesthetic emphasizing natural light, intimate yet spacious
+
+COLOR PALETTE: Warm natural light tones, wood browns, plant greens, warm golden glow, clean whites
+
+COMPOSITION: Wide shot showing full window and natural light flooding space, clear foreground for intimate natural light photography, architectural beauty with intimate warmth
+
+STYLE: Natural light intimate photography, honest vulnerable aesthetic, Peter Lindbergh-inspired natural beauty
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, natural golden hour light, warm intimate quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_8_emotional_depth', 'scene_10_reflection'],
+    mode: 'artistic_intimate',
     contentRating: 'general',
     generated: false
   }
@@ -1199,6 +1694,360 @@ TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, warm satisfied mood, collabora
     mode: 'all',
     contentRating: 'general',
     generated: false
+  },
+
+  // ==========================================================================
+  // INTIMATE PHOTOGRAPHY MOMENTS (8 new for boudoir expansion)
+  // ==========================================================================
+
+  {
+    id: 'cg_wardrobe_discussion',
+    type: 'cg_image',
+    name: 'CG: Wardrobe Discussion',
+    description: 'Discussing intimate wardrobe options in dressing room',
+    prompt: `INTIMATE BOUDOIR PHOTOGRAPHY | Cinematic narrative moment | 16:9 composition
+
+SCENE: Private dressing room - discussing intimate wardrobe choices
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Standing near wardrobe rack, wearing casual professional attire or robe, examining elegant lingerie piece in hands, thoughtful expression, engaged in serious conversation about boundaries and intimacy
+
+COMPOSITION: Medium shot showing both Zara and photographer (photographer's side/back visible in foreground), Zara center-right holding lingerie examining it, wardrobe rack with elegant intimate garments visible in background, intimate conversational distance, serious important discussion moment
+
+ZARA EXPRESSION: Thoughtful professional - considering options carefully, eyes showing trust and consideration, slight smile, comfortable discussing intimate photography, "let's be clear about boundaries" energy
+
+ENVIRONMENT: Private elegant dressing room - Hollywood mirror lights, wardrobe rack with beautiful lingerie and silk robes, intimate preparation space, professional yet personal
+
+MOOD: Important intimate negotiation, building trust through transparency, professional discussion of intimate work, mutual respect and clear communication, "consent and comfort first" atmosphere
+
+LIGHTING: Warm dressing room lighting - Hollywood mirror creating even glow, warm comfortable atmosphere, professional yet intimate
+
+PHOTOGRAPHER PRESENCE: Side or back visible suggesting active engaged listening, respectful distance, collaborative professional partnership
+
+CAMERA: Canon EOS R5, 35mm f/1.4 at f/2.0, medium shot, documentary style capturing important moment
+
+STYLE: Behind-the-scenes intimate photography, consent and communication documentation, professional boudoir preparation
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, warm intimate quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'critical',
+    sceneUsage: ['scene_2_wardrobe_intimacy'],
+    mode: 'all',
+    contentRating: 'general',
+    generated: false
+  },
+
+  {
+    id: 'cg_mirror_preparation',
+    type: 'cg_image',
+    name: 'CG: Mirror Preparation',
+    description: 'Zara preparing in mirror wearing intimate wardrobe',
+    prompt: `INTIMATE BOUDOIR PHOTOGRAPHY | Cinematic narrative moment | 16:9 composition
+
+SCENE: Private dressing room - Zara preparing in mirror
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Wearing elegant lingerie or silk robe, standing at Hollywood-lit vanity mirror, adjusting hair or checking appearance, natural intimate preparation moment, comfortable confident presence
+
+COMPOSITION: Mirror shot - Zara visible both directly and in mirror reflection, intimate preparation moment, photographer subtly visible in distant background through mirror (viewer POV), elegant dressing room setting, personal vulnerable moment
+
+ZARA EXPRESSION: Quiet confident preparation - focused on appearance, slight smile, comfortable in intimate attire, natural beauty preparation, "getting ready for something special" energy
+
+ENVIRONMENT: Elegant dressing room - Hollywood mirror with warm lights, beauty products visible, intimate wardrobe in background, warm personal space
+
+MOOD: Intimate preparation vulnerability, quiet confident moment before shoot, trust and comfort in intimate setting, personal beauty ritual, anticipation and focus
+
+LIGHTING: Warm Hollywood mirror lights creating even flattering glow, warm intimate atmosphere, beauty lighting
+
+CAMERA: Canon EOS R5, 50mm f/1.4 at f/2.0, mirror composition capturing reflection and reality, intimate documentary style
+
+STYLE: Intimate behind-the-scenes boudoir, personal preparation moment, vulnerable beauty documentation
+
+CONTENT NOTE: Elegant lingerie or silk robe, mature intimate content, tasteful preparation moment
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, warm intimate quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_2_wardrobe_intimacy', 'scene_6_boudoir_session'],
+    mode: 'boudoir_elegant',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'cg_first_intimate_portrait',
+    type: 'cg_image',
+    name: 'CG: First Intimate Portrait',
+    description: 'First intimate photograph breakthrough moment',
+    prompt: `INTIMATE BOUDOIR PHOTOGRAPHY | Hero editorial portrait moment | 16:9 composition
+
+SCENE: The first significant intimate portrait - breakthrough trust moment
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Wearing intimate wardrobe (elegant lingerie or silk robe depending on path), intimate pose showing vulnerability and confidence, direct eye contact with camera, profound trust visible
+
+COMPOSITION: Close-up intimate portrait - Zara's face and upper body filling frame, intimate proximity, photographer's perspective capturing profound connection moment, breakthrough image where intimacy meets artistry
+
+ZARA EXPRESSION: Vulnerable confident beauty - eyes showing deep trust and comfort, authentic intimate expression, slight genuine smile or serious honest gaze, "I trust you with this" energy, breathtaking honest beauty
+
+ENVIRONMENT: Intimate setting (boudoir bedroom or studio intimate corner), soft focused background emphasizing subject
+
+MOOD: Breakthrough intimate trust moment, first truly intimate image captured, profound connection and vulnerability, artistic and emotional success, "this is what we came here to create" feeling
+
+LIGHTING: Soft beautiful intimate lighting - gentle flattering key creating tender atmosphere, warm color temperature, beauty lighting emphasizing authentic intimate beauty
+
+CAMERA: Canon EOS R5, 85mm f/1.2 at f/1.4, close intimate framing, extremely shallow depth with eyes sharp, soft blur creating intimate focus
+
+STYLE: Intimate boudoir portrait excellence, vulnerable authentic beauty, breakthrough editorial moment, trust made visible
+
+CONTENT NOTE: Intimate wardrobe, mature content, tasteful sensual aesthetic, emotional breakthrough
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, soft beautiful intimate quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'critical',
+    sceneUsage: ['scene_4_initial_shoot', 'scene_6_boudoir_session'],
+    mode: 'boudoir_elegant',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'cg_boudoir_pose',
+    type: 'cg_image',
+    name: 'CG: Boudoir Session',
+    description: 'Boudoir photography session in intimate bedroom',
+    prompt: `LUXURY BOUDOIR PHOTOGRAPHY | Cinematic narrative moment | 16:9 composition
+
+SCENE: Active boudoir photography session in elegant bedroom
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Wearing elegant lingerie (lace bra and briefs or minimal coverage depending on comfort level), posed elegantly on bed with white linens, confident sensual presence, photographer-directed intimate pose, comfortable owning sensuality
+
+COMPOSITION: Medium-wide shot from photographer's active shooting position, Zara posed on bed in elegant intimate position (reclining on side, sitting with elegant posture, or similar tasteful pose), soft bedroom in background, natural window light visible, active photography moment captured
+
+ZARA EXPRESSION: Confident sensual - comfortable in intimate attire, direct warm gaze at camera, slight confident smile, "I'm beautiful and I know it" energy, empowered intimate confidence
+
+ENVIRONMENT: Intimate bedroom - white linen bed, natural window light creating soft glow, elegant minimal bedroom, warm romantic atmosphere
+
+MOOD: Empowered sensual boudoir session, confident intimate photography, trust and comfort in vulnerable moment, celebration of sensual beauty, professional intimate artistry
+
+LIGHTING: Soft natural window light mixing with subtle fill, warm tender atmosphere, flattering boudoir lighting, romantic natural glow
+
+CAMERA: Canon EOS R5, 50mm f/1.4 at f/2.0, medium-wide shot capturing full boudoir scene, intimate editorial framing
+
+STYLE: Luxury boudoir photography session, confident sensual aesthetic, elegant intimate editorial
+
+CONTENT NOTE: Lingerie boudoir session, mature sensual content, tasteful elegant nudity suggestion
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, soft warm boudoir quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'critical',
+    sceneUsage: ['scene_6_boudoir_session'],
+    mode: 'boudoir_sensual',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'cg_artistic_draping_moment',
+    type: 'cg_image',
+    name: 'CG: Artistic Fabric Draping',
+    description: 'Photographer arranging artistic fabric on Zara',
+    prompt: `FINE ART PHOTOGRAPHY | Cinematic narrative moment | 16:9 composition
+
+SCENE: Intimate artistic moment - photographer arranging fabric draping
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Standing in artistic pose, wearing minimal artistic draping (flowing ivory fabric), photographer's hands visible carefully adjusting fabric placement to create beautiful lines, collaborative artistic moment, complete trust visible in body language
+
+COMPOSITION: Medium shot showing Zara in artistic draping and photographer's hands/arms in frame carefully arranging fabric, intimate collaborative distance, profound trust moment, artistic creation process visible, studio or natural light setting in background
+
+ZARA EXPRESSION: Trusting collaboration - eyes showing complete comfort and trust, relaxed accepting of intimate artistic direction, slight smile, "I trust your artistic vision completely" energy, vulnerable yet confident
+
+ENVIRONMENT: Artistic photography space - studio with dramatic lighting or natural light loft, professional artistic setup, intimate creative atmosphere
+
+MOOD: Profound artistic trust, intimate collaborative creation, photographer as artist arranging living sculpture, mutual respect and artistic partnership, vulnerable creative moment, "creating art together" energy
+
+LIGHTING: Artistic dramatic lighting - strong key creating beautiful shadows on draped fabric, sculptural chiaroscuro or soft natural light depending on setting
+
+PHOTOGRAPHER PRESENCE: Hands and forearms visible arranging fabric with care and artistic intent, respectful professional touch, creative collaboration visible
+
+CAMERA: Canon EOS R5, 50mm f/1.4 at f/2.0, medium shot capturing intimate artistic collaboration
+
+STYLE: Behind-the-scenes fine art creation, intimate artistic process documentation, trust made visible
+
+CONTENT NOTE: Artistic draping with partial coverage, artistic_nudity, fine art collaborative process, requires consent
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, artistic quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_7_artistic_intimacy'],
+    mode: 'artistic_intimate',
+    contentRating: 'artistic_nudity',
+    requiresConsent: true,
+    generated: false
+  },
+
+  {
+    id: 'cg_intimate_close_moment',
+    type: 'cg_image',
+    name: 'CG: Intimate Connection Moment',
+    description: 'Close emotional moment between photographer and Zara',
+    prompt: `INTIMATE PORTRAIT PHOTOGRAPHY | Cinematic narrative moment | 16:9 composition
+
+SCENE: Pause between shoots - close emotional connection moment
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Wearing intimate wardrobe (silk robe or artistic drape), sitting or standing close to photographer, eyes showing deep emotional connection and trust, hand perhaps touching photographer's arm or face gently, profound intimate moment transcending photography
+
+COMPOSITION: Close intimate framing, Zara and photographer in close proximity (photographer's face/shoulder visible from side or back), profound human connection visible, intimate personal space shared, eyes meeting with deep trust, tender emotional moment
+
+ZARA EXPRESSION: Deep emotional vulnerability - eyes showing profound connection beyond professional, gentle genuine smile, complete trust and possible deeper feelings visible, "this became more than just photography" energy, authentic emotional intimacy
+
+ENVIRONMENT: Intimate setting (bedroom, natural light space, or private studio corner), soft focused background, warm tender atmosphere
+
+MOOD: Profound emotional connection, intimacy transcending professional boundaries, deep human trust and possible romantic feelings emerging, vulnerable honest moment, "we've connected on deeper level" feeling, tender authentic emotion
+
+LIGHTING: Soft tender lighting creating intimate romantic atmosphere, warm gentle illumination, natural or soft studio light emphasizing emotional connection
+
+PHOTOGRAPHER PRESENCE: Visible from side or back in intimate proximity, mutual connection visible, engaged emotional presence, human vulnerability reciprocated
+
+CAMERA: Canon EOS R5, 50mm f/1.4 at f/1.4, very close intimate framing, shallow depth emphasizing connection
+
+STYLE: Intimate emotional documentary, honest human connection captured, romantic tender aesthetic
+
+CONTENT NOTE: Emotional intimacy, mature content through vulnerability and closeness
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, soft tender emotional quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'high',
+    sceneUsage: ['scene_8_emotional_depth'],
+    mode: 'all',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'cg_climax_boudoir',
+    type: 'cg_image',
+    name: 'CG: Climactic Boudoir',
+    description: 'Ultimate boudoir photograph - sensual peak',
+    prompt: `LUXURY BOUDOIR PHOTOGRAPHY | Signature editorial climax image | 16:9 composition
+
+SCENE: The climactic boudoir image - ultimate sensual artistic achievement
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Wearing minimal elegant lingerie or artistic draping, posed in ultimate boudoir composition (reclining elegantly, dramatic sensual pose, or intimate vulnerable position), complete confidence and comfort radiating, owning her sensuality completely, breathtaking beauty and power
+
+COMPOSITION: Signature editorial framing - Zara positioned in dramatically beautiful pose on luxury bed or elegant furniture, rich bedroom setting enhancing sensuality, perfect composition capturing peak sensual artistry, museum-quality boudoir editorial
+
+ZARA EXPRESSION: Powerful confident sensuality - commanding direct gaze or vulnerable intimate expression depending on chosen aesthetic, absolute comfort in intimate vulnerability, "this is my power" or "this is my truth" energy, breathtaking confident beauty
+
+ENVIRONMENT: Luxury boudoir bedroom - rich jewel tones, dramatic or natural lighting creating perfect mood, elegant sophisticated setting, high-end intimate editorial environment
+
+MOOD: Ultimate sensual artistic achievement, peak boudoir artistry, confidence and vulnerability perfectly balanced, celebration of feminine power and beauty, "this is what we worked toward" culmination
+
+LIGHTING: Perfect boudoir lighting - dramatic or soft depending on aesthetic choice, flawless flattering illumination, creating ultimate sensual beauty
+
+CAMERA: Canon EOS R5, 85mm f/1.2 at f/1.8, perfect editorial framing, signature portfolio image composition
+
+STYLE: Ultimate luxury boudoir photography, signature sensual editorial excellence, Vogue/Harper's Bazaar intimate portfolio quality
+
+CONTENT NOTE: Lingerie/minimal coverage, mature sensual content, tasteful intimate artistry, portfolio climax image
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, perfect boudoir quality, signature image excellence`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'critical',
+    sceneUsage: ['scene_9_climax_intimate'],
+    mode: 'boudoir_sensual',
+    contentRating: 'mature',
+    generated: false
+  },
+
+  {
+    id: 'cg_climax_minimal',
+    type: 'cg_image',
+    name: 'CG: Climactic Minimal Artistic',
+    description: 'Ultimate minimal artistic photograph - fine art peak',
+    prompt: `FINE ART PHOTOGRAPHY | Signature museum-quality image | 16:9 composition
+
+SCENE: The climactic fine art image - ultimate artistic achievement
+
+${ZARA_CHARACTER_BASE}
+
+ZARA: Minimal artistic coverage (strategic fabric placement or artistic draping), classical art pose (contrapposto or sculptural position), body as living sculpture emphasizing form and light, serene profound presence, timeless beauty embodied
+
+COMPOSITION: Museum-quality fine art composition - Zara positioned in classical artistic pose, dramatic lighting creating sculptural shadows and highlights, perfect balance of form, light, and shadow, fine art masterpiece framing
+
+ZARA EXPRESSION: Artistic transcendence - serene confident gaze suggesting timeless beauty, calm profound presence, embodying art itself, "I am sculpture, I am light" energy, classical beauty meets contemporary power
+
+ENVIRONMENT: Dramatic artistic setting - high contrast lighting setup or natural dramatic light, minimal background emphasizing form, fine art studio or natural light creating perfect artistic atmosphere
+
+MOOD: Ultimate artistic achievement, peak fine art photography excellence, form and light as primary subjects, timeless classical beauty, "this is museum-worthy art" culmination, profound artistic success
+
+LIGHTING: DRAMATIC FINE ART LIGHTING - Helmut Newton/Irving Penn-inspired chiaroscuro, strong sculptural shadows and highlights, minimal fill, pure artistic emphasis on form and light, museum-quality illumination
+
+CAMERA: Hasselblad medium format aesthetic, 80mm lens, perfect fine art composition, classical museum framing
+
+STYLE: Museum-quality fine art nude photography, classical nude study tradition, contemporary artistic excellence, signature portfolio masterpiece
+
+CONTENT NOTE: Minimal artistic coverage, artistic_nudity, NON-EXPLICIT fine art emphasis on form and light, requires consent, museum-quality artistic approach
+
+TECHNICAL: 1920x1080 (16:9), JPG, photorealistic, fine art museum excellence, signature masterpiece quality`,
+    specifications: {
+      width: 1920,
+      height: 1080,
+      format: 'JPG',
+      aspectRatio: '16:9'
+    },
+    priority: 'critical',
+    sceneUsage: ['scene_9_climax_intimate'],
+    mode: 'minimal_artistic',
+    contentRating: 'artistic_nudity',
+    requiresConsent: true,
+    generated: false
   }
 ];
 
@@ -1259,6 +2108,6 @@ export function getConsentRequiredAssets(): AssetRequirement[] {
 /**
  * Get assets by content rating
  */
-export function getAssetsByContentRating(rating: 'general' | 'mature' | 'artistic_nudity'): AssetRequirement[] {
+export function getAssetsByContentRating(rating: 'general' | 'mature' | 'erotic_art' | 'artistic_nudity'): AssetRequirement[] {
   return COMPLETE_ASSET_MANIFEST.filter(asset => asset.contentRating === rating);
 }

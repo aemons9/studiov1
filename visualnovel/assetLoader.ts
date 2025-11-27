@@ -32,41 +32,60 @@ export interface LoadedAssets {
  * Map asset IDs from assetManifest to RealVisualNovel scene backgrounds
  * These map to the actual asset IDs in assetManifest.ts
  *
- * NEW STORY: Chapter 1: Light & Shadow (Photography Studio Story)
- * Scene IDs: scene_1_calltime, scene_2_set_prep, scene_3_first_shoot,
- *            scene_4_midpoint, scene_5_climax_shot, scene_6_wrap
+ * EXPANDED STORY: Chapter 1: Erotic Art & Boudoir Photography (10 scenes)
+ * Scene IDs: scene_1_arrival, scene_2_wardrobe_intimacy, scene_3_lighting_comfort,
+ *            scene_4_initial_shoot, scene_5_intimacy_gateway, scene_6_boudoir_session,
+ *            scene_7_artistic_intimacy, scene_8_emotional_depth, scene_9_climax_intimate,
+ *            scene_10_reflection
  */
 const BACKGROUND_MAP: Record<string, string[]> = {
   // Studio - Morning Arrival (Scene 1)
-  'bg_studio_morning_arrival': ['scene_1_calltime'],
+  'bg_studio_morning_arrival': ['scene_1_arrival'],
 
-  // Wardrobe & Styling Area (Scene 2)
-  'bg_wardrobe_styling': ['scene_2_set_prep'],
+  // Wardrobe & Styling Area (Scenes 1 & 2)
+  'bg_wardrobe_styling': ['scene_1_arrival', 'scene_2_wardrobe_intimacy'],
 
-  // Studio Center - Neutral Professional Setup (Scenes 2 & 3)
-  'bg_studio_neutral_setup': ['scene_2_set_prep', 'scene_3_first_shoot'],
+  // Studio Center - Neutral Professional Setup (Scenes 3 & 4)
+  'bg_studio_neutral_setup': ['scene_3_lighting_comfort', 'scene_4_initial_shoot'],
 
-  // Studio - High Contrast Dramatic (Scenes 3 & 5, Experimental mode)
-  'bg_studio_highcontrast': ['scene_3_first_shoot', 'scene_5_climax_shot'],
+  // Studio - High Contrast Dramatic (Scene 4 & 9, Experimental mode)
+  'bg_studio_highcontrast': ['scene_4_initial_shoot', 'scene_9_climax_intimate'],
 
-  // Studio - Soft Glow Intimate (Scenes 3 & 4, Vera mode)
-  'bg_studio_softglow': ['scene_3_first_shoot', 'scene_4_midpoint'],
+  // Studio - Soft Glow Intimate (Scenes 3 & 4)
+  'bg_studio_softglow': ['scene_3_lighting_comfort', 'scene_4_initial_shoot'],
 
-  // Studio - Experimental Conceptual (Scene 5, Experimental mode)
-  'bg_studio_experimental': ['scene_5_climax_shot'],
+  // Studio - Experimental Conceptual (Scene 9, Experimental mode)
+  'bg_studio_experimental': ['scene_9_climax_intimate'],
 
-  // Studio - Platinum Luxury (Scene 5, Platinum mode)
-  'bg_studio_platinum': ['scene_5_climax_shot'],
+  // Studio - Platinum Luxury (Scene 9, Platinum mode)
+  'bg_studio_platinum': ['scene_9_climax_intimate'],
 
-  // Studio - End of Day Wrap (Scene 6)
-  'bg_studio_wrap': ['scene_6_wrap'],
+  // Studio - End of Day Wrap (Scene 10)
+  'bg_studio_wrap': ['scene_10_reflection'],
+
+  // === NEW BOUDOIR & INTIMATE LOCATIONS (Expansion) ===
+
+  // Boudoir - Intimate Bedroom Natural Light (Scenes 6 & 8)
+  'bg_boudoir_bedroom_natural': ['scene_6_boudoir_session', 'scene_8_emotional_depth'],
+
+  // Boudoir - Luxury Dramatic (Scenes 7 & 9)
+  'bg_boudoir_luxury_dramatic': ['scene_7_artistic_intimacy', 'scene_9_climax_intimate'],
+
+  // Studio - Intimate Private Corner (Scenes 5 & 7)
+  'bg_studio_intimate_corner': ['scene_5_intimacy_gateway', 'scene_7_artistic_intimacy'],
+
+  // Private Dressing Room (Scene 2)
+  'bg_dressing_room_private': ['scene_2_wardrobe_intimacy'],
+
+  // Natural Light Loft (Scenes 8 & 10)
+  'bg_natural_light_loft': ['scene_8_emotional_depth', 'scene_10_reflection'],
 };
 
 /**
  * Map sprite asset IDs to expression keys used in dialogue
  *
- * NEW STORY: Character sprite assets map to emotion strings used in DialogueLine.emotion
- * Available sprites: 12 core emotional states + mode-specific variants
+ * EXPANDED STORY: Character sprite assets map to emotion strings used in DialogueLine.emotion
+ * Available sprites: 12 core emotional states + 4 mode variants + 8 intimate wardrobe sprites
  */
 const SPRITE_MAP: Record<string, string> = {
   // Core Emotional States (6 base sprites)
@@ -88,67 +107,110 @@ const SPRITE_MAP: Record<string, string> = {
   'zara_wrap_satisfied': 'satisfied',
 
   // Additional emotion mappings for dialogue compatibility
-  // (These use asset names as-is for emotions that match)
   'zara_professional': 'professional',
   'zara_thoughtful': 'thoughtful',
   'zara_curious': 'curious',
   'zara_excited': 'excited',
   'zara_hopeful': 'hopeful',
+
+  // === NEW INTIMATE WARDROBE SPRITES (Boudoir Expansion) ===
+
+  // Lingerie Wardrobe Sprites
+  'zara_lingerie_elegant': 'lingerie_elegant',
+  'zara_lingerie_minimal': 'lingerie_minimal',
+
+  // Intimate Attire Sprites
+  'zara_silk_robe_open': 'silk_robe',
+  'zara_artistic_drape_partial': 'artistic_drape',
+  'zara_minimal_artistic': 'minimal_artistic',
+
+  // Boudoir Expression Variants
+  'zara_boudoir_confident': 'boudoir_confident',
+  'zara_boudoir_vulnerable': 'boudoir_vulnerable',
+
+  // Deep Emotional Connection
+  'zara_intimate_trust': 'intimate_trust',
 };
 
 /**
  * Map CG asset IDs to special event scenes
  * These map to the actual asset IDs in assetManifest.ts
  *
- * NEW STORY: 10 pivotal CG images for key narrative moments
+ * EXPANDED STORY: 18 pivotal CG images for narrative moments (10 original + 8 new intimate)
  */
 const CG_MAP: Record<string, string> = {
-  // Scene 1: Arrival & Briefing
-  'cg_first_greeting': 'scene_1_calltime',
+  // Scene 1: Arrival & Erotic Art Discussion
+  'cg_first_greeting': 'scene_1_arrival',
 
-  // Scene 2: Wardrobe & Light Test
-  'cg_lighttest': 'scene_2_set_prep',
-  'cg_equipment_hiccup': 'scene_2_set_prep',
+  // Scene 2: Wardrobe & Intimacy Negotiation
+  'cg_wardrobe_discussion': 'scene_2_wardrobe_intimacy',
+  'cg_mirror_preparation': 'scene_2_wardrobe_intimacy',
 
-  // Scene 3: First Frame
-  'cg_first_frame_vulnerable': 'scene_3_first_shoot',
-  'cg_first_frame_commanding': 'scene_3_first_shoot',
+  // Scene 3: Lighting & Comfort Building
+  'cg_lighttest': 'scene_3_lighting_comfort',
+  'cg_equipment_hiccup': 'scene_3_lighting_comfort',
 
-  // Scene 4: Crisis & Choice (Midpoint)
-  'cg_personal_reveal': 'scene_4_midpoint',
+  // Scene 4: Initial Shoot
+  'cg_first_frame_vulnerable': 'scene_4_initial_shoot',
+  'cg_first_frame_commanding': 'scene_4_initial_shoot',
+  'cg_first_intimate_portrait': 'scene_4_initial_shoot',
 
-  // Scene 5: Climactic Frame (mode-specific)
-  'cg_climax_experimental': 'scene_5_climax_shot',
-  'cg_climax_platinum': 'scene_5_climax_shot',
-  'cg_climax_vera': 'scene_5_climax_shot',
+  // Scene 6: Boudoir Session
+  'cg_boudoir_pose': 'scene_6_boudoir_session',
 
-  // Scene 6: Wrap & Aftermath
-  'cg_camera_back_review': 'scene_6_wrap',
+  // Scene 7: Artistic Intimacy
+  'cg_artistic_draping_moment': 'scene_7_artistic_intimacy',
+
+  // Scene 8: Emotional Depth (Midpoint)
+  'cg_personal_reveal': 'scene_8_emotional_depth',
+  'cg_intimate_close_moment': 'scene_8_emotional_depth',
+
+  // Scene 9: Climax Intimate (mode-specific)
+  'cg_climax_experimental': 'scene_9_climax_intimate',
+  'cg_climax_platinum': 'scene_9_climax_intimate',
+  'cg_climax_vera': 'scene_9_climax_intimate',
+  'cg_climax_boudoir': 'scene_9_climax_intimate',
+  'cg_climax_minimal': 'scene_9_climax_intimate',
+
+  // Scene 10: Reflection & Future
+  'cg_camera_back_review': 'scene_10_reflection',
 };
 
 /**
  * Fallback URLs (Unsplash images used when assets not yet generated)
  *
- * NEW STORY: Fallback backgrounds for Chapter 1 scenes
+ * EXPANDED STORY: Fallback backgrounds for expanded Chapter 1 (10 scenes)
  */
 const FALLBACK_BACKGROUNDS: Record<string, string> = {
-  // Scene 1: Morning studio arrival
-  'scene_1_calltime': 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1920',
+  // Scene 1: Arrival & erotic art discussion
+  'scene_1_arrival': 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1920',
 
-  // Scene 2: Wardrobe and set preparation
-  'scene_2_set_prep': 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1920',
+  // Scene 2: Wardrobe intimacy negotiation
+  'scene_2_wardrobe_intimacy': 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1920',
 
-  // Scene 3: First professional shoot
-  'scene_3_first_shoot': 'https://images.unsplash.com/photo-1558365849-6ebd8b0454b2?w=1920',
+  // Scene 3: Lighting comfort building
+  'scene_3_lighting_comfort': 'https://images.unsplash.com/photo-1558365849-6ebd8b0454b2?w=1920',
 
-  // Scene 4: Midpoint emotional moment
-  'scene_4_midpoint': 'https://images.unsplash.com/photo-1569683795645-b62e50fbf103?w=1920',
+  // Scene 4: Initial shoot
+  'scene_4_initial_shoot': 'https://images.unsplash.com/photo-1616594266787-088c647e2c42?w=1920',
 
-  // Scene 5: Climactic signature shot
-  'scene_5_climax_shot': 'https://images.unsplash.com/photo-1616594266787-088c647e2c42?w=1920',
+  // Scene 5: Intimacy gateway decision
+  'scene_5_intimacy_gateway': 'https://images.unsplash.com/photo-1569683795645-b62e50fbf103?w=1920',
 
-  // Scene 6: End of day wrap
-  'scene_6_wrap': 'https://images.unsplash.com/photo-1595433562696-a8a6d6ce8b9d?w=1920',
+  // Scene 6: Boudoir session
+  'scene_6_boudoir_session': 'https://images.unsplash.com/photo-1595433562696-a8a6d6ce8b9d?w=1920',
+
+  // Scene 7: Artistic intimacy
+  'scene_7_artistic_intimacy': 'https://images.unsplash.com/photo-1616594266787-088c647e2c42?w=1920',
+
+  // Scene 8: Emotional depth midpoint
+  'scene_8_emotional_depth': 'https://images.unsplash.com/photo-1569683795645-b62e50fbf103?w=1920',
+
+  // Scene 9: Climax intimate session
+  'scene_9_climax_intimate': 'https://images.unsplash.com/photo-1595433562696-a8a6d6ce8b9d?w=1920',
+
+  // Scene 10: Reflection and future
+  'scene_10_reflection': 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1920',
 };
 
 /**
@@ -401,22 +463,52 @@ export function debugAssetPaths(): void {
     console.log(`  ✓ ${path}`);
   });
 
-  console.log('\n=== EXPECTED PATHS (based on naming convention) ===');
-  console.log('🧍 Sprites (12 core + 5 additional dialogue emotions):');
-  ['zara_neutral', 'zara_confident', 'zara_vulnerable', 'zara_playful', 'zara_uncomfortable', 'zara_trusting',
-   'zara_experimental', 'zara_platinum', 'zara_vera', 'zara_artistic', 'zara_crisis_reveal', 'zara_wrap_satisfied',
-   'zara_professional', 'zara_thoughtful', 'zara_curious', 'zara_excited', 'zara_hopeful']
-    .forEach(id => console.log(`  ./assets/sprites/${id}.png`));
+  console.log('\n=== EXPECTED PATHS (EXPANDED STORY - 51 total assets) ===');
 
-  console.log('\n🖼️ Backgrounds (8):');
+  console.log('\n🧍 Character Sprites (20 total):');
+  console.log('  Core Emotional States (6):');
+  ['zara_neutral', 'zara_confident', 'zara_vulnerable', 'zara_playful', 'zara_uncomfortable', 'zara_trusting']
+    .forEach(id => console.log(`    ./assets/sprites/${id}.png`));
+
+  console.log('  Mode-Specific Variants (4):');
+  ['zara_experimental', 'zara_platinum', 'zara_vera', 'zara_artistic']
+    .forEach(id => console.log(`    ./assets/sprites/${id}.png`));
+
+  console.log('  Story-Specific (2):');
+  ['zara_crisis_reveal', 'zara_wrap_satisfied']
+    .forEach(id => console.log(`    ./assets/sprites/${id}.png`));
+
+  console.log('  === NEW: Intimate Wardrobe Sprites (8):');
+  ['zara_lingerie_elegant', 'zara_lingerie_minimal', 'zara_silk_robe_open', 'zara_artistic_drape_partial',
+   'zara_minimal_artistic', 'zara_boudoir_confident', 'zara_boudoir_vulnerable', 'zara_intimate_trust']
+    .forEach(id => console.log(`    ./assets/sprites/${id}.png`));
+
+  console.log('\n🖼️ Backgrounds (13 total):');
+  console.log('  Studio Locations (8):');
   ['bg_studio_morning_arrival', 'bg_wardrobe_styling', 'bg_studio_neutral_setup', 'bg_studio_highcontrast',
    'bg_studio_softglow', 'bg_studio_experimental', 'bg_studio_platinum', 'bg_studio_wrap']
-    .forEach(id => console.log(`  ./assets/backgrounds/${id}.png`));
+    .forEach(id => console.log(`    ./assets/backgrounds/${id}.png`));
 
-  console.log('\n✨ CG Images (10):');
+  console.log('  === NEW: Boudoir & Intimate Locations (5):');
+  ['bg_boudoir_bedroom_natural', 'bg_boudoir_luxury_dramatic', 'bg_studio_intimate_corner',
+   'bg_dressing_room_private', 'bg_natural_light_loft']
+    .forEach(id => console.log(`    ./assets/backgrounds/${id}.png`));
+
+  console.log('\n✨ CG Images (18 total):');
+  console.log('  Original Pivotal Moments (10):');
   ['cg_first_greeting', 'cg_lighttest', 'cg_equipment_hiccup', 'cg_first_frame_vulnerable', 'cg_first_frame_commanding',
    'cg_personal_reveal', 'cg_climax_experimental', 'cg_climax_platinum', 'cg_climax_vera', 'cg_camera_back_review']
-    .forEach(id => console.log(`  ./assets/cg/${id}.png`));
+    .forEach(id => console.log(`    ./assets/cg/${id}.png`));
+
+  console.log('  === NEW: Intimate Photography Moments (8):');
+  ['cg_wardrobe_discussion', 'cg_mirror_preparation', 'cg_first_intimate_portrait', 'cg_boudoir_pose',
+   'cg_artistic_draping_moment', 'cg_intimate_close_moment', 'cg_climax_boudoir', 'cg_climax_minimal']
+    .forEach(id => console.log(`    ./assets/cg/${id}.png`));
+
+  console.log('\n📊 EXPANSION SUMMARY:');
+  console.log('  Original assets: 30 (12 sprites + 8 backgrounds + 10 CG images)');
+  console.log('  NEW assets: +21 (8 intimate sprites + 5 boudoir backgrounds + 8 intimate CG)');
+  console.log('  TOTAL EXPANDED: 51 assets for complete boudoir/intimate story');
 
   console.log('\n🎨 UI Elements (2):');
   ['ui_dialogue_box', 'ui_choice_button']

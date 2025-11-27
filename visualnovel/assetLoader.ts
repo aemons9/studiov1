@@ -31,63 +31,124 @@ export interface LoadedAssets {
 /**
  * Map asset IDs from assetManifest to RealVisualNovel scene backgrounds
  * These map to the actual asset IDs in assetManifest.ts
+ *
+ * NEW STORY: Chapter 1: Light & Shadow (Photography Studio Story)
+ * Scene IDs: scene_1_calltime, scene_2_set_prep, scene_3_first_shoot,
+ *            scene_4_midpoint, scene_5_climax_shot, scene_6_wrap
  */
 const BACKGROUND_MAP: Record<string, string[]> = {
-  // Art Gallery - used in intro and multiple paths
-  'bg_art_gallery': ['intro', 'photographer_path', 'stylist_path', 'charm_path'],
+  // Studio - Morning Arrival (Scene 1)
+  'bg_studio_morning_arrival': ['scene_1_calltime'],
 
-  // Photography Studio - photographer path
-  'bg_photography_studio': ['photographer_studio', 'photographer_intimate'],
+  // Wardrobe & Styling Area (Scene 2)
+  'bg_wardrobe_styling': ['scene_2_set_prep'],
 
-  // Luxury Bedroom - intimate/boudoir scenes
-  'bg_luxury_bedroom': ['stylist_loft', 'charm_apartment', 'boudoir_artistic', 'boudoir_empowering'],
+  // Studio Center - Neutral Professional Setup (Scenes 2 & 3)
+  'bg_studio_neutral_setup': ['scene_2_set_prep', 'scene_3_first_shoot'],
 
-  // Upscale Cafe - conversation scenes
-  'bg_upscale_cafe': ['cafe_conversation'],
+  // Studio - High Contrast Dramatic (Scenes 3 & 5, Experimental mode)
+  'bg_studio_highcontrast': ['scene_3_first_shoot', 'scene_5_climax_shot'],
 
-  // Fashion Showroom - stylist path
-  'bg_fashion_showroom': ['stylist_path'],
+  // Studio - Soft Glow Intimate (Scenes 3 & 4, Vera mode)
+  'bg_studio_softglow': ['scene_3_first_shoot', 'scene_4_midpoint'],
+
+  // Studio - Experimental Conceptual (Scene 5, Experimental mode)
+  'bg_studio_experimental': ['scene_5_climax_shot'],
+
+  // Studio - Platinum Luxury (Scene 5, Platinum mode)
+  'bg_studio_platinum': ['scene_5_climax_shot'],
+
+  // Studio - End of Day Wrap (Scene 6)
+  'bg_studio_wrap': ['scene_6_wrap'],
 };
 
 /**
  * Map sprite asset IDs to expression keys used in dialogue
+ *
+ * NEW STORY: Character sprite assets map to emotion strings used in DialogueLine.emotion
+ * Available sprites: 12 core emotional states + mode-specific variants
  */
 const SPRITE_MAP: Record<string, string> = {
-  'zara_neutral_full': 'neutral',
-  'zara_smile_full': 'smile',
-  'zara_flirty_full': 'flirty',
-  'zara_shy_full': 'shy',
-  'zara_studio_outfit': 'confident',
-  'zara_boudoir_outfit': 'sensual',
+  // Core Emotional States (6 base sprites)
+  'zara_neutral': 'neutral',
+  'zara_confident': 'confident',
+  'zara_vulnerable': 'vulnerable',
+  'zara_playful': 'playful',
+  'zara_uncomfortable': 'uncomfortable',
+  'zara_trusting': 'trusting',
+
+  // Mode-Specific Wardrobe Variants (4 mode sprites)
+  'zara_experimental': 'experimental',
+  'zara_platinum': 'platinum',
+  'zara_vera': 'vera',
+  'zara_artistic': 'artistic',
+
+  // Story-Specific Moments (2 special sprites)
+  'zara_crisis_reveal': 'crisis_reveal',
+  'zara_wrap_satisfied': 'satisfied',
+
+  // Additional emotion mappings for dialogue compatibility
+  // (These use asset names as-is for emotions that match)
+  'zara_professional': 'professional',
+  'zara_thoughtful': 'thoughtful',
+  'zara_curious': 'curious',
+  'zara_excited': 'excited',
+  'zara_hopeful': 'hopeful',
 };
 
 /**
  * Map CG asset IDs to special event scenes
  * These map to the actual asset IDs in assetManifest.ts
+ *
+ * NEW STORY: 10 pivotal CG images for key narrative moments
  */
 const CG_MAP: Record<string, string> = {
-  'cg_first_meeting': 'intro',
-  'cg_studio_photoshoot': 'photographer_studio',
-  'cg_viewing_photos': 'photographer_intimate',
-  'cg_boudoir_session': 'boudoir_artistic',
-  'cg_intimate_moment': 'boudoir_empowering',
+  // Scene 1: Arrival & Briefing
+  'cg_first_greeting': 'scene_1_calltime',
+
+  // Scene 2: Wardrobe & Light Test
+  'cg_lighttest': 'scene_2_set_prep',
+  'cg_equipment_hiccup': 'scene_2_set_prep',
+
+  // Scene 3: First Frame
+  'cg_first_frame_vulnerable': 'scene_3_first_shoot',
+  'cg_first_frame_commanding': 'scene_3_first_shoot',
+
+  // Scene 4: Crisis & Choice (Midpoint)
+  'cg_personal_reveal': 'scene_4_midpoint',
+
+  // Scene 5: Climactic Frame (mode-specific)
+  'cg_climax_experimental': 'scene_5_climax_shot',
+  'cg_climax_platinum': 'scene_5_climax_shot',
+  'cg_climax_vera': 'scene_5_climax_shot',
+
+  // Scene 6: Wrap & Aftermath
+  'cg_camera_back_review': 'scene_6_wrap',
 };
 
 /**
- * Fallback URLs (current Unsplash images used in RealVisualNovel)
+ * Fallback URLs (Unsplash images used when assets not yet generated)
+ *
+ * NEW STORY: Fallback backgrounds for Chapter 1 scenes
  */
 const FALLBACK_BACKGROUNDS: Record<string, string> = {
-  'intro': 'https://images.unsplash.com/photo-1569683795645-b62e50fbf103?w=1920',
-  'photographer_path': 'https://images.unsplash.com/photo-1558365849-6ebd8b0454b2?w=1920',
-  'photographer_studio': 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1920',
-  'photographer_intimate': 'https://images.unsplash.com/photo-1558365849-6ebd8b0454b2?w=1920',
-  'stylist_path': 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1920',
-  'stylist_loft': 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1920',
-  'charm_path': 'https://images.unsplash.com/photo-1600489000022-c2086d79f9d4?w=1920',
-  'charm_apartment': 'https://images.unsplash.com/photo-1502672023488-70e25813eb80?w=1920',
-  'boudoir_artistic': 'https://images.unsplash.com/photo-1616594266787-088c647e2c42?w=1920',
-  'boudoir_empowering': 'https://images.unsplash.com/photo-1595433562696-a8a6d6ce8b9d?w=1920',
-  'cafe_conversation': 'https://images.unsplash.com/photo-1445116572660-236099ec97a0?w=1920',
+  // Scene 1: Morning studio arrival
+  'scene_1_calltime': 'https://images.unsplash.com/photo-1542038784456-1ea8e935640e?w=1920',
+
+  // Scene 2: Wardrobe and set preparation
+  'scene_2_set_prep': 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1920',
+
+  // Scene 3: First professional shoot
+  'scene_3_first_shoot': 'https://images.unsplash.com/photo-1558365849-6ebd8b0454b2?w=1920',
+
+  // Scene 4: Midpoint emotional moment
+  'scene_4_midpoint': 'https://images.unsplash.com/photo-1569683795645-b62e50fbf103?w=1920',
+
+  // Scene 5: Climactic signature shot
+  'scene_5_climax_shot': 'https://images.unsplash.com/photo-1616594266787-088c647e2c42?w=1920',
+
+  // Scene 6: End of day wrap
+  'scene_6_wrap': 'https://images.unsplash.com/photo-1595433562696-a8a6d6ce8b9d?w=1920',
 };
 
 /**
@@ -341,16 +402,20 @@ export function debugAssetPaths(): void {
   });
 
   console.log('\n=== EXPECTED PATHS (based on naming convention) ===');
-  console.log('🧍 Sprites (6):');
-  ['zara_neutral_full', 'zara_smile_full', 'zara_flirty_full', 'zara_shy_full', 'zara_studio_outfit', 'zara_boudoir_outfit']
+  console.log('🧍 Sprites (12 core + 5 additional dialogue emotions):');
+  ['zara_neutral', 'zara_confident', 'zara_vulnerable', 'zara_playful', 'zara_uncomfortable', 'zara_trusting',
+   'zara_experimental', 'zara_platinum', 'zara_vera', 'zara_artistic', 'zara_crisis_reveal', 'zara_wrap_satisfied',
+   'zara_professional', 'zara_thoughtful', 'zara_curious', 'zara_excited', 'zara_hopeful']
     .forEach(id => console.log(`  ./assets/sprites/${id}.png`));
 
-  console.log('\n🖼️ Backgrounds (5):');
-  ['bg_art_gallery', 'bg_photography_studio', 'bg_luxury_bedroom', 'bg_upscale_cafe', 'bg_fashion_showroom']
+  console.log('\n🖼️ Backgrounds (8):');
+  ['bg_studio_morning_arrival', 'bg_wardrobe_styling', 'bg_studio_neutral_setup', 'bg_studio_highcontrast',
+   'bg_studio_softglow', 'bg_studio_experimental', 'bg_studio_platinum', 'bg_studio_wrap']
     .forEach(id => console.log(`  ./assets/backgrounds/${id}.png`));
 
-  console.log('\n✨ CG Images (5):');
-  ['cg_first_meeting', 'cg_studio_photoshoot', 'cg_viewing_photos', 'cg_boudoir_session', 'cg_intimate_moment']
+  console.log('\n✨ CG Images (10):');
+  ['cg_first_greeting', 'cg_lighttest', 'cg_equipment_hiccup', 'cg_first_frame_vulnerable', 'cg_first_frame_commanding',
+   'cg_personal_reveal', 'cg_climax_experimental', 'cg_climax_platinum', 'cg_climax_vera', 'cg_camera_back_review']
     .forEach(id => console.log(`  ./assets/cg/${id}.png`));
 
   console.log('\n🎨 UI Elements (2):');

@@ -1154,11 +1154,803 @@ export const vnCgClimaxArtistic: ArtisticConcept = {
 };
 
 // ============================================================================
-// EXPORT ALL VN CONCEPTS
+// CHARACTER SPRITES - INTIMATE WARDROBE (8 new sprites for 10-scene expansion)
+// Scenes 5-10: Progressive intimacy pathway with boudoir and fine art photography
+// ============================================================================
+
+export const vnSpriteLingerieElegant: ArtisticConcept = {
+  name: 'VN Sprite: Zara Lingerie Elegant',
+  data: {
+    shot: "INTIMATE BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing, weight on one leg creating elegant curve, confident sensual expression, direct warm eye contact, one hand on hip, other arm relaxed, sophisticated boudoir model presence, comfortable in intimate attire",
+      hair_color: "black",
+      hair_style: "long flowing in soft waves",
+      skin_finish: "Fair complexion with warm boudoir glow",
+      hand_and_nail_details: "Confident hand placement, elegant manicure",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Classic elegant polish",
+      high_heels: "classic boudoir heels visible"
+    },
+    wardrobe: "ELEGANT LINGERIE - Sophisticated ivory/champagne lace bra and high-waisted briefs set, delicate lace details, classic elegant design, subtle gold body chain, natural glamorous makeup, hair in soft waves",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Soft flattering boudoir lighting - diffused key light creating gentle shadows, warm color temperature, intimate atmosphere, beauty lighting emphasizing curves tastefully",
+    camera: {
+      focal_length: "85mm f/1.8",
+      aperture: "f/1.8",
+      distance: "2 m",
+      angle: "Eye-level, full body framing",
+      framing: "Full body portrait, 9:16 boudoir style"
+    },
+    color_grade: "Warm romantic tones, sophisticated boudoir aesthetic",
+    style: "Elegant boudoir photography, sophisticated intimacy",
+    quality: "Ultra-high-end 8K boudoir quality, PNG with alpha, 1080x1920",
+    figure_and_form: "Dramatic curves elegantly showcased, confident sensuality",
+    skin_micro_details: "Natural skin texture with warm boudoir glow",
+    fabric_physics: "Delicate lace with realistic texture",
+    material_properties: "Ivory lace with soft sheen, gold chain with metallic highlights"
+  }
+};
+
+export const vnSpriteLingerieMinimal: ArtisticConcept = {
+  name: 'VN Sprite: Zara Lingerie Minimal',
+  data: {
+    shot: "INTIMATE BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing, sensual curve emphasizing natural S-line, direct gaze with heightened intimacy, vulnerable yet confident, one hand gently touching thigh, sophisticated minimalist presence",
+      hair_color: "black",
+      hair_style: "long flowing naturally",
+      skin_finish: "Fair complexion with intimate glow",
+      hand_and_nail_details: "Sensual hand placement on thigh",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural nude polish",
+      high_heels: "not visible"
+    },
+    wardrobe: "MINIMAL LINGERIE - Black minimalist triangle bralette and matching high-waisted brief, clean lines, modern minimalist design, subtle sophistication, intimate coverage emphasizing form",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Intimate natural lighting creating soft shadows, warm tender illumination, heightened intimate atmosphere",
+    camera: {
+      focal_length: "85mm f/1.4",
+      aperture: "f/1.8",
+      distance: "2 m",
+      angle: "Eye-level intimate perspective",
+      framing: "Full body portrait, 9:16 intimate style"
+    },
+    color_grade: "Warm intimate tones, heightened sensuality",
+    style: "Intimate boudoir photography, progressive intimacy",
+    quality: "Ultra-high-end 8K intimate quality, PNG with alpha, 1080x1920",
+    figure_and_form: "Dramatic curves with intimate minimal coverage",
+    skin_micro_details: "Natural skin with intimate warm glow",
+    fabric_physics: "Minimal fabric showing natural body contours",
+    material_properties: "Matte black minimalist fabric"
+  }
+};
+
+export const vnSpriteSilkRobe: ArtisticConcept = {
+  name: 'VN Sprite: Zara Silk Robe',
+  data: {
+    shot: "ARTISTIC INTIMATE PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing, robe partially open revealing artistic minimal coverage beneath, one hand holding robe edge, other hand on hip, confident artistic sensuality, museum-worthy presence",
+      hair_color: "black",
+      hair_style: "long flowing with natural movement",
+      skin_finish: "Fair complexion with artistic lighting",
+      hand_and_nail_details: "Artistic hand positioning with robe",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Elegant nude polish",
+      high_heels: "not visible"
+    },
+    wardrobe: "SILK ROBE (ARTISTIC) - Floor-length champagne/ivory silk robe worn open, revealing minimal artistic foundation garment beneath, flowing elegant draping, luxurious fabric movement, sophisticated artistic aesthetic",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Artistic soft directional light creating elegant shadows, sophisticated illumination, fine art quality lighting",
+    camera: {
+      focal_length: "85mm f/1.4",
+      aperture: "f/1.8",
+      distance: "2 m",
+      angle: "Eye-level artistic perspective",
+      framing: "Full body portrait, 9:16 artistic style"
+    },
+    color_grade: "Sophisticated warm tones, artistic aesthetic",
+    style: "Fine art boudoir photography, artistic intimacy",
+    quality: "Ultra-high-end 8K artistic quality, PNG with alpha, 1080x1920",
+    figure_and_form: "Curves artistically revealed through flowing silk",
+    skin_micro_details: "Natural skin with artistic lighting sculpting form",
+    fabric_physics: "Silk robe flowing elegantly with realistic draping",
+    material_properties: "Champagne silk with elegant sheen and liquid movement"
+  }
+};
+
+export const vnSpriteArtisticDrape: ArtisticConcept = {
+  name: 'VN Sprite: Zara Artistic Drape',
+  data: {
+    shot: "FINE ART PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing in classical art pose, translucent silk artistically draped creating sculptural shapes, confident artistic presence, museum-quality composition, body as fine art form",
+      hair_color: "black",
+      hair_style: "long flowing in artistic arrangement",
+      skin_finish: "Fair complexion with dramatic chiaroscuro",
+      hand_and_nail_details: "Classical art pose hand placement",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural clean",
+      high_heels: "not visible"
+    },
+    wardrobe: "ARTISTIC SILK DRAPE - Single translucent ivory silk fabric artistically draped around form, creating Renaissance painting aesthetic, strategic partial coverage with sculptural shapes, concealing and revealing simultaneously, museum-quality fine art composition",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Dramatic chiaroscuro lighting (Caravaggio style) creating strong sculptural shadows, museum-quality illumination, fine art aesthetic",
+    camera: {
+      focal_length: "85mm f/2.0",
+      aperture: "f/2.0",
+      distance: "2 m",
+      angle: "Classical fine art angle",
+      framing: "Full body portrait, 9:16 fine art style"
+    },
+    color_grade: "Desaturated fine art tones, museum aesthetic, classical beauty",
+    style: "Fine art nude tradition, Renaissance influence, sculptural emphasis",
+    quality: "Museum-quality 8K fine art, PNG with alpha, 1080x1920",
+    figure_and_form: "Curves as sculptural art form, light/shadow emphasis",
+    skin_micro_details: "Dramatic chiaroscuro revealing sculptural skin texture",
+    fabric_physics: "Translucent silk creating elegant sculptural shapes",
+    material_properties: "Sheer ivory silk with ethereal translucent quality"
+  }
+};
+
+export const vnSpriteMinimalArtistic: ArtisticConcept = {
+  name: 'VN Sprite: Zara Minimal Artistic',
+  data: {
+    shot: "FINE ART NUDE PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing in powerful artistic stance, minimal strategic coverage with artistic focus on form/light/shadow, confident fine art presence, body as ultimate art form, museum-worthy composition following Newton/Mapplethorpe tradition",
+      hair_color: "black",
+      hair_style: "long flowing naturally, fine art styling",
+      skin_finish: "Fair complexion with sculptural lighting",
+      hand_and_nail_details: "Powerful artistic hand placement",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural",
+      high_heels: "architectural heels visible as part of composition"
+    },
+    wardrobe: "MINIMAL ARTISTIC FOUNDATION - Single high-waisted minimalist black foundation piece providing tasteful strategic coverage, emphasis on sculptural form and dramatic lighting, museum-quality fine art aesthetic, NO explicit detail, artistic merit focus",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Dramatic single-source chiaroscuro creating brilliant highlights and deep shadows, museum-quality fine art lighting, Helmut Newton influence",
+    camera: {
+      focal_length: "85mm f/2.0",
+      aperture: "f/2.0",
+      distance: "2.5 m",
+      angle: "Low angle emphasizing power and sculptural monumentality",
+      framing: "Full body portrait, 9:16 fine art gallery style"
+    },
+    color_grade: "High-contrast B&W or desaturated, museum fine art aesthetic",
+    style: "Helmut Newton, Irving Penn, Robert Mapplethorpe (form not explicitness), fine art nude mastery",
+    quality: "Museum-quality 8K fine art masterpiece, PNG with alpha, 1080x1920",
+    figure_and_form: "Curves as powerful sculptural art, light/shadow/form emphasis",
+    skin_micro_details: "Dramatic chiaroscuro sculpting every contour",
+    fabric_physics: "Minimal foundation piece with clean sculptural lines",
+    material_properties: "Matte black minimalist fabric, architectural heels creating vertical power lines"
+  }
+};
+
+export const vnSpriteBoudoirConfident: ArtisticConcept = {
+  name: 'VN Sprite: Zara Boudoir Confident',
+  data: {
+    shot: "CONFIDENT BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing with powerful confident boudoir presence, shoulders back, direct bold gaze, one hand on hip in commanding stance, fully owning sensuality and power, professional boudoir model confidence",
+      hair_color: "black",
+      hair_style: "long flowing with volume and confidence",
+      skin_finish: "Fair complexion glowing with confidence",
+      hand_and_nail_details: "Strong confident hand on hip",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Bold confident polish",
+      high_heels: "dramatic boudoir heels visible"
+    },
+    wardrobe: "CONFIDENT BOUDOIR - Black lace bodysuit with strategic cutouts, high-fashion boudoir aesthetic, bold confident styling, dramatic makeup, hair styled with volume, owning intimate power",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Strong confident boudoir lighting emphasizing power and sensuality, dramatic shadows sculpting curves",
+    camera: {
+      focal_length: "85mm f/1.8",
+      aperture: "f/1.8",
+      distance: "2 m",
+      angle: "Slightly low angle emphasizing power",
+      framing: "Full body portrait, 9:16 powerful boudoir style"
+    },
+    color_grade: "Rich dramatic tones, powerful boudoir aesthetic",
+    style: "High-fashion boudoir photography, confident sensual power",
+    quality: "Ultra-high-end 8K boudoir power, PNG with alpha, 1080x1920",
+    figure_and_form: "Dramatic curves showcased with complete confidence",
+    skin_micro_details: "Fair complexion with strong dramatic lighting",
+    fabric_physics: "Lace bodysuit with realistic texture and fit",
+    material_properties: "Black lace with intricate patterns, dramatic heels with glossy finish"
+  }
+};
+
+export const vnSpriteBoudoirVulnerable: ArtisticConcept = {
+  name: 'VN Sprite: Zara Boudoir Vulnerable',
+  data: {
+    shot: "VULNERABLE BOUDOIR PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing with soft vulnerable presence, gentle posture, eyes showing trust and nervous anticipation, one hand nervously touching neck, shoulders softly forward, intimate vulnerability radiating, authentic emotional honesty",
+      hair_color: "black",
+      hair_style: "long flowing softly framing face",
+      skin_finish: "Fair complexion with soft vulnerable glow",
+      hand_and_nail_details: "Nervous vulnerable hand at neck",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Soft natural polish",
+      high_heels: "not visible"
+    },
+    wardrobe: "VULNERABLE BOUDOIR - Soft ivory lace lingerie with delicate details, romantic vulnerable aesthetic, natural soft makeup, hair loose and flowing, emphasis on emotional vulnerability over sexuality",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Soft tender boudoir lighting emphasizing vulnerability and trust, gentle shadows, warm intimate atmosphere",
+    camera: {
+      focal_length: "85mm f/1.4",
+      aperture: "f/1.4",
+      distance: "2 m",
+      angle: "Eye-level tender perspective",
+      framing: "Full body portrait, 9:16 vulnerable intimate style"
+    },
+    color_grade: "Soft warm romantic tones, tender vulnerability",
+    style: "Romantic boudoir photography, emotional vulnerability and trust",
+    quality: "Ultra-high-end 8K tender boudoir, PNG with alpha, 1080x1920",
+    figure_and_form: "Curves softly visible with vulnerable gentle posture",
+    skin_micro_details: "Fair complexion with soft emotional glow",
+    fabric_physics: "Delicate lace with soft draping",
+    material_properties: "Ivory lace with romantic soft textures"
+  }
+};
+
+export const vnSpriteIntimateTrust: ArtisticConcept = {
+  name: 'VN Sprite: Zara Intimate Trust',
+  data: {
+    shot: "INTIMATE TRUST PHOTOGRAPHY | Full-body character sprite | PNG with alpha transparency | 9:16 portrait",
+    subject: {
+      variant: ZARA_CHARACTER_BASE,
+      pose: "Full-body standing with complete trust and openness, relaxed shoulders, warm genuine expression, direct eye contact showing deep trust and connection, open body language, comfortable in intimate space, authentic partnership visible",
+      hair_color: "black",
+      hair_style: "long flowing naturally relaxed",
+      skin_finish: "Fair complexion with warm trusting radiance",
+      hand_and_nail_details: "Relaxed open hand placement showing complete trust",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural elegant",
+      high_heels: "not visible"
+    },
+    wardrobe: "INTIMATE TRUST - Current intimate attire (context-dependent from scene), worn with complete comfort and trust, natural relaxed presence",
+    environment: "PURE TRANSPARENT BACKGROUND (alpha channel)",
+    lighting: "Warm inviting intimate lighting emphasizing trust and deep connection, soft beautiful illumination",
+    camera: {
+      focal_length: "85mm f/1.4",
+      aperture: "f/1.4",
+      distance: "2 m",
+      angle: "Eye-level warm trusting perspective",
+      framing: "Full body portrait, 9:16 intimate trust style"
+    },
+    color_grade: "Warm glowing tones, deep trust and connection visible",
+    style: "Intimate partnership photography, profound trust and artistic collaboration",
+    quality: "Ultra-high-end 8K intimate trust quality, PNG with alpha, 1080x1920",
+    figure_and_form: "Curves shown with complete comfort, trust radiating",
+    skin_micro_details: "Fair complexion with warm glow of deep trust",
+    fabric_physics: "Natural comfortable draping showing complete ease",
+    material_properties: "Warm trusting lighting creating profound connection atmosphere"
+  }
+};
+
+// ============================================================================
+// BACKGROUNDS - BOUDOIR & INTIMATE LOCATIONS (5 new backgrounds for expansion)
+// Scenes 5-10: Progressive intimacy pathway locations
+// ============================================================================
+
+export const vnBgBoudoirBedroomNatural: ArtisticConcept = {
+  name: 'VN BG: Boudoir Bedroom Natural Light',
+  data: {
+    shot: "VISUAL NOVEL BACKGROUND | Boudoir photography environment | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: "Intimate bedroom boudoir location, NO people",
+      pose: "N/A",
+      hair_color: "N/A",
+      hair_style: "N/A",
+      skin_finish: "N/A",
+      hand_and_nail_details: "N/A",
+      tattoos: "N/A",
+      piercings: "N/A",
+      body_art: "N/A",
+      nail_art: "N/A",
+      high_heels: "N/A"
+    },
+    wardrobe: "N/A",
+    environment: "LOCATION: Intimate bedroom with soft romantic atmosphere, white/cream aesthetic. Elegant bed with white linen sheets and plush pillows, soft cream duvet naturally rumpled, minimal elegant nightstand with single fresh flower in vase, sheer white curtains, warm wooden floor or cream carpet, minimal elegant decor. Clear foreground for character placement",
+    lighting: "NATURAL WINDOW LIGHT - Soft diffused sunlight streaming through sheer curtains creating gentle glow, warm natural illumination, no harsh shadows, golden hour quality light, intimate tender atmosphere",
+    camera: {
+      focal_length: "35mm",
+      aperture: "f/2.8",
+      distance: "N/A",
+      angle: "Eye level boudoir perspective",
+      framing: "16:9 intimate bedroom environment"
+    },
+    color_grade: "Warm soft romantic tones, intimate boudoir aesthetic",
+    style: "Romantic boudoir environmental photography, intimate tender atmosphere",
+    quality: "Commercial VN quality, 1920x1080, romantic intimate atmosphere",
+    figure_and_form: "Intimate bedroom architecture with elegant minimal design",
+    skin_micro_details: "N/A",
+    fabric_physics: "N/A",
+    material_properties: "White linen texture, sheer curtain translucency, warm wood flooring"
+  }
+};
+
+export const vnBgBoudoirLuxuryDramatic: ArtisticConcept = {
+  name: 'VN BG: Boudoir Luxury Dramatic',
+  data: {
+    shot: "VISUAL NOVEL BACKGROUND | Luxury boudoir environment | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: "Luxury boudoir with dramatic lighting, NO people",
+      pose: "N/A",
+      hair_color: "N/A",
+      hair_style: "N/A",
+      skin_finish: "N/A",
+      hand_and_nail_details: "N/A",
+      tattoos: "N/A",
+      piercings: "N/A",
+      body_art: "N/A",
+      nail_art: "N/A",
+      high_heels: "N/A"
+    },
+    wardrobe: "N/A",
+    environment: "LOCATION: Luxury boudoir bedroom with dramatic elegant atmosphere. Rich velvet curtains in deep jewel tones (burgundy/navy), elegant tufted chaise lounge or luxury bed, dramatic architectural details, high-end furnishings, sophisticated luxury aesthetic, museum-quality art on walls. Clear foreground",
+    lighting: "DRAMATIC SIDE LIGHTING - Strong directional light from side creating sculptural shadows and highlights, chiaroscuro boudoir aesthetic, sophisticated dramatic illumination, warm accent lighting, fine art quality lighting",
+    camera: {
+      focal_length: "35mm",
+      aperture: "f/2.8",
+      distance: "N/A",
+      angle: "Dramatic angle emphasizing luxury",
+      framing: "16:9 luxury boudoir environment"
+    },
+    color_grade: "Rich dramatic tones with deep jewel colors, luxury boudoir aesthetic",
+    style: "Luxury fine art boudoir environmental photography, dramatic sophistication",
+    quality: "Premium VN quality, 1920x1080, dramatic luxury atmosphere",
+    figure_and_form: "Luxury architectural details with dramatic sophisticated design",
+    skin_micro_details: "N/A",
+    fabric_physics: "N/A",
+    material_properties: "Rich velvet textures, luxury fabrics, dramatic lighting on elegant furnishings"
+  }
+};
+
+export const vnBgStudioIntimateCorner: ArtisticConcept = {
+  name: 'VN BG: Studio Intimate Corner',
+  data: {
+    shot: "VISUAL NOVEL BACKGROUND | Intimate studio space | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: "Studio intimate corner setup, NO people",
+      pose: "N/A",
+      hair_color: "N/A",
+      hair_style: "N/A",
+      skin_finish: "N/A",
+      hand_and_nail_details: "N/A",
+      tattoos: "N/A",
+      piercings: "N/A",
+      body_art: "N/A",
+      nail_art: "N/A",
+      high_heels: "N/A"
+    },
+    wardrobe: "N/A",
+    environment: "LOCATION: Intimate corner of studio configured for private intimate work. Soft seating area (elegant bench or daybed), warm atmospheric lighting setup visible, privacy screens or draped fabric creating intimate enclosure, comfortable cozy professional atmosphere. Clear foreground",
+    lighting: "INTIMATE ATMOSPHERIC LIGHTING - Soft warm directional lighting creating cozy intimate space, gentle shadows, comfortable private atmosphere, professional yet personal lighting setup",
+    camera: {
+      focal_length: "35mm",
+      aperture: "f/2.8",
+      distance: "N/A",
+      angle: "Eye level intimate perspective",
+      framing: "16:9 intimate studio corner environment"
+    },
+    color_grade: "Warm cozy tones, intimate private atmosphere",
+    style: "Intimate studio environmental photography, private professional space",
+    quality: "Commercial VN quality, 1920x1080, warm intimate atmosphere",
+    figure_and_form: "Cozy intimate studio corner architecture",
+    skin_micro_details: "N/A",
+    fabric_physics: "N/A",
+    material_properties: "Soft fabrics, warm wood tones, intimate lighting creating cozy enclosure"
+  }
+};
+
+export const vnBgDressingRoomPrivate: ArtisticConcept = {
+  name: 'VN BG: Dressing Room Private',
+  data: {
+    shot: "VISUAL NOVEL BACKGROUND | Private dressing space | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: "Private dressing room, NO people",
+      pose: "N/A",
+      hair_color: "N/A",
+      hair_style: "N/A",
+      skin_finish: "N/A",
+      hand_and_nail_details: "N/A",
+      tattoos: "N/A",
+      piercings: "N/A",
+      body_art: "N/A",
+      nail_art: "N/A",
+      high_heels: "N/A"
+    },
+    wardrobe: "N/A",
+    environment: "LOCATION: Private dressing room area with intimate atmosphere. Full-length mirror (foreground left or right), elegant vanity with soft lighting, clothing rack with intimate garments visible, comfortable seating, private enclosed space, warm inviting environment. Clear foreground center",
+    lighting: "SOFT VANITY LIGHTING - Warm flattering makeup mirror lights, soft ambient fill, intimate private atmosphere, comfortable dressing room illumination",
+    camera: {
+      focal_length: "35mm",
+      aperture: "f/2.8",
+      distance: "N/A",
+      angle: "Eye level dressing room perspective",
+      framing: "16:9 private dressing room environment"
+    },
+    color_grade: "Warm inviting tones, private comfortable aesthetic",
+    style: "Private dressing room environmental photography, intimate preparation space",
+    quality: "Commercial VN quality, 1920x1080, warm private atmosphere",
+    figure_and_form: "Private dressing room architecture with elegant furnishings",
+    skin_micro_details: "N/A",
+    fabric_physics: "N/A",
+    material_properties: "Mirror reflection, soft fabrics on rack, warm vanity lighting"
+  }
+};
+
+export const vnBgNaturalLightLoft: ArtisticConcept = {
+  name: 'VN BG: Natural Light Loft',
+  data: {
+    shot: "VISUAL NOVEL BACKGROUND | Natural light loft space | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: "Natural light loft with golden hour, NO people",
+      pose: "N/A",
+      hair_color: "N/A",
+      hair_style: "N/A",
+      skin_finish: "N/A",
+      hand_and_nail_details: "N/A",
+      tattoos: "N/A",
+      piercings: "N/A",
+      body_art: "N/A",
+      nail_art: "N/A",
+      high_heels: "N/A"
+    },
+    wardrobe: "N/A",
+    environment: "LOCATION: Open loft space with floor-to-ceiling windows. Warm golden hour sunlight flooding interior, minimal furniture (modern couch or window seat), polished wood floors, white walls, open airy atmosphere, city skyline visible through windows (soft focus). Clear foreground",
+    lighting: "GOLDEN HOUR NATURAL LIGHT - Warm glowing sunlight streaming through massive windows, soft ambient fill from reflections, beautiful natural illumination, romantic golden atmosphere, perfect portrait lighting",
+    camera: {
+      focal_length: "35mm",
+      aperture: "f/2.8",
+      distance: "N/A",
+      angle: "Eye level capturing golden light",
+      framing: "16:9 natural light loft environment"
+    },
+    color_grade: "Warm golden tones, romantic natural light aesthetic",
+    style: "Natural light environmental photography, romantic golden hour atmosphere",
+    quality: "Premium VN quality, 1920x1080, golden hour romantic atmosphere",
+    figure_and_form: "Open loft architecture with dramatic natural lighting",
+    skin_micro_details: "N/A",
+    fabric_physics: "N/A",
+    material_properties: "Polished wood floors reflecting golden light, massive windows with city view"
+  }
+};
+
+// ============================================================================
+// CG IMAGES - INTIMATE MOMENTS (8 new CG images for expansion)
+// Scenes 5-10: Key intimate story moments
+// ============================================================================
+
+export const vnCgWardrobeDiscussion: ArtisticConcept = {
+  name: 'VN CG: Wardrobe Discussion (Scene 2)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Intimate consultation moment | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", discussing intimate wardrobe options, private moment",
+      pose: "Zara and photographer (viewer POV - hands holding garment samples visible in foreground) having intimate conversation about boudoir wardrobe, Zara looking at lingerie options with thoughtful vulnerable expression, trust-building moment, comfortable private discussion",
+      hair_color: "black",
+      hair_style: "long flowing naturally",
+      skin_finish: "Fair complexion in soft private atmosphere",
+      hand_and_nail_details: "Hands gently touching fabric samples",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural",
+      high_heels: "not visible"
+    },
+    wardrobe: "Casual-professional outfit, examining intimate garment options",
+    environment: "Private wardrobe area with intimate atmosphere, soft focus background emphasizing personal consultation moment",
+    lighting: "Soft private lighting creating comfortable intimate discussion atmosphere",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.0",
+      distance: "1.5 m",
+      angle: "Eye level capturing vulnerable consultation moment",
+      framing: "Medium shot, 16:9 intimate consultation"
+    },
+    color_grade: "Warm comfortable tones, private vulnerable conversation",
+    style: "Documentary intimate consultation, trust-building moment",
+    quality: "Premium CG quality, 1920x1080, private consultation moment",
+    figure_and_form: "Vulnerable posture during intimate discussion",
+    skin_micro_details: "Fair complexion showing authentic emotional consideration",
+    fabric_physics: "Intimate garments visible in discussion",
+    material_properties: "Soft private lighting on consultation moment"
+  }
+};
+
+export const vnCgMirrorPreparation: ArtisticConcept = {
+  name: 'VN CG: Mirror Preparation (Scene 2)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Private preparation moment | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", preparing for intimate session, mirror reflection",
+      pose: "Zara standing before full-length mirror in dressing room, adjusting elegant lingerie, mirror showing both direct view and reflection, vulnerable preparation moment, photographer (viewer reflection partially visible) providing supportive presence, intimate trust-building",
+      hair_color: "black",
+      hair_style: "long flowing being styled",
+      skin_finish: "Fair complexion in soft dressing room light",
+      hand_and_nail_details: "Hands adjusting garment with nervous grace",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Elegant polish",
+      high_heels: "visible"
+    },
+    wardrobe: "Elegant lingerie (ivory lace), vulnerable preparation state",
+    environment: "Private dressing room with large mirror, intimate preparation atmosphere, soft vanity lighting",
+    lighting: "Soft flattering vanity lighting creating tender preparation atmosphere",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.0",
+      distance: "2 m",
+      angle: "Capturing both direct and mirror reflection",
+      framing: "Medium shot, 16:9 mirror preparation moment"
+    },
+    color_grade: "Soft warm tones, vulnerable preparation aesthetic",
+    style: "Intimate preparation photography, vulnerable trust moment",
+    quality: "Premium CG quality, 1920x1080, tender preparation moment",
+    figure_and_form: "Elegant curves in lingerie, vulnerable preparation posture",
+    skin_micro_details: "Fair complexion in flattering vanity light",
+    fabric_physics: "Elegant lace with realistic draping",
+    material_properties: "Mirror reflection, soft fabrics, warm intimate lighting"
+  }
+};
+
+export const vnCgFirstIntimatePortrait: ArtisticConcept = {
+  name: 'VN CG: First Intimate Portrait (Scene 4)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | First intimate portrait capture | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", first intimate portrait, vulnerable beauty",
+      pose: "Zara in elegant intimate portrait pose wearing sophisticated lingerie, soft vulnerable expression showing trust, gentle posture, intimate yet tasteful composition, photographer perspective capturing breakthrough moment of intimate artistry",
+      hair_color: "black",
+      hair_style: "long flowing softly styled",
+      skin_finish: "Fair complexion with soft intimate glow",
+      hand_and_nail_details: "Graceful gentle placement",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Elegant",
+      high_heels: "visible"
+    },
+    wardrobe: "Sophisticated elegant lingerie (ivory/champagne lace)",
+    environment: "Studio with soft intimate lighting setup, background softly blurred emphasizing subject",
+    lighting: "Soft flattering boudoir lighting creating beautiful intimate atmosphere",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/1.8",
+      distance: "2 m",
+      angle: "Slightly above eye level, flattering perspective",
+      framing: "Medium portrait, 16:9 intimate first capture"
+    },
+    color_grade: "Warm romantic tones, intimate breakthrough aesthetic",
+    style: "Elegant boudoir portrait, vulnerable beauty and trust",
+    quality: "Premium CG quality, 1920x1080, intimate portrait moment",
+    figure_and_form: "Elegant curves tastefully revealed, vulnerable beauty",
+    skin_micro_details: "Fair complexion with soft beautiful glow",
+    fabric_physics: "Elegant lace draping naturally",
+    material_properties: "Soft intimate lighting creating romantic atmosphere"
+  }
+};
+
+export const vnCgBoudoirPose: ArtisticConcept = {
+  name: 'VN CG: Boudoir Pose (Scene 6)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Signature boudoir moment | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", signature boudoir session, confident beauty",
+      pose: "Zara reclining elegantly on white linen bed in sophisticated lingerie, confident sensual expression, professional boudoir model presence, one hand gracefully positioned, other arm relaxed, intimate yet sophisticated composition, natural light streaming through sheer curtains",
+      hair_color: "black",
+      hair_style: "long flowing in soft romantic waves",
+      skin_finish: "Fair complexion glowing in natural boudoir light",
+      hand_and_nail_details: "Graceful confident placement",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Classic elegant",
+      high_heels: "visible"
+    },
+    wardrobe: "Sophisticated elegant lingerie (ivory lace bra and high-waisted briefs)",
+    environment: "Intimate bedroom with natural window light, white linens, romantic boudoir atmosphere",
+    lighting: "Soft natural window light diffused through sheer curtains, warm romantic illumination",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.0",
+      distance: "2.5 m",
+      angle: "Slightly elevated elegant perspective",
+      framing: "Medium to wide shot, 16:9 signature boudoir composition"
+    },
+    color_grade: "Warm romantic tones, sophisticated boudoir aesthetic",
+    style: "High-end boudoir photography, elegant confident intimacy",
+    quality: "Premium CG quality, 1920x1080, signature boudoir moment",
+    figure_and_form: "Dramatic curves elegantly showcased, confident sensual beauty",
+    skin_micro_details: "Fair complexion with natural romantic glow",
+    fabric_physics: "Elegant lace and white linens with realistic draping",
+    material_properties: "Natural romantic lighting on elegant fabrics"
+  }
+};
+
+export const vnCgArtisticDrapingMoment: ArtisticConcept = {
+  name: 'VN CG: Artistic Draping Moment (Scene 7)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Fine art collaboration | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", fine art draping collaboration, artistic trust",
+      pose: "Photographer (viewer POV - hands visible arranging translucent silk fabric) artistically draping fabric around Zara's form, Zara standing with trusting expression, eyes closed or looking at photographer with complete trust, intimate artistic collaboration moment, Renaissance painting aesthetic being created",
+      hair_color: "black",
+      hair_style: "long flowing arranged artistically",
+      skin_finish: "Fair complexion in dramatic fine art lighting",
+      hand_and_nail_details: "Photographer hands arranging silk, Zara's hands relaxed in trust",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural",
+      high_heels: "not visible"
+    },
+    wardrobe: "Translucent ivory silk being artistically draped creating sculptural shapes",
+    environment: "Luxury boudoir with dramatic side lighting, fine art atmosphere",
+    lighting: "Dramatic chiaroscuro side lighting creating sculptural shadows, museum-quality illumination",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.8",
+      distance: "1.5 m",
+      angle: "Photographer POV showing collaborative artistic process",
+      framing: "Medium shot, 16:9 artistic collaboration moment"
+    },
+    color_grade: "Desaturated fine art tones, Renaissance painting aesthetic",
+    style: "Fine art photography collaboration, intimate trust and artistic partnership",
+    quality: "Premium CG quality, 1920x1080, artistic collaboration moment",
+    figure_and_form: "Sculptural form being created through fabric draping, fine art aesthetic",
+    skin_micro_details: "Dramatic chiaroscuro revealing sculptural beauty",
+    fabric_physics: "Translucent silk being actively draped, creating elegant shapes",
+    material_properties: "Sheer silk with ethereal quality, dramatic artistic lighting"
+  }
+};
+
+export const vnCgIntimateCloseMoment: ArtisticConcept = {
+  name: 'VN CG: Intimate Close Moment (Scene 8)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Emotional connection close-up | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", golden hour emotional connection, profound moment",
+      pose: "Close intimate framing of Zara sitting on window ledge in natural light loft, wrapped in silk robe, eyes showing deep emotional connection and vulnerability, gentle genuine smile, photographer (viewer perspective - partial presence suggested) sharing quiet profound moment together, unguarded authentic connection",
+      hair_color: "black",
+      hair_style: "long flowing naturally loose",
+      skin_finish: "Fair complexion glowing in golden hour light",
+      hand_and_nail_details: "Relaxed natural placement showing comfort",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural",
+      high_heels: "not visible"
+    },
+    wardrobe: "Champagne silk robe worn casually, comfortable relaxed state",
+    environment: "Natural light loft with golden hour sunlight streaming through massive windows, soft focus city skyline background",
+    lighting: "Warm golden hour natural light creating romantic emotional atmosphere",
+    camera: {
+      focal_length: "85mm",
+      aperture: "f/1.4",
+      distance: "1.2 m",
+      angle: "Eye level capturing intimate emotional connection",
+      framing: "Close medium shot, 16:9 intimate emotional moment"
+    },
+    color_grade: "Warm golden tones, profound emotional connection aesthetic",
+    style: "Intimate documentary portrait, profound human connection and trust",
+    quality: "Premium CG quality, 1920x1080, golden hour emotional moment",
+    figure_and_form: "Natural relaxed posture, emotional openness and trust radiating",
+    skin_micro_details: "Fair complexion glowing with golden hour warmth and emotion",
+    fabric_physics: "Silk robe draped casually, comfortable relaxed state",
+    material_properties: "Warm golden light creating profound emotional atmosphere"
+  }
+};
+
+export const vnCgClimaxBoudoir: ArtisticConcept = {
+  name: 'VN CG: Climax Boudoir (Scene 9)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Ultimate boudoir masterpiece | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", ultimate boudoir masterpiece, peak intimacy",
+      pose: "Zara in ultimate boudoir pose on luxury bed with dramatic lighting, minimal elegant lingerie, complete confidence and trust, direct intense gaze showing culmination of intimate journey, professional boudoir artistry at its peak, sophisticated sensual power, museum-worthy composition",
+      hair_color: "black",
+      hair_style: "long flowing with perfect styling",
+      skin_finish: "Fair complexion with dramatic boudoir glow",
+      hand_and_nail_details: "Powerful confident placement",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Bold confident polish",
+      high_heels: "dramatic heels visible"
+    },
+    wardrobe: "Minimal elegant lingerie (black lace), ultimate boudoir sophistication",
+    environment: "Luxury boudoir bedroom with dramatic velvet and elegant furnishings, sophisticated atmosphere",
+    lighting: "Dramatic side lighting creating sculptural shadows and highlights, ultimate boudoir illumination",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.0",
+      distance: "2.5 m",
+      angle: "Slightly low angle emphasizing power and beauty",
+      framing: "Medium to wide shot, 16:9 ultimate boudoir masterpiece"
+    },
+    color_grade: "Rich dramatic tones with deep jewel colors, ultimate boudoir aesthetic",
+    style: "Ultimate boudoir photography mastery, sophisticated sensual power and artistry",
+    quality: "Premium CG quality, 1920x1080, ultimate boudoir masterpiece",
+    figure_and_form: "Dramatic curves at peak beauty, ultimate confident sensuality",
+    skin_micro_details: "Fair complexion with dramatic sculptural lighting",
+    fabric_physics: "Minimal elegant lace, luxury bed linens",
+    material_properties: "Dramatic lighting creating ultimate boudoir masterpiece atmosphere"
+  }
+};
+
+export const vnCgClimaxMinimal: ArtisticConcept = {
+  name: 'VN CG: Climax Minimal Artistic (Scene 9)',
+  data: {
+    shot: "VISUAL NOVEL CG IMAGE | Ultimate fine art masterpiece | 16:9 widescreen | 1920x1080px",
+    subject: {
+      variant: ZARA_CHARACTER_BASE + ", ultimate fine art nude, museum masterpiece",
+      pose: "Zara in ultimate fine art nude pose, minimal tasteful strategic coverage, dramatic chiaroscuro lighting creating powerful sculptural shadows, confident artistic presence, direct powerful gaze, body as ultimate art form, museum-worthy composition following Newton/Mapplethorpe mastery, NO explicit detail, emphasis on light/shadow/form",
+      hair_color: "black",
+      hair_style: "long flowing with fine art styling",
+      skin_finish: "Fair complexion with ultimate sculptural chiaroscuro",
+      hand_and_nail_details: "Powerful artistic placement",
+      tattoos: "none",
+      piercings: "none",
+      body_art: "none",
+      nail_art: "Natural",
+      high_heels: "architectural heels as compositional element"
+    },
+    wardrobe: "MINIMAL ARTISTIC - Single high-waisted minimalist foundation piece, ultimate fine art aesthetic, museum-quality composition",
+    environment: "Minimal luxury boudoir with dramatic chiaroscuro setup, fine art gallery atmosphere",
+    lighting: "Ultimate dramatic single-source chiaroscuro creating brilliant highlights and deep shadows, museum-quality fine art illumination, Helmut Newton mastery",
+    camera: {
+      focal_length: "50mm",
+      aperture: "f/2.8",
+      distance: "3 m",
+      angle: "Low angle emphasizing sculptural power and monumentality",
+      framing: "Full to medium shot, 16:9 ultimate fine art masterpiece"
+    },
+    color_grade: "High-contrast B&W, museum fine art aesthetic, timeless beauty",
+    style: "Helmut Newton, Irving Penn, Robert Mapplethorpe (form mastery), ultimate fine art nude tradition",
+    quality: "Museum-quality 8K fine art masterpiece, 1920x1080, ultimate artistic achievement",
+    figure_and_form: "Curves as ultimate sculptural art form, light/shadow/form mastery",
+    skin_micro_details: "Ultimate dramatic chiaroscuro sculpting every contour with museum-quality precision",
+    fabric_physics: "Minimal foundation piece with perfect sculptural lines",
+    material_properties: "Dramatic museum-quality lighting creating ultimate fine art atmosphere"
+  }
+};
+
+// ============================================================================
+// EXPORT ALL VN CONCEPTS (UPDATED WITH EXPANSION ASSETS)
 // ============================================================================
 
 export const visualNovelAssetConcepts: ArtisticConcept[] = [
-  // Character Sprites - Emotional States (6)
+  // Character Sprites - Emotional States (6 original)
   vnSpriteNeutral,
   vnSpriteConfident,
   vnSpriteVulnerable,
@@ -1166,17 +1958,27 @@ export const visualNovelAssetConcepts: ArtisticConcept[] = [
   vnSpriteUncomfortable,
   vnSpriteTrusting,
 
-  // Character Sprites - Mode-Specific (4)
+  // Character Sprites - Mode-Specific (4 original - DEPRECATED for old 6-scene story)
   vnSpriteExperimental,
   vnSpritePlatinum,
   vnSpriteVera,
   vnSpriteArtistic,
 
-  // Character Sprites - Story Moments (2)
+  // Character Sprites - Story Moments (2 original)
   vnSpriteCrisisReveal,
   vnSpriteWrapSatisfied,
 
-  // Backgrounds (8)
+  // Character Sprites - Intimate Wardrobe (8 NEW for 10-scene expansion)
+  vnSpriteLingerieElegant,
+  vnSpriteLingerieMinimal,
+  vnSpriteSilkRobe,
+  vnSpriteArtisticDrape,
+  vnSpriteMinimalArtistic,
+  vnSpriteBoudoirConfident,
+  vnSpriteBoudoirVulnerable,
+  vnSpriteIntimateTrust,
+
+  // Backgrounds - Studio Settings (8 original)
   vnBgStudioMorningArrival,
   vnBgWardrobeArea,
   vnBgStudioCenterNeutral,
@@ -1186,7 +1988,14 @@ export const visualNovelAssetConcepts: ArtisticConcept[] = [
   vnBgStudioArtistic,
   vnBgStudioWrap,
 
-  // CG Images (10)
+  // Backgrounds - Boudoir & Intimate Locations (5 NEW for expansion)
+  vnBgBoudoirBedroomNatural,
+  vnBgBoudoirLuxuryDramatic,
+  vnBgStudioIntimateCorner,
+  vnBgDressingRoomPrivate,
+  vnBgNaturalLightLoft,
+
+  // CG Images - Original Moments (10 original)
   vnCgFirstGreeting,
   vnCgLighttestTechnical,
   vnCgFirstFrameVulnerable,
@@ -1196,7 +2005,17 @@ export const visualNovelAssetConcepts: ArtisticConcept[] = [
   vnCgClimaxExperimental,
   vnCgClimaxPlatinum,
   vnCgClimaxVera,
-  vnCgClimaxArtistic
+  vnCgClimaxArtistic,
+
+  // CG Images - Intimate Moments (8 NEW for expansion)
+  vnCgWardrobeDiscussion,
+  vnCgMirrorPreparation,
+  vnCgFirstIntimatePortrait,
+  vnCgBoudoirPose,
+  vnCgArtisticDrapingMoment,
+  vnCgIntimateCloseMoment,
+  vnCgClimaxBoudoir,
+  vnCgClimaxMinimal
 ];
 
 export default visualNovelAssetConcepts;

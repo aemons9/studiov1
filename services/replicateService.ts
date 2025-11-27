@@ -234,17 +234,23 @@ export async function generateWithFlux(
     safetyTolerance: input.safety_tolerance,
   });
 
-  // Fetch the actual model version
-  const version = await fetchModelVersion(model, apiToken);
+  // Use proxy server to avoid CORS issues
+  // In production (Vercel), use relative path for serverless functions
+  // In development, use localhost:3001 or vite proxy
+  const PROXY_URL = (import.meta as any).env?.VITE_PROXY_URL ||
+    (import.meta.env.PROD ? '' : 'http://localhost:3001');
 
-  // Create prediction via direct Replicate API
-  const createResponse = await fetch('https://api.replicate.com/v1/predictions', {
+  // Fetch the actual model version
+  const version = await fetchModelVersion(model, apiToken, PROXY_URL);
+
+  // Create prediction via proxy
+  const createResponse = await fetch(`${PROXY_URL}/api/replicate/predictions`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiToken}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      token: apiToken, // Pass token in body for proxy
       version: version,
       input,
     }),
@@ -254,6 +260,7 @@ export async function generateWithFlux(
     const errorText = await createResponse.text();
     console.error('❌ Replicate API error:', errorText);
     console.error('❌ Status:', createResponse.status);
+    console.error('❌ Proxy URL:', PROXY_URL);
     throw new Error(`Replicate API error: ${createResponse.status} - ${errorText}`);
   }
 
@@ -277,10 +284,9 @@ export async function generateWithFlux(
   ) {
     await new Promise(resolve => setTimeout(resolve, 5000)); // Wait 5 seconds
 
-    const pollResponse = await fetch(`https://api.replicate.com/v1/predictions/${prediction.id}`, {
+    const pollResponse = await fetch(`${PROXY_URL}/api/replicate/predictions/${prediction.id}`, {
       headers: {
         'Authorization': `Bearer ${apiToken}`,
-        'Content-Type': 'application/json',
       },
     });
 
@@ -335,13 +341,19 @@ export async function generateWithFlux(
     predictTime: finalPrediction.metrics?.predict_time,
   });
 
-  // Download images and convert to base64
+  // Download images via proxy and convert to base64
   const base64Images: string[] = [];
   for (const url of imageUrls) {
     try {
-      // Direct download from replicate.delivery (supports CORS)
-      console.log('📥 Downloading image:', url);
-      const imageResponse = await fetch(url);
+      // Try direct download first (replicate.delivery supports CORS)
+      console.log('📥 Downloading image directly:', url);
+      let imageResponse = await fetch(url);
+
+      // If direct download fails, try via proxy
+      if (!imageResponse.ok) {
+        console.log('⚠️ Direct download failed, trying via proxy...');
+        imageResponse = await fetch(`${PROXY_URL}/api/replicate/download?url=${encodeURIComponent(url)}`);
+      }
 
       if (!imageResponse.ok) {
         console.warn('⚠️ Failed to download image:', url, 'Status:', imageResponse.status);
@@ -370,13 +382,12 @@ export async function generateWithFlux(
 /**
  * Fetch the latest version hash for a model from Replicate API
  */
-async function fetchModelVersion(model: FluxModel, apiToken: string): Promise<string> {
+async function fetchModelVersion(model: FluxModel, apiToken: string, proxyUrl: string): Promise<string> {
   try {
-    // Call Replicate API directly to get model info
-    const response = await fetch(`https://api.replicate.com/v1/models/${model}`, {
+    // Call proxy to get model info
+    const response = await fetch(`${proxyUrl}/api/replicate/models/${encodeURIComponent(model)}`, {
       headers: {
         'Authorization': `Bearer ${apiToken}`,
-        'Content-Type': 'application/json',
       },
     });
 

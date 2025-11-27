@@ -16,7 +16,7 @@ import {
   isChoiceAvailable,
   applyChoiceEffects,
   determineEnding
-} from './chapterOneScenes';
+} from './chapterOneExpandedScenes';
 import VariableTracker from './VariableTracker';
 import { gameStateReducer, type ExtendedGameState, INITIAL_GAME_STATE } from './GameStateManager';
 

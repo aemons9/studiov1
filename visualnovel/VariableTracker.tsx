@@ -1,5 +1,5 @@
 import React from 'react';
-import { GameVariables } from './chapterOneScenes';
+import { GameVariables } from './chapterOneExpandedScenes';
 
 // ============================================================================
 // TYPES

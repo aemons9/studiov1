@@ -4,13 +4,10 @@ import {
   Scene,
   Choice,
   SCENES,
-  ENDINGS,
   applyChoiceEffects,
   isChoiceAvailable,
-  determineEnding,
-  getSceneAssets,
-  getNextScene
-} from './chapterOneScenes';
+  determineEnding
+} from './chapterOneExpandedScenes';
 
 // ============================================================================
 // ENHANCED GAME STATE TYPES
@@ -69,11 +66,11 @@ export interface GameStateAction {
 // ============================================================================
 
 export const INITIAL_GAME_STATE: ExtendedGameState = {
-  // Variables from chapterOneScenes.ts
+  // Variables from chapterOneExpandedScenes.ts
   ...INITIAL_VARIABLES,
 
   // Scene Navigation
-  currentSceneId: 'scene_1_calltime',
+  currentSceneId: 'scene_1_arrival',
   currentBeatIndex: 0,
   currentDialogueIndex: 0,
 
@@ -88,7 +85,7 @@ export const INITIAL_GAME_STATE: ExtendedGameState = {
   // Playthrough tracking
   playthroughStartTime: Date.now(),
   totalChoicesMade: 0,
-  scenesVisited: ['scene_1_calltime'],
+  scenesVisited: ['scene_1_arrival'],
 
   // Auto-save
   lastSaveTime: Date.now()
@@ -199,7 +196,7 @@ export const gameStateReducer = (
 
       // Check if we've reached an ending
       const ending = determineEnding(updatedVariables);
-      const isEnding = nextSceneId === 'ending' || ENDINGS.some(e => e.id === nextSceneId);
+      const isEnding = nextSceneId === 'ending' || !SCENES[nextSceneId];
 
       return {
         ...state,
@@ -494,6 +491,5 @@ export const autoSave = (state: ExtendedGameState): ExtendedGameState => {
 
 export {
   SCENES,
-  ENDINGS,
   INITIAL_VARIABLES
-} from './chapterOneScenes';
+} from './chapterOneExpandedScenes';

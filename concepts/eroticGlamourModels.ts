@@ -1547,15 +1547,18 @@ export const MODEL_VN_ZARA = {
   crossModelAccess: true,
 
   physicalTraits: {
-    height: '5\'7"',
-    figure: 'Classic hourglass with dramatic curves',
-    bust: '38DD"',
-    waist: '27"',
+    height: '5\'8"',
+    figure: 'Curvaceous fit hourglass figure',
+    bust: '37DD"',
+    waist: '26"',
     hips: '39"',
-    emphasis: 'Elite Indian fashion model with complete aesthetic versatility',
-    skinTone: 'Fair complexion with warm undertones and natural healthy glow',
-    features: 'Long flowing black hair with natural shine, intensely expressive brown eyes, dramatic facial structure with high cheekbones, distinctive beauty mark on left cheek, cinematic beauty',
-    fitness: 'Athletic-fit build with classic hourglass proportions',
+    emphasis: 'Indian Instagram influencer fit model with complete aesthetic versatility',
+    skinTone: 'Radiant golden-bronze complexion with sun-kissed glow. Flawless Instagram-ready glow with highlighting on cheekbones and collarbones',
+    features: 'Long dark brown hair with honey highlights in loose glamorous beach waves. Bold influencer beauty: sultry bedroom eyes with dramatic lashes and winged liner, glossy plump lips, contoured cheekbones, perfect Instagram face. Multiple ear piercings with gold hoops and studs',
+    fitness: 'Curvaceous fit build with dramatic hourglass proportions',
+    hands: 'Manicured hands with stiletto nails',
+    age: '22-26',
+    style: 'Modern Indian social media star with bold confidence',
     specialties: 'Visual Novel protagonist, fashion photography (4 modes: Experimental, Platinum, Vera, Artistic), complete intimacy range, fine art nude capability'
   },
 

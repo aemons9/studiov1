@@ -19,7 +19,7 @@ import type { ArtisticConcept } from './concepts';
 // CHARACTER BASELINE - Used in all sprite prompts for consistency
 // ============================================================================
 
-const ZARA_CHARACTER_BASE = `CHARACTER: Zara - Elite Indian fashion model, age 25, height 5'7", classic hourglass figure (bust 38DD", waist 27", hips 39"), fair complexion with warm undertones, long flowing black hair with natural shine, intensely expressive brown eyes, dramatic facial structure with high cheekbones, distinctive beauty mark on left cheek, athletic-fit build, cinematic beauty, professional model presence`;
+const ZARA_CHARACTER_BASE = `CHARACTER: Zara, an Indian Instagram influencer fit model (height 5'8"), with curvaceous fit hourglass figure and exact measurements (bust 37DD", waist 26", hips 39"). Features radiant golden-bronze complexion with sun-kissed glow. Bold influencer beauty: sultry bedroom eyes with dramatic lashes and winged liner, glossy plump lips, contoured cheekbones, perfect Instagram face. Age 22-26. Modern Indian social media star with bold confidence. Long dark brown hair with honey highlights in loose glamorous beach waves. Flawless Instagram-ready glow with highlighting on cheekbones and collarbones. Manicured hands with stiletto nails. Multiple ear piercings with gold hoops and studs`;
 
 // ============================================================================
 // CHARACTER SPRITES - Zara (12 sprites)

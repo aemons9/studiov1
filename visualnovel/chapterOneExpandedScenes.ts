@@ -458,25 +458,226 @@ export const SCENES: Record<string, Scene> = {
     }
   },
 
-  // Placeholder for remaining scenes (5-10)
+  // ==========================================================================
+  // SCENE 5: INTIMACY GATEWAY - MAJOR DECISION POINT
+  // ==========================================================================
   scene_5_intimacy_gateway: {
     id: 'scene_5_intimacy_gateway',
-    title: 'Intimacy Decision Point',
-    setting: 'Mid-session pause. Decision about progression.',
-    objectives: ['Choose path: maintain current intimacy or progress deeper'],
-    sceneFlow: [],
-    choices: [],
-    requiredAssets: { backgrounds: [], characters: [], cgs: [] }
+    title: 'The Gateway',
+    setting: 'Intimate corner of studio. Mid-session pause. The work so far has been excellent—but both sense potential for something deeper.',
+    objectives: [
+      'Review work created so far',
+      'Assess comfort and trust levels',
+      'Decide whether to progress to intimate work',
+      'Establish clear consent for next phase'
+    ],
+    sceneFlow: [
+      {
+        beat: 'ReviewingWork',
+        content: 'Pause to review images. The portfolio is strong—but incomplete.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You review the images together on the camera screen. They\'re good—technically excellent, emotionally present. But you both sense they\'re only scratching the surface of what\'s possible.' },
+          { speaker: 'zara', line: 'These are beautiful. Really. You have an incredible eye.', emotion: 'thoughtful' },
+          { speaker: 'player', line: 'Thank you. But I feel like we\'re holding back. There\'s something deeper we could explore—if you\'re comfortable.' },
+          { speaker: 'zara', line: 'I\'ve been feeling that too.', emotion: 'trusting' }
+        ],
+        background: 'bg_studio_intimate_corner',
+        character: 'zara_thoughtful'
+      },
+      {
+        beat: 'IntimacyDiscussion',
+        content: 'Honest conversation about progressing to intimate work.',
+        dialogue: [
+          { speaker: 'narrator', line: 'The air shifts. This is the moment—progress to truly intimate work, or keep the professional boundaries intact.' },
+          { speaker: 'player', line: 'I want to be completely transparent. I\'m thinking about boudoir work—elegant lingerie, intimate bedroom settings. Or we could explore fine art intimate photography—artistic draping, emphasis on form and light. But only if that interests you.' },
+          { speaker: 'zara', line: 'I trust your artistic vision. And I trust you as a person. That\'s rare.', emotion: 'vulnerable' },
+          { speaker: 'player', line: 'That trust is everything. Whatever we do next, you\'re in complete control. We only go as far as feels right to you.' },
+          { speaker: 'zara', line: 'Then let\'s create something extraordinary.', emotion: 'confident' }
+        ],
+        background: 'bg_studio_intimate_corner',
+        character: 'zara_vulnerable'
+      }
+    ],
+    choices: [
+      {
+        id: 'choice_5_continue_professional',
+        text: 'Maintain current approach—build the portfolio with what we have. No need to push boundaries.',
+        effects: {
+          ZaraComfort: 15,
+          Trust: 8,
+          ArtisticCohesion: 15
+        },
+        nextScene: 'scene_8_emotional_depth'
+      },
+      {
+        id: 'choice_5_progress_boudoir',
+        text: 'Propose elegant boudoir session—sophisticated lingerie in intimate bedroom with natural light.',
+        conditions: 'Trust >= 8 && ZaraComfort >= 45',
+        effects: {
+          ZaraComfort: -5,
+          Trust: 10,
+          IntimacyLevel: 40,
+          ArtisticCohesion: 20,
+          BoudoirUnlocked: true,
+          selectedMode: 'boudoir_elegant'
+        },
+        nextScene: 'scene_6_boudoir_session'
+      },
+      {
+        id: 'choice_5_progress_artistic',
+        text: 'Suggest fine art intimate photography—artistic draping, sculptural lighting, museum-quality aesthetic.',
+        conditions: 'Trust >= 10 && ArtisticCohesion >= 15',
+        effects: {
+          ZaraComfort: -10,
+          Trust: 12,
+          IntimacyLevel: 50,
+          ArtisticCohesion: 25,
+          RequiresNudityConsent: true,
+          selectedMode: 'artistic_intimate'
+        },
+        nextScene: 'scene_7_artistic_intimacy'
+      },
+      {
+        id: 'choice_5_sensual_boudoir',
+        text: 'Request sensual boudoir with minimal lingerie—confident celebration of form and sensuality.',
+        conditions: 'Trust >= 12 && IntimacyLevel >= 30',
+        effects: {
+          ZaraComfort: -15,
+          Trust: 15,
+          IntimacyLevel: 60,
+          ArtisticCohesion: 22,
+          BoudoirUnlocked: true,
+          Flag_LingerieUsed: true,
+          selectedMode: 'boudoir_sensual'
+        },
+        nextScene: 'scene_6_boudoir_session'
+      }
+    ],
+    requiredAssets: {
+      backgrounds: ['bg_studio_intimate_corner'],
+      characters: ['zara_thoughtful', 'zara_vulnerable', 'zara_confident', 'zara_trusting'],
+      cgs: []
+    }
   },
 
+  // ==========================================================================
+  // SCENE 6: BOUDOIR SESSION
+  // ==========================================================================
   scene_6_boudoir_session: {
     id: 'scene_6_boudoir_session',
-    title: 'Boudoir Photography',
-    setting: 'Intimate bedroom location with natural light.',
-    objectives: ['Conduct sensual boudoir session'],
-    sceneFlow: [],
-    choices: [],
-    requiredAssets: { backgrounds: [], characters: [], cgs: [] }
+    title: 'Intimate Beauty',
+    setting: 'Private bedroom with soft natural window light. White linens, intimate atmosphere. Zara emerges wearing elegant lingerie—vulnerable yet powerful.',
+    objectives: [
+      'Conduct elegant boudoir photography session',
+      'Capture vulnerable beauty and confident sensuality',
+      'Build deeper trust through intimate work',
+      'Create breakthrough portfolio images'
+    ],
+    sceneFlow: [
+      {
+        beat: 'BedroomArrival',
+        content: 'Transition to intimate bedroom. Zara prepares.',
+        dialogue: [
+          { speaker: 'narrator', line: 'The bedroom is perfect—soft natural light through sheer curtains, white linens, intimate yet elegant. Zara steps from the dressing area wearing sophisticated ivory lace lingerie. She\'s breathtaking.' },
+          { speaker: 'zara', line: 'How do I look?', emotion: 'boudoir_vulnerable' },
+          { speaker: 'player', line: 'Stunning. Absolutely stunning. How do you feel?' },
+          { speaker: 'zara', line: 'Nervous. Excited. Vulnerable. But I trust you.', emotion: 'boudoir_vulnerable' },
+          { speaker: 'player', line: 'That trust means everything. We\'ll take this at whatever pace feels right. You say the word, we stop.' }
+        ],
+        background: 'bg_boudoir_bedroom_natural',
+        character: 'zara_boudoir_vulnerable',
+        cg: 'cg_mirror_preparation'
+      },
+      {
+        beat: 'FirstBoudoirImages',
+        content: 'Beginning the intimate session. Finding the rhythm.',
+        dialogue: [
+          { speaker: 'narrator', line: 'She sits on the edge of the bed, sunlight creating a halo in her hair. You raise the camera—she meets your eyes with quiet trust.' },
+          { speaker: 'player', line: 'Beautiful. Now shift your weight slightly... perfect. You\'re a natural at this.' },
+          { speaker: 'zara', line: 'It helps that I feel safe with you.', emotion: 'lingerie_elegant' },
+          { speaker: 'narrator', line: 'The camera clicks. Through the viewfinder, you capture something rare—vulnerable beauty without pretense, sensuality rooted in authentic comfort.' },
+          { speaker: 'zara', line: 'Can I see?', emotion: 'lingerie_elegant' },
+          { speaker: 'player', line: 'Of course.' }
+        ],
+        background: 'bg_boudoir_bedroom_natural',
+        character: 'zara_lingerie_elegant',
+        cg: 'cg_boudoir_pose'
+      },
+      {
+        beat: 'ViewingTogether',
+        content: 'Reviewing the images together. Breakthrough moment.',
+        dialogue: [
+          { speaker: 'narrator', line: 'You show her the screen. She stares, quiet. Then a slow smile spreads across her face.' },
+          { speaker: 'zara', line: 'Is that really me? I look... I look beautiful. Not Instagram beautiful—actually beautiful.', emotion: 'boudoir_vulnerable' },
+          { speaker: 'player', line: 'That\'s what I see when I look at you. What the camera sees. Your authentic self.' },
+          { speaker: 'zara', line: 'I want to keep going. I want to capture more of this.', emotion: 'boudoir_confident' },
+          { speaker: 'narrator', line: 'Her vulnerability transforms into power. Shoulders back, chin up—she owns her sensuality completely.' }
+        ],
+        background: 'bg_boudoir_bedroom_natural',
+        character: 'zara_boudoir_vulnerable',
+        cg: 'cg_first_intimate_portrait'
+      },
+      {
+        beat: 'EmpoweredSession',
+        content: 'Zara fully comfortable. Creating extraordinary images.',
+        dialogue: [
+          { speaker: 'narrator', line: 'The session finds perfect flow. Direction becomes collaboration. Professional boundaries soften into creative partnership. She moves with complete confidence now—owning every frame.' },
+          { speaker: 'zara', line: 'How about this?', emotion: 'boudoir_confident' },
+          { speaker: 'player', line: 'Perfect. Hold that. God, you\'re incredible.' },
+          { speaker: 'zara', line: 'I feel incredible. Thank you for seeing me this way.', emotion: 'boudoir_confident' },
+          { speaker: 'narrator', line: 'You capture image after image—each one better than the last. This is what you came here to create.' }
+        ],
+        background: 'bg_boudoir_bedroom_natural',
+        character: 'zara_boudoir_confident'
+      }
+    ],
+    choices: [
+      {
+        id: 'choice_6_conclude_elegant',
+        text: 'Conclude the session here—we\'ve created something beautiful and complete.',
+        effects: {
+          ZaraComfort: 20,
+          Trust: 15,
+          IntimacyLevel: 15,
+          ArtisticCohesion: 25,
+          Flag_BoudoirSessionDone: true
+        },
+        nextScene: 'scene_8_emotional_depth'
+      },
+      {
+        id: 'choice_6_progress_minimal',
+        text: 'Suggest trying minimal coverage lingerie—celebrate her form more boldly.',
+        conditions: 'Trust >= 15 && ZaraComfort >= 50',
+        effects: {
+          ZaraComfort: -10,
+          Trust: 18,
+          IntimacyLevel: 35,
+          ArtisticCohesion: 28,
+          Flag_LingerieUsed: true,
+          Flag_BoudoirSessionDone: true
+        },
+        nextScene: 'scene_7_artistic_intimacy'
+      },
+      {
+        id: 'choice_6_transition_artistic',
+        text: 'Propose transitioning to artistic draping—from boudoir to fine art.',
+        conditions: 'Trust >= 18 && ArtisticCohesion >= 20',
+        effects: {
+          ZaraComfort: -15,
+          Trust: 20,
+          IntimacyLevel: 45,
+          ArtisticCohesion: 35,
+          RequiresNudityConsent: true,
+          Flag_ArtisticDrapeUsed: true
+        },
+        nextScene: 'scene_7_artistic_intimacy'
+      }
+    ],
+    requiredAssets: {
+      backgrounds: ['bg_boudoir_bedroom_natural', 'bg_dressing_room_private'],
+      characters: ['zara_lingerie_elegant', 'zara_boudoir_vulnerable', 'zara_boudoir_confident'],
+      cgs: ['cg_mirror_preparation', 'cg_boudoir_pose', 'cg_first_intimate_portrait']
+    }
   },
 
   scene_7_artistic_intimacy: {

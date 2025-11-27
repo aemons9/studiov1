@@ -55,7 +55,7 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
   }, [loadedAssets]);
 
   // Get current scene, beat, and dialogue
-  const currentScene = SCENES.find(s => s.id === gameState.currentSceneId);
+  const currentScene = SCENES[gameState.currentSceneId];
   const currentBeat = currentScene?.beats[gameState.currentBeatIndex];
   const currentDialogue = currentBeat?.dialogue[gameState.currentDialogueIndex];
 

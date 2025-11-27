@@ -807,6 +807,7 @@ export async function generateImage(prompt: string, settings: GenerationSettings
         }, {
           aspectRatio: mapAspectRatioForVertex(aspectRatio),
           sampleCount: numberOfImages,
+          sampleImageSize: '2048', // MAXIMUM RESOLUTION: 2048x2048 or aspect ratio equivalent
           personGeneration: settings.personGeneration || 'allow_adult',
           safetySetting: settings.safetySetting || 'block_few',
           outputMimeType: settings.outputFormat === 'png' ? 'image/png' : 'image/jpeg',

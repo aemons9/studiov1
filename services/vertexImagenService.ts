@@ -13,6 +13,7 @@ export interface VertexImagenConfig {
 export interface VertexImagenParameters {
   aspectRatio?: string; // "1:1", "3:4", "4:3", "9:16", "16:9"
   sampleCount?: number; // 1-4
+  sampleImageSize?: string; // "256", "512", "1024", "2048" - Higher = better quality
   negativePrompt?: string;
   enhancePrompt?: boolean;
   personGeneration?: 'dont_allow' | 'allow_adult' | 'allow_all';
@@ -92,6 +93,7 @@ export async function generateWithVertexImagen(
     parameters: {
       aspectRatio: parameters.aspectRatio || '1:1',
       sampleCount: parameters.sampleCount || 1,
+      sampleImageSize: parameters.sampleImageSize || '2048', // Maximum quality: 2048x2048 or aspect ratio equivalent
       negativePrompt: parameters.negativePrompt || '',
       enhancePrompt: parameters.enhancePrompt || false,
       personGeneration: parameters.personGeneration || 'allow_adult',
@@ -115,6 +117,7 @@ export async function generateWithVertexImagen(
     projectIdLength: config.projectId.length,
     aspectRatio: requestBody.parameters.aspectRatio,
     sampleCount: requestBody.parameters.sampleCount,
+    sampleImageSize: requestBody.parameters.sampleImageSize, // Resolution quality
     outputOptions: requestBody.parameters.outputOptions,
     tokenLength: config.accessToken.length,
     tokenPrefix: config.accessToken.substring(0, 20) + '...'

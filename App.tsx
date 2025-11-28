@@ -257,23 +257,40 @@ const App: React.FC = () => {
 
   useEffect(() => { setPromptHistory(loadHistoryFromStorage()); }, []);
 
-  // Load tokens from localStorage on startup
+  // Load tokens and project IDs from localStorage on startup
   useEffect(() => {
     const mainToken = localStorage.getItem('mainToken');
+    const projectId = localStorage.getItem('projectId');
     const driveToken = localStorage.getItem('driveToken');
     const replicateToken = localStorage.getItem('replicateToken');
     const weavingToken = localStorage.getItem('weavingToken');
+    const weavingProjectId = localStorage.getItem('weavingProjectId');
 
     let loadedCount = 0;
     const missingTokens: string[] = [];
 
-    if (mainToken) {
+    // Load main Vertex AI credentials
+    if (mainToken && projectId) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        accessToken: mainToken,
+        projectId: projectId
+      }));
+      loadedCount += 2;
+      console.log('✅ Vertex AI token and project ID loaded');
+    } else if (mainToken) {
       setGenerationSettings(prev => ({ ...prev, accessToken: mainToken }));
       loadedCount++;
+      missingTokens.push('Vertex AI Project ID');
+    } else if (projectId) {
+      setGenerationSettings(prev => ({ ...prev, projectId: projectId }));
+      loadedCount++;
+      missingTokens.push('Vertex AI Token');
     } else {
       missingTokens.push('Vertex AI');
     }
 
+    // Load Google Drive token
     if (driveToken) {
       setStorageSettings(prev => ({ ...prev, driveAccessToken: driveToken }));
       loadedCount++;
@@ -281,6 +298,7 @@ const App: React.FC = () => {
       missingTokens.push('Google Drive');
     }
 
+    // Load Replicate token
     if (replicateToken) {
       setGenerationSettings(prev => ({ ...prev, replicateApiToken: replicateToken }));
       loadedCount++;
@@ -288,30 +306,56 @@ const App: React.FC = () => {
       missingTokens.push('Replicate');
     }
 
-    if (weavingToken) {
+    // Load Weaving credentials (for Google Gemini weaving with Flux)
+    if (weavingToken && weavingProjectId) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        weavingAccessToken: weavingToken,
+        weavingProjectId: weavingProjectId
+      }));
+      loadedCount += 2;
+      console.log('✅ Weaving token and project ID loaded (for Google Gemini weaving with Flux)');
+    } else if (weavingToken) {
       setGenerationSettings(prev => ({ ...prev, weavingAccessToken: weavingToken }));
       loadedCount++;
-      console.log('✅ Weaving token loaded (for Google Gemini weaving with Flux)');
+      console.log('⚠️ Weaving token loaded but missing project ID');
+    } else if (weavingProjectId) {
+      setGenerationSettings(prev => ({ ...prev, weavingProjectId: weavingProjectId }));
+      loadedCount++;
+      console.log('⚠️ Weaving project ID loaded but missing token');
     }
 
     // Single consolidated message
     if (loadedCount > 0) {
-      console.log(`✅ Loaded ${loadedCount} token(s) from localStorage`);
+      console.log(`✅ Loaded ${loadedCount} credential(s) from localStorage`);
     }
 
+    // Show instructions for missing credentials
     if (missingTokens.length > 0) {
-      console.log(`ℹ️ Missing tokens for: ${missingTokens.join(', ')}`);
-      console.log('💡 To set tokens, open console and paste:');
-      if (missingTokens.includes('Vertex AI')) {
-        console.log('   localStorage.setItem("mainToken", "YOUR_VERTEX_TOKEN");');
+      console.log(`ℹ️ Missing credentials for: ${missingTokens.join(', ')}`);
+      console.log('💡 To set credentials, open console and paste:');
+      console.log('');
+      if (missingTokens.includes('Vertex AI') || missingTokens.includes('Vertex AI Token') || missingTokens.includes('Vertex AI Project ID')) {
+        console.log('// Vertex AI (Imagen) - OAuth credentials:');
+        console.log('localStorage.setItem("projectId", "YOUR_GCP_PROJECT_ID");');
+        console.log('localStorage.setItem("mainToken", "YOUR_VERTEX_OAUTH_TOKEN");');
+        console.log('');
       }
       if (missingTokens.includes('Google Drive')) {
-        console.log('   localStorage.setItem("driveToken", "YOUR_DRIVE_TOKEN");');
+        console.log('// Google Drive storage:');
+        console.log('localStorage.setItem("driveToken", "YOUR_DRIVE_OAUTH_TOKEN");');
+        console.log('');
       }
       if (missingTokens.includes('Replicate')) {
-        console.log('   localStorage.setItem("replicateToken", "YOUR_REPLICATE_TOKEN");');
+        console.log('// Replicate (Flux):');
+        console.log('localStorage.setItem("replicateToken", "YOUR_REPLICATE_API_TOKEN");');
+        console.log('');
       }
-      console.log('   localStorage.setItem("weavingToken", "YOUR_GOOGLE_TOKEN_FOR_WEAVING");');
+      console.log('// Optional: Google Gemini weaving (for prompt enhancement with Flux):');
+      console.log('localStorage.setItem("weavingProjectId", "YOUR_GCP_PROJECT_ID");');
+      console.log('localStorage.setItem("weavingToken", "YOUR_GOOGLE_OAUTH_TOKEN");');
+      console.log('');
+      console.log('Then reload the page to apply changes.');
     }
   }, []);
 

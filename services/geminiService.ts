@@ -562,7 +562,24 @@ export async function analyzeArtisticContent(promptData: PromptData, settings: G
       model: modelId
     });
 
-    const result = JSON.parse(resultText.trim());
+    // Strip markdown code blocks if present
+    let cleanedText = resultText.trim();
+
+    // Remove ```json or ``` at the start
+    if (cleanedText.startsWith('```json')) {
+      cleanedText = cleanedText.slice(7);
+    } else if (cleanedText.startsWith('```')) {
+      cleanedText = cleanedText.slice(3);
+    }
+
+    // Remove ``` at the end
+    if (cleanedText.endsWith('```')) {
+      cleanedText = cleanedText.slice(0, -3);
+    }
+
+    cleanedText = cleanedText.trim();
+
+    const result = JSON.parse(cleanedText);
     if (typeof result.isArtistic !== 'boolean') throw new Error("Invalid analysis format from API.");
     return result as ArtisticAnalysisResult;
   } catch (error) { console.error("Analysis error:", error); throw error; }
@@ -605,7 +622,24 @@ export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: num
             model: modelId
         });
 
-        const result = JSON.parse(resultText.trim());
+        // Strip markdown code blocks if present
+        let cleanedText = resultText.trim();
+
+        // Remove ```json or ``` at the start
+        if (cleanedText.startsWith('```json')) {
+            cleanedText = cleanedText.slice(7); // Remove ```json
+        } else if (cleanedText.startsWith('```')) {
+            cleanedText = cleanedText.slice(3); // Remove ```
+        }
+
+        // Remove ``` at the end
+        if (cleanedText.endsWith('```')) {
+            cleanedText = cleanedText.slice(0, -3);
+        }
+
+        cleanedText = cleanedText.trim();
+
+        const result = JSON.parse(cleanedText);
         return result as RiskAnalysis;
     } catch (error) {
         console.error("Risk analysis error:", error);

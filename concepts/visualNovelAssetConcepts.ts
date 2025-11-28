@@ -519,9 +519,9 @@ export const vnBgStudioMorningArrival: ArtisticConcept = {
 export const vnBgWardrobeArea: ArtisticConcept = {
   name: 'VN BG: Wardrobe Area',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Professional photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Professional photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Photography studio wardrobe prep area, NO people visible",
+      variant: "EMPTY LOCATION - Photography studio wardrobe prep area - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY visible",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -556,9 +556,9 @@ export const vnBgWardrobeArea: ArtisticConcept = {
 export const vnBgStudioCenterNeutral: ArtisticConcept = {
   name: 'VN BG: Studio Center Neutral',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Professional photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Professional photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Photography studio center shooting area, NO people",
+      variant: "EMPTY LOCATION - Photography studio center shooting area - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -593,9 +593,9 @@ export const vnBgStudioCenterNeutral: ArtisticConcept = {
 export const vnBgStudioHighContrast: ArtisticConcept = {
   name: 'VN BG: Studio High Contrast (Experimental)',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Conceptual photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Conceptual photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Photography studio with dramatic high-contrast lighting setup, NO people",
+      variant: "EMPTY LOCATION - Photography studio with dramatic high-contrast lighting setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -630,9 +630,9 @@ export const vnBgStudioHighContrast: ArtisticConcept = {
 export const vnBgStudioSoftGlow: ArtisticConcept = {
   name: 'VN BG: Studio Soft Glow (Vera)',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Intimate photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Intimate photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Photography studio with soft intimate lighting setup, NO people",
+      variant: "EMPTY LOCATION - Photography studio with soft intimate lighting setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -667,9 +667,9 @@ export const vnBgStudioSoftGlow: ArtisticConcept = {
 export const vnBgStudioPlatinum: ArtisticConcept = {
   name: 'VN BG: Studio Platinum Setup',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Luxury editorial photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Luxury editorial photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Photography studio with luxury editorial setup, NO people",
+      variant: "EMPTY LOCATION - Photography studio with luxury editorial setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -704,9 +704,9 @@ export const vnBgStudioPlatinum: ArtisticConcept = {
 export const vnBgStudioArtistic: ArtisticConcept = {
   name: 'VN BG: Studio Artistic Setup',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Fine art photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Fine art photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Photography studio with fine art nude setup, NO people",
+      variant: "EMPTY LOCATION - Photography studio with fine art nude setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -741,9 +741,9 @@ export const vnBgStudioArtistic: ArtisticConcept = {
 export const vnBgStudioWrap: ArtisticConcept = {
   name: 'VN BG: Studio Wrap',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Documentary photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Documentary photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Photography studio end-of-day scene, NO people",
+      variant: "EMPTY LOCATION - Photography studio end-of-day scene - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -1462,9 +1462,9 @@ export const vnSpriteIntimateTrust: ArtisticConcept = {
 export const vnBgBoudoirBedroomNatural: ArtisticConcept = {
   name: 'VN BG: Boudoir Bedroom Natural Light',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Boudoir photography environment | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Boudoir photography environment | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Intimate bedroom boudoir location, NO people",
+      variant: "EMPTY LOCATION - Intimate bedroom boudoir location - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -1499,9 +1499,9 @@ export const vnBgBoudoirBedroomNatural: ArtisticConcept = {
 export const vnBgBoudoirLuxuryDramatic: ArtisticConcept = {
   name: 'VN BG: Boudoir Luxury Dramatic',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Luxury boudoir environment | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Luxury boudoir environment | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Luxury boudoir with dramatic lighting, NO people",
+      variant: "EMPTY LOCATION - Luxury boudoir with dramatic lighting - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -1536,9 +1536,9 @@ export const vnBgBoudoirLuxuryDramatic: ArtisticConcept = {
 export const vnBgStudioIntimateCorner: ArtisticConcept = {
   name: 'VN BG: Studio Intimate Corner',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Intimate studio space | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Intimate studio space | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Studio intimate corner setup, NO people",
+      variant: "EMPTY LOCATION - Studio intimate corner setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -1573,9 +1573,9 @@ export const vnBgStudioIntimateCorner: ArtisticConcept = {
 export const vnBgDressingRoomPrivate: ArtisticConcept = {
   name: 'VN BG: Dressing Room Private',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Private dressing space | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Private dressing space | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Private dressing room, NO people",
+      variant: "EMPTY LOCATION - Private dressing room - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",
@@ -1610,9 +1610,9 @@ export const vnBgDressingRoomPrivate: ArtisticConcept = {
 export const vnBgNaturalLightLoft: ArtisticConcept = {
   name: 'VN BG: Natural Light Loft',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Natural light loft space | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Natural light loft space | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
     subject: {
-      variant: "Natural light loft with golden hour, NO people",
+      variant: "EMPTY LOCATION - Natural light loft with golden hour - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
       pose: "N/A",
       hair_color: "N/A",
       hair_style: "N/A",

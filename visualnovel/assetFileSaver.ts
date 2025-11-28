@@ -113,8 +113,22 @@ export async function saveAssetToFileSystem(asset: AssetRequirement, base64Image
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(error.error || 'Failed to save asset');
+      // Check if response is JSON or HTML error page
+      const contentType = response.headers.get('content-type');
+      if (contentType && contentType.includes('application/json')) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to save asset');
+      } else {
+        // HTML error page (likely 404)
+        const text = await response.text();
+        throw new Error(`Asset save endpoint not available (${response.status}). The asset server may not be running. Try: npm run asset-server`);
+      }
+    }
+
+    // Check if response is JSON
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new Error('Asset save endpoint returned non-JSON response. The asset server may not be running.');
     }
 
     const result = await response.json();

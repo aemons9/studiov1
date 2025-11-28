@@ -13,6 +13,12 @@
 
 import express from 'express';
 import cors from 'cors';
+import fs from 'fs/promises';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = 3001;
@@ -20,6 +26,9 @@ const PORT = 3001;
 // Enable CORS for all origins (dev only - restrict in production)
 app.use(cors());
 app.use(express.json({ limit: '50mb' }));
+
+// Asset directory for Visual Novel
+const ASSETS_DIR = path.join(__dirname, 'visualnovel', 'assets');
 
 // Health check endpoint
 app.get('/health', (req, res) => {
@@ -180,19 +189,127 @@ app.get('/api/replicate/download', async (req, res) => {
   }
 });
 
+// ==========================================
+// VISUAL NOVEL ASSET SAVING ENDPOINTS
+// ==========================================
+
+/**
+ * POST /api/save-asset
+ * Saves generated VN assets to file system
+ */
+app.post('/api/save-asset', async (req, res) => {
+  try {
+    const { assetId, type, base64Image, filename } = req.body;
+
+    if (!assetId || !type || !base64Image || !filename) {
+      return res.status(400).json({
+        error: 'Missing required fields: assetId, type, base64Image, filename'
+      });
+    }
+
+    // Determine subfolder based on asset type
+    const subfolderMap = {
+      'sprite': 'sprites',
+      'character_sprite': 'sprites',
+      'background': 'backgrounds',
+      'cg': 'cg',
+      'cg_image': 'cg',
+      'cutscene_video': 'videos',
+      'ui_element': 'ui',
+      'bgm': 'bgm',
+      'sfx': 'sfx',
+      'location_map': 'maps'
+    };
+
+    const subfolder = subfolderMap[type] || 'misc';
+    const targetDir = path.join(ASSETS_DIR, subfolder);
+
+    // Ensure directory exists
+    await fs.mkdir(targetDir, { recursive: true });
+
+    // Clean base64 string (remove data URI prefix if present)
+    let cleanBase64 = base64Image;
+    if (cleanBase64.includes(',')) {
+      cleanBase64 = cleanBase64.split(',')[1];
+    }
+
+    // Convert base64 to buffer
+    const imageBuffer = Buffer.from(cleanBase64, 'base64');
+
+    // Save to file
+    const filePath = path.join(targetDir, filename);
+    await fs.writeFile(filePath, imageBuffer);
+
+    console.log(`✅ Saved VN asset: ${subfolder}/${filename} (${(imageBuffer.length / 1024).toFixed(1)} KB)`);
+
+    res.json({
+      success: true,
+      path: `visualnovel/assets/${subfolder}/${filename}`,
+      size: imageBuffer.length
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to save VN asset:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+/**
+ * GET /api/assets
+ * Returns list of all saved VN assets
+ */
+app.get('/api/assets', async (req, res) => {
+  try {
+    const assets = {};
+    const subfolders = ['sprites', 'backgrounds', 'cg', 'videos', 'ui', 'bgm', 'sfx', 'maps'];
+
+    for (const subfolder of subfolders) {
+      const dirPath = path.join(ASSETS_DIR, subfolder);
+
+      try {
+        const files = await fs.readdir(dirPath);
+        assets[subfolder] = files;
+      } catch (error) {
+        // Directory doesn't exist yet
+        assets[subfolder] = [];
+      }
+    }
+
+    res.json(assets);
+
+  } catch (error) {
+    console.error('❌ Failed to list VN assets:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+// ==========================================
+// START SERVER
+// ==========================================
+
 app.listen(PORT, () => {
   console.log('');
-  console.log('🚀 Replicate API Proxy Server Started');
+  console.log('🚀 Unified Dev Server Started');
   console.log('====================================');
   console.log(`✅ Running on: http://localhost:${PORT}`);
   console.log('✅ CORS enabled for all origins');
-  console.log('✅ Ready to proxy Replicate API calls');
+  console.log('✅ Ready for Replicate API + VN Asset saving');
   console.log('');
   console.log('Endpoints:');
   console.log(`  GET  /health                           - Health check`);
+  console.log('');
+  console.log('  Replicate API Proxy:');
   console.log(`  POST /api/replicate/predictions        - Create prediction`);
   console.log(`  GET  /api/replicate/predictions/:id    - Poll prediction`);
   console.log(`  GET  /api/replicate/models/:model      - Get model info`);
   console.log(`  GET  /api/replicate/download?url=...   - Download image`);
+  console.log('');
+  console.log('  Visual Novel Assets:');
+  console.log(`  POST /api/save-asset                   - Save VN asset to file system`);
+  console.log(`  GET  /api/assets                       - List all saved VN assets`);
   console.log('');
 });

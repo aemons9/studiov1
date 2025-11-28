@@ -483,20 +483,6 @@ export const vnBgStudioMorningArrival: ArtisticConcept = {
   name: 'VN BG: Studio Morning Arrival',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Professional photography studio interior | 16:9 widescreen | 1920x1080px | IMPORTANT: NO PEOPLE, NO CHARACTERS, NO HUMANS - ARCHITECTURAL PHOTOGRAPHY OF EMPTY STUDIO",
-    subject: {
-      variant: "EMPTY professional photography studio interior, morning scene - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - architectural shot of empty studio space only",
-      pose: "N/A - Background scene",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A - Background scene",
     environment: "LOCATION: Minimal white professional photography studio, industrial loft aesthetic, exposed white-painted brick walls, high ceilings with exposed beams, polished concrete floor, large windows with cool daylight filtering through blinds creating linear shadow patterns, clean professional workspace. Clear foreground for character placement (lower third empty), studio depth showing professional photography environment",
     lighting: "TIME & LIGHTING: Morning, cool daylight through windows with blinds creating linear light/shadow patterns, professional clean atmosphere, bright welcoming workspace illumination. ATMOSPHERE: Fresh start energy, professional clean space, creative potential",
     camera: {
@@ -509,9 +495,6 @@ export const vnBgStudioMorningArrival: ArtisticConcept = {
     color_grade: "Cool professional tones with warm accents, clean morning light, architectural photography aesthetic",
     style: "Architectural environmental photography, professional studio documentation, visual novel background standard",
     quality: "Commercial visual novel quality, 1920x1080, professional photography studio atmosphere",
-    figure_and_form: "Industrial loft architecture with clean professional composition",
-    skin_micro_details: "N/A - Background scene",
-    fabric_physics: "N/A - Background scene",
     material_properties: "White-painted brick texture, polished concrete floor with realistic reflection, glass windows with blinds creating linear shadows"
   }
 };
@@ -520,20 +503,6 @@ export const vnBgWardrobeArea: ArtisticConcept = {
   name: 'VN BG: Wardrobe Area',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Professional photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Photography studio wardrobe prep area - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY visible",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Studio wardrobe/prep area, clothing racks with various fabric samples and outfits visible, professional styling station with mirror, softboxes visible in background, organized creative workspace. Clear foreground for sprites",
     lighting: "Mixed studio lighting, natural daylight combined with professional studio lights, bright prep area atmosphere",
     camera: {
@@ -546,9 +515,6 @@ export const vnBgWardrobeArea: ArtisticConcept = {
     color_grade: "Professional bright tones, clean workspace aesthetic",
     style: "Professional studio environmental photography",
     quality: "Commercial VN quality, 1920x1080, authentic studio atmosphere",
-    figure_and_form: "Studio workspace architecture",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Various fabric textures on wardrobe racks, mirror with realistic reflection, studio equipment"
   }
 };
@@ -557,20 +523,6 @@ export const vnBgStudioCenterNeutral: ArtisticConcept = {
   name: 'VN BG: Studio Center Neutral',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Professional photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Photography studio center shooting area - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Studio center shooting area, white seamless backdrop visible, one key light and C-stand visible, camera on tripod partially visible, professional setup ready for shoot. Clear foreground",
     lighting: "Professional 3-point studio lighting setup visible, neutral professional illumination, classic photography lighting",
     camera: {
@@ -583,9 +535,6 @@ export const vnBgStudioCenterNeutral: ArtisticConcept = {
     color_grade: "Neutral professional tones, clean studio aesthetic",
     style: "Professional studio photography environment",
     quality: "Commercial VN quality, 1920x1080",
-    figure_and_form: "Studio architecture with professional equipment",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "White backdrop fabric, metallic studio equipment stands, professional camera gear"
   }
 };
@@ -593,37 +542,20 @@ export const vnBgStudioCenterNeutral: ArtisticConcept = {
 export const vnBgStudioHighContrast: ArtisticConcept = {
   name: 'VN BG: Studio High Contrast (Experimental)',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Conceptual photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Photography studio with dramatic high-contrast lighting setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
-    environment: "LOCATION: Studio configured for experimental high-contrast shoot, Newton-inspired dramatic rim lighting visible, strong shadows, dark backdrop, sculptural atmosphere. Clear foreground",
-    lighting: "Dramatic high-contrast lighting, strong rim light creating sculptural shadows, edgy conceptual atmosphere, Newton-esque chiaroscuro",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Conceptual photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE - EMPTY STUDIO ONLY",
+    environment: "LOCATION: EMPTY photography studio configured for experimental high-contrast shoot, dramatic rim lighting equipment visible, strong shadows on walls, dark backdrop, dramatic lighting atmosphere. Clear foreground. CRITICAL: Completely empty studio with NO PEOPLE anywhere - this is architectural/equipment photography only, showing lighting setup without any human subjects.",
+    lighting: "Dramatic high-contrast studio lighting equipment visible, strong rim lights creating dramatic shadows on walls and backdrop, edgy conceptual atmosphere, dramatic chiaroscuro lighting effect on empty studio space",
     camera: {
       focal_length: "35mm",
       aperture: "f/2.8",
       distance: "N/A",
-      angle: "Dramatic angle emphasizing contrast",
-      framing: "16:9 experimental dramatic composition"
+      angle: "Dramatic angle emphasizing contrast and shadows",
+      framing: "16:9 experimental dramatic composition of empty studio"
     },
     color_grade: "High contrast, desaturated with strong blacks, edgy editorial aesthetic",
-    style: "Conceptual art photography environment, dramatic experimental setup",
-    quality: "Commercial VN quality, 1920x1080, dramatic atmosphere",
-    figure_and_form: "Dramatic sculptural studio architecture",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
-    material_properties: "Dark backdrop creating dramatic atmosphere, rim lights with strong directional quality"
+    style: "Conceptual art photography environment, dramatic experimental lighting setup - EMPTY STUDIO WITHOUT PEOPLE",
+    quality: "Commercial VN quality, 1920x1080, dramatic atmosphere, no human presence",
+    material_properties: "Dark backdrop fabric creating dramatic atmosphere, metallic rim light stands with strong directional quality, studio equipment visible"
   }
 };
 
@@ -631,20 +563,6 @@ export const vnBgStudioSoftGlow: ArtisticConcept = {
   name: 'VN BG: Studio Soft Glow (Vera)',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Intimate photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Photography studio with soft intimate lighting setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Studio configured for intimate portrait photography, diffused soft lighting setup visible, warm tones, intimate portraiture environment. Clear foreground",
     lighting: "Soft diffused lighting creating intimate portraiture atmosphere, warm inviting tones, gentle shadows, emotional photography setup",
     camera: {
@@ -657,9 +575,6 @@ export const vnBgStudioSoftGlow: ArtisticConcept = {
     color_grade: "Warm soft tones, intimate emotional color grading",
     style: "Intimate portrait photography environment, emotional documentary setup",
     quality: "Commercial VN quality, 1920x1080, warm intimate atmosphere",
-    figure_and_form: "Intimate studio architecture",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Soft diffused lighting with warm intimate quality"
   }
 };
@@ -668,20 +583,6 @@ export const vnBgStudioPlatinum: ArtisticConcept = {
   name: 'VN BG: Studio Platinum Setup',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Luxury editorial photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Photography studio with luxury editorial setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Studio configured for luxury editorial shoot, polished professional lighting setup, jewel-toned accent props visible, glamorous Vogue-quality atmosphere. Clear foreground",
     lighting: "Polished professional luxury lighting, soft key with subtle fill, jewel-toned accents, sophisticated glamorous illumination",
     camera: {
@@ -694,9 +595,6 @@ export const vnBgStudioPlatinum: ArtisticConcept = {
     color_grade: "Rich warm tones with jewel accents, luxury editorial color grading",
     style: "Luxury fashion editorial environment, Vogue-quality setup",
     quality: "Premium VN quality, 1920x1080, luxury atmosphere",
-    figure_and_form: "Sophisticated luxury studio architecture",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Polished professional equipment, jewel-toned accent elements, luxury atmosphere"
   }
 };
@@ -705,20 +603,6 @@ export const vnBgStudioArtistic: ArtisticConcept = {
   name: 'VN BG: Studio Artistic Setup',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Fine art photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Photography studio with fine art nude setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Studio configured for fine art photography, minimal sculptural setting, dramatic chiaroscuro lighting setup visible, museum-quality aesthetic environment. Clear foreground",
     lighting: "Dramatic single-source chiaroscuro lighting, strong contrast, museum-quality illumination, Helmut Newton influence",
     camera: {
@@ -731,9 +615,6 @@ export const vnBgStudioArtistic: ArtisticConcept = {
     color_grade: "High contrast or desaturated tones, fine art aesthetic, museum quality",
     style: "Fine art photography environment, museum-quality setup, classical beauty tradition",
     quality: "Premium VN quality, 1920x1080, museum atmosphere",
-    figure_and_form: "Minimal sculptural studio architecture",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Dramatic lighting creating museum-quality fine art atmosphere"
   }
 };
@@ -742,20 +623,6 @@ export const vnBgStudioWrap: ArtisticConcept = {
   name: 'VN BG: Studio Wrap',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Documentary photography | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Photography studio end-of-day scene - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Studio end-of-day wrap, equipment being casually packed, relaxed atmosphere, warm casual energy, completed work day feeling. Clear foreground",
     lighting: "Warm casual end-of-day lighting, comfortable atmosphere, satisfied completion mood",
     camera: {
@@ -768,9 +635,6 @@ export const vnBgStudioWrap: ArtisticConcept = {
     color_grade: "Warm satisfied tones, casual comfortable aesthetic",
     style: "Documentary behind-the-scenes photography, authentic wrap atmosphere",
     quality: "Commercial VN quality, 1920x1080, warm satisfied atmosphere",
-    figure_and_form: "Casual end-of-day studio architecture",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Studio equipment in casual packing state, warm satisfied lighting"
   }
 };
@@ -1463,20 +1327,6 @@ export const vnBgBoudoirBedroomNatural: ArtisticConcept = {
   name: 'VN BG: Boudoir Bedroom Natural Light',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Boudoir photography environment | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Intimate bedroom boudoir location - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Intimate bedroom with soft romantic atmosphere, white/cream aesthetic. Elegant bed with white linen sheets and plush pillows, soft cream duvet naturally rumpled, minimal elegant nightstand with single fresh flower in vase, sheer white curtains, warm wooden floor or cream carpet, minimal elegant decor. Clear foreground for character placement",
     lighting: "NATURAL WINDOW LIGHT - Soft diffused sunlight streaming through sheer curtains creating gentle glow, warm natural illumination, no harsh shadows, golden hour quality light, intimate tender atmosphere",
     camera: {
@@ -1489,9 +1339,6 @@ export const vnBgBoudoirBedroomNatural: ArtisticConcept = {
     color_grade: "Warm soft romantic tones, intimate boudoir aesthetic",
     style: "Romantic boudoir environmental photography, intimate tender atmosphere",
     quality: "Commercial VN quality, 1920x1080, romantic intimate atmosphere",
-    figure_and_form: "Intimate bedroom architecture with elegant minimal design",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "White linen texture, sheer curtain translucency, warm wood flooring"
   }
 };
@@ -1500,20 +1347,6 @@ export const vnBgBoudoirLuxuryDramatic: ArtisticConcept = {
   name: 'VN BG: Boudoir Luxury Dramatic',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Luxury boudoir environment | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Luxury boudoir with dramatic lighting - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Luxury boudoir bedroom with dramatic elegant atmosphere. Rich velvet curtains in deep jewel tones (burgundy/navy), elegant tufted chaise lounge or luxury bed, dramatic architectural details, high-end furnishings, sophisticated luxury aesthetic, museum-quality art on walls. Clear foreground",
     lighting: "DRAMATIC SIDE LIGHTING - Strong directional light from side creating sculptural shadows and highlights, chiaroscuro boudoir aesthetic, sophisticated dramatic illumination, warm accent lighting, fine art quality lighting",
     camera: {
@@ -1526,9 +1359,6 @@ export const vnBgBoudoirLuxuryDramatic: ArtisticConcept = {
     color_grade: "Rich dramatic tones with deep jewel colors, luxury boudoir aesthetic",
     style: "Luxury fine art boudoir environmental photography, dramatic sophistication",
     quality: "Premium VN quality, 1920x1080, dramatic luxury atmosphere",
-    figure_and_form: "Luxury architectural details with dramatic sophisticated design",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Rich velvet textures, luxury fabrics, dramatic lighting on elegant furnishings"
   }
 };
@@ -1537,20 +1367,6 @@ export const vnBgStudioIntimateCorner: ArtisticConcept = {
   name: 'VN BG: Studio Intimate Corner',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Intimate studio space | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Studio intimate corner setup - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Intimate corner of studio configured for private intimate work. Soft seating area (elegant bench or daybed), warm atmospheric lighting setup visible, privacy screens or draped fabric creating intimate enclosure, comfortable cozy professional atmosphere. Clear foreground",
     lighting: "INTIMATE ATMOSPHERIC LIGHTING - Soft warm directional lighting creating cozy intimate space, gentle shadows, comfortable private atmosphere, professional yet personal lighting setup",
     camera: {
@@ -1563,9 +1379,6 @@ export const vnBgStudioIntimateCorner: ArtisticConcept = {
     color_grade: "Warm cozy tones, intimate private atmosphere",
     style: "Intimate studio environmental photography, private professional space",
     quality: "Commercial VN quality, 1920x1080, warm intimate atmosphere",
-    figure_and_form: "Cozy intimate studio corner architecture",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Soft fabrics, warm wood tones, intimate lighting creating cozy enclosure"
   }
 };
@@ -1574,20 +1387,6 @@ export const vnBgDressingRoomPrivate: ArtisticConcept = {
   name: 'VN BG: Dressing Room Private',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Private dressing space | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Private dressing room - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Private dressing room area with intimate atmosphere. Full-length mirror (foreground left or right), elegant vanity with soft lighting, clothing rack with intimate garments visible, comfortable seating, private enclosed space, warm inviting environment. Clear foreground center",
     lighting: "SOFT VANITY LIGHTING - Warm flattering makeup mirror lights, soft ambient fill, intimate private atmosphere, comfortable dressing room illumination",
     camera: {
@@ -1600,9 +1399,6 @@ export const vnBgDressingRoomPrivate: ArtisticConcept = {
     color_grade: "Warm inviting tones, private comfortable aesthetic",
     style: "Private dressing room environmental photography, intimate preparation space",
     quality: "Commercial VN quality, 1920x1080, warm private atmosphere",
-    figure_and_form: "Private dressing room architecture with elegant furnishings",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Mirror reflection, soft fabrics on rack, warm vanity lighting"
   }
 };
@@ -1611,20 +1407,6 @@ export const vnBgNaturalLightLoft: ArtisticConcept = {
   name: 'VN BG: Natural Light Loft',
   data: {
     shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Natural light loft space | 16:9 widescreen | 1920x1080px | CRITICAL: NO PEOPLE, NO CHARACTERS, NO HUMANS ANYWHERE IN SCENE",
-    subject: {
-      variant: "EMPTY LOCATION - Natural light loft with golden hour - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - ARCHITECTURAL PHOTOGRAPHY ONLY",
-      pose: "N/A",
-      hair_color: "N/A",
-      hair_style: "N/A",
-      skin_finish: "N/A",
-      hand_and_nail_details: "N/A",
-      tattoos: "N/A",
-      piercings: "N/A",
-      body_art: "N/A",
-      nail_art: "N/A",
-      high_heels: "N/A"
-    },
-    wardrobe: "N/A",
     environment: "LOCATION: Open loft space with floor-to-ceiling windows. Warm golden hour sunlight flooding interior, minimal furniture (modern couch or window seat), polished wood floors, white walls, open airy atmosphere, city skyline visible through windows (soft focus). Clear foreground",
     lighting: "GOLDEN HOUR NATURAL LIGHT - Warm glowing sunlight streaming through massive windows, soft ambient fill from reflections, beautiful natural illumination, romantic golden atmosphere, perfect portrait lighting",
     camera: {
@@ -1637,9 +1419,6 @@ export const vnBgNaturalLightLoft: ArtisticConcept = {
     color_grade: "Warm golden tones, romantic natural light aesthetic",
     style: "Natural light environmental photography, romantic golden hour atmosphere",
     quality: "Premium VN quality, 1920x1080, golden hour romantic atmosphere",
-    figure_and_form: "Open loft architecture with dramatic natural lighting",
-    skin_micro_details: "N/A",
-    fabric_physics: "N/A",
     material_properties: "Polished wood floors reflecting golden light, massive windows with city view"
   }
 };

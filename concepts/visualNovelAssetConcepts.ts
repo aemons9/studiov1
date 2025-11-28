@@ -482,9 +482,9 @@ export const vnSpriteWrapSatisfied: ArtisticConcept = {
 export const vnBgStudioMorningArrival: ArtisticConcept = {
   name: 'VN BG: Studio Morning Arrival',
   data: {
-    shot: "VISUAL NOVEL BACKGROUND | Professional photography | 16:9 widescreen | 1920x1080px",
+    shot: "VISUAL NOVEL BACKGROUND - EMPTY LOCATION ONLY | Professional photography studio interior | 16:9 widescreen | 1920x1080px | IMPORTANT: NO PEOPLE, NO CHARACTERS, NO HUMANS - ARCHITECTURAL PHOTOGRAPHY OF EMPTY STUDIO",
     subject: {
-      variant: "Professional photography studio interior, morning scene, NO people visible",
+      variant: "EMPTY professional photography studio interior, morning scene - ABSOLUTELY NO PEOPLE VISIBLE ANYWHERE - architectural shot of empty studio space only",
       pose: "N/A - Background scene",
       hair_color: "N/A",
       hair_style: "N/A",

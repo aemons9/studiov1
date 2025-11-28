@@ -257,6 +257,68 @@ const App: React.FC = () => {
 
   useEffect(() => { setPromptHistory(loadHistoryFromStorage()); }, []);
 
+  // Auto-refresh GCP OAuth token every 50 minutes (before 60-min expiration)
+  useEffect(() => {
+    const REFRESH_INTERVAL = 50 * 60 * 1000; // 50 minutes in milliseconds
+
+    async function fetchAndUpdateGcloudToken() {
+      try {
+        console.log('🔄 Auto-refreshing GCP OAuth token...');
+
+        // Fetch both token and project ID in parallel
+        const [tokenResponse, projectResponse] = await Promise.all([
+          fetch('/api/gcloud-token'),
+          fetch('/api/gcloud-project')
+        ]);
+
+        if (tokenResponse.ok) {
+          const tokenData = await tokenResponse.json();
+          const token = tokenData.token;
+
+          // Update localStorage
+          localStorage.setItem('mainToken', token);
+
+          // Update state
+          setGenerationSettings(prev => ({ ...prev, accessToken: token }));
+
+          console.log('✅ OAuth token auto-refreshed:', token.substring(0, 20) + '...');
+        } else {
+          const error = await tokenResponse.json();
+          console.warn('⚠️ Failed to auto-refresh token:', error.error);
+          console.log('💡 Hint:', error.hint);
+        }
+
+        if (projectResponse.ok) {
+          const projectData = await projectResponse.json();
+          const projectId = projectData.projectId;
+
+          // Update localStorage
+          localStorage.setItem('projectId', projectId);
+
+          // Update state
+          setGenerationSettings(prev => ({ ...prev, projectId: projectId }));
+
+          console.log('✅ GCP Project ID loaded:', projectId);
+        }
+
+      } catch (error) {
+        console.warn('⚠️ Token auto-refresh failed:', error);
+        console.log('💡 Make sure gcloud CLI is installed and authenticated');
+      }
+    }
+
+    // Fetch immediately on startup
+    fetchAndUpdateGcloudToken();
+
+    // Set up periodic refresh every 50 minutes
+    const intervalId = setInterval(fetchAndUpdateGcloudToken, REFRESH_INTERVAL);
+
+    console.log('⏰ GCP OAuth auto-refresh enabled (every 50 minutes)');
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
   // Load tokens and project IDs from localStorage on startup
   useEffect(() => {
     const mainToken = localStorage.getItem('mainToken');

@@ -190,6 +190,93 @@ app.get('/api/replicate/download', async (req, res) => {
 });
 
 // ==========================================
+// GCP OAUTH TOKEN AUTO-REFRESH
+// ==========================================
+
+/**
+ * GET /api/gcloud-token
+ * Fetches fresh OAuth token from gcloud CLI
+ */
+app.get('/api/gcloud-token', async (req, res) => {
+  try {
+    const { exec } = await import('child_process');
+    const { promisify } = await import('util');
+    const execAsync = promisify(exec);
+
+    console.log('🔄 Fetching fresh OAuth token from gcloud...');
+
+    const { stdout, stderr } = await execAsync('gcloud auth print-access-token');
+
+    if (stderr) {
+      console.error('⚠️ gcloud stderr:', stderr);
+    }
+
+    const token = stdout.trim();
+
+    if (!token) {
+      throw new Error('No token returned from gcloud');
+    }
+
+    console.log('✅ Fresh OAuth token fetched:', token.substring(0, 20) + '...');
+
+    res.json({
+      success: true,
+      token: token,
+      expiresIn: 3600, // 1 hour in seconds
+      fetchedAt: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to fetch gcloud token:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+      hint: 'Make sure gcloud CLI is installed and authenticated (run: gcloud auth login)'
+    });
+  }
+});
+
+/**
+ * GET /api/gcloud-project
+ * Fetches current GCP project ID from gcloud CLI
+ */
+app.get('/api/gcloud-project', async (req, res) => {
+  try {
+    const { exec } = await import('child_process');
+    const { promisify } = await import('util');
+    const execAsync = promisify(exec);
+
+    console.log('🔄 Fetching GCP project ID from gcloud...');
+
+    const { stdout, stderr } = await execAsync('gcloud config get-value project');
+
+    if (stderr && !stderr.includes('WARNING')) {
+      console.error('⚠️ gcloud stderr:', stderr);
+    }
+
+    const projectId = stdout.trim();
+
+    if (!projectId) {
+      throw new Error('No project ID configured in gcloud');
+    }
+
+    console.log('✅ GCP Project ID:', projectId);
+
+    res.json({
+      success: true,
+      projectId: projectId,
+      fetchedAt: new Date().toISOString()
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to fetch gcloud project:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+      hint: 'Make sure gcloud CLI is configured (run: gcloud config set project YOUR_PROJECT_ID)'
+    });
+  }
+});
+
+// ==========================================
 // VISUAL NOVEL ASSET SAVING ENDPOINTS
 // ==========================================
 
@@ -301,6 +388,10 @@ app.listen(PORT, () => {
   console.log('');
   console.log('Endpoints:');
   console.log(`  GET  /health                           - Health check`);
+  console.log('');
+  console.log('  GCP OAuth Auto-Refresh:');
+  console.log(`  GET  /api/gcloud-token                 - Fetch fresh OAuth token`);
+  console.log(`  GET  /api/gcloud-project               - Fetch GCP project ID`);
   console.log('');
   console.log('  Replicate API Proxy:');
   console.log(`  POST /api/replicate/predictions        - Create prediction`);

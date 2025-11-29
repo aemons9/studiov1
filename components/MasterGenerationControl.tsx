@@ -48,7 +48,7 @@ const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({
     onImagePromptChange
 }) => {
     const [isEnhanceEnabled, setIsEnhanceEnabled] = useState(false);
-    const [isWeaveEnabled, setIsWeaveEnabled] = useState(true);
+    const [isWeaveEnabled, setIsWeaveEnabled] = useState(false);
     const [selectedEnhanceStyle, setSelectedEnhanceStyle] = useState<EnhancementStyle>('balanced');
     const [selectedWeaveAdherence, setSelectedWeaveAdherence] = useState<AdherenceLevel>('balanced');
     const [selectedWeavingMode, setSelectedWeavingMode] = useState<WeavingMode>('master');

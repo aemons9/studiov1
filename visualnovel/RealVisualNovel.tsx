@@ -96,8 +96,8 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
 
     if (isLastDialogueInBeat) {
       if (isLastBeat) {
-        // Show choices if beat has them
-        if (currentBeat?.choices && currentBeat.choices.length > 0) {
+        // Show choices if scene has them
+        if (currentScene?.choices && currentScene.choices.length > 0) {
           setShowingChoices(true);
         } else {
           // No choices, check for ending
@@ -151,8 +151,8 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
     }, 500);
   };
 
-  // Get available choices (filtered by conditions)
-  const availableChoices = currentBeat?.choices?.filter(choice =>
+  // Get available choices (filtered by conditions) from scene, not beat
+  const availableChoices = currentScene?.choices?.filter(choice =>
     isChoiceAvailable(choice, gameState)
   ) || [];
 

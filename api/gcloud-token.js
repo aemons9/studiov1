@@ -38,14 +38,14 @@ export default async function handler(req, res) {
       kid: credentials.private_key_id
     };
 
-    // Create JWT payload - do NOT include scope in payload
+    // Create JWT payload with scope
     const now = Math.floor(Date.now() / 1000);
     const payload = {
       iss: credentials.client_email,
       aud: 'https://accounts.google.com/o/oauth2/token',
       iat: now,
-      exp: now + 3600
-      // Note: Scopes will be passed in POST body, not JWT payload
+      exp: now + 3600,
+      scope: 'https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/aiplatform'
     };
 
     console.log('📝 JWT payload:', JSON.stringify(payload, null, 2));
@@ -81,8 +81,8 @@ export default async function handler(req, res) {
       },
       body: new URLSearchParams({
         grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        assertion: jwt,
-        scope: 'https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/aiplatform'
+        assertion: jwt
+        // Note: scope is in JWT payload, not POST body
       })
     });
 

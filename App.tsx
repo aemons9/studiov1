@@ -210,9 +210,23 @@ const App: React.FC = () => {
     // Validate weaving credentials if weaving/enhancement enabled with Flux + Google weaving
     if (options?.weave?.enabled || options?.enhance?.enabled) {
       if (generationSettings.provider === 'replicate-flux' && generationSettings.useGoogleForWeaving) {
-        if (!generationSettings.weavingProjectId || !generationSettings.weavingAccessToken) {
-          setError('Google weaving enabled but missing credentials. Please provide Project ID and Token for weaving, or disable "Use Google for Weaving".');
+        // Check if weaving credentials are available (either dedicated or OAuth)
+        const hasWeavingCreds = generationSettings.weavingProjectId && generationSettings.weavingAccessToken;
+        const hasOAuthCreds = generationSettings.projectId && generationSettings.accessToken;
+
+        if (!hasWeavingCreds && !hasOAuthCreds) {
+          setError('Google weaving enabled but missing credentials. Please ensure OAuth token is loaded, or provide separate weaving credentials, or disable "Use Google for Weaving".');
           return false;
+        }
+
+        // If OAuth credentials are available but weaving credentials aren't, use OAuth
+        if (!hasWeavingCreds && hasOAuthCreds) {
+          console.log('🔄 Using OAuth credentials for weaving');
+          setGenerationSettings(prev => ({
+            ...prev,
+            weavingProjectId: prev.projectId,
+            weavingAccessToken: prev.accessToken
+          }));
         }
       }
     }

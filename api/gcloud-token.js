@@ -6,7 +6,7 @@
  * For Vercel deployment: Uses Google Auth Library with service account or ADC
  */
 
-import { GoogleAuth } from 'google-auth-library';
+import { JWT } from 'google-auth-library';
 
 export default async function handler(req, res) {
   // Enable CORS
@@ -25,7 +25,7 @@ export default async function handler(req, res) {
   }
 
   try {
-    console.log('🔄 Fetching fresh OAuth token via Google Auth Library...');
+    console.log('🔄 Fetching fresh OAuth token via JWT client...');
 
     // Parse service account JSON from environment variable
     let credentials;
@@ -59,10 +59,11 @@ export default async function handler(req, res) {
       throw new Error('Service account JSON is missing required fields (private_key or client_email)');
     }
 
-    // Initialize Google Auth client with credentials
-    console.log('🔐 Initializing Google Auth client...');
-    const auth = new GoogleAuth({
-      credentials: credentials,
+    // Initialize JWT client directly for more reliable service account auth
+    console.log('🔐 Initializing JWT client...');
+    const jwtClient = new JWT({
+      email: credentials.client_email,
+      key: credentials.private_key,
       scopes: [
         'https://www.googleapis.com/auth/cloud-platform',
         'https://www.googleapis.com/auth/aiplatform'
@@ -71,18 +72,17 @@ export default async function handler(req, res) {
 
     // Get access token
     console.log('🎫 Requesting access token...');
-    const client = await auth.getClient();
-    const accessToken = await client.getAccessToken();
+    const tokens = await jwtClient.authorize();
 
-    if (!accessToken || !accessToken.token) {
-      throw new Error('No token returned from Google Auth Library');
+    if (!tokens || !tokens.access_token) {
+      throw new Error('No token returned from JWT client');
     }
 
-    console.log('✅ Fresh OAuth token fetched:', accessToken.token.substring(0, 20) + '...');
+    console.log('✅ Fresh OAuth token fetched:', tokens.access_token.substring(0, 20) + '...');
 
     return res.status(200).json({
       success: true,
-      token: accessToken.token,
+      token: tokens.access_token,
       expiresIn: 3600, // 1 hour in seconds
       fetchedAt: new Date().toISOString()
     });

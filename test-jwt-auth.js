@@ -28,19 +28,19 @@ async function testJWT() {
       ]
     });
 
-    // Authorize and get token
+    // Get access token
     console.log('🎫 Requesting access token...\n');
-    const tokens = await jwtClient.authorize();
+    const tokenResponse = await jwtClient.getAccessToken();
 
-    if (tokens && tokens.access_token) {
+    if (tokenResponse && tokenResponse.token) {
       console.log('✅ SUCCESS! Token received');
-      console.log('Token preview:', tokens.access_token.substring(0, 30) + '...');
-      console.log('Token length:', tokens.access_token.length);
-      console.log('Expires in:', tokens.expiry_date ? new Date(tokens.expiry_date) : '1 hour');
+      console.log('Token preview:', tokenResponse.token.substring(0, 30) + '...');
+      console.log('Token length:', tokenResponse.token.length);
       console.log('\n✨ JWT authentication is working correctly!');
       return true;
     } else {
       console.log('❌ No token in response');
+      console.log('Response:', tokenResponse);
       return false;
     }
   } catch (error) {

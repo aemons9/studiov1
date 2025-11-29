@@ -70,19 +70,26 @@ export default async function handler(req, res) {
       ]
     });
 
-    // Get access token
+    // Get access token using getAccessToken method
     console.log('🎫 Requesting access token...');
-    const tokens = await jwtClient.authorize();
+    const tokenResponse = await jwtClient.getAccessToken();
 
-    if (!tokens || !tokens.access_token) {
+    console.log('📦 Token response received:', JSON.stringify({
+      hasResponse: !!tokenResponse,
+      hasToken: !!tokenResponse?.token,
+      tokenPreview: tokenResponse?.token ? tokenResponse.token.substring(0, 20) + '...' : 'none'
+    }));
+
+    if (!tokenResponse || !tokenResponse.token) {
+      console.error('⚠️ Token response:', tokenResponse);
       throw new Error('No token returned from JWT client');
     }
 
-    console.log('✅ Fresh OAuth token fetched:', tokens.access_token.substring(0, 20) + '...');
+    console.log('✅ Fresh OAuth token fetched');
 
     return res.status(200).json({
       success: true,
-      token: tokens.access_token,
+      token: tokenResponse.token,
       expiresIn: 3600, // 1 hour in seconds
       fetchedAt: new Date().toISOString()
     });

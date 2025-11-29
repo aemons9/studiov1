@@ -41,6 +41,13 @@ export default async function handler(req, res) {
       console.log('✅ Parsed service account credentials from env var');
       console.log('📋 Service account email:', credentials.client_email);
       console.log('📋 Project ID:', credentials.project_id);
+
+      // Fix private key newlines: Replace literal \n with actual newlines
+      // Vercel may store "\n" as literal string instead of newline character
+      if (credentials.private_key && credentials.private_key.includes('\\n')) {
+        credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+        console.log('🔧 Fixed private key newlines');
+      }
     } catch (parseError) {
       console.error('⚠️ Failed to parse GOOGLE_APPLICATION_CREDENTIALS as JSON:', parseError.message);
       console.error('First 100 chars:', credentialsEnv.substring(0, 100));

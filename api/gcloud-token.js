@@ -31,18 +31,29 @@ export default async function handler(req, res) {
     let credentials;
     const credentialsEnv = process.env.GOOGLE_APPLICATION_CREDENTIALS;
 
-    if (credentialsEnv) {
-      try {
-        // Try to parse as JSON string
-        credentials = JSON.parse(credentialsEnv);
-        console.log('✅ Parsed service account credentials from env var');
-      } catch (parseError) {
-        console.error('⚠️ Failed to parse GOOGLE_APPLICATION_CREDENTIALS as JSON:', parseError.message);
-        throw new Error('GOOGLE_APPLICATION_CREDENTIALS must be valid JSON string');
-      }
+    if (!credentialsEnv) {
+      throw new Error('GOOGLE_APPLICATION_CREDENTIALS environment variable is not set. Please add it in Vercel project settings.');
+    }
+
+    try {
+      // Try to parse as JSON string
+      credentials = JSON.parse(credentialsEnv);
+      console.log('✅ Parsed service account credentials from env var');
+      console.log('📋 Service account email:', credentials.client_email);
+      console.log('📋 Project ID:', credentials.project_id);
+    } catch (parseError) {
+      console.error('⚠️ Failed to parse GOOGLE_APPLICATION_CREDENTIALS as JSON:', parseError.message);
+      console.error('First 100 chars:', credentialsEnv.substring(0, 100));
+      throw new Error('GOOGLE_APPLICATION_CREDENTIALS must be valid JSON string');
+    }
+
+    // Validate required fields
+    if (!credentials.private_key || !credentials.client_email) {
+      throw new Error('Service account JSON is missing required fields (private_key or client_email)');
     }
 
     // Initialize Google Auth client with credentials
+    console.log('🔐 Initializing Google Auth client...');
     const auth = new GoogleAuth({
       credentials: credentials,
       scopes: [
@@ -52,6 +63,7 @@ export default async function handler(req, res) {
     });
 
     // Get access token
+    console.log('🎫 Requesting access token...');
     const client = await auth.getClient();
     const accessToken = await client.getAccessToken();
 

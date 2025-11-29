@@ -111,6 +111,13 @@ export default async function handler(req, res) {
 
     const tokenData = JSON.parse(responseText);
     console.log('✅ Access token received!');
+    console.log('🔍 Token data keys:', Object.keys(tokenData));
+    console.log('🔍 Token data:', JSON.stringify(tokenData, null, 2));
+
+    if (!tokenData.access_token) {
+      console.error('❌ No access_token in response!');
+      throw new Error('No access_token in OAuth response');
+    }
 
     return res.status(200).json({
       success: true,

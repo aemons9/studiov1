@@ -42,11 +42,30 @@ export default async function handler(req, res) {
       console.log('📋 Service account email:', credentials.client_email);
       console.log('📋 Project ID:', credentials.project_id);
 
-      // Fix private key newlines: Replace literal \n with actual newlines
-      // Vercel may store "\n" as literal string instead of newline character
-      if (credentials.private_key && credentials.private_key.includes('\\n')) {
-        credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
-        console.log('🔧 Fixed private key newlines');
+      // Fix private key newlines - handle multiple formats
+      if (credentials.private_key) {
+        const originalKey = credentials.private_key;
+
+        // Replace escaped newlines with actual newlines
+        if (credentials.private_key.includes('\\n')) {
+          credentials.private_key = credentials.private_key.replace(/\\n/g, '\n');
+          console.log('🔧 Fixed escaped newlines (\\n -> newline)');
+        }
+
+        // Log private key format for debugging
+        const keyStart = credentials.private_key.substring(0, 50);
+        const hasProperNewlines = credentials.private_key.includes('\n');
+        console.log('🔑 Private key starts with:', keyStart);
+        console.log('🔑 Has actual newlines:', hasProperNewlines);
+        console.log('🔑 Key length:', credentials.private_key.length);
+
+        // Validate private key format
+        if (!credentials.private_key.includes('BEGIN PRIVATE KEY')) {
+          throw new Error('Private key missing BEGIN PRIVATE KEY header');
+        }
+        if (!credentials.private_key.includes('END PRIVATE KEY')) {
+          throw new Error('Private key missing END PRIVATE KEY footer');
+        }
       }
     } catch (parseError) {
       console.error('⚠️ Failed to parse GOOGLE_APPLICATION_CREDENTIALS as JSON:', parseError.message);
@@ -71,8 +90,19 @@ export default async function handler(req, res) {
     });
 
     // Get access token using getAccessToken method
-    console.log('🎫 Requesting access token...');
-    const tokenResponse = await jwtClient.getAccessToken();
+    console.log('🎫 Requesting access token from Google OAuth endpoint...');
+
+    let tokenResponse;
+    try {
+      tokenResponse = await jwtClient.getAccessToken();
+    } catch (tokenError) {
+      console.error('❌ JWT getAccessToken failed:', tokenError.message);
+      console.error('💡 This usually means:');
+      console.error('   1. Private key format is incorrect (newlines not preserved)');
+      console.error('   2. Service account is disabled');
+      console.error('   3. Required APIs not enabled');
+      throw new Error(`JWT authentication failed: ${tokenError.message}`);
+    }
 
     console.log('📦 Token response received:', JSON.stringify({
       hasResponse: !!tokenResponse,
@@ -85,7 +115,7 @@ export default async function handler(req, res) {
       throw new Error('No token returned from JWT client');
     }
 
-    console.log('✅ Fresh OAuth token fetched');
+    console.log('✅ Fresh OAuth token fetched successfully');
 
     return res.status(200).json({
       success: true,

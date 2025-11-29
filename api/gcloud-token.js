@@ -27,8 +27,24 @@ export default async function handler(req, res) {
   try {
     console.log('🔄 Fetching fresh OAuth token via Google Auth Library...');
 
-    // Initialize Google Auth client
+    // Parse service account JSON from environment variable
+    let credentials;
+    const credentialsEnv = process.env.GOOGLE_APPLICATION_CREDENTIALS;
+
+    if (credentialsEnv) {
+      try {
+        // Try to parse as JSON string
+        credentials = JSON.parse(credentialsEnv);
+        console.log('✅ Parsed service account credentials from env var');
+      } catch (parseError) {
+        console.error('⚠️ Failed to parse GOOGLE_APPLICATION_CREDENTIALS as JSON:', parseError.message);
+        throw new Error('GOOGLE_APPLICATION_CREDENTIALS must be valid JSON string');
+      }
+    }
+
+    // Initialize Google Auth client with credentials
     const auth = new GoogleAuth({
+      credentials: credentials,
       scopes: [
         'https://www.googleapis.com/auth/cloud-platform',
         'https://www.googleapis.com/auth/aiplatform'
@@ -56,7 +72,7 @@ export default async function handler(req, res) {
     console.error('❌ Failed to fetch OAuth token:', error);
     return res.status(500).json({
       error: error instanceof Error ? error.message : 'Unknown error',
-      hint: 'For Vercel: Set GOOGLE_APPLICATION_CREDENTIALS env var with service account JSON. For local: Use gcloud CLI (gcloud auth login)',
+      hint: 'For Vercel: Set GOOGLE_APPLICATION_CREDENTIALS env var with service account JSON (not file path). For local: Use gcloud CLI (gcloud auth login)',
       environment: process.env.VERCEL ? 'vercel' : 'local'
     });
   }

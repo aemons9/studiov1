@@ -78,18 +78,16 @@ export default async function handler(req, res) {
       throw new Error('Service account JSON is missing required fields (private_key or client_email)');
     }
 
-    // Initialize JWT client with createScopedRequired to use self-signed JWT
-    // This avoids the OAuth token exchange and uses the JWT directly
-    console.log('🔐 Initializing JWT client with self-signed JWT...');
+    // Initialize JWT client for service account authentication
+    console.log('🔐 Initializing JWT client...');
     const jwtClient = new JWT({
       email: credentials.client_email,
       key: credentials.private_key,
       scopes: [
         'https://www.googleapis.com/auth/cloud-platform',
         'https://www.googleapis.com/auth/aiplatform'
-      ],
-      // Use self-signed JWT to avoid token exchange
-      subject: credentials.client_email
+      ]
+      // Note: 'subject' field is only needed for domain-wide delegation
     });
 
     // Get access token using getAccessToken method

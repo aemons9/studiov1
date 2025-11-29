@@ -81,7 +81,8 @@ export default async function handler(req, res) {
       },
       body: new URLSearchParams({
         grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        assertion: jwt
+        assertion: jwt,
+        scope: 'https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/aiplatform'
       })
     });
 

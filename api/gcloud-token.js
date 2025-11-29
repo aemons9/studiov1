@@ -101,14 +101,32 @@ export default async function handler(req, res) {
     } catch (tokenError) {
       console.error('❌ JWT getAccessToken failed:', tokenError.message);
 
+      // Log entire error structure to understand what we're dealing with
+      console.error('🔍 Error object keys:', Object.keys(tokenError));
+      console.error('🔍 Error name:', tokenError.name);
+      console.error('🔍 Error constructor:', tokenError.constructor.name);
+
       // Log detailed error information
       if (tokenError.response) {
         console.error('📡 HTTP Response Status:', tokenError.response.status);
         console.error('📡 HTTP Response Data:', JSON.stringify(tokenError.response.data));
+      } else {
+        console.error('📡 No HTTP response object in error (might be local error)');
       }
+
       if (tokenError.code) {
         console.error('🔴 Error Code:', tokenError.code);
       }
+
+      // Check for nested error information
+      if (tokenError.error) {
+        console.error('🔍 Nested error:', tokenError.error);
+      }
+
+      // Log the full error object (sanitized)
+      const errorCopy = { ...tokenError };
+      delete errorCopy.config; // Remove potentially large config object
+      console.error('🔍 Full error object:', JSON.stringify(errorCopy, null, 2));
 
       console.error('💡 This usually means:');
       console.error('   1. Private key format is incorrect (newlines not preserved)');

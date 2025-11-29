@@ -78,15 +78,18 @@ export default async function handler(req, res) {
       throw new Error('Service account JSON is missing required fields (private_key or client_email)');
     }
 
-    // Initialize JWT client directly for more reliable service account auth
-    console.log('🔐 Initializing JWT client...');
+    // Initialize JWT client with createScopedRequired to use self-signed JWT
+    // This avoids the OAuth token exchange and uses the JWT directly
+    console.log('🔐 Initializing JWT client with self-signed JWT...');
     const jwtClient = new JWT({
       email: credentials.client_email,
       key: credentials.private_key,
       scopes: [
         'https://www.googleapis.com/auth/cloud-platform',
         'https://www.googleapis.com/auth/aiplatform'
-      ]
+      ],
+      // Use self-signed JWT to avoid token exchange
+      subject: credentials.client_email
     });
 
     // Get access token using getAccessToken method
@@ -97,10 +100,22 @@ export default async function handler(req, res) {
       tokenResponse = await jwtClient.getAccessToken();
     } catch (tokenError) {
       console.error('❌ JWT getAccessToken failed:', tokenError.message);
+
+      // Log detailed error information
+      if (tokenError.response) {
+        console.error('📡 HTTP Response Status:', tokenError.response.status);
+        console.error('📡 HTTP Response Data:', JSON.stringify(tokenError.response.data));
+      }
+      if (tokenError.code) {
+        console.error('🔴 Error Code:', tokenError.code);
+      }
+
       console.error('💡 This usually means:');
       console.error('   1. Private key format is incorrect (newlines not preserved)');
       console.error('   2. Service account is disabled');
       console.error('   3. Required APIs not enabled');
+      console.error('   4. Service account lacks necessary IAM permissions');
+
       throw new Error(`JWT authentication failed: ${tokenError.message}`);
     }
 

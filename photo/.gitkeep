@@ -1,0 +1,22 @@
+# Photo Directory
+
+Add your images (PNG, JPG, JPEG, WEBP, GIF) to this directory.
+
+The gallery will automatically display all images from this folder.
+
+## File Naming Tips
+
+For automatic categorization, include keywords in your filenames:
+- `editorial-` for Editorial category
+- `minimal-` for Minimalist category
+- `couture-` for Couture category
+- `contemporary-` for Contemporary category
+
+## Examples
+
+```
+editorial-fashion-shoot-1.jpg
+minimal-portrait-2.png
+couture-evening-gown.jpg
+contemporary-urban-style.png
+```

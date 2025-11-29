@@ -380,6 +380,30 @@ export const gameStateReducer = (
 // HELPER FUNCTIONS
 // ============================================================================
 
+/**
+ * Fallback function to determine next scene when not explicitly specified in choice
+ * This should rarely be used - choices should specify nextScene explicitly
+ */
+const getNextScene = (choiceId: string): string | null => {
+  // Parse choice ID to extract scene number and attempt to determine next scene
+  // Format: choice_X_... where X is scene number
+  const match = choiceId.match(/choice_(\d+)_/);
+  if (match) {
+    const currentSceneNum = parseInt(match[1], 10);
+    const nextSceneNum = currentSceneNum + 1;
+    const nextSceneId = `scene_${nextSceneNum}_`;
+
+    // Check if next scene exists
+    const possibleScenes = Object.keys(SCENES).filter(id => id.startsWith(nextSceneId));
+    if (possibleScenes.length > 0) {
+      return possibleScenes[0];
+    }
+  }
+
+  console.error(`Cannot determine next scene for choice: ${choiceId}`);
+  return null;
+};
+
 export const getCurrentDialogueLine = (state: ExtendedGameState) => {
   const scene = SCENES[state.currentSceneId];
   if (!scene) return null;

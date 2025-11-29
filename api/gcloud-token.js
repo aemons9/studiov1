@@ -42,11 +42,11 @@ export default async function handler(req, res) {
     const now = Math.floor(Date.now() / 1000);
     const payload = {
       iss: credentials.client_email,
-      sub: credentials.client_email,
       aud: 'https://oauth2.googleapis.com/token',
       iat: now,
       exp: now + 3600,
       scope: 'https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/aiplatform'
+      // Note: Do NOT include 'sub' field - it triggers OIDC and returns id_token instead of access_token
     };
 
     console.log('📝 JWT payload:', JSON.stringify(payload, null, 2));

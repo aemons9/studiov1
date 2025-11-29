@@ -38,14 +38,15 @@ export default async function handler(req, res) {
       kid: credentials.private_key_id
     };
 
-    // Create JWT payload with scope
+    // Create JWT payload for self-signed JWT (no exchange needed)
+    // The aud should be the API endpoint, not the token endpoint
     const now = Math.floor(Date.now() / 1000);
     const payload = {
       iss: credentials.client_email,
-      aud: 'https://accounts.google.com/o/oauth2/token',
+      sub: credentials.client_email,
+      aud: 'https://aiplatform.googleapis.com/',
       iat: now,
-      exp: now + 3600,
-      scope: 'https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/aiplatform'
+      exp: now + 3600
     };
 
     console.log('📝 JWT payload:', JSON.stringify(payload, null, 2));
@@ -70,60 +71,17 @@ export default async function handler(req, res) {
     }
 
     const jwt = `${signatureInput}.${signature}`;
-    console.log('📜 JWT created (length:', jwt.length, ')');
+    console.log('📜 Self-signed JWT created (length:', jwt.length, ')');
+    console.log('🎯 Using self-signed JWT directly as bearer token (no OAuth exchange)');
 
-    // Exchange JWT for access token
-    console.log('🌐 Exchanging JWT for access token...');
-    const tokenResponse = await fetch('https://accounts.google.com/o/oauth2/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: new URLSearchParams({
-        grant_type: 'urn:ietf:params:oauth:grant-type:jwt-bearer',
-        assertion: jwt
-        // Note: scope is in JWT payload, not POST body
-      })
-    });
-
-    console.log('📡 OAuth response status:', tokenResponse.status);
-    console.log('📡 OAuth response headers:', JSON.stringify(Object.fromEntries(tokenResponse.headers.entries())));
-
-    const responseText = await tokenResponse.text();
-    console.log('📡 OAuth response body:', responseText);
-
-    if (!tokenResponse.ok) {
-      console.error('❌ OAuth token exchange failed');
-      let errorData;
-      try {
-        errorData = JSON.parse(responseText);
-      } catch {
-        errorData = { raw: responseText };
-      }
-
-      return res.status(500).json({
-        error: 'OAuth token exchange failed',
-        status: tokenResponse.status,
-        details: errorData,
-        hint: 'Check the OAuth response details above'
-      });
-    }
-
-    const tokenData = JSON.parse(responseText);
-    console.log('✅ Access token received!');
-    console.log('🔍 Token data keys:', Object.keys(tokenData));
-    console.log('🔍 Token data:', JSON.stringify(tokenData, null, 2));
-
-    if (!tokenData.access_token) {
-      console.error('❌ No access_token in response!');
-      throw new Error('No access_token in OAuth response');
-    }
-
+    // Return the JWT itself as the access token
+    // Self-signed JWTs are valid for 1 hour as specified in exp claim
     return res.status(200).json({
       success: true,
-      token: tokenData.access_token,
-      expiresIn: tokenData.expires_in || 3600,
-      fetchedAt: new Date().toISOString()
+      token: jwt,
+      expiresIn: 3600,
+      fetchedAt: new Date().toISOString(),
+      type: 'self-signed-jwt'
     });
 
   } catch (error) {

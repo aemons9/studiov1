@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2025-11-22T17:01:54.846Z",
-  "totalImages": 89,
+  "generatedAt": "2025-11-30T14:24:01.034Z",
+  "totalImages": 126,
   "categories": {
     "editorial": 12,
     "minimalist": 21,
-    "couture": 47,
+    "couture": 84,
     "contemporary": 9
   },
   "images": [
@@ -95,6 +95,302 @@
       "category": "couture",
       "extension": "jpg",
       "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-112.png",
+      "filename": "couture-112.png",
+      "title": "Couture 112",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-113.png",
+      "filename": "couture-113.png",
+      "title": "Couture 113",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-114.png",
+      "filename": "couture-114.png",
+      "title": "Couture 114",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/couture-115.png",
+      "filename": "couture-115.png",
+      "title": "Couture 115",
+      "category": "couture",
+      "extension": "png",
+      "size": "1007.1 KB"
+    },
+    {
+      "src": "photo/couture-116.png",
+      "filename": "couture-116.png",
+      "title": "Couture 116",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.0 MB"
+    },
+    {
+      "src": "photo/couture-117.png",
+      "filename": "couture-117.png",
+      "title": "Couture 117",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/couture-119.png",
+      "filename": "couture-119.png",
+      "title": "Couture 119",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/couture-120.png",
+      "filename": "couture-120.png",
+      "title": "Couture 120",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/couture-121.png",
+      "filename": "couture-121.png",
+      "title": "Couture 121",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-125.png",
+      "filename": "couture-125.png",
+      "title": "Couture 125",
+      "category": "couture",
+      "extension": "png",
+      "size": "924.8 KB"
+    },
+    {
+      "src": "photo/couture-126.png",
+      "filename": "couture-126.png",
+      "title": "Couture 126",
+      "category": "couture",
+      "extension": "png",
+      "size": "939.5 KB"
+    },
+    {
+      "src": "photo/couture-127.png",
+      "filename": "couture-127.png",
+      "title": "Couture 127",
+      "category": "couture",
+      "extension": "png",
+      "size": "967.1 KB"
+    },
+    {
+      "src": "photo/couture-128.png",
+      "filename": "couture-128.png",
+      "title": "Couture 128",
+      "category": "couture",
+      "extension": "png",
+      "size": "989.0 KB"
+    },
+    {
+      "src": "photo/couture-129.png",
+      "filename": "couture-129.png",
+      "title": "Couture 129",
+      "category": "couture",
+      "extension": "png",
+      "size": "1009.0 KB"
+    },
+    {
+      "src": "photo/couture-130.png",
+      "filename": "couture-130.png",
+      "title": "Couture 130",
+      "category": "couture",
+      "extension": "png",
+      "size": "884.2 KB"
+    },
+    {
+      "src": "photo/couture-131.png",
+      "filename": "couture-131.png",
+      "title": "Couture 131",
+      "category": "couture",
+      "extension": "png",
+      "size": "894.9 KB"
+    },
+    {
+      "src": "photo/couture-132.png",
+      "filename": "couture-132.png",
+      "title": "Couture 132",
+      "category": "couture",
+      "extension": "png",
+      "size": "999.1 KB"
+    },
+    {
+      "src": "photo/couture-133.png",
+      "filename": "couture-133.png",
+      "title": "Couture 133",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.0 MB"
+    },
+    {
+      "src": "photo/couture-134.png",
+      "filename": "couture-134.png",
+      "title": "Couture 134",
+      "category": "couture",
+      "extension": "png",
+      "size": "947.7 KB"
+    },
+    {
+      "src": "photo/couture-135.png",
+      "filename": "couture-135.png",
+      "title": "Couture 135",
+      "category": "couture",
+      "extension": "png",
+      "size": "976.7 KB"
+    },
+    {
+      "src": "photo/couture-136.png",
+      "filename": "couture-136.png",
+      "title": "Couture 136",
+      "category": "couture",
+      "extension": "png",
+      "size": "974.6 KB"
+    },
+    {
+      "src": "photo/couture-137.png",
+      "filename": "couture-137.png",
+      "title": "Couture 137",
+      "category": "couture",
+      "extension": "png",
+      "size": "908.7 KB"
+    },
+    {
+      "src": "photo/couture-140.png",
+      "filename": "couture-140.png",
+      "title": "Couture 140",
+      "category": "couture",
+      "extension": "png",
+      "size": "683.2 KB"
+    },
+    {
+      "src": "photo/couture-141.png",
+      "filename": "couture-141.png",
+      "title": "Couture 141",
+      "category": "couture",
+      "extension": "png",
+      "size": "881.5 KB"
+    },
+    {
+      "src": "photo/couture-149.png",
+      "filename": "couture-149.png",
+      "title": "Couture 149",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.0 MB"
+    },
+    {
+      "src": "photo/couture-153.png",
+      "filename": "couture-153.png",
+      "title": "Couture 153",
+      "category": "couture",
+      "extension": "png",
+      "size": "809.9 KB"
+    },
+    {
+      "src": "photo/couture-156.jpeg",
+      "filename": "couture-156.jpeg",
+      "title": "Couture 156",
+      "category": "couture",
+      "extension": "jpeg",
+      "size": "240.1 KB"
+    },
+    {
+      "src": "photo/couture-158.jpeg",
+      "filename": "couture-158.jpeg",
+      "title": "Couture 158",
+      "category": "couture",
+      "extension": "jpeg",
+      "size": "245.4 KB"
+    },
+    {
+      "src": "photo/couture-162.jpeg",
+      "filename": "couture-162.jpeg",
+      "title": "Couture 162",
+      "category": "couture",
+      "extension": "jpeg",
+      "size": "298.2 KB"
+    },
+    {
+      "src": "photo/couture-163.jpeg",
+      "filename": "couture-163.jpeg",
+      "title": "Couture 163",
+      "category": "couture",
+      "extension": "jpeg",
+      "size": "279.3 KB"
+    },
+    {
+      "src": "photo/couture-164.png",
+      "filename": "couture-164.png",
+      "title": "Couture 164",
+      "category": "couture",
+      "extension": "png",
+      "size": "995.5 KB"
+    },
+    {
+      "src": "photo/couture-167.png",
+      "filename": "couture-167.png",
+      "title": "Couture 167",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-168.png",
+      "filename": "couture-168.png",
+      "title": "Couture 168",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-169.png",
+      "filename": "couture-169.png",
+      "title": "Couture 169",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-170.png",
+      "filename": "couture-170.png",
+      "title": "Couture 170",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-173.jpeg",
+      "filename": "couture-173.jpeg",
+      "title": "Couture 173",
+      "category": "couture",
+      "extension": "jpeg",
+      "size": "132.6 KB"
+    },
+    {
+      "src": "photo/couture-174.jpeg",
+      "filename": "couture-174.jpeg",
+      "title": "Couture 174",
+      "category": "couture",
+      "extension": "jpeg",
+      "size": "123.6 KB"
     },
     {
       "src": "photo/couture-1763737321244.jpg",

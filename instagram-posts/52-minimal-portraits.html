@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimal Portraits</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--ivory);
+            position: relative;
+            overflow: hidden;
+            padding: 40px;
+        }
+
+        .portraits-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 15px;
+            height: calc(100% - 80px);
+        }
+
+        .portrait-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portrait-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .portrait-frame {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid rgba(250, 248, 245, 0.4);
+            pointer-events: none;
+        }
+
+        .portrait-number {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            font-family: var(--font-luxury);
+            font-size: 24px;
+            color: rgba(250, 248, 245, 0.7);
+            letter-spacing: 0.1em;
+        }
+
+        .footer-bar {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .series-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-style: italic;
+            color: var(--deep-espresso);
+        }
+
+        .series-divider {
+            flex: 1;
+            height: 1px;
+            background: var(--champagne);
+            margin: 0 30px;
+        }
+
+        .brand-mark {
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="portraits-grid">
+            <div class="portrait-item">
+                <img src="../photo/minimal-9.jpg" alt="Portrait 1">
+                <div class="portrait-frame"></div>
+                <span class="portrait-number">09</span>
+            </div>
+            <div class="portrait-item">
+                <img src="../photo/minimal-10.jpeg" alt="Portrait 2">
+                <div class="portrait-frame"></div>
+                <span class="portrait-number">10</span>
+            </div>
+            <div class="portrait-item">
+                <img src="../photo/minimal-11.jpg" alt="Portrait 3">
+                <div class="portrait-frame"></div>
+                <span class="portrait-number">11</span>
+            </div>
+            <div class="portrait-item">
+                <img src="../photo/minimal-12.jpg" alt="Portrait 4">
+                <div class="portrait-frame"></div>
+                <span class="portrait-number">12</span>
+            </div>
+        </div>
+
+        <div class="footer-bar">
+            <h2 class="series-title">Portrait Studies</h2>
+            <div class="series-divider"></div>
+            <span class="brand-mark">VERALABS</span>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couture Showcase</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .premium-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 50% 30%, rgba(212, 175, 55, 0.15) 0%, transparent 60%),
+                linear-gradient(180deg, rgba(28, 25, 23, 0.3) 0%, rgba(28, 25, 23, 0.6) 50%, rgba(28, 25, 23, 0.95) 100%);
+        }
+
+        .luxury-frame {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            right: 50px;
+            bottom: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            z-index: 2;
+        }
+
+        .corner-ornament {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            z-index: 3;
+        }
+
+        .corner-ornament::before,
+        .corner-ornament::after {
+            content: '';
+            position: absolute;
+            background: var(--pale-gold);
+        }
+
+        .corner-ornament::before {
+            width: 100%;
+            height: 2px;
+        }
+
+        .corner-ornament::after {
+            width: 2px;
+            height: 100%;
+        }
+
+        .corner-tl { top: 45px; left: 45px; }
+        .corner-tl::before { top: 0; left: 0; }
+        .corner-tl::after { top: 0; left: 0; }
+
+        .corner-tr { top: 45px; right: 45px; }
+        .corner-tr::before { top: 0; right: 0; }
+        .corner-tr::after { top: 0; right: 0; }
+
+        .corner-bl { bottom: 45px; left: 45px; }
+        .corner-bl::before { bottom: 0; left: 0; }
+        .corner-bl::after { bottom: 0; left: 0; }
+
+        .corner-br { bottom: 45px; right: 45px; }
+        .corner-br::before { bottom: 0; right: 0; }
+        .corner-br::after { bottom: 0; right: 0; }
+
+        .content-bottom {
+            position: absolute;
+            bottom: 80px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 4;
+        }
+
+        .showcase-label {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.4em;
+            color: var(--pale-gold);
+            margin-bottom: 20px;
+        }
+
+        .showcase-title {
+            font-family: var(--font-display);
+            font-size: 64px;
+            font-style: italic;
+            color: var(--cream-white);
+            line-height: 1.1;
+            text-shadow: 0 4px 30px rgba(0,0,0,0.5);
+        }
+
+        .showcase-line {
+            width: 120px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pale-gold), transparent);
+            margin: 25px auto 0;
+        }
+
+        .brand-mark {
+            position: absolute;
+            top: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.35em;
+            color: var(--cream-white);
+            z-index: 4;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-container">
+            <img src="../photo/couture-1763744403212.jpg" alt="Couture Showcase" class="model-photo">
+            <div class="premium-overlay"></div>
+        </div>
+
+        <div class="luxury-frame"></div>
+        <div class="corner-ornament corner-tl"></div>
+        <div class="corner-ornament corner-tr"></div>
+        <div class="corner-ornament corner-bl"></div>
+        <div class="corner-ornament corner-br"></div>
+
+        <span class="brand-mark">VERALABS</span>
+
+        <div class="content-bottom">
+            <span class="showcase-label">HAUTE COUTURE</span>
+            <h2 class="showcase-title">Eternal<br>Glamour</h2>
+            <div class="showcase-line"></div>
+        </div>
+    </div>
+</body>
+</html>

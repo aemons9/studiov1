@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couture Showcase - Look 10</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .luxury-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(28, 25, 23, 0.2) 0%, rgba(28, 25, 23, 0.8) 100%);
+        }
+
+        .ornate-border {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            bottom: 30px;
+            border: 1px solid var(--pale-gold);
+            z-index: 2;
+        }
+
+        .ornate-corner {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--pale-gold);
+            z-index: 3;
+        }
+
+        .corner-tl { top: 25px; left: 25px; border-right: none; border-bottom: none; }
+        .corner-tr { top: 25px; right: 25px; border-left: none; border-bottom: none; }
+        .corner-bl { bottom: 25px; left: 25px; border-right: none; border-top: none; }
+        .corner-br { bottom: 25px; right: 25px; border-left: none; border-top: none; }
+
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 4;
+        }
+
+        .roman-numeral {
+            font-family: var(--font-luxury);
+            font-size: 120px;
+            color: var(--pale-gold);
+            letter-spacing: 0.2em;
+            text-shadow: 0 4px 30px rgba(212, 175, 55, 0.4);
+            line-height: 1;
+        }
+
+        .look-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-style: italic;
+            color: var(--cream-white);
+            margin-top: 20px;
+            letter-spacing: 0.05em;
+        }
+
+        .divider-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pale-gold), transparent);
+            margin: 25px auto;
+        }
+
+        .collection-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--champagne);
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            z-index: 4;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-container">
+            <img src="../photo/couture-10.jpg" alt="Couture Look 10" class="model-photo">
+            <div class="luxury-overlay"></div>
+        </div>
+
+        <div class="ornate-border"></div>
+        <div class="ornate-corner corner-tl"></div>
+        <div class="ornate-corner corner-tr"></div>
+        <div class="ornate-corner corner-bl"></div>
+        <div class="ornate-corner corner-br"></div>
+
+        <div class="center-content">
+            <div class="roman-numeral">X</div>
+            <h2 class="look-title">The Finale</h2>
+            <div class="divider-line"></div>
+            <span class="collection-label">COUTURE COLLECTION</span>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

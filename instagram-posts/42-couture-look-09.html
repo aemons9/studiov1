@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Couture Showcase - Look 09</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagonal-split {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            clip-path: polygon(0 0, 65% 0, 45% 100%, 0 100%);
+            overflow: hidden;
+        }
+
+        .model-photo {
+            width: 150%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .content-panel {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 55%;
+            height: 100%;
+            background: var(--cream-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            padding-left: 120px;
+        }
+
+        .look-indicator {
+            display: flex;
+            align-items: baseline;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .look-number {
+            font-family: var(--font-luxury);
+            font-size: 64px;
+            color: var(--champagne);
+            letter-spacing: 0.1em;
+        }
+
+        .look-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            color: var(--warm-taupe);
+        }
+
+        .collection-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            line-height: 1.15;
+            margin-bottom: 25px;
+        }
+
+        .gold-accent {
+            width: 50px;
+            height: 2px;
+            background: var(--pale-gold);
+            margin-bottom: 25px;
+        }
+
+        .collection-desc {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--soft-charcoal);
+            line-height: 1.8;
+            max-width: 300px;
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 50px;
+            right: 60px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .corner-frame {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid var(--pale-gold);
+            opacity: 0.5;
+        }
+
+        .frame-tr {
+            top: 50px;
+            right: 50px;
+            border-left: none;
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="diagonal-split">
+            <img src="../photo/couture-9.jpg" alt="Couture Look 09" class="model-photo">
+        </div>
+
+        <div class="content-panel">
+            <div class="look-indicator">
+                <span class="look-number">09</span>
+                <span class="look-label">LOOK</span>
+            </div>
+
+            <h2 class="collection-title">Timeless<br>Radiance</h2>
+            <div class="gold-accent"></div>
+            <p class="collection-desc">
+                A celebration of feminine grace, where every silhouette
+                tells a story of understated luxury.
+            </p>
+        </div>
+
+        <div class="corner-frame frame-tr"></div>
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

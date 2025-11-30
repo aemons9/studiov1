@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Collection</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: #151515;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .urban-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 4px;
+            height: 100%;
+        }
+
+        .urban-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .urban-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: contrast(1.05);
+        }
+
+        .item-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px;
+            background: linear-gradient(transparent, rgba(21, 21, 21, 0.9));
+        }
+
+        .item-number {
+            font-family: var(--font-luxury);
+            font-size: 32px;
+            color: var(--steel-blue);
+            letter-spacing: 0.1em;
+        }
+
+        .center-badge {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: var(--steel-blue);
+            padding: 30px 40px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .badge-title {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: var(--cream-white);
+            margin-bottom: 8px;
+        }
+
+        .badge-subtitle {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-style: italic;
+            color: var(--cream-white);
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 25px;
+            right: 25px;
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: var(--steel-blue);
+            z-index: 3;
+        }
+
+        .grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .h-line, .v-line {
+            position: absolute;
+            background: rgba(124, 147, 163, 0.3);
+        }
+
+        .h-line {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+        }
+
+        .v-line {
+            height: 100%;
+            width: 1px;
+            left: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="urban-grid">
+            <div class="urban-item">
+                <img src="../photo/contemporary-urban-style-2.jpg" alt="Urban Style">
+                <div class="item-overlay">
+                    <span class="item-number">01</span>
+                </div>
+            </div>
+            <div class="urban-item">
+                <img src="../photo/contemporary-urban-style-3.jpg" alt="Urban Style">
+                <div class="item-overlay">
+                    <span class="item-number">02</span>
+                </div>
+            </div>
+            <div class="urban-item">
+                <img src="../photo/contemporary-urban-style-4.jpg" alt="Urban Style">
+                <div class="item-overlay">
+                    <span class="item-number">03</span>
+                </div>
+            </div>
+            <div class="urban-item">
+                <img src="../photo/contemporary-urban-style-5.jpg" alt="Urban Style">
+                <div class="item-overlay">
+                    <span class="item-number">04</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid-lines">
+            <div class="h-line"></div>
+            <div class="v-line"></div>
+        </div>
+
+        <div class="center-badge">
+            <span class="badge-title">CONTEMPORARY</span>
+            <span class="badge-subtitle">Urban Edit</span>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

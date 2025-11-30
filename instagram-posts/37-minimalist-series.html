@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Series</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--ivory);
+            position: relative;
+            overflow: hidden;
+            padding: 60px;
+        }
+
+        .series-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            height: calc(100% - 120px);
+            margin-bottom: 40px;
+        }
+
+        .series-item {
+            position: relative;
+            overflow: hidden;
+            background: var(--champagne);
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            filter: grayscale(10%);
+        }
+
+        .item-frame {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            border: 1px solid rgba(250, 248, 245, 0.5);
+            pointer-events: none;
+        }
+
+        .item-number {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            color: var(--cream-white);
+            letter-spacing: 0.15em;
+        }
+
+        .series-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .series-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .series-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--pale-gold);
+            margin-bottom: 8px;
+        }
+
+        .series-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-style: italic;
+            color: var(--deep-espresso);
+        }
+
+        .brand-mark {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .decorative-line {
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="series-grid">
+            <div class="series-item">
+                <img src="../photo/minimal-6.jpg" alt="Minimal 1" class="model-photo">
+                <div class="item-frame"></div>
+                <span class="item-number">I</span>
+            </div>
+            <div class="series-item">
+                <img src="../photo/minimal-7.jpg" alt="Minimal 2" class="model-photo">
+                <div class="item-frame"></div>
+                <span class="item-number">II</span>
+            </div>
+            <div class="series-item">
+                <img src="../photo/minimal-8.jpg" alt="Minimal 3" class="model-photo">
+                <div class="item-frame"></div>
+                <span class="item-number">III</span>
+            </div>
+        </div>
+
+        <div class="series-footer">
+            <div class="series-info">
+                <span class="series-label">PORTRAIT SERIES</span>
+                <h1 class="series-title">Minimalist Studies</h1>
+                <div class="decorative-line"></div>
+            </div>
+            <span class="brand-mark">VERALABS</span>
+        </div>
+    </div>
+</body>
+</html>

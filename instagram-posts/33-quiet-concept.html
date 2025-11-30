@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiet Luxury Concept</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--ivory);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 100px;
+            left: 100px;
+            right: 100px;
+            bottom: 100px;
+            overflow: hidden;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: contrast(0.95) brightness(1.02);
+        }
+
+        .photo-shadow {
+            position: absolute;
+            top: 90px;
+            left: 90px;
+            right: 90px;
+            bottom: 90px;
+            background: var(--champagne);
+            z-index: -1;
+        }
+
+        .corner-text {
+            position: absolute;
+            font-family: var(--font-display);
+            font-size: 160px;
+            font-style: italic;
+            color: var(--champagne);
+            opacity: 0.5;
+            z-index: 0;
+            line-height: 0.8;
+        }
+
+        .text-q {
+            top: -20px;
+            left: 20px;
+        }
+
+        .text-l {
+            bottom: -20px;
+            right: 20px;
+        }
+
+        .content-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, transparent, var(--ivory));
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 30px;
+            z-index: 2;
+        }
+
+        .concept-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            letter-spacing: 0.05em;
+        }
+
+        .brand-mark {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+            z-index: 2;
+        }
+
+        .top-label {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.2em;
+            color: var(--warm-taupe);
+            z-index: 2;
+        }
+
+        .minimal-dots {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background: var(--nude-beige);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <span class="corner-text text-q">Q</span>
+        <span class="corner-text text-l">L</span>
+
+        <div class="photo-shadow"></div>
+        <div class="photo-container">
+            <img src="../photo/quiet.jpg" alt="Quiet Luxury" class="model-photo">
+        </div>
+
+        <span class="top-label">TIMELESS COLLECTION</span>
+        <span class="brand-mark">VERALABS</span>
+
+        <div class="content-bar">
+            <h1 class="concept-title">Quiet Luxury</h1>
+        </div>
+
+        <div class="minimal-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</body>
+</html>

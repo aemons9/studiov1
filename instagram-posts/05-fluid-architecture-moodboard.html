@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid Architecture - Moodboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .organic-shapes {
+            position: relative;
+            width: 700px;
+            height: 550px;
+            margin-bottom: 50px;
+        }
+
+        .blob {
+            position: absolute;
+            border-radius: 60% 40% 70% 30% / 40% 60% 30% 70%;
+        }
+
+        .blob-1 {
+            width: 350px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--sage-green) 0%, #7A9A70 100%);
+            top: 0;
+            left: 0;
+            opacity: 0.9;
+        }
+
+        .blob-2 {
+            width: 300px;
+            height: 350px;
+            background: linear-gradient(135deg, var(--dusty-mauve) 0%, #B08AA8 100%);
+            top: 100px;
+            right: 0;
+            border-radius: 40% 60% 30% 70% / 60% 40% 70% 30%;
+        }
+
+        .blob-3 {
+            width: 200px;
+            height: 250px;
+            background: var(--steel-blue);
+            bottom: 0;
+            left: 150px;
+            border-radius: 70% 30% 50% 50% / 30% 70% 50% 50%;
+            opacity: 0.8;
+        }
+
+        .geometric-accent {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 2px solid var(--soft-charcoal);
+            transform: rotate(45deg);
+            top: 200px;
+            left: 280px;
+        }
+
+        .collection-title {
+            font-family: var(--font-display);
+            font-size: 46px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            letter-spacing: -0.02em;
+        }
+
+        .collection-season {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.25em;
+            color: var(--sage-green);
+            margin-top: 12px;
+        }
+
+        .collection-tag {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--soft-charcoal);
+            padding: 8px 20px;
+            border: 1px solid var(--dusty-mauve);
+            margin-top: 20px;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+
+        .color-dots {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .floating-line {
+            position: absolute;
+            width: 150px;
+            height: 1px;
+            background: var(--pale-gold);
+            transform: rotate(-30deg);
+        }
+
+        .line-1 { top: 100px; right: 80px; }
+        .line-2 { bottom: 150px; left: 60px; }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="floating-line line-1"></div>
+        <div class="floating-line line-2"></div>
+
+        <div class="organic-shapes">
+            <div class="blob blob-1"></div>
+            <div class="blob blob-2"></div>
+            <div class="blob blob-3"></div>
+            <div class="geometric-accent"></div>
+        </div>
+
+        <h1 class="collection-title">Fluid Architecture</h1>
+        <p class="collection-season">RESORT COLLECTION</p>
+
+        <div class="color-dots">
+            <div class="color-dot" style="background: #9CAF88;"></div>
+            <div class="color-dot" style="background: #C8A2B8;"></div>
+            <div class="color-dot" style="background: #FAF8F5; border: 1px solid #E8DFD3;"></div>
+            <div class="color-dot" style="background: #7C93A3;"></div>
+        </div>
+
+        <span class="collection-tag">Avant-Garde • Resort</span>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

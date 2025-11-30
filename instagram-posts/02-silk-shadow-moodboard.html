@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Silk & Shadow - Moodboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            padding: 80px;
+        }
+
+        .moodboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 20px;
+            width: 700px;
+            height: 700px;
+            margin-bottom: 50px;
+        }
+
+        .mood-cell {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mood-cell-1 {
+            background: linear-gradient(135deg, var(--champagne) 0%, var(--nude-beige) 100%);
+            grid-row: span 2;
+        }
+
+        .mood-cell-2 {
+            background: var(--warm-taupe);
+        }
+
+        .mood-cell-3 {
+            background: var(--deep-espresso);
+        }
+
+        .silk-texture {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(
+                45deg,
+                transparent,
+                transparent 2px,
+                rgba(255,255,255,0.03) 2px,
+                rgba(255,255,255,0.03) 4px
+            );
+        }
+
+        .collection-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            letter-spacing: -0.02em;
+        }
+
+        .collection-season {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+            margin-top: 12px;
+        }
+
+        .collection-tag {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--soft-charcoal);
+            padding: 8px 20px;
+            border: 1px solid var(--champagne);
+            margin-top: 20px;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+
+        .color-dots {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="moodboard-grid">
+            <div class="mood-cell mood-cell-1">
+                <div class="silk-texture"></div>
+            </div>
+            <div class="mood-cell mood-cell-2">
+                <div class="silk-texture"></div>
+            </div>
+            <div class="mood-cell mood-cell-3">
+                <div class="silk-texture"></div>
+            </div>
+        </div>
+
+        <h1 class="collection-title">Silk & Shadow</h1>
+        <p class="collection-season">SPRING / SUMMER 2025</p>
+
+        <div class="color-dots">
+            <div class="color-dot" style="background: #FAF8F5; border: 1px solid #E8DFD3;"></div>
+            <div class="color-dot" style="background: #E8DFD3;"></div>
+            <div class="color-dot" style="background: #B8A28E;"></div>
+            <div class="color-dot" style="background: #1C1917;"></div>
+        </div>
+
+        <span class="collection-tag">Minimalist • Luxe</span>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

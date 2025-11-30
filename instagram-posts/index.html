@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VeraLabs Instagram Posts - Preview Gallery</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background: #1C1917;
+            min-height: 100vh;
+            padding: 60px 40px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header-brand {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 32px;
+            letter-spacing: 0.4em;
+            color: #FAF8F5;
+            margin-bottom: 15px;
+        }
+
+        .header-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-style: italic;
+            color: #D4AF37;
+            margin-bottom: 10px;
+        }
+
+        .header-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: #B8A28E;
+            letter-spacing: 0.1em;
+        }
+
+        .section {
+            margin-bottom: 80px;
+        }
+
+        .section-title {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 14px;
+            letter-spacing: 0.25em;
+            color: #D4AF37;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #3E3A37;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .post-card {
+            background: #FAF8F5;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .post-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .post-preview {
+            width: 100%;
+            aspect-ratio: 1;
+            border: none;
+            display: block;
+        }
+
+        .post-info {
+            padding: 20px;
+            background: #FAF8F5;
+        }
+
+        .post-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-style: italic;
+            color: #1C1917;
+            margin-bottom: 8px;
+        }
+
+        .post-category {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #B8A28E;
+        }
+
+        .post-link {
+            display: inline-block;
+            margin-top: 15px;
+            font-family: 'Bodoni Moda', serif;
+            font-size: 11px;
+            letter-spacing: 0.15em;
+            color: #D4AF37;
+            text-decoration: none;
+            text-transform: uppercase;
+            padding: 8px 16px;
+            border: 1px solid #D4AF37;
+            transition: all 0.3s ease;
+        }
+
+        .post-link:hover {
+            background: #D4AF37;
+            color: #1C1917;
+        }
+
+        .instructions {
+            background: #3E3A37;
+            padding: 40px;
+            border-radius: 8px;
+            margin-top: 60px;
+        }
+
+        .instructions h3 {
+            font-family: 'Bodoni Moda', serif;
+            font-size: 14px;
+            letter-spacing: 0.2em;
+            color: #D4AF37;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .instructions p, .instructions li {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            font-weight: 300;
+            color: #E8DFD3;
+            line-height: 1.8;
+        }
+
+        .instructions ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .instructions li {
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #3E3A37;
+        }
+
+        .footer-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 12px;
+            font-weight: 300;
+            color: #B8A28E;
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1 class="header-brand">VERALABS</h1>
+        <h2 class="header-title">Instagram Content Gallery</h2>
+        <p class="header-subtitle">Preview & Export Your Posts</p>
+    </header>
+
+    <!-- Brand Introduction -->
+    <section class="section">
+        <h3 class="section-title">Brand Introduction</h3>
+        <div class="posts-grid">
+            <div class="post-card">
+                <iframe class="post-preview" src="01-brand-intro.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Brand Introduction</h4>
+                    <span class="post-category">Welcome Post</span>
+                    <a href="01-brand-intro.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Moodboard Collection -->
+    <section class="section">
+        <h3 class="section-title">Moodboard Collection</h3>
+        <div class="posts-grid">
+            <div class="post-card">
+                <iframe class="post-preview" src="02-silk-shadow-moodboard.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Silk & Shadow</h4>
+                    <span class="post-category">SS 2025 • Minimalist</span>
+                    <a href="02-silk-shadow-moodboard.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="03-urban-poetry-moodboard.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Urban Poetry</h4>
+                    <span class="post-category">FW 2025 • Editorial</span>
+                    <a href="03-urban-poetry-moodboard.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="04-gilded-dreams-moodboard.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Gilded Dreams</h4>
+                    <span class="post-category">Haute Couture</span>
+                    <a href="04-gilded-dreams-moodboard.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="05-fluid-architecture-moodboard.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Fluid Architecture</h4>
+                    <span class="post-category">Resort • Avant-Garde</span>
+                    <a href="05-fluid-architecture-moodboard.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="06-quiet-luxury-moodboard.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Quiet Luxury</h4>
+                    <span class="post-category">Timeless • Minimalist</span>
+                    <a href="06-quiet-luxury-moodboard.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="07-monsoon-reverie-moodboard.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Monsoon Reverie</h4>
+                    <span class="post-category">Seasonal • Editorial</span>
+                    <a href="07-monsoon-reverie-moodboard.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Philosophy Cards -->
+    <section class="section">
+        <h3 class="section-title">Design Philosophy</h3>
+        <div class="posts-grid">
+            <div class="post-card">
+                <iframe class="post-preview" src="08-philosophy-minimalist-luxe.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Minimalist Luxe</h4>
+                    <span class="post-category">Aesthetic 001</span>
+                    <a href="08-philosophy-minimalist-luxe.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="09-philosophy-editorial-narrative.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Editorial Narrative</h4>
+                    <span class="post-category">Aesthetic 002</span>
+                    <a href="09-philosophy-editorial-narrative.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="10-philosophy-cultural-fusion.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Cultural Fusion</h4>
+                    <span class="post-category">Aesthetic 003</span>
+                    <a href="10-philosophy-cultural-fusion.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Color & Typography -->
+    <section class="section">
+        <h3 class="section-title">Color & Typography</h3>
+        <div class="posts-grid">
+            <div class="post-card">
+                <iframe class="post-preview" src="11-color-palette-signature.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Signature Palette</h4>
+                    <span class="post-category">Color Story</span>
+                    <a href="11-color-palette-signature.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="12-quote-elegance.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Elegance Quote</h4>
+                    <span class="post-category">Typography</span>
+                    <a href="12-quote-elegance.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="13-quote-simplicity.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Simplicity Quote</h4>
+                    <span class="post-category">Typography</span>
+                    <a href="13-quote-simplicity.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Concept Reveals -->
+    <section class="section">
+        <h3 class="section-title">Concept Reveals</h3>
+        <div class="posts-grid">
+            <div class="post-card">
+                <iframe class="post-preview" src="14-concept-geometric-harmony.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Geometric Harmony</h4>
+                    <span class="post-category">Concept Reveal</span>
+                    <a href="14-concept-geometric-harmony.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="15-concept-digital-dystopia.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Digital Dystopia</h4>
+                    <span class="post-category">Concept Reveal</span>
+                    <a href="15-concept-digital-dystopia.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="16-concept-baroque-renaissance.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Baroque Renaissance</h4>
+                    <span class="post-category">Concept Reveal</span>
+                    <a href="16-concept-baroque-renaissance.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Welcome Carousel -->
+    <section class="section">
+        <h3 class="section-title">Welcome Carousel (5 Slides)</h3>
+        <div class="posts-grid">
+            <div class="post-card">
+                <iframe class="post-preview" src="17-carousel-welcome-1.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Welcome - Slide 1</h4>
+                    <span class="post-category">Carousel Intro</span>
+                    <a href="17-carousel-welcome-1.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="18-carousel-welcome-2.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">AI + Creativity</h4>
+                    <span class="post-category">Carousel Slide 2</span>
+                    <a href="18-carousel-welcome-2.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="19-carousel-welcome-3.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Our Aesthetics</h4>
+                    <span class="post-category">Carousel Slide 3</span>
+                    <a href="19-carousel-welcome-3.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="20-carousel-welcome-4.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Moodboards</h4>
+                    <span class="post-category">Carousel Slide 4</span>
+                    <a href="20-carousel-welcome-4.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="21-carousel-welcome-5.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Join Us - CTA</h4>
+                    <span class="post-category">Carousel Finale</span>
+                    <a href="21-carousel-welcome-5.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Special Posts -->
+    <section class="section">
+        <h3 class="section-title">Special Posts</h3>
+        <div class="posts-grid">
+            <div class="post-card">
+                <iframe class="post-preview" src="22-ai-meets-couture.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">AI Meets Couture</h4>
+                    <span class="post-category">Split Design</span>
+                    <a href="22-ai-meets-couture.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+            <div class="post-card">
+                <iframe class="post-preview" src="23-coming-soon.html"></iframe>
+                <div class="post-info">
+                    <h4 class="post-title">Coming Soon</h4>
+                    <span class="post-category">Teaser Post</span>
+                    <a href="23-coming-soon.html" target="_blank" class="post-link">View Full Size</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Instructions -->
+    <div class="instructions">
+        <h3>How to Export Posts for Instagram</h3>
+        <p>Each post is designed at 1080x1080px (Instagram square format). To export:</p>
+        <ul>
+            <li><strong>Browser Screenshot:</strong> Click "View Full Size", then use your browser's screenshot tool or a screenshot extension to capture at full resolution.</li>
+            <li><strong>Developer Tools:</strong> Open DevTools (F12), go to Device Mode, set dimensions to 1080x1080, and capture screenshot.</li>
+            <li><strong>HTML to Image:</strong> Use tools like html2canvas, Puppeteer, or online HTML-to-image converters.</li>
+            <li><strong>Print to PDF:</strong> Print the page to PDF and convert to image format.</li>
+        </ul>
+    </div>
+
+    <footer class="footer">
+        <p class="footer-text">VERALABS • Haute Couture Meets Digital Artistry • 2024</p>
+    </footer>
+</body>
+</html>

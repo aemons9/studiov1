@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gilded Dreams - Moodboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: linear-gradient(180deg, #2C1810 0%, #1C1917 100%);
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gold-shimmer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at 30% 20%, rgba(212, 175, 55, 0.15) 0%, transparent 50%),
+                        radial-gradient(ellipse at 70% 80%, rgba(212, 175, 55, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .ornate-frame {
+            width: 700px;
+            height: 500px;
+            border: 2px solid var(--pale-gold);
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+        }
+
+        .ornate-frame::before,
+        .ornate-frame::after {
+            content: '';
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 2px solid var(--pale-gold);
+        }
+
+        .ornate-frame::before {
+            top: -15px;
+            left: -15px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .ornate-frame::after {
+            bottom: -15px;
+            right: -15px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .inner-composition {
+            display: grid;
+            grid-template-columns: 1fr 2fr 1fr;
+            gap: 20px;
+            width: 90%;
+            height: 80%;
+        }
+
+        .comp-panel {
+            position: relative;
+        }
+
+        .comp-panel-1 {
+            background: linear-gradient(180deg, #8B0000 0%, #5C0000 100%);
+        }
+
+        .comp-panel-2 {
+            background: linear-gradient(135deg, var(--pale-gold) 0%, #B8962D 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .comp-panel-3 {
+            background: var(--ivory);
+        }
+
+        .diamond-icon {
+            width: 60px;
+            height: 60px;
+            border: 2px solid rgba(255,255,255,0.6);
+            transform: rotate(45deg);
+        }
+
+        .collection-title {
+            font-family: var(--font-display);
+            font-size: 52px;
+            font-style: italic;
+            color: var(--pale-gold);
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .collection-season {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.25em;
+            color: var(--rose-gold);
+            margin-top: 12px;
+        }
+
+        .collection-tag {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--ivory);
+            padding: 8px 20px;
+            border: 1px solid var(--pale-gold);
+            margin-top: 20px;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+        }
+
+        .color-dots {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="gold-shimmer"></div>
+
+        <div class="ornate-frame">
+            <div class="inner-composition">
+                <div class="comp-panel comp-panel-1"></div>
+                <div class="comp-panel comp-panel-2">
+                    <div class="diamond-icon"></div>
+                </div>
+                <div class="comp-panel comp-panel-3"></div>
+            </div>
+        </div>
+
+        <h1 class="collection-title">Gilded Dreams</h1>
+        <p class="collection-season">HAUTE COUTURE</p>
+
+        <div class="color-dots">
+            <div class="color-dot" style="background: #D4AF37;"></div>
+            <div class="color-dot" style="background: #8B0000;"></div>
+            <div class="color-dot" style="background: #F7F3ED;"></div>
+            <div class="color-dot" style="background: #2C1810;"></div>
+        </div>
+
+        <span class="collection-tag">Couture • Heritage</span>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

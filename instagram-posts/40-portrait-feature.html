@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portrait Feature</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .vignette-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at center, transparent 30%, rgba(28, 25, 23, 0.6) 100%),
+                linear-gradient(180deg, transparent 70%, rgba(28, 25, 23, 0.9) 100%);
+        }
+
+        .top-banner {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 2;
+        }
+
+        .banner-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .dot-accent {
+            width: 8px;
+            height: 8px;
+            background: var(--pale-gold);
+            border-radius: 50%;
+        }
+
+        .banner-text {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.2em;
+            color: var(--cream-white);
+        }
+
+        .brand-mark {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            color: var(--cream-white);
+        }
+
+        .bottom-content {
+            position: absolute;
+            bottom: 60px;
+            left: 60px;
+            right: 60px;
+            z-index: 2;
+        }
+
+        .feature-title {
+            font-family: var(--font-display);
+            font-size: 64px;
+            font-style: italic;
+            color: var(--cream-white);
+            line-height: 1.05;
+            margin-bottom: 20px;
+        }
+
+        .title-accent {
+            color: var(--pale-gold);
+        }
+
+        .feature-line {
+            width: 80px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin-bottom: 20px;
+        }
+
+        .feature-desc {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--champagne);
+            max-width: 400px;
+            line-height: 1.7;
+        }
+
+        .corner-frames {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            z-index: 1;
+        }
+
+        .frame-bl {
+            bottom: 40px;
+            right: 40px;
+            border-top: none;
+            border-left: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-container">
+            <img src="../photo/portrait-1.jpg" alt="Portrait Feature" class="model-photo">
+            <div class="vignette-overlay"></div>
+        </div>
+
+        <div class="corner-frames frame-bl"></div>
+
+        <div class="top-banner">
+            <div class="banner-left">
+                <div class="dot-accent"></div>
+                <span class="banner-text">NEW PORTRAIT SERIES</span>
+            </div>
+            <span class="brand-mark">VERALABS</span>
+        </div>
+
+        <div class="bottom-content">
+            <h1 class="feature-title">
+                Capturing<br>
+                <span class="title-accent">Essence</span>
+            </h1>
+            <div class="feature-line"></div>
+            <p class="feature-desc">
+                Each portrait is a dialogue between light and form,
+                revealing the quiet power within.
+            </p>
+        </div>
+    </div>
+</body>
+</html>

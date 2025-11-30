@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Carousel - Slide 5: CTA</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 30% 30%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 70%, rgba(232, 180, 184, 0.08) 0%, transparent 50%);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .slide-number {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 50px;
+        }
+
+        .main-title {
+            font-family: var(--font-display);
+            font-size: 52px;
+            font-style: italic;
+            color: var(--cream-white);
+            text-align: center;
+            line-height: 1.25;
+            margin-bottom: 30px;
+        }
+
+        .gold-line {
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin: 30px 0;
+        }
+
+        .cta-text {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--champagne);
+            text-align: center;
+            margin-bottom: 50px;
+            letter-spacing: 0.02em;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+        }
+
+        .cta-button {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.2em;
+            padding: 18px 35px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cta-primary {
+            background: var(--pale-gold);
+            color: var(--deep-espresso);
+            border: none;
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: var(--cream-white);
+            border: 1px solid var(--warm-taupe);
+        }
+
+        .social-handles {
+            margin-top: 60px;
+            text-align: center;
+        }
+
+        .handle-label {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+            margin-bottom: 10px;
+        }
+
+        .handle-name {
+            font-family: var(--font-luxury);
+            font-size: 18px;
+            letter-spacing: 0.15em;
+            color: var(--cream-white);
+        }
+
+        .dots-indicator {
+            position: absolute;
+            bottom: 50px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--soft-charcoal);
+        }
+
+        .dot.active {
+            background: var(--pale-gold);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 80px;
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: var(--soft-charcoal);
+        }
+
+        .corner-accent {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid var(--pale-gold);
+            opacity: 0.3;
+        }
+
+        .corner-tl {
+            top: 60px;
+            left: 60px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-br {
+            bottom: 100px;
+            right: 60px;
+            border-left: none;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="gradient-overlay"></div>
+        <div class="corner-accent corner-tl"></div>
+        <div class="corner-accent corner-br"></div>
+
+        <div class="content-wrapper">
+            <span class="slide-number">04</span>
+
+            <h1 class="main-title">
+                Join our journey<br>
+                into the future<br>
+                of fashion
+            </h1>
+
+            <div class="gold-line"></div>
+
+            <p class="cta-text">Follow for daily inspiration and exclusive content</p>
+
+            <div class="cta-buttons">
+                <button class="cta-button cta-primary">Follow</button>
+                <button class="cta-button cta-secondary">Explore</button>
+            </div>
+
+            <div class="social-handles">
+                <p class="handle-label">Find us at</p>
+                <p class="handle-name">@VERALABS</p>
+            </div>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+
+        <div class="dots-indicator">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot active"></div>
+        </div>
+    </div>
+</body>
+</html>

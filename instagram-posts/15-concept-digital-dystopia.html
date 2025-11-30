@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept - Digital Dystopia</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: linear-gradient(180deg, #0a0a0a 0%, #1C1917 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scan-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 2px,
+                rgba(124, 147, 163, 0.03) 2px,
+                rgba(124, 147, 163, 0.03) 4px
+            );
+            pointer-events: none;
+        }
+
+        .holographic-accent {
+            position: absolute;
+            width: 500px;
+            height: 500px;
+            background: conic-gradient(
+                from 0deg,
+                rgba(124, 147, 163, 0.1),
+                rgba(200, 162, 184, 0.1),
+                rgba(232, 180, 184, 0.1),
+                rgba(124, 147, 163, 0.1)
+            );
+            border-radius: 50%;
+            filter: blur(80px);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .concept-label {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--steel-blue);
+            margin-bottom: 30px;
+        }
+
+        .concept-title {
+            font-family: var(--font-display);
+            font-size: 58px;
+            font-style: italic;
+            color: var(--cream-white);
+            text-align: center;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 30px;
+            text-shadow: 0 0 40px rgba(124, 147, 163, 0.3);
+        }
+
+        .accent-line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, var(--steel-blue), var(--rose-gold));
+            margin: 20px 0;
+        }
+
+        .concept-description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--champagne);
+            text-align: center;
+            line-height: 1.8;
+            max-width: 450px;
+            letter-spacing: 0.01em;
+        }
+
+        .tags-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .tag {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--steel-blue);
+            padding: 8px 16px;
+            border: 1px solid rgba(124, 147, 163, 0.3);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--soft-charcoal);
+        }
+
+        .glitch-lines {
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: rgba(232, 180, 184, 0.1);
+        }
+
+        .glitch-1 { top: 25%; }
+        .glitch-2 { top: 75%; }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="holographic-accent"></div>
+        <div class="scan-lines"></div>
+        <div class="glitch-lines glitch-1"></div>
+        <div class="glitch-lines glitch-2"></div>
+
+        <div class="content-wrapper">
+            <span class="concept-label">CONCEPT REVEAL</span>
+
+            <h1 class="concept-title">Digital<br>Dystopia</h1>
+
+            <div class="accent-line"></div>
+
+            <p class="concept-description">
+                Metallic fabrics shimmer with holographic intensity.
+                Futuristic silhouettes and cyber-inspired details
+                blur the line between fashion and technology.
+            </p>
+
+            <div class="tags-row">
+                <span class="tag">Futuristic</span>
+                <span class="tag">Metallic</span>
+                <span class="tag">Tech</span>
+            </div>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

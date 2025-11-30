@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote - Elegance</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ambient-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 120px;
+        }
+
+        .quote-mark {
+            font-family: var(--font-display);
+            font-size: 200px;
+            color: var(--pale-gold);
+            opacity: 0.15;
+            position: absolute;
+            top: 120px;
+            left: 100px;
+            line-height: 1;
+        }
+
+        .quote-text {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-style: italic;
+            color: var(--cream-white);
+            text-align: center;
+            line-height: 1.4;
+            letter-spacing: -0.01em;
+            max-width: 700px;
+        }
+
+        .gold-line {
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin: 50px 0;
+        }
+
+        .attribution {
+            font-family: var(--font-luxury);
+            font-size: 13px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 60px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--soft-charcoal);
+        }
+
+        .vertical-text {
+            position: absolute;
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            color: var(--soft-charcoal);
+            text-transform: uppercase;
+            writing-mode: vertical-rl;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="ambient-glow"></div>
+        <span class="quote-mark">"</span>
+
+        <div class="content-wrapper">
+            <p class="quote-text">
+                Elegance is not about being noticed,
+                it's about being remembered.
+            </p>
+
+            <div class="gold-line"></div>
+
+            <span class="attribution">VERALABS PHILOSOPHY</span>
+        </div>
+
+        <span class="vertical-text">Fashion • Art • Innovation</span>
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Poetry - Moodboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            padding: 80px;
+            position: relative;
+        }
+
+        .geometric-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            width: 650px;
+            height: 650px;
+            margin-bottom: 50px;
+        }
+
+        .geo-cell {
+            position: relative;
+        }
+
+        .geo-cell:nth-child(1) { background: var(--steel-blue); grid-column: span 2; }
+        .geo-cell:nth-child(2) { background: var(--rose-gold); }
+        .geo-cell:nth-child(3) { background: var(--soft-charcoal); }
+        .geo-cell:nth-child(4) { background: var(--pale-gold); grid-row: span 2; }
+        .geo-cell:nth-child(5) { background: var(--warm-taupe); grid-column: span 2; }
+
+        .architectural-line {
+            position: absolute;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .line-h {
+            width: 100%;
+            height: 1px;
+            top: 50%;
+        }
+
+        .line-v {
+            width: 1px;
+            height: 100%;
+            left: 50%;
+        }
+
+        .collection-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-style: italic;
+            color: var(--cream-white);
+            letter-spacing: -0.02em;
+        }
+
+        .collection-season {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.25em;
+            color: var(--steel-blue);
+            margin-top: 12px;
+        }
+
+        .collection-tag {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--champagne);
+            padding: 8px 20px;
+            border: 1px solid var(--soft-charcoal);
+            margin-top: 20px;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+
+        .color-dots {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+
+        .accent-corner {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 1px solid var(--steel-blue);
+            opacity: 0.3;
+        }
+
+        .corner-tl {
+            top: 40px;
+            left: 40px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-br {
+            bottom: 40px;
+            right: 40px;
+            border-left: none;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="accent-corner corner-tl"></div>
+        <div class="accent-corner corner-br"></div>
+
+        <div class="geometric-grid">
+            <div class="geo-cell">
+                <div class="architectural-line line-h"></div>
+                <div class="architectural-line line-v"></div>
+            </div>
+            <div class="geo-cell"></div>
+            <div class="geo-cell"></div>
+            <div class="geo-cell"></div>
+            <div class="geo-cell"></div>
+        </div>
+
+        <h1 class="collection-title">Urban Poetry</h1>
+        <p class="collection-season">FALL / WINTER 2025</p>
+
+        <div class="color-dots">
+            <div class="color-dot" style="background: #1C1917; border: 1px solid #3E3A37;"></div>
+            <div class="color-dot" style="background: #7C93A3;"></div>
+            <div class="color-dot" style="background: #E8B4B8;"></div>
+            <div class="color-dot" style="background: #D4AF37;"></div>
+        </div>
+
+        <span class="collection-tag">Editorial • Urban</span>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

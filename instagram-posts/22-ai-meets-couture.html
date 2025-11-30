@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Meets Couture</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: linear-gradient(135deg, var(--cream-white) 0%, var(--champagne) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .split-design {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .split-left {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: var(--cream-white);
+        }
+
+        .split-right {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 50%;
+            height: 100%;
+            background: var(--deep-espresso);
+        }
+
+        .diagonal-cut {
+            position: absolute;
+            top: 0;
+            left: 45%;
+            width: 15%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--cream-white) 0%, var(--deep-espresso) 100%);
+            transform: skewX(-5deg);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            height: 100%;
+        }
+
+        .left-content {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            padding-right: 60px;
+        }
+
+        .right-content {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 80px;
+            padding-left: 60px;
+        }
+
+        .side-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            margin-bottom: 20px;
+        }
+
+        .label-dark { color: var(--warm-taupe); }
+        .label-light { color: var(--steel-blue); }
+
+        .side-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-style: italic;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .title-dark { color: var(--deep-espresso); }
+        .title-light { color: var(--cream-white); }
+
+        .side-text {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 300;
+            line-height: 1.8;
+        }
+
+        .text-dark { color: var(--soft-charcoal); }
+        .text-light { color: var(--champagne); }
+
+        .center-plus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2;
+            width: 60px;
+            height: 60px;
+            background: var(--pale-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .plus-icon {
+            font-family: var(--font-body);
+            font-size: 28px;
+            font-weight: 200;
+            color: var(--deep-espresso);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="split-design">
+            <div class="split-left"></div>
+            <div class="diagonal-cut"></div>
+            <div class="split-right"></div>
+        </div>
+
+        <div class="content-wrapper">
+            <div class="left-content">
+                <span class="side-label label-dark">ARTIFICIAL</span>
+                <h2 class="side-title title-dark">Intelligence</h2>
+                <p class="side-text text-dark">
+                    Cutting-edge algorithms
+                    that understand beauty,
+                    composition, and style.
+                </p>
+            </div>
+
+            <div class="right-content">
+                <span class="side-label label-light">HAUTE</span>
+                <h2 class="side-title title-light">Couture</h2>
+                <p class="side-text text-light">
+                    Timeless craftsmanship
+                    and editorial excellence
+                    in every creation.
+                </p>
+            </div>
+        </div>
+
+        <div class="center-plus">
+            <span class="plus-icon">+</span>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

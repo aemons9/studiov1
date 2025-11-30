@@ -1,0 +1,724 @@
+{
+  "generatedAt": "2025-11-22T17:01:54.846Z",
+  "totalImages": 89,
+  "categories": {
+    "editorial": 12,
+    "minimalist": 21,
+    "couture": 47,
+    "contemporary": 9
+  },
+  "images": [
+    {
+      "src": "photo/contemporary-1763743608984.jpg",
+      "filename": "contemporary-1763743608984.jpg",
+      "title": "Contemporary 1763743608984",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/contemporary-urban-style-2.jpg",
+      "filename": "contemporary-urban-style-2.jpg",
+      "title": "Contemporary Urban Style 2",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "427.5 KB"
+    },
+    {
+      "src": "photo/contemporary-urban-style-3.jpg",
+      "filename": "contemporary-urban-style-3.jpg",
+      "title": "Contemporary Urban Style 3",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/contemporary-urban-style-4.jpg",
+      "filename": "contemporary-urban-style-4.jpg",
+      "title": "Contemporary Urban Style 4",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/contemporary-urban-style-5.jpg",
+      "filename": "contemporary-urban-style-5.jpg",
+      "title": "Contemporary Urban Style 5",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/contemporary-urban-style-6.jpg",
+      "filename": "contemporary-urban-style-6.jpg",
+      "title": "Contemporary Urban Style 6",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/contemporary-urban-style-7.jpg",
+      "filename": "contemporary-urban-style-7.jpg",
+      "title": "Contemporary Urban Style 7",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "2.2 MB"
+    },
+    {
+      "src": "photo/contemporary-urban-style.jpg",
+      "filename": "contemporary-urban-style.jpg",
+      "title": "Contemporary Urban Style",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "533.5 KB"
+    },
+    {
+      "src": "photo/couture-1.jpg",
+      "filename": "couture-1.jpg",
+      "title": "Couture 1",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.8 MB"
+    },
+    {
+      "src": "photo/couture-1.png",
+      "filename": "couture-1.png",
+      "title": "Couture 1",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-10.jpg",
+      "filename": "couture-10.jpg",
+      "title": "Couture 10",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763737321244.jpg",
+      "filename": "couture-1763737321244.jpg",
+      "title": "Couture 1763737321244",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763741684187.jpg",
+      "filename": "couture-1763741684187.jpg",
+      "title": "Couture 1763741684187",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763741934930.jpg",
+      "filename": "couture-1763741934930.jpg",
+      "title": "Couture 1763741934930",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763741946022.jpg",
+      "filename": "couture-1763741946022.jpg",
+      "title": "Couture 1763741946022",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.6 MB"
+    },
+    {
+      "src": "photo/couture-1763742244289.jpg",
+      "filename": "couture-1763742244289.jpg",
+      "title": "Couture 1763742244289",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763742261647.jpg",
+      "filename": "couture-1763742261647.jpg",
+      "title": "Couture 1763742261647",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/couture-1763742446114.jpg",
+      "filename": "couture-1763742446114.jpg",
+      "title": "Couture 1763742446114",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.6 MB"
+    },
+    {
+      "src": "photo/couture-1763742465161.jpg",
+      "filename": "couture-1763742465161.jpg",
+      "title": "Couture 1763742465161",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763742730113.jpg",
+      "filename": "couture-1763742730113.jpg",
+      "title": "Couture 1763742730113",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763742740889.jpg",
+      "filename": "couture-1763742740889.jpg",
+      "title": "Couture 1763742740889",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763743152266.jpg",
+      "filename": "couture-1763743152266.jpg",
+      "title": "Couture 1763743152266",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/couture-1763743822981.jpg",
+      "filename": "couture-1763743822981.jpg",
+      "title": "Couture 1763743822981",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/couture-1763744169789.jpg",
+      "filename": "couture-1763744169789.jpg",
+      "title": "Couture 1763744169789",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.0 MB"
+    },
+    {
+      "src": "photo/couture-1763744181061.jpg",
+      "filename": "couture-1763744181061.jpg",
+      "title": "Couture 1763744181061",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1019.4 KB"
+    },
+    {
+      "src": "photo/couture-1763744403212.jpg",
+      "filename": "couture-1763744403212.jpg",
+      "title": "Couture 1763744403212",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763744421490.jpg",
+      "filename": "couture-1763744421490.jpg",
+      "title": "Couture 1763744421490",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763744435631.jpg",
+      "filename": "couture-1763744435631.jpg",
+      "title": "Couture 1763744435631",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763744445006.jpg",
+      "filename": "couture-1763744445006.jpg",
+      "title": "Couture 1763744445006",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763744514016.jpg",
+      "filename": "couture-1763744514016.jpg",
+      "title": "Couture 1763744514016",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763744700556.jpg",
+      "filename": "couture-1763744700556.jpg",
+      "title": "Couture 1763744700556",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.7 MB"
+    },
+    {
+      "src": "photo/couture-1763744986140.jpg",
+      "filename": "couture-1763744986140.jpg",
+      "title": "Couture 1763744986140",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763745189124.jpg",
+      "filename": "couture-1763745189124.jpg",
+      "title": "Couture 1763745189124",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763745364192.jpg",
+      "filename": "couture-1763745364192.jpg",
+      "title": "Couture 1763745364192",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/couture-1763745593630.jpg",
+      "filename": "couture-1763745593630.jpg",
+      "title": "Couture 1763745593630",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763745615921.jpg",
+      "filename": "couture-1763745615921.jpg",
+      "title": "Couture 1763745615921",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763745776887.jpg",
+      "filename": "couture-1763745776887.jpg",
+      "title": "Couture 1763745776887",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.6 MB"
+    },
+    {
+      "src": "photo/couture-1763746058167.jpg",
+      "filename": "couture-1763746058167.jpg",
+      "title": "Couture 1763746058167",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763746072344.jpg",
+      "filename": "couture-1763746072344.jpg",
+      "title": "Couture 1763746072344",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.6 MB"
+    },
+    {
+      "src": "photo/couture-1763746314098.jpg",
+      "filename": "couture-1763746314098.jpg",
+      "title": "Couture 1763746314098",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763746471450.jpg",
+      "filename": "couture-1763746471450.jpg",
+      "title": "Couture 1763746471450",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763746619060.jpg",
+      "filename": "couture-1763746619060.jpg",
+      "title": "Couture 1763746619060",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-1763747597445.jpg",
+      "filename": "couture-1763747597445.jpg",
+      "title": "Couture 1763747597445",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763747626550.jpg",
+      "filename": "couture-1763747626550.jpg",
+      "title": "Couture 1763747626550",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/couture-1763830130888.jpg",
+      "filename": "couture-1763830130888.jpg",
+      "title": "Couture 1763830130888",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-1763830487779.jpg",
+      "filename": "couture-1763830487779.jpg",
+      "title": "Couture 1763830487779",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-1763830767214.jpg",
+      "filename": "couture-1763830767214.jpg",
+      "title": "Couture 1763830767214",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/couture-2.jpg",
+      "filename": "couture-2.jpg",
+      "title": "Couture 2",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/couture-3.png",
+      "filename": "couture-3.png",
+      "title": "Couture 3",
+      "category": "couture",
+      "extension": "png",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/couture-4.jpg",
+      "filename": "couture-4.jpg",
+      "title": "Couture 4",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/couture-5.jpg",
+      "filename": "couture-5.jpg",
+      "title": "Couture 5",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "403.2 KB"
+    },
+    {
+      "src": "photo/couture-6.jpg",
+      "filename": "couture-6.jpg",
+      "title": "Couture 6",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "354.2 KB"
+    },
+    {
+      "src": "photo/couture-7.jpg",
+      "filename": "couture-7.jpg",
+      "title": "Couture 7",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "416.2 KB"
+    },
+    {
+      "src": "photo/couture-8.jpg",
+      "filename": "couture-8.jpg",
+      "title": "Couture 8",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "387.8 KB"
+    },
+    {
+      "src": "photo/couture-9.jpg",
+      "filename": "couture-9.jpg",
+      "title": "Couture 9",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/editorial-fashion-shoot-1.jpg",
+      "filename": "editorial-fashion-shoot-1.jpg",
+      "title": "Editorial Fashion Shoot 1",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/editorial-fashion-shoot-2.jpg",
+      "filename": "editorial-fashion-shoot-2.jpg",
+      "title": "Editorial Fashion Shoot 2",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "344.7 KB"
+    },
+    {
+      "src": "photo/editorial-fashion-shoot-3.jpg",
+      "filename": "editorial-fashion-shoot-3.jpg",
+      "title": "Editorial Fashion Shoot 3",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "2.1 MB"
+    },
+    {
+      "src": "photo/editorial-fashion-shoot-4.jpg",
+      "filename": "editorial-fashion-shoot-4.jpg",
+      "title": "Editorial Fashion Shoot 4",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/editorial-fashion-shoot-5.jpg",
+      "filename": "editorial-fashion-shoot-5.jpg",
+      "title": "Editorial Fashion Shoot 5",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/editorial-fashion-shoot-6.jpg",
+      "filename": "editorial-fashion-shoot-6.jpg",
+      "title": "Editorial Fashion Shoot 6",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/fluid.jpg",
+      "filename": "fluid.jpg",
+      "title": "Fluid",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/gilded.jpg",
+      "filename": "gilded.jpg",
+      "title": "Gilded",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/minimal-1.jpg",
+      "filename": "minimal-1.jpg",
+      "title": "Minimal 1",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.0 MB"
+    },
+    {
+      "src": "photo/minimal-10.jpeg",
+      "filename": "minimal-10.jpeg",
+      "title": "Minimal 10",
+      "category": "minimalist",
+      "extension": "jpeg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/minimal-11.jpg",
+      "filename": "minimal-11.jpg",
+      "title": "Minimal 11",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.0 MB"
+    },
+    {
+      "src": "photo/minimal-12.jpg",
+      "filename": "minimal-12.jpg",
+      "title": "Minimal 12",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/minimal-13.jpg",
+      "filename": "minimal-13.jpg",
+      "title": "Minimal 13",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/minimal-2.jpg",
+      "filename": "minimal-2.jpg",
+      "title": "Minimal 2",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/minimal-2.png",
+      "filename": "minimal-2.png",
+      "title": "Minimal 2",
+      "category": "minimalist",
+      "extension": "png",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/minimal-4.png",
+      "filename": "minimal-4.png",
+      "title": "Minimal 4",
+      "category": "minimalist",
+      "extension": "png",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/minimal-6.jpg",
+      "filename": "minimal-6.jpg",
+      "title": "Minimal 6",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/minimal-7.jpg",
+      "filename": "minimal-7.jpg",
+      "title": "Minimal 7",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/minimal-8.jpg",
+      "filename": "minimal-8.jpg",
+      "title": "Minimal 8",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.1 MB"
+    },
+    {
+      "src": "photo/minimal-9.jpg",
+      "filename": "minimal-9.jpg",
+      "title": "Minimal 9",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/minimal-portrait-1.png",
+      "filename": "minimal-portrait-1.png",
+      "title": "Minimal Portrait 1",
+      "category": "minimalist",
+      "extension": "png",
+      "size": "1.2 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747016555.jpg",
+      "filename": "minimalist-1763747016555.jpg",
+      "title": "Minimalist 1763747016555",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.6 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747045808.jpg",
+      "filename": "minimalist-1763747045808.jpg",
+      "title": "Minimalist 1763747045808",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747951158.jpg",
+      "filename": "minimalist-1763747951158.jpg",
+      "title": "Minimalist 1763747951158",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.6 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747961303.jpg",
+      "filename": "minimalist-1763747961303.jpg",
+      "title": "Minimalist 1763747961303",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/minimalist-1763747970776.jpg",
+      "filename": "minimalist-1763747970776.jpg",
+      "title": "Minimalist 1763747970776",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/minimalist-1763748374789.jpg",
+      "filename": "minimalist-1763748374789.jpg",
+      "title": "Minimalist 1763748374789",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/minimalist-1763749001303.jpg",
+      "filename": "minimalist-1763749001303.jpg",
+      "title": "Minimalist 1763749001303",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/minimalist-1763830892482.jpg",
+      "filename": "minimalist-1763830892482.jpg",
+      "title": "Minimalist 1763830892482",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/monsoon.jpg",
+      "filename": "monsoon.jpg",
+      "title": "Monsoon",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/portrait-1.jpg",
+      "filename": "portrait-1.jpg",
+      "title": "Portrait 1",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.4 MB"
+    },
+    {
+      "src": "photo/quiet.jpg",
+      "filename": "quiet.jpg",
+      "title": "Quiet",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    },
+    {
+      "src": "photo/silk.jpg",
+      "filename": "silk.jpg",
+      "title": "Silk",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "1.3 MB"
+    },
+    {
+      "src": "photo/urban.jpg",
+      "filename": "urban.jpg",
+      "title": "Urban",
+      "category": "contemporary",
+      "extension": "jpg",
+      "size": "1.5 MB"
+    }
+  ]
+}

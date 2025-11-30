@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art Collage - Look 13</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: #121010;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .collage-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .collage-piece {
+            position: absolute;
+            overflow: hidden;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+        }
+
+        .collage-piece img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .piece-1 {
+            width: 500px;
+            height: 600px;
+            top: 60px;
+            left: 60px;
+            transform: rotate(-2deg);
+            z-index: 1;
+        }
+
+        .piece-2 {
+            width: 450px;
+            height: 550px;
+            top: 120px;
+            right: 80px;
+            transform: rotate(3deg);
+            z-index: 2;
+        }
+
+        .piece-3 {
+            width: 300px;
+            height: 350px;
+            bottom: 100px;
+            left: 200px;
+            transform: rotate(-1deg);
+            z-index: 3;
+        }
+
+        .piece-frame {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 8px solid var(--cream-white);
+            pointer-events: none;
+        }
+
+        .content-overlay {
+            position: absolute;
+            bottom: 50px;
+            right: 60px;
+            text-align: right;
+            z-index: 10;
+        }
+
+        .look-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--rose-gold);
+            margin-bottom: 10px;
+        }
+
+        .look-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-style: italic;
+            color: var(--cream-white);
+            line-height: 1.1;
+        }
+
+        .brand-mark {
+            position: absolute;
+            top: 40px;
+            right: 50px;
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            color: var(--cream-white);
+            z-index: 10;
+        }
+
+        .collage-label {
+            position: absolute;
+            top: 40px;
+            left: 50px;
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+            z-index: 10;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <span class="collage-label">Intimate Art Series</span>
+        <span class="brand-mark">VERALABS</span>
+
+        <div class="collage-container">
+            <div class="collage-piece piece-1">
+                <img src="../photo/couture-1763744700556.jpg" alt="Collage 1">
+                <div class="piece-frame"></div>
+            </div>
+            <div class="collage-piece piece-2">
+                <img src="../photo/couture-1763744986140.jpg" alt="Collage 2">
+                <div class="piece-frame"></div>
+            </div>
+            <div class="collage-piece piece-3">
+                <img src="../photo/couture-1763745189124.jpg" alt="Collage 3">
+                <div class="piece-frame"></div>
+            </div>
+        </div>
+
+        <div class="content-overlay">
+            <span class="look-label">LOOK XIII</span>
+            <h2 class="look-title">Scattered<br>Beauty</h2>
+        </div>
+    </div>
+</body>
+</html>

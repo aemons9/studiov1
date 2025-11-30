@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagonal Split - Look 17</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagonal-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .photo-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            clip-path: polygon(0 0, 100% 0, 0 100%);
+            overflow: hidden;
+        }
+
+        .photo-bottom {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            clip-path: polygon(100% 0, 100% 100%, 0 100%);
+            overflow: hidden;
+        }
+
+        .photo-top img,
+        .photo-bottom img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .diagonal-divider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .diagonal-divider::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            background: linear-gradient(135deg, transparent 49.5%, var(--cream-white) 49.5%, var(--cream-white) 50.5%, transparent 50.5%);
+        }
+
+        .diagonal-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 141.4%;
+            height: 3px;
+            background: var(--rose-gold);
+            transform-origin: top left;
+            transform: rotate(45deg);
+        }
+
+        .top-content {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            z-index: 2;
+        }
+
+        .look-badge {
+            background: rgba(250, 248, 245, 0.95);
+            padding: 15px 25px;
+            display: inline-block;
+        }
+
+        .look-number {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--deep-espresso);
+        }
+
+        .bottom-content {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            text-align: right;
+            z-index: 2;
+        }
+
+        .title-box {
+            background: rgba(28, 25, 23, 0.9);
+            padding: 25px 35px;
+        }
+
+        .look-title {
+            font-family: var(--font-display);
+            font-size: 28px;
+            font-style: italic;
+            color: var(--cream-white);
+            margin-bottom: 8px;
+        }
+
+        .brand-mark {
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: var(--rose-gold);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="diagonal-container">
+            <div class="photo-top">
+                <img src="../photo/couture-1763746072344.jpg" alt="Look XVII A">
+            </div>
+            <div class="photo-bottom">
+                <img src="../photo/couture-1763746314098.jpg" alt="Look XVII B">
+            </div>
+        </div>
+
+        <div class="diagonal-divider">
+            <div class="diagonal-line"></div>
+        </div>
+
+        <div class="top-content">
+            <div class="look-badge">
+                <span class="look-number">LOOK XVII</span>
+            </div>
+        </div>
+
+        <div class="bottom-content">
+            <div class="title-box">
+                <h2 class="look-title">Divided Beauty</h2>
+                <span class="brand-mark">VERALABS</span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

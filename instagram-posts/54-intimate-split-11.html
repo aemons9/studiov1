@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intimate Art - Look 11</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: #0a0908;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            height: 100%;
+        }
+
+        .split-panel {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .split-panel img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .panel-left img {
+            object-position: right center;
+        }
+
+        .panel-right img {
+            object-position: left center;
+        }
+
+        .intimate-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg,
+                rgba(10, 9, 8, 0.2) 0%,
+                transparent 30%,
+                transparent 70%,
+                rgba(10, 9, 8, 0.6) 100%
+            );
+        }
+
+        .center-divider {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(180deg,
+                transparent 10%,
+                var(--rose-gold) 30%,
+                var(--rose-gold) 70%,
+                transparent 90%
+            );
+            z-index: 3;
+        }
+
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 4;
+            background: rgba(10, 9, 8, 0.9);
+            padding: 40px 50px;
+        }
+
+        .look-number {
+            font-family: var(--font-luxury);
+            font-size: 48px;
+            color: var(--rose-gold);
+            letter-spacing: 0.15em;
+            line-height: 1;
+        }
+
+        .look-title {
+            font-family: var(--font-display);
+            font-size: 24px;
+            font-style: italic;
+            color: var(--cream-white);
+            margin-top: 15px;
+            letter-spacing: 0.05em;
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--rose-gold);
+            z-index: 4;
+        }
+
+        .top-label {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.35em;
+            color: rgba(232, 180, 184, 0.6);
+            z-index: 4;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="split-container">
+            <div class="split-panel panel-left">
+                <img src="../photo/couture-1763744421490.jpg" alt="Intimate Left">
+                <div class="intimate-overlay"></div>
+            </div>
+            <div class="split-panel panel-right">
+                <img src="../photo/couture-1763744435631.jpg" alt="Intimate Right">
+                <div class="intimate-overlay"></div>
+            </div>
+        </div>
+
+        <div class="center-divider"></div>
+
+        <span class="top-label">INTIMATE COLLECTION</span>
+
+        <div class="center-content">
+            <div class="look-number">XI</div>
+            <h2 class="look-title">Duality</h2>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

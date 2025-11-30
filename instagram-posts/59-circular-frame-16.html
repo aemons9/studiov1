@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Circular Frame - Look 16</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--ivory);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .circular-container {
+            position: relative;
+            width: 700px;
+            height: 700px;
+        }
+
+        .outer-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 1px solid var(--champagne);
+            border-radius: 50%;
+        }
+
+        .inner-ring {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 1px solid var(--pale-gold);
+            border-radius: 50%;
+        }
+
+        .photo-circle {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+        }
+
+        .photo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, transparent 40%, rgba(247, 243, 237, 0.3) 100%);
+        }
+
+        .top-label {
+            position: absolute;
+            top: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+
+        .bottom-label {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .look-title {
+            font-family: var(--font-display);
+            font-size: 32px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            margin-bottom: 8px;
+        }
+
+        .look-number {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--rose-gold);
+        }
+
+        .brand-corner {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .decorative-line {
+            position: absolute;
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+        }
+
+        .line-left {
+            top: 50%;
+            left: 40px;
+        }
+
+        .line-right {
+            top: 50%;
+            right: 40px;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="decorative-line line-left"></div>
+        <div class="decorative-line line-right"></div>
+
+        <div class="circular-container">
+            <div class="outer-ring"></div>
+            <div class="inner-ring"></div>
+            <div class="photo-circle">
+                <img src="../photo/couture-1763746058167.jpg" alt="Look XVI">
+                <div class="photo-overlay"></div>
+            </div>
+        </div>
+
+        <span class="top-label">COUTURE SERIES</span>
+
+        <div class="bottom-label">
+            <h2 class="look-title">Eternal Beauty</h2>
+            <span class="look-number">LOOK XVI</span>
+        </div>
+
+        <span class="brand-corner">VERALABS</span>
+    </div>
+</body>
+</html>

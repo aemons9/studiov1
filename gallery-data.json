@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2025-11-22T17:01:54.846Z",
-  "totalImages": 89,
+  "generatedAt": "2025-12-01T19:04:30.888Z",
+  "totalImages": 114,
   "categories": {
-    "editorial": 12,
-    "minimalist": 21,
-    "couture": 47,
+    "editorial": 30,
+    "minimalist": 23,
+    "couture": 52,
     "contemporary": 9
   },
   "images": [
@@ -511,6 +511,206 @@
       "category": "editorial",
       "extension": "jpg",
       "size": "1.5 MB"
+    },
+    {
+      "src": "photo/insta-colorblock-01.jpg",
+      "filename": "insta-colorblock-01.jpg",
+      "title": "Insta Colorblock 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "216.1 KB"
+    },
+    {
+      "src": "photo/insta-colorblock-02.jpg",
+      "filename": "insta-colorblock-02.jpg",
+      "title": "Insta Colorblock 02",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "212.0 KB"
+    },
+    {
+      "src": "photo/insta-colorblock-03.jpg",
+      "filename": "insta-colorblock-03.jpg",
+      "title": "Insta Colorblock 03",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "232.6 KB"
+    },
+    {
+      "src": "photo/insta-couture-01.jpg",
+      "filename": "insta-couture-01.jpg",
+      "title": "Insta Couture 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "379.5 KB"
+    },
+    {
+      "src": "photo/insta-couture-02.jpg",
+      "filename": "insta-couture-02.jpg",
+      "title": "Insta Couture 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "265.8 KB"
+    },
+    {
+      "src": "photo/insta-couture-03.jpg",
+      "filename": "insta-couture-03.jpg",
+      "title": "Insta Couture 03",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "298.0 KB"
+    },
+    {
+      "src": "photo/insta-couture-04.jpg",
+      "filename": "insta-couture-04.jpg",
+      "title": "Insta Couture 04",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "334.2 KB"
+    },
+    {
+      "src": "photo/insta-couture-05.jpg",
+      "filename": "insta-couture-05.jpg",
+      "title": "Insta Couture 05",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "268.6 KB"
+    },
+    {
+      "src": "photo/insta-editorial-split-01.jpg",
+      "filename": "insta-editorial-split-01.jpg",
+      "title": "Insta Editorial Split 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "356.1 KB"
+    },
+    {
+      "src": "photo/insta-editorial-split-02.jpg",
+      "filename": "insta-editorial-split-02.jpg",
+      "title": "Insta Editorial Split 02",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "339.9 KB"
+    },
+    {
+      "src": "photo/insta-editorial-split-03.jpg",
+      "filename": "insta-editorial-split-03.jpg",
+      "title": "Insta Editorial Split 03",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "275.5 KB"
+    },
+    {
+      "src": "photo/insta-framed-01.jpg",
+      "filename": "insta-framed-01.jpg",
+      "title": "Insta Framed 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "231.9 KB"
+    },
+    {
+      "src": "photo/insta-framed-02.jpg",
+      "filename": "insta-framed-02.jpg",
+      "title": "Insta Framed 02",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "305.8 KB"
+    },
+    {
+      "src": "photo/insta-framed-03.jpg",
+      "filename": "insta-framed-03.jpg",
+      "title": "Insta Framed 03",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "256.2 KB"
+    },
+    {
+      "src": "photo/insta-grid-collage-01.jpg",
+      "filename": "insta-grid-collage-01.jpg",
+      "title": "Insta Grid Collage 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "336.1 KB"
+    },
+    {
+      "src": "photo/insta-magazine-01.jpg",
+      "filename": "insta-magazine-01.jpg",
+      "title": "Insta Magazine 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "314.2 KB"
+    },
+    {
+      "src": "photo/insta-magazine-02.jpg",
+      "filename": "insta-magazine-02.jpg",
+      "title": "Insta Magazine 02",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "262.8 KB"
+    },
+    {
+      "src": "photo/insta-magazine-03.jpg",
+      "filename": "insta-magazine-03.jpg",
+      "title": "Insta Magazine 03",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "247.2 KB"
+    },
+    {
+      "src": "photo/insta-minimal-text-01.jpg",
+      "filename": "insta-minimal-text-01.jpg",
+      "title": "Insta Minimal Text 01",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "268.9 KB"
+    },
+    {
+      "src": "photo/insta-minimal-text-02.jpg",
+      "filename": "insta-minimal-text-02.jpg",
+      "title": "Insta Minimal Text 02",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "249.6 KB"
+    },
+    {
+      "src": "photo/insta-quote-01.jpg",
+      "filename": "insta-quote-01.jpg",
+      "title": "Insta Quote 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "228.1 KB"
+    },
+    {
+      "src": "photo/insta-quote-02.jpg",
+      "filename": "insta-quote-02.jpg",
+      "title": "Insta Quote 02",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "280.9 KB"
+    },
+    {
+      "src": "photo/insta-story-01.jpg",
+      "filename": "insta-story-01.jpg",
+      "title": "Insta Story 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "398.2 KB"
+    },
+    {
+      "src": "photo/insta-story-02.jpg",
+      "filename": "insta-story-02.jpg",
+      "title": "Insta Story 02",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "400.7 KB"
+    },
+    {
+      "src": "photo/insta-story-03.jpg",
+      "filename": "insta-story-03.jpg",
+      "title": "Insta Story 03",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "406.7 KB"
     },
     {
       "src": "photo/minimal-1.jpg",

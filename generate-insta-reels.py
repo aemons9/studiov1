@@ -266,7 +266,8 @@ def create_reel_1_brand_story():
         codec='libx264',
         audio=False,
         preset='medium',
-        threads=4
+        threads=4,
+        ffmpeg_params=['-pix_fmt', 'yuv420p']
     )
     print(f"  ✓ Reel 1 complete: {output_path}")
     return output_path
@@ -343,7 +344,8 @@ def create_reel_2_collection():
         codec='libx264',
         audio=False,
         preset='medium',
-        threads=4
+        threads=4,
+        ffmpeg_params=['-pix_fmt', 'yuv420p']
     )
     print(f"  ✓ Reel 2 complete: {output_path}")
     return output_path
@@ -439,7 +441,8 @@ def create_reel_3_behind_art():
         codec='libx264',
         audio=False,
         preset='medium',
-        threads=4
+        threads=4,
+        ffmpeg_params=['-pix_fmt', 'yuv420p']
     )
     print(f"  ✓ Reel 3 complete: {output_path}")
     return output_path

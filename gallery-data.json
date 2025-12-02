@@ -1,10 +1,10 @@
 {
-  "generatedAt": "2025-12-02T13:16:12.013Z",
-  "totalImages": 149,
+  "generatedAt": "2025-12-02T14:40:23.819Z",
+  "totalImages": 175,
   "categories": {
-    "editorial": 61,
-    "minimalist": 27,
-    "couture": 52,
+    "editorial": 65,
+    "minimalist": 30,
+    "couture": 71,
     "contemporary": 9
   },
   "images": [
@@ -631,6 +631,214 @@
       "category": "editorial",
       "extension": "jpg",
       "size": "336.1 KB"
+    },
+    {
+      "src": "photo/insta-haute-boudoir-atmosphere-01.jpg",
+      "filename": "insta-haute-boudoir-atmosphere-01.jpg",
+      "title": "Insta Haute Boudoir Atmosphere 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "377.4 KB"
+    },
+    {
+      "src": "photo/insta-haute-boudoir-atmosphere-02.jpg",
+      "filename": "insta-haute-boudoir-atmosphere-02.jpg",
+      "title": "Insta Haute Boudoir Atmosphere 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "301.4 KB"
+    },
+    {
+      "src": "photo/insta-haute-boudoir-atmosphere-03.jpg",
+      "filename": "insta-haute-boudoir-atmosphere-03.jpg",
+      "title": "Insta Haute Boudoir Atmosphere 03",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "295.4 KB"
+    },
+    {
+      "src": "photo/insta-haute-chiaroscuro-portrait-01.jpg",
+      "filename": "insta-haute-chiaroscuro-portrait-01.jpg",
+      "title": "Insta Haute Chiaroscuro Portrait 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "591.1 KB"
+    },
+    {
+      "src": "photo/insta-haute-chiaroscuro-portrait-02.jpg",
+      "filename": "insta-haute-chiaroscuro-portrait-02.jpg",
+      "title": "Insta Haute Chiaroscuro Portrait 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "370.8 KB"
+    },
+    {
+      "src": "photo/insta-haute-chiaroscuro-portrait-03.jpg",
+      "filename": "insta-haute-chiaroscuro-portrait-03.jpg",
+      "title": "Insta Haute Chiaroscuro Portrait 03",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "443.6 KB"
+    },
+    {
+      "src": "photo/insta-haute-chiaroscuro-portrait-04.jpg",
+      "filename": "insta-haute-chiaroscuro-portrait-04.jpg",
+      "title": "Insta Haute Chiaroscuro Portrait 04",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "476.4 KB"
+    },
+    {
+      "src": "photo/insta-haute-diptych-01.jpg",
+      "filename": "insta-haute-diptych-01.jpg",
+      "title": "Insta Haute Diptych 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "283.2 KB"
+    },
+    {
+      "src": "photo/insta-haute-diptych-02.jpg",
+      "filename": "insta-haute-diptych-02.jpg",
+      "title": "Insta Haute Diptych 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "422.4 KB"
+    },
+    {
+      "src": "photo/insta-haute-golden-hour-editorial-01.jpg",
+      "filename": "insta-haute-golden-hour-editorial-01.jpg",
+      "title": "Insta Haute Golden Hour Editorial 01",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "306.0 KB"
+    },
+    {
+      "src": "photo/insta-haute-golden-hour-editorial-02.jpg",
+      "filename": "insta-haute-golden-hour-editorial-02.jpg",
+      "title": "Insta Haute Golden Hour Editorial 02",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "388.2 KB"
+    },
+    {
+      "src": "photo/insta-haute-golden-hour-editorial-03.jpg",
+      "filename": "insta-haute-golden-hour-editorial-03.jpg",
+      "title": "Insta Haute Golden Hour Editorial 03",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "302.9 KB"
+    },
+    {
+      "src": "photo/insta-haute-golden-hour-editorial-04.jpg",
+      "filename": "insta-haute-golden-hour-editorial-04.jpg",
+      "title": "Insta Haute Golden Hour Editorial 04",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "304.3 KB"
+    },
+    {
+      "src": "photo/insta-haute-museum-presentation-01.jpg",
+      "filename": "insta-haute-museum-presentation-01.jpg",
+      "title": "Insta Haute Museum Presentation 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "294.5 KB"
+    },
+    {
+      "src": "photo/insta-haute-museum-presentation-02.jpg",
+      "filename": "insta-haute-museum-presentation-02.jpg",
+      "title": "Insta Haute Museum Presentation 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "195.4 KB"
+    },
+    {
+      "src": "photo/insta-haute-negative-space-minimal-01.jpg",
+      "filename": "insta-haute-negative-space-minimal-01.jpg",
+      "title": "Insta Haute Negative Space Minimal 01",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "308.8 KB"
+    },
+    {
+      "src": "photo/insta-haute-negative-space-minimal-02.jpg",
+      "filename": "insta-haute-negative-space-minimal-02.jpg",
+      "title": "Insta Haute Negative Space Minimal 02",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "242.3 KB"
+    },
+    {
+      "src": "photo/insta-haute-negative-space-minimal-03.jpg",
+      "filename": "insta-haute-negative-space-minimal-03.jpg",
+      "title": "Insta Haute Negative Space Minimal 03",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "225.7 KB"
+    },
+    {
+      "src": "photo/insta-haute-sculptural-crop-01.jpg",
+      "filename": "insta-haute-sculptural-crop-01.jpg",
+      "title": "Insta Haute Sculptural Crop 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "440.3 KB"
+    },
+    {
+      "src": "photo/insta-haute-sculptural-crop-02.jpg",
+      "filename": "insta-haute-sculptural-crop-02.jpg",
+      "title": "Insta Haute Sculptural Crop 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "356.2 KB"
+    },
+    {
+      "src": "photo/insta-haute-sculptural-crop-03.jpg",
+      "filename": "insta-haute-sculptural-crop-03.jpg",
+      "title": "Insta Haute Sculptural Crop 03",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "334.6 KB"
+    },
+    {
+      "src": "photo/insta-haute-silk-ribbon-accent-01.jpg",
+      "filename": "insta-haute-silk-ribbon-accent-01.jpg",
+      "title": "Insta Haute Silk Ribbon Accent 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "404.7 KB"
+    },
+    {
+      "src": "photo/insta-haute-silk-ribbon-accent-02.jpg",
+      "filename": "insta-haute-silk-ribbon-accent-02.jpg",
+      "title": "Insta Haute Silk Ribbon Accent 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "445.4 KB"
+    },
+    {
+      "src": "photo/insta-haute-velvet-noir-01.jpg",
+      "filename": "insta-haute-velvet-noir-01.jpg",
+      "title": "Insta Haute Velvet Noir 01",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "281.0 KB"
+    },
+    {
+      "src": "photo/insta-haute-velvet-noir-02.jpg",
+      "filename": "insta-haute-velvet-noir-02.jpg",
+      "title": "Insta Haute Velvet Noir 02",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "248.9 KB"
+    },
+    {
+      "src": "photo/insta-haute-velvet-noir-03.jpg",
+      "filename": "insta-haute-velvet-noir-03.jpg",
+      "title": "Insta Haute Velvet Noir 03",
+      "category": "couture",
+      "extension": "jpg",
+      "size": "286.0 KB"
     },
     {
       "src": "photo/insta-intimates-boudoir-01.jpg",

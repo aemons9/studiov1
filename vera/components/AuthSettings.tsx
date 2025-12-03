@@ -12,12 +12,14 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
   const [oauthToken, setOauthToken] = useState<string>('');
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [tokenExpireWarning, setTokenExpireWarning] = useState<boolean>(false);
 
   // Load saved settings on mount
   useEffect(() => {
     const savedMethod = localStorage.getItem('vera_auth_method') as AuthMethod;
     const savedProjectId = localStorage.getItem('vera_project_id') || '';
     const savedOauthToken = localStorage.getItem('vera_oauth_token') || '';
+    const tokenTimestamp = localStorage.getItem('vera_oauth_token_timestamp');
 
     if (savedMethod) {
       setAuthMethod(savedMethod);
@@ -28,6 +30,15 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
     // Check if Vertex AI credentials are saved
     if (savedMethod === 'vertexai' && savedProjectId && savedOauthToken) {
       setIsSaved(true);
+
+      // Check token expiration (OAuth tokens typically expire after 1 hour)
+      if (tokenTimestamp) {
+        const tokenAge = Date.now() - parseInt(tokenTimestamp);
+        const fiftyMinutes = 50 * 60 * 1000; // 50 minutes in ms
+        if (tokenAge > fiftyMinutes) {
+          setTokenExpireWarning(true);
+        }
+      }
     }
   }, []);
 
@@ -51,8 +62,10 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
 
       localStorage.setItem('vera_project_id', projectId.trim());
       localStorage.setItem('vera_oauth_token', oauthToken.trim());
+      localStorage.setItem('vera_oauth_token_timestamp', Date.now().toString());
       setIsSaved(true);
-      alert('Vertex AI credentials saved successfully!');
+      setTokenExpireWarning(false);
+      alert('Vertex AI credentials saved successfully!\n\nNote: OAuth tokens typically expire after 1 hour. You\'ll be warned when it needs refresh.');
     }
   };
 
@@ -203,6 +216,22 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
                   Get token from: <code className="text-cyan-400">gcloud auth print-access-token</code>
                 </p>
               </div>
+
+              {tokenExpireWarning && (
+                <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3">
+                  <div className="flex items-start gap-2">
+                    <svg className="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="text-sm text-orange-300">
+                      <p className="font-semibold mb-1">⏰ Token Expiring Soon</p>
+                      <p className="text-orange-200/80">
+                        Your OAuth token may have expired (tokens last ~1 hour). Refresh it with: <code className="text-cyan-400">gcloud auth print-access-token</code>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="flex gap-2">
                 <button

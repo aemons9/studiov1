@@ -82,7 +82,7 @@ const VisualNovelMode: React.FC<VisualNovelModeProps> = ({
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
-  const [showStats, setShowStats] = useState(true);
+  const [showStats, setShowStats] = useState(false);
   const [showGallery, setShowGallery] = useState(false);
 
   // Pre-generated boudoir session images (placeholder paths - will be generated)

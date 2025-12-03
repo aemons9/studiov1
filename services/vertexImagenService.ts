@@ -73,6 +73,15 @@ export async function generateWithVertexImagen(
     );
   }
 
+  // Validate prompt is not empty
+  if (!prompt || prompt.trim().length === 0) {
+    throw new Error(
+      `❌ EMPTY PROMPT\n\n` +
+      `The image generation prompt cannot be empty.\n` +
+      `Please provide a valid text prompt for image generation.`
+    );
+  }
+
   const location = config.location || 'us-central1';
   const model = config.model || 'imagen-4.0-ultra-generate-001';
 
@@ -87,7 +96,7 @@ export async function generateWithVertexImagen(
   const requestBody = {
     instances: [
       {
-        prompt: prompt
+        prompt: prompt.trim()
       }
     ],
     parameters: {

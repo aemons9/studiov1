@@ -18,7 +18,7 @@ export async function callGeminiText(
   config: GeminiAPIConfig = {}
 ): Promise<string> {
   const apiKey = config.apiKey || await getGeminiApiKey();
-  const model = config.model || 'gemini-2.0-flash-exp';
+  const model = config.model || 'gemini-1.5-flash';
 
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
@@ -176,7 +176,7 @@ export async function* streamGeminiText(
   config: GeminiAPIConfig = {}
 ): AsyncGenerator<string, void, unknown> {
   const apiKey = config.apiKey || await getGeminiApiKey();
-  const model = config.model || 'gemini-2.0-flash-exp';
+  const model = config.model || 'gemini-1.5-flash';
 
   const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/${model}:streamGenerateContent?key=${apiKey}`;
 

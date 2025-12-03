@@ -162,19 +162,22 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
         experimentalConcept,
         photographerStyle !== 'None' ? photographerStyle : undefined
       );
-      setPrompts(generatedPrompts.map(p => ({ ...p, isImageLoading: true })));
+      const enableImageGeneration = import.meta.env.VITE_ENABLE_IMAGE_GENERATION !== 'false';
+      setPrompts(generatedPrompts.map(p => ({ ...p, isImageLoading: enableImageGeneration })));
 
-      await Promise.all(
-        generatedPrompts.map(async (prompt, index) => {
-          try {
-            const imageUrl = await generateImage(prompt);
-            setPrompts(prev => prev.map((p, i) => i === index ? { ...p, imageUrl, isImageLoading: false } : p));
-          } catch (imgError) {
-            console.error(`Failed to generate image for prompt ${index}:`, imgError);
-            setPrompts(prev => prev.map((p, i) => i === index ? { ...p, isImageLoading: false } : p));
-          }
-        })
-      );
+      if (enableImageGeneration) {
+        await Promise.all(
+          generatedPrompts.map(async (prompt, index) => {
+            try {
+              const imageUrl = await generateImage(prompt);
+              setPrompts(prev => prev.map((p, i) => i === index ? { ...p, imageUrl, isImageLoading: false } : p));
+            } catch (imgError) {
+              console.error(`Failed to generate image for prompt ${index}:`, imgError);
+              setPrompts(prev => prev.map((p, i) => i === index ? { ...p, isImageLoading: false } : p));
+            }
+          })
+        );
+      }
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred. Please check the console and ensure your API key is configured.');

@@ -1,9 +1,9 @@
 {
-  "generatedAt": "2025-12-02T15:38:59.233Z",
-  "totalImages": 175,
+  "generatedAt": "2025-12-03T18:47:13.453Z",
+  "totalImages": 185,
   "categories": {
-    "editorial": 65,
-    "minimalist": 30,
+    "editorial": 66,
+    "minimalist": 39,
     "couture": 71,
     "contemporary": 9
   },
@@ -1159,6 +1159,86 @@
       "category": "minimalist",
       "extension": "jpg",
       "size": "249.6 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-01-negative-space.jpg",
+      "filename": "insta-minimalism-01-negative-space.jpg",
+      "title": "Insta Minimalism 01 Negative Space",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "119.8 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-02-centered.jpg",
+      "filename": "insta-minimalism-02-centered.jpg",
+      "title": "Insta Minimalism 02 Centered",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "204.8 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-03-split.jpg",
+      "filename": "insta-minimalism-03-split.jpg",
+      "title": "Insta Minimalism 03 Split",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "144.5 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-04-editorial.jpg",
+      "filename": "insta-minimalism-04-editorial.jpg",
+      "title": "Insta Minimalism 04 Editorial",
+      "category": "editorial",
+      "extension": "jpg",
+      "size": "202.1 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-05-mood.jpg",
+      "filename": "insta-minimalism-05-mood.jpg",
+      "title": "Insta Minimalism 05 Mood",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "192.1 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-06-gallery.jpg",
+      "filename": "insta-minimalism-06-gallery.jpg",
+      "title": "Insta Minimalism 06 Gallery",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "152.9 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-07-diptych.jpg",
+      "filename": "insta-minimalism-07-diptych.jpg",
+      "title": "Insta Minimalism 07 Diptych",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "283.3 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-08-statement.jpg",
+      "filename": "insta-minimalism-08-statement.jpg",
+      "title": "Insta Minimalism 08 Statement",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "191.9 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-09-lookbook.jpg",
+      "filename": "insta-minimalism-09-lookbook.jpg",
+      "title": "Insta Minimalism 09 Lookbook",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "275.3 KB"
+    },
+    {
+      "src": "photo/insta-minimalism-10-mood-ii.jpg",
+      "filename": "insta-minimalism-10-mood-ii.jpg",
+      "title": "Insta Minimalism 10 Mood Ii",
+      "category": "minimalist",
+      "extension": "jpg",
+      "size": "160.0 KB"
     },
     {
       "src": "photo/insta-quote-01.jpg",

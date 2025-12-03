@@ -35,25 +35,29 @@ const RiskAnalysisPreview: React.FC<RiskAnalysisPreviewProps> = ({ analysis, isL
         );
     }
 
-    const riskColor = analysis.riskScore > 0.7 ? 'bg-red-500' : analysis.riskScore > 0.4 ? 'bg-yellow-500' : 'bg-green-500';
-    const successColor = analysis.successProbability > 0.7 ? 'bg-green-500' : analysis.successProbability > 0.4 ? 'bg-yellow-500' : 'bg-red-500';
-    
+    // Defensive checks for undefined values
+    const riskScore = analysis.riskScore ?? 0.5;
+    const successProbability = analysis.successProbability ?? 0.5;
+
+    const riskColor = riskScore > 0.7 ? 'bg-red-500' : riskScore > 0.4 ? 'bg-yellow-500' : 'bg-green-500';
+    const successColor = successProbability > 0.7 ? 'bg-green-500' : successProbability > 0.4 ? 'bg-yellow-500' : 'bg-red-500';
+
     return (
         <div className="space-y-4 p-4 bg-gray-900/50 rounded-lg border border-gray-700">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <div className="flex justify-between items-center mb-1">
                         <span className="text-sm font-medium text-gray-300">Risk Score</span>
-                        <span className="text-sm font-bold">{analysis.riskScore.toFixed(2)}</span>
+                        <span className="text-sm font-bold">{riskScore.toFixed(2)}</span>
                     </div>
-                    <ProgressBar value={analysis.riskScore} color={riskColor} />
+                    <ProgressBar value={riskScore} color={riskColor} />
                 </div>
                  <div>
                     <div className="flex justify-between items-center mb-1">
                         <span className="text-sm font-medium text-gray-300">Success Probability</span>
-                        <span className="text-sm font-bold">{(analysis.successProbability * 100).toFixed(0)}%</span>
+                        <span className="text-sm font-bold">{(successProbability * 100).toFixed(0)}%</span>
                     </div>
-                    <ProgressBar value={analysis.successProbability} color={successColor} />
+                    <ProgressBar value={successProbability} color={successColor} />
                 </div>
             </div>
             

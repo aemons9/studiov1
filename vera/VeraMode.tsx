@@ -318,8 +318,8 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-500">Creative Results</span>
               </h2>
               <div className={`grid grid-cols-1 gap-8 ${prompts.length > 1 ? 'lg:grid-cols-2 2xl:grid-cols-3' : 'max-w-2xl mx-auto'}`}>
-                {prompts.map((prompt) => (
-                  <PromptCard key={prompt.id} prompt={prompt} onGenerateVideo={handleGenerateVideo} />
+                {prompts.map((prompt, index) => (
+                  <PromptCard key={`${prompt.id}-${index}-${prompt.style_description}`} prompt={prompt} onGenerateVideo={handleGenerateVideo} />
                 ))}
               </div>
             </div>

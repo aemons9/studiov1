@@ -124,7 +124,7 @@ The photographer's style dictates the lighting, camera settings, color grading, 
   }
 
   try {
-    const response = await vertexAIRequest('publishers/google/models/gemini-1.5-flash:generateContent', {
+    const response = await vertexAIRequest('publishers/google/models/gemini-2.0-flash-exp:generateContent', {
       contents: [{
         role: 'user',
         parts: [{ text: userPrompt }]

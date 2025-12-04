@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAuthCredentials, saveAuthCredentials, checkTokenExpiration } from '../../utils/sharedAuthManager';
 
 type AuthMethod = 'apikey' | 'vertexai';
 
@@ -14,37 +15,34 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
   const [isSaved, setIsSaved] = useState<boolean>(false);
   const [tokenExpireWarning, setTokenExpireWarning] = useState<boolean>(false);
 
-  // Load saved settings on mount
+  // Load saved settings from unified auth manager
   useEffect(() => {
-    const savedMethod = localStorage.getItem('vera_auth_method') as AuthMethod;
-    const savedProjectId = localStorage.getItem('vera_project_id') || '';
-    const savedOauthToken = localStorage.getItem('vera_oauth_token') || '';
-    const tokenTimestamp = localStorage.getItem('vera_oauth_token_timestamp');
+    const credentials = getAuthCredentials();
 
-    if (savedMethod) {
-      setAuthMethod(savedMethod);
-    }
-    setProjectId(savedProjectId);
-    setOauthToken(savedOauthToken);
+    // Map unified auth method to Vera format
+    const veraMethod: AuthMethod = credentials.authMethod === 'oauth' ? 'vertexai' : 'apikey';
+    setAuthMethod(veraMethod);
+    setProjectId(credentials.projectId);
+    setOauthToken(credentials.oauthToken);
 
     // Check if Vertex AI credentials are saved
-    if (savedMethod === 'vertexai' && savedProjectId && savedOauthToken) {
+    if (veraMethod === 'vertexai' && credentials.projectId && credentials.oauthToken) {
       setIsSaved(true);
 
-      // Check token expiration (OAuth tokens typically expire after 1 hour)
-      if (tokenTimestamp) {
-        const tokenAge = Date.now() - parseInt(tokenTimestamp);
-        const fiftyMinutes = 50 * 60 * 1000; // 50 minutes in ms
-        if (tokenAge > fiftyMinutes) {
-          setTokenExpireWarning(true);
-        }
+      // Check token expiration using shared utility
+      const tokenStatus = checkTokenExpiration();
+      if (tokenStatus.isExpiringSoon) {
+        setTokenExpireWarning(true);
       }
     }
   }, []);
 
   const handleAuthMethodChange = (method: AuthMethod) => {
     setAuthMethod(method);
-    localStorage.setItem('vera_auth_method', method);
+    // Save to unified auth manager
+    const credentials = getAuthCredentials();
+    credentials.authMethod = method === 'vertexai' ? 'oauth' : 'apikey';
+    saveAuthCredentials(credentials);
     onAuthMethodChange?.(method);
     setIsSaved(false);
   };
@@ -60,19 +58,30 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
         return;
       }
 
-      localStorage.setItem('vera_project_id', projectId.trim());
-      localStorage.setItem('vera_oauth_token', oauthToken.trim());
-      localStorage.setItem('vera_oauth_token_timestamp', Date.now().toString());
+      // Save to unified auth manager (syncs to all modes)
+      saveAuthCredentials({
+        authMethod: 'oauth',
+        projectId: projectId.trim(),
+        oauthToken: oauthToken.trim(),
+        apiKey: getAuthCredentials().apiKey, // Preserve existing API key
+        tokenTimestamp: Date.now(),
+      });
+
       setIsSaved(true);
       setTokenExpireWarning(false);
-      alert('Vertex AI credentials saved successfully!\n\nNote: OAuth tokens typically expire after 1 hour. You\'ll be warned when it needs refresh.');
+      alert('Vertex AI credentials saved successfully for ALL modes!\n\nNote: OAuth tokens typically expire after 1 hour. You\'ll be warned when it needs refresh.');
     }
   };
 
   const handleClearCredentials = () => {
-    if (window.confirm('Clear all Vertex AI credentials? You will need to re-enter them to use Vertex AI.')) {
-      localStorage.removeItem('vera_project_id');
-      localStorage.removeItem('vera_oauth_token');
+    if (window.confirm('Clear all Vertex AI credentials? You will need to re-enter them to use Vertex AI across all modes.')) {
+      // Clear from unified auth manager
+      const credentials = getAuthCredentials();
+      credentials.projectId = '';
+      credentials.oauthToken = '';
+      credentials.tokenTimestamp = null;
+      saveAuthCredentials(credentials);
+
       setProjectId('');
       setOauthToken('');
       setIsSaved(false);

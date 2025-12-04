@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { GenerationSettings } from '../types';
+import { saveAuthCredentials } from '../utils/sharedAuthManager';
 
 interface AuthenticationSettingsProps {
   settings: GenerationSettings;
@@ -21,14 +22,25 @@ const AuthenticationSettings: React.FC<AuthenticationSettingsProps> = ({
   const [replicateApiToken, setReplicateApiToken] = useState(settings.replicateApiToken || '');
 
   const handleSave = () => {
-    onSettingsChange({
+    const newSettings = {
       ...settings,
       vertexAuthMethod: authMethod,
       projectId: authMethod === 'oauth' ? projectId : '',
       accessToken: authMethod === 'oauth' ? accessToken : '',
       vertexApiKey: authMethod === 'apikey' ? apiKey : settings.vertexApiKey,
       replicateApiToken: replicateApiToken,
+    };
+
+    // Sync to unified auth manager (makes it work for ALL modes including Vera, Platinum, Roleplay, etc.)
+    saveAuthCredentials({
+      authMethod,
+      projectId: authMethod === 'oauth' ? projectId : '',
+      oauthToken: authMethod === 'oauth' ? accessToken : '',
+      apiKey: authMethod === 'apikey' ? apiKey : '',
+      tokenTimestamp: authMethod === 'oauth' && accessToken ? Date.now() : null,
     });
+
+    onSettingsChange(newSettings);
     onClose();
   };
 

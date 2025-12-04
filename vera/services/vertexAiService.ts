@@ -2,14 +2,22 @@ import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 import { getPhotographerById } from '../photographerStyles';
+import { getOAuthToken, getProjectId } from '../../utils/sharedAuthManager';
 
-// Get VertexAI credentials from localStorage
+// Get VertexAI credentials from localStorage or shared auth manager
 function getVertexAICredentials(): { projectId: string; oauthToken: string } {
-  const projectId = localStorage.getItem('vera_project_id');
-  const oauthToken = localStorage.getItem('vera_oauth_token');
+  // Try Vera-specific keys first (for backward compatibility)
+  let projectId = localStorage.getItem('vera_project_id');
+  let oauthToken = localStorage.getItem('vera_oauth_token');
+
+  // Fallback to unified shared auth manager
+  if (!projectId || !oauthToken) {
+    projectId = getProjectId();
+    oauthToken = getOAuthToken();
+  }
 
   if (!projectId || !oauthToken) {
-    throw new Error('VertexAI credentials not configured. Please set your Project ID and OAuth token in Vera settings.');
+    throw new Error('VertexAI credentials not configured. Please set your Project ID and OAuth token in Authentication Settings (any mode).');
   }
 
   return { projectId, oauthToken };

@@ -1067,5 +1067,350 @@ export const artisticConcepts: ArtisticConcept[] = [
 
   // Visual Novel Asset Generation Concepts
   // Character Sprites, Backgrounds, and CG Images for VN Game
-  ...visualNovelAssetConcepts
+  ...visualNovelAssetConcepts,
+
+
+  // ============================================================================
+  // INSTAGRAM INFLUENCER COLLECTION CONCEPTS (12 concepts)
+  // Featuring the new 38DD-26-40 hourglass Instagram influencer variants
+  // Intimate private spaces: luxury bedrooms, hotel suites, private villas
+  // Maximum intimacy levels (9-10) with Helmut Newton inspired aesthetics
+  // Photorealistic fine-art photography celebrating dramatic curves
+  // ============================================================================
+
+  {
+    name: '📸 Instagram: Minimal Foundation Bedroom',
+    data: {
+      "shot": "Intimate close-up portrait (9:16), museum-quality fine-art photography celebrating natural curves.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Modern social media star with confident body-positive energy. Stunning dramatic hourglass: 38DD bust, 26-inch sculpted waist, 40-inch curvaceous hips. Golden-bronze sun-kissed complexion with luminous healthy glow. Age 22-26, plump lips, defined cheekbones, expressive almond eyes.",
+        "pose": "Confident Bed Recline: Reclining on luxury bed with one arm behind head, one leg bent creating S-curve, direct confident gaze at camera. Unapologetic body celebration.",
+        "hair_color": "jet black",
+        "hair_style": "long flowing waves with glossy finish, tousled bedroom aesthetic",
+        "skin_finish": "Dewy & Luminous with golden-hour glow",
+        "hand_and_nail_details": "Impeccably manicured with nude polish, graceful positioning",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Natural nude polish", "high_heels": "not visible"
+      },
+      "wardrobe": "Micro golden metallic triangle bralette and matching high-waisted thong, emphasizing maximum curves with minimum coverage. Strategic minimal coverage celebrating 38DD-26-40 hourglass proportions with artistic restraint.",
+      "environment": "Luxury Bedroom Sanctuary: Private master bedroom with king-sized bed dressed in cream silk sheets, soft ambient lighting from bedside lamps, floor-to-ceiling windows with sheer curtains filtering golden-hour sunlight, minimalist elegant décor.",
+      "lighting": "Soft golden-hour window light wrapping around curves, creating gentle shadows that sculpt hourglass form. Warm intimate glow with subtle highlights on golden-bronze skin.",
+      "camera": { "focal_length": "85mm f/1.4 Portrait Lens", "aperture": "f/2.0", "distance": "2 m", "angle": "Slightly elevated angle emphasizing curves and creating intimate perspective", "framing": "Medium shot from mid-thigh up, emphasizing hourglass silhouette." },
+      "color_grade": "Warm golden tones with soft highlights, natural skin tones with peachy undertones, luxurious intimate mood.",
+      "style": "Helmut Newton boldness meets Instagram aesthetics. Private bedroom intimacy with museum-quality composition.",
+      "quality": "Shot on Hasselblad X2D. 8K hyper-realistic detail, sharp focus on eyes and skin texture, natural beauty rendering.",
+      "figure_and_form": "Maximum hourglass celebration: 38DD-26-40 proportions sculpted by light, dramatic curves emphasized through pose and minimal coverage. Natural beauty with confident expression.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Minimal metallic fabric sits delicately against skin, strategic coverage creating artistic focal points.",
+      "material_properties": "Golden metallic material with subtle sheen contrasting against warm golden-bronze skin tones."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Fine-Art Bold Hotel Suite',
+    data: {
+      "shot": "Full body artistic portrait (9:16), fine-art nude photography with maximum artistic expression.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Super fine-art bold variant. Breathtaking 38DD-26-40 hourglass sculpted by light and shadow, curvaceous hips flowing to long legs. Radiant golden-bronze with sun-kissed warmth, dewy finish. Refined Instagram influencer face with sultry eyes, full sensual lips.",
+        "pose": "Fine Art Contrapposto: Standing with weight on one hip creating dramatic S-curve, one arm raised overhead touching hair, the other relaxed at side. Museum-quality pose celebrating sculptural beauty.",
+        "hair_color": "jet black",
+        "hair_style": "sleek low bun with few loose strands, elegant and sophisticated",
+        "skin_finish": "Natural dewy glow with pronounced subsurface scattering",
+        "hand_and_nail_details": "Graceful sculptural hand positioning, nude manicure",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Natural nude polish", "high_heels": "Nude architectural heels (visible)"
+        },
+      "wardrobe": "Intricate network of delicate gold chains with tiny diamonds creating geometric patterns across décolletage, waist, and hips. Jewelry as wardrobe - continuous precious metal chains mapping curvaceous topography. Museum-quality fine-art aesthetic.",
+      "environment": "Luxury Hotel Penthouse Suite: Five-star hotel suite with floor-to-ceiling windows overlooking city skyline at golden hour, minimalist modern décor, warm neutral tones, vast negative space creating gallery-like atmosphere.",
+      "lighting": "Hard directional side lighting creating dramatic shadows and highlights, sculpting hourglass form with chiaroscuro. Herb Ritts inspired natural light through windows.",
+      "camera": { "focal_length": "50mm", "aperture": "f/4.0", "distance": "4 m", "angle": "Eye-level, creating museum portrait perspective", "framing": "Full body with generous negative space, gallery exhibition composition." },
+      "color_grade": "Warm natural tones with dramatic contrast, golden skin highlights, museum-quality color palette.",
+      "style": "Herb Ritts sculptural forms meets Helmut Newton boldness. Fine-art nude photography with Instagram luxury aesthetic.",
+      "quality": "Shot on Phase One XF IQ4. Museum-quality 150MP detail, razor-sharp focus, gallery exhibition standard.",
+      "figure_and_form": "Body as living sculpture: 38DD-26-40 hourglass celebrated as fine art, dramatic curves emphasized through pose and lighting. Maximum artistic expression with sophisticated restraint.",
+      "skin_micro_details": "Hyper-realistic skin rendering with visible texture, natural imperfections, subsurface scattering creating life-like quality.",
+      "fabric_physics": "No fabric - pure body chain jewelry creating geometric patterns.",
+      "material_properties": "18k gold chains with diamond accents catching light, creating sparkle against warm golden-bronze skin."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Cinematic Lower Curves Villa',
+    data: {
+      "shot": "Dramatic cinematic shot (16:9), emphasizing lower curves with film noir aesthetic.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Cinematic lower curves specialist. Dramatic emphasis on 40-inch hips and defined thighs, 26-inch waist creating dramatic flow. Golden-bronze with warm cinematic glow. Intense gaze, defined features perfect for dramatic lighting.",
+        "pose": "Lower Curve Emphasis Recline: Lying on side with lower body prominently featured, one leg extended, other bent, hip thrust forward. Hand supporting head, emphasizing curves from thigh to waist ratio.",
+        "hair_color": "jet black",
+        "hair_style": "long cascading waves flowing over shoulder, old Hollywood glamour",
+        "skin_finish": "Matte cinematic with selective highlights on curves",
+        "hand_and_nail_details": "Deep burgundy polish, dramatic noir aesthetic",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Deep burgundy polish", "high_heels": "Sharp stiletto heels (visible)"
+      },
+      "wardrobe": "Low-slung golden chain belt with geometric medallions resting on 40-inch hips, plus sheer black mesh bodysuit with strategic geometric seaming. Emphasizes extreme hourglass ratio and lower curve drama with cinematic sophistication.",
+      "environment": "Private Villa Bedroom: Luxury Mediterranean villa bedroom with dramatic chiaroscuro lighting, dark walls creating noir atmosphere, single window casting dramatic light beam, king-sized bed with black silk sheets.",
+      "lighting": "Dramatic single-source side lighting creating film noir shadows, hard light sculpting lower curves with deep blacks and brilliant highlights. Helmut Newton neo-noir aesthetic.",
+      "camera": { "focal_length": "35mm", "aperture": "f/2.8", "distance": "3 m", "angle": "Low angle emphasizing hip-to-waist ratio and lower curves", "framing": "Three-quarter shot from knee to head, emphasizing lower body drama." },
+      "color_grade": "Cool cinematic with desaturated tones, deep blacks, steely blue undertones, film noir palette.",
+      "style": "Neo-noir cinematography inspired by Helmut Newton and Peter Lindbergh. Dramatic lower curve emphasis with urban nighttime seduction aesthetic.",
+      "quality": "Shot on ARRI Alexa LF cinema camera. Cinematic 8K, film-like grain, rich deep blacks, theatrical quality.",
+      "figure_and_form": "Lower curve masterpiece: 40-inch hips and thigh emphasis creating dramatic silhouette, 26-inch waist definition, full hourglass with cinematic drama.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Sheer mesh clings to curves creating second-skin effect, chain belt sits heavy on hips.",
+      "material_properties": "Golden chain with substantial weight, transparent mesh with matte finish, patent leather heels with high gloss."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Roleplay Sensual Boudoir',
+    data: {
+      "shot": "Intimate storytelling portrait (4:5), capturing sensual roleplay moment with emotional connection.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Roleplaying sensual muse. Versatile 38DD-26-40 hourglass perfect for roleplay scenarios with responsive curves and expressive body language. Golden-bronze complexion adaptable to various intimate settings. Expressive face with communicative eyes and playful sensual expressions.",
+        "pose": "Intimate Playful Moment: Sitting on edge of bed leaning forward with playful expression, one hand playing with hair, engaging with camera as intimate partner. Scenario-based expressive pose.",
+        "hair_color": "jet black",
+        "hair_style": "tousled messy waves suggesting intimate moments, naturally sensual",
+        "skin_finish": "Natural luminous glow with authentic texture",
+        "hand_and_nail_details": "Natural movements, soft pink polish, intimate gestures",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Soft pink polish", "high_heels": "not visible"
+      },
+      "wardrobe": "Barely-there champagne silk chiffon wrap strategically draped and secured with single pearl pin. Minimalist textile creating layered opacity zones celebrating dramatic hourglass with intimate vulnerability.",
+      "environment": "Private Boudoir Chamber: Intimate luxury bedroom with soft romantic lighting, cream and blush tones, plush velvet furnishings, personal intimate touches like perfume bottles and jewelry, creating personal private sanctuary.",
+      "lighting": "Soft romantic window light creating Paolo Roversi dreamlike quality, gentle wraparound lighting with minimal shadows, warm intimate glow.",
+      "camera": { "focal_length": "85mm f/1.4", "aperture": "f/1.8", "distance": "1.5 m", "angle": "Eye-level creating personal intimate connection", "framing": "Bust portrait emphasizing expression and décolletage, intimate framing." },
+      "color_grade": "Warm peachy tones with soft highlights, romantic color palette, dreamy intimate mood.",
+      "style": "Intimate roleplay photography meets Paolo Roversi romantic intimacy. Sensual storytelling with emotional connection and private moment capture.",
+      "quality": "Shot on Leica M11 with Noctilux 50mm f/0.95. Dreamy bokeh, intimate quality, beautiful skin rendering.",
+      "figure_and_form": "Expressive hourglass celebrating responsive curves and sensual movement, intimate vulnerability with confident expression.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Ultra-sheer silk floats and drapes with natural physics, creating romantic transparent layers.",
+      "material_properties": "Champagne silk chiffon with ethereal translucency, pearl pin catching soft light."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Golden Hour Intimacy Terrace',
+    data: {
+      "shot": "Warm intimate portrait (9:16), celebrating natural beauty in golden-hour light.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Golden hour intimacy specialist. Glowing 38DD-26-40 hourglass bathed in golden light, warm curves kissed by sunset rays. Sun-kissed golden-bronze glowing in natural light with warm honey tones. Natural Instagram beauty with soft glowing skin and warm eyes.",
+        "pose": "Natural Golden Goddess: Standing by floor-to-ceiling windows with sunset backlighting, one hip pushed out creating curve emphasis, arms relaxed, face turned toward golden light with serene expression.",
+        "hair_color": "jet black",
+        "hair_style": "long flowing waves catching golden light, wind-blown natural beauty",
+        "skin_finish": "Luminous golden glow with natural healthy radiance",
+        "hand_and_nail_details": "Natural gestures, warm bronze nail polish matching skin tone",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Warm bronze polish", "high_heels": "not visible"
+      },
+      "wardrobe": "Single large square of liquid gold charmeuse silk artistically draped and held by gravity. Sculptural fabric creating dynamic draping over curvaceous hourglass, Renaissance painting aesthetic.",
+      "environment": "Private Penthouse Terrace: Luxury penthouse with floor-to-ceiling windows opening to private terrace, golden-hour sunset flooding space with warm light, panoramic views, minimal elegant furnishings creating intimate sanctuary.",
+      "lighting": "Natural golden-hour sunset light flooding through windows, warm wraparound glow, Annie Leibovitz warmth with soft shadows sculpting curves.",
+      "camera": { "focal_length": "85mm f/1.4", "aperture": "f/2.0", "distance": "2.5 m", "angle": "Slightly low angle celebrating curves in golden light", "framing": "Three-quarter portrait emphasizing curves and golden glow." },
+      "color_grade": "Warm golden tones with honey highlights, peachy skin tones, sunset warmth, natural luminous palette.",
+      "style": "Golden-hour intimate photography inspired by Annie Leibovitz. Natural light studies celebrating warm sensual compositions and sunset sensuality.",
+      "quality": "Shot on Canon R5 with 85mm f/1.2. Natural color science, warm skin rendering, beautiful golden-hour capture.",
+      "figure_and_form": "Glowing hourglass bathed in golden light, curves emphasized by warm rays, natural beauty celebration with feminine soft power.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Liquid silk drapes with natural flow and gravity, creating dynamic sculptural shapes.",
+      "material_properties": "Gold charmeuse silk with high sheen catching sunset light, creating luminous fabric glow."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Luxury Boudoir Silk Sheets',
+    data: {
+      "shot": "Opulent boudoir portrait (4:5), celebrating luxury intimate aesthetics.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Luxury boudoir queen. Luxurious 38DD-26-40 curves adorned with delicate jewelry and minimal silk. Radiant golden-bronze with dewy luxury finish. Refined Instagram luxury with sophisticated beauty and high-end features.",
+        "pose": "Luxury Recline: Reclining elegantly on silk sheets with one leg extended, other bent, torso slightly twisted showing curves, one hand near face, elegant refined positioning.",
+        "hair_color": "jet black",
+        "hair_style": "elegant updo with few strategic tendrils, luxury sophistication",
+        "skin_finish": "Dewy luxury finish with candlelight glow",
+        "hand_and_nail_details": "Diamond rings visible, deep red polish, luxury manicure",
+        "tattoos": "none", "piercings": "Diamond studs", "body_art": "none",
+        "nail_art": "Deep red luxury polish", "high_heels": "not visible"
+      },
+      "wardrobe": "Tiny burgundy crushed velvet triangle bralette with delicate gold chain straps, plus intricate backless chain harness visible. Luxurious minimal coverage with textured velvet creating tactile contrast, jewelry-like architectural support.",
+      "environment": "Opulent Master Suite: Five-star luxury bedroom with cream silk sheets, multiple pillow layers, candles creating warm glow, fresh roses, champagne on nightstand, floor-to-ceiling draped windows, baroque-inspired elegant details.",
+      "lighting": "Soft romantic candlelight mixed with subtle accent lighting, creating Paolo Roversi romantic intimacy with warm amber glow and gentle shadows.",
+      "camera": { "focal_length": "105mm f/2.8", "aperture": "f/2.8", "distance": "2 m", "angle": "Slightly elevated creating elegant perspective", "framing": "Bust to mid-thigh emphasizing curves and luxury details." },
+      "color_grade": "Warm luxury tones with amber candlelight, rich burgundy accents, cream silk highlights, opulent color palette.",
+      "style": "Luxury boudoir photography inspired by Paolo Roversi romantic intimacy. Silk and jewelry aesthetics celebrating opulent intimate spaces.",
+      "quality": "Shot on Hasselblad X2D with macro lens. Extreme detail on fabric textures, jewelry, and skin, luxury rendering.",
+      "figure_and_form": "Luxurious hourglass adorned with jewelry and velvet, curves celebrated with opulent restraint, refined sensual elegance.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Crushed velvet creating rich texture, silk sheets draping naturally, gold chains catching candlelight.",
+      "material_properties": "Rich burgundy velvet with deep texture, 18k gold chains, cream silk with subtle sheen, champagne glass crystal."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Athletic Curves Fitness',
+    data: {
+      "shot": "Dynamic athletic portrait (9:16), celebrating toned hourglass curves with fitness energy.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Athletic curves powerhouse. Athletic 38DD-26-40 hourglass with toned abs, defined waist, strong thighs, muscular curves. Golden-bronze with athletic glow and subtle muscle definition. Fit Instagram influencer with strong confident gaze and energetic presence.",
+        "pose": "Athletic Power Stance: Standing with one leg on elevated surface (bed edge), arms flexed showing toned definition, confident powerful expression. Fitness-inspired pose celebrating strong curves.",
+        "hair_color": "jet black",
+        "hair_style": "high sleek ponytail, athletic and powerful",
+        "skin_finish": "Athletic glow with subtle sheen suggesting workout",
+        "hand_and_nail_details": "Strong hands, short practical nails with clear polish",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Clear polish", "high_heels": "not visible (barefoot)"
+      },
+      "wardrobe": "Geometric black leather strap framework creating cage-like structure around torso, plus ultra-sheer nude silk stockings with garter belt. Athletic intimate aesthetic celebrating toned curves with architectural constraint.",
+      "environment": "Modern Minimalist Loft: Contemporary urban loft with exposed brick, concrete floors, large windows with natural light, minimalist furniture, fitness equipment visible in background, creating athletic lifestyle aesthetic.",
+      "lighting": "Hard natural window light creating Herb Ritts body strength lighting, dramatic shadows emphasizing muscle definition and toned curves.",
+      "camera": { "focal_length": "50mm", "aperture": "f/4.0", "distance": "3 m", "angle": "Slightly low angle emphasizing athletic power", "framing": "Three-quarter to full body showing athletic form and curves." },
+      "color_grade": "High contrast with neutral tones, emphasizing muscle definition, athletic natural palette.",
+      "style": "Athletic intimate photography inspired by Herb Ritts. Fitness-inspired minimal wear celebrating toned curves and strong feminine power.",
+      "quality": "Shot on Sony A1 with 50mm f/1.2. Sharp detail capturing muscle definition and skin texture, athletic rendering.",
+      "figure_and_form": "Athletic 38DD-26-40 hourglass with visible muscle tone, strong curves, fit yet feminine powerful presence.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Leather straps creating structural tension, sheer stockings stretching over toned thighs.",
+      "material_properties": "Matte black leather with supple texture, ultra-sheer hosiery with subtle sheen."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Midnight Mystery Shadows',
+    data: {
+      "shot": "Dramatic noir portrait (9:16), mysterious midnight aesthetic with shadow play.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Midnight mystery specialist. Mysterious 38DD-26-40 silhouette emerging from shadows with dramatic chiaroscuro. Golden-bronze glowing in moonlight and shadow. Enigmatic Instagram beauty with sultry mysterious eyes and midnight seductress energy.",
+        "pose": "Mysterious Emergence: Partially concealed in shadows, curves gradually revealed through selective lighting, one side illuminated while other falls into darkness, mysterious sultry expression.",
+        "hair_color": "jet black",
+        "hair_style": "long dark waves merging with shadows, mysterious flow",
+        "skin_finish": "Luminous in selective lighting, mysterious glow in darkness",
+        "hand_and_nail_details": "Mysterious gestures, black metallic polish",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Black metallic polish", "high_heels": "Sharp stilettos visible in light beam"
+      },
+      "wardrobe": "Floor-length completely sheer black silk georgette robe with kimono sleeves worn open, plus micro golden triangle set beneath. Transparent layering creating ethereal black veil around curves with strategic reveals through shadow.",
+      "environment": "Midnight Penthouse: Dark luxury penthouse at midnight with city lights visible through windows, single dramatic light source, mostly shadows with selective illumination, mysterious noir atmosphere.",
+      "lighting": "Dramatic single-source lighting creating Bill Brandt noir mystery, mostly darkness with selective moonlight beams, chiaroscuro shadow play on curves.",
+      "camera": { "focal_length": "85mm f/1.4", "aperture": "f/1.4", "distance": "2.5 m", "angle": "Eye-level creating mysterious connection", "framing": "Three-quarter portrait with significant shadows, mysterious reveal framing." },
+      "color_grade": "Deep blacks with selective warm highlights, mysterious blue-black shadows, noir mystery palette.",
+      "style": "Midnight photography inspired by Bill Brandt and Helmut Newton noir. Dramatic shadows and moonlight intimate studies with nocturnal sensuality.",
+      "quality": "Shot on Leica M11 Monochrom. Exceptional black and white rendering, rich deep blacks, mysterious quality.",
+      "figure_and_form": "Mysterious hourglass emerging from darkness, curves revealed through selective lighting, shadow and light mastery.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Sheer black silk floating and creating mystery through transparency and shadow.",
+      "material_properties": "Ultra-sheer black georgette creating layered darkness, golden metallic triangles catching minimal light."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Soft Romantic Dream Villa',
+    data: {
+      "shot": "Dreamy romantic portrait (4:5), soft focus celebrating gentle intimate beauty.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Soft romantic dream specialist. Soft romantic 38DD-26-40 curves with gentle flowing lines and ethereal presence. Luminous golden-bronze with soft romantic glow and peachy undertones. Romantic Instagram beauty with soft eyes, gentle smile, vulnerable yet confident.",
+        "pose": "Romantic Gentle Curl: Sitting with knees gently drawn up, arms wrapped softly around legs, head tilted with dreamy expression, vulnerable romantic positioning.",
+        "hair_color": "jet black",
+        "hair_style": "soft loose curls flowing naturally, romantic windswept",
+        "skin_finish": "Soft luminous glow with dreamy finish",
+        "hand_and_nail_details": "Delicate positioning, soft pink polish",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Soft pink polish", "high_heels": "not visible"
+      },
+      "wardrobe": "Oversized men's white cotton dress shirt soaking wet and clinging to curves, unbuttoned strategically. Transparent wetness creating second-skin effect revealing hourglass form with romantic vulnerability.",
+      "environment": "Coastal Villa Morning: Private villa bedroom with ocean views, sheer white curtains billowing in morning breeze, soft natural light flooding space, white and cream tones creating dreamy atmosphere.",
+      "lighting": "Extremely soft diffused morning light through sheer curtains, creating Paolo Roversi dreamlike quality with painterly soft-focus aesthetic.",
+      "camera": { "focal_length": "105mm f/2.8", "aperture": "f/2.0", "distance": "2 m", "angle": "Slightly elevated creating gentle romantic perspective", "framing": "Bust portrait with soft focus edges, dreamy romantic framing." },
+      "color_grade": "Soft desaturated with pastel quality, slight overexposure creating dreamy glow, romantic peachy tones.",
+      "style": "Romantic soft-focus photography inspired by Paolo Roversi. Dreamy intimate compositions with flowing fabrics and ethereal vulnerable moments.",
+      "quality": "Shot on Phase One with Cooke Panchro lens. Soft romantic rendering, painterly quality, dreamy aesthetic.",
+      "figure_and_form": "Soft romantic curves with gentle lines, hourglass visible through wet fabric, ethereal intimacy with vulnerable confidence.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Wet cotton shirt clinging to every curve with realistic saturation weight and transparency.",
+      "material_properties": "White cotton with wet transparency creating second-skin effect, soft natural fiber texture."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Urban Edge Raw Loft',
+    data: {
+      "shot": "Edgy urban portrait (9:16), raw confident intimate celebration in industrial setting.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Urban edge rebel. Bold 38DD-26-40 urban curves with confident stance and powerful hourglass unapologetically displayed. Golden-bronze with urban glow and edgy matte finish. Edgy Instagram influencer with bold eyes, confident expression, rebellious beauty.",
+        "pose": "Urban Rebel Stance: Standing powerfully with legs apart, hands on hips or one hand in hair, direct challenging gaze, unapologetic body celebration, rebellious confident energy.",
+        "hair_color": "jet black",
+        "hair_style": "edgy wet-look slicked back, urban rebel aesthetic",
+        "skin_finish": "Matte with subtle urban edge, confident texture",
+        "hand_and_nail_details": "Confident gestures, black matte polish",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Black matte polish", "high_heels": "Edgy platform heels (visible)"
+      },
+      "wardrobe": "Full-body transparent black mesh bodysuit with strategic geometric seaming plus dramatic hip chain belt with medallions. Total transparency architecture creating illusion of coverage while revealing hourglass, urban rebellion aesthetic.",
+      "environment": "Raw Industrial Loft: Converted warehouse loft with exposed brick, concrete floors, metal beams, urban gritty atmosphere, dramatic shadows, raw authentic space creating edgy intimate setting.",
+      "lighting": "Hard industrial lighting with dramatic shadows, single harsh light source creating urban edge, Helmut Newton rebellion lighting with raw quality.",
+      "camera": { "focal_length": "35mm", "aperture": "f/2.8", "distance": "3 m", "angle": "Slightly low angle emphasizing power and rebellion", "framing": "Three-quarter to full body emphasizing confident stance and curves." },
+      "color_grade": "Desaturated urban palette with harsh contrast, edgy gritty color grade, raw authentic tones.",
+      "style": "Urban intimate photography inspired by Helmut Newton rebellion. Raw industrial settings with edgy minimal wear and unapologetic body celebration.",
+      "quality": "Shot on Leica Q3. Street photography quality with raw edge, authentic gritty rendering.",
+      "figure_and_form": "Bold urban curves confidently displayed, powerful hourglass unapologetically celebrated, rebellious body confidence.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Transparent mesh creating second-skin with geometric seams, heavy chain belt emphasizing hip curves.",
+      "material_properties": "Matte black mesh with industrial texture, golden chain with substantial weight, platform heels with edgy finish."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Classic Elegance Suite',
+    data: {
+      "shot": "Timeless elegant portrait (4:5), celebrating classic hourglass beauty with refined sophistication.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Classic elegant curves specialist. Classic elegant 38DD-26-40 hourglass with timeless proportions and refined feminine form. Radiant golden-bronze with classic beauty glow and flawless finish. Classic Instagram elegance with timeless beauty, refined features, sophisticated presence.",
+        "pose": "Classic Elegant Pose: Seated on chaise lounge with perfect posture, legs elegantly crossed, one hand resting gracefully, classic beauty pose with timeless sophistication.",
+        "hair_color": "jet black",
+        "hair_style": "elegant classic updo with vintage inspiration, Grace Kelly sophistication",
+        "skin_finish": "Flawless classic beauty finish with timeless glow",
+        "hand_and_nail_details": "Classic red polish, elegant manicure, refined positioning",
+        "tattoos": "none", "piercings": "Pearl studs", "body_art": "none",
+        "nail_art": "Classic red polish", "high_heels": "Classic nude pumps (visible)"
+      },
+      "wardrobe": "Ultra-sheer black mesh mini dress covered in tiny Swarovski crystals revealing minimal lace foundation beneath, plus classic seamed silk stockings with garter. Crystalline transparency with vintage sophistication and luxury sparkle.",
+      "environment": "Classic Hotel Suite: Timeless five-star hotel suite with classic elegant décor, cream and gold tones, vintage furniture, crystal chandelier, floor-length drapes, sophisticated intimate setting.",
+      "lighting": "Classic portrait lighting with soft key light and gentle fill, Irving Penn refinement creating timeless elegant illumination.",
+      "camera": { "focal_length": "85mm f/1.4", "aperture": "f/2.8", "distance": "2.5 m", "angle": "Eye-level creating classic portrait perspective", "framing": "Three-quarter portrait emphasizing elegant pose and hourglass silhouette." },
+      "color_grade": "Classic natural tones with warm skin rendering, timeless color palette, sophisticated subtle saturation.",
+      "style": "Classic elegant photography inspired by Irving Penn. Timeless intimate portraits with sophisticated minimal wear and refined intimate style.",
+      "quality": "Shot on Hasselblad 907X. Classic medium format quality, timeless rendering, sophisticated detail.",
+      "figure_and_form": "Classic elegant hourglass with timeless proportions, graceful curves with refined feminine sophistication.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Crystals catching light on transparent mesh, silk stockings with classic seams, luxury fabrics draping elegantly.",
+      "material_properties": "Sheer mesh with Swarovski crystal embellishment creating sparkle, black lace with intricate patterns, silk hosiery with subtle sheen."
+    }
+  },
+
+  {
+    name: '📸 Instagram: Beach Goddess Private Shore',
+    data: {
+      "shot": "Natural outdoor portrait (9:16), celebrating sun-drenched curves in beach paradise.",
+      "subject": {
+        "variant": "Indian Instagram Influencer (Golden-Bronze, 38DD-26-40, 5'9\") - Beach goddess curves specialist. Sun-kissed 38DD-26-40 curves glistening with water and oil, beachy hourglass with natural outdoor beauty. Deep golden-bronze from sun exposure with beachy glow and water droplets. Natural beach Instagram beauty with sun-kissed face, windswept hair, outdoor radiance.",
+        "pose": "Beach Goddess Recline: Lying on pristine beach or daybed, propped up on elbows, back arched, one leg bent, ocean breeze creating natural movement, confident beach energy.",
+        "hair_color": "jet black",
+        "hair_style": "long wet waves with natural beach texture, sun and salt aesthetic",
+        "skin_finish": "Glistening with water droplets and tanning oil, natural beach glow",
+        "hand_and_nail_details": "Natural beach hands, light coral polish",
+        "tattoos": "none", "piercings": "none", "body_art": "none",
+        "nail_art": "Light coral polish", "high_heels": "not visible (barefoot)"
+      },
+      "wardrobe": "Micro golden triangle set plus thin decorative body oil creating glossy sun-kissed effect. Ultra-minimal beach coverage celebrating natural outdoor curves with sun-drenched beauty.",
+      "environment": "Private Beach Paradise: Secluded private beach with white sand, turquoise water, tropical paradise setting, natural outdoor intimate space, luxury beach villa visible in distance.",
+      "lighting": "Brilliant natural sunlight creating Bruce Weber sun-drenched beauty, golden warm rays, water reflections creating sparkle, natural outdoor harsh yet beautiful light.",
+      "camera": { "focal_length": "35mm", "aperture": "f/4.0", "distance": "3 m", "angle": "Slightly elevated beach perspective", "framing": "Three-quarter shot with beach paradise background, natural elements intimacy." },
+      "color_grade": "Vibrant saturated beach tones, turquoise water, golden sand, warm sun-kissed skin, tropical paradise palette.",
+      "style": "Beach intimate photography inspired by Bruce Weber. Natural outdoor settings celebrating sun and water with Instagram beach lifestyle.",
+      "quality": "Shot on Canon R5 with weather-sealed lens. Natural color rendering, brilliant sunlight capture, beach photography quality.",
+      "figure_and_form": "Sun-drenched hourglass glistening in natural light, curves celebrated in outdoor paradise with natural elements intimacy.",
+      "skin_micro_details": defaultSkinMicroDetails,
+      "fabric_physics": "Minimal golden triangles with water droplets, body oil creating glossy reflective finish on skin.",
+      "material_properties": "Golden metallic fabric with sun reflections, water droplets catching brilliant light, tanning oil creating luminous skin sheen."
+    }
+  }
 ];

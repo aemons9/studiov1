@@ -643,12 +643,24 @@ export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: num
         return result as RiskAnalysis;
     } catch (error) {
         console.error("Risk analysis error:", error);
-        // Return a fallback error state
+
+        // Detect quota/rate limit errors
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        const isQuotaError = errorMessage.includes('quota') || errorMessage.includes('429') || errorMessage.includes('Too Many Requests');
+        const isRateLimitError = errorMessage.includes('rate limit') || errorMessage.includes('Please retry');
+
+        let reasoning = 'Failed to connect to the risk analysis service. Proceed with caution.';
+
+        if (isQuotaError || isRateLimitError) {
+            reasoning = '⚠️ Gemini API quota exceeded. Risk analysis temporarily unavailable. Your prompt will still work - proceed with generation or wait a few minutes for quota to reset.';
+        }
+
+        // Return a fallback neutral state
         return {
-            riskScore: 0.99,
-            recommendedApi: 'Flux',
-            successProbability: 0.01,
-            reasoning: 'Failed to connect to the risk analysis service. Proceed with caution.',
+            riskScore: 0.5,
+            recommendedApi: 'Imagen',
+            successProbability: 0.7,
+            reasoning,
             appliedEnhancements: []
         };
     }

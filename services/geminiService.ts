@@ -600,9 +600,47 @@ const riskAnalysisSchema = {
     }, required: ['riskScore', 'recommendedApi', 'successProbability', 'reasoning', 'appliedEnhancements']
 };
 
-export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: number, settings: GenerationSettings): Promise<RiskAnalysis> {
-    const modelId = 'gemini-2.5-flash';
+// Helper function to call Vertex AI Gemini with OAuth (preferred for Vercel)
+async function callVertexAIGemini(prompt: string, settings: GenerationSettings): Promise<string> {
+    const { getOAuthToken, getProjectId } = await import('../utils/sharedAuthManager');
 
+    const projectId = getProjectId() || settings.projectId;
+    const oauthToken = getOAuthToken() || settings.accessToken;
+
+    if (!projectId || !oauthToken) {
+        throw new Error('OAuth not configured - missing Project ID or OAuth token');
+    }
+
+    const location = 'us-central1';
+    const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/gemini-2.5-flash:generateContent`;
+
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${oauthToken}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            contents: [{
+                role: 'user',
+                parts: [{ text: prompt }]
+            }],
+            generationConfig: {
+                temperature: 0.7,
+            }
+        }),
+    });
+
+    if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Vertex AI error: ${response.status} - ${errorText}`);
+    }
+
+    const data = await response.json();
+    return data.candidates[0].content.parts[0].text;
+}
+
+export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: number, settings: GenerationSettings): Promise<RiskAnalysis> {
     const systemInstruction = `You are a sophisticated risk analysis engine for an AI image generation service. Your purpose is to evaluate a prompt based on its text and a user-defined 'intimacy level' (1-10), then provide a structured JSON risk assessment.
 
     - **Risk Score:** Calculate a score from 0.0 (no risk) to 1.0 (high risk). The score is influenced by the intimacy level and keywords in 'wardrobe', 'pose', and 'figure_and_form'. Higher intimacy levels (7+) inherently increase the base risk.
@@ -616,11 +654,23 @@ export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: num
     const userPromptText = `${systemInstruction}\n\nAnalyze this prompt. Intimacy Level: ${intimacyLevel}/10. Prompt: ${JSON.stringify(promptData, null, 2)}`;
 
     try {
-        const { callGeminiText } = await import('./geminiApiHelper');
-        const resultText = await callGeminiText(userPromptText, {
-            apiKey: settings.vertexApiKey,
-            model: modelId
-        });
+        let resultText: string;
+
+        // Try Vertex AI with OAuth first (works on Vercel with auto-refresh)
+        try {
+            resultText = await callVertexAIGemini(userPromptText, settings);
+            console.log('✅ Risk analysis using Vertex AI OAuth');
+        } catch (oauthError) {
+            console.warn('⚠️ Vertex AI OAuth failed, falling back to Gemini API key:', oauthError);
+
+            // Fallback to Gemini API with API key
+            const { callGeminiText } = await import('./geminiApiHelper');
+            resultText = await callGeminiText(userPromptText, {
+                apiKey: settings.vertexApiKey,
+                model: 'gemini-2.5-flash'
+            });
+            console.log('✅ Risk analysis using Gemini API key fallback');
+        }
 
         // Strip markdown code blocks if present
         let cleanedText = resultText.trim();

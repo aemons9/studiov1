@@ -514,13 +514,7 @@ export async function weavePrompt(promptData: PromptData, settings: GenerationSe
   const userPromptText = `${systemInstruction}\n\nWeave this JSON shot list into a final, safety-optimized prompt. The desired intimacy level is ${intimacyLevel}/10 (${getIntimacyLevelName(intimacyLevel)}). JSON: ${JSON.stringify(safePromptData, null, 2)}`;
 
   try {
-    const { callGeminiText } = await import('./geminiApiHelper');
-
-    const wovenText = await callGeminiText(userPromptText, {
-      apiKey: settings.vertexApiKey,
-      model: modelId
-    });
-
+    const wovenText = await callGeminiWithAuth(userPromptText, settings, modelId, 'Prompt weaving');
     let wovenPrompt = wovenText.trim().replace(/\s+/g, ' ');
 
     // IMPORTANT: Only add ART_DIRECTOR_DECLARATION for Vertex AI generation
@@ -556,11 +550,7 @@ export async function analyzeArtisticContent(promptData: PromptData, settings: G
   const userPromptText = `${systemInstruction}\n\nAnalyze this prompt for safety optimization: ${JSON.stringify(promptData, null, 2)}`;
 
   try {
-    const { callGeminiText } = await import('./geminiApiHelper');
-    const resultText = await callGeminiText(userPromptText, {
-      apiKey: settings.vertexApiKey,
-      model: modelId
-    });
+    const resultText = await callGeminiWithAuth(userPromptText, settings, modelId, 'Artistic analysis');
 
     // Strip markdown code blocks if present
     let cleanedText = resultText.trim();
@@ -608,7 +598,7 @@ async function callVertexAIGemini(prompt: string, settings: GenerationSettings):
     const oauthToken = getOAuthToken() || settings.accessToken;
 
     if (!projectId || !oauthToken) {
-        throw new Error('OAuth not configured - missing Project ID or OAuth token');
+        throw new Error('OAUTH_NOT_CONFIGURED'); // Special error code for OAuth not available
     }
 
     const location = 'us-central1';
@@ -633,11 +623,54 @@ async function callVertexAIGemini(prompt: string, settings: GenerationSettings):
 
     if (!response.ok) {
         const errorText = await response.text();
-        throw new Error(`Vertex AI error: ${response.status} - ${errorText}`);
+        throw new Error(`Vertex AI OAuth error: ${response.status} - ${errorText}`);
     }
 
     const data = await response.json();
     return data.candidates[0].content.parts[0].text;
+}
+
+/**
+ * Call Gemini text generation with OAuth first, fallback to API key
+ * Provides unified error handling and logging
+ */
+async function callGeminiWithAuth(prompt: string, settings: GenerationSettings, model: string, operationName: string): Promise<string> {
+    // Try Vertex AI with OAuth first (works on Vercel with auto-refresh)
+    try {
+        const result = await callVertexAIGemini(prompt, settings);
+        console.log(`✅ ${operationName} using Vertex AI OAuth`);
+        return result;
+    } catch (oauthError) {
+        const errorMsg = oauthError instanceof Error ? oauthError.message : String(oauthError);
+
+        // Only fall back to API key if it's configured
+        if (errorMsg === 'OAUTH_NOT_CONFIGURED' && settings.vertexApiKey) {
+            console.log(`ℹ️ OAuth not configured for ${operationName}, using Gemini API key`);
+            const { callGeminiText } = await import('./geminiApiHelper');
+            const result = await callGeminiText(prompt, {
+                apiKey: settings.vertexApiKey,
+                model
+            });
+            console.log(`✅ ${operationName} using Gemini API key`);
+            return result;
+        } else if (errorMsg === 'OAUTH_NOT_CONFIGURED') {
+            throw new Error('Neither OAuth tokens nor API key are configured. Please set up authentication in Settings.');
+        } else {
+            // OAuth failed for other reasons, try API key if available
+            if (settings.vertexApiKey) {
+                console.warn(`⚠️ Vertex AI OAuth failed for ${operationName}, falling back to Gemini API key:`, errorMsg);
+                const { callGeminiText } = await import('./geminiApiHelper');
+                const result = await callGeminiText(prompt, {
+                    apiKey: settings.vertexApiKey,
+                    model
+                });
+                console.log(`✅ ${operationName} using Gemini API key fallback`);
+                return result;
+            } else {
+                throw oauthError; // Re-throw if no API key available
+            }
+        }
+    }
 }
 
 export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: number, settings: GenerationSettings): Promise<RiskAnalysis> {
@@ -654,23 +687,7 @@ export async function getRiskAnalysis(promptData: PromptData, intimacyLevel: num
     const userPromptText = `${systemInstruction}\n\nAnalyze this prompt. Intimacy Level: ${intimacyLevel}/10. Prompt: ${JSON.stringify(promptData, null, 2)}`;
 
     try {
-        let resultText: string;
-
-        // Try Vertex AI with OAuth first (works on Vercel with auto-refresh)
-        try {
-            resultText = await callVertexAIGemini(userPromptText, settings);
-            console.log('✅ Risk analysis using Vertex AI OAuth');
-        } catch (oauthError) {
-            console.warn('⚠️ Vertex AI OAuth failed, falling back to Gemini API key:', oauthError);
-
-            // Fallback to Gemini API with API key
-            const { callGeminiText } = await import('./geminiApiHelper');
-            resultText = await callGeminiText(userPromptText, {
-                apiKey: settings.vertexApiKey,
-                model: 'gemini-2.5-flash'
-            });
-            console.log('✅ Risk analysis using Gemini API key fallback');
-        }
+        const resultText = await callGeminiWithAuth(userPromptText, settings, 'gemini-2.5-flash', 'Risk analysis');
 
         // Strip markdown code blocks if present
         let cleanedText = resultText.trim();
@@ -765,12 +782,7 @@ export async function enhancePrompt(promptData: PromptData, settings: Generation
   const userPromptText = `${systemInstruction}\n\nEnhance this prompt with "${style}" style, respecting all locked fields. Return only JSON: ${JSON.stringify(promptData, null, 2)}`;
 
   try {
-    const { callGeminiText } = await import('./geminiApiHelper');
-    const resultText = await callGeminiText(userPromptText, {
-      apiKey: settings.vertexApiKey,
-      model: modelId
-    });
-
+    const resultText = await callGeminiWithAuth(userPromptText, settings, modelId, 'Prompt enhancement');
     const result = JSON.parse(resultText.trim()) as PromptData;
       
       // FOOLPROOF LOCKING: After the AI returns a result, forcefully re-apply the original locked values
@@ -1120,12 +1132,7 @@ OUTPUT INSTRUCTIONS:
   const userPromptText = `${systemInstruction}\n\nRewrite this blocked prompt to bypass safety filters while preserving artistic intent.`;
 
   try {
-    const { callGeminiText } = await import('./geminiApiHelper');
-    const rewrittenPrompt = await callGeminiText(userPromptText, {
-      apiKey: settings.vertexApiKey,
-      model: modelId
-    });
-
+    const rewrittenPrompt = await callGeminiWithAuth(userPromptText, settings, modelId, 'Adversarial rewrite');
     const trimmedPrompt = rewrittenPrompt.trim();
 
     console.log('✨ Adversarial rewrite completed');

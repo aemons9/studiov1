@@ -868,106 +868,82 @@ export async function generateImage(prompt: string, settings: GenerationSettings
     }
   }
 
-  // Try Vertex AI Imagen with OAuth first (Vercel), fallback to API key (local dev)
+  // Use Vertex AI Imagen with OAuth (required - Imagen 4.0 not available in Gemini API)
   const { getOAuthToken, getProjectId } = await import('../utils/sharedAuthManager');
   const projectId = getProjectId() || settings.projectId;
   const oauthToken = getOAuthToken() || settings.accessToken;
 
-  // Try OAuth authentication
-  if (projectId && oauthToken) {
-    const { generateWithVertexImagen, mapAspectRatioForVertex } = await import('./vertexImagenService');
+  if (!projectId || !oauthToken) {
+    throw new Error('OAuth authentication required for Imagen generation. OAuth tokens are auto-refreshed - please reload the page or check console for token refresh status.');
+  }
 
-    // Model fallback order: Base → Ultra → Fast
-    const modelFallbackOrder = [
-      modelId, // Try user's preferred model first
-      'imagen-4.0-ultra-generate-001', // Ultra (higher quality, may have separate quota)
-      'imagen-4.0-fast-generate-001'   // Fast (faster generation, separate quota)
-    ];
+  const { generateWithVertexImagen, mapAspectRatioForVertex } = await import('./vertexImagenService');
 
-    // Remove duplicates while preserving order
-    const uniqueModels = [...new Set(modelFallbackOrder)];
+  // Model fallback order: Base → Ultra → Fast
+  const modelFallbackOrder = [
+    modelId, // Try user's preferred model first
+    'imagen-4.0-ultra-generate-001', // Ultra (higher quality, may have separate quota)
+    'imagen-4.0-fast-generate-001'   // Fast (faster generation, separate quota)
+  ];
 
-    let lastError: Error | null = null;
+  // Remove duplicates while preserving order
+  const uniqueModels = [...new Set(modelFallbackOrder)];
 
-    for (let i = 0; i < uniqueModels.length; i++) {
-      const currentModel = uniqueModels[i];
+  let lastError: Error | null = null;
 
-      try {
-        if (i > 0) {
-          console.log(`🔄 Trying fallback model ${i}/${uniqueModels.length - 1}: ${currentModel}`);
-        } else {
-          console.log(`🎨 Generating images with Vertex AI Imagen (OAuth) - ${currentModel}...`);
-        }
+  for (let i = 0; i < uniqueModels.length; i++) {
+    const currentModel = uniqueModels[i];
 
-        const images = await generateWithVertexImagen(prompt, {
-          projectId,
-          location: 'us-central1',
-          accessToken: oauthToken,
-          model: currentModel
-        }, {
-          aspectRatio: mapAspectRatioForVertex(aspectRatio),
-          sampleCount: numberOfImages,
-          sampleImageSize: '2048', // MAXIMUM RESOLUTION: 2048x2048 or aspect ratio equivalent
-          personGeneration: settings.personGeneration || 'allow_adult',
-          safetySetting: settings.safetySetting || 'block_few',
-          outputMimeType: settings.outputFormat === 'png' ? 'image/png' : 'image/jpeg',
-          compressionQuality: settings.outputFormat === 'jpeg' ? (settings.jpegQuality || 95) : 100
-        });
+    try {
+      if (i > 0) {
+        console.log(`🔄 Trying fallback model ${i}/${uniqueModels.length - 1}: ${currentModel}`);
+      } else {
+        console.log(`🎨 Generating images with Vertex AI Imagen (OAuth) - ${currentModel}...`);
+      }
 
-        if (i > 0) {
-          console.log(`✅ Successfully generated with fallback model: ${currentModel}`);
-        }
+      const images = await generateWithVertexImagen(prompt, {
+        projectId,
+        location: 'us-central1',
+        accessToken: oauthToken,
+        model: currentModel
+      }, {
+        aspectRatio: mapAspectRatioForVertex(aspectRatio),
+        sampleCount: numberOfImages,
+        sampleImageSize: '2048', // MAXIMUM RESOLUTION: 2048x2048 or aspect ratio equivalent
+        personGeneration: settings.personGeneration || 'allow_adult',
+        safetySetting: settings.safetySetting || 'block_few',
+        outputMimeType: settings.outputFormat === 'png' ? 'image/png' : 'image/jpeg',
+        compressionQuality: settings.outputFormat === 'jpeg' ? (settings.jpegQuality || 95) : 100
+      });
 
-        return images;
-      } catch (error) {
-        lastError = error as Error;
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      if (i > 0) {
+        console.log(`✅ Successfully generated with fallback model: ${currentModel}`);
+      }
 
-        // Check if this is a quota exceeded error (429)
-        const isQuotaError = errorMessage.includes('429') || errorMessage.includes('QUOTA EXCEEDED');
+      return images;
+    } catch (error) {
+      lastError = error as Error;
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
 
-        if (isQuotaError && i < uniqueModels.length - 1) {
-          console.warn(`⚠️ Quota exceeded for ${currentModel}, trying next model...`);
-          continue; // Try next model
-        } else if (errorMessage.includes('401') || errorMessage.includes('AUTHENTICATION FAILED')) {
-          // OAuth failed with 401, break out and try API key
-          console.warn('⚠️ OAuth authentication failed, trying API key fallback for local dev...');
-          lastError = error;
-          break;
-        } else {
-          // Not a quota error or auth error, or no more models to try
-          console.error(`❌ Vertex AI Imagen generation error with ${currentModel}:`, error);
-          throw error;
-        }
+      // Check if this is a quota exceeded error (429)
+      const isQuotaError = errorMessage.includes('429') || errorMessage.includes('QUOTA EXCEEDED');
+
+      if (isQuotaError && i < uniqueModels.length - 1) {
+        console.warn(`⚠️ Quota exceeded for ${currentModel}, trying next model...`);
+        continue; // Try next model
+      } else if (errorMessage.includes('401') || errorMessage.includes('AUTHENTICATION FAILED')) {
+        // OAuth token is expired/invalid - need to refresh
+        throw new Error(`🔐 OAuth token expired or invalid. Please reload the page to refresh your token. Auto-refresh runs every 50 minutes. Original error: ${errorMessage}`);
+      } else {
+        // Not a quota error or auth error, or no more models to try
+        console.error(`❌ Vertex AI Imagen generation error with ${currentModel}:`, error);
+        throw error;
       }
     }
-
-    // If OAuth failed with 401, try API key fallback below
-    if (!lastError || (!lastError.message.includes('401') && !lastError.message.includes('AUTHENTICATION FAILED'))) {
-      // All models exhausted with non-auth errors
-      throw new Error(`All Imagen models exhausted. Last error: ${lastError?.message}`);
-    }
   }
 
-  // Fall back to Gemini API for local development
-  if (settings.vertexApiKey) {
-    const { callGeminiImage } = await import('./geminiApiHelper');
-
-    console.log(`🎨 Generating images with Gemini API (local dev) - ${modelId}...`);
-
-    const images = await callGeminiImage(prompt, {
-      apiKey: settings.vertexApiKey,
-      model: modelId,
-      numberOfImages,
-      aspectRatio,
-      seed
-    });
-
-    return images;
-  }
-
-  // No authentication available
-  throw new Error('Authentication not configured. Please set up OAuth (Vercel) or API key (local dev) in Settings.');
+  // All models failed
+  throw new Error(`All Imagen models exhausted. Last error: ${lastError?.message}`);
 }
 
 // ============================================================================

@@ -1,13 +1,59 @@
-import { GoogleGenAI, Modality, Type } from "@google/genai";
 import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 import { getPhotographerById } from '../photographerStyles';
-import { getGeminiApiKey } from '../../services/apiKeyManager';
 
-async function getAiInstance(): Promise<GoogleGenAI> {
-  const apiKey = await getGeminiApiKey();
-  return new GoogleGenAI({ apiKey });
+/**
+ * Call Vertex AI Gemini with OAuth for text generation with optional JSON schema
+ */
+async function callVertexAIGeminiText(userPrompt: string, systemInstruction: string, responseSchema?: any): Promise<string> {
+  const { getOAuthToken, getProjectId } = await import('../../utils/sharedAuthManager');
+
+  const projectId = getProjectId();
+  const oauthToken = getOAuthToken();
+
+  if (!projectId || !oauthToken) {
+    throw new Error('OAuth authentication not configured. Please set up GCP Project ID and OAuth token in Settings. OAuth tokens are auto-refreshed on Vercel deployments.');
+  }
+
+  const location = 'us-central1';
+  const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/gemini-2.5-flash:generateContent`;
+
+  const requestBody: any = {
+    system_instruction: {
+      parts: [{ text: systemInstruction }]
+    },
+    contents: [{
+      role: 'user',
+      parts: [{ text: userPrompt }]
+    }],
+    generationConfig: {
+      temperature: 0.7,
+    }
+  };
+
+  // Add response schema if provided (for structured JSON output)
+  if (responseSchema) {
+    requestBody.generationConfig.responseMimeType = 'application/json';
+    requestBody.generationConfig.responseSchema = responseSchema;
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${oauthToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Vertex AI OAuth error: ${response.status} - ${errorText}`);
+  }
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text;
 }
 
 const MODEL_SPECIALTIES = INDIAN_GLAMOUR_MODELS.reduce((acc, model) => {
@@ -110,32 +156,32 @@ The photographer's style dictates the lighting, camera settings, color grading, 
   }
 
   const responseSchema = {
-    type: Type.OBJECT,
+    type: "object",
     properties: {
       prompts: {
-        type: Type.ARRAY,
+        type: "array",
         description: "An array of generated video prompt variations.",
         items: {
-          type: Type.OBJECT,
+          type: "object",
           properties: {
             id: {
-              type: Type.NUMBER,
+              type: "number",
               description: "A unique identifier for the prompt variation."
             },
             prompt_text: {
-              type: Type.STRING,
+              type: "string",
               description: "The full, detailed cinematic prompt text for Veo."
             },
             style_description: {
-              type: Type.STRING,
+              type: "string",
               description: "A concise, evocative summary of the prompt's style and content."
             },
             recommended_settings: {
-              type: Type.STRING,
+              type: "string",
               description: "A newline-separated string of recommended technical settings (e.g., Aspect Ratio, Lens)."
             },
             image_prompt: {
-              type: Type.STRING,
+              type: "string",
               description: "A concise prompt for generating a still preview image, including the safety preamble."
             },
           },
@@ -147,13 +193,9 @@ The photographer's style dictates the lighting, camera settings, color grading, 
   };
 
   try {
-    const ai = await getAiInstance();
-    const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: userPrompt,
-        config: { systemInstruction: systemInstruction, responseMimeType: "application/json", responseSchema: responseSchema, },
-      });
-    const result = JSON.parse(response.text.trim());
+    const responseText = await callVertexAIGeminiText(userPrompt, systemInstruction, responseSchema);
+    const result = JSON.parse(responseText.trim());
+    console.log('✅ Video prompts generated using Vertex AI OAuth');
     if (result && result.prompts && Array.isArray(result.prompts)) {
       return result.prompts;
     } else {

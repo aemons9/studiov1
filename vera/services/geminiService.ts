@@ -282,27 +282,78 @@ export const generateImage = async (
 };
 
 export const generateVideo = async (prompt: string, onStatusUpdate: (status: string) => void): Promise<string> => {
-  // Create a new instance right before the API call to use the latest API key.
-  const veoAi = await getAiInstance();
-  
+  // Use Vertex AI Veo with OAuth (uses your zaranovel project billing, not free tier quota)
+  const { getOAuthToken, getProjectId } = await import('../../utils/sharedAuthManager');
+
+  const projectId = getProjectId();
+  const oauthToken = getOAuthToken();
+
+  if (!projectId || !oauthToken) {
+    throw new Error('OAuth authentication required for video generation. Please reload the page to refresh OAuth tokens.');
+  }
+
+  const location = 'us-central1';
+  const model = 'veo-3.1-generate-preview';
+
   try {
-    onStatusUpdate('Submitting video generation job...');
-    let operation = await veoAi.models.generateVideos({
-      model: 'veo-3.1-generate-preview',
-      prompt: prompt,
-      config: {
-        numberOfVideos: 1,
-        resolution: '720p',
-        aspectRatio: '16:9'
-      }
+    onStatusUpdate('Submitting video generation job to Vertex AI...');
+
+    // Submit video generation request
+    const generateUrl = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/${model}:generateVideos`;
+
+    const generateResponse = await fetch(generateUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${oauthToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        config: {
+          numberOfVideos: 1,
+          resolution: '720p',
+          aspectRatio: '16:9'
+        }
+      })
     });
 
+    if (!generateResponse.ok) {
+      const errorText = await generateResponse.text();
+      throw new Error(`Vertex AI Veo generation failed: ${generateResponse.status} - ${errorText}`);
+    }
+
+    const operationData = await generateResponse.json();
+    const operationName = operationData.name;
+
     onStatusUpdate('Job submitted. Polling for results (this may take several minutes)...');
-    
-    while (!operation.done) {
+
+    // Poll for operation completion
+    let operation = operationData;
+    let pollCount = 0;
+    const maxPolls = 60; // 10 minutes max (10 seconds * 60)
+
+    while (!operation.done && pollCount < maxPolls) {
       await new Promise(resolve => setTimeout(resolve, 10000)); // Poll every 10 seconds
-      operation = await veoAi.operations.getVideosOperation({operation: operation});
-      onStatusUpdate(`Processing... Hang tight, high-quality video takes time.`);
+
+      const pollUrl = `https://${location}-aiplatform.googleapis.com/v1/${operationName}`;
+      const pollResponse = await fetch(pollUrl, {
+        headers: {
+          'Authorization': `Bearer ${oauthToken}`,
+        }
+      });
+
+      if (!pollResponse.ok) {
+        const errorText = await pollResponse.text();
+        throw new Error(`Failed to poll operation: ${pollResponse.status} - ${errorText}`);
+      }
+
+      operation = await pollResponse.json();
+      pollCount++;
+      onStatusUpdate(`Processing... (${pollCount * 10}s elapsed)`);
+    }
+
+    if (!operation.done) {
+      throw new Error('Video generation timeout. Operation did not complete within 10 minutes.');
     }
 
     onStatusUpdate('Operation complete. Downloading video file...');
@@ -312,8 +363,8 @@ export const generateVideo = async (prompt: string, onStatusUpdate: (status: str
       throw new Error("Video generation succeeded, but no download link was found.");
     }
 
-    const apiKey = await getGeminiApiKey();
-    const response = await fetch(`${downloadLink}&key=${apiKey}`);
+    // Download video with OAuth token
+    const response = await fetch(`${downloadLink}?access_token=${oauthToken}`);
     if (!response.ok) {
         throw new Error(`Failed to download video: ${response.statusText}`);
     }
@@ -322,16 +373,14 @@ export const generateVideo = async (prompt: string, onStatusUpdate: (status: str
 
     const videoBlob = await response.blob();
     const videoUrl = URL.createObjectURL(videoBlob);
-    
+
+    console.log('✅ Video generated using Vertex AI Veo with OAuth (project:', projectId, ')');
     return videoUrl;
 
   } catch (error) {
     console.error("Error generating video:", error);
-    if (error instanceof Error && error.message.includes("API key not valid")) {
-       throw new Error("Your API key is not valid. Please select a valid key.");
-    }
-    if (error instanceof Error && error.message.includes("Requested entity was not found.")) {
-       throw new Error("API Key validation failed. Please re-select your API key and try again.");
+    if (error instanceof Error && error.message.includes("401")) {
+       throw new Error("OAuth token expired. Please reload the page to refresh your token.");
     }
     throw new Error(`Failed to generate video. ${error instanceof Error ? error.message : ''}`);
   }

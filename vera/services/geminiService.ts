@@ -2,9 +2,21 @@ import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 import { getPhotographerById } from '../photographerStyles';
+import { GoogleGenAI } from "@google/genai";
+import { getGeminiApiKey } from '../../services/apiKeyManager';
+
+/**
+ * Get Google GenAI instance for Imagen/Veo operations
+ * Uses API key from settings
+ */
+async function getAiInstance(): Promise<GoogleGenAI> {
+  const apiKey = await getGeminiApiKey();
+  return new GoogleGenAI({ apiKey });
+}
 
 /**
  * Call Vertex AI Gemini with OAuth for text generation with optional JSON schema
+ * Used for video prompt generation
  */
 async function callVertexAIGeminiText(userPrompt: string, systemInstruction: string, responseSchema?: any): Promise<string> {
   const { getOAuthToken, getProjectId } = await import('../../utils/sharedAuthManager');

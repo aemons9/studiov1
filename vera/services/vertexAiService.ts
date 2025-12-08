@@ -131,6 +131,44 @@ The photographer's style dictates the lighting, camera settings, color grading, 
     }
   }
 
+  // Define JSON response schema for structured output
+  const responseSchema = {
+    type: "object",
+    properties: {
+      prompts: {
+        type: "array",
+        description: "An array of generated video prompt variations.",
+        items: {
+          type: "object",
+          properties: {
+            id: {
+              type: "number",
+              description: "A unique identifier for the prompt variation."
+            },
+            prompt_text: {
+              type: "string",
+              description: "The full, detailed cinematic prompt text for Veo."
+            },
+            style_description: {
+              type: "string",
+              description: "A concise, evocative summary of the prompt's style and content."
+            },
+            recommended_settings: {
+              type: "string",
+              description: "A newline-separated string of recommended technical settings (e.g., Aspect Ratio, Lens)."
+            },
+            image_prompt: {
+              type: "string",
+              description: "A concise prompt for generating a still preview image, including the safety preamble."
+            },
+          },
+          required: ['id', 'prompt_text', 'style_description', 'recommended_settings', 'image_prompt']
+        }
+      }
+    },
+    required: ['prompts']
+  };
+
   try {
     const response = await vertexAIRequest('publishers/google/models/gemini-2.5-flash:generateContent', {
       contents: [{
@@ -142,6 +180,7 @@ The photographer's style dictates the lighting, camera settings, color grading, 
       },
       generationConfig: {
         responseMimeType: 'application/json',
+        responseSchema: responseSchema,
         temperature: 0.9,
       }
     });

@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | VeraLabs</title>
+    <meta name="description" content="Explore our curated collection of haute couture fashion photography">
+
+    <!-- Sophisticated Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@100;200;300;400;500&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================== DESIGN SYSTEM ==================== */
+        :root {
+            /* Creamy Minimalist Palette */
+            --cream-white: #FAF8F5;
+            --ivory: #F7F3ED;
+            --champagne: #E8DFD3;
+            --nude-beige: #D4C4B0;
+            --warm-taupe: #B8A28E;
+            --soft-charcoal: #3E3A37;
+            --deep-espresso: #1C1917;
+
+            /* Accent Colors */
+            --rose-gold: #E8B4B8;
+            --pale-gold: #D4AF37;
+            --dusty-mauve: #C8A2B8;
+            --sage-green: #9CAF88;
+            --steel-blue: #7C93A3;
+
+            /* Typography Scale */
+            --font-editorial: 'Playfair Display', serif;
+            --font-modern: 'Inter', sans-serif;
+            --font-luxury: 'Bodoni Moda', serif;
+
+            /* Spacing Rhythm */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 3rem;
+            --space-xl: 5rem;
+            --space-2xl: 8rem;
+
+            /* Transitions */
+            --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==================== RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background: var(--rose-gold);
+            color: var(--cream-white);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-modern);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--soft-charcoal);
+            background: var(--cream-white);
+            overflow-x: hidden;
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(216, 207, 195, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-luxury);
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--deep-espresso);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: var(--space-lg);
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--soft-charcoal);
+            text-decoration: none;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--pale-gold);
+            transition: width 0.4s var(--ease-luxury);
+        }
+
+        .nav-link:hover {
+            color: var(--deep-espresso);
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--cream-white) 0%, var(--ivory) 50%, var(--champagne) 100%);
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+            padding: var(--space-lg);
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-family: var(--font-luxury);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--deep-espresso);
+            margin-bottom: var(--space-sm);
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-editorial);
+            font-size: clamp(1rem, 2vw, 1.25rem);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--warm-taupe);
+        }
+
+        /* ==================== GALLERY SECTION ==================== */
+        .gallery-section {
+            padding: var(--space-xl) 0 var(--space-2xl);
+            background: var(--cream-white);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 var(--space-lg);
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: var(--space-2xl);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+            padding-bottom: var(--space-md);
+            border-bottom: 1px solid var(--champagne);
+        }
+
+        .category-title {
+            font-family: var(--font-editorial);
+            font-size: clamp(1.75rem, 3vw, 2.5rem);
+            font-style: italic;
+            color: var(--deep-espresso);
+            position: relative;
+        }
+
+        .category-count {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+            background: var(--ivory);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        /* Horizontal Scroll Container */
+        .carousel-container {
+            position: relative;
+            margin: 0 -20px;
+        }
+
+        .carousel-track {
+            display: flex;
+            gap: var(--space-md);
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            padding: 0 60px;
+            scroll-snap-type: x mandatory;
+        }
+
+        .carousel-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .carousel-item {
+            flex: 0 0 auto;
+            width: 400px;
+            scroll-snap-align: start;
+            position: relative;
+            overflow: hidden;
+            background: var(--ivory);
+            cursor: pointer;
+            transition: all 0.5s var(--ease-luxury);
+            border-radius: 4px;
+        }
+
+        .carousel-item:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(62, 58, 55, 0.15);
+            z-index: 10;
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 500px;
+            object-fit: cover;
+            display: block;
+            transition: all 0.5s var(--ease-luxury);
+        }
+
+        .carousel-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 0%, rgba(28, 25, 23, 0.8) 100%);
+            opacity: 0;
+            transition: opacity 0.5s var(--ease-luxury);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: var(--space-md);
+        }
+
+        .carousel-item:hover .carousel-overlay {
+            opacity: 1;
+        }
+
+        .carousel-title {
+            font-family: var(--font-editorial);
+            font-size: 1.25rem;
+            color: var(--cream-white);
+            margin-bottom: var(--space-xs);
+        }
+
+        .carousel-meta {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            color: var(--champagne);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        /* Scroll Arrows */
+        .scroll-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(250, 248, 245, 0.95);
+            border: 1px solid var(--champagne);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s var(--ease-gentle);
+            backdrop-filter: blur(10px);
+        }
+
+        .scroll-arrow:hover {
+            background: var(--deep-espresso);
+            border-color: var(--deep-espresso);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .scroll-arrow:hover svg {
+            fill: var(--cream-white);
+        }
+
+        .scroll-arrow svg {
+            width: 20px;
+            height: 20px;
+            fill: var(--deep-espresso);
+            transition: fill 0.3s var(--ease-gentle);
+        }
+
+        .scroll-arrow-left {
+            left: 0;
+        }
+
+        .scroll-arrow-right {
+            right: 0;
+        }
+
+        .scroll-arrow:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .scroll-arrow:disabled:hover {
+            background: rgba(250, 248, 245, 0.95);
+            border-color: var(--champagne);
+            transform: translateY(-50%);
+        }
+
+        /* Scroll Indicators */
+        .scroll-indicators {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: var(--space-md);
+        }
+
+        .scroll-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--champagne);
+            cursor: pointer;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .scroll-dot.active {
+            background: var(--pale-gold);
+            transform: scale(1.3);
+        }
+
+        /* ==================== LIGHTBOX ==================== */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(28, 25, 23, 0.97);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox.active {
+            display: flex;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 90vh;
+            position: relative;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+            border-radius: 4px;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -60px;
+            right: 0;
+            width: 50px;
+            height: 50px;
+            background: rgba(250, 248, 245, 0.1);
+            border: 1px solid rgba(250, 248, 245, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .lightbox-close:hover {
+            background: var(--pale-gold);
+            border-color: var(--pale-gold);
+            transform: rotate(90deg);
+        }
+
+        .lightbox-close::before,
+        .lightbox-close::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: var(--cream-white);
+        }
+
+        .lightbox-close::before {
+            transform: rotate(45deg);
+        }
+
+        .lightbox-close::after {
+            transform: rotate(-45deg);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 60px;
+            height: 60px;
+            background: rgba(250, 248, 245, 0.1);
+            border: 1px solid rgba(250, 248, 245, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-gentle);
+            backdrop-filter: blur(10px);
+        }
+
+        .lightbox-nav:hover {
+            background: rgba(250, 248, 245, 0.2);
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        .lightbox-nav svg {
+            width: 24px;
+            height: 24px;
+            fill: var(--cream-white);
+        }
+
+        .lightbox-prev {
+            left: 40px;
+        }
+
+        .lightbox-next {
+            right: 40px;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -80px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: var(--champagne);
+        }
+
+        .lightbox-title {
+            font-family: var(--font-editorial);
+            font-size: 1.5rem;
+            color: var(--cream-white);
+            margin-bottom: var(--space-xs);
+        }
+
+        .lightbox-meta {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-2xl) var(--space-lg);
+            color: var(--warm-taupe);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: var(--space-md);
+            opacity: 0.3;
+        }
+
+        .empty-state-title {
+            font-family: var(--font-editorial);
+            font-size: 2rem;
+            color: var(--soft-charcoal);
+            margin-bottom: var(--space-sm);
+        }
+
+        .empty-state-text {
+            font-family: var(--font-modern);
+            font-size: 1rem;
+            line-height: 1.8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            padding: var(--space-xl) var(--space-lg) var(--space-lg);
+            background: var(--deep-espresso);
+            color: var(--champagne);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            color: var(--warm-taupe);
+        }
+
+        .footer-link {
+            color: var(--pale-gold);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .footer-link:hover {
+            color: var(--champagne);
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 768px) {
+            .carousel-item {
+                width: 300px;
+            }
+
+            .carousel-item img {
+                height: 400px;
+            }
+
+            .scroll-arrow {
+                width: 40px;
+                height: 40px;
+            }
+
+            .scroll-arrow svg {
+                width: 16px;
+                height: 16px;
+            }
+
+            .lightbox-nav {
+                width: 50px;
+                height: 50px;
+            }
+
+            .lightbox-prev {
+                left: 20px;
+            }
+
+            .lightbox-next {
+                right: 20px;
+            }
+
+            .category-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: var(--space-sm);
+            }
+        }
+
+        /* Loading Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .category-section {
+            animation: fadeInUp 0.6s var(--ease-luxury) backwards;
+        }
+
+        .category-section:nth-child(1) { animation-delay: 0.1s; }
+        .category-section:nth-child(2) { animation-delay: 0.2s; }
+        .category-section:nth-child(3) { animation-delay: 0.3s; }
+        .category-section:nth-child(4) { animation-delay: 0.4s; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="veralabs-landing-v2.html" class="logo">VERALABS</a>
+            <ul class="nav-menu">
+                <li><a href="veralabs-landing-v2.html" class="nav-link">Home</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="moodboards.html" class="nav-link">Moodboards</a></li>
+                <li><a href="veralabs-landing-v2.html#aesthetics" class="nav-link">Aesthetics</a></li>
+                <li><a href="veralabs-landing-v2.html#studio" class="nav-link">Studio</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Gallery</h1>
+            <p class="hero-subtitle">Curated Collection of Haute Couture Imagery</p>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section class="gallery-section">
+        <div class="container">
+            <!-- Categories will be populated here -->
+            <div id="galleryCategories"></div>
+
+            <!-- Empty State -->
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-state-icon">◈</div>
+                <h3 class="empty-state-title">No Images Yet</h3>
+                <p class="empty-state-text">
+                    Add your images (PNG or JPG format) to the <strong>/photo</strong> folder in your project directory.
+                    <br><br>
+                    The gallery will automatically display all images from that folder.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox Modal -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <div class="lightbox-close" id="lightboxClose"></div>
+            <div class="lightbox-nav lightbox-prev" id="lightboxPrev">
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </div>
+            <img src="" alt="" id="lightboxImage">
+            <div class="lightbox-nav lightbox-next" id="lightboxNext">
+                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </div>
+            <div class="lightbox-info">
+                <div class="lightbox-title" id="lightboxTitle"></div>
+                <div class="lightbox-meta" id="lightboxMeta"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            © 2025 VeraLabs. All rights reserved. |
+            <a href="veralabs-landing-v2.html" class="footer-link">Back to Home</a>
+        </p>
+    </footer>
+
+    <script>
+        // Gallery data
+        let galleryImages = [];
+        let currentLightboxIndex = 0;
+        let currentCategory = 'all';
+
+        const categories = {
+            editorial: { title: 'Editorial', images: [] },
+            minimalist: { title: 'Minimalist', images: [] },
+            couture: { title: 'Couture', images: [] },
+            contemporary: { title: 'Contemporary', images: [] }
+        };
+
+        // Load images from gallery-data.json
+        async function loadGalleryImages() {
+            try {
+                const response = await fetch('gallery-data.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    galleryImages = data.images || [];
+                    console.log(`Loaded ${galleryImages.length} images from gallery-data.json`);
+
+                    // Organize images by category
+                    galleryImages.forEach(img => {
+                        if (categories[img.category]) {
+                            categories[img.category].images.push(img);
+                        }
+                    });
+
+                    renderGallery();
+                } else {
+                    throw new Error('Failed to load gallery data');
+                }
+            } catch (error) {
+                console.error('Error loading images:', error);
+                document.getElementById('emptyState').style.display = 'block';
+            }
+        }
+
+        // Render gallery with horizontal carousels
+        function renderGallery() {
+            const container = document.getElementById('galleryCategories');
+
+            if (galleryImages.length === 0) {
+                document.getElementById('emptyState').style.display = 'block';
+                return;
+            }
+
+            container.innerHTML = Object.keys(categories)
+                .filter(cat => categories[cat].images.length > 0)
+                .map(cat => {
+                    const category = categories[cat];
+                    return `
+                        <div class="category-section" data-category="${cat}">
+                            <div class="category-header">
+                                <h2 class="category-title">${category.title}</h2>
+                                <span class="category-count">${category.images.length} ${category.images.length === 1 ? 'Image' : 'Images'}</span>
+                            </div>
+                            <div class="carousel-container">
+                                <button class="scroll-arrow scroll-arrow-left" onclick="scrollCarousel('${cat}', 'left')">
+                                    <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+                                </button>
+                                <div class="carousel-track" id="carousel-${cat}">
+                                    ${category.images.map((img, index) => `
+                                        <div class="carousel-item" onclick="openLightbox('${cat}', ${index})">
+                                            <img src="${img.src}" alt="${img.title}" loading="lazy">
+                                            <div class="carousel-overlay">
+                                                <h3 class="carousel-title">${img.title}</h3>
+                                                <p class="carousel-meta">${category.title}</p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                                <button class="scroll-arrow scroll-arrow-right" onclick="scrollCarousel('${cat}', 'right')">
+                                    <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            // Initialize scroll positions
+            updateScrollArrows();
+        }
+
+        // Scroll carousel left/right
+        function scrollCarousel(category, direction) {
+            const carousel = document.getElementById(`carousel-${category}`);
+            const scrollAmount = 420; // Item width + gap
+
+            if (direction === 'left') {
+                carousel.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                carousel.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+
+            // Update arrow states after scroll
+            setTimeout(() => updateScrollArrows(), 300);
+        }
+
+        // Update scroll arrow states
+        function updateScrollArrows() {
+            document.querySelectorAll('.carousel-track').forEach(carousel => {
+                const category = carousel.id.replace('carousel-', '');
+                const section = carousel.closest('.category-section');
+                const leftArrow = section.querySelector('.scroll-arrow-left');
+                const rightArrow = section.querySelector('.scroll-arrow-right');
+
+                // Check if at start or end
+                const isAtStart = carousel.scrollLeft <= 0;
+                const isAtEnd = carousel.scrollLeft >= carousel.scrollWidth - carousel.clientWidth - 10;
+
+                leftArrow.disabled = isAtStart;
+                rightArrow.disabled = isAtEnd;
+            });
+        }
+
+        // Listen to scroll events to update arrows
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.carousel-track').forEach(carousel => {
+                    carousel.addEventListener('scroll', updateScrollArrows);
+                });
+            }, 100);
+        });
+
+        // Lightbox functionality
+        function openLightbox(category, index) {
+            currentCategory = category;
+            currentLightboxIndex = index;
+            updateLightbox();
+            document.getElementById('lightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+
+        function updateLightbox() {
+            const images = categories[currentCategory].images;
+            if (images[currentLightboxIndex]) {
+                const img = images[currentLightboxIndex];
+                document.getElementById('lightboxImage').src = img.src;
+                document.getElementById('lightboxTitle').textContent = img.title;
+                document.getElementById('lightboxMeta').textContent = `${categories[currentCategory].title} • ${currentLightboxIndex + 1} of ${images.length}`;
+            }
+        }
+
+        function nextImage() {
+            const images = categories[currentCategory].images;
+            currentLightboxIndex = (currentLightboxIndex + 1) % images.length;
+            updateLightbox();
+        }
+
+        function prevImage() {
+            const images = categories[currentCategory].images;
+            currentLightboxIndex = (currentLightboxIndex - 1 + images.length) % images.length;
+            updateLightbox();
+        }
+
+        // Event listeners
+        document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+        document.getElementById('lightboxNext').addEventListener('click', nextImage);
+        document.getElementById('lightboxPrev').addEventListener('click', prevImage);
+
+        document.getElementById('lightbox').addEventListener('click', (e) => {
+            if (e.target.id === 'lightbox') {
+                closeLightbox();
+            }
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            const lightbox = document.getElementById('lightbox');
+            if (!lightbox.classList.contains('active')) return;
+
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+
+        // Touch swipe support for lightbox
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.getElementById('lightbox').addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        document.getElementById('lightbox').addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            if (touchEndX < touchStartX - 50) nextImage();
+            if (touchEndX > touchStartX + 50) prevImage();
+        }
+
+        // Initialize
+        loadGalleryImages();
+    </script>
+</body>
+</html>

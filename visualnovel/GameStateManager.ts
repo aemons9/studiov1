@@ -161,9 +161,15 @@ export const gameStateReducer = (
           ZaraComfort: state.ZaraComfort,
           Trust: state.Trust,
           ArtisticCohesion: state.ArtisticCohesion,
+          IntimacyLevel: state.IntimacyLevel,
           selectedMode: state.selectedMode,
+          WardrobeChoice: state.WardrobeChoice,
+          BoudoirUnlocked: state.BoudoirUnlocked,
           RequiresNudityConsent: state.RequiresNudityConsent,
-          Flag_ArtNudeUsed: state.Flag_ArtNudeUsed,
+          Flag_LingerieUsed: state.Flag_LingerieUsed,
+          Flag_ArtisticDrapeUsed: state.Flag_ArtisticDrapeUsed,
+          Flag_MinimalCoverageUsed: state.Flag_MinimalCoverageUsed,
+          Flag_BoudoirSessionDone: state.Flag_BoudoirSessionDone,
           currentScene: state.currentScene
         },
         sceneId: state.currentSceneId,
@@ -178,9 +184,15 @@ export const gameStateReducer = (
           ZaraComfort: state.ZaraComfort,
           Trust: state.Trust,
           ArtisticCohesion: state.ArtisticCohesion,
+          IntimacyLevel: state.IntimacyLevel,
           selectedMode: state.selectedMode,
+          WardrobeChoice: state.WardrobeChoice,
+          BoudoirUnlocked: state.BoudoirUnlocked,
           RequiresNudityConsent: state.RequiresNudityConsent,
-          Flag_ArtNudeUsed: state.Flag_ArtNudeUsed,
+          Flag_LingerieUsed: state.Flag_LingerieUsed,
+          Flag_ArtisticDrapeUsed: state.Flag_ArtisticDrapeUsed,
+          Flag_MinimalCoverageUsed: state.Flag_MinimalCoverageUsed,
+          Flag_BoudoirSessionDone: state.Flag_BoudoirSessionDone,
           currentScene: state.currentScene
         },
         choice.effects
@@ -257,15 +269,21 @@ export const gameStateReducer = (
     }
 
     case 'APPLY_EFFECTS': {
-      const effects = action.payload.effects;
+      const effects = action.payload;
       const updatedVariables = applyChoiceEffects(
         {
           ZaraComfort: state.ZaraComfort,
           Trust: state.Trust,
           ArtisticCohesion: state.ArtisticCohesion,
+          IntimacyLevel: state.IntimacyLevel,
           selectedMode: state.selectedMode,
+          WardrobeChoice: state.WardrobeChoice,
+          BoudoirUnlocked: state.BoudoirUnlocked,
           RequiresNudityConsent: state.RequiresNudityConsent,
-          Flag_ArtNudeUsed: state.Flag_ArtNudeUsed,
+          Flag_LingerieUsed: state.Flag_LingerieUsed,
+          Flag_ArtisticDrapeUsed: state.Flag_ArtisticDrapeUsed,
+          Flag_MinimalCoverageUsed: state.Flag_MinimalCoverageUsed,
+          Flag_BoudoirSessionDone: state.Flag_BoudoirSessionDone,
           currentScene: state.currentScene
         },
         effects
@@ -306,9 +324,15 @@ export const gameStateReducer = (
             ZaraComfort: state.ZaraComfort,
             Trust: state.Trust,
             ArtisticCohesion: state.ArtisticCohesion,
+            IntimacyLevel: state.IntimacyLevel,
             selectedMode: state.selectedMode,
+            WardrobeChoice: state.WardrobeChoice,
+            BoudoirUnlocked: state.BoudoirUnlocked,
             RequiresNudityConsent: state.RequiresNudityConsent,
-            Flag_ArtNudeUsed: state.Flag_ArtNudeUsed,
+            Flag_LingerieUsed: state.Flag_LingerieUsed,
+            Flag_ArtisticDrapeUsed: state.Flag_ArtisticDrapeUsed,
+            Flag_MinimalCoverageUsed: state.Flag_MinimalCoverageUsed,
+            Flag_BoudoirSessionDone: state.Flag_BoudoirSessionDone,
             currentScene: state.currentScene
           },
           currentSceneId: state.currentSceneId,

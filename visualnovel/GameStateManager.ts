@@ -147,7 +147,7 @@ export const gameStateReducer = (
     }
 
     case 'SELECT_CHOICE': {
-      const choice: Choice = action.payload.choice;
+      const choice: Choice = action.payload;
 
       // Check if choice is available
       if (!isChoiceAvailable(choice, state)) {

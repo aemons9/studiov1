@@ -19,6 +19,7 @@ import {
 } from './chapterOneExpandedScenes';
 import VariableTracker from './VariableTracker';
 import { gameStateReducer, type ExtendedGameState, INITIAL_GAME_STATE } from './GameStateManager';
+import './visualnovel.css';
 
 // ============================================================================
 // NEW STORY: Zara — Chapter 1: Light & Shadow
@@ -62,6 +63,17 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
   const isLastDialogueInBeat = currentBeat && currentBeat.dialogue && gameState.currentDialogueIndex >= currentBeat.dialogue.length - 1;
   const isLastBeat = currentScene && gameState.currentBeatIndex >= currentScene.sceneFlow.length - 1;
 
+  // CG Image State
+  const [showCG, setShowCG] = useState(false);
+  const [cgImageUrl, setCgImageUrl] = useState<string | null>(null);
+
+  // Production Features
+  const [showQuickMenu, setShowQuickMenu] = useState(false);
+  const [autoAdvance, setAutoAdvance] = useState(false);
+  const [skipMode, setSkipMode] = useState(false);
+  const [textHistory, setTextHistory] = useState<Array<{speaker: string, line: string}>>([]);
+  const [showHistory, setShowHistory] = useState(false);
+
   // Text typing effect
   useEffect(() => {
     if (!currentDialogue) return;
@@ -69,8 +81,15 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
     setIsTyping(true);
     setDisplayedText('');
 
+    // Add to history
+    setTextHistory(prev => [...prev, {
+      speaker: currentDialogue.speaker,
+      line: currentDialogue.line
+    }]);
+
     const text = currentDialogue.line;
     let index = 0;
+    const speed = skipMode ? 5 : 30; // Faster typing in skip mode
 
     const interval = setInterval(() => {
       if (index < text.length) {
@@ -79,11 +98,40 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
       } else {
         setIsTyping(false);
         clearInterval(interval);
+
+        // Auto-advance after a delay if enabled
+        if (autoAdvance && !showingChoices) {
+          setTimeout(() => {
+            advanceDialogue();
+          }, 2000);
+        }
       }
-    }, 30); // Faster typing for better UX
+    }, speed);
 
     return () => clearInterval(interval);
-  }, [currentDialogue]);
+  }, [currentDialogue, skipMode, autoAdvance, showingChoices]);
+
+  // CG Image display effect - Show CG when beat has one
+  useEffect(() => {
+    if (!currentBeat) return;
+
+    // Check if current beat has a CG image
+    if (currentBeat.cg) {
+      const cgUrl = getCGForScene(gameState.currentSceneId, loadedAssets);
+      if (cgUrl) {
+        console.log('🎨 Displaying CG:', currentBeat.cg, 'URL:', cgUrl);
+        setCgImageUrl(cgUrl);
+        setShowCG(true);
+      } else {
+        console.warn('⚠️ CG image not found:', currentBeat.cg);
+        setShowCG(false);
+      }
+    } else {
+      // No CG for this beat, hide it
+      setShowCG(false);
+      setCgImageUrl(null);
+    }
+  }, [currentBeat, gameState.currentSceneId, loadedAssets]);
 
   // Advance dialogue
   const advanceDialogue = useCallback(() => {
@@ -122,17 +170,45 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
-        if (!showingChoices) {
+        if (!showingChoices && !showHistory) {
           advanceDialogue();
         }
       } else if (e.key === 'Escape') {
-        onExit();
+        if (showHistory) {
+          setShowHistory(false);
+        } else if (showQuickMenu) {
+          setShowQuickMenu(false);
+        } else {
+          onExit();
+        }
+      } else if (e.key === 'h' || e.key === 'H') {
+        // H key toggles history
+        setShowHistory(!showHistory);
+      } else if (e.key === 'q' || e.key === 'Q') {
+        // Q key toggles quick menu
+        setShowQuickMenu(!showQuickMenu);
+      } else if (e.key === 'a' || e.key === 'A') {
+        // A key toggles auto-advance
+        setAutoAdvance(!autoAdvance);
+      } else if (e.key === 'Control' && !skipMode) {
+        // Hold Ctrl to skip
+        setSkipMode(true);
+      }
+    };
+
+    const handleKeyUp = (e: KeyboardEvent) => {
+      if (e.key === 'Control') {
+        setSkipMode(false);
       }
     };
 
     window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [advanceDialogue, showingChoices, onExit]);
+    window.addEventListener('keyup', handleKeyUp);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [advanceDialogue, showingChoices, showHistory, showQuickMenu, autoAdvance, skipMode, onExit]);
 
   // Handle choice selection
   const selectChoice = (choice: Choice) => {
@@ -197,18 +273,39 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
         />
       </div>
 
+      {/* CG Image Overlay - Displays over background when scene has CG */}
+      {showCG && cgImageUrl && (
+        <div className="absolute inset-0 z-20 flex items-center justify-center bg-black/80 animate-fade-in">
+          <img
+            src={cgImageUrl}
+            alt="CG Illustration"
+            className="max-w-[90%] max-h-[90%] object-contain shadow-2xl rounded-lg"
+            style={{
+              filter: 'drop-shadow(0 0 60px rgba(138, 43, 226, 0.5))',
+            }}
+          />
+          {/* CG dismiss hint */}
+          <div className="absolute bottom-8 right-8 text-white/60 text-sm animate-pulse">
+            Click to continue
+          </div>
+        </div>
+      )}
+
       {/* Character Sprite */}
-      {spriteUrl && currentDialogue.speaker === 'zara' && (
-        <div className="absolute bottom-0 right-1/4 pointer-events-none" style={{ height: '60vh' }}>
+      {spriteUrl && currentDialogue.speaker === 'zara' && !showCG && (
+        <div className="absolute bottom-0 right-1/4 pointer-events-none z-10" style={{ height: '60vh' }}>
           <img
             src={spriteUrl}
             alt={`Zara - ${spriteEmotion}`}
+            className="sprite-character"
             style={{
               height: '100%',
               width: 'auto',
               objectFit: 'contain',
               objectPosition: 'bottom center',
               filter: 'drop-shadow(0 0 40px rgba(0,0,0,0.9))',
+              mixBlendMode: 'normal',
+              imageRendering: 'high-quality',
             }}
           />
         </div>
@@ -314,9 +411,130 @@ const RealVisualNovel: React.FC<RealVisualNovelProps> = ({ onExit }) => {
       </div>
 
       {/* Controls Help */}
-      <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm border border-purple-500/30 px-4 py-2 rounded-lg text-xs text-gray-400">
-        <p>🖱️ Click / ⌨️ Enter/Space: Advance | ESC: Exit</p>
+      <div className="absolute bottom-4 left-4 bg-black/60 backdrop-blur-sm border border-purple-500/30 px-4 py-2 rounded-lg text-xs text-gray-400 z-40">
+        <p>🖱️ Click / Enter: Advance | H: History | Q: Menu | A: Auto | Ctrl: Skip | ESC: Exit</p>
+        {autoAdvance && <p className="text-green-400 mt-1">▶ Auto-Advance ON</p>}
+        {skipMode && <p className="text-yellow-400 mt-1">⏩ Skip Mode ON</p>}
       </div>
+
+      {/* Quick Menu */}
+      {showQuickMenu && (
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-lg z-50 flex items-center justify-center animate-fade-in" onClick={() => setShowQuickMenu(false)}>
+          <div className="quick-menu bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 border-2 border-purple-500/50 rounded-2xl p-8 max-w-md w-full mx-4 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <h2 className="text-3xl font-bold text-white mb-6 text-center">Quick Menu</h2>
+
+            <div className="space-y-4">
+              {/* Auto-Advance Toggle */}
+              <button
+                onClick={() => {
+                  setAutoAdvance(!autoAdvance);
+                  setShowQuickMenu(false);
+                }}
+                className={`w-full py-4 px-6 rounded-xl font-semibold text-lg transition-all ${
+                  autoAdvance
+                    ? 'bg-gradient-to-r from-green-600 to-emerald-600 text-white'
+                    : 'bg-gray-700/50 text-gray-300 hover:bg-gray-600/50'
+                }`}
+              >
+                {autoAdvance ? '▶ Auto-Advance: ON' : '⏸ Auto-Advance: OFF'}
+              </button>
+
+              {/* History Button */}
+              <button
+                onClick={() => {
+                  setShowHistory(true);
+                  setShowQuickMenu(false);
+                }}
+                className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all"
+              >
+                📜 Text History
+              </button>
+
+              {/* Save Game */}
+              <button
+                onClick={() => {
+                  dispatch({ type: 'SAVE_STATE' });
+                  alert('Game saved successfully!');
+                  setShowQuickMenu(false);
+                }}
+                className="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-500 hover:to-cyan-500 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all"
+              >
+                💾 Save Game
+              </button>
+
+              {/* Load Game */}
+              <button
+                onClick={() => {
+                  dispatch({ type: 'LOAD_STATE' });
+                  alert('Game loaded!');
+                  setShowQuickMenu(false);
+                }}
+                className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all"
+              >
+                📂 Load Game
+              </button>
+
+              {/* Exit to Title */}
+              <button
+                onClick={() => {
+                  if (confirm('Return to title screen? Unsaved progress will be lost.')) {
+                    onExit();
+                  }
+                }}
+                className="w-full bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white py-4 px-6 rounded-xl font-semibold text-lg transition-all"
+              >
+                🚪 Exit to Title
+              </button>
+
+              {/* Close Menu */}
+              <button
+                onClick={() => setShowQuickMenu(false)}
+                className="w-full bg-gray-700/50 hover:bg-gray-600/50 text-gray-300 py-4 px-6 rounded-xl font-semibold text-lg transition-all"
+              >
+                ✕ Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Text History Overlay */}
+      {showHistory && (
+        <div className="absolute inset-0 bg-black/90 backdrop-blur-lg z-50 overflow-hidden animate-fade-in" onClick={() => setShowHistory(false)}>
+          <div className="h-full flex flex-col p-8" onClick={(e) => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-3xl font-bold text-white">📜 Text History</h2>
+              <button
+                onClick={() => setShowHistory(false)}
+                className="bg-red-600 hover:bg-red-500 text-white px-6 py-2 rounded-lg font-semibold transition-all"
+              >
+                ✕ Close
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto bg-black/40 rounded-2xl p-6 border border-purple-500/30">
+              <div className="space-y-6">
+                {textHistory.map((entry, index) => (
+                  <div key={index} className="animate-slide-up">
+                    {entry.speaker !== 'narrator' && (
+                      <div className="text-purple-400 font-bold mb-2">
+                        {entry.speaker.charAt(0).toUpperCase() + entry.speaker.slice(1)}
+                      </div>
+                    )}
+                    <div className="text-white/90 text-lg leading-relaxed pl-4 border-l-2 border-purple-500/50">
+                      {entry.line}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="mt-4 text-center text-gray-400 text-sm">
+              Total lines: {textHistory.length} | Press ESC or H to close
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

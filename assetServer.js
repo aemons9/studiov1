@@ -47,8 +47,10 @@ app.post('/api/save-asset', async (req, res) => {
 
     // Determine subfolder based on asset type
     const subfolderMap = {
+      'character_sprite': 'sprites',
       'sprite': 'sprites',
       'background': 'backgrounds',
+      'cg_image': 'cg',
       'cg': 'cg',
       'cutscene_video': 'videos',
       'ui_element': 'ui',
@@ -133,8 +135,10 @@ app.delete('/api/assets/:type/:filename', async (req, res) => {
     const { type, filename } = req.params;
 
     const subfolderMap = {
+      'character_sprite': 'sprites',
       'sprite': 'sprites',
       'background': 'backgrounds',
+      'cg_image': 'cg',
       'cg': 'cg',
       'cutscene_video': 'videos',
       'ui_element': 'ui',

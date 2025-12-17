@@ -14,7 +14,8 @@ import { COMPLETE_ASSET_MANIFEST, type AssetRequirement } from './assetManifest'
 
 // Dynamically import all assets from the file system using Vite's glob import
 // This makes assets available at runtime without localStorage size limits
-const fileSystemAssets = import.meta.glob<{ default: string }>('./assets/**/*.{png,jpg,jpeg,mp4,mp3,wav}', {
+// Note: Supports both PNG and JPG formats
+const fileSystemAssets = import.meta.glob<{ default: string }>('./assets/**/*.{png,jpg,jpeg,webp,mp4,mp3,wav}', {
   eager: true,
   import: 'default'
 });
@@ -214,12 +215,69 @@ const FALLBACK_BACKGROUNDS: Record<string, string> = {
 };
 
 /**
+ * Mapping from asset IDs to actual generated filenames
+ * This handles the mismatch between expected IDs and generated filenames
+ */
+const ASSET_FILENAME_MAP: Record<string, string> = {
+  // Backgrounds (JPG files, no 'bg_' prefix)
+  'bg_studio_morning_arrival': 'studio_morning_arrival.jpg',
+  'bg_wardrobe_styling': 'studio_wardrobe_styling_area.jpg',
+  'bg_studio_neutral_setup': 'studio_center_neutral_professional_setup.jpg',
+  'bg_studio_softglow': 'studio_soft_glow_intimate.jpg',
+  'bg_boudoir_bedroom_natural': 'boudoir_bedroom_natural_light.jpg',
+  'bg_boudoir_luxury_dramatic': 'boudoir_luxury_dramatic.jpg',
+  'bg_studio_intimate_corner': 'studio_intimate_private_corner.jpg',
+  'bg_dressing_room_private': 'private_dressing_room.jpg',
+  'bg_natural_light_loft': 'natural_light_loft_space.jpg',
+
+  // Character Sprites (PNG files with descriptive suffixes)
+  'zara_neutral': 'zara_neutral_professional.png',
+  'zara_confident': 'zara_confident_commanding.png',
+  'zara_vulnerable': 'zara_vulnerable_open.png',
+  'zara_playful': 'zara_playful_joyful.png',
+  'zara_uncomfortable': 'zara_uncomfortable_guarded.png',
+  'zara_trusting': 'zara_trusting_comfortable.png',
+  'zara_experimental': 'zara_experimental_mode.png',
+  'zara_platinum': 'zara_platinum_mode.png',
+  'zara_vera': 'zara_vera_mode.png',
+  'zara_artistic': 'zara_artistic_mode.png',
+  'zara_wrap_satisfied': 'zara_end_of_day_relaxed.png',
+  'zara_lingerie_elegant': 'zara_elegant_lingerie.png',
+  'zara_lingerie_minimal': 'zara_minimal_lingerie.png',
+  'zara_silk_robe_open': 'zara_silk_robe_partially_open.png',
+  'zara_artistic_drape_partial': 'zara_artistic_fabric_draping.png',
+  'zara_minimal_artistic': 'zara_minimal_artistic_coverage.png',
+  'zara_boudoir_confident': 'zara_boudoir_confident.png',
+  'zara_boudoir_vulnerable': 'zara_boudoir_vulnerable.png',
+  'zara_intimate_trust': 'zara_deep_intimate_trust.png',
+
+  // CG Images (JPG files)
+  'cg_first_greeting': 'cg_first_greeting.jpg',
+  'cg_wardrobe_discussion': 'cg_wardrobe_discussion.jpg',
+  'cg_mirror_preparation': 'cg_mirror_preparation.jpg',
+  'cg_lighttest': 'cg_light_test_preparation.jpg',
+  'cg_equipment_hiccup': 'cg_equipment_hiccup_dramatic_shadow.jpg',
+  'cg_first_frame_vulnerable': 'cg_first_frame_vulnerable_portrait.jpg',
+  'cg_first_frame_commanding': 'cg_first_frame_commanding_editorial.jpg',
+  'cg_first_intimate_portrait': 'cg_first_intimate_portrait.jpg',
+  'cg_boudoir_pose': 'cg_boudoir_session.jpg',
+  'cg_artistic_draping_moment': 'cg_artistic_fabric_draping.jpg',
+  'cg_personal_reveal': 'cg_personal_revelation.jpg',
+  'cg_intimate_close_moment': 'cg_intimate_connection_moment.jpg',
+  'cg_climax_experimental': 'cg_climactic_shot_experimental.jpg',
+  'cg_climax_platinum': 'cg_climactic_shot_platinum.jpg',
+  'cg_climax_vera': 'cg_climactic_shot_vera.jpg',
+  'cg_climax_boudoir': 'cg_climactic_boudoir.jpg',
+  'cg_climax_minimal': 'cg_climactic_minimal_artistic.jpg',
+};
+
+/**
  * Get asset filename from asset ID using our naming convention
  *
  * Naming convention:
- * - Character sprites: zara_*.png (e.g., zara_neutral_full.png)
- * - Backgrounds: bg_*.png (e.g., bg_art_gallery.png)
- * - CG images: cg_*.png (e.g., cg_first_meeting.png)
+ * - Character sprites: zara_*.png (e.g., zara_neutral_professional.png)
+ * - Backgrounds: *.jpg without bg_ prefix (e.g., studio_morning_arrival.jpg)
+ * - CG images: cg_*.jpg (e.g., cg_first_greeting.jpg)
  * - UI elements: ui_*.png (e.g., ui_dialogue_box.png)
  * - Location maps: map_*.png (e.g., map_city_overview.png)
  * - BGM: bgm_*.mp3 (e.g., bgm_main_menu.mp3)
@@ -227,6 +285,11 @@ const FALLBACK_BACKGROUNDS: Record<string, string> = {
  * - Videos: cutscene_*.mp4 (e.g., cutscene_chapter_intro.mp4)
  */
 function getAssetFilename(assetId: string): string {
+  // Check if we have a custom mapping for this asset
+  if (ASSET_FILENAME_MAP[assetId]) {
+    return ASSET_FILENAME_MAP[assetId];
+  }
+
   const asset = COMPLETE_ASSET_MANIFEST.find(a => a.id === assetId);
   if (!asset) return `${assetId}.png`;
 
@@ -275,7 +338,23 @@ function loadAsset(assetId: string): string | null {
       return fileSystemAssets[path] as string;
     }
 
+    // Try alternative extensions if primary not found
+    const alternatives = [
+      path.replace(/\.(png|jpg|jpeg)$/, '.png'),
+      path.replace(/\.(png|jpg|jpeg)$/, '.jpg'),
+      path.replace(/\.(png|jpg|jpeg)$/, '.jpeg'),
+      path.replace(/\.(png|jpg|jpeg)$/, '.webp'),
+    ];
+
+    for (const altPath of alternatives) {
+      if (fileSystemAssets[altPath]) {
+        console.log(`✅ 📁 Loaded ${assetId} from file system (alternative): ${altPath}`);
+        return fileSystemAssets[altPath] as string;
+      }
+    }
+
     console.log(`❌ Asset not found: ${assetId} (expected at ${path})`);
+    console.log(`   Available paths in ${subfolder}:`, Object.keys(fileSystemAssets).filter(p => p.includes(subfolder)).slice(0, 5));
     return null;
   } catch (error) {
     console.error(`❌ Error loading asset ${assetId}:`, error);

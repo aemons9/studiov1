@@ -1,13 +1,71 @@
-import { GoogleGenAI, Modality, Type } from "@google/genai";
 import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 import { getPhotographerById } from '../photographerStyles';
+import { GoogleGenAI } from "@google/genai";
 import { getGeminiApiKey } from '../../services/apiKeyManager';
 
+/**
+ * Get Google GenAI instance for Imagen/Veo operations
+ * Uses API key from settings
+ */
 async function getAiInstance(): Promise<GoogleGenAI> {
   const apiKey = await getGeminiApiKey();
   return new GoogleGenAI({ apiKey });
+}
+
+/**
+ * Call Vertex AI Gemini with OAuth for text generation with optional JSON schema
+ * Used for video prompt generation
+ */
+async function callVertexAIGeminiText(userPrompt: string, systemInstruction: string, responseSchema?: any): Promise<string> {
+  const { getOAuthToken, getProjectId } = await import('../../utils/sharedAuthManager');
+
+  const projectId = getProjectId();
+  const oauthToken = getOAuthToken();
+
+  if (!projectId || !oauthToken) {
+    throw new Error('OAuth authentication not configured. Please set up GCP Project ID and OAuth token in Settings. OAuth tokens are auto-refreshed on Vercel deployments.');
+  }
+
+  const location = 'us-central1';
+  const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/gemini-2.5-flash:generateContent`;
+
+  const requestBody: any = {
+    system_instruction: {
+      parts: [{ text: systemInstruction }]
+    },
+    contents: [{
+      role: 'user',
+      parts: [{ text: userPrompt }]
+    }],
+    generationConfig: {
+      temperature: 0.7,
+    }
+  };
+
+  // Add response schema if provided (for structured JSON output)
+  if (responseSchema) {
+    requestBody.generationConfig.responseMimeType = 'application/json';
+    requestBody.generationConfig.responseSchema = responseSchema;
+  }
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${oauthToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Vertex AI OAuth error: ${response.status} - ${errorText}`);
+  }
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text;
 }
 
 const MODEL_SPECIALTIES = INDIAN_GLAMOUR_MODELS.reduce((acc, model) => {
@@ -110,32 +168,32 @@ The photographer's style dictates the lighting, camera settings, color grading, 
   }
 
   const responseSchema = {
-    type: Type.OBJECT,
+    type: "object",
     properties: {
       prompts: {
-        type: Type.ARRAY,
+        type: "array",
         description: "An array of generated video prompt variations.",
         items: {
-          type: Type.OBJECT,
+          type: "object",
           properties: {
             id: {
-              type: Type.NUMBER,
+              type: "number",
               description: "A unique identifier for the prompt variation."
             },
             prompt_text: {
-              type: Type.STRING,
+              type: "string",
               description: "The full, detailed cinematic prompt text for Veo."
             },
             style_description: {
-              type: Type.STRING,
+              type: "string",
               description: "A concise, evocative summary of the prompt's style and content."
             },
             recommended_settings: {
-              type: Type.STRING,
+              type: "string",
               description: "A newline-separated string of recommended technical settings (e.g., Aspect Ratio, Lens)."
             },
             image_prompt: {
-              type: Type.STRING,
+              type: "string",
               description: "A concise prompt for generating a still preview image, including the safety preamble."
             },
           },
@@ -147,13 +205,9 @@ The photographer's style dictates the lighting, camera settings, color grading, 
   };
 
   try {
-    const ai = await getAiInstance();
-    const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: userPrompt,
-        config: { systemInstruction: systemInstruction, responseMimeType: "application/json", responseSchema: responseSchema, },
-      });
-    const result = JSON.parse(response.text.trim());
+    const responseText = await callVertexAIGeminiText(userPrompt, systemInstruction, responseSchema);
+    const result = JSON.parse(responseText.trim());
+    console.log('✅ Video prompts generated using Vertex AI OAuth');
     if (result && result.prompts && Array.isArray(result.prompts)) {
       return result.prompts;
     } else {
@@ -228,27 +282,78 @@ export const generateImage = async (
 };
 
 export const generateVideo = async (prompt: string, onStatusUpdate: (status: string) => void): Promise<string> => {
-  // Create a new instance right before the API call to use the latest API key.
-  const veoAi = await getAiInstance();
-  
+  // Use Vertex AI Veo with OAuth (uses your zaranovel project billing, not free tier quota)
+  const { getOAuthToken, getProjectId } = await import('../../utils/sharedAuthManager');
+
+  const projectId = getProjectId();
+  const oauthToken = getOAuthToken();
+
+  if (!projectId || !oauthToken) {
+    throw new Error('OAuth authentication required for video generation. Please reload the page to refresh OAuth tokens.');
+  }
+
+  const location = 'us-central1';
+  const model = 'veo-3.1-generate-preview';
+
   try {
-    onStatusUpdate('Submitting video generation job...');
-    let operation = await veoAi.models.generateVideos({
-      model: 'veo-3.1-generate-preview',
-      prompt: prompt,
-      config: {
-        numberOfVideos: 1,
-        resolution: '720p',
-        aspectRatio: '16:9'
-      }
+    onStatusUpdate('Submitting video generation job to Vertex AI...');
+
+    // Submit video generation request
+    const generateUrl = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/${model}:generateVideos`;
+
+    const generateResponse = await fetch(generateUrl, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${oauthToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        prompt: prompt,
+        config: {
+          numberOfVideos: 1,
+          resolution: '720p',
+          aspectRatio: '16:9'
+        }
+      })
     });
 
+    if (!generateResponse.ok) {
+      const errorText = await generateResponse.text();
+      throw new Error(`Vertex AI Veo generation failed: ${generateResponse.status} - ${errorText}`);
+    }
+
+    const operationData = await generateResponse.json();
+    const operationName = operationData.name;
+
     onStatusUpdate('Job submitted. Polling for results (this may take several minutes)...');
-    
-    while (!operation.done) {
+
+    // Poll for operation completion
+    let operation = operationData;
+    let pollCount = 0;
+    const maxPolls = 60; // 10 minutes max (10 seconds * 60)
+
+    while (!operation.done && pollCount < maxPolls) {
       await new Promise(resolve => setTimeout(resolve, 10000)); // Poll every 10 seconds
-      operation = await veoAi.operations.getVideosOperation({operation: operation});
-      onStatusUpdate(`Processing... Hang tight, high-quality video takes time.`);
+
+      const pollUrl = `https://${location}-aiplatform.googleapis.com/v1/${operationName}`;
+      const pollResponse = await fetch(pollUrl, {
+        headers: {
+          'Authorization': `Bearer ${oauthToken}`,
+        }
+      });
+
+      if (!pollResponse.ok) {
+        const errorText = await pollResponse.text();
+        throw new Error(`Failed to poll operation: ${pollResponse.status} - ${errorText}`);
+      }
+
+      operation = await pollResponse.json();
+      pollCount++;
+      onStatusUpdate(`Processing... (${pollCount * 10}s elapsed)`);
+    }
+
+    if (!operation.done) {
+      throw new Error('Video generation timeout. Operation did not complete within 10 minutes.');
     }
 
     onStatusUpdate('Operation complete. Downloading video file...');
@@ -258,8 +363,8 @@ export const generateVideo = async (prompt: string, onStatusUpdate: (status: str
       throw new Error("Video generation succeeded, but no download link was found.");
     }
 
-    const apiKey = await getGeminiApiKey();
-    const response = await fetch(`${downloadLink}&key=${apiKey}`);
+    // Download video with OAuth token
+    const response = await fetch(`${downloadLink}?access_token=${oauthToken}`);
     if (!response.ok) {
         throw new Error(`Failed to download video: ${response.statusText}`);
     }
@@ -268,16 +373,14 @@ export const generateVideo = async (prompt: string, onStatusUpdate: (status: str
 
     const videoBlob = await response.blob();
     const videoUrl = URL.createObjectURL(videoBlob);
-    
+
+    console.log('✅ Video generated using Vertex AI Veo with OAuth (project:', projectId, ')');
     return videoUrl;
 
   } catch (error) {
     console.error("Error generating video:", error);
-    if (error instanceof Error && error.message.includes("API key not valid")) {
-       throw new Error("Your API key is not valid. Please select a valid key.");
-    }
-    if (error instanceof Error && error.message.includes("Requested entity was not found.")) {
-       throw new Error("API Key validation failed. Please re-select your API key and try again.");
+    if (error instanceof Error && error.message.includes("401")) {
+       throw new Error("OAuth token expired. Please reload the page to refresh your token.");
     }
     throw new Error(`Failed to generate video. ${error instanceof Error ? error.message : ''}`);
   }

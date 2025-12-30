@@ -11,6 +11,7 @@ import { MASTERCLASS_MODELS, getModelsByAesthetic } from './models/masterClassMo
 import { MasterPromptStrategy, MasterPromptConfig, MASTERCLASS_PRESETS } from './services/masterPromptStrategy';
 import { generateImage } from '../services/geminiService';
 import { getGeminiApiKey } from '../services/apiKeyManager';
+import { getOAuthToken, getProjectId, saveAuthCredentials } from '../utils/sharedAuthManager';
 import { MasterClassAuth } from './components/MasterClassAuth';
 import { MASTER_WARDROBE_COLLECTION, MasterWardrobeItem, WARDROBE_PRESETS, getWardrobeByIntimacy, getWardrobeByCategory } from './collections/masterWardrobeCollection';
 
@@ -65,13 +66,23 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
   const [projectId, setProjectId] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
 
-  // Load authentication settings from localStorage on mount
+  // Load authentication settings - Try sharedAuthManager first, fallback to legacy keys
   useEffect(() => {
-    const savedProjectId = localStorage.getItem('masterclass_projectId');
-    const savedAccessToken = localStorage.getItem('masterclass_accessToken');
+    const sharedProjectId = getProjectId();
+    const sharedToken = getOAuthToken();
 
-    if (savedProjectId) setProjectId(savedProjectId);
-    if (savedAccessToken) setAccessToken(savedAccessToken);
+    if (sharedProjectId && sharedToken) {
+      // Use unified auth from sharedAuthManager
+      setProjectId(sharedProjectId);
+      setAccessToken(sharedToken);
+    } else {
+      // Fallback to legacy localStorage keys
+      const savedProjectId = localStorage.getItem('masterclass_projectId');
+      const savedAccessToken = localStorage.getItem('masterclass_accessToken');
+
+      if (savedProjectId) setProjectId(savedProjectId);
+      if (savedAccessToken) setAccessToken(savedAccessToken);
+    }
   }, []);
 
   // Handle authentication updates
@@ -79,11 +90,20 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
     setProjectId(newProjectId);
     setAccessToken(newAccessToken);
 
-    // Persist to localStorage
+    // Use sharedAuthManager for unified token storage
+    saveAuthCredentials({
+      authMethod: 'oauth',
+      projectId: newProjectId,
+      oauthToken: newAccessToken,
+      apiKey: '',
+      tokenTimestamp: Date.now()
+    });
+
+    // Keep legacy keys for backward compatibility
     localStorage.setItem('masterclass_projectId', newProjectId);
     localStorage.setItem('masterclass_accessToken', newAccessToken);
 
-    console.log('🔐 MasterClass Auth Updated:', {
+    console.log('🔐 MasterClass Auth Updated (unified storage):', {
       projectId: newProjectId ? `${newProjectId.substring(0, 10)}...` : 'Not set',
       token: newAccessToken ? `${newAccessToken.substring(0, 10)}...` : 'Not set'
     });

@@ -3,6 +3,8 @@
  * Vertex AI Veo video generation for main mode prompts
  */
 
+import { getOAuthToken, getProjectId, checkTokenExpiration } from '../utils/sharedAuthManager';
+
 /**
  * Generate a video using Vertex AI Veo
  */
@@ -29,12 +31,21 @@ export async function generateVideo(
 
     return await generateVideoWithApiKey(prompt, apiKey, onStatusUpdate);
   } else {
-    // Use OAuth method with Vertex AI
-    authProjectId = projectId || localStorage.getItem('main_mode_project_id') || '';
-    authToken = accessToken || localStorage.getItem('main_mode_access_token') || '';
+    // Use OAuth method with Vertex AI (via sharedAuthManager for unified token storage)
+    authProjectId = projectId || getProjectId() || '';
+    authToken = accessToken || getOAuthToken() || '';
 
     if (!authProjectId || !authToken) {
       throw new Error('Project ID and Access Token are required for video generation. Please configure authentication.');
+    }
+
+    // Validate token is not expired
+    const { isExpired, isExpiringSoon } = checkTokenExpiration();
+    if (isExpired) {
+      throw new Error('OAuth token has expired. Please reload the page to refresh your credentials.');
+    }
+    if (isExpiringSoon) {
+      console.warn('⚠️ OAuth token will expire soon. Consider refreshing the page.');
     }
 
     return await generateVideoWithOAuth(prompt, authProjectId, authToken, onStatusUpdate);
@@ -172,7 +183,7 @@ async function pollVideoOperation(
   accessToken: string,
   onStatusUpdate: (status: string) => void
 ): Promise<string> {
-  const pollUrl = `https://aiplatform.googleapis.com/v1/${operationName}`;
+  const pollUrl = `https://us-central1-aiplatform.googleapis.com/v1/${operationName}`;
   const maxAttempts = 60; // 5 minutes max (5 second intervals)
   let attempts = 0;
 
@@ -226,6 +237,12 @@ async function pollVideoOperation(
  * Fetch video from Google Cloud Storage and convert to Blob
  */
 async function fetchVideoAsBlob(uri: string, accessToken: string): Promise<Blob> {
+  // Validate token is not expired before downloading
+  const { isExpired } = checkTokenExpiration();
+  if (isExpired) {
+    throw new Error('OAuth token expired. Cannot download video blob. Please reload the page.');
+  }
+
   const response = await fetch(uri, {
     method: 'GET',
     headers: {

@@ -48,6 +48,7 @@ import { PlatinumPromptEngine } from './platinum/promptEngine';
 import { CORPORATE_ROLES } from './corporate/corporateRoles';
 import { OFFICE_ENVIRONMENTS } from './corporate/corporateEnvironments';
 import { INDIAN_MODEL_ARCHETYPES, getModelArchetype } from './artistic/indianModels';
+import { saveAuthCredentials, getOAuthToken, getProjectId } from './utils/sharedAuthManager';
 import { MASTER_STYLES, getMasterStyle } from './artistic/masterStyles';
 
 const initialPromptJson = `{
@@ -284,17 +285,20 @@ const App: React.FC = () => {
           fetch('/api/gcloud-project')
         ]);
 
+        let newToken = '';
+        let newProjectId = '';
+
         if (tokenResponse.ok) {
           const tokenData = await tokenResponse.json();
-          const token = tokenData.token;
+          newToken = tokenData.token;
 
-          // Update localStorage
-          localStorage.setItem('mainToken', token);
+          // Update localStorage (legacy)
+          localStorage.setItem('mainToken', newToken);
 
           // Update state
-          setGenerationSettings(prev => ({ ...prev, accessToken: token }));
+          setGenerationSettings(prev => ({ ...prev, accessToken: newToken }));
 
-          console.log('✅ OAuth token auto-refreshed:', token.substring(0, 20) + '...');
+          console.log('✅ OAuth token auto-refreshed:', newToken.substring(0, 20) + '...');
         } else {
           const error = await tokenResponse.json();
           console.warn('⚠️ Failed to auto-refresh token:', error.error);
@@ -303,15 +307,27 @@ const App: React.FC = () => {
 
         if (projectResponse.ok) {
           const projectData = await projectResponse.json();
-          const projectId = projectData.projectId;
+          newProjectId = projectData.projectId;
 
-          // Update localStorage
-          localStorage.setItem('projectId', projectId);
+          // Update localStorage (legacy)
+          localStorage.setItem('projectId', newProjectId);
 
           // Update state
-          setGenerationSettings(prev => ({ ...prev, projectId: projectId }));
+          setGenerationSettings(prev => ({ ...prev, projectId: newProjectId }));
 
-          console.log('✅ GCP Project ID loaded:', projectId);
+          console.log('✅ GCP Project ID loaded:', newProjectId);
+        }
+
+        // Save to unified auth storage (used by all modes)
+        if (newToken && newProjectId) {
+          saveAuthCredentials({
+            authMethod: 'oauth',
+            projectId: newProjectId,
+            oauthToken: newToken,
+            apiKey: '',
+            tokenTimestamp: Date.now()
+          });
+          console.log('✅ OAuth saved to unified auth storage (all modes)');
         }
 
       } catch (error) {
@@ -334,8 +350,13 @@ const App: React.FC = () => {
 
   // Load tokens and project IDs from localStorage on startup
   useEffect(() => {
-    const mainToken = localStorage.getItem('mainToken');
-    const projectId = localStorage.getItem('projectId');
+    // Try sharedAuthManager first (unified storage for all modes)
+    const sharedToken = getOAuthToken();
+    const sharedProjectId = getProjectId();
+
+    // Fallback to legacy localStorage keys
+    const mainToken = sharedToken || localStorage.getItem('mainToken');
+    const projectId = sharedProjectId || localStorage.getItem('projectId');
     const driveToken = localStorage.getItem('driveToken');
     const replicateToken = localStorage.getItem('replicateToken');
     const weavingToken = localStorage.getItem('weavingToken');
@@ -352,7 +373,7 @@ const App: React.FC = () => {
         projectId: projectId
       }));
       loadedCount += 2;
-      console.log('✅ Vertex AI token and project ID loaded');
+      console.log('✅ Vertex AI token and project ID loaded', sharedToken ? '(from unified storage)' : '(from legacy storage)');
     } else if (mainToken) {
       setGenerationSettings(prev => ({ ...prev, accessToken: mainToken }));
       loadedCount++;

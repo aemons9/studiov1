@@ -15,8 +15,9 @@ import { COMPLETE_ASSET_MANIFEST, type AssetRequirement } from './assetManifest'
 // Dynamically import all assets from the file system using Vite's glob import
 // This makes assets available at runtime without localStorage size limits
 // Note: Supports both PNG and JPG formats
+// OPTIMIZATION: eager: false for lazy loading - assets loaded on demand, not bundled upfront
 const fileSystemAssets = import.meta.glob<{ default: string }>('./assets/**/*.{png,jpg,jpeg,webp,mp4,mp3,wav}', {
-  eager: true,
+  eager: false,
   import: 'default'
 });
 
@@ -319,14 +320,14 @@ function getAssetSubfolder(assetId: string): string {
 }
 
 /**
- * Load a single asset from file system only
+ * Load a single asset from file system only (async for lazy loading)
  *
  * Returns:
  * - Asset URL if file exists in visualnovel/assets/**
  * - null if not found
  */
-function loadAsset(assetId: string): string | null {
-  // Load from file system only
+async function loadAsset(assetId: string): Promise<string | null> {
+  // Load from file system only (now async due to lazy loading)
   try {
     const filename = getAssetFilename(assetId);
     const subfolder = getAssetSubfolder(assetId);
@@ -334,8 +335,9 @@ function loadAsset(assetId: string): string | null {
 
     // Check if file exists in our imported assets
     if (fileSystemAssets[path]) {
-      console.log(`✅ 📁 Loaded ${assetId} from file system: ${path}`);
-      return fileSystemAssets[path] as string;
+      console.log(`✅ 📁 Loading ${assetId} from file system: ${path}`);
+      const module = await fileSystemAssets[path]();
+      return module as string;
     }
 
     // Try alternative extensions if primary not found
@@ -348,8 +350,9 @@ function loadAsset(assetId: string): string | null {
 
     for (const altPath of alternatives) {
       if (fileSystemAssets[altPath]) {
-        console.log(`✅ 📁 Loaded ${assetId} from file system (alternative): ${altPath}`);
-        return fileSystemAssets[altPath] as string;
+        console.log(`✅ 📁 Loading ${assetId} from file system (alternative): ${altPath}`);
+        const module = await fileSystemAssets[altPath]();
+        return module as string;
       }
     }
 
@@ -363,13 +366,13 @@ function loadAsset(assetId: string): string | null {
 }
 
 /**
- * Load all generated visual novel assets from local file system
+ * Load all generated visual novel assets from local file system (async for lazy loading)
  *
  * Priority for each asset:
  * 1. File System (visualnovel/assets/**) - Loads from local folders
  * 2. Unsplash fallback - Used in getBackgroundForScene if asset not found
  */
-export function loadAllVisualNovelAssets(): LoadedAssets {
+export async function loadAllVisualNovelAssets(): Promise<LoadedAssets> {
   const loaded: LoadedAssets = {
     backgrounds: {},
     sprites: {},
@@ -380,49 +383,59 @@ export function loadAllVisualNovelAssets(): LoadedAssets {
   };
 
   // Load backgrounds and map to scenes
-  Object.entries(BACKGROUND_MAP).forEach(([assetId, sceneIds]) => {
-    const imageData = loadAsset(assetId);
-    if (imageData) {
-      // Apply this background to all its scenes
-      sceneIds.forEach(sceneId => {
-        loaded.backgrounds[sceneId] = imageData;
-      });
-    }
-  });
+  await Promise.all(
+    Object.entries(BACKGROUND_MAP).map(async ([assetId, sceneIds]) => {
+      const imageData = await loadAsset(assetId);
+      if (imageData) {
+        // Apply this background to all its scenes
+        sceneIds.forEach(sceneId => {
+          loaded.backgrounds[sceneId] = imageData;
+        });
+      }
+    })
+  );
 
   // Load character sprites
-  Object.entries(SPRITE_MAP).forEach(([assetId, expressionKey]) => {
-    const imageData = loadAsset(assetId);
-    if (imageData) {
-      loaded.sprites[expressionKey] = imageData;
-    }
-  });
+  await Promise.all(
+    Object.entries(SPRITE_MAP).map(async ([assetId, expressionKey]) => {
+      const imageData = await loadAsset(assetId);
+      if (imageData) {
+        loaded.sprites[expressionKey] = imageData;
+      }
+    })
+  );
 
   // Load CG images
-  Object.entries(CG_MAP).forEach(([assetId, sceneId]) => {
-    const imageData = loadAsset(assetId);
-    if (imageData) {
-      loaded.cg[sceneId] = imageData;
-    }
-  });
+  await Promise.all(
+    Object.entries(CG_MAP).map(async ([assetId, sceneId]) => {
+      const imageData = await loadAsset(assetId);
+      if (imageData) {
+        loaded.cg[sceneId] = imageData;
+      }
+    })
+  );
 
   // Load UI elements
   const uiElements = ['ui_dialogue_box', 'ui_choice_button'];
-  uiElements.forEach(assetId => {
-    const imageData = loadAsset(assetId);
-    if (imageData) {
-      loaded.ui[assetId] = imageData;
-    }
-  });
+  await Promise.all(
+    uiElements.map(async assetId => {
+      const imageData = await loadAsset(assetId);
+      if (imageData) {
+        loaded.ui[assetId] = imageData;
+      }
+    })
+  );
 
   // Load location maps
   const mapElements = ['map_city_overview', 'map_location_gallery', 'map_location_studio', 'map_location_apartment', 'map_location_cafe', 'map_time_indicator'];
-  mapElements.forEach(assetId => {
-    const imageData = loadAsset(assetId);
-    if (imageData) {
-      loaded.maps[assetId] = imageData;
-    }
-  });
+  await Promise.all(
+    mapElements.map(async assetId => {
+      const imageData = await loadAsset(assetId);
+      if (imageData) {
+        loaded.maps[assetId] = imageData;
+      }
+    })
+  );
 
   console.log('📦 Loaded Visual Novel Assets:', {
     backgrounds: Object.keys(loaded.backgrounds).length,
@@ -486,28 +499,31 @@ export function hasNewAssets(oldAssets: LoadedAssets, newAssets: LoadedAssets): 
 }
 
 /**
- * Get asset generation status for UI display
+ * Get asset generation status for UI display (async for lazy loading)
  * Checks file system only
  */
-export function getAssetStatus(): {
+export async function getAssetStatus(): Promise<{
   total: number;
   generated: number;
   critical: number;
   criticalGenerated: number;
   progress: number;
-} {
+}> {
   const criticalAssets = COMPLETE_ASSET_MANIFEST.filter(a => a.priority === 'critical');
   let generatedCount = 0;
   let criticalGeneratedCount = 0;
 
-  COMPLETE_ASSET_MANIFEST.forEach(asset => {
-    if (loadAsset(asset.id)) {
-      generatedCount++;
-      if (asset.priority === 'critical') {
-        criticalGeneratedCount++;
+  await Promise.all(
+    COMPLETE_ASSET_MANIFEST.map(async asset => {
+      const assetData = await loadAsset(asset.id);
+      if (assetData) {
+        generatedCount++;
+        if (asset.priority === 'critical') {
+          criticalGeneratedCount++;
+        }
       }
-    }
-  });
+    })
+  );
 
   return {
     total: COMPLETE_ASSET_MANIFEST.length,

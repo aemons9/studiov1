@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, HistoryEntry, AdherenceLevel, CloudStorageConfig, StorageProvider, StorageSettings, CalculatedLevels } from './types';
 import { generateImage, enhancePrompt, weavePrompt, generateAndSaveImage, type StorageConfig, applyAdvancedSelections } from './services/geminiService';
-import { generateWithMaximumSafety, getGenerationSummary } from './services/intelligentGenerationService';
-import { parseFluxPromptToData } from './services/promptParser';
+// Note: intelligentGenerationService and promptParser are now dynamically imported to improve code splitting
 import { DEFAULT_BUCKET_NAME } from './services/cloudStorageService';
 import { DEFAULT_DRIVE_FOLDER } from './services/googleDriveService';
 import Header from './components/Header';
@@ -511,6 +510,8 @@ const App: React.FC = () => {
       } else {
         // Use Vertex AI Imagen with intelligent safety bypass cascade
         console.log('🚀 Using intelligent generation system with multi-layer safety bypass');
+
+        const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
 
         const generationResult = await generateWithMaximumSafety(
           finalPrompt,
@@ -1287,6 +1288,8 @@ const App: React.FC = () => {
     setGenerationStep(null);
 
     try {
+      const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
+
       const result = await generateWithMaximumSafety(
         prompt,           // wovenPrompt: string
         null,             // promptData: PromptData | null
@@ -1320,9 +1323,10 @@ const App: React.FC = () => {
     }
   };
 
-  const handleMigrateFromGallery = (promptTemplate: string) => {
+  const handleMigrateFromGallery = async (promptTemplate: string) => {
     try {
       // Parse the gallery prompt into PromptData
+      const { parseFluxPromptToData } = await import('./services/promptParser');
       const parsedData = parseFluxPromptToData(promptTemplate);
       setPromptData(parsedData);
       setPromptMode('json');
@@ -1373,6 +1377,8 @@ const App: React.FC = () => {
       setIsLoading(true);
       setError(null);
 
+      const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
+
       // Fix: generateWithMaximumSafety expects (wovenPrompt, promptData, settings)
       const result = await generateWithMaximumSafety(
         prompt,           // wovenPrompt: string
@@ -1422,6 +1428,8 @@ const App: React.FC = () => {
       setIsLoading(true);
       setError(null);
       setVisualNovelImages(null); // Clear old images BEFORE generating new one
+
+      const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
 
       const result = await generateWithMaximumSafety(
         prompt,           // wovenPrompt: string
@@ -1481,8 +1489,10 @@ const App: React.FC = () => {
     setUiMode('classic');
   };
 
-  const handleMigrateFromRolePlay = (promptTemplate: string) => {
+  const handleMigrateFromRolePlay = async (promptTemplate: string) => {
     try {
+      const { parseFluxPromptToData } = await import('./services/promptParser');
+
       // Parse the role-play prompt template into PromptData
       // The template contains placeholders, so extract the base structure
       const basePrompt = promptTemplate

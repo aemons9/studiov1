@@ -5,7 +5,8 @@
  * Generates 8-second video clips with cinematic quality
  */
 
-const PROJECT_ID = "creatives-476816";
+// Default values - can be overridden
+const DEFAULT_PROJECT_ID = "zaranovel"; // Changed to match OAuth project
 const LOCATION_ID = "us-central1";
 const API_ENDPOINT = "us-central1-aiplatform.googleapis.com";
 const MODEL_ID = "veo-3.1-generate-preview";
@@ -34,7 +35,8 @@ export interface VeoGenerationResult {
 export async function generateVeoVideo(
   prompt: string,
   accessToken: string,
-  options: Partial<VeoGenerationRequest> = {}
+  options: Partial<VeoGenerationRequest> = {},
+  projectId: string = DEFAULT_PROJECT_ID
 ): Promise<VeoGenerationResult> {
   try {
     const requestBody = {
@@ -58,7 +60,7 @@ export async function generateVeoVideo(
     console.log('🎬 Veo 3.1 Generation Request:', { prompt: prompt.substring(0, 100), ...requestBody.parameters });
 
     const response = await fetch(
-      `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/${LOCATION_ID}/publishers/google/models/${MODEL_ID}:predictLongRunning`,
+      `https://${API_ENDPOINT}/v1/projects/${projectId}/locations/${LOCATION_ID}/publishers/google/models/${MODEL_ID}:predictLongRunning`,
       {
         method: 'POST',
         headers: {
@@ -100,7 +102,8 @@ export async function generateVeoVideo(
  */
 export async function fetchVeoOperation(
   operationId: string,
-  accessToken: string
+  accessToken: string,
+  projectId: string = DEFAULT_PROJECT_ID
 ): Promise<VeoGenerationResult> {
   try {
     const requestBody = {
@@ -108,7 +111,7 @@ export async function fetchVeoOperation(
     };
 
     const response = await fetch(
-      `https://${API_ENDPOINT}/v1/projects/${PROJECT_ID}/locations/${LOCATION_ID}/publishers/google/models/${MODEL_ID}:fetchPredictOperation`,
+      `https://${API_ENDPOINT}/v1/projects/${projectId}/locations/${LOCATION_ID}/publishers/google/models/${MODEL_ID}:fetchPredictOperation`,
       {
         method: 'POST',
         headers: {
@@ -171,12 +174,13 @@ export async function pollVeoOperation(
   operationId: string,
   accessToken: string,
   maxAttempts: number = 100,
-  intervalMs: number = 3000 // 3 seconds
+  intervalMs: number = 3000, // 3 seconds
+  projectId: string = DEFAULT_PROJECT_ID
 ): Promise<VeoGenerationResult> {
   let attempts = 0;
 
   while (attempts < maxAttempts) {
-    const result = await fetchVeoOperation(operationId, accessToken);
+    const result = await fetchVeoOperation(operationId, accessToken, projectId);
 
     if (result.status === 'completed' || result.status === 'failed') {
       return result;

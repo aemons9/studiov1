@@ -15,6 +15,7 @@ import CustomPromptGenerator from './components/CustomPromptGenerator';
 import MoodboardConceptsUI from './components/MoodboardConceptsUI';
 import InstagramMoodboardsUI from './components/InstagramMoodboardsUI';
 import { VeraLabsCollectionsUI } from './components/VeraLabsCollectionsUI';
+import GenerationControlsPanel, { GenerationControlsState, defaultGenerationControls } from '../components/GenerationControlsPanel';
 import {
   MODELS,
   ENVIRONMENTS,
@@ -69,6 +70,9 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
 
   // Imagen 4 Sub-mode state
   const [imagenMode, setImagenMode] = useState<'concept' | 'architect' | 'ultra'>('concept');
+
+  // Generation Controls
+  const [generationControls, setGenerationControls] = useState<GenerationControlsState>(defaultGenerationControls);
 
   const isCreativeMode = experimentalConcept === EXPERIMENTAL_CONCEPTS[0];
 
@@ -244,6 +248,18 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
         <div className="mt-6">
           <AuthSettings />
         </div>
+
+        {/* Generation Controls Panel */}
+        <div className="mt-6">
+          <GenerationControlsPanel
+            settings={generationControls}
+            onChange={setGenerationControls}
+            disabled={isLoading}
+            colorTheme="cyan"
+            compact={true}
+          />
+        </div>
+
         <main className="mt-8">
           {mode === 'veo' && (
             <div className="flex flex-col gap-12">

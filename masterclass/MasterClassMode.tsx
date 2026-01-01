@@ -14,6 +14,7 @@ import { getGeminiApiKey } from '../services/apiKeyManager';
 import { getOAuthToken, getProjectId, saveAuthCredentials } from '../utils/sharedAuthManager';
 import { MasterClassAuth } from './components/MasterClassAuth';
 import { MASTER_WARDROBE_COLLECTION, MasterWardrobeItem, WARDROBE_PRESETS, getWardrobeByIntimacy, getWardrobeByCategory } from './collections/masterWardrobeCollection';
+import GenerationControlsPanel, { GenerationControlsState, defaultGenerationControls } from '../components/GenerationControlsPanel';
 
 interface MasterClassModeProps {
   onExit: () => void;
@@ -65,6 +66,12 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
   // Authentication settings
   const [projectId, setProjectId] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
+
+  // Generation Controls
+  const [generationControls, setGenerationControls] = useState<GenerationControlsState>({
+    ...defaultGenerationControls,
+    intimacyLevel: 8 // MasterClass defaults to higher intimacy
+  });
 
   // Load authentication settings - Try sharedAuthManager first, fallback to legacy keys
   useEffect(() => {
@@ -218,17 +225,20 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
         platform: session.platformTarget
       });
 
-      // Generate using Imagen with authentication
+      // Generate using settings from generation controls panel
       const images = await generateImage(masterPrompt, {
         numberOfImages: 1,
         aspectRatio: session.aspectRatio,
-        personGeneration: 'allow_adult',
-        safetyFilterLevel: session.renderQuality === 'masterpiece' ? 'block_few' : 'block_only_high',
+        personGeneration: generationControls.personGeneration,
+        safetyFilterLevel: generationControls.safetySetting,
+        safetyBypassStrategy: generationControls.safetyBypassStrategy,
+        intimacyLevel: generationControls.intimacyLevel,
         projectId,
         accessToken,
         vertexAuthMethod: 'oauth',
-        provider: 'vertex-ai',
-        modelId: 'imagen-4.0-generate-001'
+        provider: generationControls.provider,
+        modelId: 'imagen-4.0-generate-001',
+        fluxSafetyTolerance: generationControls.fluxSafetyTolerance
       });
 
       console.log('🖼️ Images received:', images ? images.length : 0);
@@ -743,6 +753,17 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
               <option key={light.name} value={light.name}>{light.name}</option>
             ))}
           </select>
+        </div>
+
+        {/* Generation Controls Panel */}
+        <div className="mb-4">
+          <GenerationControlsPanel
+            settings={generationControls}
+            onChange={setGenerationControls}
+            disabled={isGenerating}
+            colorTheme="blue"
+            compact={true}
+          />
         </div>
 
         <button

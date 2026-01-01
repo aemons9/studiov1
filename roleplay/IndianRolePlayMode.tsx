@@ -3,6 +3,7 @@ import { EROTIC_GLAMOUR_MODELS } from '../concepts/eroticGlamourModels';
 import { ROLEPLAY_SCENARIOS, RolePlayScenario } from './rolePlayConcepts';
 import ImageDisplay from '../components/ImageDisplay';
 import type { GeneratedImageData, GenerationStep } from '../types';
+import GenerationControlsPanel, { GenerationControlsState, defaultGenerationControls } from '../components/GenerationControlsPanel';
 
 interface IndianRolePlayModeProps {
   onGenerate: (prompt: string, settings: any) => void;
@@ -29,11 +30,18 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
   const [selectedWardrobe, setSelectedWardrobe] = useState<any | null>(null);
   const [selectedPose, setSelectedPose] = useState<any | null>(null);
   const [selectedEnvironment, setSelectedEnvironment] = useState<any | null>(null);
-  const [intimacyLevel, setIntimacyLevel] = useState<number>(10);
   const [hoveredModel, setHoveredModel] = useState<string | null>(null);
   const [cgQualityEnabled, setCgQualityEnabled] = useState<boolean>(false);
   const [showAllWardrobes, setShowAllWardrobes] = useState<boolean>(false);
   const [showAllPoses, setShowAllPoses] = useState<boolean>(false);
+
+  // Generation Controls (unified with other modes)
+  const [generationControls, setGenerationControls] = useState<GenerationControlsState>({
+    ...defaultGenerationControls,
+    intimacyLevel: 10, // RolePlay defaults to maximum intimacy
+    provider: 'replicate-flux', // RolePlay defaults to Flux
+    fluxSafetyTolerance: 6
+  });
 
   // Gamification state
   const [currentScenario, setCurrentScenario] = useState<RolePlayScenario | null>(null);
@@ -140,9 +148,12 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
         const prompt = generatePromptWithSelections(randomModel, randomWardrobe, randomPose, randomEnv);
         const settings = {
           aspectRatio: randomPose.aspectRatio || '4:5',
-          intimacyLevel: intimacyLevel,
-          fluxSafetyTolerance: randomModel.personalPhotographer.fluxSettings.safetyTolerance,
-          provider: 'replicate-flux'
+          intimacyLevel: generationControls.intimacyLevel,
+          fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
+          provider: generationControls.provider,
+          safetySetting: generationControls.safetySetting,
+          personGeneration: generationControls.personGeneration,
+          safetyBypassStrategy: generationControls.safetyBypassStrategy
         };
         onGenerate(prompt, settings);
       }
@@ -186,7 +197,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
   const generatePromptWithSelections = (model: any, wardrobe: any, pose: any, environment: any) => {
     const photographer = model.personalPhotographer;
 
-    return `Midnight role-playing photography in fine-art style. Intimacy ${intimacyLevel}/10, intimate artistic encounter. subject: variant: Elite Indian artistic model ${model.name} (height ${model.physicalTraits.height}) specializing in ${model.category} and ${model.physicalTraits.specialties || 'intimate fine-art photography'}. ${model.physicalTraits.figure} (bust ${model.physicalTraits.bust}, waist ${model.physicalTraits.waist}, hips ${model.physicalTraits.hips}). ${model.physicalTraits.skinTone}. ${model.physicalTraits.features}. pose: ${pose.description}. ${pose.poseName}. hair_color: jet black, hair_style: Midnight glamour styling with flowing elegant volume, skin_finish: ${model.physicalTraits.skinTone} with natural luminosity and midnight glow, hand_and_nail_details: Graceful positioning with glamorous manicure and elegant hand movement, tattoos: none, piercings: none, body_art: none, nail_art: Midnight glamour polish with sophisticated finish, high_heels: Designer stilettos with luxury elegance. wardrobe: ${wardrobe.description}. ${wardrobe.fabricDetails || wardrobe.materials}. ${wardrobe.style} with ${intimacyLevel}/10 intimacy aesthetic. environment: ${environment.name}. ${environment.description}. ${environment.atmosphere}. Ultimate privacy with luxury setting. lighting: ${photographer.lightingSignature}. ${environment.lightingProfile}. Creating sculptural definition and intimate midnight atmosphere. camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: ${pose.angle || 'Eye level intimate perspective'}, framing: ${pose.framing || 'Medium shot emphasizing form and curves'}. color_grade: Midnight dramatic tones with sensual warmth and natural color balance. Rich shadows with luxury ambiance. style: ${photographer.style}. Midnight encounter photography celebrating ${model.category}. Power level ${intimacyLevel}/10. Personal photographer: ${photographer.name}, ${photographer.specialty}. Collaborative artistic expression with trust-based intimacy. quality: Ultra-high-end 8K glamour photography with impeccable detail and professional retouching maintaining authentic texture. figure_and_form: ${model.emphasis}. Natural form celebrating feminine curves and presence through sophisticated artistic grace. skin_micro_details: Premium high-resolution skin texture with authentic pores and subsurface scattering. Professional finish maintaining natural beauty and ${model.physicalTraits.skinTone} natural radiance. fabric_physics: ${wardrobe.fabricDetails || wardrobe.materials}. Luxury fabric with natural draping following gravity with realistic folds and texture. Professional wardrobe with subtle body-conscious elements. material_properties: Authentic materials from environment with natural light interaction. ${environment.name} luxury materials with premium tactile quality and rich detail.`;
+    return `Midnight role-playing photography in fine-art style. Intimacy ${generationControls.intimacyLevel}/10, intimate artistic encounter. subject: variant: Elite Indian artistic model ${model.name} (height ${model.physicalTraits.height}) specializing in ${model.category} and ${model.physicalTraits.specialties || 'intimate fine-art photography'}. ${model.physicalTraits.figure} (bust ${model.physicalTraits.bust}, waist ${model.physicalTraits.waist}, hips ${model.physicalTraits.hips}). ${model.physicalTraits.skinTone}. ${model.physicalTraits.features}. pose: ${pose.description}. ${pose.poseName}. hair_color: jet black, hair_style: Midnight glamour styling with flowing elegant volume, skin_finish: ${model.physicalTraits.skinTone} with natural luminosity and midnight glow, hand_and_nail_details: Graceful positioning with glamorous manicure and elegant hand movement, tattoos: none, piercings: none, body_art: none, nail_art: Midnight glamour polish with sophisticated finish, high_heels: Designer stilettos with luxury elegance. wardrobe: ${wardrobe.description}. ${wardrobe.fabricDetails || wardrobe.materials}. ${wardrobe.style} with ${generationControls.intimacyLevel}/10 intimacy aesthetic. environment: ${environment.name}. ${environment.description}. ${environment.atmosphere}. Ultimate privacy with luxury setting. lighting: ${photographer.lightingSignature}. ${environment.lightingProfile}. Creating sculptural definition and intimate midnight atmosphere. camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: ${pose.angle || 'Eye level intimate perspective'}, framing: ${pose.framing || 'Medium shot emphasizing form and curves'}. color_grade: Midnight dramatic tones with sensual warmth and natural color balance. Rich shadows with luxury ambiance. style: ${photographer.style}. Midnight encounter photography celebrating ${model.category}. Power level ${generationControls.intimacyLevel}/10. Personal photographer: ${photographer.name}, ${photographer.specialty}. Collaborative artistic expression with trust-based intimacy. quality: Ultra-high-end 8K glamour photography with impeccable detail and professional retouching maintaining authentic texture. figure_and_form: ${model.emphasis}. Natural form celebrating feminine curves and presence through sophisticated artistic grace. skin_micro_details: Premium high-resolution skin texture with authentic pores and subsurface scattering. Professional finish maintaining natural beauty and ${model.physicalTraits.skinTone} natural radiance. fabric_physics: ${wardrobe.fabricDetails || wardrobe.materials}. Luxury fabric with natural draping following gravity with realistic folds and texture. Professional wardrobe with subtle body-conscious elements. material_properties: Authentic materials from environment with natural light interaction. ${environment.name} luxury materials with premium tactile quality and rich detail.`;
   };
 
   // Generate the complete prompt based on selections
@@ -206,9 +217,12 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
     const prompt = generatePrompt();
     const settings = {
       aspectRatio: selectedPose.aspectRatio || (cgQualityEnabled && selectedPose.vnCG ? '16:9' : selectedPose.vnSprite ? '9:16' : '4:5'),
-      intimacyLevel: intimacyLevel,
-      fluxSafetyTolerance: selectedModel.personalPhotographer.fluxSettings.safetyTolerance,
-      provider: 'replicate-flux',
+      intimacyLevel: generationControls.intimacyLevel,
+      fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
+      provider: generationControls.provider,
+      safetySetting: generationControls.safetySetting,
+      personGeneration: generationControls.personGeneration,
+      safetyBypassStrategy: generationControls.safetyBypassStrategy,
       cgQuality: cgQualityEnabled,
       guidanceScale: cgQualityEnabled ? 8.0 : selectedModel.personalPhotographer.fluxSettings.guidanceScale,
       quality: cgQualityEnabled ? 'cinematic' : 'standard'
@@ -1082,43 +1096,9 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
                   </div>
                 </div>
 
-                {/* Intimacy Level Slider */}
+                {/* Selection Preview Card */}
                 <div>
-                  <label style={{ fontSize: '14px', color: '#C084FC', display: 'block', marginBottom: '12px', fontWeight: '600' }}>
-                    Intimacy Level: {intimacyLevel}/10
-                  </label>
-                  <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    value={intimacyLevel}
-                    onChange={(e) => setIntimacyLevel(parseInt(e.target.value))}
-                    style={{
-                      width: '100%',
-                      height: '8px',
-                      borderRadius: '4px',
-                      outline: 'none',
-                      marginBottom: '12px',
-                      accentColor: '#F472B6'
-                    }}
-                  />
                   <div style={{
-                    fontSize: '12px',
-                    color: '#9CA3AF',
-                    padding: '8px',
-                    backgroundColor: 'rgba(147, 51, 234, 0.1)',
-                    borderRadius: '6px',
-                    textAlign: 'center'
-                  }}>
-                    {intimacyLevel <= 3 && '🌙 Subtle and elegant'}
-                    {intimacyLevel > 3 && intimacyLevel <= 6 && '💫 Sensual and artistic'}
-                    {intimacyLevel > 6 && intimacyLevel <= 8 && '🔥 Bold and expressive'}
-                    {intimacyLevel > 8 && '⚡ Maximum intimacy and revelation'}
-                  </div>
-
-                  {/* Enhanced Preview Card */}
-                  <div style={{
-                    marginTop: '24px',
                     padding: '16px',
                     backgroundColor: isReadyToGenerate
                       ? 'rgba(34, 197, 94, 0.1)'
@@ -1139,7 +1119,8 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
                       <div><strong>Wardrobe:</strong> {selectedWardrobe?.name || '❌ Not selected'}</div>
                       <div><strong>Pose:</strong> {selectedPose?.poseName || '❌ Not selected'}</div>
                       <div><strong>Environment:</strong> {selectedEnvironment?.name || '❌ Not selected'}</div>
-                      <div><strong>Intimacy:</strong> {intimacyLevel}/10</div>
+                      <div><strong>Provider:</strong> {generationControls.provider === 'vertex-ai' ? 'Imagen 4' : 'Flux'}</div>
+                      <div><strong>Intimacy:</strong> {generationControls.intimacyLevel}/10</div>
                     </div>
                     {isReadyToGenerate && (
                       <div style={{
@@ -1157,6 +1138,17 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Generation Controls Panel */}
+            <div style={{ marginBottom: '32px' }}>
+              <GenerationControlsPanel
+                settings={generationControls}
+                onChange={setGenerationControls}
+                disabled={isLoading}
+                colorTheme="pink"
+                compact={true}
+              />
             </div>
 
             {/* Action Buttons */}

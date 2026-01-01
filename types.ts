@@ -123,6 +123,7 @@ export type SafetyBypassStrategy =
   | 'verastrategy'   // Vera mode's advanced prompt optimization for Imagen 4
   | 'ultraoptimizer' // Ultra Optimizer - Sophisticated prompt engineering with Art Directors Declaration
   | 'aggressive'     // Gemini + Translation + Flux with high tolerance
+  | 'nuclear-imagen' // Translation + Imagen 4 max bypass, no Flux
   | 'nuclear';       // Direct to translation + Flux max tolerance
 
 export interface GenerationSettings {

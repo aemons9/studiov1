@@ -187,6 +187,7 @@ import type { InstagramConfig, ImageHostingConfig } from './types';
 import { publishToInstagram } from './instagramApiService';
 import { loadInstagramConfig, getDefaultInstagramConfig } from './instagramApiService';
 import { loadHostingConfig, getDefaultHostingConfig } from './imageHostingService';
+import { loadGitHubToken } from './tokenManager';
 
 /**
  * Simplified "Send to Instagram" function
@@ -253,9 +254,24 @@ export async function sendToInstagram(
   }
 
   // Load or use provided hosting config
-  const hostingConfig = config?.hosting
+  let hostingConfig = config?.hosting
     || loadHostingConfig()
     || getDefaultHostingConfig();
+
+  // Load GitHub token from token manager if not in hosting config
+  if (hostingConfig.provider === 'github' && !hostingConfig.github?.token) {
+    const githubToken = loadGitHubToken();
+
+    if (githubToken && hostingConfig.github) {
+      hostingConfig = {
+        ...hostingConfig,
+        github: {
+          ...hostingConfig.github,
+          token: githubToken,
+        },
+      };
+    }
+  }
 
   // Validate hosting config
   if (hostingConfig.provider === 'github' && !hostingConfig.github?.token) {

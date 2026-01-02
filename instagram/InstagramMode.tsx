@@ -12,6 +12,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import type { GeneratedImageData } from '../types';
 
+// Fine Art Boudoir Collection
+import {
+  BOUDOIR_CONCEPTS,
+  getConceptById,
+  formatInstagramPost,
+  buildFullPromptWithDeclaration,
+  type BoudoirConcept,
+} from '../concepts/fineArtBoudoirCabinCollection';
+
 // Instagram service imports
 import {
   // Token management
@@ -77,6 +86,7 @@ const InstagramMode: React.FC<InstagramModeProps> = ({ generatedImages, onBack }
     'highfashion', 'veracrvs', 'artistic', 'aiart', 'model'
   ]);
   const [newHashtag, setNewHashtag] = useState('');
+  const [selectedConcept, setSelectedConcept] = useState<BoudoirConcept | null>(null);
 
   // Queue state
   const [queue, setQueue] = useState<PostQueueItem[]>([]);
@@ -189,6 +199,30 @@ const InstagramMode: React.FC<InstagramModeProps> = ({ generatedImages, onBack }
   // Remove hashtag
   const handleRemoveHashtag = (tag: string) => {
     setHashtags(hashtags.filter(h => h !== tag));
+  };
+
+  // Select a pre-built concept
+  const handleSelectConcept = (conceptId: string) => {
+    if (!conceptId) {
+      setSelectedConcept(null);
+      return;
+    }
+    const concept = getConceptById(conceptId);
+    if (concept) {
+      setSelectedConcept(concept);
+      setCaption(concept.instagramCaption);
+      setHashtags(concept.instagramHashtags);
+      setMessage({ type: 'info', text: `Loaded concept: ${concept.name}` });
+    }
+  };
+
+  // Copy generation prompt
+  const handleCopyPrompt = () => {
+    if (selectedConcept) {
+      const fullPrompt = buildFullPromptWithDeclaration(selectedConcept);
+      navigator.clipboard.writeText(fullPrompt);
+      setMessage({ type: 'success', text: 'Full prompt copied to clipboard! Use in image generator.' });
+    }
   };
 
   // Publish directly
@@ -411,6 +445,53 @@ const InstagramMode: React.FC<InstagramModeProps> = ({ generatedImages, onBack }
 
       {/* Caption & Options */}
       <div className="space-y-6">
+        {/* Pre-Built Concept Selector */}
+        <div className="bg-gradient-to-r from-purple-900/50 to-pink-900/50 rounded-lg p-6 border border-purple-500/30">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h3 className="text-lg font-semibold text-white">Fine Art Boudoir Concepts</h3>
+              <p className="text-gray-400 text-xs mt-1">Indian Hourglass Muse - Intimacy 10 - Cabin Collection</p>
+            </div>
+            <span className="px-2 py-1 bg-pink-600/30 text-pink-300 text-xs rounded-full">10 Concepts</span>
+          </div>
+
+          <select
+            value={selectedConcept?.id || ''}
+            onChange={(e) => handleSelectConcept(e.target.value)}
+            className="w-full bg-gray-800 text-white rounded-lg px-4 py-3 mb-3 border border-purple-500/30"
+          >
+            <option value="">Select a pre-built concept...</option>
+            {BOUDOIR_CONCEPTS.map(concept => (
+              <option key={concept.id} value={concept.id}>
+                {concept.name}
+              </option>
+            ))}
+          </select>
+
+          {selectedConcept && (
+            <div className="space-y-3">
+              <div className="bg-gray-800/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs mb-1">Environment</p>
+                <p className="text-white text-sm">{selectedConcept.environment.replace(/_/g, ' ')}</p>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs mb-1">Wardrobe</p>
+                <p className="text-white text-sm">{selectedConcept.wardrobe.replace(/_/g, ' ')}</p>
+              </div>
+              <div className="bg-gray-800/50 rounded-lg p-3">
+                <p className="text-gray-400 text-xs mb-1">Artistic Direction</p>
+                <p className="text-white text-sm">{selectedConcept.artisticDirection}</p>
+              </div>
+              <button
+                onClick={handleCopyPrompt}
+                className="w-full py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-sm font-medium transition-colors"
+              >
+                Copy Full Prompt for Generation
+              </button>
+            </div>
+          )}
+        </div>
+
         {/* Caption */}
         <div className="bg-gray-800 rounded-lg p-6">
           <div className="flex items-center justify-between mb-4">

@@ -5,6 +5,7 @@ import { coutureIntimatesConcepts } from './coutureIntimates';
 import { privateGalleryConcepts } from './privateGallery';
 import { sensualArtConcepts } from './sensualArt';
 import { realCreationsConcepts } from './realCreations';
+import { seductressWardrobeConcepts } from './seductressWardrobe';
 
 export const allWardrobeConcepts: WardrobeConcept[] = [
   ...architecturalLingerieConcepts,
@@ -13,4 +14,5 @@ export const allWardrobeConcepts: WardrobeConcept[] = [
   ...privateGalleryConcepts,
   ...conceptArtConcepts,
   ...realCreationsConcepts,
+  ...seductressWardrobeConcepts,
 ];

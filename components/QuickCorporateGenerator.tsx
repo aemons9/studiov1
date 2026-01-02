@@ -1,7 +1,18 @@
 import React, { useState } from 'react';
 import { SuccessPromptEngine, CorporatePowerTemplate } from '../services/successTemplateEngine';
 import { INDIAN_CORPORATE_VARIANTS, IndianCorporateVariant } from '../models/indianCorporateVariants';
+import { INSTAGRAM_INFLUENCER_VARIANTS, InstagramInfluencerVariant } from '../models/instagramInfluencerVariants';
 import { PromptData } from '../types';
+
+type ModelVariant = IndianCorporateVariant | InstagramInfluencerVariant;
+
+function isCorporateVariant(variant: ModelVariant): variant is IndianCorporateVariant {
+  return 'template' in variant;
+}
+
+function isInstagramVariant(variant: ModelVariant): variant is InstagramInfluencerVariant {
+  return 'viralPotential' in variant;
+}
 
 interface QuickCorporateGeneratorProps {
   onGenerate: (prompt: string, settings: { aspectRatio: '4:5' | '9:16' | '16:9' | '1:1', intimacyLevel: number, safetyTolerance: number }) => void;

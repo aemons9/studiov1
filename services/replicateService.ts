@@ -222,9 +222,10 @@ export async function generateWithFlux(
   });
 
   // Use proxy server to avoid CORS issues
-  // Use the same hostname as the current page (important for network access)
+  // In production (Vercel), use relative path for serverless functions
+  // In development, use localhost:3001 or vite proxy
   const PROXY_URL = (import.meta as any).env?.VITE_PROXY_URL ||
-    `${window.location.protocol}//${window.location.hostname}:3001`;
+    (import.meta.env.PROD ? '' : 'http://localhost:3001');
 
   // Fetch the actual model version
   const version = await fetchModelVersion(model, apiToken, PROXY_URL);

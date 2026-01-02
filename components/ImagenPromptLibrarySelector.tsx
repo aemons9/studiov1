@@ -48,9 +48,24 @@ const ImagenPromptLibrarySelector: React.FC<ImagenPromptLibrarySelectorProps> = 
 
   const handlePopulateFields = async (template: ImagenPromptTemplate) => {
     const { parseFluxPromptToData } = await import('../services/promptParser');
-    // Extract the base prompt after the art director declaration
-    const basePrompt = template.prompt.split('\n\n').slice(1).join('\n\n');
-    const promptData = parseFluxPromptToData(basePrompt);
+    const { INSTAGRAM_MOODBOARDS } = await import('../vera/instagramMoodboards');
+
+    // CRITICAL FIX: Instagram moodboards have structured fluxPrompt, use that instead of Imagen paragraph
+    // Check if this is an Instagram moodboard (has fluxPrompt in original source)
+    const instagramSource = INSTAGRAM_MOODBOARDS.find(m => template.name.includes(m.name));
+
+    let promptData;
+
+    if (instagramSource && instagramSource.fluxPrompt) {
+      // Use the structured Flux prompt from Instagram moodboards for accurate parsing
+      console.log('✅ Using Instagram moodboard fluxPrompt for accurate field population');
+      promptData = parseFluxPromptToData(instagramSource.fluxPrompt);
+    } else {
+      // Fallback to parsing Imagen prompt (for non-Instagram templates)
+      const basePrompt = template.prompt.split('\n\n').slice(1).join('\n\n');
+      promptData = parseFluxPromptToData(basePrompt);
+    }
+
     onPopulateFields(promptData);
     console.log('📋 Populated JSON fields from Imagen prompt:', template.name);
   };

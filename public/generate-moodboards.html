@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VeraLabs Moodboard Generator</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+      color: #ffffff;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: 300;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: #999;
+      font-size: 1.1em;
+    }
+
+    .controls {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+    }
+
+    .btn {
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
+      color: #000;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+    }
+
+    select {
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+      gap: 24px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .card-header {
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .card-title {
+      font-size: 1.3em;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #d4af37;
+    }
+
+    .card-subtitle {
+      color: #999;
+      font-size: 0.9em;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    .preview-area {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 16px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .preview-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .preview-placeholder {
+      color: #666;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .loading-spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(255, 255, 255, 0.1);
+      border-top-color: #d4af37;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .status {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .status-pending {
+      background: rgba(108, 117, 125, 0.2);
+      color: #6c757d;
+    }
+
+    .status-generating {
+      background: rgba(255, 193, 7, 0.2);
+      color: #ffc107;
+    }
+
+    .status-success {
+      background: rgba(40, 167, 69, 0.2);
+      color: #28a745;
+    }
+
+    .status-error {
+      background: rgba(220, 53, 69, 0.2);
+      color: #dc3545;
+    }
+
+    .progress {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #d4af37 0%, #ffd700 100%);
+      transition: width 0.3s ease;
+    }
+
+    .concept-info {
+      font-size: 0.9em;
+      color: #ccc;
+      margin-bottom: 12px;
+    }
+
+    .concept-info div {
+      margin-bottom: 6px;
+    }
+
+    .concept-info strong {
+      color: #d4af37;
+    }
+
+    .log {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 16px;
+      max-height: 300px;
+      overflow-y: auto;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85em;
+      margin-top: 20px;
+    }
+
+    .log-entry {
+      padding: 4px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .log-entry:last-child {
+      border-bottom: none;
+    }
+
+    .log-time {
+      color: #666;
+      margin-right: 10px;
+    }
+
+    .log-success {
+      color: #28a745;
+    }
+
+    .log-error {
+      color: #dc3545;
+    }
+
+    .log-info {
+      color: #17a2b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>VeraLabs Moodboard Generator</h1>
+      <p class="subtitle">Generate professional fashion editorial preview images for all moodboard concepts</p>
+    </header>
+
+    <div class="controls">
+      <select id="modelSelect">
+        <option value="imagen">Imagen 4 (Google)</option>
+        <option value="flux">Flux Pro Ultra (Replicate)</option>
+      </select>
+      <button class="btn" id="generateAllBtn">Generate All Moodboards</button>
+      <button class="btn btn-secondary" id="stopBtn" disabled>Stop Generation</button>
+      <button class="btn btn-secondary" id="clearBtn">Clear Results</button>
+    </div>
+
+    <div class="progress" id="progressSection" style="display: none;">
+      <div>Progress: <strong id="progressText">0/7</strong></div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <div class="grid" id="conceptGrid"></div>
+
+    <div class="log" id="logSection" style="display: none;">
+      <h3 style="margin-bottom: 12px; color: #d4af37;">Generation Log</h3>
+      <div id="logEntries"></div>
+    </div>
+  </div>
+
+  <script>
+    const MOODBOARD_CONCEPTS = [
+      {
+        id: 'moodboard-001',
+        name: 'Silk Dawn Minimalism',
+        category: 'Minimalist Luxury',
+        intimacyLevel: 2,
+        aspectRatio: '4:5',
+        promptType: 'imagenPrompt'
+      },
+      {
+        id: 'moodboard-002',
+        name: 'Monsoon Drape Poetry',
+        category: 'Cultural Contemporary',
+        intimacyLevel: 3,
+        aspectRatio: '4:5',
+        promptType: 'imagenPrompt'
+      },
+      {
+        id: 'moodboard-003',
+        name: 'Bombay Noir Nights',
+        category: 'Urban Contemporary',
+        intimacyLevel: 4,
+        aspectRatio: '9:16',
+        promptType: 'imagenPrompt'
+      },
+      {
+        id: 'moodboard-004',
+        name: 'Delhi Rooftop Golden',
+        category: 'Contemporary Elegance',
+        intimacyLevel: 3,
+        aspectRatio: '4:5',
+        promptType: 'imagenPrompt'
+      },
+      {
+        id: 'moodboard-005',
+        name: 'Goan Beach Bohemian',
+        category: 'Natural Glamour',
+        intimacyLevel: 5,
+        aspectRatio: '4:5',
+        promptType: 'imagenPrompt'
+      },
+      {
+        id: 'moodboard-006',
+        name: 'Jaipur Palace Boudoir',
+        category: 'Artistic Sensuality',
+        intimacyLevel: 7,
+        aspectRatio: '3:4',
+        promptType: 'imagenPrompt'
+      },
+      {
+        id: 'moodboard-007',
+        name: 'Kerala Monsoon Intimacy',
+        category: 'Natural Sensuality',
+        intimacyLevel: 6,
+        aspectRatio: '4:5',
+        promptType: 'imagenPrompt'
+      }
+    ];
+
+    let isGenerating = false;
+    let shouldStop = false;
+
+    function log(message, type = 'info') {
+      const logSection = document.getElementById('logSection');
+      const logEntries = document.getElementById('logEntries');
+      logSection.style.display = 'block';
+
+      const time = new Date().toLocaleTimeString();
+      const entry = document.createElement('div');
+      entry.className = `log-entry log-${type}`;
+      entry.innerHTML = `<span class="log-time">[${time}]</span>${message}`;
+      logEntries.appendChild(entry);
+      logEntries.scrollTop = logEntries.scrollHeight;
+    }
+
+    function updateProgress(current, total) {
+      const progressSection = document.getElementById('progressSection');
+      const progressText = document.getElementById('progressText');
+      const progressFill = document.getElementById('progressFill');
+
+      progressSection.style.display = 'block';
+      progressText.textContent = `${current}/${total}`;
+      progressFill.style.width = `${(current / total) * 100}%`;
+    }
+
+    function createConceptCard(concept) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.id = `card-${concept.id}`;
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="card-title">${concept.name}</div>
+          <div class="card-subtitle">${concept.category}</div>
+        </div>
+        <div class="card-body">
+          <div class="status status-pending" id="status-${concept.id}">Pending</div>
+          <div class="preview-area" id="preview-${concept.id}">
+            <div class="preview-placeholder">
+              No image generated yet<br>
+              <small>Click "Generate All" to create preview</small>
+            </div>
+          </div>
+          <div class="concept-info">
+            <div><strong>Intimacy Level:</strong> ${concept.intimacyLevel}/10</div>
+            <div><strong>Aspect Ratio:</strong> ${concept.aspectRatio}</div>
+          </div>
+          <button class="btn btn-secondary" onclick="generateSingle('${concept.id}')">Generate This Concept</button>
+          <button class="btn btn-secondary" onclick="downloadImage('${concept.id}')" id="download-${concept.id}" style="display: none;">Download Image</button>
+        </div>
+      `;
+      return card;
+    }
+
+    function updateCardStatus(conceptId, status, message = '') {
+      const statusEl = document.getElementById(`status-${conceptId}`);
+      statusEl.className = `status status-${status}`;
+      statusEl.textContent = message || status.charAt(0).toUpperCase() + status.slice(1);
+    }
+
+    function updateCardPreview(conceptId, imageUrl) {
+      const previewEl = document.getElementById(`preview-${conceptId}`);
+      previewEl.innerHTML = `<img src="${imageUrl}" alt="Generated moodboard">`;
+
+      const downloadBtn = document.getElementById(`download-${conceptId}`);
+      downloadBtn.style.display = 'inline-block';
+      downloadBtn.dataset.imageUrl = imageUrl;
+    }
+
+    async function generateSingle(conceptId) {
+      const concept = MOODBOARD_CONCEPTS.find(c => c.id === conceptId);
+      if (!concept) return;
+
+      log(`Starting generation for: ${concept.name}`, 'info');
+      updateCardStatus(conceptId, 'generating', 'Generating...');
+
+      try {
+        // This would call your actual Imagen/Flux API
+        // For now, it's a placeholder that needs to be connected to your backend
+        log(`⚠️ This is a placeholder. Connect to your Imagen API at http://localhost:3000`, 'info');
+        log(`Use the main VeraLabs app at http://localhost:3000 to generate images for this concept`, 'info');
+        log(`Then save them to public/moodboards/${conceptId}.png`, 'info');
+
+        updateCardStatus(conceptId, 'pending', 'Use main app to generate');
+      } catch (error) {
+        log(`Error generating ${concept.name}: ${error.message}`, 'error');
+        updateCardStatus(conceptId, 'error', 'Generation failed');
+      }
+    }
+
+    async function generateAll() {
+      if (isGenerating) return;
+
+      isGenerating = true;
+      shouldStop = false;
+
+      document.getElementById('generateAllBtn').disabled = true;
+      document.getElementById('stopBtn').disabled = false;
+
+      log('Starting batch generation of all 7 moodboard concepts', 'info');
+
+      for (let i = 0; i < MOODBOARD_CONCEPTS.length; i++) {
+        if (shouldStop) {
+          log('Generation stopped by user', 'info');
+          break;
+        }
+
+        const concept = MOODBOARD_CONCEPTS[i];
+        updateProgress(i + 1, MOODBOARD_CONCEPTS.length);
+        await generateSingle(concept.id);
+
+        // Wait between generations
+        if (i < MOODBOARD_CONCEPTS.length - 1) {
+          await new Promise(resolve => setTimeout(resolve, 2000));
+        }
+      }
+
+      log('Batch generation complete!', 'success');
+      isGenerating = false;
+      document.getElementById('generateAllBtn').disabled = false;
+      document.getElementById('stopBtn').disabled = true;
+    }
+
+    function stopGeneration() {
+      shouldStop = true;
+      log('Stopping generation after current concept...', 'info');
+    }
+
+    function clearResults() {
+      if (confirm('Clear all generated previews?')) {
+        MOODBOARD_CONCEPTS.forEach(concept => {
+          const previewEl = document.getElementById(`preview-${concept.id}`);
+          previewEl.innerHTML = `
+            <div class="preview-placeholder">
+              No image generated yet<br>
+              <small>Click "Generate All" to create preview</small>
+            </div>
+          `;
+          updateCardStatus(concept.id, 'pending');
+          document.getElementById(`download-${concept.id}`).style.display = 'none';
+        });
+
+        document.getElementById('logEntries').innerHTML = '';
+        document.getElementById('progressSection').style.display = 'none';
+        log('Results cleared', 'info');
+      }
+    }
+
+    function downloadImage(conceptId) {
+      const btn = document.getElementById(`download-${conceptId}`);
+      const imageUrl = btn.dataset.imageUrl;
+      if (imageUrl) {
+        const a = document.createElement('a');
+        a.href = imageUrl;
+        a.download = `veralabs-${conceptId}.png`;
+        a.click();
+      }
+    }
+
+    // Initialize
+    function init() {
+      const grid = document.getElementById('conceptGrid');
+      MOODBOARD_CONCEPTS.forEach(concept => {
+        grid.appendChild(createConceptCard(concept));
+      });
+
+      document.getElementById('generateAllBtn').addEventListener('click', generateAll);
+      document.getElementById('stopBtn').addEventListener('click', stopGeneration);
+      document.getElementById('clearBtn').addEventListener('click', clearResults);
+
+      log('VeraLabs Moodboard Generator initialized', 'success');
+      log('⚠️ This tool requires connection to the main VeraLabs app', 'info');
+      log('Please generate images using http://localhost:3000 and save them manually', 'info');
+    }
+
+    init();
+  </script>
+</body>
+</html>

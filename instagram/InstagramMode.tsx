@@ -21,7 +21,6 @@ import {
   loadGitHubToken,
   initializeFromToken,
   getTokenStatus,
-  ensureValidToken,
   clearTokens,
   type TokenInfo,
 
@@ -199,18 +198,17 @@ const InstagramMode: React.FC<InstagramModeProps> = ({ generatedImages, onBack }
       return;
     }
 
+    // Check if we have a token (don't require refresh)
+    const tokenInfo = loadTokenInfo();
+    if (!tokenInfo?.accessToken) {
+      setMessage({ type: 'error', text: 'No Instagram token configured. Go to Settings tab.' });
+      return;
+    }
+
     setIsLoading(true);
     setMessage(null);
 
     try {
-      // Ensure valid token
-      const tokenResult = await ensureValidToken();
-      if (!tokenResult.success) {
-        setMessage({ type: 'error', text: tokenResult.error || 'Token invalid' });
-        setIsLoading(false);
-        return;
-      }
-
       const image = generatedImages[selectedImageIndex];
       const imageData = image.url || image.base64 || '';
 

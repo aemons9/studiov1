@@ -320,21 +320,23 @@ async function waitForContainerReady(
 
   while (Date.now() - startTime < maxWaitMs) {
     const status = await checkContainerStatus(containerId, accessToken);
+    const statusStr = (status.status || '').toLowerCase();
 
     console.log(`   Status: ${status.status}`);
 
-    if (status.status === 'FINISHED') {
+    // Instagram returns "Finished: Media has been uploaded..." or "FINISHED"
+    if (statusStr === 'finished' || statusStr.includes('finished')) {
       return { ready: true };
     }
 
-    if (status.status === 'ERROR') {
+    if (statusStr === 'error' || statusStr.includes('error')) {
       return {
         ready: false,
         error: status.statusCode || status.error || 'Container processing failed',
       };
     }
 
-    if (status.status === 'EXPIRED') {
+    if (statusStr === 'expired' || statusStr.includes('expired')) {
       return {
         ready: false,
         error: 'Container expired before publishing',

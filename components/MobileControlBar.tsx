@@ -22,6 +22,7 @@ interface MobileControlBarProps {
   onMasterClass: () => void;
   onVisualNovel: () => void;
   onVNAssets: () => void;
+  onInstagram: () => void;
   isGeneratingPrompt?: boolean;
   hasPrompt?: boolean;
   hasProjectId?: boolean;
@@ -49,6 +50,7 @@ const MobileControlBar: React.FC<MobileControlBarProps> = ({
   onMasterClass,
   onVisualNovel,
   onVNAssets,
+  onInstagram,
   isGeneratingPrompt = false,
   hasPrompt = true,
   hasProjectId = true
@@ -229,6 +231,10 @@ const MobileControlBar: React.FC<MobileControlBarProps> = ({
 
             <button onClick={onVNAssets} disabled={isLoading} className="flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-green-600 via-teal-600 to-cyan-600 text-white font-semibold text-xs rounded-lg hover:from-green-500 hover:via-teal-500 hover:to-cyan-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all active:scale-95">
               <span>🎨</span> VN Assets
+            </button>
+
+            <button onClick={onInstagram} disabled={isLoading} className="flex items-center justify-center gap-2 px-3 py-2 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 text-white font-semibold text-xs rounded-lg hover:from-purple-500 hover:via-pink-400 hover:to-orange-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all active:scale-95">
+              <span>📸</span> Instagram
             </button>
           </div>
         )}

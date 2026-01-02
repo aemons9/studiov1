@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import type { GeneratedImageData, GenerationStep } from '../types';
 import AddToGalleryModal from './AddToGalleryModal';
 import { uploadImageToGallery } from '../services/githubUploadService';
+import { sendToInstagram, loadInstagramConfig, loadHostingConfig } from '../services/instagram';
 
 interface ImageDisplayProps {
   imageData: GeneratedImageData[] | null;
@@ -137,6 +138,77 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
     imageIndex: null
   });
 
+  // Instagram publishing state
+  const [instagramState, setInstagramState] = useState<{
+    isPublishing: boolean;
+    publishingIndex: number | null;
+    lastResult: { success: boolean; message: string } | null;
+  }>({
+    isPublishing: false,
+    publishingIndex: null,
+    lastResult: null
+  });
+
+  // Handle Instagram publish
+  const handleInstagramPublish = async (url: string, index: number) => {
+    const instagramConfig = loadInstagramConfig();
+    const hostingConfig = loadHostingConfig();
+
+    // Check if configured
+    if (!instagramConfig?.accessToken) {
+      alert('Instagram not configured!\n\nPlease configure your Instagram access token in the Instagram Publishing panel.\n\nTo get a token:\n1. Go to Meta Developer Portal\n2. Create a Page Access Token with instagram_content_publish permission');
+      return;
+    }
+
+    if (hostingConfig?.provider === 'github' && !hostingConfig?.github?.token) {
+      const githubToken = localStorage.getItem('githubToken');
+      if (!githubToken) {
+        alert('GitHub token required for Instagram publishing!\n\nPlease set your GitHub token:\nlocalStorage.setItem("githubToken", "YOUR_TOKEN")');
+        return;
+      }
+      // Use the localStorage token
+      if (hostingConfig.github) {
+        hostingConfig.github.token = githubToken;
+      }
+    }
+
+    setInstagramState({ isPublishing: true, publishingIndex: index, lastResult: null });
+
+    try {
+      const result = await sendToInstagram(url, {
+        caption: 'Captured in a moment of pure elegance.',
+        hashtags: ['fashion', 'photography', 'art', 'style', 'editorial', 'veracrvs'],
+        format: 'jpg'
+      }, { instagram: instagramConfig, hosting: hostingConfig! });
+
+      setInstagramState({
+        isPublishing: false,
+        publishingIndex: null,
+        lastResult: {
+          success: result.success,
+          message: result.success
+            ? `Published to Instagram! Media ID: ${result.mediaId}`
+            : result.error || 'Failed to publish'
+        }
+      });
+
+      // Show result
+      if (result.success) {
+        alert(`✅ Published to Instagram!\n\nMedia ID: ${result.mediaId}\n\nView at: instagram.com/veracrvs`);
+      } else {
+        alert(`❌ Instagram publish failed:\n\n${result.error}`);
+      }
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      setInstagramState({
+        isPublishing: false,
+        publishingIndex: null,
+        lastResult: { success: false, message: errorMessage }
+      });
+      alert(`❌ Instagram publish error:\n\n${errorMessage}`);
+    }
+  };
+
   const getGridCols = (count: number) => {
     if (count <= 1) return 'grid-cols-1';
     if (count <= 4) return 'grid-cols-2';
@@ -242,19 +314,42 @@ const ImageDisplay: React.FC<ImageDisplayProps> = ({ imageData, isLoading, error
                            </div>
                         </div>
                         <div className="absolute top-2 right-2 flex gap-2">
+                          {/* Instagram Publish Button */}
+                          <button
+                            onClick={() => handleInstagramPublish(data.url, index)}
+                            disabled={instagramState.isPublishing && instagramState.publishingIndex === index}
+                            className="p-2 bg-gradient-to-br from-purple-600 to-pink-500 rounded-full text-white hover:from-purple-500 hover:to-pink-400 transition-all opacity-0 group-hover:opacity-100 focus:opacity-100 disabled:opacity-50"
+                            aria-label={`Publish image ${index + 1} to Instagram`}
+                            title="Send to Instagram"
+                          >
+                            {instagramState.isPublishing && instagramState.publishingIndex === index ? (
+                              <svg className="h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                              </svg>
+                            ) : (
+                              <svg className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                              </svg>
+                            )}
+                          </button>
+                          {/* Add to Gallery Button */}
                           <button
                             onClick={() => handleAddToGallery(data.url, index)}
                             className="p-2 bg-teal-600/90 rounded-full text-white hover:bg-teal-500 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                             aria-label={`Add image ${index + 1} to gallery`}
+                            title="Add to Gallery"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
                           </button>
+                          {/* Download Button */}
                           <button
                             onClick={() => handleDownload(data.url, index)}
                             className="p-2 bg-black/50 rounded-full text-white hover:bg-black/75 transition-colors opacity-0 group-hover:opacity-100 focus:opacity-100"
                             aria-label={`Download image ${index + 1}`}
+                            title="Download"
                           >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" /></svg>
                           </button>

@@ -1,20 +1,47 @@
 import React, { useState, useEffect } from 'react';
 import { EROTIC_GLAMOUR_MODELS } from '../concepts/eroticGlamourModels';
 import { ROLEPLAY_SCENARIOS, RolePlayScenario } from './rolePlayConcepts';
+import ImageDisplay from '../components/ImageDisplay';
+import type { GeneratedImageData, GenerationStep } from '../types';
+import GenerationControlsPanel, { GenerationControlsState, defaultGenerationControls } from '../components/GenerationControlsPanel';
 
 interface IndianRolePlayModeProps {
   onGenerate: (prompt: string, settings: any) => void;
   onMigrateToMain: (prompt: string) => void;
   onExit: () => void;
+  generatedImages: GeneratedImageData[] | null;
+  isLoading: boolean;
+  error: string | null;
+  wovenPrompt: string | null;
+  generationStep: GenerationStep | null;
 }
 
-const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onMigrateToMain, onExit }) => {
+const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
+  onGenerate,
+  onMigrateToMain,
+  onExit,
+  generatedImages,
+  isLoading,
+  error,
+  wovenPrompt,
+  generationStep
+}) => {
   const [selectedModelId, setSelectedModelId] = useState<string | null>(null);
   const [selectedWardrobe, setSelectedWardrobe] = useState<any | null>(null);
   const [selectedPose, setSelectedPose] = useState<any | null>(null);
   const [selectedEnvironment, setSelectedEnvironment] = useState<any | null>(null);
-  const [intimacyLevel, setIntimacyLevel] = useState<number>(10);
   const [hoveredModel, setHoveredModel] = useState<string | null>(null);
+  const [cgQualityEnabled, setCgQualityEnabled] = useState<boolean>(false);
+  const [showAllWardrobes, setShowAllWardrobes] = useState<boolean>(false);
+  const [showAllPoses, setShowAllPoses] = useState<boolean>(false);
+
+  // Generation Controls (unified with other modes)
+  const [generationControls, setGenerationControls] = useState<GenerationControlsState>({
+    ...defaultGenerationControls,
+    intimacyLevel: 10, // RolePlay defaults to maximum intimacy
+    provider: 'replicate-flux', // RolePlay defaults to Flux
+    fluxSafetyTolerance: 6
+  });
 
   // Gamification state
   const [currentScenario, setCurrentScenario] = useState<RolePlayScenario | null>(null);
@@ -24,6 +51,50 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
   const [showGameElements, setShowGameElements] = useState<boolean>(true);
 
   const selectedModel = EROTIC_GLAMOUR_MODELS.find(m => m.id === selectedModelId);
+
+  // Get all wardrobes from all models (for Zara's super character access)
+  const getAllWardrobes = () => {
+    const all: any[] = [];
+    EROTIC_GLAMOUR_MODELS.forEach(model => {
+      if (model.wardrobeCollection) {
+        model.wardrobeCollection.forEach(w => {
+          all.push({ ...w, originalModel: model.name });
+        });
+      }
+    });
+    return all;
+  };
+
+  // Get all poses from all models (for Zara's super character access)
+  const getAllPoses = () => {
+    const all: any[] = [];
+    EROTIC_GLAMOUR_MODELS.forEach(model => {
+      if (model.poseGallery) {
+        model.poseGallery.forEach(p => {
+          all.push({ ...p, originalModel: model.name });
+        });
+      }
+    });
+    return all;
+  };
+
+  // Determine which wardrobes to show
+  const getDisplayWardrobes = () => {
+    if (!selectedModel) return [];
+    if (selectedModel.crossModelAccess && showAllWardrobes) {
+      return getAllWardrobes();
+    }
+    return selectedModel.wardrobeCollection || [];
+  };
+
+  // Determine which poses to show
+  const getDisplayPoses = () => {
+    if (!selectedModel) return [];
+    if (selectedModel.crossModelAccess && showAllPoses) {
+      return getAllPoses();
+    }
+    return selectedModel.poseGallery || [];
+  };
 
   // Auto-select scenario when model is selected
   useEffect(() => {
@@ -77,9 +148,12 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
         const prompt = generatePromptWithSelections(randomModel, randomWardrobe, randomPose, randomEnv);
         const settings = {
           aspectRatio: randomPose.aspectRatio || '4:5',
-          intimacyLevel: intimacyLevel,
-          fluxSafetyTolerance: randomModel.personalPhotographer.fluxSettings.safetyTolerance,
-          provider: 'replicate-flux'
+          intimacyLevel: generationControls.intimacyLevel,
+          fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
+          provider: generationControls.provider,
+          safetySetting: generationControls.safetySetting,
+          personGeneration: generationControls.personGeneration,
+          safetyBypassStrategy: generationControls.safetyBypassStrategy
         };
         onGenerate(prompt, settings);
       }
@@ -123,7 +197,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
   const generatePromptWithSelections = (model: any, wardrobe: any, pose: any, environment: any) => {
     const photographer = model.personalPhotographer;
 
-    return `Midnight role-playing photography in fine-art style. Intimacy ${intimacyLevel}/10, intimate artistic encounter. subject: variant: Elite Indian artistic model ${model.name} (height ${model.physicalTraits.height}) specializing in ${model.category} and ${model.physicalTraits.specialties || 'intimate fine-art photography'}. ${model.physicalTraits.figure} (bust ${model.physicalTraits.bust}, waist ${model.physicalTraits.waist}, hips ${model.physicalTraits.hips}). ${model.physicalTraits.skinTone}. ${model.physicalTraits.features}. pose: ${pose.description}. ${pose.poseName}. hair_color: jet black, hair_style: Midnight glamour styling with flowing elegant volume, skin_finish: ${model.physicalTraits.skinTone} with natural luminosity and midnight glow, hand_and_nail_details: Graceful positioning with glamorous manicure and elegant hand movement, tattoos: none, piercings: none, body_art: none, nail_art: Midnight glamour polish with sophisticated finish, high_heels: Designer stilettos with luxury elegance. wardrobe: ${wardrobe.description}. ${wardrobe.fabricDetails || wardrobe.materials}. ${wardrobe.style} with ${intimacyLevel}/10 intimacy aesthetic. environment: ${environment.name}. ${environment.description}. ${environment.atmosphere}. Ultimate privacy with luxury setting. lighting: ${photographer.lightingSignature}. ${environment.lightingProfile}. Creating sculptural definition and intimate midnight atmosphere. camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: ${pose.angle || 'Eye level intimate perspective'}, framing: ${pose.framing || 'Medium shot emphasizing form and curves'}. color_grade: Midnight dramatic tones with sensual warmth and natural color balance. Rich shadows with luxury ambiance. style: ${photographer.style}. Midnight encounter photography celebrating ${model.category}. Power level ${intimacyLevel}/10. Personal photographer: ${photographer.name}, ${photographer.specialty}. Collaborative artistic expression with trust-based intimacy. quality: Ultra-high-end 8K glamour photography with impeccable detail and professional retouching maintaining authentic texture. figure_and_form: ${model.emphasis}. Natural form celebrating feminine curves and presence through sophisticated artistic grace. skin_micro_details: Premium high-resolution skin texture with authentic pores and subsurface scattering. Professional finish maintaining natural beauty and ${model.physicalTraits.skinTone} natural radiance. fabric_physics: ${wardrobe.fabricDetails || wardrobe.materials}. Luxury fabric with natural draping following gravity with realistic folds and texture. Professional wardrobe with subtle body-conscious elements. material_properties: Authentic materials from environment with natural light interaction. ${environment.name} luxury materials with premium tactile quality and rich detail.`;
+    return `Midnight role-playing photography in fine-art style. Intimacy ${generationControls.intimacyLevel}/10, intimate artistic encounter. subject: variant: Elite Indian artistic model ${model.name} (height ${model.physicalTraits.height}) specializing in ${model.category} and ${model.physicalTraits.specialties || 'intimate fine-art photography'}. ${model.physicalTraits.figure} (bust ${model.physicalTraits.bust}, waist ${model.physicalTraits.waist}, hips ${model.physicalTraits.hips}). ${model.physicalTraits.skinTone}. ${model.physicalTraits.features}. pose: ${pose.description}. ${pose.poseName}. hair_color: jet black, hair_style: Midnight glamour styling with flowing elegant volume, skin_finish: ${model.physicalTraits.skinTone} with natural luminosity and midnight glow, hand_and_nail_details: Graceful positioning with glamorous manicure and elegant hand movement, tattoos: none, piercings: none, body_art: none, nail_art: Midnight glamour polish with sophisticated finish, high_heels: Designer stilettos with luxury elegance. wardrobe: ${wardrobe.description}. ${wardrobe.fabricDetails || wardrobe.materials}. ${wardrobe.style} with ${generationControls.intimacyLevel}/10 intimacy aesthetic. environment: ${environment.name}. ${environment.description}. ${environment.atmosphere}. Ultimate privacy with luxury setting. lighting: ${photographer.lightingSignature}. ${environment.lightingProfile}. Creating sculptural definition and intimate midnight atmosphere. camera: focal_length: ${photographer.cameraPreference.split(' ')[0]}, aperture: ${photographer.cameraPreference.match(/f\/[\d.]+/)?.[0] || 'f/2.0'}, distance: 3 m, angle: ${pose.angle || 'Eye level intimate perspective'}, framing: ${pose.framing || 'Medium shot emphasizing form and curves'}. color_grade: Midnight dramatic tones with sensual warmth and natural color balance. Rich shadows with luxury ambiance. style: ${photographer.style}. Midnight encounter photography celebrating ${model.category}. Power level ${generationControls.intimacyLevel}/10. Personal photographer: ${photographer.name}, ${photographer.specialty}. Collaborative artistic expression with trust-based intimacy. quality: Ultra-high-end 8K glamour photography with impeccable detail and professional retouching maintaining authentic texture. figure_and_form: ${model.emphasis}. Natural form celebrating feminine curves and presence through sophisticated artistic grace. skin_micro_details: Premium high-resolution skin texture with authentic pores and subsurface scattering. Professional finish maintaining natural beauty and ${model.physicalTraits.skinTone} natural radiance. fabric_physics: ${wardrobe.fabricDetails || wardrobe.materials}. Luxury fabric with natural draping following gravity with realistic folds and texture. Professional wardrobe with subtle body-conscious elements. material_properties: Authentic materials from environment with natural light interaction. ${environment.name} luxury materials with premium tactile quality and rich detail.`;
   };
 
   // Generate the complete prompt based on selections
@@ -142,10 +216,16 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
 
     const prompt = generatePrompt();
     const settings = {
-      aspectRatio: selectedPose.aspectRatio || '4:5',
-      intimacyLevel: intimacyLevel,
-      fluxSafetyTolerance: selectedModel.personalPhotographer.fluxSettings.safetyTolerance,
-      provider: 'replicate-flux'
+      aspectRatio: selectedPose.aspectRatio || (cgQualityEnabled && selectedPose.vnCG ? '16:9' : selectedPose.vnSprite ? '9:16' : '4:5'),
+      intimacyLevel: generationControls.intimacyLevel,
+      fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
+      provider: generationControls.provider,
+      safetySetting: generationControls.safetySetting,
+      personGeneration: generationControls.personGeneration,
+      safetyBypassStrategy: generationControls.safetyBypassStrategy,
+      cgQuality: cgQualityEnabled,
+      guidanceScale: cgQualityEnabled ? 8.0 : selectedModel.personalPhotographer.fluxSettings.guidanceScale,
+      quality: cgQualityEnabled ? 'cinematic' : 'standard'
     };
 
     onGenerate(prompt, settings);
@@ -255,6 +335,10 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
       </div>
 
       <div style={{ padding: '32px', maxWidth: '1800px', margin: '0 auto' }}>
+        {/* Two-Column Layout: Controls + Image Display */}
+        <div style={{ display: 'grid', gridTemplateColumns: isReadyToGenerate || generatedImages || isLoading ? '1fr 1fr' : '1fr', gap: '32px', marginBottom: '32px' }}>
+          {/* LEFT COLUMN: Controls */}
+          <div>
         {/* Quick Action Buttons */}
         <div style={{
           marginBottom: '32px',
@@ -632,9 +716,26 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 }}
               >
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '8px' }}>
-                  <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#F3F4F6', margin: 0 }}>
-                    {model.name}
-                  </h3>
+                  <div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#F3F4F6', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      {model.name}
+                      {model.isSuperCharacter && (
+                        <span style={{
+                          fontSize: '10px',
+                          padding: '2px 8px',
+                          borderRadius: '10px',
+                          background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+                          color: '#000',
+                          fontWeight: 'bold',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.5px',
+                          boxShadow: '0 2px 8px rgba(255, 215, 0, 0.4)'
+                        }}>
+                          ⭐ VN PREMIUM
+                        </span>
+                      )}
+                    </h3>
+                  </div>
                   {selectedModelId === model.id && (
                     <span style={{
                       fontSize: '20px',
@@ -645,6 +746,24 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 <p style={{ fontSize: '13px', color: '#C084FC', marginBottom: '12px' }}>
                   {model.category}
                 </p>
+                {model.isSuperCharacter && (
+                  <div style={{
+                    padding: '8px',
+                    marginBottom: '12px',
+                    background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.1), rgba(255, 165, 0, 0.1))',
+                    border: '1px solid rgba(255, 215, 0, 0.3)',
+                    borderRadius: '8px',
+                    fontSize: '11px',
+                    color: '#FCD34D',
+                    lineHeight: '1.4'
+                  }}>
+                    <strong>Super Character Features:</strong><br/>
+                    ✨ CG-Quality Generation<br/>
+                    🎭 All Wardrobes & Poses Access<br/>
+                    🎨 4 VN Modes + Full Intimacy Range<br/>
+                    🖼️ 16:9 Cinematic & 9:16 Sprite Framing
+                  </div>
+                )}
                 <div style={{ fontSize: '12px', color: '#9CA3AF', lineHeight: '1.6' }}>
                   <div style={{ marginBottom: '6px' }}>
                     <strong style={{ color: '#F472B6' }}>Emphasis:</strong> {model.emphasis}
@@ -661,6 +780,113 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
           </div>
         </div>
 
+        {/* Zara Super Character Controls */}
+        {selectedModel && selectedModel.isSuperCharacter && (
+          <div style={{
+            marginBottom: '32px',
+            padding: '20px',
+            background: 'linear-gradient(135deg, rgba(255, 215, 0, 0.15), rgba(255, 165, 0, 0.15))',
+            border: '2px solid rgba(255, 215, 0, 0.4)',
+            borderRadius: '16px',
+            boxShadow: '0 8px 24px rgba(255, 215, 0, 0.2)'
+          }}>
+            <h3 style={{ fontSize: '18px', fontWeight: 'bold', color: '#FCD34D', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+              ⭐ VN Premium Character Controls
+            </h3>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '16px' }}>
+              {/* CG Quality Toggle */}
+              <div style={{
+                padding: '16px',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 215, 0, 0.2)'
+              }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={cgQualityEnabled}
+                    onChange={(e) => setCgQualityEnabled(e.target.checked)}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#FFD700' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#FCD34D' }}>
+                      🎬 CG-Quality Mode
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#FDE68A', marginTop: '2px' }}>
+                      16:9 cinematic framing, guidance 8.0
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* All Wardrobes Access */}
+              <div style={{
+                padding: '16px',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 215, 0, 0.2)'
+              }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={showAllWardrobes}
+                    onChange={(e) => setShowAllWardrobes(e.target.checked)}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#FFD700' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#FCD34D' }}>
+                      👗 All Wardrobes Access
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#FDE68A', marginTop: '2px' }}>
+                      Use wardrobes from all {EROTIC_GLAMOUR_MODELS.length} models
+                    </div>
+                  </div>
+                </label>
+              </div>
+
+              {/* All Poses Access */}
+              <div style={{
+                padding: '16px',
+                backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                borderRadius: '12px',
+                border: '1px solid rgba(255, 215, 0, 0.2)'
+              }}>
+                <label style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}>
+                  <input
+                    type="checkbox"
+                    checked={showAllPoses}
+                    onChange={(e) => setShowAllPoses(e.target.checked)}
+                    style={{ width: '20px', height: '20px', cursor: 'pointer', accentColor: '#FFD700' }}
+                  />
+                  <div>
+                    <div style={{ fontSize: '14px', fontWeight: 'bold', color: '#FCD34D' }}>
+                      💃 All Poses Access
+                    </div>
+                    <div style={{ fontSize: '11px', color: '#FDE68A', marginTop: '2px' }}>
+                      Use poses from all {EROTIC_GLAMOUR_MODELS.length} models
+                    </div>
+                  </div>
+                </label>
+              </div>
+            </div>
+
+            {(showAllWardrobes || showAllPoses) && (
+              <div style={{
+                marginTop: '12px',
+                padding: '12px',
+                background: 'rgba(34, 197, 94, 0.2)',
+                border: '1px solid rgba(34, 197, 94, 0.4)',
+                borderRadius: '8px',
+                fontSize: '12px',
+                color: '#6EE7B7'
+              }}>
+                ✨ Cross-model access enabled! Zara can now use {showAllWardrobes ? `${getAllWardrobes().length} wardrobes` : ''}{showAllWardrobes && showAllPoses ? ' and ' : ''}{showAllPoses ? `${getAllPoses().length} poses` : ''} from all characters.
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Wardrobe, Pose, Environment Selectors (only shown after model selection) */}
         {selectedModel && (
           <>
@@ -671,7 +897,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                   👗 Step 2: Select Wardrobe {selectedWardrobe && '✓'}
                 </h2>
                 <span style={{ fontSize: '13px', color: '#9CA3AF' }}>
-                  {selectedModel.wardrobeCollection?.length || 0} options available
+                  {getDisplayWardrobes().length} options available {showAllWardrobes && '(All Models)'}
                 </span>
               </div>
               <div style={{
@@ -679,7 +905,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 gridTemplateColumns: 'repeat(auto-fit, minmax(350px, 1fr))',
                 gap: '16px'
               }}>
-                {selectedModel.wardrobeCollection?.map((wardrobe) => (
+                {getDisplayWardrobes().map((wardrobe) => (
                   <div
                     key={wardrobe.id}
                     onClick={() => setSelectedWardrobe(wardrobe)}
@@ -703,9 +929,24 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                      <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
-                        {wardrobe.name}
-                      </h4>
+                      <div>
+                        <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
+                          {wardrobe.name}
+                        </h4>
+                        {wardrobe.originalModel && showAllWardrobes && (
+                          <span style={{
+                            fontSize: '10px',
+                            padding: '2px 8px',
+                            borderRadius: '8px',
+                            background: 'rgba(139, 92, 246, 0.3)',
+                            color: '#C084FC',
+                            marginTop: '4px',
+                            display: 'inline-block'
+                          }}>
+                            From: {wardrobe.originalModel}
+                          </span>
+                        )}
+                      </div>
                       {selectedWardrobe?.id === wardrobe.id && (
                         <span style={{ fontSize: '18px' }}>✓</span>
                       )}
@@ -728,7 +969,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                   💃 Step 3: Select Pose {selectedPose && '✓'}
                 </h2>
                 <span style={{ fontSize: '13px', color: '#9CA3AF' }}>
-                  {selectedModel.poseGallery?.length || 0} signature poses
+                  {getDisplayPoses().length} signature poses {showAllPoses && '(All Models)'}
                 </span>
               </div>
               <div style={{
@@ -736,7 +977,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                 gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
                 gap: '16px'
               }}>
-                {selectedModel.poseGallery?.map((pose) => (
+                {getDisplayPoses().map((pose) => (
                   <div
                     key={pose.id}
                     onClick={() => setSelectedPose(pose)}
@@ -760,14 +1001,29 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                     }}
                   >
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-                      <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
-                        {pose.poseName}
-                      </h4>
+                      <div>
+                        <h4 style={{ fontSize: '16px', fontWeight: 'bold', color: '#F3F4F6', marginBottom: '8px' }}>
+                          {pose.poseName}
+                        </h4>
+                        {pose.originalModel && showAllPoses && (
+                          <span style={{
+                            fontSize: '10px',
+                            padding: '2px 8px',
+                            borderRadius: '8px',
+                            background: 'rgba(139, 92, 246, 0.3)',
+                            color: '#C084FC',
+                            marginTop: '4px',
+                            display: 'inline-block'
+                          }}>
+                            From: {pose.originalModel}
+                          </span>
+                        )}
+                      </div>
                       {selectedPose?.id === pose.id && (
                         <span style={{ fontSize: '18px' }}>✓</span>
                       )}
                     </div>
-                    <p style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.5' }}>
+                    <p style={{ fontSize: '13px', color: '#D1D5DB', lineHeight: '1.5', marginTop: '8px' }}>
                       {pose.description}
                     </p>
                     {pose.aspectRatio && (
@@ -840,43 +1096,9 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                   </div>
                 </div>
 
-                {/* Intimacy Level Slider */}
+                {/* Selection Preview Card */}
                 <div>
-                  <label style={{ fontSize: '14px', color: '#C084FC', display: 'block', marginBottom: '12px', fontWeight: '600' }}>
-                    Intimacy Level: {intimacyLevel}/10
-                  </label>
-                  <input
-                    type="range"
-                    min="1"
-                    max="10"
-                    value={intimacyLevel}
-                    onChange={(e) => setIntimacyLevel(parseInt(e.target.value))}
-                    style={{
-                      width: '100%',
-                      height: '8px',
-                      borderRadius: '4px',
-                      outline: 'none',
-                      marginBottom: '12px',
-                      accentColor: '#F472B6'
-                    }}
-                  />
                   <div style={{
-                    fontSize: '12px',
-                    color: '#9CA3AF',
-                    padding: '8px',
-                    backgroundColor: 'rgba(147, 51, 234, 0.1)',
-                    borderRadius: '6px',
-                    textAlign: 'center'
-                  }}>
-                    {intimacyLevel <= 3 && '🌙 Subtle and elegant'}
-                    {intimacyLevel > 3 && intimacyLevel <= 6 && '💫 Sensual and artistic'}
-                    {intimacyLevel > 6 && intimacyLevel <= 8 && '🔥 Bold and expressive'}
-                    {intimacyLevel > 8 && '⚡ Maximum intimacy and revelation'}
-                  </div>
-
-                  {/* Enhanced Preview Card */}
-                  <div style={{
-                    marginTop: '24px',
                     padding: '16px',
                     backgroundColor: isReadyToGenerate
                       ? 'rgba(34, 197, 94, 0.1)'
@@ -897,7 +1119,8 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                       <div><strong>Wardrobe:</strong> {selectedWardrobe?.name || '❌ Not selected'}</div>
                       <div><strong>Pose:</strong> {selectedPose?.poseName || '❌ Not selected'}</div>
                       <div><strong>Environment:</strong> {selectedEnvironment?.name || '❌ Not selected'}</div>
-                      <div><strong>Intimacy:</strong> {intimacyLevel}/10</div>
+                      <div><strong>Provider:</strong> {generationControls.provider === 'vertex-ai' ? 'Imagen 4' : 'Flux'}</div>
+                      <div><strong>Intimacy:</strong> {generationControls.intimacyLevel}/10</div>
                     </div>
                     {isReadyToGenerate && (
                       <div style={{
@@ -915,6 +1138,17 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Generation Controls Panel */}
+            <div style={{ marginBottom: '32px' }}>
+              <GenerationControlsPanel
+                settings={generationControls}
+                onChange={setGenerationControls}
+                disabled={isLoading}
+                colorTheme="pink"
+                compact={true}
+              />
             </div>
 
             {/* Action Buttons */}
@@ -986,6 +1220,24 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({ onGenerate, onM
             </div>
           </>
         )}
+          </div>
+
+          {/* RIGHT COLUMN: Image Display */}
+          {(isReadyToGenerate || generatedImages || isLoading) && (
+            <div style={{ position: 'sticky', top: '32px', height: 'fit-content' }}>
+              <h2 style={{ fontSize: '20px', fontWeight: 'bold', marginBottom: '16px', color: '#F472B6' }}>
+                🎬 Generated Scene
+              </h2>
+              <ImageDisplay
+                imageData={generatedImages}
+                isLoading={isLoading}
+                error={error}
+                wovenPrompt={wovenPrompt}
+                generationStep={generationStep}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Enhanced Info Footer */}
         <div style={{ marginTop: '48px', padding: '24px', backgroundColor: 'rgba(147, 51, 234, 0.1)', border: '1px solid rgba(147, 51, 234, 0.3)', borderRadius: '12px' }}>

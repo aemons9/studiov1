@@ -33,6 +33,7 @@ export interface ReplicateConfig {
   aspectRatio?: string;
   raw?: boolean; // For ultra model - enables hyper-realistic candid photography style
   safetyTolerance?: number; // 1-5, higher = more permissive
+  imagePrompt?: string; // Data URI or base64 image for image-to-image generation
 }
 
 export interface ReplicateResponse {
@@ -161,7 +162,7 @@ export async function generateWithFlux(
   prompt: string,
   config: ReplicateConfig
 ): Promise<string[]> {
-  const { apiToken, model, seed, aspectRatio, ...otherConfig } = config;
+  const { apiToken, model, seed, aspectRatio, imagePrompt, ...otherConfig } = config;
 
   if (!apiToken) {
     throw new Error('Replicate API token is required');
@@ -189,6 +190,18 @@ export async function generateWithFlux(
     output_quality: config.outputQuality || 90,
     ...otherConfig,
   };
+
+  // Add image_prompt if provided (for image-to-image generation)
+  if (imagePrompt) {
+    // Convert base64 to data URI if not already
+    if (!imagePrompt.startsWith('data:')) {
+      // Assume it's a JPEG if no format specified
+      input.image_prompt = `data:image/jpeg;base64,${imagePrompt}`;
+    } else {
+      input.image_prompt = imagePrompt;
+    }
+    console.log('🖼️ Using image-to-image mode with uploaded image');
+  }
 
   // Add seed if provided
   if (seed !== null && seed !== undefined) {

@@ -8,6 +8,7 @@ import React, { useState } from 'react';
 import { PlatinumPromptEngine } from './promptEngine';
 import { PLATINUM_VARIANTS, getAllPlatinumVariants } from './platinumCollections';
 import type { PlatinumModeState, PlatinumVariantId } from './types';
+import GenerationControlsPanel, { GenerationControlsState, defaultGenerationControls } from '../components/GenerationControlsPanel';
 
 interface PlatinumModeProps {
   onGenerate: (prompt: string, settings: any) => Promise<void>;
@@ -36,6 +37,10 @@ const PlatinumMode: React.FC<PlatinumModeProps> = ({
   const [generatedPrompt, setGeneratedPrompt] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [showPromptPreview, setShowPromptPreview] = useState(false);
+  const [generationControls, setGenerationControls] = useState<GenerationControlsState>({
+    ...defaultGenerationControls,
+    intimacyLevel: 8 // Platinum defaults to higher intimacy
+  });
 
   const promptEngine = new PlatinumPromptEngine();
   const variants = getAllPlatinumVariants();
@@ -76,16 +81,17 @@ const PlatinumMode: React.FC<PlatinumModeProps> = ({
 
     setIsGenerating(true);
     try {
-      const calibratedSettings = promptEngine.calibrateSettings(state, generationSettings.provider);
-
+      // Use generation controls from the panel
       const mappedSettings = {
-        safetySetting: calibratedSettings.imagenSafetyFilter,
-        personGeneration: calibratedSettings.imagenPersonGeneration,
-        fluxSafetyTolerance: calibratedSettings.fluxSafetyTolerance,
-        fluxRawMode: calibratedSettings.fluxRawMode,
-        fluxGuidanceScale: calibratedSettings.fluxGuidanceScale,
-        aspectRatio: calibratedSettings.aspectRatio,
-        numberOfImages: calibratedSettings.numberOfImages
+        provider: generationControls.provider,
+        safetySetting: generationControls.safetySetting,
+        personGeneration: generationControls.personGeneration,
+        safetyBypassStrategy: generationControls.safetyBypassStrategy,
+        fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
+        fluxRawMode: true,
+        aspectRatio: '4:5' as const,
+        numberOfImages: 1,
+        intimacyLevel: generationControls.intimacyLevel
       };
 
       await onGenerate(generatedPrompt, mappedSettings);
@@ -181,27 +187,6 @@ const PlatinumMode: React.FC<PlatinumModeProps> = ({
                 </div>
               </div>
 
-              {/* Intimacy Level */}
-              <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
-                <h3 className="font-bold mb-3 text-purple-300">Intimacy Level: {state.intimacyLevel}/10</h3>
-                <input
-                  type="range"
-                  min="6"
-                  max="10"
-                  value={state.intimacyLevel}
-                  onChange={(e) => setState({ ...state, intimacyLevel: parseInt(e.target.value) })}
-                  className="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer"
-                />
-                <div className="flex justify-between text-xs text-gray-400 mt-2">
-                  <span>Seductive</span>
-                  <span>Provocative</span>
-                  <span>Explicit</span>
-                </div>
-                {state.intimacyLevel >= 9 && (
-                  <div className="mt-2 text-xs text-yellow-400">⚠️ Premium Tier - Maximum Artistic</div>
-                )}
-              </div>
-
               {/* Photographer Settings */}
               <div className="bg-gray-800/50 rounded-lg p-4 border border-gray-700">
                 <h3 className="font-bold mb-3 text-purple-300">Photographer</h3>
@@ -222,6 +207,17 @@ const PlatinumMode: React.FC<PlatinumModeProps> = ({
                   Optimized for: {selectedVariant.optimizedFor.map(o => o.charAt(0).toUpperCase() + o.slice(1)).join(' & ')}
                 </div>
               </div>
+            </div>
+
+            {/* Generation Controls Panel */}
+            <div className="mb-6">
+              <GenerationControlsPanel
+                settings={generationControls}
+                onChange={setGenerationControls}
+                disabled={isGenerating}
+                colorTheme="purple"
+                compact={true}
+              />
             </div>
 
             {/* Wardrobe Selector */}

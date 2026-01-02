@@ -30,3 +30,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.env.vercel
+__pycache__/
+*.mp4
+
+# Test scripts and generated content
+test-*.mjs
+test-*.sh
+gcloud-diagnostic.sh
+generate-*.sh
+optimize-*.sh
+testappimg/
+instanew/

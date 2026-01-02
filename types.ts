@@ -123,6 +123,7 @@ export type SafetyBypassStrategy =
   | 'verastrategy'   // Vera mode's advanced prompt optimization for Imagen 4
   | 'ultraoptimizer' // Ultra Optimizer - Sophisticated prompt engineering with Art Directors Declaration
   | 'aggressive'     // Gemini + Translation + Flux with high tolerance
+  | 'nuclear-imagen' // Translation + Imagen 4 max bypass, no Flux
   | 'nuclear';       // Direct to translation + Flux max tolerance
 
 export interface GenerationSettings {
@@ -147,6 +148,8 @@ export interface GenerationSettings {
   personGeneration: 'allow_all' | 'allow_adult' | 'dont_allow';
   safetySetting: 'block_few' | 'block_some' | 'block_most';
   addWatermark: boolean;
+  outputFormat?: 'png' | 'jpeg'; // Output format for Vertex AI Imagen
+  jpegQuality?: number; // JPEG quality 0-100, default 95
 
   // Replicate Flux Settings
   replicateApiToken?: string;
@@ -154,6 +157,7 @@ export interface GenerationSettings {
   fluxRawMode?: boolean; // For ultra model - hyper-realistic candid style
   fluxSafetyTolerance?: number; // 1-6, higher = more permissive
   fluxOutputFormat?: 'jpg' | 'png'; // Output image format (per Flux API schema)
+  fluxImagePrompt?: string; // Data URI of image for image-to-image generation
 
   // Weaving Settings (for using Google Gemini weaving with Flux generation)
   weavingProjectId?: string; // Google Cloud Project ID for weaving only

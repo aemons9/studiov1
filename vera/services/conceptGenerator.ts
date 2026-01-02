@@ -1,10 +1,48 @@
-import { GoogleGenAI } from "@google/genai";
 import { IndianModelArchetype } from '../types';
-import { getGeminiApiKey } from '../../services/apiKeyManager';
 
-async function getAiInstance(): Promise<GoogleGenAI> {
-  const apiKey = await getGeminiApiKey();
-  return new GoogleGenAI({ apiKey });
+/**
+ * Call Vertex AI Gemini with OAuth tokens
+ */
+async function callVertexAIGemini(userPrompt: string, systemInstruction: string): Promise<string> {
+  const { getOAuthToken, getProjectId } = await import('../../utils/sharedAuthManager');
+
+  const projectId = getProjectId();
+  const oauthToken = getOAuthToken();
+
+  if (!projectId || !oauthToken) {
+    throw new Error('OAuth authentication not configured. Please set up GCP Project ID and OAuth token in Settings. OAuth tokens are auto-refreshed on Vercel deployments.');
+  }
+
+  const location = 'us-central1';
+  const url = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/gemini-2.5-flash:generateContent`;
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${oauthToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      system_instruction: {
+        parts: [{ text: systemInstruction }]
+      },
+      contents: [{
+        role: 'user',
+        parts: [{ text: userPrompt }]
+      }],
+      generationConfig: {
+        temperature: 0.7,
+      }
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    throw new Error(`Vertex AI OAuth error: ${response.status} - ${errorText}`);
+  }
+
+  const data = await response.json();
+  return data.candidates[0].content.parts[0].text;
 }
 
 /**
@@ -49,14 +87,9 @@ export const generateConcept = async (archetype: IndianModelArchetype, optimized
   `;
   
   try {
-    const ai = await getAiInstance();
-    const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: userPrompt,
-        config: { systemInstruction: systemInstruction },
-      });
-
-    return response.text.trim();
+    const resultText = await callVertexAIGemini(userPrompt, systemInstruction);
+    console.log('✅ Concept generation using Vertex AI OAuth');
+    return resultText.trim();
   } catch (error) {
     console.error("Error in generateConcept:", error);
     throw new Error("Failed to generate the final artistic concept prompt.");

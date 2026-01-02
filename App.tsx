@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, HistoryEntry, AdherenceLevel, CloudStorageConfig, StorageProvider, StorageSettings, CalculatedLevels } from './types';
 import { generateImage, enhancePrompt, weavePrompt, generateAndSaveImage, type StorageConfig, applyAdvancedSelections } from './services/geminiService';
-import { generateWithMaximumSafety, getGenerationSummary } from './services/intelligentGenerationService';
-import { parseFluxPromptToData } from './services/promptParser';
+// Note: intelligentGenerationService and promptParser are now dynamically imported to improve code splitting
 import { DEFAULT_BUCKET_NAME } from './services/cloudStorageService';
 import { DEFAULT_DRIVE_FOLDER } from './services/googleDriveService';
 import Header from './components/Header';
@@ -23,8 +22,10 @@ import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
 import ImagenPromptLibrarySelector from './components/ImagenPromptLibrarySelector';
 import QuickCorporateGenerator from './components/QuickCorporateGenerator';
 import QuickInstagramGenerator from './components/QuickInstagramGenerator';
+import { VeraLabsCollectionGenerator } from './components/VeraLabsCollectionGenerator';
 import QuickDirectGenerate from './components/QuickDirectGenerate';
 import AuthenticationSettings from './components/AuthenticationSettings';
+import MobileControlBar from './components/MobileControlBar';
 import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
 import { ImagenPromptTemplate } from './concepts/imagenPromptLibrary';
 import ExperimentalMode from './experimental/ExperimentalMode';
@@ -37,6 +38,9 @@ import IndianModelsGallery from './roleplay/IndianModelsGallery';
 import VideoGenerationMode from './video/VideoGenerationMode';
 import VeraMode from './vera/VeraMode';
 import MasterClassMode from './masterclass/MasterClassMode';
+import RealVisualNovel from './visualnovel/RealVisualNovel';
+import VisualNovelAssetGenerator from './visualnovel/VisualNovelAssetGenerator';
+import InstagramMode from './instagram/InstagramMode';
 import VideoGeneratorUI from './components/VideoGeneratorUI';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
@@ -45,6 +49,7 @@ import { PlatinumPromptEngine } from './platinum/promptEngine';
 import { CORPORATE_ROLES } from './corporate/corporateRoles';
 import { OFFICE_ENVIRONMENTS } from './corporate/corporateEnvironments';
 import { INDIAN_MODEL_ARCHETYPES, getModelArchetype } from './artistic/indianModels';
+import { saveAuthCredentials, getOAuthToken, getProjectId } from './utils/sharedAuthManager';
 import { MASTER_STYLES, getMasterStyle } from './artistic/masterStyles';
 
 const initialPromptJson = `{
@@ -105,11 +110,12 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'visualnovel' | 'vnassets' | 'instagram'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
   const [generatedImages, setGeneratedImages] = useState<GeneratedImageData[] | null>(null);
+  const [visualNovelImages, setVisualNovelImages] = useState<GeneratedImageData[] | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
@@ -132,6 +138,8 @@ const App: React.FC = () => {
     personGeneration: 'allow_all',
     safetySetting: 'block_few',
     addWatermark: true,
+    outputFormat: 'png',
+    jpegQuality: 95,
     enhancePrompt: true,
     modelId: 'imagen-4.0-generate-001', // Use standard model for API key auth
     seed: null,
@@ -203,9 +211,23 @@ const App: React.FC = () => {
     // Validate weaving credentials if weaving/enhancement enabled with Flux + Google weaving
     if (options?.weave?.enabled || options?.enhance?.enabled) {
       if (generationSettings.provider === 'replicate-flux' && generationSettings.useGoogleForWeaving) {
-        if (!generationSettings.weavingProjectId || !generationSettings.weavingAccessToken) {
-          setError('Google weaving enabled but missing credentials. Please provide Project ID and Token for weaving, or disable "Use Google for Weaving".');
+        // Check if weaving credentials are available (either dedicated or OAuth)
+        const hasWeavingCreds = generationSettings.weavingProjectId && generationSettings.weavingAccessToken;
+        const hasOAuthCreds = generationSettings.projectId && generationSettings.accessToken;
+
+        if (!hasWeavingCreds && !hasOAuthCreds) {
+          setError('Google weaving enabled but missing credentials. Please ensure OAuth token is loaded, or provide separate weaving credentials, or disable "Use Google for Weaving".');
           return false;
+        }
+
+        // If OAuth credentials are available but weaving credentials aren't, use OAuth
+        if (!hasWeavingCreds && hasOAuthCreds) {
+          console.log('🔄 Using OAuth credentials for weaving');
+          setGenerationSettings(prev => ({
+            ...prev,
+            weavingProjectId: prev.projectId,
+            weavingAccessToken: prev.accessToken
+          }));
         }
       }
     }
@@ -250,23 +272,122 @@ const App: React.FC = () => {
 
   useEffect(() => { setPromptHistory(loadHistoryFromStorage()); }, []);
 
-  // Load tokens from localStorage on startup
+  // Auto-refresh GCP OAuth token every 50 minutes (before 60-min expiration)
   useEffect(() => {
-    const mainToken = localStorage.getItem('mainToken');
+    const REFRESH_INTERVAL = 50 * 60 * 1000; // 50 minutes in milliseconds
+
+    async function fetchAndUpdateGcloudToken() {
+      try {
+        console.log('🔄 Auto-refreshing GCP OAuth token...');
+
+        // Fetch both token and project ID in parallel
+        const [tokenResponse, projectResponse] = await Promise.all([
+          fetch('/api/gcloud-token'),
+          fetch('/api/gcloud-project')
+        ]);
+
+        let newToken = '';
+        let newProjectId = '';
+
+        if (tokenResponse.ok) {
+          const tokenData = await tokenResponse.json();
+          newToken = tokenData.token;
+
+          // Update localStorage (legacy)
+          localStorage.setItem('mainToken', newToken);
+
+          // Update state
+          setGenerationSettings(prev => ({ ...prev, accessToken: newToken }));
+
+          console.log('✅ OAuth token auto-refreshed:', newToken.substring(0, 20) + '...');
+        } else {
+          const error = await tokenResponse.json();
+          console.warn('⚠️ Failed to auto-refresh token:', error.error);
+          console.log('💡 Hint:', error.hint);
+        }
+
+        if (projectResponse.ok) {
+          const projectData = await projectResponse.json();
+          newProjectId = projectData.projectId;
+
+          // Update localStorage (legacy)
+          localStorage.setItem('projectId', newProjectId);
+
+          // Update state
+          setGenerationSettings(prev => ({ ...prev, projectId: newProjectId }));
+
+          console.log('✅ GCP Project ID loaded:', newProjectId);
+        }
+
+        // Save to unified auth storage (used by all modes)
+        if (newToken && newProjectId) {
+          saveAuthCredentials({
+            authMethod: 'oauth',
+            projectId: newProjectId,
+            oauthToken: newToken,
+            apiKey: '',
+            tokenTimestamp: Date.now()
+          });
+          console.log('✅ OAuth saved to unified auth storage (all modes)');
+        }
+
+      } catch (error) {
+        console.warn('⚠️ Token auto-refresh failed:', error);
+        console.log('💡 Make sure gcloud CLI is installed and authenticated');
+      }
+    }
+
+    // Fetch immediately on startup
+    fetchAndUpdateGcloudToken();
+
+    // Set up periodic refresh every 50 minutes
+    const intervalId = setInterval(fetchAndUpdateGcloudToken, REFRESH_INTERVAL);
+
+    console.log('⏰ GCP OAuth auto-refresh enabled (every 50 minutes)');
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Load tokens and project IDs from localStorage on startup
+  useEffect(() => {
+    // Try sharedAuthManager first (unified storage for all modes)
+    const sharedToken = getOAuthToken();
+    const sharedProjectId = getProjectId();
+
+    // Fallback to legacy localStorage keys
+    const mainToken = sharedToken || localStorage.getItem('mainToken');
+    const projectId = sharedProjectId || localStorage.getItem('projectId');
     const driveToken = localStorage.getItem('driveToken');
     const replicateToken = localStorage.getItem('replicateToken');
     const weavingToken = localStorage.getItem('weavingToken');
+    const weavingProjectId = localStorage.getItem('weavingProjectId');
 
     let loadedCount = 0;
     const missingTokens: string[] = [];
 
-    if (mainToken) {
+    // Load main Vertex AI credentials
+    if (mainToken && projectId) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        accessToken: mainToken,
+        projectId: projectId
+      }));
+      loadedCount += 2;
+      console.log('✅ Vertex AI token and project ID loaded', sharedToken ? '(from unified storage)' : '(from legacy storage)');
+    } else if (mainToken) {
       setGenerationSettings(prev => ({ ...prev, accessToken: mainToken }));
       loadedCount++;
+      missingTokens.push('Vertex AI Project ID');
+    } else if (projectId) {
+      setGenerationSettings(prev => ({ ...prev, projectId: projectId }));
+      loadedCount++;
+      missingTokens.push('Vertex AI Token');
     } else {
       missingTokens.push('Vertex AI');
     }
 
+    // Load Google Drive token
     if (driveToken) {
       setStorageSettings(prev => ({ ...prev, driveAccessToken: driveToken }));
       loadedCount++;
@@ -274,6 +395,7 @@ const App: React.FC = () => {
       missingTokens.push('Google Drive');
     }
 
+    // Load Replicate token
     if (replicateToken) {
       setGenerationSettings(prev => ({ ...prev, replicateApiToken: replicateToken }));
       loadedCount++;
@@ -281,30 +403,56 @@ const App: React.FC = () => {
       missingTokens.push('Replicate');
     }
 
-    if (weavingToken) {
+    // Load Weaving credentials (for Google Gemini weaving with Flux)
+    if (weavingToken && weavingProjectId) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        weavingAccessToken: weavingToken,
+        weavingProjectId: weavingProjectId
+      }));
+      loadedCount += 2;
+      console.log('✅ Weaving token and project ID loaded (for Google Gemini weaving with Flux)');
+    } else if (weavingToken) {
       setGenerationSettings(prev => ({ ...prev, weavingAccessToken: weavingToken }));
       loadedCount++;
-      console.log('✅ Weaving token loaded (for Google Gemini weaving with Flux)');
+      console.log('⚠️ Weaving token loaded but missing project ID');
+    } else if (weavingProjectId) {
+      setGenerationSettings(prev => ({ ...prev, weavingProjectId: weavingProjectId }));
+      loadedCount++;
+      console.log('⚠️ Weaving project ID loaded but missing token');
     }
 
     // Single consolidated message
     if (loadedCount > 0) {
-      console.log(`✅ Loaded ${loadedCount} token(s) from localStorage`);
+      console.log(`✅ Loaded ${loadedCount} credential(s) from localStorage`);
     }
 
+    // Show instructions for missing credentials
     if (missingTokens.length > 0) {
-      console.log(`ℹ️ Missing tokens for: ${missingTokens.join(', ')}`);
-      console.log('💡 To set tokens, open console and paste:');
-      if (missingTokens.includes('Vertex AI')) {
-        console.log('   localStorage.setItem("mainToken", "YOUR_VERTEX_TOKEN");');
+      console.log(`ℹ️ Missing credentials for: ${missingTokens.join(', ')}`);
+      console.log('💡 To set credentials, open console and paste:');
+      console.log('');
+      if (missingTokens.includes('Vertex AI') || missingTokens.includes('Vertex AI Token') || missingTokens.includes('Vertex AI Project ID')) {
+        console.log('// Vertex AI (Imagen) - OAuth credentials:');
+        console.log('localStorage.setItem("projectId", "YOUR_GCP_PROJECT_ID");');
+        console.log('localStorage.setItem("mainToken", "YOUR_VERTEX_OAUTH_TOKEN");');
+        console.log('');
       }
       if (missingTokens.includes('Google Drive')) {
-        console.log('   localStorage.setItem("driveToken", "YOUR_DRIVE_TOKEN");');
+        console.log('// Google Drive storage:');
+        console.log('localStorage.setItem("driveToken", "YOUR_DRIVE_OAUTH_TOKEN");');
+        console.log('');
       }
       if (missingTokens.includes('Replicate')) {
-        console.log('   localStorage.setItem("replicateToken", "YOUR_REPLICATE_TOKEN");');
+        console.log('// Replicate (Flux):');
+        console.log('localStorage.setItem("replicateToken", "YOUR_REPLICATE_API_TOKEN");');
+        console.log('');
       }
-      console.log('   localStorage.setItem("weavingToken", "YOUR_GOOGLE_TOKEN_FOR_WEAVING");');
+      console.log('// Optional: Google Gemini weaving (for prompt enhancement with Flux):');
+      console.log('localStorage.setItem("weavingProjectId", "YOUR_GCP_PROJECT_ID");');
+      console.log('localStorage.setItem("weavingToken", "YOUR_GOOGLE_OAUTH_TOKEN");');
+      console.log('');
+      console.log('Then reload the page to apply changes.');
     }
   }, []);
 
@@ -362,6 +510,7 @@ const App: React.FC = () => {
           safetyTolerance: generationSettings.fluxSafetyTolerance || fluxOptimalSettings.safetyTolerance,
           numInferenceSteps: fluxOptimalSettings.numInferenceSteps,
           guidanceScale: fluxOptimalSettings.guidanceScale,
+          imagePrompt: options.fluxImagePrompt, // Pass the uploaded image if provided
         };
 
         console.log('🎨 Using Replicate Flux:', {
@@ -370,6 +519,7 @@ const App: React.FC = () => {
           safetyTolerance: fluxConfig.safetyTolerance,
           outputFormat: fluxConfig.outputFormat,
           intimacyLevel: generationSettings.intimacyLevel,
+          imageToImage: !!options.fluxImagePrompt,
         });
 
         const base64Images = await generateWithFlux(finalPrompt, fluxConfig);
@@ -382,6 +532,8 @@ const App: React.FC = () => {
       } else {
         // Use Vertex AI Imagen with intelligent safety bypass cascade
         console.log('🚀 Using intelligent generation system with multi-layer safety bypass');
+
+        const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
 
         const generationResult = await generateWithMaximumSafety(
           finalPrompt,
@@ -401,8 +553,11 @@ const App: React.FC = () => {
         };
       }
 
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = generationSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+
       const newImageData = result.images.map(b64 => ({
-        url: `data:image/jpeg;base64,${b64}`,
+        url: `data:${mimeType};base64,${b64}`,
         settings: {
           modelId: generationSettings.provider === 'vertex-ai'
             ? generationSettings.modelId
@@ -850,16 +1005,18 @@ const App: React.FC = () => {
     setGenerationStep({ step: 'generating', message: 'Generating artistic image...' });
 
     try {
-      const images = await generateImage(
-        prompt,
-        {
-          ...generationSettings,
-          ...settings,
-        }
-      );
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
 
       setGeneratedImages(images.map(img => ({
-        url: `data:image/jpeg;base64,${img}`,
+        url: `data:${mimeType};base64,${img}`,
         settings: {
           modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
           seed: generationSettings.seed,
@@ -889,16 +1046,18 @@ const App: React.FC = () => {
     setGenerationStep({ step: 'generating', message: 'Generating corporate image...' });
 
     try {
-      const images = await generateImage(
-        prompt,
-        {
-          ...generationSettings,
-          ...settings,
-        }
-      );
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
 
       setGeneratedImages(images.map(img => ({
-        url: `data:image/jpeg;base64,${img}`,
+        url: `data:${mimeType};base64,${img}`,
         settings: {
           modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
           seed: generationSettings.seed,
@@ -1085,16 +1244,18 @@ const App: React.FC = () => {
     setGenerationStep({ step: 'generating', message: 'Generating platinum collection image...' });
 
     try {
-      const images = await generateImage(
-        prompt,
-        {
-          ...generationSettings,
-          ...settings,
-        }
-      );
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
 
       setGeneratedImages(images.map(img => ({
-        url: `data:image/jpeg;base64,${img}`,
+        url: `data:${mimeType};base64,${img}`,
         settings: {
           modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
           seed: generationSettings.seed,
@@ -1149,15 +1310,33 @@ const App: React.FC = () => {
     setGenerationStep(null);
 
     try {
+      const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
+
       const result = await generateWithMaximumSafety(
         prompt,           // wovenPrompt: string
         null,             // promptData: PromptData | null
         mergedSettings    // settings: GenerationSettings
       );
 
-      setGeneratedImages(result.images);
-      setWovenPrompt(result.wovenPrompt);
-      setGenerationStep(result.step);
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const imageData = result.images.map(b64 => ({
+        url: `data:${mimeType};base64,${b64}`,
+        settings: {
+          modelId: mergedSettings.provider === 'vertex-ai'
+            ? mergedSettings.modelId
+            : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+          seed: mergedSettings.seed,
+          aspectRatio: mergedSettings.aspectRatio
+        }
+      }));
+
+      setGeneratedImages(imageData);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
     } catch (err: any) {
       console.error('🎨 Gallery Generation Error:', err);
       setError(err.message);
@@ -1166,9 +1345,10 @@ const App: React.FC = () => {
     }
   };
 
-  const handleMigrateFromGallery = (promptTemplate: string) => {
+  const handleMigrateFromGallery = async (promptTemplate: string) => {
     try {
       // Parse the gallery prompt into PromptData
+      const { parseFluxPromptToData } = await import('./services/promptParser');
       const parsedData = parseFluxPromptToData(promptTemplate);
       setPromptData(parsedData);
       setPromptMode('json');
@@ -1219,6 +1399,8 @@ const App: React.FC = () => {
       setIsLoading(true);
       setError(null);
 
+      const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
+
       // Fix: generateWithMaximumSafety expects (wovenPrompt, promptData, settings)
       const result = await generateWithMaximumSafety(
         prompt,           // wovenPrompt: string
@@ -1226,9 +1408,25 @@ const App: React.FC = () => {
         mergedSettings   // settings: GenerationSettings
       );
 
-      setGeneratedImages(result.images);
-      setWovenPrompt(result.wovenPrompt);
-      setGenerationStep(result.step);
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const imageData = result.images.map(b64 => ({
+        url: `data:${mimeType};base64,${b64}`,
+        settings: {
+          modelId: mergedSettings.provider === 'vertex-ai'
+            ? mergedSettings.modelId
+            : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+          seed: mergedSettings.seed,
+          aspectRatio: mergedSettings.aspectRatio
+        }
+      }));
+
+      setGeneratedImages(imageData);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
     } catch (err: any) {
       console.error('🎭 Role-Play Generation Error:', err);
       setError(err.message);
@@ -1237,8 +1435,86 @@ const App: React.FC = () => {
     }
   };
 
-  const handleMigrateFromRolePlay = (promptTemplate: string) => {
+  const handleVisualNovelGenerate = async (prompt: string, settings: any) => {
+    console.log('📖 Visual Novel Generate triggered:', { prompt: prompt.substring(0, 100), settings });
+
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Merge settings properly
+    const mergedSettings = { ...generationSettings, ...settings };
+    setGenerationSettings(mergedSettings);
+
+    // Auto-generate with the visual novel prompt
     try {
+      setIsLoading(true);
+      setError(null);
+      setVisualNovelImages(null); // Clear old images BEFORE generating new one
+
+      const { generateWithMaximumSafety, getGenerationSummary } = await import('./services/intelligentGenerationService');
+
+      const result = await generateWithMaximumSafety(
+        prompt,           // wovenPrompt: string
+        null,            // promptData: PromptData | null
+        mergedSettings   // settings: GenerationSettings
+      );
+
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      console.log('📖 Visual Novel Generation Result:', {
+        hasImages: !!result.images,
+        imageCount: result.images?.length || 0,
+        firstImageType: typeof result.images?.[0],
+        firstImageLength: result.images?.[0]?.length
+      });
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const generatedImageData: GeneratedImageData[] | null = result.images
+        ? result.images.map(b64 => ({
+            url: `data:${mimeType};base64,${b64}`,
+            settings: {
+              modelId: mergedSettings.provider === 'vertex-ai'
+                ? mergedSettings.modelId
+                : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+              seed: mergedSettings.seed,
+              aspectRatio: mergedSettings.aspectRatio
+            }
+          }))
+        : null;
+
+      const conversionId = Date.now();
+      console.log(`🔄 Converted to GeneratedImageData [ID:${conversionId}]:`, {
+        hasData: !!generatedImageData,
+        count: generatedImageData?.length || 0,
+        firstItemType: typeof generatedImageData?.[0],
+        firstItemHasUrl: !!generatedImageData?.[0]?.url,
+        firstItemUrlLength: generatedImageData?.[0]?.url?.length,
+        data: generatedImageData
+      });
+
+      console.log(`📤 Calling setVisualNovelImages (NOT setGeneratedImages) with conversion ID:${conversionId}`);
+      setVisualNovelImages(generatedImageData);
+      console.log(`✅ setVisualNovelImages called with ID:${conversionId} - images isolated from main UI`);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
+    } catch (err: any) {
+      console.error('📖 Visual Novel Generation Error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExitVisualNovel = () => {
+    setUiMode('classic');
+  };
+
+  const handleMigrateFromRolePlay = async (promptTemplate: string) => {
+    try {
+      const { parseFluxPromptToData } = await import('./services/promptParser');
+
       // Parse the role-play prompt template into PromptData
       // The template contains placeholders, so extract the base structure
       const basePrompt = promptTemplate
@@ -1445,6 +1721,11 @@ const App: React.FC = () => {
           onGenerate={handleRolePlayGenerate}
           onMigrateToMain={handleMigrateFromRolePlay}
           onExit={handleExitRolePlay}
+          generatedImages={generatedImages}
+          isLoading={isLoading}
+          error={error}
+          wovenPrompt={wovenPrompt}
+          generationStep={generationStep}
         />
       ) : uiMode === 'gallery' ? (
         // INDIAN MODELS GALLERY: Comprehensive Selector
@@ -1468,6 +1749,25 @@ const App: React.FC = () => {
         // MASTERCLASS MODE: The Apex of AI-Driven Creative Direction
         <MasterClassMode
           onExit={() => setUiMode('classic')}
+        />
+      ) : uiMode === 'vnassets' ? (
+        // VISUAL NOVEL ASSET GENERATOR: Generate all sprites, backgrounds, CGs, videos
+        <VisualNovelAssetGenerator
+          onExit={() => setUiMode('classic')}
+          generationSettings={safeGenerationSettings}
+          onGenerate={handleVisualNovelGenerate}
+          generatedImages={visualNovelImages}
+        />
+      ) : uiMode === 'visualnovel' ? (
+        // VISUAL NOVEL MODE: Real visual novel game (like Steam games)
+        <RealVisualNovel
+          onExit={handleExitVisualNovel}
+        />
+      ) : uiMode === 'instagram' ? (
+        // INSTAGRAM MODE: Publishing and auto-posting
+        <InstagramMode
+          generatedImages={generatedImages}
+          onBack={() => setUiMode('classic')}
         />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor
@@ -1582,6 +1882,17 @@ const App: React.FC = () => {
               />
             </div>
 
+            <div className="mt-6">
+              <VeraLabsCollectionGenerator
+                onApplyPrompt={(promptData, finalPrompt) => {
+                  handlePromptChange(promptData);
+                  setTextPrompt(finalPrompt);
+                  setPromptMode('text');
+                }}
+                currentPromptData={promptData}
+              />
+            </div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
               {promptMode === 'json' ? (
                 <PromptEditor promptData={safePromptData} onPromptChange={handlePromptChange} isLoading={isLoading}
@@ -1612,120 +1923,53 @@ const App: React.FC = () => {
             </div>
           </main>
 
-          <div className="sticky bottom-0 left-0 right-0 p-4 bg-gray-900/80 backdrop-blur-sm border-t border-gray-700 flex justify-center items-center gap-2 sm:gap-4 flex-wrap">
-            <button onClick={handleOpenLoadModal} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" /></svg>Load
-            </button>
-            <button onClick={() => setIsStorageModalOpen(true)} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path d="M5.5 16a3.5 3.5 0 01-.369-6.98 4 4 0 117.753-1.977A4.5 4.5 0 1113.5 16h-8z" /></svg>
-              Storage
-            </button>
-            <button onClick={() => setIsGalleryModalOpen(true)} disabled={isLoading || !generationSettings.projectId} className="flex items-center justify-center gap-2 px-4 py-2 bg-indigo-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-indigo-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>Gallery
-            </button>
-            <button onClick={handleOpenHistoryModal} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>History
-            </button>
-            <button onClick={handleSavePrompt} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 5a2 2 0 012-2h8a2 2 0 012 2v10a2 2 0 01-2 2H7a2 2 0 01-2-2V5z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 014-4h4a4 4 0 014 4v2H7v-2z" /></svg>Save
-            </button>
-             <button onClick={handleCopyPrompt} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" /></svg>Copy
-            </button>
-            <button onClick={handleResetPrompt} disabled={isLoading} className="flex items-center justify-center gap-2 px-4 py-2 bg-gray-700 text-white font-semibold text-base rounded-lg shadow-md hover:bg-gray-600 disabled:bg-gray-800 disabled:cursor-not-allowed transition-all duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" /></svg>Reset
-            </button>
-            <button
-              onClick={() => setUiMode('experimental')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:to-pink-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🔬</span>
-              Experimental Mode
-            </button>
-            <button
-              onClick={() => setUiMode('artistic')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-500 to-rose-500 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-400 hover:to-rose-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎨</span>
-              Artistic Mode
-            </button>
-            <button
-              onClick={() => setUiMode('corporate')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-indigo-500 to-emerald-500 text-white font-semibold text-base rounded-lg shadow-md hover:from-indigo-400 hover:to-emerald-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>💼</span>
-              Corporate Mode
-            </button>
-            <button
-              onClick={() => setUiMode('platinum')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-pink-500 to-indigo-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:via-pink-400 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>💎</span>
-              Platinum Collection
-            </button>
-            <button
-              onClick={() => setUiMode('roleplay')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-pink-600 via-purple-500 to-pink-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-pink-500 hover:via-purple-400 hover:to-pink-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎭</span>
-              Role-Play Mode
-            </button>
-            <button
-              onClick={() => setUiMode('gallery')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-rose-500 via-pink-500 to-fuchsia-500 text-white font-semibold text-base rounded-lg shadow-md hover:from-rose-400 hover:via-pink-400 hover:to-fuchsia-400 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎨</span>
-              Models Gallery
-            </button>
-            <button
-              onClick={() => setUiMode('video')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-violet-600 via-purple-600 to-indigo-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-violet-500 hover:via-purple-500 hover:to-indigo-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎬</span>
-              Video Mode
-            </button>
-            <button
-              onClick={() => setUiMode('vera')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-600 via-teal-600 to-emerald-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-cyan-500 hover:via-teal-500 hover:to-emerald-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>✨</span>
-              Vera Mode
-            </button>
-            <button
-              onClick={() => setUiMode('masterclass')}
-              disabled={isLoading}
-              className="flex items-center justify-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-600 via-pink-600 to-rose-600 text-white font-semibold text-base rounded-lg shadow-md hover:from-purple-500 hover:via-pink-500 hover:to-rose-500 disabled:from-gray-800 disabled:to-gray-800 disabled:cursor-not-allowed transition-all duration-300"
-            >
-              <span style={{ fontSize: '18px' }}>🎭</span>
-              MasterClass
-            </button>
-            <div className="flex-grow flex justify-center w-full sm:w-auto order-first sm:order-none gap-2 sm:gap-4">
-              <button
-                onClick={handleGenerateVideoPrompt}
-                disabled={isLoading || isGeneratingPrompt || (!textPrompt.trim() && !promptData)}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-600 to-violet-600 text-white font-bold text-base rounded-lg shadow-lg hover:from-purple-700 hover:to-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-900 focus:ring-purple-500 disabled:from-gray-600 disabled:to-gray-700 disabled:cursor-not-allowed transition-all duration-300 transform active:scale-95 shadow-purple-500/20 hover:shadow-purple-500/30"
-                title={`Generate optimized video prompt using ${generationSettings.safetyBypassStrategy || 'auto'} strategy`}
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-                {isGeneratingPrompt ? 'Generating...' : 'Generate Video Prompt'}
-              </button>
-              <MasterGenerationControl
-                onGenerate={handleMasterGenerate}
-                isLoading={isLoading}
-                generationStep={generationStep}
-              />
-              <LockFieldsDropdown lockedFields={lockedFields} onLockedFieldsChange={setLockedFields} isBusy={isLoading} />
-            </div>
+          <MobileControlBar
+            isLoading={isLoading}
+            onLoad={handleOpenLoadModal}
+            onStorage={() => setIsStorageModalOpen(true)}
+            onGallery={() => setIsGalleryModalOpen(true)}
+            onHistory={handleOpenHistoryModal}
+            onSave={handleSavePrompt}
+            onCopy={handleCopyPrompt}
+            onReset={handleResetPrompt}
+            onGenerateVideo={handleGenerateVideoPrompt}
+            onMasterGenerate={() => {
+              // Trigger master generate via ref
+              const masterBtn = document.querySelector('[data-master-generate]') as HTMLButtonElement;
+              masterBtn?.click();
+            }}
+            onExperimental={() => setUiMode('experimental')}
+            onArtistic={() => setUiMode('artistic')}
+            onCorporate={() => setUiMode('corporate')}
+            onPlatinum={() => setUiMode('platinum')}
+            onRoleplay={() => setUiMode('roleplay')}
+            onGalleryMode={() => setUiMode('gallery')}
+            onVideoMode={() => setUiMode('video')}
+            onVera={() => setUiMode('vera')}
+            onMasterClass={() => setUiMode('masterclass')}
+            onVisualNovel={() => setUiMode('visualnovel')}
+            onVNAssets={() => setUiMode('vnassets')}
+            onInstagram={() => setUiMode('instagram')}
+            isGeneratingPrompt={isGeneratingPrompt}
+            hasPrompt={!!(textPrompt.trim() || promptData)}
+            hasProjectId={!!generationSettings.projectId}
+          />
+          {/* MasterGenerationControl - Hidden on mobile, visible on desktop */}
+          <div className="hidden md:block">
+            <MasterGenerationControl
+              onGenerate={handleMasterGenerate}
+              isLoading={isLoading}
+              generationStep={generationStep}
+              generationSettings={generationSettings}
+              onImagePromptChange={(imageData) => setGenerationSettings(prev => ({
+                ...prev,
+                fluxImagePrompt: imageData
+              }))}
+            />
+          </div>
+          {/* Hidden LockFieldsDropdown for functionality */}
+          <div className="hidden">
+            <LockFieldsDropdown lockedFields={lockedFields} onLockedFieldsChange={setLockedFields} isBusy={isLoading} />
           </div>
         </>
       )}

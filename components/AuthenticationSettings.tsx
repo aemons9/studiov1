@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { GenerationSettings } from '../types';
+import { saveAuthCredentials } from '../utils/sharedAuthManager';
 
 interface AuthenticationSettingsProps {
   settings: GenerationSettings;
@@ -18,15 +19,28 @@ const AuthenticationSettings: React.FC<AuthenticationSettingsProps> = ({
   const [projectId, setProjectId] = useState(settings.projectId || '');
   const [accessToken, setAccessToken] = useState(settings.accessToken || '');
   const [apiKey, setApiKey] = useState(settings.vertexApiKey || '');
+  const [replicateApiToken, setReplicateApiToken] = useState(settings.replicateApiToken || '');
 
   const handleSave = () => {
-    onSettingsChange({
+    const newSettings = {
       ...settings,
       vertexAuthMethod: authMethod,
       projectId: authMethod === 'oauth' ? projectId : '',
       accessToken: authMethod === 'oauth' ? accessToken : '',
       vertexApiKey: authMethod === 'apikey' ? apiKey : settings.vertexApiKey,
+      replicateApiToken: replicateApiToken,
+    };
+
+    // Sync to unified auth manager (makes it work for ALL modes including Vera, Platinum, Roleplay, etc.)
+    saveAuthCredentials({
+      authMethod,
+      projectId: authMethod === 'oauth' ? projectId : '',
+      oauthToken: authMethod === 'oauth' ? accessToken : '',
+      apiKey: authMethod === 'apikey' ? apiKey : '',
+      tokenTimestamp: authMethod === 'oauth' && accessToken ? Date.now() : null,
     });
+
+    onSettingsChange(newSettings);
     onClose();
   };
 
@@ -124,19 +138,19 @@ const AuthenticationSettings: React.FC<AuthenticationSettingsProps> = ({
                 <div className="flex-1">
                   <div className="font-semibold text-white flex items-center gap-2">
                     API Key (Gemini API)
-                    <span className="px-2 py-0.5 bg-yellow-600 text-white text-xs rounded">
-                      LIMITED - TEXT ONLY
+                    <span className="px-2 py-0.5 bg-red-600 text-white text-xs rounded font-bold">
+                      NO IMAGE GENERATION
                     </span>
                   </div>
                   <p className="text-sm text-gray-300 mt-1">
-                    Simple setup but limited functionality
+                    Simple setup but <strong className="text-red-400">cannot generate images</strong>
                   </p>
                   <div className="mt-2 text-xs text-gray-400">
                     ✅ Easy setup with API key<br />
                     ✅ No OAuth needed<br />
                     ✅ Works for Gemini text features (rewrites, analysis)<br />
-                    ❌ <span className="text-red-400 font-semibold">Cannot generate images</span><br />
-                    💡 Use with Replicate Flux for image generation
+                    ❌ <span className="text-red-400 font-bold">IMAGEN NOT AVAILABLE</span> (Imagen requires OAuth)<br />
+                    💡 <strong>Must use Replicate Flux</strong> for image generation
                   </div>
                 </div>
               </div>
@@ -244,6 +258,52 @@ const AuthenticationSettings: React.FC<AuthenticationSettingsProps> = ({
             </div>
           )}
 
+          {/* Replicate Flux Configuration */}
+          <div className="space-y-4 p-4 bg-purple-900/20 border border-purple-500/30 rounded-lg">
+            <h3 className="font-semibold text-white flex items-center gap-2">
+              ⚡ Replicate Flux Configuration
+              <span className="px-2 py-0.5 bg-purple-600 text-white text-xs rounded">
+                SEPARATE PROVIDER
+              </span>
+            </h3>
+            <p className="text-sm text-gray-300">
+              Configure Replicate Flux for ultra-high quality image generation
+            </p>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-300 mb-2 flex items-center justify-between">
+                <span>Replicate API Token</span>
+                <a
+                  href="https://replicate.com/account/api-tokens"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-purple-400 hover:text-purple-300"
+                >
+                  Get API Token →
+                </a>
+              </label>
+              <input
+                type="password"
+                value={replicateApiToken}
+                onChange={(e) => setReplicateApiToken(e.target.value)}
+                placeholder="r8_..."
+                className="w-full bg-gray-900 text-white border border-gray-600 rounded-lg px-4 py-2 focus:outline-none focus:border-purple-500 font-mono text-sm"
+              />
+            </div>
+
+            <div className="bg-gray-900/50 p-3 rounded border border-gray-700">
+              <p className="text-xs text-gray-400">
+                <strong className="text-white">What this enables:</strong><br />
+                ⚡ Flux 1.1 Pro Ultra (highest quality)<br />
+                ⚡ Flux Dev and Schnell models<br />
+                ⚡ Image-to-image generation<br />
+                ⚡ Safety tolerance controls<br />
+                ⚡ Raw mode for maximum fidelity<br />
+                💡 Works independently of Vertex AI/Gemini
+              </p>
+            </div>
+          </div>
+
           {/* Current Status */}
           <div className="p-4 bg-gray-900/50 border border-gray-700 rounded-lg">
             <h3 className="font-semibold text-white mb-2">Current Configuration</h3>
@@ -270,6 +330,12 @@ const AuthenticationSettings: React.FC<AuthenticationSettingsProps> = ({
                 <span className="text-gray-400">API Key:</span>
                 <span className={`font-mono text-xs ${settings.vertexApiKey ? 'text-green-400' : 'text-red-400'}`}>
                   {settings.vertexApiKey ? `${settings.vertexApiKey.substring(0, 10)}...` : 'Not set'}
+                </span>
+              </div>
+              <div className="flex justify-between pt-2 border-t border-gray-700">
+                <span className="text-gray-400">Replicate Token:</span>
+                <span className={`font-mono text-xs ${settings.replicateApiToken ? 'text-green-400' : 'text-red-400'}`}>
+                  {settings.replicateApiToken ? `${settings.replicateApiToken.substring(0, 10)}...` : 'Not set'}
                 </span>
               </div>
             </div>

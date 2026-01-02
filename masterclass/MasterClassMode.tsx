@@ -11,8 +11,10 @@ import { MASTERCLASS_MODELS, getModelsByAesthetic } from './models/masterClassMo
 import { MasterPromptStrategy, MasterPromptConfig, MASTERCLASS_PRESETS } from './services/masterPromptStrategy';
 import { generateImage } from '../services/geminiService';
 import { getGeminiApiKey } from '../services/apiKeyManager';
+import { getOAuthToken, getProjectId, saveAuthCredentials } from '../utils/sharedAuthManager';
 import { MasterClassAuth } from './components/MasterClassAuth';
 import { MASTER_WARDROBE_COLLECTION, MasterWardrobeItem, WARDROBE_PRESETS, getWardrobeByIntimacy, getWardrobeByCategory } from './collections/masterWardrobeCollection';
+import GenerationControlsPanel, { GenerationControlsState, defaultGenerationControls } from '../components/GenerationControlsPanel';
 
 interface MasterClassModeProps {
   onExit: () => void;
@@ -65,13 +67,29 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
   const [projectId, setProjectId] = useState<string>('');
   const [accessToken, setAccessToken] = useState<string>('');
 
-  // Load authentication settings from localStorage on mount
-  useEffect(() => {
-    const savedProjectId = localStorage.getItem('masterclass_projectId');
-    const savedAccessToken = localStorage.getItem('masterclass_accessToken');
+  // Generation Controls
+  const [generationControls, setGenerationControls] = useState<GenerationControlsState>({
+    ...defaultGenerationControls,
+    intimacyLevel: 8 // MasterClass defaults to higher intimacy
+  });
 
-    if (savedProjectId) setProjectId(savedProjectId);
-    if (savedAccessToken) setAccessToken(savedAccessToken);
+  // Load authentication settings - Try sharedAuthManager first, fallback to legacy keys
+  useEffect(() => {
+    const sharedProjectId = getProjectId();
+    const sharedToken = getOAuthToken();
+
+    if (sharedProjectId && sharedToken) {
+      // Use unified auth from sharedAuthManager
+      setProjectId(sharedProjectId);
+      setAccessToken(sharedToken);
+    } else {
+      // Fallback to legacy localStorage keys
+      const savedProjectId = localStorage.getItem('masterclass_projectId');
+      const savedAccessToken = localStorage.getItem('masterclass_accessToken');
+
+      if (savedProjectId) setProjectId(savedProjectId);
+      if (savedAccessToken) setAccessToken(savedAccessToken);
+    }
   }, []);
 
   // Handle authentication updates
@@ -79,11 +97,20 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
     setProjectId(newProjectId);
     setAccessToken(newAccessToken);
 
-    // Persist to localStorage
+    // Use sharedAuthManager for unified token storage
+    saveAuthCredentials({
+      authMethod: 'oauth',
+      projectId: newProjectId,
+      oauthToken: newAccessToken,
+      apiKey: '',
+      tokenTimestamp: Date.now()
+    });
+
+    // Keep legacy keys for backward compatibility
     localStorage.setItem('masterclass_projectId', newProjectId);
     localStorage.setItem('masterclass_accessToken', newAccessToken);
 
-    console.log('🔐 MasterClass Auth Updated:', {
+    console.log('🔐 MasterClass Auth Updated (unified storage):', {
       projectId: newProjectId ? `${newProjectId.substring(0, 10)}...` : 'Not set',
       token: newAccessToken ? `${newAccessToken.substring(0, 10)}...` : 'Not set'
     });
@@ -198,17 +225,20 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
         platform: session.platformTarget
       });
 
-      // Generate using Imagen with authentication
+      // Generate using settings from generation controls panel
       const images = await generateImage(masterPrompt, {
         numberOfImages: 1,
         aspectRatio: session.aspectRatio,
-        personGeneration: 'allow_adult',
-        safetyFilterLevel: session.renderQuality === 'masterpiece' ? 'block_few' : 'block_only_high',
+        personGeneration: generationControls.personGeneration,
+        safetyFilterLevel: generationControls.safetySetting,
+        safetyBypassStrategy: generationControls.safetyBypassStrategy,
+        intimacyLevel: generationControls.intimacyLevel,
         projectId,
         accessToken,
         vertexAuthMethod: 'oauth',
-        provider: 'vertex-ai',
-        modelId: 'imagen-4.0-generate-001'
+        provider: generationControls.provider,
+        modelId: 'imagen-4.0-generate-001',
+        fluxSafetyTolerance: generationControls.fluxSafetyTolerance
       });
 
       console.log('🖼️ Images received:', images ? images.length : 0);
@@ -723,6 +753,17 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
               <option key={light.name} value={light.name}>{light.name}</option>
             ))}
           </select>
+        </div>
+
+        {/* Generation Controls Panel */}
+        <div className="mb-4">
+          <GenerationControlsPanel
+            settings={generationControls}
+            onChange={setGenerationControls}
+            disabled={isGenerating}
+            colorTheme="blue"
+            compact={true}
+          />
         </div>
 
         <button

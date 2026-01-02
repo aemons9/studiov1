@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { getAuthCredentials, saveAuthCredentials, checkTokenExpiration } from '../../utils/sharedAuthManager';
 
 type AuthMethod = 'apikey' | 'vertexai';
 
@@ -12,28 +13,36 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
   const [oauthToken, setOauthToken] = useState<string>('');
   const [showSettings, setShowSettings] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
+  const [tokenExpireWarning, setTokenExpireWarning] = useState<boolean>(false);
 
-  // Load saved settings on mount
+  // Load saved settings from unified auth manager
   useEffect(() => {
-    const savedMethod = localStorage.getItem('vera_auth_method') as AuthMethod;
-    const savedProjectId = localStorage.getItem('vera_project_id') || '';
-    const savedOauthToken = localStorage.getItem('vera_oauth_token') || '';
+    const credentials = getAuthCredentials();
 
-    if (savedMethod) {
-      setAuthMethod(savedMethod);
-    }
-    setProjectId(savedProjectId);
-    setOauthToken(savedOauthToken);
+    // Map unified auth method to Vera format
+    const veraMethod: AuthMethod = credentials.authMethod === 'oauth' ? 'vertexai' : 'apikey';
+    setAuthMethod(veraMethod);
+    setProjectId(credentials.projectId);
+    setOauthToken(credentials.oauthToken);
 
     // Check if Vertex AI credentials are saved
-    if (savedMethod === 'vertexai' && savedProjectId && savedOauthToken) {
+    if (veraMethod === 'vertexai' && credentials.projectId && credentials.oauthToken) {
       setIsSaved(true);
+
+      // Check token expiration using shared utility
+      const tokenStatus = checkTokenExpiration();
+      if (tokenStatus.isExpiringSoon) {
+        setTokenExpireWarning(true);
+      }
     }
   }, []);
 
   const handleAuthMethodChange = (method: AuthMethod) => {
     setAuthMethod(method);
-    localStorage.setItem('vera_auth_method', method);
+    // Save to unified auth manager
+    const credentials = getAuthCredentials();
+    credentials.authMethod = method === 'vertexai' ? 'oauth' : 'apikey';
+    saveAuthCredentials(credentials);
     onAuthMethodChange?.(method);
     setIsSaved(false);
   };
@@ -49,17 +58,30 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
         return;
       }
 
-      localStorage.setItem('vera_project_id', projectId.trim());
-      localStorage.setItem('vera_oauth_token', oauthToken.trim());
+      // Save to unified auth manager (syncs to all modes)
+      saveAuthCredentials({
+        authMethod: 'oauth',
+        projectId: projectId.trim(),
+        oauthToken: oauthToken.trim(),
+        apiKey: getAuthCredentials().apiKey, // Preserve existing API key
+        tokenTimestamp: Date.now(),
+      });
+
       setIsSaved(true);
-      alert('Vertex AI credentials saved successfully!');
+      setTokenExpireWarning(false);
+      alert('Vertex AI credentials saved successfully for ALL modes!\n\nNote: OAuth tokens typically expire after 1 hour. You\'ll be warned when it needs refresh.');
     }
   };
 
   const handleClearCredentials = () => {
-    if (window.confirm('Clear all Vertex AI credentials? You will need to re-enter them to use Vertex AI.')) {
-      localStorage.removeItem('vera_project_id');
-      localStorage.removeItem('vera_oauth_token');
+    if (window.confirm('Clear all Vertex AI credentials? You will need to re-enter them to use Vertex AI across all modes.')) {
+      // Clear from unified auth manager
+      const credentials = getAuthCredentials();
+      credentials.projectId = '';
+      credentials.oauthToken = '';
+      credentials.tokenTimestamp = null;
+      saveAuthCredentials(credentials);
+
       setProjectId('');
       setOauthToken('');
       setIsSaved(false);
@@ -203,6 +225,22 @@ const AuthSettings: React.FC<AuthSettingsProps> = ({ onAuthMethodChange }) => {
                   Get token from: <code className="text-cyan-400">gcloud auth print-access-token</code>
                 </p>
               </div>
+
+              {tokenExpireWarning && (
+                <div className="bg-orange-500/10 border border-orange-500/30 rounded-lg p-3">
+                  <div className="flex items-start gap-2">
+                    <svg className="w-5 h-5 text-orange-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <div className="text-sm text-orange-300">
+                      <p className="font-semibold mb-1">⏰ Token Expiring Soon</p>
+                      <p className="text-orange-200/80">
+                        Your OAuth token may have expired (tokens last ~1 hour). Refresh it with: <code className="text-cyan-400">gcloud auth print-access-token</code>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               <div className="flex gap-2">
                 <button

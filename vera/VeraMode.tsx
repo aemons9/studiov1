@@ -14,6 +14,8 @@ import AuthSettings from './components/AuthSettings';
 import CustomPromptGenerator from './components/CustomPromptGenerator';
 import MoodboardConceptsUI from './components/MoodboardConceptsUI';
 import InstagramMoodboardsUI from './components/InstagramMoodboardsUI';
+import { VeraLabsCollectionsUI } from './components/VeraLabsCollectionsUI';
+import GenerationControlsPanel, { GenerationControlsState, defaultGenerationControls } from '../components/GenerationControlsPanel';
 import {
   MODELS,
   ENVIRONMENTS,
@@ -68,6 +70,9 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
 
   // Imagen 4 Sub-mode state
   const [imagenMode, setImagenMode] = useState<'concept' | 'architect' | 'ultra'>('concept');
+
+  // Generation Controls
+  const [generationControls, setGenerationControls] = useState<GenerationControlsState>(defaultGenerationControls);
 
   const isCreativeMode = experimentalConcept === EXPERIMENTAL_CONCEPTS[0];
 
@@ -161,19 +166,22 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
         experimentalConcept,
         photographerStyle !== 'None' ? photographerStyle : undefined
       );
-      setPrompts(generatedPrompts.map(p => ({ ...p, isImageLoading: true })));
+      const enableImageGeneration = import.meta.env.VITE_ENABLE_IMAGE_GENERATION !== 'false';
+      setPrompts(generatedPrompts.map(p => ({ ...p, isImageLoading: enableImageGeneration })));
 
-      await Promise.all(
-        generatedPrompts.map(async (prompt, index) => {
-          try {
-            const imageUrl = await generateImage(prompt);
-            setPrompts(prev => prev.map((p, i) => i === index ? { ...p, imageUrl, isImageLoading: false } : p));
-          } catch (imgError) {
-            console.error(`Failed to generate image for prompt ${index}:`, imgError);
-            setPrompts(prev => prev.map((p, i) => i === index ? { ...p, isImageLoading: false } : p));
-          }
-        })
-      );
+      if (enableImageGeneration) {
+        await Promise.all(
+          generatedPrompts.map(async (prompt, index) => {
+            try {
+              const imageUrl = await generateImage(prompt);
+              setPrompts(prev => prev.map((p, i) => i === index ? { ...p, imageUrl, isImageLoading: false } : p));
+            } catch (imgError) {
+              console.error(`Failed to generate image for prompt ${index}:`, imgError);
+              setPrompts(prev => prev.map((p, i) => i === index ? { ...p, isImageLoading: false } : p));
+            }
+          })
+        );
+      }
 
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred. Please check the console and ensure your API key is configured.');
@@ -240,6 +248,18 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
         <div className="mt-6">
           <AuthSettings />
         </div>
+
+        {/* Generation Controls Panel */}
+        <div className="mt-6">
+          <GenerationControlsPanel
+            settings={generationControls}
+            onChange={setGenerationControls}
+            disabled={isLoading}
+            colorTheme="cyan"
+            compact={true}
+          />
+        </div>
+
         <main className="mt-8">
           {mode === 'veo' && (
             <div className="flex flex-col gap-12">
@@ -293,6 +313,7 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
 
           {mode === 'moodboard' && (
             <div className="flex flex-col gap-8">
+              <VeraLabsCollectionsUI />
               <MoodboardConceptsUI />
             </div>
           )}
@@ -316,8 +337,8 @@ const VeraMode: React.FC<VeraModeProps> = ({ onExit }) => {
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-teal-500">Creative Results</span>
               </h2>
               <div className={`grid grid-cols-1 gap-8 ${prompts.length > 1 ? 'lg:grid-cols-2 2xl:grid-cols-3' : 'max-w-2xl mx-auto'}`}>
-                {prompts.map((prompt) => (
-                  <PromptCard key={prompt.id} prompt={prompt} onGenerateVideo={handleGenerateVideo} />
+                {prompts.map((prompt, index) => (
+                  <PromptCard key={`${prompt.id}-${index}-${prompt.style_description}`} prompt={prompt} onGenerateVideo={handleGenerateVideo} />
                 ))}
               </div>
             </div>

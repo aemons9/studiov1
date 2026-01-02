@@ -1,7 +1,8 @@
 
 import React, { useState } from 'react';
-import type { AdherenceLevel, EnhancementStyle, GenerationStep, WeavingMode } from '../types';
+import type { AdherenceLevel, EnhancementStyle, GenerationStep, WeavingMode, GenerationSettings } from '../types';
 import AdvancedSelectorsPanel, { AdvancedSelections } from './AdvancedSelectorsPanel';
+import { FluxImageUpload } from './FluxImageUpload';
 
 export interface MasterGenerateOptions {
     enhance: { enabled: boolean; style: EnhancementStyle; };
@@ -9,12 +10,15 @@ export interface MasterGenerateOptions {
     intimateWeaving?: { enabled: boolean; strategy: string; };
     wardrobeSelection?: { enabled: boolean; option: string; };
     qualityPreset?: { enabled: boolean; preset: string; };
+    fluxImagePrompt?: string; // Data URI of image for Flux image-to-image generation
 }
 
 interface MasterGenerationControlProps {
   onGenerate: (options: MasterGenerateOptions) => void;
   isLoading: boolean;
   generationStep: GenerationStep | null;
+  generationSettings: GenerationSettings;
+  onImagePromptChange?: (imageData: string | undefined) => void;
 }
 
 const weaveOptions: { level: AdherenceLevel; label: string; }[] = [
@@ -36,13 +40,34 @@ const enhancementOptions: { style: EnhancementStyle; label: string; }[] = [
     { style: 'safety', label: 'Safety-First' },
 ];
 
-const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({ onGenerate, isLoading, generationStep }) => {
+const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({
+    onGenerate,
+    isLoading,
+    generationStep,
+    generationSettings,
+    onImagePromptChange
+}) => {
     const [isEnhanceEnabled, setIsEnhanceEnabled] = useState(false);
-    const [isWeaveEnabled, setIsWeaveEnabled] = useState(true);
+    const [isWeaveEnabled, setIsWeaveEnabled] = useState(false);
     const [selectedEnhanceStyle, setSelectedEnhanceStyle] = useState<EnhancementStyle>('balanced');
     const [selectedWeaveAdherence, setSelectedWeaveAdherence] = useState<AdherenceLevel>('balanced');
     const [selectedWeavingMode, setSelectedWeavingMode] = useState<WeavingMode>('master');
     const [advancedSelections, setAdvancedSelections] = useState<AdvancedSelections>({});
+    const [fluxImagePrompt, setFluxImagePrompt] = useState<string | undefined>(undefined);
+
+    const handleImageUpload = (dataUri: string) => {
+        setFluxImagePrompt(dataUri);
+        if (onImagePromptChange) {
+            onImagePromptChange(dataUri);
+        }
+    };
+
+    const handleImageRemove = () => {
+        setFluxImagePrompt(undefined);
+        if (onImagePromptChange) {
+            onImagePromptChange(undefined);
+        }
+    };
 
     const handleGenerateClick = () => {
         onGenerate({
@@ -51,6 +76,7 @@ const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({ onGen
             intimateWeaving: advancedSelections.intimateWeaving,
             wardrobeSelection: advancedSelections.wardrobeSelection,
             qualityPreset: advancedSelections.qualityPreset,
+            fluxImagePrompt: fluxImagePrompt,
         });
     };
 
@@ -70,6 +96,9 @@ const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({ onGen
         </svg>
     );
 
+    const isFluxMode = generationSettings.provider === 'replicate-flux';
+    const isFluxUltra = generationSettings.fluxModel === 'black-forest-labs/flux-1.1-pro-ultra';
+
     return (
         <div className="space-y-3">
             {/* Advanced Super-Seductress Selectors Panel */}
@@ -77,6 +106,17 @@ const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({ onGen
                 onSelectionsChange={setAdvancedSelections}
                 isLoading={isLoading}
             />
+
+            {/* Flux Image Upload - Only show for Flux Pro 1.1 Ultra */}
+            {isFluxMode && isFluxUltra && (
+                <div className="p-3 bg-gray-800/50 rounded-xl border border-gray-700 shadow-lg">
+                    <FluxImageUpload
+                        onImageUpload={handleImageUpload}
+                        onImageRemove={handleImageRemove}
+                        currentImage={fluxImagePrompt}
+                    />
+                </div>
+            )}
 
             {/* Main Generation Controls */}
             <div className="flex flex-col p-3 bg-gray-800/50 rounded-xl border border-gray-700 shadow-lg gap-3">
@@ -134,6 +174,7 @@ const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({ onGen
                     <button
                         onClick={handleGenerateClick}
                         disabled={isLoading}
+                        data-master-generate
                         className="flex items-center justify-center gap-3 px-8 py-3 bg-fuchsia-600 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-fuchsia-500 disabled:bg-fuchsia-900/50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
                     >
                         {isLoading ? (<><LoadingSpinner />{getLoadingText()}</>) : (<><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>Generate Image</>)}

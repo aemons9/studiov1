@@ -2,14 +2,22 @@ import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 import { getPhotographerById } from '../photographerStyles';
+import { getOAuthToken, getProjectId } from '../../utils/sharedAuthManager';
 
-// Get VertexAI credentials from localStorage
+// Get VertexAI credentials from localStorage or shared auth manager
 function getVertexAICredentials(): { projectId: string; oauthToken: string } {
-  const projectId = localStorage.getItem('vera_project_id');
-  const oauthToken = localStorage.getItem('vera_oauth_token');
+  // Try Vera-specific keys first (for backward compatibility)
+  let projectId = localStorage.getItem('vera_project_id');
+  let oauthToken = localStorage.getItem('vera_oauth_token');
+
+  // Fallback to unified shared auth manager
+  if (!projectId || !oauthToken) {
+    projectId = getProjectId();
+    oauthToken = getOAuthToken();
+  }
 
   if (!projectId || !oauthToken) {
-    throw new Error('VertexAI credentials not configured. Please set your Project ID and OAuth token in Vera settings.');
+    throw new Error('VertexAI credentials not configured. Please set your Project ID and OAuth token in Authentication Settings (any mode).');
   }
 
   return { projectId, oauthToken };
@@ -123,8 +131,46 @@ The photographer's style dictates the lighting, camera settings, color grading, 
     }
   }
 
+  // Define JSON response schema for structured output
+  const responseSchema = {
+    type: "object",
+    properties: {
+      prompts: {
+        type: "array",
+        description: "An array of generated video prompt variations.",
+        items: {
+          type: "object",
+          properties: {
+            id: {
+              type: "number",
+              description: "A unique identifier for the prompt variation."
+            },
+            prompt_text: {
+              type: "string",
+              description: "The full, detailed cinematic prompt text for Veo."
+            },
+            style_description: {
+              type: "string",
+              description: "A concise, evocative summary of the prompt's style and content."
+            },
+            recommended_settings: {
+              type: "string",
+              description: "A newline-separated string of recommended technical settings (e.g., Aspect Ratio, Lens)."
+            },
+            image_prompt: {
+              type: "string",
+              description: "A concise prompt for generating a still preview image, including the safety preamble."
+            },
+          },
+          required: ['id', 'prompt_text', 'style_description', 'recommended_settings', 'image_prompt']
+        }
+      }
+    },
+    required: ['prompts']
+  };
+
   try {
-    const response = await vertexAIRequest('publishers/google/models/gemini-2.0-flash-exp:generateContent', {
+    const response = await vertexAIRequest('publishers/google/models/gemini-2.5-flash:generateContent', {
       contents: [{
         role: 'user',
         parts: [{ text: userPrompt }]
@@ -134,6 +180,7 @@ The photographer's style dictates the lighting, camera settings, color grading, 
       },
       generationConfig: {
         responseMimeType: 'application/json',
+        responseSchema: responseSchema,
         temperature: 0.9,
       }
     });

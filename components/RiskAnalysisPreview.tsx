@@ -35,48 +35,55 @@ const RiskAnalysisPreview: React.FC<RiskAnalysisPreviewProps> = ({ analysis, isL
         );
     }
 
-    const riskColor = analysis.riskScore > 0.7 ? 'bg-red-500' : analysis.riskScore > 0.4 ? 'bg-yellow-500' : 'bg-green-500';
-    const successColor = analysis.successProbability > 0.7 ? 'bg-green-500' : analysis.successProbability > 0.4 ? 'bg-yellow-500' : 'bg-red-500';
-    
+    // Defensive checks for undefined values
+    const riskScore = analysis.riskScore ?? 0.5;
+    const successProbability = analysis.successProbability ?? 0.5;
+    const appliedEnhancements = analysis.appliedEnhancements ?? [];
+    const recommendedApi = analysis.recommendedApi ?? 'Imagen';
+    const reasoning = analysis.reasoning ?? 'Risk analysis in progress...';
+
+    const riskColor = riskScore > 0.7 ? 'bg-red-500' : riskScore > 0.4 ? 'bg-yellow-500' : 'bg-green-500';
+    const successColor = successProbability > 0.7 ? 'bg-green-500' : successProbability > 0.4 ? 'bg-yellow-500' : 'bg-red-500';
+
     return (
         <div className="space-y-4 p-4 bg-gray-900/50 rounded-lg border border-gray-700">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                     <div className="flex justify-between items-center mb-1">
                         <span className="text-sm font-medium text-gray-300">Risk Score</span>
-                        <span className="text-sm font-bold">{analysis.riskScore.toFixed(2)}</span>
+                        <span className="text-sm font-bold">{riskScore.toFixed(2)}</span>
                     </div>
-                    <ProgressBar value={analysis.riskScore} color={riskColor} />
+                    <ProgressBar value={riskScore} color={riskColor} />
                 </div>
                  <div>
                     <div className="flex justify-between items-center mb-1">
                         <span className="text-sm font-medium text-gray-300">Success Probability</span>
-                        <span className="text-sm font-bold">{(analysis.successProbability * 100).toFixed(0)}%</span>
+                        <span className="text-sm font-bold">{(successProbability * 100).toFixed(0)}%</span>
                     </div>
-                    <ProgressBar value={analysis.successProbability} color={successColor} />
+                    <ProgressBar value={successProbability} color={successColor} />
                 </div>
             </div>
             
              <div className="text-center">
-                <p className="text-sm text-gray-400">Recommended API: 
-                    <span className="font-bold text-lg text-fuchsia-400 ml-2">{analysis.recommendedApi}</span>
+                <p className="text-sm text-gray-400">Recommended API:
+                    <span className="font-bold text-lg text-fuchsia-400 ml-2">{recommendedApi}</span>
                 </p>
             </div>
-            
+
             <details className="text-sm">
                 <summary className="cursor-pointer text-gray-400 hover:text-white">Analysis Details</summary>
-                <p className="mt-2 p-3 bg-gray-800 rounded-md text-gray-300">{analysis.reasoning}</p>
+                <p className="mt-2 p-3 bg-gray-800 rounded-md text-gray-300">{reasoning}</p>
             </details>
-            
-            {analysis.appliedEnhancements.length > 0 && (
+
+            {appliedEnhancements.length > 0 && (
                  <div className="p-3 bg-amber-900/30 border border-amber-700/50 rounded-lg space-y-3">
                     <div className="flex justify-between items-center gap-3">
                        <div className="flex-grow">
                          <p className="font-semibold text-amber-300">Safety Suggestions Available</p>
                          <p className="text-xs text-amber-400">Apply these to improve generation success.</p>
                        </div>
-                        <button 
-                          onClick={() => onApplyEnhancements(analysis.appliedEnhancements)}
+                        <button
+                          onClick={() => onApplyEnhancements(appliedEnhancements)}
                           className="px-4 py-2 bg-sky-600 text-white font-semibold text-sm rounded-md hover:bg-sky-500 transition-colors flex-shrink-0"
                         >
                             Apply
@@ -84,11 +91,11 @@ const RiskAnalysisPreview: React.FC<RiskAnalysisPreviewProps> = ({ analysis, isL
                     </div>
                     <details className="text-sm">
                         <summary className="cursor-pointer text-gray-400 hover:text-white">
-                            View {analysis.appliedEnhancements.length} suggestions...
+                            View {appliedEnhancements.length} suggestions...
                         </summary>
                         <div className="mt-2 p-3 bg-gray-800 rounded-md max-h-32 overflow-y-auto">
                             <ul className="space-y-1">
-                                {analysis.appliedEnhancements.map((e, i) => (
+                                {appliedEnhancements.map((e, i) => (
                                     <li key={i} className="font-mono text-xs">
                                         <span className="text-red-400">{e.original}</span>
                                         <span className="text-gray-500"> → </span>

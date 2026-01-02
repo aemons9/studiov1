@@ -1,0 +1,235 @@
+/**
+ * Visual Novel Styles - Production Quality
+ * Handles sprite transparency, animations, and polish
+ */
+
+/* ============================================================================
+   SPRITE TRANSPARENCY FIX
+   ============================================================================ */
+
+/* Remove white/colored backgrounds from sprites using CSS filters */
+.sprite-character {
+  /* High quality rendering */
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+
+  /* Advanced blending to remove backgrounds */
+  mix-blend-mode: screen;
+
+  /* Enhance transparency detection */
+  filter:
+    drop-shadow(0 0 40px rgba(0,0,0,0.9))
+    contrast(1.1)
+    brightness(1.05);
+}
+
+/* Alternative: If sprites have light backgrounds, use darken mode */
+.sprite-character-darken {
+  mix-blend-mode: darken;
+  filter:
+    drop-shadow(0 0 40px rgba(0,0,0,0.9))
+    contrast(1.15);
+}
+
+/* For PNG sprites with proper alpha channel */
+.sprite-character-alpha {
+  mix-blend-mode: normal;
+  filter: drop-shadow(0 0 40px rgba(0,0,0,0.9));
+}
+
+/* ============================================================================
+   ANIMATIONS
+   ============================================================================ */
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(138, 43, 226, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(236, 72, 153, 0.6);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.4s ease-out forwards;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 2s ease-in-out infinite;
+}
+
+/* ============================================================================
+   CG IMAGE OVERLAY
+   ============================================================================ */
+
+.cg-overlay {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.cg-image-container {
+  animation: fade-in 0.6s ease-out;
+}
+
+/* ============================================================================
+   DIALOGUE BOX ENHANCEMENTS
+   ============================================================================ */
+
+.dialogue-box {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow:
+    0 20px 50px rgba(0, 0, 0, 0.5),
+    0 0 100px rgba(138, 43, 226, 0.2);
+}
+
+.dialogue-text {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+  letter-spacing: 0.02em;
+  line-height: 1.7;
+}
+
+/* ============================================================================
+   CHOICE BUTTONS
+   ============================================================================ */
+
+.choice-button {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.choice-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 10px 30px rgba(138, 43, 226, 0.4),
+    0 0 50px rgba(236, 72, 153, 0.3);
+}
+
+.choice-button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ============================================================================
+   SPRITE POSITIONING & TRANSITIONS
+   ============================================================================ */
+
+.sprite-container {
+  transition: all 0.5s ease-out;
+  animation: slide-up 0.6s ease-out;
+}
+
+.sprite-container.sprite-fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+/* ============================================================================
+   TEXT EFFECTS
+   ============================================================================ */
+
+.speaker-name {
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.05em;
+}
+
+.continue-indicator {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* ============================================================================
+   QUICK MENU
+   ============================================================================ */
+
+.quick-menu {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.quick-menu button {
+  transition: all 0.2s ease;
+}
+
+.quick-menu button:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2);
+}
+
+/* ============================================================================
+   MOBILE RESPONSIVENESS
+   ============================================================================ */
+
+@media (max-width: 768px) {
+  .sprite-character {
+    max-height: 50vh;
+  }
+
+  .dialogue-text {
+    font-size: 1rem;
+  }
+
+  .cg-image-container img {
+    max-width: 95%;
+    max-height: 85%;
+  }
+}
+
+/* ============================================================================
+   ACCESSIBILITY
+   ============================================================================ */
+
+@media (prefers-reduced-motion: reduce) {
+  .sprite-character,
+  .animate-fade-in,
+  .animate-slide-up,
+  .sprite-container {
+    animation: none;
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .dialogue-box {
+    border-width: 3px;
+  }
+
+  .choice-button {
+    border-width: 3px;
+  }
+}

@@ -40,10 +40,50 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           output: {
             manualChunks: {
+              // Core React libraries
               'react-vendor': ['react', 'react-dom'],
+
+              // Google AI services
+              'google-vendor': ['@google/genai', 'google-auth-library'],
+
+              // Services by functionality
+              'gemini-services': [
+                './services/geminiService',
+                './services/vertexImagenService',
+                './vera/services/geminiService',
+                './vera/services/vertexAiService',
+              ],
+              'generation-services': [
+                './services/intelligentGenerationService',
+                './services/replicateService',
+                './services/videoGenerationService',
+                './services/veoService',
+              ],
+              'utility-services': [
+                './services/promptParser',
+                './services/imagenOptimizer',
+                './services/ultraOptimizer',
+                './utils/sharedAuthManager',
+              ],
+
+              // Mode-specific chunks
+              'visual-novel': [
+                './visualnovel/RealVisualNovel',
+                './visualnovel/VisualNovelAssetGenerator',
+              ],
+              'specialty-modes': [
+                './experimental/ExperimentalMode',
+                './artistic/ArtisticMode',
+                './corporate/CorporateMode',
+                './platinum/PlatinumMode',
+                './roleplay/IndianRolePlayMode',
+                './masterclass/MasterClassMode',
+              ],
             }
           }
-        }
+        },
+        // Increase chunk size warning limit
+        chunkSizeWarningLimit: 1000,
       }
     };
 });

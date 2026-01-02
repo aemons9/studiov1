@@ -49,19 +49,60 @@ const ImagenPromptLibrarySelector: React.FC<ImagenPromptLibrarySelectorProps> = 
   const handlePopulateFields = async (template: ImagenPromptTemplate) => {
     const { parseFluxPromptToData } = await import('../services/promptParser');
     const { INSTAGRAM_MOODBOARDS } = await import('../vera/instagramMoodboards');
-
-    // CRITICAL FIX: Instagram moodboards have structured fluxPrompt, use that instead of Imagen paragraph
-    // Check if this is an Instagram moodboard (has fluxPrompt in original source)
-    const instagramSource = INSTAGRAM_MOODBOARDS.find(m => template.name.includes(m.name));
+    const { INDIAN_HOURGLASS_MUSE } = await import('../vera/indianHourglassMuseCollection');
 
     let promptData;
 
-    if (instagramSource && instagramSource.fluxPrompt) {
-      // Use the structured Flux prompt from Instagram moodboards for accurate parsing
-      console.log('✅ Using Instagram moodboard fluxPrompt for accurate field population');
-      promptData = parseFluxPromptToData(instagramSource.fluxPrompt);
-    } else {
-      // Fallback to parsing Imagen prompt (for non-Instagram templates)
+    // Check if this is a MUSE prompt - always use our Indian Hourglass Muse model
+    if (template.name.startsWith('MUSE:')) {
+      console.log('✅ Using Indian Hourglass Muse model for field population');
+      promptData = {
+        subject: {
+          variant: `Indian Instagram model, the Hourglass Muse. Professional influencer and artistic model. Height ${INDIAN_HOURGLASS_MUSE.measurements.height}. Measurements: ${INDIAN_HOURGLASS_MUSE.measurements.bust}-${INDIAN_HOURGLASS_MUSE.measurements.waist}-${INDIAN_HOURGLASS_MUSE.measurements.hips}. ${INDIAN_HOURGLASS_MUSE.physical.body_type}. ${INDIAN_HOURGLASS_MUSE.physical.skin_tone}. ${INDIAN_HOURGLASS_MUSE.physical.hair}. ${INDIAN_HOURGLASS_MUSE.physical.eyes}. Age ${INDIAN_HOURGLASS_MUSE.physical.age}. Distinguished by: ${INDIAN_HOURGLASS_MUSE.physical.distinguishing_features.join(', ')}.`,
+          pose: 'Natural model pose optimized for location and wardrobe',
+          hair_color: 'black with caramel highlights',
+          hair_style: 'long silky hair past waist',
+          skin_finish: 'Natural golden brown glow with warm undertones',
+          hand_and_nail_details: 'Graceful hands, manicured nails',
+          tattoos: 'Small lotus tattoo on shoulder blade',
+          piercings: 'Optional delicate nose ring',
+          body_art: 'Natural beauty mark near lips',
+          nail_art: 'Professional manicure',
+          high_heels: 'varies by concept'
+        },
+        shot: template.aspectRatio + ' aspect ratio optimized for platform',
+        wardrobe: 'Varies by intimacy level and location - see prompt for specific details',
+        environment: 'Realistic modern Indian location - see prompt for specific details',
+        lighting: 'Professional photography lighting optimized for location',
+        camera: {
+          focal_length: '50mm or 85mm portrait lens',
+          aperture: 'f/1.4 to f/2.8',
+          distance: '1.5-3m',
+          angle: 'Optimized for model and location',
+          framing: 'Full body to portrait depending on concept'
+        },
+        color_grade: 'Warm tones celebrating golden Indian skin',
+        style: 'High-quality influencer and artistic photography',
+        quality: 'Hasselblad quality, 8K detail, professional retouching',
+        figure_and_form: `Hourglass figure ${INDIAN_HOURGLASS_MUSE.measurements.bust}-${INDIAN_HOURGLASS_MUSE.measurements.waist}-${INDIAN_HOURGLASS_MUSE.measurements.hips}`,
+        skin_micro_details: 'Natural skin texture with golden glow, no artificial smoothing',
+        fabric_physics: 'Realistic fabric draping and movement',
+        material_properties: 'Authentic material rendering'
+      };
+    }
+    // Check if this is an Instagram moodboard
+    else if (template.name.includes('INSTAGRAM')) {
+      const instagramSource = INSTAGRAM_MOODBOARDS.find(m => template.name.includes(m.name));
+      if (instagramSource && instagramSource.fluxPrompt) {
+        console.log('✅ Using Instagram moodboard fluxPrompt for accurate field population');
+        promptData = parseFluxPromptToData(instagramSource.fluxPrompt);
+      } else {
+        const basePrompt = template.prompt.split('\n\n').slice(1).join('\n\n');
+        promptData = parseFluxPromptToData(basePrompt);
+      }
+    }
+    // Fallback to parsing Imagen prompt
+    else {
       const basePrompt = template.prompt.split('\n\n').slice(1).join('\n\n');
       promptData = parseFluxPromptToData(basePrompt);
     }

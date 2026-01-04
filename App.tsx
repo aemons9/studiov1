@@ -1823,7 +1823,6 @@ const App: React.FC = () => {
         <ReelsStudioMode
           onExit={() => setUiMode('classic')}
           generationSettings={generationSettings}
-          onGenerate={handleGenerate}
         />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor

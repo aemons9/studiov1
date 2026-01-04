@@ -19,16 +19,23 @@ import { google } from 'googleapis';
 import fs from 'fs';
 import path from 'path';
 import { execSync } from 'child_process';
+import { config } from 'dotenv';
+
+// Load .env.local for local development
+config({ path: '.env.local' });
 
 // ============================================================================
 // CONFIGURATION
 // ============================================================================
 
-// Validate required environment variables for publishing
-const REQUIRE_TOKENS = !process.argv.includes('--dry-run') && !process.argv.includes('-d') && !process.argv.includes('--status') && !process.argv.includes('-s');
-if (REQUIRE_TOKENS && !process.env.INSTAGRAM_TOKEN) throw new Error('INSTAGRAM_TOKEN environment variable required');
-if (REQUIRE_TOKENS && !process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN environment variable required');
+// Check tokens for non-dry-run operations
+const isDryRun = process.argv.includes('--dry-run') || process.argv.includes('-d') || process.argv.includes('--status') || process.argv.includes('-s');
+if (!isDryRun && (!process.env.INSTAGRAM_TOKEN || !process.env.GITHUB_TOKEN)) {
+  console.error('Missing tokens. Ensure .env.local exists with GITHUB_TOKEN and INSTAGRAM_TOKEN');
+  process.exit(1);
+}
 
+// Config - From .env.local or environment
 const CONFIG = {
   // Google Drive
   CREDS_PATH: '/home/ecolex/version1/studiov-drive-ingest-870127e5767e.json',
@@ -39,12 +46,12 @@ const CONFIG = {
   ],
   IMAGE_PREFIX: 'ai-image-studio', // Default prefix for asset1.1
 
-  // Instagram - tokens from environment
+  // Instagram - from .env.local or environment
   IG_ACCOUNT_ID: process.env.INSTAGRAM_ACCOUNT_ID || '17841478517688462',
   PAGE_ACCESS_TOKEN: process.env.INSTAGRAM_TOKEN || '',
   GRAPH_API_BASE: 'https://graph.facebook.com/v21.0',
 
-  // GitHub hosting - tokens from environment
+  // GitHub hosting - from .env.local or environment
   GITHUB_TOKEN: process.env.GITHUB_TOKEN || '',
   GITHUB_OWNER: process.env.GITHUB_USER || 'aemons9',
   GITHUB_REPO: process.env.GITHUB_REPO || 'studiov1',

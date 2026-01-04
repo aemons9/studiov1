@@ -8,6 +8,10 @@
 import { readFileSync, existsSync, unlinkSync } from 'fs';
 import { basename, join } from 'path';
 import { execSync } from 'child_process';
+import { config } from 'dotenv';
+
+// Load .env.local for local development
+config({ path: '.env.local' });
 
 const INSTAGRAM_ACCOUNT_ID = process.env.INSTAGRAM_ACCOUNT_ID || '17841478517688462';
 const GITHUB_USER = process.env.GITHUB_USER || 'aemons9';
@@ -17,8 +21,10 @@ const GITHUB_PATH = 'photo/reels';
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 const INSTAGRAM_TOKEN = process.env.INSTAGRAM_TOKEN;
 
-if (!GITHUB_TOKEN) throw new Error('GITHUB_TOKEN environment variable required');
-if (!INSTAGRAM_TOKEN) throw new Error('INSTAGRAM_TOKEN environment variable required');
+if (!GITHUB_TOKEN || !INSTAGRAM_TOKEN) {
+  console.error('Missing tokens. Ensure .env.local exists with GITHUB_TOKEN and INSTAGRAM_TOKEN');
+  process.exit(1);
+}
 
 const REEL_PATH = '/home/ecolex/version1/veralabs-newton-reels/newton_01_bigNudes_1767515674466.mp4';
 const THUMB_PATH = '/home/ecolex/version1/veralabs-newton-thumbnails/thumb_01_bigNudes_1767515674466.jpg';

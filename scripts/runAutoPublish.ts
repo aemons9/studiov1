@@ -15,16 +15,22 @@
  *   --quick         Quick publish: just the next best content
  */
 
+import { config } from 'dotenv';
 import {
   runOrchestrator,
   quickAutoPublish,
   getOrchestratorStatus,
 } from '../services/drive';
 
-// Tokens from environment variables
-if (!process.env.INSTAGRAM_TOKEN) throw new Error('INSTAGRAM_TOKEN environment variable required');
-if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN environment variable required');
+// Load .env.local for local development
+config({ path: '.env.local' });
 
+if (!process.env.INSTAGRAM_TOKEN || !process.env.GITHUB_TOKEN) {
+  console.error('Missing tokens. Ensure .env.local exists with GITHUB_TOKEN and INSTAGRAM_TOKEN');
+  process.exit(1);
+}
+
+// Config - From .env.local or environment
 const DEFAULT_CONFIG = {
   IG_ACCOUNT_ID: process.env.INSTAGRAM_ACCOUNT_ID || '17841478517688462',
   PAGE_ACCESS_TOKEN: process.env.INSTAGRAM_TOKEN,

@@ -16,7 +16,7 @@ const TOKEN_STORAGE_KEYS = {
 } as const;
 
 // Default configuration for @veracrvs
-// Tokens should be set via environment variables (VITE_INSTAGRAM_TOKEN, VITE_GITHUB_TOKEN)
+// Tokens loaded from .env.local (local dev) or Vercel env vars (production)
 const DEFAULT_CONFIG = {
   GRAPH_API_VERSION: 'v21.0',
   GRAPH_API_BASE: 'https://graph.facebook.com',
@@ -59,22 +59,19 @@ export function loadPageAccessToken(): string | null {
 
 /**
  * Get the Instagram Page Access Token
- * Priority: localStorage > environment variable
+ * Priority: localStorage > environment variable (.env.local or Vercel)
  */
 export function getPageAccessToken(): string {
   // Try localStorage first
   const storedToken = loadPageAccessToken();
   if (storedToken) return storedToken;
 
-  // Try environment variable (for Vercel deployment)
+  // Try environment variable (loaded from .env.local or Vercel)
   const envToken = (import.meta as any).env?.VITE_INSTAGRAM_TOKEN ||
                    (import.meta as any).env?.VITE_INSTAGRAM_PAGE_ACCESS_TOKEN ||
                    (typeof process !== 'undefined' ? process.env?.VITE_INSTAGRAM_TOKEN : null);
 
-  if (envToken) return envToken;
-
-  // No token available - return empty string
-  return '';
+  return envToken || '';
 }
 
 /**
@@ -117,20 +114,17 @@ export function saveGitHubToken(token: string): void {
 
 /**
  * Load GitHub token
- * Priority: localStorage > environment variable
+ * Priority: localStorage > environment variable (.env.local or Vercel)
  */
 export function loadGitHubToken(): string {
   const storedToken = localStorage.getItem(TOKEN_STORAGE_KEYS.GITHUB_TOKEN);
   if (storedToken) return storedToken;
 
-  // Try environment variable (for Vercel deployment)
+  // Try environment variable (loaded from .env.local or Vercel)
   const envToken = (import.meta as any).env?.VITE_GITHUB_TOKEN ||
                    (typeof process !== 'undefined' ? process.env?.VITE_GITHUB_TOKEN : null);
 
-  if (envToken) return envToken;
-
-  // No token available - return empty string
-  return '';
+  return envToken || '';
 }
 
 // ============================================================================

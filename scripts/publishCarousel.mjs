@@ -8,11 +8,17 @@
 
 import fs from 'fs';
 import path from 'path';
+import { config } from 'dotenv';
 
-// Validate required environment variables
-if (!process.env.INSTAGRAM_TOKEN) throw new Error('INSTAGRAM_TOKEN environment variable required');
-if (!process.env.GITHUB_TOKEN) throw new Error('GITHUB_TOKEN environment variable required');
+// Load .env.local for local development
+config({ path: '.env.local' });
 
+if (!process.env.INSTAGRAM_TOKEN || !process.env.GITHUB_TOKEN) {
+  console.error('Missing tokens. Ensure .env.local exists with GITHUB_TOKEN and INSTAGRAM_TOKEN');
+  process.exit(1);
+}
+
+// Config - From .env.local or environment
 const CONFIG = {
   CAROUSELS_DIR: path.join(process.cwd(), 'preview-output', 'carousels'),
   IG_ACCOUNT_ID: process.env.INSTAGRAM_ACCOUNT_ID || '17841478517688462',

@@ -34,7 +34,7 @@ import { GenerationSettings } from '../types';
 import { getOAuthToken, getProjectId } from '../utils/sharedAuthManager';
 
 // ═══════════════════════════════════════════════════════════════════════════
-// CONSTANTS - Using environment variables for Vercel deployment
+// CONSTANTS - From environment variables (.env.local for local, Vercel env for prod)
 // ═══════════════════════════════════════════════════════════════════════════
 
 const INSTAGRAM_ACCOUNT_ID = import.meta.env.VITE_INSTAGRAM_ACCOUNT_ID || '17841478517688462';

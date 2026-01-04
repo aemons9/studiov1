@@ -8,8 +8,12 @@
 import { readFileSync, existsSync, unlinkSync } from 'fs';
 import { basename } from 'path';
 import { execSync } from 'child_process';
+import { config } from 'dotenv';
 
-// Config - Tokens from environment variables
+// Load .env.local for local development
+config({ path: '.env.local' });
+
+// Config - From .env.local or environment
 const INSTAGRAM_ACCOUNT_ID = process.env.INSTAGRAM_ACCOUNT_ID || '17841478517688462';
 const GITHUB_USER = process.env.GITHUB_USER || 'aemons9';
 const GITHUB_REPO = process.env.GITHUB_REPO || 'studiov1';
@@ -20,8 +24,10 @@ const FFMPEG = '/home/ecolex/version1/node_modules/@ffmpeg-installer/linux-x64/f
 const INSTAGRAM_TOKEN = process.env.INSTAGRAM_TOKEN;
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN;
 
-if (!GITHUB_TOKEN) throw new Error('GITHUB_TOKEN environment variable required');
-if (!INSTAGRAM_TOKEN) throw new Error('INSTAGRAM_TOKEN environment variable required');
+if (!GITHUB_TOKEN || !INSTAGRAM_TOKEN) {
+  console.error('Missing tokens. Ensure .env.local exists with GITHUB_TOKEN and INSTAGRAM_TOKEN');
+  process.exit(1);
+}
 
 // Creative captions
 const CAPTIONS = {

@@ -252,57 +252,93 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
     setIsGenerating(true);
     setError(null);
     setProgress(0);
-    setStatusMessage('Creating professional reel...');
+    setStatusMessage('Creating professional reel with Ken Burns effects...');
 
     try {
-      // Get selected images
+      // Get selected images (their base64 data)
       const selectedImages = sourceAssets.filter(a => selectedAssets.includes(a.id));
+      const imageBase64Array = selectedImages.map(img => img.path); // These are base64 data URLs
 
-      setProgress(20);
-      setStatusMessage(`Processing ${selectedImages.length} images...`);
-      await new Promise(r => setTimeout(r, 300));
+      setProgress(10);
+      setStatusMessage(`Sending ${selectedImages.length} images for processing...`);
 
-      setProgress(40);
-      setStatusMessage('Applying Ken Burns motion effects...');
-      await new Promise(r => setTimeout(r, 300));
+      // Map theme names to API format
+      const themeMap: Record<string, string> = {
+        'bigNudes': 'bigNudes',
+        'sleepwalker': 'sleepwalker',
+        'domesticNude': 'domesticNude',
+        'polaroid': 'polaroid',
+        'theyrecoming': 'theyrecoming',
+        'champagneLuxury': 'champagneLuxury',
+        'boudoirGlow': 'boudoirGlow',
+        'midnightMystery': 'midnightMystery',
+        'goldenSensual': 'goldenSensual',
+      };
 
-      setProgress(60);
-      setStatusMessage('Adding color grading...');
-      await new Promise(r => setTimeout(r, 300));
+      // Map motion presets
+      const motionMap: Record<string, string> = {
+        'slowZoomIn': 'slowZoomIn',
+        'slowZoomOut': 'slowZoomOut',
+        'panLeftToRight': 'panLeftToRight',
+        'panRightToLeft': 'panRightToLeft',
+        'diagonalDrift': 'diagonalDrift',
+        'faceZoom': 'faceZoom',
+      };
 
-      setProgress(80);
-      setStatusMessage('Applying VERALABS branding...');
-      await new Promise(r => setTimeout(r, 300));
+      // Call the professional reel generation API
+      const response = await fetch('http://localhost:3001/api/reels/create-professional', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          images: imageBase64Array,
+          theme: themeMap[reelConfig.theme] || 'champagneLuxury',
+          motionPreset: motionMap[reelConfig.motionPreset] || 'slowZoomIn',
+          clipDuration: reelConfig.clipDuration,
+          addVignette: reelConfig.addVignette,
+          addGrain: reelConfig.addGrain,
+          addBranding: reelConfig.addBranding,
+          brandingText: reelConfig.brandingText || 'VERALABS',
+          musicId: reelConfig.musicTrack,
+        }),
+      });
 
-      // Use first image as thumbnail
-      const thumbnailUrl = selectedImages[0]?.thumbnailUrl || selectedImages[0]?.path || '';
+      setProgress(50);
+      setStatusMessage('Processing with FFmpeg (Ken Burns, color grading, branding)...');
 
-      // Calculate total duration based on selected images
-      const totalDuration = selectedImages.length * reelConfig.clipDuration;
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create reel');
+      }
 
-      // Create reel entry with actual image data
+      const result = await response.json();
+
+      setProgress(90);
+      setStatusMessage('Finalizing reel...');
+
+      // Create reel entry with actual video data
       const newReel: GeneratedReel = {
         id: `reel_${Date.now()}`,
-        path: thumbnailUrl, // Use first image as preview for now
-        thumbnailPath: thumbnailUrl,
-        storyPath: thumbnailUrl,
+        path: result.videoData, // Base64 video data URL
+        thumbnailPath: result.thumbnailData || selectedImages[0]?.path || '',
+        storyPath: result.videoData,
         theme: reelConfig.theme,
-        duration: totalDuration,
+        duration: result.duration,
         createdAt: new Date(),
         caption: CAPTION_TEMPLATES[0]?.caption || 'VERALABS creation',
         status: 'ready' as const,
-        sourceImages: selectedImages.map(img => img.path), // Store source images
+        sourceImages: selectedImages.map(img => img.path),
       };
 
       setGeneratedReels(prev => [newReel, ...prev]);
-      setPreviewUrl(thumbnailUrl);
-      setStatusMessage(`Reel created! ${selectedImages.length} images, ${totalDuration}s duration`);
+      setPreviewUrl(result.videoData);
+      setStatusMessage(`Reel created! ${result.clipsCount} clips, ${result.duration}s, ${(result.size / 1024 / 1024).toFixed(1)}MB${result.hasAudio ? ' with music' : ''}`);
       setProgress(100);
 
       // Brief delay before switching tabs
       await new Promise(r => setTimeout(r, 500));
       setActiveTab('preview');
     } catch (err: any) {
+      console.error('Reel creation error:', err);
       setError(err.message || 'Failed to create reel');
       setStatusMessage('');
     } finally {
@@ -340,11 +376,27 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
   };
 
   const downloadReel = (reel: GeneratedReel) => {
-    // Create download link
+    // Handle base64 video data or URL
     const link = document.createElement('a');
-    link.href = reel.path;
-    link.download = `veralabs_${reel.theme}_${Date.now()}.mp4`;
+
+    if (reel.path.startsWith('data:video')) {
+      // Base64 video - download directly
+      link.href = reel.path;
+      link.download = `veralabs_${reel.theme}_${Date.now()}.mp4`;
+    } else if (reel.path.startsWith('data:image')) {
+      // It's an image, not a video - inform user
+      console.warn('This is an image preview, not the final video');
+      link.href = reel.path;
+      link.download = `veralabs_${reel.theme}_${Date.now()}.png`;
+    } else {
+      // Regular URL
+      link.href = reel.path;
+      link.download = `veralabs_${reel.theme}_${Date.now()}.mp4`;
+    }
+
+    document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
   };
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -712,13 +764,24 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
 
         <div className="aspect-[9/16] bg-black rounded-xl overflow-hidden flex items-center justify-center">
           {previewUrl ? (
-            previewUrl.startsWith('data:image') || previewUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
+            // Check if it's a video (base64 video or video file extension)
+            previewUrl.startsWith('data:video') || previewUrl.match(/\.(mp4|mov|webm|avi)$/i) ? (
+              <video
+                ref={videoRef}
+                src={previewUrl}
+                controls
+                autoPlay
+                loop
+                className="w-full h-full object-contain"
+              />
+            ) : previewUrl.startsWith('data:image') || previewUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
               <img
                 src={previewUrl}
                 alt="Preview"
                 className="w-full h-full object-contain"
               />
             ) : (
+              // Default to video for unknown types
               <video
                 ref={videoRef}
                 src={previewUrl}

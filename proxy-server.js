@@ -1324,6 +1324,306 @@ app.post('/api/reels/create-video', async (req, res) => {
   }
 });
 
+// ==========================================
+// PROFESSIONAL REEL GENERATION WITH EFFECTS
+// ==========================================
+
+/**
+ * Helmut Newton / VERALABS Aesthetic Themes
+ */
+const NEWTON_THEMES = {
+  bigNudes: {
+    name: 'Big Nudes',
+    colorGrade: 'colorchannelmixer=.3:.4:.3:0:.3:.4:.3:0:.3:.4:.3,eq=contrast=1.4:brightness=-0.05:saturation=0',
+    vignette: 'vignette=PI/3:1.2',
+  },
+  sleepwalker: {
+    name: 'Sleepwalker',
+    colorGrade: 'eq=contrast=1.25:brightness=-0.02:saturation=0.8,colorbalance=rs=-0.05:gs=0:bs=0.12',
+    vignette: 'vignette=PI/3.5:1.3',
+  },
+  domesticNude: {
+    name: 'Domestic Nude',
+    colorGrade: 'eq=contrast=1.15:brightness=0.03:saturation=1.1,colorbalance=rs=0.1:gs=0.06:bs=-0.04',
+    vignette: 'vignette=PI/4:1.0',
+  },
+  polaroid: {
+    name: 'Polaroid',
+    colorGrade: 'eq=contrast=1.1:brightness=0.02:saturation=1.15,colorbalance=rs=0.08:gs=0.04:bs=0.02,noise=alls=8:allf=t',
+    vignette: 'vignette=PI/4.5:0.8',
+  },
+  theyrecoming: {
+    name: 'They Are Coming',
+    colorGrade: 'eq=contrast=1.3:brightness=0:saturation=1.25',
+    vignette: 'vignette=PI/3:1.4',
+  },
+  champagneLuxury: {
+    name: 'Champagne Luxury',
+    colorGrade: 'eq=contrast=1.1:brightness=0.03:saturation=1.15,colorbalance=rs=0.08:gs=0.05:bs=-0.02',
+    vignette: 'vignette=PI/4',
+  },
+  boudoirGlow: {
+    name: 'Boudoir Glow',
+    colorGrade: 'eq=contrast=1.08:brightness=0.02:saturation=1.2,colorbalance=rs=0.1:gs=0.06:bs=0.02',
+    vignette: 'vignette=PI/4.5',
+  },
+  midnightMystery: {
+    name: 'Midnight Mystery',
+    colorGrade: 'eq=contrast=1.15:brightness=-0.02:saturation=0.95,colorbalance=rs=-0.02:gs=0:bs=0.08',
+    vignette: 'vignette=PI/3.5',
+  },
+  goldenSensual: {
+    name: 'Golden Sensual',
+    colorGrade: 'eq=contrast=1.05:brightness=0.04:saturation=1.25,colorbalance=rs=0.12:gs=0.08:bs=-0.04',
+    vignette: 'vignette=PI/5',
+  },
+};
+
+/**
+ * Ken Burns Motion Presets
+ */
+const KEN_BURNS_PRESETS = {
+  slowZoomIn: (duration, width, height) =>
+    `zoompan=z='1.0+0.15*(on/${duration}/25)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${duration * 25}:s=${width}x${height}:fps=25`,
+  slowZoomOut: (duration, width, height) =>
+    `zoompan=z='1.2-0.2*(on/${duration}/25)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=${duration * 25}:s=${width}x${height}:fps=25`,
+  panLeftToRight: (duration, width, height) =>
+    `zoompan=z='1.1':x='(iw-iw/zoom)*on/${duration}/25':y='ih/2-(ih/zoom/2)':d=${duration * 25}:s=${width}x${height}:fps=25`,
+  panRightToLeft: (duration, width, height) =>
+    `zoompan=z='1.1':x='(iw-iw/zoom)*(1-on/${duration}/25)':y='ih/2-(ih/zoom/2)':d=${duration * 25}:s=${width}x${height}:fps=25`,
+  diagonalDrift: (duration, width, height) =>
+    `zoompan=z='1.05+0.1*(on/${duration}/25)':x='(iw-iw/zoom)*0.3*(on/${duration}/25)':y='(ih-ih/zoom)*0.2*(on/${duration}/25)':d=${duration * 25}:s=${width}x${height}:fps=25`,
+  faceZoom: (duration, width, height) =>
+    `zoompan=z='1.0+0.25*(on/${duration}/25)':x='iw/2-(iw/zoom/2)':y='ih*0.2':d=${duration * 25}:s=${width}x${height}:fps=25`,
+};
+
+/**
+ * POST /api/reels/create-professional
+ *
+ * Create a professional reel with Ken Burns effects, color grading,
+ * VERALABS branding, film grain, and music overlay.
+ *
+ * Required body:
+ * - images: Array of base64 encoded images
+ *
+ * Optional:
+ * - theme: Color grade theme (default: 'champagneLuxury')
+ * - motionPreset: Ken Burns motion (default: 'slowZoomIn')
+ * - clipDuration: Duration per image in seconds (default: 4)
+ * - addVignette: Add vignette effect (default: true)
+ * - addGrain: Add film grain (default: false)
+ * - addBranding: Add VERALABS watermark (default: true)
+ * - brandingText: Custom branding text (default: 'VERALABS')
+ * - musicId: Filename of music track from library
+ * - musicVolume: Music volume 0-1 (default: 0.35)
+ */
+app.post('/api/reels/create-professional', async (req, res) => {
+  const { execSync } = await import('child_process');
+
+  try {
+    const {
+      images,
+      theme = 'champagneLuxury',
+      motionPreset = 'slowZoomIn',
+      clipDuration = 4,
+      addVignette = true,
+      addGrain = false,
+      addBranding = true,
+      brandingText = 'VERALABS',
+      musicId,
+      musicVolume = 0.35,
+    } = req.body;
+
+    if (!images || !Array.isArray(images) || images.length === 0) {
+      return res.status(400).json({ error: 'images array (base64) required' });
+    }
+
+    console.log('🎬 Creating PROFESSIONAL Reel...');
+    console.log(`   Theme: ${theme}, Motion: ${motionPreset}`);
+    console.log(`   Images: ${images.length}, Duration per clip: ${clipDuration}s`);
+    console.log(`   Branding: ${addBranding ? brandingText : 'none'}, Grain: ${addGrain}`);
+
+    const timestamp = Date.now();
+    const tempClipsDir = path.join(TEMP_DIR, `reel-${timestamp}`);
+    await fs.mkdir(tempClipsDir, { recursive: true });
+
+    const FFMPEG_PATH = ffmpegInstaller.path;
+    const REEL_WIDTH = 1080;
+    const REEL_HEIGHT = 1920;
+    const themeConfig = NEWTON_THEMES[theme] || NEWTON_THEMES.champagneLuxury;
+    const motionPresets = Object.keys(KEN_BURNS_PRESETS);
+
+    // Step 1: Process each image into a clip with Ken Burns + color grading
+    console.log('   Step 1: Processing images with Ken Burns effects...');
+    const clipPaths = [];
+
+    for (let i = 0; i < images.length; i++) {
+      const imageData = images[i];
+      const imageFile = path.join(tempClipsDir, `img-${i}.jpg`);
+      const clipFile = path.join(tempClipsDir, `clip-${i}.mp4`);
+
+      // Save image to temp file
+      let cleanBase64 = imageData;
+      if (cleanBase64.includes(',')) {
+        cleanBase64 = cleanBase64.split(',')[1];
+      }
+      await fs.writeFile(imageFile, Buffer.from(cleanBase64, 'base64'));
+
+      // Get motion preset (cycle through if multiple images)
+      const motion = motionPreset === 'mixed'
+        ? motionPresets[i % motionPresets.length]
+        : motionPreset;
+      const kenBurnsFilter = KEN_BURNS_PRESETS[motion] || KEN_BURNS_PRESETS.slowZoomIn;
+
+      // Build filter chain
+      const filters = [
+        // Scale up for Ken Burns room
+        `scale=${REEL_WIDTH * 2}:${REEL_HEIGHT * 2}:force_original_aspect_ratio=increase`,
+        `crop=${REEL_WIDTH * 2}:${REEL_HEIGHT * 2}`,
+        // Ken Burns motion
+        kenBurnsFilter(clipDuration, REEL_WIDTH, REEL_HEIGHT),
+        // Color grading
+        themeConfig.colorGrade,
+      ];
+
+      // Add vignette
+      if (addVignette) {
+        filters.push(themeConfig.vignette);
+      }
+
+      // Add film grain
+      if (addGrain) {
+        filters.push('noise=alls=12:allf=t');
+      }
+
+      const filterChain = filters.join(',');
+
+      // Create clip with FFmpeg
+      const cmd = `${FFMPEG_PATH} -y -loop 1 -i "${imageFile}" -vf "${filterChain}" -t ${clipDuration} -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p "${clipFile}" 2>/dev/null`;
+
+      try {
+        execSync(cmd, { maxBuffer: 200 * 1024 * 1024 });
+        clipPaths.push(clipFile);
+        console.log(`      ✅ Clip ${i + 1}/${images.length} created`);
+      } catch (err) {
+        console.error(`      ❌ Clip ${i + 1} failed:`, err.message);
+      }
+    }
+
+    if (clipPaths.length === 0) {
+      throw new Error('No clips were created');
+    }
+
+    // Step 2: Concatenate clips
+    console.log('   Step 2: Concatenating clips...');
+    const concatListPath = path.join(tempClipsDir, 'concat.txt');
+    const concatContent = clipPaths.map(p => `file '${p}'`).join('\n');
+    await fs.writeFile(concatListPath, concatContent);
+
+    const concatOutput = path.join(tempClipsDir, 'concat.mp4');
+    const concatCmd = `${FFMPEG_PATH} -y -f concat -safe 0 -i "${concatListPath}" -c:v libx264 -preset fast -crf 18 -pix_fmt yuv420p "${concatOutput}" 2>/dev/null`;
+    execSync(concatCmd, { maxBuffer: 200 * 1024 * 1024 });
+
+    // Step 3: Add VERALABS branding
+    let currentOutput = concatOutput;
+    if (addBranding) {
+      console.log('   Step 3: Adding VERALABS branding...');
+      const brandedOutput = path.join(tempClipsDir, 'branded.mp4');
+      const brandFilter = [
+        `drawtext=text='${brandingText}':fontsize=42:fontcolor=white@0.85:x=(w-text_w)/2:y=h-100:fontfile=/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf`,
+        `drawtext=text='━━━━━━━━━━━━━━━':fontsize=24:fontcolor=white@0.4:x=(w-text_w)/2:y=h-65`,
+      ].join(',');
+      const brandCmd = `${FFMPEG_PATH} -y -i "${currentOutput}" -vf "${brandFilter}" -c:v libx264 -preset fast -crf 18 -c:a copy "${brandedOutput}" 2>/dev/null`;
+      execSync(brandCmd, { maxBuffer: 200 * 1024 * 1024 });
+      currentOutput = brandedOutput;
+    }
+
+    // Step 4: Add music
+    const totalDuration = clipPaths.length * clipDuration;
+    const finalOutput = path.join(tempClipsDir, 'final.mp4');
+    const musicPath = musicId ? path.join(MUSIC_DIR, musicId) : null;
+    const veralabsMusicDir = path.join(__dirname, 'veralabs-music');
+
+    // Try to find a music track
+    let selectedMusicPath = null;
+    if (musicPath && fsSync.existsSync(musicPath)) {
+      selectedMusicPath = musicPath;
+    } else if (fsSync.existsSync(veralabsMusicDir)) {
+      // Auto-select a track from veralabs-music
+      try {
+        const tracks = fsSync.readdirSync(veralabsMusicDir).filter(f => f.endsWith('.wav') || f.endsWith('.mp3'));
+        if (tracks.length > 0) {
+          selectedMusicPath = path.join(veralabsMusicDir, tracks[Math.floor(Math.random() * tracks.length)]);
+        }
+      } catch {}
+    }
+
+    if (selectedMusicPath) {
+      console.log('   Step 4: Adding music...');
+      const musicCmd = `${FFMPEG_PATH} -y -i "${currentOutput}" -stream_loop 5 -i "${selectedMusicPath}" -filter_complex "[1:a]volume=${musicVolume},afade=t=in:st=0:d=2,afade=t=out:st=${totalDuration - 2}:d=2[a]" -map 0:v -map "[a]" -c:v copy -c:a aac -b:a 192k -t ${totalDuration} "${finalOutput}" 2>/dev/null`;
+      try {
+        execSync(musicCmd, { maxBuffer: 200 * 1024 * 1024 });
+        currentOutput = finalOutput;
+        console.log('      ✅ Music added');
+      } catch (err) {
+        console.log('      ⚠️ Music failed, continuing without audio');
+      }
+    } else {
+      console.log('   Step 4: No music available, skipping...');
+      // Copy to final location
+      fsSync.copyFileSync(currentOutput, finalOutput);
+      currentOutput = finalOutput;
+    }
+
+    // Step 5: Extract thumbnail
+    console.log('   Step 5: Extracting thumbnail...');
+    const thumbnailPath = path.join(tempClipsDir, 'thumbnail.jpg');
+    const thumbCmd = `${FFMPEG_PATH} -y -i "${currentOutput}" -ss 2 -vframes 1 -q:v 2 "${thumbnailPath}" 2>/dev/null`;
+    try {
+      execSync(thumbCmd);
+    } catch {}
+
+    // Read final video
+    const videoBuffer = await fs.readFile(currentOutput);
+    const videoBase64 = videoBuffer.toString('base64');
+
+    // Read thumbnail if exists
+    let thumbnailBase64 = null;
+    try {
+      const thumbBuffer = await fs.readFile(thumbnailPath);
+      thumbnailBase64 = thumbBuffer.toString('base64');
+    } catch {}
+
+    // Clean up temp directory
+    try {
+      const files = await fs.readdir(tempClipsDir);
+      for (const file of files) {
+        await fs.unlink(path.join(tempClipsDir, file)).catch(() => {});
+      }
+      await fs.rmdir(tempClipsDir).catch(() => {});
+    } catch {}
+
+    console.log(`✅ Professional Reel ready: ${(videoBuffer.length / 1024 / 1024).toFixed(2)} MB, ${totalDuration}s`);
+
+    res.json({
+      success: true,
+      videoData: `data:video/mp4;base64,${videoBase64}`,
+      thumbnailData: thumbnailBase64 ? `data:image/jpeg;base64,${thumbnailBase64}` : null,
+      size: videoBuffer.length,
+      duration: totalDuration,
+      theme: themeConfig.name,
+      clipsCount: clipPaths.length,
+      hasAudio: !!selectedMusicPath,
+    });
+
+  } catch (error) {
+    console.error('❌ Professional reel creation error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
 /**
  * POST /api/instagram/publish-reel
  *

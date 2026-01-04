@@ -8,6 +8,8 @@ import IntimacyController from './IntimacyController';
 import SafetyBypassStrategySelector from './SafetyBypassStrategySelector';
 import type { SafetyBypassStrategy, ImageProvider } from '../types';
 
+export type AspectRatioOption = '1:1' | '4:5' | '3:4' | '9:16' | '16:9';
+
 export interface GenerationControlsState {
   intimacyLevel: number;
   safetySetting: 'block_few' | 'block_some' | 'block_most';
@@ -15,6 +17,7 @@ export interface GenerationControlsState {
   safetyBypassStrategy: SafetyBypassStrategy;
   provider: ImageProvider;
   fluxSafetyTolerance: number;
+  aspectRatio: AspectRatioOption;
 }
 
 interface GenerationControlsPanelProps {
@@ -27,9 +30,19 @@ interface GenerationControlsPanelProps {
   showStrategy?: boolean;
   showProvider?: boolean;
   showFluxTolerance?: boolean;
+  showAspectRatio?: boolean;
   compact?: boolean;
   colorTheme?: 'purple' | 'pink' | 'blue' | 'teal' | 'cyan';
 }
+
+// Aspect ratio options with Instagram compatibility info
+const ASPECT_RATIO_OPTIONS: { value: AspectRatioOption; label: string; description: string; instagram: boolean }[] = [
+  { value: '1:1', label: '1:1 Square', description: 'Instagram Feed (Recommended)', instagram: true },
+  { value: '4:5', label: '4:5 Portrait', description: 'Instagram Feed Portrait', instagram: true },
+  { value: '3:4', label: '3:4 Portrait', description: 'Classic Portrait', instagram: true },
+  { value: '9:16', label: '9:16 Stories', description: 'Instagram Stories/Reels', instagram: true },
+  { value: '16:9', label: '16:9 Landscape', description: 'Widescreen/Video', instagram: false },
+];
 
 const GenerationControlsPanel: React.FC<GenerationControlsPanelProps> = ({
   settings,
@@ -41,6 +54,7 @@ const GenerationControlsPanel: React.FC<GenerationControlsPanelProps> = ({
   showStrategy = true,
   showProvider = true,
   showFluxTolerance = true,
+  showAspectRatio = true,
   compact = false,
   colorTheme = 'purple'
 }) => {
@@ -78,9 +92,9 @@ const GenerationControlsPanel: React.FC<GenerationControlsPanelProps> = ({
         <div className="flex gap-2 text-xs text-gray-400">
           <span>Intimacy: {settings.intimacyLevel}</span>
           <span>|</span>
-          <span>{settings.provider === 'vertex-ai' ? 'Imagen' : 'Flux'}</span>
+          <span>{settings.aspectRatio}</span>
           <span>|</span>
-          <span>{settings.safetyBypassStrategy}</span>
+          <span>{settings.provider === 'vertex-ai' ? 'Imagen' : 'Flux'}</span>
         </div>
         <svg
           className={`w-5 h-5 text-gray-400 transition-transform ${expanded ? 'rotate-180' : ''}`}
@@ -145,7 +159,42 @@ const GenerationControlsPanel: React.FC<GenerationControlsPanelProps> = ({
         )}
       </div>
 
-      {/* Row 2: Safety Filter + Person Generation */}
+      {/* Row 2: Aspect Ratio */}
+      {showAspectRatio && (
+        <div className={`p-4 rounded-lg ${theme.bg} border ${theme.border}`}>
+          <label className={`block font-semibold ${theme.text} mb-3`}>
+            Aspect Ratio
+            <span className="ml-2 text-xs font-normal text-green-400">(Instagram-Ready)</span>
+          </label>
+          <div className="grid grid-cols-5 gap-2">
+            {ASPECT_RATIO_OPTIONS.map((option) => (
+              <button
+                key={option.value}
+                onClick={() => updateSetting('aspectRatio', option.value)}
+                disabled={disabled}
+                className={`p-3 rounded-lg border-2 transition-all text-center ${
+                  settings.aspectRatio === option.value
+                    ? option.instagram
+                      ? 'border-green-500 bg-green-500/20 text-white'
+                      : 'border-blue-500 bg-blue-500/20 text-white'
+                    : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-gray-500'
+                } disabled:opacity-50`}
+              >
+                <div className="text-sm font-medium">{option.label.split(' ')[0]}</div>
+                <div className="text-xs text-gray-400 mt-1">{option.label.split(' ')[1]}</div>
+                {option.instagram && settings.aspectRatio === option.value && (
+                  <div className="text-xs text-green-400 mt-1">✓ IG</div>
+                )}
+              </button>
+            ))}
+          </div>
+          <p className="mt-2 text-xs text-gray-400">
+            {ASPECT_RATIO_OPTIONS.find(o => o.value === settings.aspectRatio)?.description || 'Select aspect ratio'}
+          </p>
+        </div>
+      )}
+
+      {/* Row 3: Safety Filter + Person Generation */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Safety Filter */}
         {showSafetyFilter && (
@@ -267,5 +316,6 @@ export const defaultGenerationControls: GenerationControlsState = {
   personGeneration: 'allow_adult',
   safetyBypassStrategy: 'auto',
   provider: 'vertex-ai',
-  fluxSafetyTolerance: 5
+  fluxSafetyTolerance: 5,
+  aspectRatio: '1:1' // Instagram-compatible square format
 };

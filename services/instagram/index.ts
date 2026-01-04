@@ -107,30 +107,37 @@ export {
 } from './instagramApiService';
 
 // ============================================================================
-// TOKEN MANAGER
+// TOKEN MANAGER (SIMPLIFIED - Page Access Token)
 // ============================================================================
 
 export {
-  // Token operations
+  // Page Access Token (primary)
+  getPageAccessToken,
+  savePageAccessToken,
+  loadPageAccessToken,
+
+  // Token operations (backward compatibility)
   saveTokenInfo,
   loadTokenInfo,
-  saveAppCredentials,
-  loadAppCredentials,
-  saveGitHubToken,
-  loadGitHubToken,
-  clearTokens,
-
-  // Token exchange/refresh
-  exchangeForLongLivedToken,
-  refreshLongLivedToken,
-  getPageAccessToken,
   ensureValidToken,
   initializeFromToken,
+
+  // GitHub token
+  saveGitHubToken,
+  loadGitHubToken,
 
   // Validation and status
   validateToken,
   getInstagramAccountId,
+  getPageId,
   getTokenStatus,
+  clearTokens,
+
+  // Deprecated (no-ops for backward compatibility)
+  saveAppCredentials,
+  loadAppCredentials,
+  exchangeForLongLivedToken,
+  refreshLongLivedToken,
   isTokenExpiringSoon,
 
   // Types
@@ -178,6 +185,69 @@ export {
   canPostNow,
   processNextQueueItem,
 } from './autoPostAgent';
+
+// ============================================================================
+// PERSISTENT GALLERY SERVICE
+// ============================================================================
+
+export {
+  // Core operations
+  saveToGallery,
+  saveMultipleToGallery,
+  getAllImages,
+  getFilteredImages,
+  getImageById,
+  deleteImage,
+  deleteMultipleImages,
+  updateImage,
+  markAsPosted,
+
+  // Stats and cleanup
+  getGalleryStats,
+  cleanupOldImages,
+  clearAllImages,
+
+  // Utilities
+  generateImageId,
+  createThumbnail,
+  initGallery,
+
+  // Types
+  type GalleryImage,
+  type SourceMode,
+  type GalleryFilter,
+  type GalleryStats,
+} from './galleryService';
+
+// ============================================================================
+// INSTAGRAM REELS SERVICE
+// ============================================================================
+
+export {
+  // Music library
+  getMusicLibrary,
+  uploadMusic,
+
+  // Video creation
+  createVideo,
+
+  // Reel publishing
+  publishReel,
+  createAndPublishReel,
+
+  // Utilities
+  isReelsServiceAvailable,
+  formatDuration,
+  DEFAULT_REEL_DURATIONS,
+
+  // Types
+  type MusicTrack,
+  type CreateVideoOptions,
+  type CreateVideoResult,
+  type PublishReelOptions,
+  type PublishReelResult,
+  type FullReelPublishOptions,
+} from './reelsService';
 
 // ============================================================================
 // CONVENIENCE FUNCTION

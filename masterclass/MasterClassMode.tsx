@@ -49,7 +49,7 @@ const MasterClassMode: React.FC<MasterClassModeProps> = ({ onExit }) => {
     wardrobeSelection: null,
     location: null,
     lightingScheme: 'Natural Light',
-    aspectRatio: '4:5',
+    aspectRatio: '1:1', // Instagram-compatible square format
     outputResolution: '8K',
     renderQuality: 'masterpiece',
     platformTarget: 'artistic',

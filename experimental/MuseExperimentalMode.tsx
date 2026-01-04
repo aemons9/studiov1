@@ -269,7 +269,7 @@ Ultra-high resolution, experimental post-processing, artistic breakthrough.`;
     try {
       const prompt = generateExperimentalPrompt();
       const settings = {
-        aspectRatio: '3:4',
+        aspectRatio: '1:1', // Instagram-compatible square format
         personGeneration: 'allow_adult',
         safetyFilter: 'block_few',
         model: 'imagen-3.0-generate-001',

@@ -52,7 +52,7 @@ const ArchetypeBlenderUI: React.FC = () => {
 
     const [settings, setSettings] = useState<GenerationSettings>({
         numImages: 1,
-        aspectRatio: '9:16',
+        aspectRatio: '1:1', // Instagram-compatible square format
     });
 
     const primaryArchetype = useMemo(() => INDIAN_MODEL_ARCHETYPES.find(a => a.id === primaryArchetypeId), [primaryArchetypeId]);

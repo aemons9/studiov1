@@ -82,7 +82,7 @@ export const QuickCorporateGenerator: React.FC<QuickCorporateGeneratorProps> = (
 
     // Call the generate function with optimal settings
     onGenerate(generatedPrompt, {
-      aspectRatio: '4:5',
+      aspectRatio: '1:1', // Instagram-compatible square format
       intimacyLevel,
       safetyTolerance: 6 // Maximum safety tolerance for best success rate
     });

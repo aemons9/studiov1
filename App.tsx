@@ -41,7 +41,10 @@ import MasterClassMode from './masterclass/MasterClassMode';
 import RealVisualNovel from './visualnovel/RealVisualNovel';
 import VisualNovelAssetGenerator from './visualnovel/VisualNovelAssetGenerator';
 import InstagramMode from './instagram/InstagramMode';
+import ReelsStudioMode from './reels-studio/ReelsStudioMode';
 import VideoGeneratorUI from './components/VideoGeneratorUI';
+import { initGallery } from './services/instagram/galleryService';
+import { captureImagesToGallery } from './hooks/useGalleryCapture';
 import type { ArtisticGenerationConfig } from './artistic/types';
 import type { CorporatePowerState } from './corporate/types';
 import type { PlatinumModeState } from './platinum/types';
@@ -110,7 +113,7 @@ const HISTORY_STORAGE_key = 'ai-image-studio-history';
 const MAX_HISTORY_SIZE = 20;
 
 const App: React.FC = () => {
-  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'visualnovel' | 'vnassets' | 'instagram'>('classic');
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'visualnovel' | 'vnassets' | 'instagram' | 'reels-studio'>('classic');
   const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
   const [textPrompt, setTextPrompt] = useState<string>('');
   const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
@@ -134,7 +137,7 @@ const App: React.FC = () => {
     accessToken: '',
     vertexApiKey: (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '', // Auto-populate from environment
     numberOfImages: 1,
-    aspectRatio: '9:16',
+    aspectRatio: '1:1', // Instagram-compatible square format
     personGeneration: 'allow_all',
     safetySetting: 'block_few',
     addWatermark: true,
@@ -455,6 +458,52 @@ const App: React.FC = () => {
       console.log('Then reload the page to apply changes.');
     }
   }, []);
+
+  // Initialize gallery service on mount
+  useEffect(() => {
+    initGallery().catch(console.error);
+  }, []);
+
+  // Auto-capture generated images to persistent gallery for Instagram
+  useEffect(() => {
+    if (generatedImages && generatedImages.length > 0) {
+      // Determine source mode based on current uiMode
+      const sourceMode = uiMode === 'classic' ? 'classic' :
+                         uiMode === 'roleplay' ? 'roleplay' :
+                         uiMode === 'experimental' ? 'experimental' :
+                         uiMode === 'masterclass' ? 'masterclass' :
+                         uiMode === 'platinum' ? 'platinum' :
+                         uiMode === 'vera' ? 'vera' :
+                         uiMode === 'visualnovel' ? 'visualnovel' :
+                         uiMode === 'vnassets' ? 'visualnovel' :
+                         uiMode === 'artistic' ? 'artistic' :
+                         uiMode === 'corporate' ? 'corporate' :
+                         uiMode === 'video' ? 'video' : 'classic';
+
+      // Capture to gallery with source mode tag
+      captureImagesToGallery(generatedImages, sourceMode as any, {
+        provider: generationSettings.provider,
+        intimacyLevel: generationSettings.intimacyLevel,
+      }).then(saved => {
+        if (saved.length > 0) {
+          console.log(`📸 Auto-captured ${saved.length} image(s) to gallery from ${sourceMode} mode`);
+        }
+      }).catch(console.error);
+    }
+  }, [generatedImages, uiMode, generationSettings.provider, generationSettings.intimacyLevel]);
+
+  // Auto-capture visual novel images separately
+  useEffect(() => {
+    if (visualNovelImages && visualNovelImages.length > 0) {
+      captureImagesToGallery(visualNovelImages, 'visualnovel', {
+        provider: generationSettings.provider,
+      }).then(saved => {
+        if (saved.length > 0) {
+          console.log(`📸 Auto-captured ${saved.length} visual novel image(s) to gallery`);
+        }
+      }).catch(console.error);
+    }
+  }, [visualNovelImages, generationSettings.provider]);
 
   // Execute the actual image generation (called after prompt review or immediately)
   const executeGeneration = async (finalPrompt: string, promptForNextStep: PromptData, options: MasterGenerateOptions) => {
@@ -1672,7 +1721,7 @@ const App: React.FC = () => {
     projectId: '',
     accessToken: '',
     numberOfImages: 1,
-    aspectRatio: '9:16' as const,
+    aspectRatio: '1:1' as const, // Instagram-compatible square format
     personGeneration: 'allow_all' as const,
     safetySetting: 'block_few' as const,
     addWatermark: true,
@@ -1769,6 +1818,13 @@ const App: React.FC = () => {
           generatedImages={generatedImages}
           onBack={() => setUiMode('classic')}
         />
+      ) : uiMode === 'reels-studio' ? (
+        // REELS STUDIO MODE: Professional reel/post creation with Instagram publishing
+        <ReelsStudioMode
+          onExit={() => setUiMode('classic')}
+          generationSettings={generationSettings}
+          onGenerate={handleGenerate}
+        />
       ) : (
         // CLASSIC MODE: Traditional Prompt Editor
         <>
@@ -1834,14 +1890,39 @@ const App: React.FC = () => {
             <div className="mb-8">
               <QuickDirectGenerate
                 generationSettings={safeGenerationSettings}
-                onGenerationComplete={(images) => {
+                onGenerationComplete={async (images) => {
                   if (images.length > 0) {
+                    // Convert base64 to data URL for proper display
+                    const imageUrl = images[0].startsWith('data:')
+                      ? images[0]
+                      : `data:image/png;base64,${images[0]}`;
+
+                    // Set local state for immediate display
                     setGeneratedImages([{
-                      url: images[0],
+                      url: imageUrl,
                       prompt: 'Quick Direct Generation',
                       timestamp: new Date().toISOString(),
                       settings: safeGenerationSettings
                     }]);
+
+                    // Save to persistent gallery for Instagram Mode
+                    try {
+                      await captureImagesToGallery(
+                        [{
+                          url: imageUrl,
+                          settings: {
+                            modelId: safeGenerationSettings.modelId,
+                            seed: safeGenerationSettings.seed,
+                            aspectRatio: safeGenerationSettings.aspectRatio || '1:1'
+                          }
+                        }],
+                        'classic',
+                        { prompt: 'Quick Direct Generation', provider: safeGenerationSettings.provider || 'vertex-ai' }
+                      );
+                      console.log('📸 Quick Direct Generate image saved to gallery');
+                    } catch (err) {
+                      console.error('Failed to save to gallery:', err);
+                    }
                   }
                 }}
               />
@@ -1950,6 +2031,7 @@ const App: React.FC = () => {
             onVisualNovel={() => setUiMode('visualnovel')}
             onVNAssets={() => setUiMode('vnassets')}
             onInstagram={() => setUiMode('instagram')}
+            onReelsStudio={() => setUiMode('reels-studio')}
             isGeneratingPrompt={isGeneratingPrompt}
             hasPrompt={!!(textPrompt.trim() || promptData)}
             hasProjectId={!!generationSettings.projectId}

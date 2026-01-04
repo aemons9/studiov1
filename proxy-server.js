@@ -14,8 +14,14 @@
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs/promises';
+import fsSync from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import ffmpeg from 'fluent-ffmpeg';
+import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
+
+// Set FFmpeg path from npm package
+ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1100,6 +1106,650 @@ app.get('/api/instagram/page-token', async (req, res) => {
 });
 
 // ==========================================
+// REELS VIDEO GENERATION (FFmpeg)
+// ==========================================
+
+// Music library directory
+const MUSIC_DIR = path.join(__dirname, 'assets', 'music');
+
+// Temp directory for video generation
+const TEMP_DIR = path.join(__dirname, 'temp');
+
+// Ensure temp directory exists
+fs.mkdir(TEMP_DIR, { recursive: true }).catch(() => {});
+fs.mkdir(MUSIC_DIR, { recursive: true }).catch(() => {});
+
+/**
+ * GET /api/music/library
+ * Returns list of available music tracks
+ */
+app.get('/api/music/library', async (req, res) => {
+  try {
+    // Ensure music directory exists
+    await fs.mkdir(MUSIC_DIR, { recursive: true });
+
+    const files = await fs.readdir(MUSIC_DIR);
+    const musicFiles = files.filter(f =>
+      ['.mp3', '.wav', '.m4a', '.aac', '.ogg'].some(ext => f.toLowerCase().endsWith(ext))
+    );
+
+    // Get file info for each track
+    const tracks = await Promise.all(musicFiles.map(async (filename) => {
+      const filePath = path.join(MUSIC_DIR, filename);
+      const stats = await fs.stat(filePath);
+
+      // Parse filename for metadata (format: Artist - Title.mp3)
+      const nameWithoutExt = filename.replace(/\.[^/.]+$/, '');
+      const parts = nameWithoutExt.split(' - ');
+
+      return {
+        id: filename,
+        filename,
+        title: parts.length > 1 ? parts[1] : nameWithoutExt,
+        artist: parts.length > 1 ? parts[0] : 'Unknown',
+        size: stats.size,
+        path: filePath,
+      };
+    }));
+
+    res.json({
+      success: true,
+      tracks,
+      musicDir: MUSIC_DIR,
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to list music library:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/music/upload
+ * Upload a music file to the library
+ */
+app.post('/api/music/upload', express.raw({ type: 'audio/*', limit: '50mb' }), async (req, res) => {
+  try {
+    const filename = req.headers['x-filename'] || `track-${Date.now()}.mp3`;
+    const filePath = path.join(MUSIC_DIR, filename);
+
+    await fs.writeFile(filePath, req.body);
+
+    console.log(`✅ Music uploaded: ${filename}`);
+
+    res.json({
+      success: true,
+      filename,
+      path: filePath,
+    });
+
+  } catch (error) {
+    console.error('❌ Failed to upload music:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/reels/create-video
+ *
+ * Convert image + music to video for Instagram Reels
+ *
+ * Required body:
+ * - imageData: Base64 encoded image
+ *
+ * Optional:
+ * - musicId: Filename of music track from library
+ * - duration: Video duration in seconds (default: 15)
+ * - fadeIn: Audio fade in duration (default: 1)
+ * - fadeOut: Audio fade out duration (default: 2)
+ */
+app.post('/api/reels/create-video', async (req, res) => {
+  try {
+    const {
+      imageData,
+      musicId,
+      duration = 15,
+      fadeIn = 1,
+      fadeOut = 2,
+    } = req.body;
+
+    if (!imageData) {
+      return res.status(400).json({ error: 'imageData (base64) required' });
+    }
+
+    console.log('🎬 Creating Reel video...');
+    console.log(`   Duration: ${duration}s, Music: ${musicId || 'none'}`);
+
+    // Generate unique filenames
+    const timestamp = Date.now();
+    const imageFile = path.join(TEMP_DIR, `img-${timestamp}.jpg`);
+    const outputFile = path.join(TEMP_DIR, `reel-${timestamp}.mp4`);
+
+    // Save image to temp file
+    let cleanBase64 = imageData;
+    if (cleanBase64.includes(',')) {
+      cleanBase64 = cleanBase64.split(',')[1];
+    }
+    await fs.writeFile(imageFile, Buffer.from(cleanBase64, 'base64'));
+
+    console.log('   ✅ Image saved to temp');
+
+    // Build FFmpeg command
+    const musicPath = musicId ? path.join(MUSIC_DIR, musicId) : null;
+
+    await new Promise((resolve, reject) => {
+      let command = ffmpeg()
+        // Input: Static image
+        .input(imageFile)
+        .inputOptions([
+          '-loop', '1', // Loop the image
+        ])
+        // Video settings for Instagram Reels
+        .outputOptions([
+          '-c:v', 'libx264',      // H.264 codec
+          '-t', String(duration), // Duration
+          '-pix_fmt', 'yuv420p',  // Pixel format for compatibility
+          '-r', '30',             // 30 fps
+          '-preset', 'medium',    // Encoding preset
+          '-crf', '23',           // Quality (lower = better)
+        ]);
+
+      // Add audio if music is provided
+      if (musicPath && fsSync.existsSync(musicPath)) {
+        console.log(`   🎵 Adding music: ${musicId}`);
+        command = command
+          .input(musicPath)
+          .outputOptions([
+            '-c:a', 'aac',          // AAC audio codec
+            '-b:a', '192k',         // Audio bitrate
+            '-shortest',            // End when shortest input ends
+          ])
+          .audioFilters([
+            `afade=t=in:st=0:d=${fadeIn}`,                    // Fade in
+            `afade=t=out:st=${duration - fadeOut}:d=${fadeOut}`, // Fade out
+          ]);
+      } else {
+        // No audio - create silent track
+        command = command.outputOptions(['-an']); // No audio
+      }
+
+      command
+        .output(outputFile)
+        .on('start', (cmd) => {
+          console.log('   🔧 FFmpeg command:', cmd.substring(0, 100) + '...');
+        })
+        .on('progress', (progress) => {
+          if (progress.percent) {
+            console.log(`   📊 Progress: ${Math.round(progress.percent)}%`);
+          }
+        })
+        .on('error', (err) => {
+          console.error('❌ FFmpeg error:', err.message);
+          reject(err);
+        })
+        .on('end', () => {
+          console.log('   ✅ Video created successfully');
+          resolve();
+        })
+        .run();
+    });
+
+    // Read the output video as base64
+    const videoBuffer = await fs.readFile(outputFile);
+    const videoBase64 = videoBuffer.toString('base64');
+
+    // Clean up temp files
+    await fs.unlink(imageFile).catch(() => {});
+    await fs.unlink(outputFile).catch(() => {});
+
+    console.log(`✅ Reel video ready: ${(videoBuffer.length / 1024 / 1024).toFixed(2)} MB`);
+
+    res.json({
+      success: true,
+      videoData: `data:video/mp4;base64,${videoBase64}`,
+      size: videoBuffer.length,
+      duration,
+      hasAudio: !!musicPath,
+    });
+
+  } catch (error) {
+    console.error('❌ Video creation error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/instagram/publish-reel
+ *
+ * Publish a video as an Instagram Reel
+ *
+ * Required body:
+ * - accessToken: Instagram Page Access Token
+ * - videoUrl: Public HTTPS URL of the video
+ * - caption: Post caption
+ *
+ * Optional:
+ * - hashtags: Array of hashtags
+ * - instagramAccountId: Override default account
+ * - coverUrl: URL for custom cover image
+ * - shareToFeed: Share to feed as well (default: true)
+ * - audioName: Custom name for original audio
+ */
+app.post('/api/instagram/publish-reel', async (req, res) => {
+  try {
+    const {
+      accessToken,
+      videoUrl,
+      caption,
+      hashtags = [],
+      instagramAccountId = INSTAGRAM_CONFIG.BUSINESS_ACCOUNT_ID,
+      coverUrl,
+      shareToFeed = true,
+      audioName,
+    } = req.body;
+
+    if (!accessToken) {
+      return res.status(400).json({ error: 'Instagram access token required' });
+    }
+
+    if (!videoUrl) {
+      return res.status(400).json({ error: 'Video URL required' });
+    }
+
+    console.log('🎬 Starting Instagram Reel publish flow...');
+
+    // Format caption with hashtags
+    let finalCaption = caption || '';
+    if (hashtags.length > 0) {
+      const formattedHashtags = hashtags
+        .map(tag => tag.startsWith('#') ? tag : `#${tag}`)
+        .slice(0, 30)
+        .join(' ');
+      finalCaption = finalCaption
+        ? `${finalCaption}\n\n${formattedHashtags}`
+        : formattedHashtags;
+    }
+
+    // Step 1: Create Reel media container
+    console.log('   Step 1: Creating Reel container...');
+
+    const containerUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${instagramAccountId}/media`;
+    const containerParams = new URLSearchParams({
+      media_type: 'REELS',
+      video_url: videoUrl,
+      caption: finalCaption,
+      share_to_feed: String(shareToFeed),
+      access_token: accessToken,
+    });
+
+    // Add optional parameters
+    if (coverUrl) {
+      containerParams.set('cover_url', coverUrl);
+    }
+    if (audioName) {
+      containerParams.set('audio_name', audioName);
+    }
+
+    const containerResponse = await fetch(containerUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: containerParams.toString(),
+    });
+
+    const containerData = await containerResponse.json();
+
+    if (!containerResponse.ok) {
+      console.error('❌ Reel container creation failed:', containerData);
+      return res.status(containerResponse.status).json({
+        error: 'Failed to create Reel container',
+        details: containerData.error?.message || containerData,
+      });
+    }
+
+    const containerId = containerData.id;
+    console.log(`   ✅ Reel container created: ${containerId}`);
+
+    // Step 2: Wait for video processing (can take longer than images)
+    console.log('   Step 2: Waiting for video processing...');
+    let containerReady = false;
+    let attempts = 0;
+    const maxAttempts = 60; // Up to 2 minutes for video processing
+
+    while (!containerReady && attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      const statusUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${containerId}?fields=status,status_code&access_token=${accessToken}`;
+      const statusResponse = await fetch(statusUrl);
+      const statusData = await statusResponse.json();
+
+      console.log(`   📊 Status check ${attempts + 1}: ${statusData.status || 'UNKNOWN'}`);
+
+      if (statusData.status === 'FINISHED') {
+        containerReady = true;
+        console.log('   ✅ Reel container ready');
+      } else if (statusData.status === 'ERROR') {
+        console.error('❌ Reel processing failed:', statusData);
+        return res.status(500).json({
+          error: 'Reel processing failed',
+          status_code: statusData.status_code,
+        });
+      }
+
+      attempts++;
+    }
+
+    if (!containerReady) {
+      return res.status(500).json({
+        error: 'Timeout waiting for Reel to process (2 minutes exceeded)',
+      });
+    }
+
+    // Step 3: Publish
+    console.log('   Step 3: Publishing Reel to Instagram...');
+
+    const publishUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${instagramAccountId}/media_publish`;
+    const publishParams = new URLSearchParams({
+      creation_id: containerId,
+      access_token: accessToken,
+    });
+
+    const publishResponse = await fetch(publishUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: publishParams.toString(),
+    });
+
+    const publishData = await publishResponse.json();
+
+    if (!publishResponse.ok) {
+      console.error('❌ Reel publish failed:', publishData);
+      return res.status(publishResponse.status).json({
+        error: 'Failed to publish Reel',
+        details: publishData.error?.message || publishData,
+      });
+    }
+
+    console.log(`🎉 Reel published! Media ID: ${publishData.id}`);
+
+    res.json({
+      success: true,
+      mediaId: publishData.id,
+      videoUrl,
+      caption: finalCaption,
+      publishedAt: new Date().toISOString(),
+      type: 'REEL',
+    });
+
+  } catch (error) {
+    console.error('❌ Reel publish error:', error);
+    res.status(500).json({
+      error: 'Reel publish failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/reels/upload-and-publish
+ *
+ * Complete flow: Create video from image + music, upload to GitHub, publish as Reel
+ *
+ * Required body:
+ * - accessToken: Instagram Page Access Token
+ * - imageData: Base64 encoded image
+ * - caption: Post caption
+ *
+ * Optional:
+ * - musicId: Filename of music track from library
+ * - duration: Video duration in seconds (default: 15)
+ * - hashtags: Array of hashtags
+ * - githubToken: Token for video hosting
+ * - audioName: Custom name for original audio
+ */
+app.post('/api/reels/upload-and-publish', async (req, res) => {
+  try {
+    const {
+      accessToken,
+      imageData,
+      caption,
+      musicId,
+      duration = 15,
+      hashtags = [],
+      githubToken,
+      githubOwner = 'aemons9',
+      githubRepo = 'studiov1',
+      githubBranch = 'main',
+      audioName,
+    } = req.body;
+
+    if (!accessToken) {
+      return res.status(400).json({ error: 'Instagram access token required' });
+    }
+    if (!imageData) {
+      return res.status(400).json({ error: 'Image data required' });
+    }
+    if (!githubToken) {
+      return res.status(400).json({ error: 'GitHub token required for video hosting' });
+    }
+
+    console.log('🎬 Starting complete Reel creation and publishing flow...');
+
+    // Step 1: Create video
+    console.log('   Step 1: Creating video from image + music...');
+
+    const timestamp = Date.now();
+    const imageFile = path.join(TEMP_DIR, `img-${timestamp}.jpg`);
+    const outputFile = path.join(TEMP_DIR, `reel-${timestamp}.mp4`);
+
+    // Save image to temp file
+    let cleanBase64 = imageData;
+    if (cleanBase64.includes(',')) {
+      cleanBase64 = cleanBase64.split(',')[1];
+    }
+    await fs.writeFile(imageFile, Buffer.from(cleanBase64, 'base64'));
+
+    const musicPath = musicId ? path.join(MUSIC_DIR, musicId) : null;
+
+    await new Promise((resolve, reject) => {
+      let command = ffmpeg()
+        .input(imageFile)
+        .inputOptions(['-loop', '1'])
+        .outputOptions([
+          '-c:v', 'libx264',
+          '-t', String(duration),
+          '-pix_fmt', 'yuv420p',
+          '-r', '30',
+          '-preset', 'medium',
+          '-crf', '23',
+        ]);
+
+      if (musicPath && fsSync.existsSync(musicPath)) {
+        command = command
+          .input(musicPath)
+          .outputOptions(['-c:a', 'aac', '-b:a', '192k', '-shortest'])
+          .audioFilters([
+            `afade=t=in:st=0:d=1`,
+            `afade=t=out:st=${duration - 2}:d=2`,
+          ]);
+      } else {
+        command = command.outputOptions(['-an']);
+      }
+
+      command
+        .output(outputFile)
+        .on('error', reject)
+        .on('end', resolve)
+        .run();
+    });
+
+    const videoBuffer = await fs.readFile(outputFile);
+    console.log(`   ✅ Video created: ${(videoBuffer.length / 1024 / 1024).toFixed(2)} MB`);
+
+    // Step 2: Upload video to GitHub
+    console.log('   Step 2: Uploading video to GitHub...');
+
+    const videoFilename = `reel-${timestamp}.mp4`;
+    const videoPath = `photo/reels/${videoFilename}`;
+
+    const githubApiUrl = `https://api.github.com/repos/${githubOwner}/${githubRepo}/contents/${videoPath}`;
+
+    const githubResponse = await fetch(githubApiUrl, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${githubToken}`,
+        'Accept': 'application/vnd.github.v3+json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        message: `[Reel] Add video: ${videoFilename}`,
+        content: videoBuffer.toString('base64'),
+        branch: githubBranch,
+      }),
+    });
+
+    if (!githubResponse.ok) {
+      const error = await githubResponse.json();
+      console.error('❌ GitHub upload failed:', error);
+      return res.status(500).json({
+        error: 'Failed to upload video to GitHub',
+        details: error.message,
+      });
+    }
+
+    const publicUrl = `https://raw.githubusercontent.com/${githubOwner}/${githubRepo}/${githubBranch}/${videoPath}`;
+    console.log(`   ✅ Video uploaded: ${publicUrl}`);
+
+    // Clean up temp files
+    await fs.unlink(imageFile).catch(() => {});
+    await fs.unlink(outputFile).catch(() => {});
+
+    // Wait for GitHub propagation
+    await new Promise(resolve => setTimeout(resolve, 3000));
+
+    // Step 3: Publish as Reel
+    console.log('   Step 3: Publishing to Instagram as Reel...');
+
+    // Format caption with hashtags
+    let finalCaption = caption || '';
+    if (hashtags.length > 0) {
+      const formattedHashtags = hashtags
+        .map(tag => tag.startsWith('#') ? tag : `#${tag}`)
+        .slice(0, 30)
+        .join(' ');
+      finalCaption = finalCaption
+        ? `${finalCaption}\n\n${formattedHashtags}`
+        : formattedHashtags;
+    }
+
+    // Create Reel container
+    const containerUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${INSTAGRAM_CONFIG.BUSINESS_ACCOUNT_ID}/media`;
+    const containerParams = new URLSearchParams({
+      media_type: 'REELS',
+      video_url: publicUrl,
+      caption: finalCaption,
+      share_to_feed: 'true',
+      access_token: accessToken,
+    });
+
+    if (audioName) {
+      containerParams.set('audio_name', audioName);
+    }
+
+    const containerResponse = await fetch(containerUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: containerParams.toString(),
+    });
+
+    const containerData = await containerResponse.json();
+
+    if (!containerResponse.ok) {
+      console.error('❌ Reel container failed:', containerData);
+      return res.status(containerResponse.status).json({
+        error: 'Failed to create Reel container',
+        details: containerData.error?.message || containerData,
+      });
+    }
+
+    const containerId = containerData.id;
+    console.log(`   ✅ Reel container: ${containerId}`);
+
+    // Wait for processing
+    let containerReady = false;
+    let attempts = 0;
+    while (!containerReady && attempts < 60) {
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      const statusUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${containerId}?fields=status,status_code&access_token=${accessToken}`;
+      const statusResponse = await fetch(statusUrl);
+      const statusData = await statusResponse.json();
+
+      if (statusData.status === 'FINISHED') {
+        containerReady = true;
+      } else if (statusData.status === 'ERROR') {
+        return res.status(500).json({
+          error: 'Reel processing failed',
+          status_code: statusData.status_code,
+        });
+      }
+      attempts++;
+    }
+
+    if (!containerReady) {
+      return res.status(500).json({ error: 'Timeout waiting for Reel processing' });
+    }
+
+    // Publish
+    const publishUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${INSTAGRAM_CONFIG.BUSINESS_ACCOUNT_ID}/media_publish`;
+    const publishParams = new URLSearchParams({
+      creation_id: containerId,
+      access_token: accessToken,
+    });
+
+    const publishResponse = await fetch(publishUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: publishParams.toString(),
+    });
+
+    const publishData = await publishResponse.json();
+
+    if (!publishResponse.ok) {
+      return res.status(publishResponse.status).json({
+        error: 'Failed to publish Reel',
+        details: publishData.error?.message || publishData,
+      });
+    }
+
+    console.log(`🎉 Reel published! Media ID: ${publishData.id}`);
+
+    res.json({
+      success: true,
+      mediaId: publishData.id,
+      videoUrl: publicUrl,
+      caption: finalCaption,
+      duration,
+      hasMusic: !!musicPath,
+      publishedAt: new Date().toISOString(),
+      type: 'REEL',
+    });
+
+  } catch (error) {
+    console.error('❌ Reel upload and publish error:', error);
+    res.status(500).json({
+      error: 'Reel creation failed',
+      message: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+// ==========================================
 // START SERVER
 // ==========================================
 
@@ -1129,11 +1779,18 @@ app.listen(PORT, () => {
   console.log(`  GET  /api/assets                       - List all saved VN assets`);
   console.log('');
   console.log('  Instagram Publishing (Graph API):');
-  console.log(`  POST /api/instagram/publish            - Full publish flow`);
+  console.log(`  POST /api/instagram/publish            - Full publish flow (images)`);
   console.log(`  POST /api/instagram/create-container   - Create media container`);
   console.log(`  GET  /api/instagram/container-status   - Check container status`);
   console.log(`  POST /api/instagram/publish-container  - Publish ready container`);
   console.log(`  GET  /api/instagram/validate-token     - Validate access token`);
   console.log(`  POST /api/instagram/upload-to-github   - Upload image for hosting`);
+  console.log('');
+  console.log('  Instagram Reels (Video + Music):');
+  console.log(`  GET  /api/music/library                - List available music tracks`);
+  console.log(`  POST /api/music/upload                 - Upload music to library`);
+  console.log(`  POST /api/reels/create-video           - Create video from image+music`);
+  console.log(`  POST /api/instagram/publish-reel       - Publish video as Reel`);
+  console.log(`  POST /api/reels/upload-and-publish     - Full Reel flow (image→video→publish)`);
   console.log('');
 });

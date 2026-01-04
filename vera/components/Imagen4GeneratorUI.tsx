@@ -39,7 +39,7 @@ const Imagen4GeneratorUI: React.FC = () => {
   const [authMethod, setAuthMethod] = useState<'apikey' | 'vertexai'>('apikey');
   const [settings, setSettings] = useState<GenerationSettings>({
     numImages: 1,
-    aspectRatio: '9:16',
+    aspectRatio: '1:1', // Instagram-compatible square format
     imagenModel: 'imagen-4.0-generate-001',
   });
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);

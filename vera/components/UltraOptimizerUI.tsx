@@ -75,7 +75,7 @@ const UltraOptimizerUI: React.FC = () => {
         try {
             const imageUrl = await generateImage(optimizationResult.optimizedPrompt, {
                 numImages: 1,
-                aspectRatio: '9:16'
+                aspectRatio: '1:1' // Instagram-compatible square format
             });
             setGeneratedImage(imageUrl);
         } catch (err) {

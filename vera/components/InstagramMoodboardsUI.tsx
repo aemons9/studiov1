@@ -6,7 +6,7 @@ import type { GenerationSettings } from '../types';
 const InstagramMoodboardsUI: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [selectedConcept, setSelectedConcept] = useState<InstagramMoodboard | null>(null);
-  const [aspectRatio, setAspectRatio] = useState<'1:1' | '4:5' | '9:16'>('4:5');
+  const [aspectRatio, setAspectRatio] = useState<'1:1' | '4:5' | '9:16'>('1:1'); // Instagram-compatible square format
   const [generatedImages, setGeneratedImages] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

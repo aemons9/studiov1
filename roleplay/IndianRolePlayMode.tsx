@@ -147,7 +147,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
       if (randomWardrobe && randomPose && randomEnv) {
         const prompt = generatePromptWithSelections(randomModel, randomWardrobe, randomPose, randomEnv);
         const settings = {
-          aspectRatio: randomPose.aspectRatio || '4:5',
+          aspectRatio: randomPose.aspectRatio || generationControls.aspectRatio,
           intimacyLevel: generationControls.intimacyLevel,
           fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
           provider: generationControls.provider,
@@ -216,7 +216,7 @@ const IndianRolePlayMode: React.FC<IndianRolePlayModeProps> = ({
 
     const prompt = generatePrompt();
     const settings = {
-      aspectRatio: selectedPose.aspectRatio || (cgQualityEnabled && selectedPose.vnCG ? '16:9' : selectedPose.vnSprite ? '9:16' : '4:5'),
+      aspectRatio: selectedPose.aspectRatio || (cgQualityEnabled && selectedPose.vnCG ? '16:9' : selectedPose.vnSprite ? '9:16' : generationControls.aspectRatio),
       intimacyLevel: generationControls.intimacyLevel,
       fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
       provider: generationControls.provider,

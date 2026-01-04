@@ -37,7 +37,7 @@ const QuickDirectGenerate: React.FC<QuickDirectGenerateProps> = ({
       const imageUrls = await generateImage(safePrompt, {
         ...generationSettings,
         numberOfImages: 1,
-        aspectRatio: '3:4',
+        aspectRatio: '1:1', // Instagram-compatible square format
         modelId: 'imagen-4.0-generate-001',
         personGeneration: 'allow_adult',
         safetySetting: 'block_few'

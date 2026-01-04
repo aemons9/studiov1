@@ -89,7 +89,7 @@ const PlatinumMode: React.FC<PlatinumModeProps> = ({
         safetyBypassStrategy: generationControls.safetyBypassStrategy,
         fluxSafetyTolerance: generationControls.fluxSafetyTolerance,
         fluxRawMode: true,
-        aspectRatio: '4:5' as const,
+        aspectRatio: generationControls.aspectRatio,
         numberOfImages: 1,
         intimacyLevel: generationControls.intimacyLevel
       };

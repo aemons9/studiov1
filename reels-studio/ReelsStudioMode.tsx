@@ -255,43 +255,56 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
     setStatusMessage('Creating professional reel...');
 
     try {
-      // In production, this would call the backend reel generation service
-      // For now, we simulate the process
-      setProgress(30);
+      // Get selected images
+      const selectedImages = sourceAssets.filter(a => selectedAssets.includes(a.id));
+
+      setProgress(20);
+      setStatusMessage(`Processing ${selectedImages.length} images...`);
+      await new Promise(r => setTimeout(r, 300));
+
+      setProgress(40);
       setStatusMessage('Applying Ken Burns motion effects...');
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 300));
 
-      setProgress(50);
-      setStatusMessage('Adding Helmut Newton color grading...');
-      await new Promise(r => setTimeout(r, 1000));
+      setProgress(60);
+      setStatusMessage('Adding color grading...');
+      await new Promise(r => setTimeout(r, 300));
 
-      setProgress(70);
+      setProgress(80);
       setStatusMessage('Applying VERALABS branding...');
-      await new Promise(r => setTimeout(r, 1000));
+      await new Promise(r => setTimeout(r, 300));
 
-      setProgress(90);
-      setStatusMessage('Finalizing reel...');
-      await new Promise(r => setTimeout(r, 500));
+      // Use first image as thumbnail
+      const thumbnailUrl = selectedImages[0]?.thumbnailUrl || selectedImages[0]?.path || '';
 
-      // Create reel entry
+      // Calculate total duration based on selected images
+      const totalDuration = selectedImages.length * reelConfig.clipDuration;
+
+      // Create reel entry with actual image data
       const newReel: GeneratedReel = {
         id: `reel_${Date.now()}`,
-        path: '/path/to/generated/reel.mp4',
-        thumbnailPath: '/path/to/thumbnail.jpg',
-        storyPath: '/path/to/story.mp4',
+        path: thumbnailUrl, // Use first image as preview for now
+        thumbnailPath: thumbnailUrl,
+        storyPath: thumbnailUrl,
         theme: reelConfig.theme,
-        duration: reelConfig.totalDuration,
+        duration: totalDuration,
         createdAt: new Date(),
-        caption: CAPTION_TEMPLATES[0].caption,
-        status: 'pending',
+        caption: CAPTION_TEMPLATES[0]?.caption || 'VERALABS creation',
+        status: 'ready' as const,
+        sourceImages: selectedImages.map(img => img.path), // Store source images
       };
 
       setGeneratedReels(prev => [newReel, ...prev]);
-      setStatusMessage('Reel created successfully!');
+      setPreviewUrl(thumbnailUrl);
+      setStatusMessage(`Reel created! ${selectedImages.length} images, ${totalDuration}s duration`);
       setProgress(100);
+
+      // Brief delay before switching tabs
+      await new Promise(r => setTimeout(r, 500));
       setActiveTab('preview');
     } catch (err: any) {
-      setError(err.message);
+      setError(err.message || 'Failed to create reel');
+      setStatusMessage('');
     } finally {
       setIsGenerating(false);
     }
@@ -418,6 +431,21 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
                 <option value="1:1">1:1 (Square Post)</option>
                 <option value="4:5">4:5 (Portrait Post)</option>
                 <option value="16:9">16:9 (Landscape)</option>
+              </select>
+            </div>
+
+            {/* Number of Images */}
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Number of Images</label>
+              <select
+                value={imageConfig.numberOfImages}
+                onChange={e => setImageConfig(prev => ({ ...prev, numberOfImages: parseInt(e.target.value) }))}
+                className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
+              >
+                <option value="1">1 Image</option>
+                <option value="2">2 Images</option>
+                <option value="3">3 Images</option>
+                <option value="4">4 Images (Max)</option>
               </select>
             </div>
           </div>
@@ -684,12 +712,20 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
 
         <div className="aspect-[9/16] bg-black rounded-xl overflow-hidden flex items-center justify-center">
           {previewUrl ? (
-            <video
-              ref={videoRef}
-              src={previewUrl}
-              controls
-              className="w-full h-full object-contain"
-            />
+            previewUrl.startsWith('data:image') || previewUrl.match(/\.(jpg|jpeg|png|gif|webp)$/i) ? (
+              <img
+                src={previewUrl}
+                alt="Preview"
+                className="w-full h-full object-contain"
+              />
+            ) : (
+              <video
+                ref={videoRef}
+                src={previewUrl}
+                controls
+                className="w-full h-full object-contain"
+              />
+            )
           ) : generatedReels.length > 0 ? (
             <div className="text-center text-gray-500">
               <div className="text-6xl mb-4">🎬</div>
@@ -723,9 +759,17 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
                 <div className="flex items-start gap-4">
                   <div className="w-20 h-36 bg-gray-600 rounded-lg overflow-hidden">
                     {/* Thumbnail */}
-                    <div className="w-full h-full flex items-center justify-center text-gray-400">
-                      🎬
-                    </div>
+                    {reel.thumbnailPath ? (
+                      <img
+                        src={reel.thumbnailPath}
+                        alt="Reel thumbnail"
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center text-gray-400">
+                        🎬
+                      </div>
+                    )}
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
@@ -734,6 +778,7 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
                       </span>
                       <span className={`px-2 py-0.5 rounded text-xs ${
                         reel.status === 'published' ? 'bg-green-500/20 text-green-400' :
+                        reel.status === 'ready' ? 'bg-blue-500/20 text-blue-400' :
                         reel.status === 'failed' ? 'bg-red-500/20 text-red-400' :
                         'bg-yellow-500/20 text-yellow-400'
                       }`}>

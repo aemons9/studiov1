@@ -153,8 +153,9 @@ export interface GeneratedReel {
   duration: number;
   createdAt: Date;
   caption: string;
-  status: 'pending' | 'published' | 'failed';
+  status: 'pending' | 'ready' | 'published' | 'failed';
   instagramMediaId?: string;
+  sourceImages?: string[]; // Base64 or URLs of source images
 }
 
 export interface GeneratedPost {

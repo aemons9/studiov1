@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome Carousel - Slide 2: AI + Fashion</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ambient-glow {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .slide-number {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 50px;
+        }
+
+        .main-title {
+            font-family: var(--font-display);
+            font-size: 52px;
+            font-style: italic;
+            color: var(--cream-white);
+            text-align: center;
+            line-height: 1.2;
+            margin-bottom: 40px;
+        }
+
+        .highlight {
+            color: var(--pale-gold);
+        }
+
+        .rose-line {
+            width: 60px;
+            height: 1px;
+            background: var(--rose-gold);
+            margin: 30px 0;
+        }
+
+        .description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--champagne);
+            text-align: center;
+            line-height: 1.8;
+            max-width: 500px;
+        }
+
+        .icon-row {
+            display: flex;
+            gap: 40px;
+            margin-top: 50px;
+        }
+
+        .icon-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .icon-circle {
+            width: 60px;
+            height: 60px;
+            border: 1px solid var(--pale-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .icon-text {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+        }
+
+        .dots-indicator {
+            position: absolute;
+            bottom: 50px;
+            display: flex;
+            gap: 8px;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--soft-charcoal);
+        }
+
+        .dot.active {
+            background: var(--pale-gold);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 80px;
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: var(--soft-charcoal);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="ambient-glow"></div>
+
+        <div class="content-wrapper">
+            <span class="slide-number">01</span>
+
+            <h1 class="main-title">
+                <span class="highlight">AI</span> Innovation<br>
+                + Human Creativity
+            </h1>
+
+            <div class="rose-line"></div>
+
+            <p class="description">
+                We harness the power of artificial intelligence to create
+                fashion imagery that pushes the boundaries of imagination
+                while honoring the artistry of haute couture.
+            </p>
+
+            <div class="icon-row">
+                <div class="icon-item">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 6v6l4 2"/>
+                        </svg>
+                    </div>
+                    <span class="icon-text">Timeless</span>
+                </div>
+                <div class="icon-item">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1">
+                            <polygon points="12,2 15,8 22,9 17,14 18,21 12,18 6,21 7,14 2,9 9,8"/>
+                        </svg>
+                    </div>
+                    <span class="icon-text">Innovative</span>
+                </div>
+                <div class="icon-item">
+                    <div class="icon-circle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1">
+                            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78L12 21.23l8.84-8.84a5.5 5.5 0 0 0 0-7.78z"/>
+                        </svg>
+                    </div>
+                    <span class="icon-text">Artful</span>
+                </div>
+            </div>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+
+        <div class="dots-indicator">
+            <div class="dot"></div>
+            <div class="dot active"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+    </div>
+</body>
+</html>

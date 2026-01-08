@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Spotlight</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 300px;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .content-panel {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 300px;
+            background: var(--cream-white);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 50px 40px;
+        }
+
+        .spotlight-label {
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 30px;
+        }
+
+        .quote-mark {
+            font-family: var(--font-display);
+            font-size: 80px;
+            color: var(--champagne);
+            line-height: 0.5;
+            margin-bottom: 20px;
+        }
+
+        .spotlight-quote {
+            font-family: var(--font-display);
+            font-size: 22px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+
+        .quote-line {
+            width: 40px;
+            height: 1px;
+            background: var(--rose-gold);
+            margin-bottom: 25px;
+        }
+
+        .spotlight-credit {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+            line-height: 1.8;
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .photo-number {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            font-family: var(--font-luxury);
+            font-size: 48px;
+            color: rgba(250, 248, 245, 0.7);
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-container">
+            <img src="../photo/couture-7.jpg" alt="Model Spotlight" class="model-photo">
+            <span class="photo-number">07</span>
+        </div>
+
+        <div class="content-panel">
+            <span class="spotlight-label">MODEL SPOTLIGHT</span>
+            <span class="quote-mark">"</span>
+            <p class="spotlight-quote">
+                Fashion is the armor to survive the reality of everyday life.
+            </p>
+            <div class="quote-line"></div>
+            <p class="spotlight-credit">
+                Couture Collection<br>
+                Look Seven
+            </p>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

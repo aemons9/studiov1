@@ -1,0 +1,1837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lookbook | VeraLabs - Fashion Concept Art Gallery</title>
+    <meta name="description" content="Explore our curated collection of 63 haute couture concept art pieces, moodboards, and editorial fashion visuals.">
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Inter:wght@100;200;300;400;500&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================== DESIGN SYSTEM ==================== */
+        :root {
+            --cream-white: #FAF8F5;
+            --ivory: #F7F3ED;
+            --champagne: #E8DFD3;
+            --nude-beige: #D4C4B0;
+            --warm-taupe: #B8A28E;
+            --soft-charcoal: #3E3A37;
+            --deep-espresso: #1C1917;
+            --rose-gold: #E8B4B8;
+            --pale-gold: #D4AF37;
+            --dusty-mauve: #C8A2B8;
+
+            --font-editorial: 'Playfair Display', serif;
+            --font-modern: 'Inter', sans-serif;
+            --font-luxury: 'Bodoni Moda', serif;
+
+            --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background: var(--rose-gold);
+            color: var(--cream-white);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            font-family: var(--font-modern);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--soft-charcoal);
+            background: var(--cream-white);
+            overflow-x: hidden;
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(216, 207, 195, 0.3);
+            transition: all 0.6s var(--ease-luxury);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-luxury);
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--deep-espresso);
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 2.5rem;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--soft-charcoal);
+            text-decoration: none;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--pale-gold);
+            transition: width 0.4s var(--ease-luxury);
+        }
+
+        .nav-link:hover::before,
+        .nav-link.active::before {
+            width: 100%;
+        }
+
+        .nav-link.active {
+            color: var(--deep-espresso);
+        }
+
+        .mobile-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-toggle span {
+            display: block;
+            width: 24px;
+            height: 1.5px;
+            background: var(--deep-espresso);
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        /* ==================== HERO ==================== */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--cream-white) 0%, var(--ivory) 50%, var(--champagne) 100%);
+            padding-top: 100px;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -10%;
+            width: 60%;
+            height: 60%;
+            background: radial-gradient(circle, var(--rose-gold) 0%, transparent 70%);
+            opacity: 0.1;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: -20%;
+            left: -10%;
+            width: 50%;
+            height: 50%;
+            background: radial-gradient(circle, var(--pale-gold) 0%, transparent 70%);
+            opacity: 0.08;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-20px, -20px) rotate(1deg); }
+            66% { transform: translate(20px, -10px) rotate(-1deg); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            padding: 2rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            font-family: var(--font-modern);
+            font-size: 0.75rem;
+            font-weight: 400;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--pale-gold);
+            border: 1px solid var(--pale-gold);
+            margin-bottom: 2rem;
+            opacity: 0;
+            animation: fadeInUp 1s 0.2s var(--ease-luxury) forwards;
+        }
+
+        .hero-title {
+            font-family: var(--font-luxury);
+            font-size: clamp(3rem, 8vw, 5rem);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--deep-espresso);
+            margin-bottom: 1.5rem;
+            opacity: 0;
+            animation: fadeInUp 1s 0.4s var(--ease-luxury) forwards;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-editorial);
+            font-size: clamp(1.25rem, 3vw, 1.75rem);
+            font-style: italic;
+            color: var(--warm-taupe);
+            max-width: 600px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 1s 0.6s var(--ease-luxury) forwards;
+        }
+
+        .hero-count {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1s 0.8s var(--ease-luxury) forwards;
+        }
+
+        .count-item {
+            text-align: center;
+        }
+
+        .count-number {
+            font-family: var(--font-luxury);
+            font-size: 3rem;
+            font-weight: 400;
+            color: var(--deep-espresso);
+            line-height: 1;
+        }
+
+        .count-label {
+            font-family: var(--font-modern);
+            font-size: 0.75rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+            margin-top: 0.5rem;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==================== FILTERS ==================== */
+        .filters-section {
+            padding: 3rem 2rem;
+            background: var(--ivory);
+            position: sticky;
+            top: 70px;
+            z-index: 100;
+            border-bottom: 1px solid var(--champagne);
+        }
+
+        .filters-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .filters-scroll {
+            display: flex;
+            gap: 0.75rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .filters-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 1.5rem;
+            font-family: var(--font-modern);
+            font-size: 0.8125rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--soft-charcoal);
+            background: var(--cream-white);
+            border: 1px solid var(--champagne);
+            cursor: pointer;
+            transition: all 0.3s var(--ease-gentle);
+            white-space: nowrap;
+            flex-shrink: 0;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: var(--cream-white);
+            background: var(--soft-charcoal);
+            border-color: var(--soft-charcoal);
+        }
+
+        .filter-btn .count {
+            display: inline-block;
+            margin-left: 0.5rem;
+            padding: 0.125rem 0.5rem;
+            font-size: 0.6875rem;
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+        }
+
+        .filter-btn.active .count {
+            background: rgba(250, 248, 245, 0.2);
+        }
+
+        /* ==================== GALLERY ==================== */
+        .gallery-section {
+            padding: 4rem 2rem 6rem;
+            background: var(--cream-white);
+            min-height: 100vh;
+        }
+
+        .gallery-container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            aspect-ratio: 1;
+            overflow: hidden;
+            background: var(--ivory);
+            cursor: pointer;
+            transition: all 0.5s var(--ease-luxury);
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(62, 58, 55, 0.15);
+        }
+
+        .gallery-item iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            pointer-events: none;
+            transform: scale(1);
+            transition: transform 0.5s var(--ease-luxury);
+        }
+
+        .gallery-item:hover iframe {
+            transform: scale(1.02);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 40%, rgba(28, 25, 23, 0.9) 100%);
+            opacity: 0;
+            transition: opacity 0.4s var(--ease-gentle);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 1.5rem;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            opacity: 1;
+        }
+
+        .gallery-title {
+            font-family: var(--font-editorial);
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--cream-white);
+            margin-bottom: 0.5rem;
+            transform: translateY(20px);
+            transition: transform 0.4s var(--ease-luxury);
+        }
+
+        .gallery-item:hover .gallery-title {
+            transform: translateY(0);
+        }
+
+        .gallery-category {
+            font-family: var(--font-modern);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--rose-gold);
+            transform: translateY(20px);
+            transition: transform 0.4s 0.1s var(--ease-luxury);
+        }
+
+        .gallery-item:hover .gallery-category {
+            transform: translateY(0);
+        }
+
+        .gallery-number {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            font-family: var(--font-luxury);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--cream-white);
+            background: rgba(28, 25, 23, 0.7);
+            padding: 0.375rem 0.75rem;
+            opacity: 0;
+            transform: translateY(-10px);
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .gallery-item:hover .gallery-number {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .view-btn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.8);
+            width: 60px;
+            height: 60px;
+            background: var(--cream-white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.4s var(--ease-luxury);
+        }
+
+        .gallery-item:hover .view-btn {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .view-btn::before {
+            content: '↗';
+            font-size: 1.5rem;
+            color: var(--deep-espresso);
+        }
+
+        /* ==================== LIGHTBOX ==================== */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(28, 25, 23, 0.95);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s var(--ease-gentle);
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            width: 90vw;
+            max-width: 1080px;
+            aspect-ratio: 1;
+            background: var(--cream-white);
+            transform: scale(0.9);
+            transition: transform 0.4s var(--ease-luxury);
+        }
+
+        .lightbox.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        .lightbox-content iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            background: none;
+            border: 1px solid var(--warm-taupe);
+            border-radius: 50%;
+            color: var(--cream-white);
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .lightbox-close:hover {
+            background: var(--cream-white);
+            color: var(--deep-espresso);
+            border-color: var(--cream-white);
+        }
+
+        .lightbox-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            height: 50px;
+            background: rgba(250, 248, 245, 0.1);
+            border: 1px solid var(--warm-taupe);
+            color: var(--cream-white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .lightbox-nav:hover {
+            background: var(--cream-white);
+            color: var(--deep-espresso);
+        }
+
+        .lightbox-prev {
+            left: -70px;
+        }
+
+        .lightbox-next {
+            right: -70px;
+        }
+
+        .lightbox-info {
+            position: absolute;
+            bottom: -60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .lightbox-title {
+            font-family: var(--font-editorial);
+            font-size: 1.25rem;
+            font-style: italic;
+            color: var(--cream-white);
+        }
+
+        .lightbox-counter {
+            font-family: var(--font-modern);
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            color: var(--warm-taupe);
+            margin-top: 0.5rem;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            padding: 4rem 2rem 2rem;
+            background: var(--deep-espresso);
+            color: var(--champagne);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand h3 {
+            font-family: var(--font-luxury);
+            font-size: 1.5rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand p {
+            font-size: 0.9375rem;
+            color: var(--warm-taupe);
+            line-height: 1.7;
+        }
+
+        .footer-column h4 {
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--pale-gold);
+            margin-bottom: 1rem;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-column a {
+            font-size: 0.875rem;
+            color: var(--warm-taupe);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-column a:hover {
+            color: var(--champagne);
+        }
+
+        .footer-bottom {
+            padding-top: 2rem;
+            border-top: 1px solid rgba(232, 223, 211, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .footer-copyright {
+            font-size: 0.8125rem;
+            color: var(--warm-taupe);
+        }
+
+        /* ==================== SCROLL TO TOP ==================== */
+        .scroll-top {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 50px;
+            height: 50px;
+            background: var(--deep-espresso);
+            border: none;
+            border-radius: 50%;
+            color: var(--cream-white);
+            font-size: 1.25rem;
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s var(--ease-gentle);
+            z-index: 500;
+        }
+
+        .scroll-top.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .scroll-top:hover {
+            background: var(--pale-gold);
+            transform: translateY(-3px);
+        }
+
+        /* ==================== RESPONSIVE ==================== */
+        @media (max-width: 1024px) {
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+
+            .lightbox-prev {
+                left: 10px;
+            }
+
+            .lightbox-next {
+                right: 10px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-toggle {
+                display: flex;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 80%;
+                height: 100vh;
+                background: var(--cream-white);
+                flex-direction: column;
+                padding: 5rem 2rem;
+                gap: 1.5rem;
+                transition: right 0.5s var(--ease-luxury);
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                right: 0;
+            }
+
+            .hero {
+                min-height: 50vh;
+            }
+
+            .hero-title {
+                font-size: clamp(2rem, 10vw, 3rem);
+            }
+
+            .hero-count {
+                gap: 2rem;
+            }
+
+            .count-number {
+                font-size: 2rem;
+            }
+
+            .filters-section {
+                padding: 1.5rem 1rem;
+                top: 60px;
+            }
+
+            .gallery-section {
+                padding: 2rem 1rem 4rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.75rem;
+            }
+
+            .gallery-item {
+                aspect-ratio: 1;
+            }
+
+            .gallery-overlay {
+                padding: 1rem;
+                opacity: 1;
+                background: linear-gradient(180deg, transparent 50%, rgba(28, 25, 23, 0.8) 100%);
+            }
+
+            .gallery-title {
+                font-size: 0.9rem;
+                transform: translateY(0);
+            }
+
+            .gallery-category {
+                font-size: 0.65rem;
+                transform: translateY(0);
+            }
+
+            .gallery-number {
+                opacity: 1;
+                transform: translateY(0);
+                font-size: 0.65rem;
+                padding: 0.25rem 0.5rem;
+            }
+
+            .view-btn {
+                display: none;
+            }
+
+            .lightbox-content {
+                width: 95vw;
+            }
+
+            .lightbox-nav {
+                width: 40px;
+                height: 40px;
+            }
+
+            .lightbox-prev {
+                left: 5px;
+            }
+
+            .lightbox-next {
+                right: 5px;
+            }
+
+            .lightbox-close {
+                top: -45px;
+                right: 5px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .gallery-item {
+                aspect-ratio: 1;
+            }
+
+            .filter-btn {
+                padding: 0.625rem 1rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        /* ==================== ANIMATIONS ==================== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s var(--ease-luxury);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation for gallery items */
+        .gallery-item {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .gallery-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* No results message */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+
+        .no-results h3 {
+            font-family: var(--font-editorial);
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--soft-charcoal);
+            margin-bottom: 0.5rem;
+        }
+
+        .no-results p {
+            color: var(--warm-taupe);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="veralabs-landing-v2.html" class="logo">VERALABS</a>
+            <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="veralabs-landing-v2.html#atelier" class="nav-link">Atelier</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="concepts.html" class="nav-link">Concepts</a></li>
+                <li><a href="moodboards.html" class="nav-link">Moodboards</a></li>
+                <li><a href="lookbook.html" class="nav-link active">Lookbook</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <span class="hero-badge">Exclusive Collection</span>
+            <h1 class="hero-title">Lookbook</h1>
+            <p class="hero-subtitle">A curated anthology of haute couture concept art, editorial moodboards, and intimate fashion narratives</p>
+            <div class="hero-count">
+                <div class="count-item">
+                    <div class="count-number">63</div>
+                    <div class="count-label">Artworks</div>
+                </div>
+                <div class="count-item">
+                    <div class="count-number">12</div>
+                    <div class="count-label">Categories</div>
+                </div>
+                <div class="count-item">
+                    <div class="count-number">XX</div>
+                    <div class="count-label">Looks</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filters -->
+    <section class="filters-section">
+        <div class="filters-container">
+            <div class="filters-scroll">
+                <button class="filter-btn active" data-filter="all">All <span class="count">63</span></button>
+                <button class="filter-btn" data-filter="brand">Brand <span class="count">1</span></button>
+                <button class="filter-btn" data-filter="moodboard">Moodboards <span class="count">6</span></button>
+                <button class="filter-btn" data-filter="philosophy">Philosophy <span class="count">3</span></button>
+                <button class="filter-btn" data-filter="typography">Typography <span class="count">3</span></button>
+                <button class="filter-btn" data-filter="concept">Concepts <span class="count">8</span></button>
+                <button class="filter-btn" data-filter="carousel">Carousel <span class="count">5</span></button>
+                <button class="filter-btn" data-filter="couture">Couture <span class="count">12</span></button>
+                <button class="filter-btn" data-filter="editorial">Editorial <span class="count">6</span></button>
+                <button class="filter-btn" data-filter="minimalist">Minimalist <span class="count">5</span></button>
+                <button class="filter-btn" data-filter="urban">Urban <span class="count">4</span></button>
+                <button class="filter-btn" data-filter="intimate">Intimate Art <span class="count">10</span></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery -->
+    <section class="gallery-section">
+        <div class="gallery-container">
+            <div class="gallery-grid" id="gallery-grid">
+                <!-- 01 - Brand Introduction -->
+                <div class="gallery-item" data-category="brand" data-src="instagram-posts/01-brand-intro.html" data-title="Brand Introduction">
+                    <iframe src="instagram-posts/01-brand-intro.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Brand Introduction</h3>
+                        <span class="gallery-category">Welcome</span>
+                    </div>
+                    <span class="gallery-number">01</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 02-07 Moodboards -->
+                <div class="gallery-item" data-category="moodboard" data-src="instagram-posts/02-silk-shadow-moodboard.html" data-title="Silk & Shadow">
+                    <iframe src="instagram-posts/02-silk-shadow-moodboard.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Silk & Shadow</h3>
+                        <span class="gallery-category">Moodboard</span>
+                    </div>
+                    <span class="gallery-number">02</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="moodboard" data-src="instagram-posts/03-urban-poetry-moodboard.html" data-title="Urban Poetry">
+                    <iframe src="instagram-posts/03-urban-poetry-moodboard.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Urban Poetry</h3>
+                        <span class="gallery-category">Moodboard</span>
+                    </div>
+                    <span class="gallery-number">03</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="moodboard" data-src="instagram-posts/04-gilded-dreams-moodboard.html" data-title="Gilded Dreams">
+                    <iframe src="instagram-posts/04-gilded-dreams-moodboard.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Gilded Dreams</h3>
+                        <span class="gallery-category">Moodboard</span>
+                    </div>
+                    <span class="gallery-number">04</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="moodboard" data-src="instagram-posts/05-fluid-architecture-moodboard.html" data-title="Fluid Architecture">
+                    <iframe src="instagram-posts/05-fluid-architecture-moodboard.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Fluid Architecture</h3>
+                        <span class="gallery-category">Moodboard</span>
+                    </div>
+                    <span class="gallery-number">05</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="moodboard" data-src="instagram-posts/06-quiet-luxury-moodboard.html" data-title="Quiet Luxury">
+                    <iframe src="instagram-posts/06-quiet-luxury-moodboard.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Quiet Luxury</h3>
+                        <span class="gallery-category">Moodboard</span>
+                    </div>
+                    <span class="gallery-number">06</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="moodboard" data-src="instagram-posts/07-monsoon-reverie-moodboard.html" data-title="Monsoon Reverie">
+                    <iframe src="instagram-posts/07-monsoon-reverie-moodboard.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Monsoon Reverie</h3>
+                        <span class="gallery-category">Moodboard</span>
+                    </div>
+                    <span class="gallery-number">07</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 08-10 Philosophy -->
+                <div class="gallery-item" data-category="philosophy" data-src="instagram-posts/08-philosophy-minimalist-luxe.html" data-title="Minimalist Luxe">
+                    <iframe src="instagram-posts/08-philosophy-minimalist-luxe.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Minimalist Luxe</h3>
+                        <span class="gallery-category">Philosophy</span>
+                    </div>
+                    <span class="gallery-number">08</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="philosophy" data-src="instagram-posts/09-philosophy-editorial-narrative.html" data-title="Editorial Narrative">
+                    <iframe src="instagram-posts/09-philosophy-editorial-narrative.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Editorial Narrative</h3>
+                        <span class="gallery-category">Philosophy</span>
+                    </div>
+                    <span class="gallery-number">09</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="philosophy" data-src="instagram-posts/10-philosophy-cultural-fusion.html" data-title="Cultural Fusion">
+                    <iframe src="instagram-posts/10-philosophy-cultural-fusion.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Cultural Fusion</h3>
+                        <span class="gallery-category">Philosophy</span>
+                    </div>
+                    <span class="gallery-number">10</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 11-13 Typography/Color -->
+                <div class="gallery-item" data-category="typography" data-src="instagram-posts/11-color-palette-signature.html" data-title="Signature Palette">
+                    <iframe src="instagram-posts/11-color-palette-signature.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Signature Palette</h3>
+                        <span class="gallery-category">Color Story</span>
+                    </div>
+                    <span class="gallery-number">11</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="typography" data-src="instagram-posts/12-quote-elegance.html" data-title="Elegance Quote">
+                    <iframe src="instagram-posts/12-quote-elegance.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Elegance Quote</h3>
+                        <span class="gallery-category">Typography</span>
+                    </div>
+                    <span class="gallery-number">12</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="typography" data-src="instagram-posts/13-quote-simplicity.html" data-title="Simplicity Quote">
+                    <iframe src="instagram-posts/13-quote-simplicity.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Simplicity Quote</h3>
+                        <span class="gallery-category">Typography</span>
+                    </div>
+                    <span class="gallery-number">13</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 14-16 Concept Reveals -->
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/14-concept-geometric-harmony.html" data-title="Geometric Harmony">
+                    <iframe src="instagram-posts/14-concept-geometric-harmony.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Geometric Harmony</h3>
+                        <span class="gallery-category">Concept</span>
+                    </div>
+                    <span class="gallery-number">14</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/15-concept-digital-dystopia.html" data-title="Digital Dystopia">
+                    <iframe src="instagram-posts/15-concept-digital-dystopia.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Digital Dystopia</h3>
+                        <span class="gallery-category">Concept</span>
+                    </div>
+                    <span class="gallery-number">15</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/16-concept-baroque-renaissance.html" data-title="Baroque Renaissance">
+                    <iframe src="instagram-posts/16-concept-baroque-renaissance.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Baroque Renaissance</h3>
+                        <span class="gallery-category">Concept</span>
+                    </div>
+                    <span class="gallery-number">16</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 17-21 Carousel -->
+                <div class="gallery-item" data-category="carousel" data-src="instagram-posts/17-carousel-welcome-1.html" data-title="Welcome Slide 1">
+                    <iframe src="instagram-posts/17-carousel-welcome-1.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Welcome Slide 1</h3>
+                        <span class="gallery-category">Carousel</span>
+                    </div>
+                    <span class="gallery-number">17</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="carousel" data-src="instagram-posts/18-carousel-welcome-2.html" data-title="AI + Creativity">
+                    <iframe src="instagram-posts/18-carousel-welcome-2.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">AI + Creativity</h3>
+                        <span class="gallery-category">Carousel</span>
+                    </div>
+                    <span class="gallery-number">18</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="carousel" data-src="instagram-posts/19-carousel-welcome-3.html" data-title="Our Aesthetics">
+                    <iframe src="instagram-posts/19-carousel-welcome-3.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Our Aesthetics</h3>
+                        <span class="gallery-category">Carousel</span>
+                    </div>
+                    <span class="gallery-number">19</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="carousel" data-src="instagram-posts/20-carousel-welcome-4.html" data-title="Moodboards">
+                    <iframe src="instagram-posts/20-carousel-welcome-4.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Moodboards</h3>
+                        <span class="gallery-category">Carousel</span>
+                    </div>
+                    <span class="gallery-number">20</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="carousel" data-src="instagram-posts/21-carousel-welcome-5.html" data-title="Join Us">
+                    <iframe src="instagram-posts/21-carousel-welcome-5.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Join Us</h3>
+                        <span class="gallery-category">Carousel CTA</span>
+                    </div>
+                    <span class="gallery-number">21</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 22-23 Special -->
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/22-ai-meets-couture.html" data-title="AI Meets Couture">
+                    <iframe src="instagram-posts/22-ai-meets-couture.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">AI Meets Couture</h3>
+                        <span class="gallery-category">Special</span>
+                    </div>
+                    <span class="gallery-number">22</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/23-coming-soon.html" data-title="Coming Soon">
+                    <iframe src="instagram-posts/23-coming-soon.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Coming Soon</h3>
+                        <span class="gallery-category">Teaser</span>
+                    </div>
+                    <span class="gallery-number">23</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 24-25 Couture Features -->
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/24-couture-feature-1.html" data-title="Ethereal Elegance">
+                    <iframe src="instagram-posts/24-couture-feature-1.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Ethereal Elegance</h3>
+                        <span class="gallery-category">Couture</span>
+                    </div>
+                    <span class="gallery-number">24</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/25-couture-feature-2.html" data-title="Gilded Season">
+                    <iframe src="instagram-posts/25-couture-feature-2.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Gilded Season</h3>
+                        <span class="gallery-category">Couture</span>
+                    </div>
+                    <span class="gallery-number">25</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 26-27 Editorial -->
+                <div class="gallery-item" data-category="editorial" data-src="instagram-posts/26-editorial-spread-1.html" data-title="The Art of Presence">
+                    <iframe src="instagram-posts/26-editorial-spread-1.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">The Art of Presence</h3>
+                        <span class="gallery-category">Editorial</span>
+                    </div>
+                    <span class="gallery-number">26</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="editorial" data-src="instagram-posts/27-editorial-spread-2.html" data-title="Silent Strength">
+                    <iframe src="instagram-posts/27-editorial-spread-2.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Silent Strength</h3>
+                        <span class="gallery-category">Editorial</span>
+                    </div>
+                    <span class="gallery-number">27</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 28 Minimal -->
+                <div class="gallery-item" data-category="minimalist" data-src="instagram-posts/28-minimal-portrait-1.html" data-title="Less is More">
+                    <iframe src="instagram-posts/28-minimal-portrait-1.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Less is More</h3>
+                        <span class="gallery-category">Minimalist</span>
+                    </div>
+                    <span class="gallery-number">28</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 29-31, 33-34 Concept Photos -->
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/29-silk-concept.html" data-title="Silk & Shadow">
+                    <iframe src="instagram-posts/29-silk-concept.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Silk & Shadow</h3>
+                        <span class="gallery-category">Concept Photo</span>
+                    </div>
+                    <span class="gallery-number">29</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/30-gilded-concept.html" data-title="Gilded Dreams">
+                    <iframe src="instagram-posts/30-gilded-concept.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Gilded Dreams</h3>
+                        <span class="gallery-category">Concept Photo</span>
+                    </div>
+                    <span class="gallery-number">30</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/31-monsoon-concept.html" data-title="Monsoon Reverie">
+                    <iframe src="instagram-posts/31-monsoon-concept.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Monsoon Reverie</h3>
+                        <span class="gallery-category">Concept Photo</span>
+                    </div>
+                    <span class="gallery-number">31</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 32 Urban -->
+                <div class="gallery-item" data-category="urban" data-src="instagram-posts/32-urban-style-1.html" data-title="Urban Poetry">
+                    <iframe src="instagram-posts/32-urban-style-1.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Urban Poetry</h3>
+                        <span class="gallery-category">Urban</span>
+                    </div>
+                    <span class="gallery-number">32</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/33-quiet-concept.html" data-title="Quiet Luxury">
+                    <iframe src="instagram-posts/33-quiet-concept.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Quiet Luxury</h3>
+                        <span class="gallery-category">Concept Photo</span>
+                    </div>
+                    <span class="gallery-number">33</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="concept" data-src="instagram-posts/34-fluid-concept.html" data-title="Fluid Architecture">
+                    <iframe src="instagram-posts/34-fluid-concept.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Fluid Architecture</h3>
+                        <span class="gallery-category">Concept Photo</span>
+                    </div>
+                    <span class="gallery-number">34</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 35 Urban -->
+                <div class="gallery-item" data-category="urban" data-src="instagram-posts/35-contemporary-urban-feature.html" data-title="Street Couture">
+                    <iframe src="instagram-posts/35-contemporary-urban-feature.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Street Couture</h3>
+                        <span class="gallery-category">Urban</span>
+                    </div>
+                    <span class="gallery-number">35</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 36 Couture Grid -->
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/36-couture-grid.html" data-title="The Collection Grid">
+                    <iframe src="instagram-posts/36-couture-grid.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">The Collection Grid</h3>
+                        <span class="gallery-category">Couture</span>
+                    </div>
+                    <span class="gallery-number">36</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 37 Minimalist -->
+                <div class="gallery-item" data-category="minimalist" data-src="instagram-posts/37-minimalist-series.html" data-title="Minimalist Studies">
+                    <iframe src="instagram-posts/37-minimalist-series.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Minimalist Studies</h3>
+                        <span class="gallery-category">Minimalist</span>
+                    </div>
+                    <span class="gallery-number">37</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 38 Editorial -->
+                <div class="gallery-item" data-category="editorial" data-src="instagram-posts/38-editorial-diptych.html" data-title="Dual Perspectives">
+                    <iframe src="instagram-posts/38-editorial-diptych.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Dual Perspectives</h3>
+                        <span class="gallery-category">Editorial</span>
+                    </div>
+                    <span class="gallery-number">38</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 39 Couture -->
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/39-model-spotlight.html" data-title="Model Spotlight">
+                    <iframe src="instagram-posts/39-model-spotlight.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Model Spotlight</h3>
+                        <span class="gallery-category">Couture</span>
+                    </div>
+                    <span class="gallery-number">39</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 40 Portrait -->
+                <div class="gallery-item" data-category="editorial" data-src="instagram-posts/40-portrait-feature.html" data-title="Capturing Essence">
+                    <iframe src="instagram-posts/40-portrait-feature.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Capturing Essence</h3>
+                        <span class="gallery-category">Portrait</span>
+                    </div>
+                    <span class="gallery-number">40</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 41-43 Couture Looks -->
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/41-couture-look-08.html" data-title="Look VIII - Midnight Allure">
+                    <iframe src="instagram-posts/41-couture-look-08.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Midnight Allure</h3>
+                        <span class="gallery-category">Look VIII</span>
+                    </div>
+                    <span class="gallery-number">41</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/42-couture-look-09.html" data-title="Look IX - Timeless Radiance">
+                    <iframe src="instagram-posts/42-couture-look-09.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Timeless Radiance</h3>
+                        <span class="gallery-category">Look IX</span>
+                    </div>
+                    <span class="gallery-number">42</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/43-couture-look-10.html" data-title="Look X - The Finale">
+                    <iframe src="instagram-posts/43-couture-look-10.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">The Finale</h3>
+                        <span class="gallery-category">Look X</span>
+                    </div>
+                    <span class="gallery-number">43</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 44-45 Galleries -->
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/44-couture-gallery-1.html" data-title="Gallery Volume I">
+                    <iframe src="instagram-posts/44-couture-gallery-1.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Gallery Volume I</h3>
+                        <span class="gallery-category">Couture Gallery</span>
+                    </div>
+                    <span class="gallery-number">44</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/45-couture-gallery-2.html" data-title="Gallery Volume II">
+                    <iframe src="instagram-posts/45-couture-gallery-2.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Gallery Volume II</h3>
+                        <span class="gallery-category">Couture Gallery</span>
+                    </div>
+                    <span class="gallery-number">45</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 46-47 Urban -->
+                <div class="gallery-item" data-category="urban" data-src="instagram-posts/46-urban-collection.html" data-title="Urban Edit">
+                    <iframe src="instagram-posts/46-urban-collection.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Urban Edit</h3>
+                        <span class="gallery-category">Urban</span>
+                    </div>
+                    <span class="gallery-number">46</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="urban" data-src="instagram-posts/47-street-luxe.html" data-title="Street Luxe">
+                    <iframe src="instagram-posts/47-street-luxe.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Street Luxe</h3>
+                        <span class="gallery-category">Urban</span>
+                    </div>
+                    <span class="gallery-number">47</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 48-49, 52 Minimalist -->
+                <div class="gallery-item" data-category="minimalist" data-src="instagram-posts/48-minimalist-essence.html" data-title="Pure Essence">
+                    <iframe src="instagram-posts/48-minimalist-essence.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Pure Essence</h3>
+                        <span class="gallery-category">Minimalist</span>
+                    </div>
+                    <span class="gallery-number">48</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="minimalist" data-src="instagram-posts/49-minimalist-triptych.html" data-title="Quiet Moments">
+                    <iframe src="instagram-posts/49-minimalist-triptych.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Quiet Moments</h3>
+                        <span class="gallery-category">Minimalist</span>
+                    </div>
+                    <span class="gallery-number">49</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 50-51 Editorial -->
+                <div class="gallery-item" data-category="editorial" data-src="instagram-posts/50-editorial-finale.html" data-title="The Closing Chapter">
+                    <iframe src="instagram-posts/50-editorial-finale.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">The Closing Chapter</h3>
+                        <span class="gallery-category">Editorial</span>
+                    </div>
+                    <span class="gallery-number">50</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="editorial" data-src="instagram-posts/51-editorial-last-look.html" data-title="Last Impression">
+                    <iframe src="instagram-posts/51-editorial-last-look.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Last Impression</h3>
+                        <span class="gallery-category">Editorial</span>
+                    </div>
+                    <span class="gallery-number">51</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="minimalist" data-src="instagram-posts/52-minimal-portraits.html" data-title="Portrait Studies">
+                    <iframe src="instagram-posts/52-minimal-portraits.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Portrait Studies</h3>
+                        <span class="gallery-category">Minimalist</span>
+                    </div>
+                    <span class="gallery-number">52</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 53 Couture -->
+                <div class="gallery-item" data-category="couture" data-src="instagram-posts/53-couture-showcase.html" data-title="Eternal Glamour">
+                    <iframe src="instagram-posts/53-couture-showcase.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Eternal Glamour</h3>
+                        <span class="gallery-category">Couture</span>
+                    </div>
+                    <span class="gallery-number">53</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <!-- 54-63 Intimate Art Collection -->
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/54-intimate-split-11.html" data-title="Veiled Desire">
+                    <iframe src="instagram-posts/54-intimate-split-11.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Veiled Desire</h3>
+                        <span class="gallery-category">Look XI</span>
+                    </div>
+                    <span class="gallery-number">54</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/55-sensual-diptych-12.html" data-title="Dual Elegance">
+                    <iframe src="instagram-posts/55-sensual-diptych-12.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Dual Elegance</h3>
+                        <span class="gallery-category">Look XII</span>
+                    </div>
+                    <span class="gallery-number">55</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/56-art-collage-13.html" data-title="Études de Beauté">
+                    <iframe src="instagram-posts/56-art-collage-13.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Études de Beauté</h3>
+                        <span class="gallery-category">Look XIII</span>
+                    </div>
+                    <span class="gallery-number">56</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/57-asymmetric-14.html" data-title="Asymmetric Grace">
+                    <iframe src="instagram-posts/57-asymmetric-14.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Asymmetric Grace</h3>
+                        <span class="gallery-category">Look XIV</span>
+                    </div>
+                    <span class="gallery-number">57</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/58-intimate-overlay-15.html" data-title="Intimate Art">
+                    <iframe src="instagram-posts/58-intimate-overlay-15.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Intimate Art</h3>
+                        <span class="gallery-category">Look XV</span>
+                    </div>
+                    <span class="gallery-number">58</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/59-circular-frame-16.html" data-title="Eternal Beauty">
+                    <iframe src="instagram-posts/59-circular-frame-16.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Eternal Beauty</h3>
+                        <span class="gallery-category">Look XVI</span>
+                    </div>
+                    <span class="gallery-number">59</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/60-diagonal-split-17.html" data-title="Divided Beauty">
+                    <iframe src="instagram-posts/60-diagonal-split-17.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Divided Beauty</h3>
+                        <span class="gallery-category">Look XVII</span>
+                    </div>
+                    <span class="gallery-number">60</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/61-stacked-frames-18.html" data-title="Stacked Elegance">
+                    <iframe src="instagram-posts/61-stacked-frames-18.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Stacked Elegance</h3>
+                        <span class="gallery-category">Look XVIII</span>
+                    </div>
+                    <span class="gallery-number">61</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/62-intimate-mosaic-19.html" data-title="Intimate Mosaic">
+                    <iframe src="instagram-posts/62-intimate-mosaic-19.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Intimate Mosaic</h3>
+                        <span class="gallery-category">Look XIX</span>
+                    </div>
+                    <span class="gallery-number">62</span>
+                    <div class="view-btn"></div>
+                </div>
+
+                <div class="gallery-item" data-category="intimate" data-src="instagram-posts/63-magazine-spread-20.html" data-title="The Art of Sensual Elegance">
+                    <iframe src="instagram-posts/63-magazine-spread-20.html" loading="lazy"></iframe>
+                    <div class="gallery-overlay">
+                        <h3 class="gallery-title">Sensual Elegance</h3>
+                        <span class="gallery-category">Look XX</span>
+                    </div>
+                    <span class="gallery-number">63</span>
+                    <div class="view-btn"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <iframe id="lightbox-iframe" src=""></iframe>
+        </div>
+        <button class="lightbox-close" id="lightbox-close">×</button>
+        <button class="lightbox-nav lightbox-prev" id="lightbox-prev">‹</button>
+        <button class="lightbox-nav lightbox-next" id="lightbox-next">›</button>
+        <div class="lightbox-info">
+            <h3 class="lightbox-title" id="lightbox-title"></h3>
+            <p class="lightbox-counter" id="lightbox-counter"></p>
+        </div>
+    </div>
+
+    <!-- Scroll to Top -->
+    <button class="scroll-top" id="scroll-top">↑</button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h3>VeraLabs</h3>
+                <p>An avant-garde digital atelier where artificial intelligence meets haute couture, creating the future of fashion visualization.</p>
+            </div>
+            <div class="footer-column">
+                <h4>Atelier</h4>
+                <ul>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="concepts.html">Concepts</a></li>
+                    <li><a href="moodboards.html">Moodboards</a></li>
+                    <li><a href="lookbook.html">Lookbook</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Studio</h4>
+                <ul>
+                    <li><a href="veralabs-landing-v2.html">Home</a></li>
+                    <li><a href="veralabs-landing-v2.html#atelier">Philosophy</a></li>
+                    <li><a href="veralabs-landing-v2.html#aesthetics">Aesthetics</a></li>
+                    <li><a href="veralabs-landing-v2.html#process">Process</a></li>
+                </ul>
+            </div>
+            <div class="footer-column">
+                <h4>Connect</h4>
+                <ul>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">Pinterest</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p class="footer-copyright">© 2025 VeraLabs. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileToggle = document.getElementById('mobile-toggle');
+        const navMenu = document.getElementById('nav-menu');
+
+        mobileToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            document.body.style.overflow = navMenu.classList.contains('active') ? 'hidden' : 'auto';
+        });
+
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            });
+        });
+
+        // Gallery items data
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        let currentIndex = 0;
+        let filteredItems = [...galleryItems];
+
+        // Staggered animation on load
+        function animateGalleryItems() {
+            filteredItems.forEach((item, index) => {
+                setTimeout(() => {
+                    item.classList.add('visible');
+                }, index * 50);
+            });
+        }
+
+        // Initial animation
+        setTimeout(animateGalleryItems, 500);
+
+        // Filter functionality
+        const filterBtns = document.querySelectorAll('.filter-btn');
+
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+
+                galleryItems.forEach(item => {
+                    item.classList.remove('visible');
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+
+                // Update filtered items array
+                filteredItems = [...galleryItems].filter(item =>
+                    filter === 'all' || item.dataset.category === filter
+                );
+
+                // Re-animate visible items
+                setTimeout(() => {
+                    filteredItems.forEach((item, index) => {
+                        setTimeout(() => {
+                            item.classList.add('visible');
+                        }, index * 30);
+                    });
+                }, 100);
+            });
+        });
+
+        // Lightbox functionality
+        const lightbox = document.getElementById('lightbox');
+        const lightboxIframe = document.getElementById('lightbox-iframe');
+        const lightboxTitle = document.getElementById('lightbox-title');
+        const lightboxCounter = document.getElementById('lightbox-counter');
+        const lightboxClose = document.getElementById('lightbox-close');
+        const lightboxPrev = document.getElementById('lightbox-prev');
+        const lightboxNext = document.getElementById('lightbox-next');
+
+        function openLightbox(index) {
+            currentIndex = index;
+            const item = filteredItems[index];
+            lightboxIframe.src = item.dataset.src;
+            lightboxTitle.textContent = item.dataset.title;
+            lightboxCounter.textContent = `${index + 1} / ${filteredItems.length}`;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            lightboxIframe.src = '';
+            document.body.style.overflow = 'auto';
+        }
+
+        function navigateLightbox(direction) {
+            currentIndex = (currentIndex + direction + filteredItems.length) % filteredItems.length;
+            const item = filteredItems[currentIndex];
+            lightboxIframe.src = item.dataset.src;
+            lightboxTitle.textContent = item.dataset.title;
+            lightboxCounter.textContent = `${currentIndex + 1} / ${filteredItems.length}`;
+        }
+
+        galleryItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                const filteredIndex = filteredItems.indexOf(item);
+                if (filteredIndex !== -1) {
+                    openLightbox(filteredIndex);
+                }
+            });
+        });
+
+        lightboxClose.addEventListener('click', closeLightbox);
+        lightboxPrev.addEventListener('click', () => navigateLightbox(-1));
+        lightboxNext.addEventListener('click', () => navigateLightbox(1));
+
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        });
+
+        // Scroll to top
+        const scrollTopBtn = document.getElementById('scroll-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 500) {
+                scrollTopBtn.classList.add('visible');
+            } else {
+                scrollTopBtn.classList.remove('visible');
+            }
+        });
+
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        // Touch swipe for lightbox on mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        lightbox.addEventListener('touchstart', e => {
+            touchStartX = e.changedTouches[0].screenX;
+        });
+
+        lightbox.addEventListener('touchend', e => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const swipeThreshold = 50;
+            const diff = touchStartX - touchEndX;
+            if (Math.abs(diff) > swipeThreshold) {
+                if (diff > 0) {
+                    navigateLightbox(1); // Swipe left = next
+                } else {
+                    navigateLightbox(-1); // Swipe right = prev
+                }
+            }
+        }
+    </script>
+</body>
+</html>

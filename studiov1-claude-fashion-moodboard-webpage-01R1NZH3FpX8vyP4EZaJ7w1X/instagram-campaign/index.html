@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERALABS | Campaign Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a962;
+      --black: #0a0a0a;
+      --charcoal: #1a1a1a;
+      --cream: #f5f0e8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+      min-height: 100vh;
+      font-family: 'Montserrat', sans-serif;
+      color: var(--cream);
+    }
+
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px;
+      background: radial-gradient(ellipse at center, rgba(201,169,98,0.1) 0%, transparent 70%);
+      border-bottom: 1px solid rgba(201,169,98,0.2);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 6rem;
+      font-weight: 300;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 20px;
+    }
+
+    .brand-name {
+      font-size: 1.2rem;
+      letter-spacing: 0.8em;
+      color: var(--gold);
+      margin-bottom: 30px;
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(245, 240, 232, 0.7);
+      margin-bottom: 15px;
+    }
+
+    .campaign-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--cream);
+      letter-spacing: 0.15em;
+    }
+
+    .stats {
+      display: flex;
+      gap: 50px;
+      margin-top: 50px;
+    }
+
+    .stat {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3rem;
+      font-weight: 300;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      color: rgba(245, 240, 232, 0.5);
+      text-transform: uppercase;
+    }
+
+    .nav-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+
+    .nav-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 50px;
+      letter-spacing: 0.2em;
+    }
+
+    .nav-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
+    }
+
+    .nav-card {
+      background: var(--charcoal);
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      border: 1px solid rgba(201,169,98,0.15);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .nav-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-5px);
+      box-shadow: 0 20px 60px rgba(201,169,98,0.15);
+    }
+
+    .nav-icon {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .nav-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      color: var(--cream);
+      margin-bottom: 10px;
+      letter-spacing: 0.1em;
+    }
+
+    .nav-card-desc {
+      font-size: 0.8rem;
+      color: rgba(245, 240, 232, 0.5);
+      line-height: 1.6;
+    }
+
+    .collections {
+      padding: 60px 20px;
+      background: rgba(201,169,98,0.03);
+    }
+
+    .collections-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 40px;
+      letter-spacing: 0.3em;
+    }
+
+    .collections-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 3px;
+      max-width: 1000px;
+      margin: 0 auto;
+      border-radius: 15px;
+      overflow: hidden;
+    }
+
+    .collection-thumb {
+      aspect-ratio: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .collection-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .collection-thumb:hover img {
+      transform: scale(1.1);
+    }
+
+    .collection-thumb::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.5) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .collection-thumb:hover::after {
+      opacity: 1;
+    }
+
+    .footer {
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(201,169,98,0.1);
+    }
+
+    .footer-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: rgba(245, 240, 232, 0.6);
+      margin-bottom: 20px;
+    }
+
+    .footer-quote .gold {
+      color: var(--gold);
+    }
+
+    .footer-brand {
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: rgba(201,169,98,0.5);
+    }
+
+    /* REELS SECTION */
+    .reels-section {
+      padding: 80px 20px;
+      background: var(--black);
+    }
+
+    .reels-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      color: var(--gold);
+      text-align: center;
+      margin-bottom: 10px;
+      letter-spacing: 0.3em;
+    }
+
+    .reels-subtitle {
+      font-size: 0.8rem;
+      color: rgba(245, 240, 232, 0.5);
+      text-align: center;
+      letter-spacing: 0.15em;
+      margin-bottom: 50px;
+    }
+
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .reel-card {
+      background: var(--charcoal);
+      border-radius: 15px;
+      overflow: hidden;
+      border: 1px solid rgba(201,169,98,0.1);
+      transition: all 0.3s ease;
+    }
+
+    .reel-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(201,169,98,0.1);
+    }
+
+    .reel-container {
+      position: relative;
+      aspect-ratio: 9/16;
+      background: #000;
+    }
+
+    .reel-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .reel-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .play-btn {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: rgba(201,169,98,0.9);
+      border: none;
+      color: var(--black);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .play-btn:hover {
+      transform: scale(1.1);
+      background: var(--gold);
+    }
+
+    .reel-info {
+      padding: 15px;
+      text-align: center;
+    }
+
+    .reel-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      margin-bottom: 5px;
+      letter-spacing: 0.05em;
+    }
+
+    .reel-desc {
+      font-size: 0.7rem;
+      color: rgba(245, 240, 232, 0.5);
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      .logo { font-size: 4rem; }
+      .campaign-name { font-size: 2rem; }
+      .stats { flex-direction: column; gap: 30px; }
+      .collections-grid { grid-template-columns: repeat(2, 1fr); }
+      .reels-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .reels-grid { grid-template-columns: 1fr; max-width: 250px; }
+    }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="logo">V</div>
+    <p class="brand-name">VERALABS</p>
+    <p class="tagline">where shadow becomes silk</p>
+    <h1 class="campaign-name">SHADOW & LACE</h1>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="stat-number">32</div>
+        <div class="stat-label">Images</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">4</div>
+        <div class="stat-label">Collections</div>
+      </div>
+      <div class="stat">
+        <div class="stat-number">7</div>
+        <div class="stat-label">Day Campaign</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="nav-section">
+    <h2 class="nav-title">CAMPAIGN ASSETS</h2>
+
+    <div class="nav-grid">
+      <a href="veralabs-campaign.html" class="nav-card">
+        <div class="nav-icon">📸</div>
+        <h3 class="nav-card-title">Full Campaign</h3>
+        <p class="nav-card-desc">Complete carousel layouts, posting schedule, and themed collections</p>
+      </a>
+
+      <a href="story-templates.html" class="nav-card">
+        <div class="nav-icon">📱</div>
+        <h3 class="nav-card-title">Story Templates</h3>
+        <p class="nav-card-desc">8 story designs with invocations, CTAs, and swipe-up frames</p>
+      </a>
+
+      <a href="single-posts.html" class="nav-card">
+        <div class="nav-icon">🖼️</div>
+        <h3 class="nav-card-title">Single Posts</h3>
+        <p class="nav-card-desc">Individual post layouts with captions and engagement hooks</p>
+      </a>
+
+      <a href="campaign-captions.md" class="nav-card">
+        <div class="nav-icon">✍️</div>
+        <h3 class="nav-card-title">Captions & Copy</h3>
+        <p class="nav-card-desc">All captions, hashtags, CTAs, and engagement strategies</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="collections">
+    <h2 class="collections-title">PREVIEW</h2>
+
+    <div class="collections-grid">
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/vera_godmode_recline_abandon_1767888908992.png" alt="">
+      </div>
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/vera_godmode_sprawl_divine_1767888969527.png" alt="">
+      </div>
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/vera_sculptural_lace_1767888493536.png" alt="">
+      </div>
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/minimalist_ethereal_veil_1767887886587.png" alt="">
+      </div>
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/vera_godmode_floor_intimate_1767889332364.png" alt="">
+      </div>
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/vera_silk_intimacy_1767888208820.png" alt="">
+      </div>
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/vera_tulle_whisper_1767888329435.png" alt="">
+      </div>
+      <div class="collection-thumb">
+        <img src="../generated-vera-variants/vera_lace_renaissance_1767888233122.png" alt="">
+      </div>
+    </div>
+  </section>
+
+  <!-- REELS SECTION -->
+  <section class="reels-section">
+    <h2 class="reels-title">CAMPAIGN REELS</h2>
+    <p class="reels-subtitle">Ken Burns cinematic experiences</p>
+
+    <div class="reels-grid">
+      <!-- Shadow Symphony -->
+      <div class="reel-card">
+        <div class="reel-container">
+          <video class="reel-video" playsinline loop muted>
+            <source src="../generated-vera-variants/reels/shadow_symphony.mp4" type="video/mp4">
+          </video>
+          <div class="reel-overlay">
+            <button class="play-btn" onclick="toggleReel(this)">▶</button>
+          </div>
+        </div>
+        <div class="reel-info">
+          <h3 class="reel-name">Shadow Symphony</h3>
+          <p class="reel-desc">Venetian shadows dance across form</p>
+        </div>
+      </div>
+
+      <!-- Lace Poetry -->
+      <div class="reel-card">
+        <div class="reel-container">
+          <video class="reel-video" playsinline loop muted>
+            <source src="../generated-vera-variants/reels/lace_poetry.mp4" type="video/mp4">
+          </video>
+          <div class="reel-overlay">
+            <button class="play-btn" onclick="toggleReel(this)">▶</button>
+          </div>
+        </div>
+        <div class="reel-info">
+          <h3 class="reel-name">Lace Poetry</h3>
+          <p class="reel-desc">Intricate patterns of desire</p>
+        </div>
+      </div>
+
+      <!-- Mesh & Silk -->
+      <div class="reel-card">
+        <div class="reel-container">
+          <video class="reel-video" playsinline loop muted>
+            <source src="../generated-vera-variants/reels/mesh_silk.mp4" type="video/mp4">
+          </video>
+          <div class="reel-overlay">
+            <button class="play-btn" onclick="toggleReel(this)">▶</button>
+          </div>
+        </div>
+        <div class="reel-info">
+          <h3 class="reel-name">Mesh & Silk</h3>
+          <p class="reel-desc">Texture whispers secrets</p>
+        </div>
+      </div>
+
+      <!-- Ethereal Visions -->
+      <div class="reel-card">
+        <div class="reel-container">
+          <video class="reel-video" playsinline loop muted>
+            <source src="../generated-vera-variants/reels/ethereal_visions.mp4" type="video/mp4">
+          </video>
+          <div class="reel-overlay">
+            <button class="play-btn" onclick="toggleReel(this)">▶</button>
+          </div>
+        </div>
+        <div class="reel-info">
+          <h3 class="reel-name">Ethereal Visions</h3>
+          <p class="reel-desc">Where fabric becomes atmosphere</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <p class="footer-quote">
+      "<span class="gold">Beauty</span> is not seen. It is <span class="gold">felt</span>."
+    </p>
+    <p class="footer-brand">VERALABS — THE ART OF INTIMATE EXPRESSION</p>
+  </footer>
+
+  <script>
+    function toggleReel(btn) {
+      const container = btn.closest('.reel-container');
+      const video = container.querySelector('.reel-video');
+      const overlay = container.querySelector('.reel-overlay');
+
+      if (video.paused) {
+        // Pause all other videos
+        document.querySelectorAll('.reel-video').forEach(v => {
+          if (v !== video) {
+            v.pause();
+            v.closest('.reel-container').querySelector('.reel-overlay').style.opacity = '1';
+            v.closest('.reel-container').querySelector('.play-btn').textContent = '▶';
+          }
+        });
+
+        video.play();
+        overlay.style.opacity = '0';
+        btn.textContent = '⏸';
+      } else {
+        video.pause();
+        overlay.style.opacity = '1';
+        btn.textContent = '▶';
+      }
+    }
+
+    // Show overlay on hover when playing
+    document.querySelectorAll('.reel-container').forEach(container => {
+      container.addEventListener('mouseenter', () => {
+        const video = container.querySelector('.reel-video');
+        if (!video.paused) {
+          container.querySelector('.reel-overlay').style.opacity = '1';
+        }
+      });
+      container.addEventListener('mouseleave', () => {
+        const video = container.querySelector('.reel-video');
+        if (!video.paused) {
+          container.querySelector('.reel-overlay').style.opacity = '0';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERALABS | Story Templates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a962;
+      --black: #0a0a0a;
+      --cream: #f5f0e8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: #111;
+      min-height: 100vh;
+      padding: 40px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .page-title {
+      text-align: center;
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      margin-bottom: 40px;
+      letter-spacing: 0.3em;
+    }
+
+    .stories-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+    }
+
+    .story-template {
+      width: 270px;
+      height: 480px;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+
+    .story-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .story-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 20px;
+    }
+
+    /* Style 1: Minimal Text Center */
+    .style-minimal .story-overlay {
+      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.5) 100%);
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+
+    .style-minimal .story-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.3;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+
+    .style-minimal .story-text .gold {
+      color: var(--gold);
+    }
+
+    /* Style 2: Bottom Text */
+    .style-bottom .story-overlay {
+      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.4) 40%, transparent 100%);
+    }
+
+    .style-bottom .story-content {
+      margin-top: auto;
+      text-align: center;
+    }
+
+    .style-bottom .story-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .style-bottom .cta-button {
+      display: inline-block;
+      padding: 12px 30px;
+      border: 1px solid var(--gold);
+      border-radius: 30px;
+      color: var(--gold);
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      background: rgba(201,169,98,0.1);
+    }
+
+    /* Style 3: Split Text */
+    .style-split .story-overlay {
+      background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.6) 100%);
+    }
+
+    .style-split .top-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--gold);
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+    }
+
+    .style-split .bottom-content {
+      text-align: center;
+    }
+
+    .style-split .story-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 20px;
+    }
+
+    /* Style 4: Invitation */
+    .style-invitation .story-overlay {
+      background: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .style-invitation .invitation-box {
+      border: 1px solid var(--gold);
+      padding: 40px 30px;
+      text-align: center;
+      background: rgba(0,0,0,0.4);
+    }
+
+    .style-invitation .invite-top {
+      font-size: 0.6rem;
+      color: var(--gold);
+      letter-spacing: 0.5em;
+      margin-bottom: 15px;
+    }
+
+    .style-invitation .invite-main {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-style: italic;
+      color: var(--cream);
+      margin-bottom: 15px;
+    }
+
+    .style-invitation .invite-sub {
+      font-size: 0.7rem;
+      color: rgba(245,240,232,0.6);
+      letter-spacing: 0.2em;
+    }
+
+    /* Header bar */
+    .story-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8b7355);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      color: var(--black);
+    }
+
+    .username {
+      font-size: 0.75rem;
+      color: var(--cream);
+      font-weight: 400;
+    }
+
+    /* Progress bar */
+    .progress-bar {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 15px;
+    }
+
+    .progress-segment {
+      flex: 1;
+      height: 2px;
+      background: rgba(255,255,255,0.3);
+      border-radius: 2px;
+    }
+
+    .progress-segment.active {
+      background: var(--cream);
+    }
+
+    .label {
+      text-align: center;
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">STORY TEMPLATES</h1>
+
+  <div class="stories-container">
+
+    <!-- Story 1: Shadow Surrender -->
+    <div class="story-template style-minimal">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/vera_godmode_recline_abandon_1767888908992.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment active"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+        </div>
+        <div class="story-text">
+          surrender<br>to <span class="gold">shadow</span>
+        </div>
+        <div></div>
+      </div>
+      <p class="label">SHADOW SERIES 1/3</p>
+    </div>
+
+    <!-- Story 2: Silk Confessions -->
+    <div class="story-template style-bottom">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/vera_silk_intimacy_1767888208820.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment active"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+        </div>
+        <div class="story-content">
+          <p class="story-text">silk<br>confessions</p>
+          <span class="cta-button">See Collection</span>
+        </div>
+      </div>
+      <p class="label">SILK SERIES</p>
+    </div>
+
+    <!-- Story 3: Invitation -->
+    <div class="story-template style-invitation">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/vera_godmode_sprawl_divine_1767888969527.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment active"></div>
+            <div class="progress-segment"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+        </div>
+        <div class="invitation-box">
+          <p class="invite-top">YOU ARE</p>
+          <p class="invite-main">invited</p>
+          <p class="invite-sub">INTO THE SHADOWS</p>
+        </div>
+        <div></div>
+      </div>
+      <p class="label">INVITATION</p>
+    </div>
+
+    <!-- Story 4: Ethereal -->
+    <div class="story-template style-split">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/minimalist_ethereal_veil_1767887886587.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment active"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+          <p class="top-text" style="margin-top: 20px;">ETHEREAL VISIONS</p>
+        </div>
+        <div class="bottom-content">
+          <p class="story-text">veiled in<br>midnight</p>
+          <span class="cta-button">Swipe Up</span>
+        </div>
+      </div>
+      <p class="label">ETHEREAL SERIES</p>
+    </div>
+
+    <!-- Story 5: Ballet Noir -->
+    <div class="story-template style-minimal">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/vera_tulle_whisper_1767888329435.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment"></div>
+            <div class="progress-segment active"></div>
+            <div class="progress-segment"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+        </div>
+        <div class="story-text">
+          <span class="gold">ballet</span><br>noir
+        </div>
+        <div></div>
+      </div>
+      <p class="label">BALLET SERIES</p>
+    </div>
+
+    <!-- Story 6: Lace Poetry -->
+    <div class="story-template style-bottom">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/vera_sculptural_lace_1767888493536.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment active"></div>
+            <div class="progress-segment"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+        </div>
+        <div class="story-content">
+          <p class="story-text">geometry<br>of <span style="color: var(--gold);">desire</span></p>
+          <span class="cta-button">Explore Lace</span>
+        </div>
+      </div>
+      <p class="label">LACE SERIES</p>
+    </div>
+
+    <!-- Story 7: Golden Hour -->
+    <div class="story-template style-split">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/vera_satin_noir_1767888303700.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment"></div>
+            <div class="progress-segment active"></div>
+            <div class="progress-segment"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+          <p class="top-text" style="margin-top: 20px;">GOLDEN HOUR</p>
+        </div>
+        <div class="bottom-content">
+          <p class="story-text">secrets<br>in satin</p>
+          <span class="cta-button">See More</span>
+        </div>
+      </div>
+      <p class="label">SATIN SERIES</p>
+    </div>
+
+    <!-- Story 8: Floor Intimate -->
+    <div class="story-template style-minimal">
+      <div class="story-bg" style="background-image: url('../generated-vera-variants/vera_godmode_floor_intimate_1767889332364.png')"></div>
+      <div class="story-overlay">
+        <div>
+          <div class="progress-bar">
+            <div class="progress-segment"></div>
+            <div class="progress-segment"></div>
+            <div class="progress-segment active"></div>
+          </div>
+          <div class="story-header">
+            <div class="avatar">V</div>
+            <span class="username">veralabs.ai</span>
+          </div>
+        </div>
+        <div class="story-text">
+          feel the<br><span class="gold">light</span>
+        </div>
+        <div></div>
+      </div>
+      <p class="label">SHADOW SERIES 3/3</p>
+    </div>
+
+  </div>
+
+</body>
+</html>

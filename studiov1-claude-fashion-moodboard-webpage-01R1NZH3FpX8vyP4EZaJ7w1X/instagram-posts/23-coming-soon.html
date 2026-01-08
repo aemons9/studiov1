@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coming Soon</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subtle-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(232, 180, 184, 0.05) 0%, transparent 40%);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .top-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.4em;
+            color: var(--pale-gold);
+            margin-bottom: 60px;
+        }
+
+        .main-title {
+            font-family: var(--font-display);
+            font-size: 72px;
+            font-style: italic;
+            color: var(--cream-white);
+            text-align: center;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            margin-bottom: 20px;
+        }
+
+        .accent-word {
+            display: block;
+            font-size: 80px;
+            color: var(--pale-gold);
+        }
+
+        .gold-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--pale-gold), transparent);
+            margin: 50px 0;
+        }
+
+        .teaser-text {
+            font-family: var(--font-body);
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--champagne);
+            text-align: center;
+            letter-spacing: 0.05em;
+            max-width: 400px;
+            line-height: 1.7;
+        }
+
+        .countdown-hint {
+            margin-top: 60px;
+            display: flex;
+            gap: 30px;
+        }
+
+        .countdown-item {
+            text-align: center;
+        }
+
+        .countdown-number {
+            font-family: var(--font-luxury);
+            font-size: 36px;
+            color: var(--cream-white);
+            letter-spacing: 0.1em;
+        }
+
+        .countdown-label {
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+            margin-top: 8px;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 60px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--soft-charcoal);
+        }
+
+        .corner-frame {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 1px solid var(--pale-gold);
+            opacity: 0.2;
+        }
+
+        .frame-tl {
+            top: 80px;
+            left: 80px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .frame-br {
+            bottom: 80px;
+            right: 80px;
+            border-left: none;
+            border-top: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="subtle-pattern"></div>
+        <div class="corner-frame frame-tl"></div>
+        <div class="corner-frame frame-br"></div>
+
+        <div class="content-wrapper">
+            <span class="top-label">NEW COLLECTION</span>
+
+            <h1 class="main-title">
+                Something<br>
+                <span class="accent-word">Beautiful</span>
+            </h1>
+
+            <div class="gold-line"></div>
+
+            <p class="teaser-text">
+                A new chapter in fashion artistry awaits.
+                Stay tuned for the reveal.
+            </p>
+
+            <div class="countdown-hint">
+                <div class="countdown-item">
+                    <div class="countdown-number">SS</div>
+                    <div class="countdown-label">Season</div>
+                </div>
+                <div class="countdown-item">
+                    <div class="countdown-number">25</div>
+                    <div class="countdown-label">Year</div>
+                </div>
+            </div>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

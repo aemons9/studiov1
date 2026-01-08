@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gilded Concept</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: #1a1512;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .gold-radial {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 50% 30%, rgba(212, 175, 55, 0.2) 0%, transparent 50%),
+                linear-gradient(180deg, rgba(26, 21, 18, 0.2) 0%, rgba(26, 21, 18, 0.6) 70%, rgba(26, 21, 18, 0.95) 100%);
+        }
+
+        .content-wrapper {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 80px;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .ornate-frame {
+            display: inline-block;
+            padding: 30px 50px;
+            border: 1px solid var(--pale-gold);
+            position: relative;
+        }
+
+        .ornate-frame::before,
+        .ornate-frame::after {
+            content: '';
+            position: absolute;
+            width: 15px;
+            height: 15px;
+            border: 1px solid var(--pale-gold);
+        }
+
+        .ornate-frame::before {
+            top: -8px;
+            left: -8px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .ornate-frame::after {
+            bottom: -8px;
+            right: -8px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .concept-title {
+            font-family: var(--font-display);
+            font-size: 56px;
+            font-style: italic;
+            color: var(--pale-gold);
+            letter-spacing: -0.02em;
+            text-shadow: 0 2px 30px rgba(212, 175, 55, 0.4);
+        }
+
+        .concept-subtitle {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.25em;
+            color: var(--champagne);
+            margin-top: 20px;
+        }
+
+        .brand-mark {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            z-index: 2;
+        }
+
+        .corner-ornaments {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            z-index: 2;
+        }
+
+        .ornament-tl {
+            top: 40px;
+            left: 40px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .ornament-tr {
+            top: 40px;
+            right: 40px;
+            border-left: none;
+            border-bottom: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-container">
+            <img src="../photo/gilded.jpg" alt="Gilded Concept" class="model-photo">
+            <div class="gold-radial"></div>
+        </div>
+
+        <div class="corner-ornaments ornament-tl"></div>
+        <div class="corner-ornaments ornament-tr"></div>
+
+        <span class="brand-mark">VERALABS</span>
+
+        <div class="content-wrapper">
+            <div class="ornate-frame">
+                <h1 class="concept-title">Gilded Dreams</h1>
+            </div>
+            <p class="concept-subtitle">HAUTE COUTURE COLLECTION</p>
+        </div>
+    </div>
+</body>
+</html>

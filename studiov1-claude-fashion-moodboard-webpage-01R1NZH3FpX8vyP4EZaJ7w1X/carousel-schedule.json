@@ -1,0 +1,191 @@
+{
+  "description": "Strategic carousel groupings for VERALABS Instagram - Remaining 56 posts organized into 14 high-impact carousels",
+  "totalCarousels": 14,
+  "carousels": [
+    {
+      "id": "carousel-8",
+      "name": "Concept Visions",
+      "day": 8,
+      "slides": [
+        "14-concept-geometric-harmony.html",
+        "15-concept-digital-dystopia.html",
+        "16-concept-baroque-renaissance.html"
+      ],
+      "category": "concept",
+      "caption": "CONCEPT VISIONS\n\nSwipe through our design philosophy →\n\n◈ Geometric Harmony — Fashion as architecture\n◈ Digital Dystopia — The future is now\n◈ Baroque Renaissance — When history whispers\n\nWhich concept speaks to you? Comment below 👇\n\n#VERALABS #ConceptualFashion #DesignPhilosophy #AvantGarde #FashionConcepts #GeometricFashion #FuturisticStyle #BaroqueStyle #FashionArt #DigitalCouture",
+      "boost": true
+    },
+    {
+      "id": "carousel-9",
+      "name": "Moodboard Collection",
+      "day": 9,
+      "slides": [
+        "03-urban-poetry-moodboard.html",
+        "04-gilded-dreams-moodboard.html",
+        "05-fluid-architecture-moodboard.html",
+        "06-quiet-luxury-moodboard.html",
+        "07-monsoon-reverie-moodboard.html"
+      ],
+      "category": "moodboard",
+      "caption": "THE MOODBOARD COLLECTION\n\nSwipe to discover our seasonal visions →\n\n✦ Urban Poetry — City as runway\n✦ Gilded Dreams — Opulence meets restraint\n✦ Fluid Architecture — Structure finds flow\n✦ Quiet Luxury — The softest whisper\n✦ Monsoon Reverie — Rain on silk\n\n💾 Save for inspiration\n\n#VERALABS #Moodboard #FashionMoodboard #ColorPalette #DesignInspiration #SeasonalFashion #FashionAesthetic #CreativeDirection #StyleInspiration #FashionAI",
+      "boost": true
+    },
+    {
+      "id": "carousel-10",
+      "name": "Editorial Mastery",
+      "day": 10,
+      "slides": [
+        "26-editorial-spread-1.html",
+        "27-editorial-spread-2.html",
+        "38-editorial-diptych.html",
+        "50-editorial-finale.html",
+        "51-editorial-last-look.html"
+      ],
+      "category": "editorial",
+      "caption": "EDITORIAL MASTERY\n\nA visual narrative in five frames →\n\n• The Art of Presence\n• Silent Strength\n• Dual Perspectives\n• The Closing Chapter\n• Last Impression\n\nWhich frame captivates you? ✨\n\n#VERALABS #EditorialFashion #FashionEditorial #MagazineQuality #FashionPhotography #EditorialSpread #FashionNarrative #VisualStorytelling #HighFashion #DigitalCouture",
+      "boost": true
+    },
+    {
+      "id": "carousel-11",
+      "name": "Philosophy & Wisdom",
+      "day": 11,
+      "slides": [
+        "09-philosophy-editorial-narrative.html",
+        "10-philosophy-cultural-fusion.html",
+        "12-quote-elegance.html",
+        "13-quote-simplicity.html"
+      ],
+      "category": "philosophy",
+      "caption": "VERALABS PHILOSOPHY\n\nThe ideas behind the aesthetic →\n\n\"Every image tells a story.\"\n\"Where East meets West.\"\n\"Elegance is refusal.\" — Chanel\n\"Simplicity is the ultimate sophistication.\" — da Vinci\n\n💾 Save these truths\n\n#VERALABS #FashionPhilosophy #DesignPhilosophy #FashionQuotes #Elegance #Simplicity #CulturalFusion #EditorialNarrative #TimelessWisdom #FashionWisdom"
+    },
+    {
+      "id": "carousel-12",
+      "name": "Couture Features",
+      "day": 12,
+      "slides": [
+        "25-couture-feature-2.html",
+        "36-couture-grid.html",
+        "39-model-spotlight.html",
+        "53-couture-showcase.html"
+      ],
+      "category": "couture",
+      "caption": "COUTURE FEATURES\n\nThe art of haute couture in four acts →\n\n✧ Gilded Season — Gold speaks eternally\n✧ The Collection — Every angle perfected\n✧ Model Spotlight — The canvas speaks\n✧ Eternal Glamour — Timeless beauty\n\nDouble tap your favorite 💫\n\n#VERALABS #Couture #HauteCouture #CoutureFeature #FashionPhotography #LuxuryFashion #EternalGlamour #FashionArt #DigitalCouture #PremiumFashion",
+      "boost": true
+    },
+    {
+      "id": "carousel-13",
+      "name": "Concept Photo Series",
+      "day": 13,
+      "slides": [
+        "29-silk-concept.html",
+        "30-gilded-concept.html",
+        "31-monsoon-concept.html",
+        "33-quiet-concept.html",
+        "34-fluid-concept.html"
+      ],
+      "category": "concept-photo",
+      "caption": "CONCEPT PHOTO SERIES\n\nFive visions. Five stories. One aesthetic →\n\n◦ Silk & Shadow — Texture and light\n◦ Gilded Dreams — Gold as mindset\n◦ Monsoon Reverie — Rain as ritual\n◦ Quiet Luxury — Whispered elegance\n◦ Fluid Architecture — Structure flows\n\nTag someone who'd appreciate this 🏷️\n\n#VERALABS #ConceptPhoto #FashionConcept #ArtisticPhotography #FashionPhotography #ConceptualArt #VisualPoetry #FashionAesthetic #DigitalArt #AIFashion"
+    },
+    {
+      "id": "carousel-14",
+      "name": "Minimalist Studies",
+      "day": 14,
+      "slides": [
+        "28-minimal-portrait-1.html",
+        "37-minimalist-series.html",
+        "48-minimalist-essence.html",
+        "49-minimalist-triptych.html"
+      ],
+      "category": "minimalist",
+      "caption": "MINIMALIST STUDIES\n\nLess is everything →\n\n▫️ Less is More\n▫️ Portrait Studies\n▫️ Pure Essence\n▫️ Quiet Moments\n\nIn simplicity, we find truth.\n\n#VERALABS #Minimalist #MinimalistFashion #QuietLuxury #LessIsMore #MinimalistPhotography #PureAesthetic #SimpleFashion #MinimalistArt #CleanAesthetic"
+    },
+    {
+      "id": "carousel-15",
+      "name": "Couture Looks VIII-X",
+      "day": 15,
+      "slides": [
+        "41-couture-look-08.html",
+        "42-couture-look-09.html",
+        "43-couture-look-10.html"
+      ],
+      "category": "couture-look",
+      "caption": "COUTURE LOOKS VIII • IX • X\n\nThe finale trilogy →\n\n✦ LOOK VIII — Midnight Allure\n✦ LOOK IX — Timeless Radiance\n✦ LOOK X — The Finale\n\nEvery collection deserves a closing statement. This is ours.\n\n#VERALABS #CoutureLook #FashionLooks #HauteCouture #LookVIII #LookIX #LookX #FashionFinale #CoutureTriology #LuxuryFashion",
+      "boost": true
+    },
+    {
+      "id": "carousel-16",
+      "name": "Urban Collection",
+      "day": 16,
+      "slides": [
+        "32-urban-style-1.html",
+        "46-urban-collection.html",
+        "35-contemporary-urban-feature.html",
+        "47-street-luxe.html"
+      ],
+      "category": "urban",
+      "caption": "URBAN COLLECTION\n\nWhere street meets couture →\n\n🏙️ Urban Poetry — City as runway\n🏙️ Urban Edit — Four frames of style\n🏙️ Street Couture — Haute meets edge\n🏙️ Street Luxe — Luxury walks the streets\n\nThe city never looked so elegant.\n\n#VERALABS #UrbanFashion #StreetCouture #StreetLuxe #UrbanStyle #CityFashion #StreetFashion #UrbanLuxury #ContemporaryFashion #StreetPhotography"
+    },
+    {
+      "id": "carousel-17",
+      "name": "Portrait Gallery",
+      "day": 17,
+      "slides": [
+        "40-portrait-feature.html",
+        "52-minimal-portraits.html",
+        "44-couture-gallery-1.html",
+        "45-couture-gallery-2.html"
+      ],
+      "category": "gallery",
+      "caption": "PORTRAIT GALLERY\n\nFaces. Forms. Fragments of beauty →\n\n◈ Capturing Essence — Into the soul\n◈ Portrait Studies — Forms of beauty\n◈ Gallery Volume I — Nine frames\n◈ Gallery Volume II — Masonry art\n\nArt demands asymmetry. Beauty demands balance.\n\n#VERALABS #PortraitGallery #FashionPortrait #PortraitPhotography #CoutureGallery #FashionGallery #MuseumQuality #ArtisticPhotography #PortraitArt #FashionAI",
+      "boost": true
+    },
+    {
+      "id": "carousel-18",
+      "name": "Intimate Art XI-XV",
+      "day": 18,
+      "slides": [
+        "54-intimate-split-11.html",
+        "55-sensual-diptych-12.html",
+        "56-art-collage-13.html",
+        "57-asymmetric-14.html",
+        "58-intimate-overlay-15.html"
+      ],
+      "category": "intimate",
+      "caption": "INTIMATE ART COLLECTION • LOOKS XI—XV\n\nThe art of revelation →\n\n✧ Look XI — Veiled Desire\n✧ Look XII — Dual Elegance\n✧ Look XIII — Études de Beauté\n✧ Look XIV — Asymmetric Grace\n✧ Look XV — Intimate Art\n\n🔞 Fine art nudity. Museum quality.\n\n#VERALABS #IntimateArt #FineArtNude #ArtisticNude #IntimateCollection #BoudoirArt #MuseumQuality #SensualArt #ArtPhotography #BodyArt",
+      "boost": true
+    },
+    {
+      "id": "carousel-19",
+      "name": "Intimate Art XVI-XX",
+      "day": 19,
+      "slides": [
+        "59-circular-frame-16.html",
+        "60-diagonal-split-17.html",
+        "61-stacked-frames-18.html",
+        "62-intimate-mosaic-19.html",
+        "63-magazine-spread-20.html"
+      ],
+      "category": "intimate",
+      "caption": "INTIMATE ART COLLECTION • LOOKS XVI—XX\n\nThe grand finale →\n\n✧ Look XVI — Eternal Beauty\n✧ Look XVII — Divided Beauty\n✧ Look XVIII — Stacked Elegance\n✧ Look XIX — Intimate Mosaic\n✧ Look XX — The Art of Sensual Elegance\n\nThe ultimate expression of VERALABS artistry.\n\n#VERALABS #IntimateArt #FineArtNude #ArtisticNude #IntimateCollection #MagazineSpread #MuseumQuality #SensualElegance #ArtMasterpiece #GrandFinale",
+      "boost": true
+    }
+  ],
+  "singlePosts": [
+    {
+      "id": "single-teaser",
+      "file": "23-coming-soon.html",
+      "name": "Coming Soon Teaser",
+      "day": 20,
+      "category": "teaser",
+      "caption": "COMING SOON\n\nSomething extraordinary is on the horizon.\n\n🔔 Turn on notifications\n💾 Save this post\n📩 DM us \"NOTIFY ME\"\n\nYou won't want to miss what's next.\n\n#VERALABS #ComingSoon #StayTuned #FashionTeaser #SomethingNew #ExcitingNews #FashionReveal #NewCollection #ComingNext",
+      "note": "Publish as single post after all carousels"
+    }
+  ],
+  "summary": {
+    "totalCarousels": 12,
+    "totalSlides": 55,
+    "singlePosts": 1,
+    "boostRecommended": 8,
+    "categories": ["concept", "moodboard", "editorial", "philosophy", "couture", "concept-photo", "minimalist", "couture-look", "urban", "gallery", "intimate"]
+  }
+}

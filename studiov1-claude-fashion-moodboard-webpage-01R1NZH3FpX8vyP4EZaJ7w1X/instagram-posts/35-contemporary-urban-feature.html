@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contemporary Urban Feature</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 60px;
+            left: 60px;
+            width: 700px;
+            height: 800px;
+            overflow: hidden;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .photo-frame {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            width: 700px;
+            height: 800px;
+            border: 1px solid var(--steel-blue);
+            pointer-events: none;
+        }
+
+        .content-panel {
+            position: absolute;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            width: 350px;
+            background: var(--deep-espresso);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            z-index: 2;
+        }
+
+        .style-number {
+            font-family: var(--font-luxury);
+            font-size: 80px;
+            color: var(--steel-blue);
+            opacity: 0.3;
+            letter-spacing: 0.1em;
+            line-height: 1;
+            margin-bottom: 20px;
+        }
+
+        .style-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--rose-gold);
+            margin-bottom: 20px;
+        }
+
+        .style-title {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-style: italic;
+            color: var(--cream-white);
+            line-height: 1.2;
+            margin-bottom: 25px;
+        }
+
+        .style-line {
+            width: 40px;
+            height: 1px;
+            background: var(--rose-gold);
+            margin-bottom: 25px;
+        }
+
+        .style-desc {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--champagne);
+            line-height: 1.8;
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 50px;
+            right: 60px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+            z-index: 3;
+        }
+
+        .accent-dots {
+            position: absolute;
+            top: 60px;
+            right: 60px;
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--steel-blue);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-frame"></div>
+        <div class="photo-container">
+            <img src="../photo/contemporary-urban-style.jpg" alt="Contemporary Urban" class="model-photo">
+        </div>
+
+        <div class="content-panel">
+            <div class="style-number">01</div>
+            <span class="style-label">STREET COUTURE</span>
+            <h1 class="style-title">Contemporary<br>Urban Style</h1>
+            <div class="style-line"></div>
+            <p class="style-desc">
+                Where metropolitan energy meets refined elegance.
+                Modern silhouettes crafted for the city's rhythm.
+            </p>
+        </div>
+
+        <div class="accent-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

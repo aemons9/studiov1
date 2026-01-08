@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fluid Architecture Concept</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .organic-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 30% 20%, rgba(156, 175, 136, 0.2) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(200, 162, 184, 0.15) 0%, transparent 40%),
+                linear-gradient(180deg, transparent 50%, rgba(250, 248, 245, 0.95) 100%);
+        }
+
+        .content-wrapper {
+            position: absolute;
+            bottom: 60px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            z-index: 2;
+        }
+
+        .concept-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--sage-green);
+            margin-bottom: 20px;
+        }
+
+        .concept-title {
+            font-family: var(--font-display);
+            font-size: 56px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .concept-line {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--sage-green), var(--dusty-mauve));
+            margin: 0 auto 20px;
+        }
+
+        .concept-desc {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--soft-charcoal);
+            letter-spacing: 0.05em;
+        }
+
+        .brand-mark {
+            position: absolute;
+            top: 50px;
+            right: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--soft-charcoal);
+            z-index: 2;
+        }
+
+        .organic-shapes {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            z-index: 2;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 60% 40% 70% 30% / 40% 60% 30% 70%;
+            border: 1px solid rgba(156, 175, 136, 0.4);
+        }
+
+        .shape-1 {
+            width: 60px;
+            height: 70px;
+        }
+
+        .shape-2 {
+            width: 40px;
+            height: 50px;
+            left: 30px;
+            top: 40px;
+            border-color: rgba(200, 162, 184, 0.4);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-container">
+            <img src="../photo/fluid.jpg" alt="Fluid Architecture" class="model-photo">
+            <div class="organic-overlay"></div>
+        </div>
+
+        <div class="organic-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+
+        <div class="content-wrapper">
+            <span class="concept-label">RESORT COLLECTION</span>
+            <h1 class="concept-title">Fluid<br>Architecture</h1>
+            <div class="concept-line"></div>
+            <p class="concept-desc">Natural forms meet contemporary design</p>
+        </div>
+    </div>
+</body>
+</html>

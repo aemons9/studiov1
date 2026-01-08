@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philosophy - Editorial Narrative</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--deep-espresso);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .content-block {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .aesthetic-number {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: var(--steel-blue);
+            margin-bottom: 40px;
+        }
+
+        .philosophy-title {
+            font-family: var(--font-display);
+            font-size: 64px;
+            font-style: italic;
+            color: var(--cream-white);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .rose-accent-line {
+            width: 80px;
+            height: 1px;
+            background: var(--rose-gold);
+            margin: 30px 0;
+        }
+
+        .philosophy-tagline {
+            font-family: var(--font-body);
+            font-size: 18px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--rose-gold);
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 0.02em;
+        }
+
+        .philosophy-description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--champagne);
+            text-align: center;
+            line-height: 1.9;
+            max-width: 550px;
+            letter-spacing: 0.01em;
+        }
+
+        .frame-element {
+            position: absolute;
+            border: 1px solid var(--soft-charcoal);
+        }
+
+        .frame-outer {
+            top: 50px;
+            left: 50px;
+            right: 50px;
+            bottom: 50px;
+        }
+
+        .frame-inner {
+            top: 70px;
+            left: 70px;
+            right: 70px;
+            bottom: 70px;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 60px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+
+        .cinematic-bars {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: var(--deep-espresso);
+        }
+
+        .bar-top { top: 0; }
+        .bar-bottom { bottom: 0; }
+
+        .film-grain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="film-grain"></div>
+        <div class="frame-element frame-outer"></div>
+
+        <div class="content-block">
+            <span class="aesthetic-number">AESTHETIC 002</span>
+
+            <h1 class="philosophy-title">Editorial<br>Narrative</h1>
+
+            <div class="rose-accent-line"></div>
+
+            <p class="philosophy-tagline">"Every frame tells a story"</p>
+
+            <p class="philosophy-description">
+                Cinematic composition meets evocative styling.
+                We craft visual narratives that transform fashion
+                into compelling stories of beauty and desire.
+            </p>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

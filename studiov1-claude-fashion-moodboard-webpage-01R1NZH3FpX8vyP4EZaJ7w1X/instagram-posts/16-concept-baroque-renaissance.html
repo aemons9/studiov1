@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept - Baroque Renaissance</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: linear-gradient(135deg, #2C1810 0%, #1C1917 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ornate-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(212, 175, 55, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(212, 175, 55, 0.05) 0%, transparent 30%),
+                radial-gradient(circle at 50% 50%, rgba(139, 0, 0, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .baroque-frame {
+            position: absolute;
+            top: 60px;
+            left: 60px;
+            right: 60px;
+            bottom: 60px;
+            border: 2px solid var(--pale-gold);
+        }
+
+        .baroque-frame::before,
+        .baroque-frame::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid var(--pale-gold);
+        }
+
+        .baroque-frame::before {
+            top: -10px;
+            left: -10px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .baroque-frame::after {
+            bottom: -10px;
+            right: -10px;
+            border-left: none;
+            border-top: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 120px;
+        }
+
+        .concept-label {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 30px;
+        }
+
+        .concept-title {
+            font-family: var(--font-display);
+            font-size: 54px;
+            font-style: italic;
+            color: var(--pale-gold);
+            text-align: center;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .ornate-divider {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .divider-line {
+            width: 40px;
+            height: 1px;
+            background: var(--pale-gold);
+        }
+
+        .divider-diamond {
+            width: 8px;
+            height: 8px;
+            background: var(--pale-gold);
+            transform: rotate(45deg);
+        }
+
+        .concept-description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--champagne);
+            text-align: center;
+            line-height: 1.8;
+            max-width: 450px;
+            letter-spacing: 0.01em;
+        }
+
+        .tags-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .tag {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--pale-gold);
+            padding: 8px 16px;
+            border: 1px solid rgba(212, 175, 55, 0.4);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="ornate-pattern"></div>
+        <div class="baroque-frame"></div>
+
+        <div class="content-wrapper">
+            <span class="concept-label">CONCEPT REVEAL</span>
+
+            <h1 class="concept-title">Baroque<br>Renaissance</h1>
+
+            <div class="ornate-divider">
+                <div class="divider-line"></div>
+                <div class="divider-diamond"></div>
+                <div class="divider-line"></div>
+            </div>
+
+            <p class="concept-description">
+                Intricate embroidery meets period-inspired opulence.
+                Rich velvets, golden threads, and vintage jewelry
+                resurrect the grandeur of artistic centuries past.
+            </p>
+
+            <div class="tags-row">
+                <span class="tag">Opulent</span>
+                <span class="tag">Heritage</span>
+                <span class="tag">Artisanal</span>
+            </div>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

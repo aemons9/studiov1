@@ -1,0 +1,188 @@
+
+import React, { useState } from 'react';
+import type { AdherenceLevel, EnhancementStyle, GenerationStep, WeavingMode, GenerationSettings } from '../types';
+import AdvancedSelectorsPanel, { AdvancedSelections } from './AdvancedSelectorsPanel';
+import { FluxImageUpload } from './FluxImageUpload';
+
+export interface MasterGenerateOptions {
+    enhance: { enabled: boolean; style: EnhancementStyle; };
+    weave: { enabled: boolean; adherence: AdherenceLevel; weavingMode: WeavingMode; };
+    intimateWeaving?: { enabled: boolean; strategy: string; };
+    wardrobeSelection?: { enabled: boolean; option: string; };
+    qualityPreset?: { enabled: boolean; preset: string; };
+    fluxImagePrompt?: string; // Data URI of image for Flux image-to-image generation
+}
+
+interface MasterGenerationControlProps {
+  onGenerate: (options: MasterGenerateOptions) => void;
+  isLoading: boolean;
+  generationStep: GenerationStep | null;
+  generationSettings: GenerationSettings;
+  onImagePromptChange?: (imageData: string | undefined) => void;
+}
+
+const weaveOptions: { level: AdherenceLevel; label: string; }[] = [
+    { level: 'literal', label: 'Literal' },
+    { level: 'balanced', label: 'Balanced' },
+    { level: 'creative', label: 'Creative' },
+];
+
+const weavingModeOptions: { mode: WeavingMode; label: string; description: string; isPremium?: boolean; }[] = [
+    { mode: 'master', label: 'Master', description: 'Original state-of-the-art weaving (Light/Shadow Primary)' },
+    { mode: 'passion', label: 'PassionWeave', description: 'Sensual vision + high-fashion erotic art (Subject Magnetism Primary)' },
+    { mode: 'intimate', label: 'IntimateWeave', description: 'Master efficiency + deep tactile details (Material Physics Primary)' },
+    { mode: 'seductive', label: 'SeductiveWeave', description: 'Cinematic seduction narrative (Pose/Wardrobe Action Primary)', isPremium: true },
+];
+
+const enhancementOptions: { style: EnhancementStyle; label: string; }[] = [
+    { style: 'balanced', label: 'Balanced' },
+    { style: 'creative', label: 'Creative Flair' },
+    { style: 'safety', label: 'Safety-First' },
+];
+
+const MasterGenerationControl: React.FC<MasterGenerationControlProps> = ({
+    onGenerate,
+    isLoading,
+    generationStep,
+    generationSettings,
+    onImagePromptChange
+}) => {
+    const [isEnhanceEnabled, setIsEnhanceEnabled] = useState(false);
+    const [isWeaveEnabled, setIsWeaveEnabled] = useState(false);
+    const [selectedEnhanceStyle, setSelectedEnhanceStyle] = useState<EnhancementStyle>('balanced');
+    const [selectedWeaveAdherence, setSelectedWeaveAdherence] = useState<AdherenceLevel>('balanced');
+    const [selectedWeavingMode, setSelectedWeavingMode] = useState<WeavingMode>('master');
+    const [advancedSelections, setAdvancedSelections] = useState<AdvancedSelections>({});
+    const [fluxImagePrompt, setFluxImagePrompt] = useState<string | undefined>(undefined);
+
+    const handleImageUpload = (dataUri: string) => {
+        setFluxImagePrompt(dataUri);
+        if (onImagePromptChange) {
+            onImagePromptChange(dataUri);
+        }
+    };
+
+    const handleImageRemove = () => {
+        setFluxImagePrompt(undefined);
+        if (onImagePromptChange) {
+            onImagePromptChange(undefined);
+        }
+    };
+
+    const handleGenerateClick = () => {
+        onGenerate({
+            enhance: { enabled: isEnhanceEnabled, style: selectedEnhanceStyle },
+            weave: { enabled: isWeaveEnabled, adherence: selectedWeaveAdherence, weavingMode: selectedWeavingMode },
+            intimateWeaving: advancedSelections.intimateWeaving,
+            wardrobeSelection: advancedSelections.wardrobeSelection,
+            qualityPreset: advancedSelections.qualityPreset,
+            fluxImagePrompt: fluxImagePrompt,
+        });
+    };
+
+    const getLoadingText = () => {
+        switch (generationStep) {
+            case 'enhancing': return 'Enhancing...';
+            case 'weaving': return 'Weaving...';
+            case 'generating': return 'Generating...';
+            default: return 'Processing...';
+        }
+    };
+    
+    const LoadingSpinner: React.FC = () => (
+        <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    );
+
+    const isFluxMode = generationSettings.provider === 'replicate-flux';
+    const isFluxUltra = generationSettings.fluxModel === 'black-forest-labs/flux-1.1-pro-ultra';
+
+    return (
+        <div className="space-y-3">
+            {/* Advanced Super-Seductress Selectors Panel */}
+            <AdvancedSelectorsPanel
+                onSelectionsChange={setAdvancedSelections}
+                isLoading={isLoading}
+            />
+
+            {/* Flux Image Upload - Only show for Flux Pro 1.1 Ultra */}
+            {isFluxMode && isFluxUltra && (
+                <div className="p-3 bg-gray-800/50 rounded-xl border border-gray-700 shadow-lg">
+                    <FluxImageUpload
+                        onImageUpload={handleImageUpload}
+                        onImageRemove={handleImageRemove}
+                        currentImage={fluxImagePrompt}
+                    />
+                </div>
+            )}
+
+            {/* Main Generation Controls */}
+            <div className="flex flex-col p-3 bg-gray-800/50 rounded-xl border border-gray-700 shadow-lg gap-3">
+                {/* Weaving Mode Selector */}
+                <div className="flex items-center gap-3 pb-2 border-b border-gray-700">
+                    <label className="font-semibold text-sm text-fuchsia-400">Weaving Mode:</label>
+                    <div className="flex gap-2 flex-1">
+                        {weavingModeOptions.map(modeOpt => (
+                            <button
+                                key={modeOpt.mode}
+                                onClick={() => setSelectedWeavingMode(modeOpt.mode)}
+                                disabled={isLoading || !isWeaveEnabled}
+                                className={`relative flex-1 px-3 py-2 rounded-md text-xs font-medium transition-all ${
+                                    selectedWeavingMode === modeOpt.mode
+                                        ? 'bg-fuchsia-600 text-white shadow-lg'
+                                        : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                                } disabled:opacity-50 disabled:cursor-not-allowed`}
+                                title={modeOpt.description}
+                            >
+                                {modeOpt.label}
+                                {modeOpt.isPremium && (
+                                    <span className="ml-1 px-1.5 py-0.5 text-[10px] bg-yellow-500 text-black rounded font-bold">
+                                        PREMIUM
+                                    </span>
+                                )}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Enhancement and Weaving Controls */}
+                <div className="flex items-center justify-center gap-4">
+                    <div className="flex flex-col gap-2">
+                        <div className="flex items-center gap-2">
+                            <input id="enhance-checkbox" type="checkbox" checked={isEnhanceEnabled} onChange={(e) => setIsEnhanceEnabled(e.target.checked)} disabled={isLoading}
+                                className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
+                            <label htmlFor="enhance-checkbox" className="font-semibold text-sm text-gray-300">Enhance Prompt</label>
+                        </div>
+                         <div className="flex items-center gap-2">
+                            <input id="weave-checkbox" type="checkbox" checked={isWeaveEnabled} onChange={(e) => setIsWeaveEnabled(e.target.checked)} disabled={isLoading}
+                                className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-indigo-600 focus:ring-indigo-500" />
+                            <label htmlFor="weave-checkbox" className="font-semibold text-sm text-gray-300">Weave Prompt</label>
+                        </div>
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <select value={selectedEnhanceStyle} onChange={e => setSelectedEnhanceStyle(e.target.value as EnhancementStyle)} disabled={isLoading || !isEnhanceEnabled}
+                            className="bg-gray-700 border border-gray-600 text-white text-sm rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full p-1.5 disabled:opacity-50 transition-opacity">
+                            {enhancementOptions.map(opt => <option key={opt.style} value={opt.style}>{opt.label}</option>)}
+                        </select>
+                        <select value={selectedWeaveAdherence} onChange={e => setSelectedWeaveAdherence(e.target.value as AdherenceLevel)} disabled={isLoading || !isWeaveEnabled}
+                            className="bg-gray-700 border border-gray-600 text-white text-sm rounded-md focus:ring-indigo-500 focus:border-indigo-500 block w-full p-1.5 disabled:opacity-50 transition-opacity">
+                            {weaveOptions.map(opt => <option key={opt.level} value={opt.level}>{opt.label}</option>)}
+                        </select>
+                    </div>
+                    <button
+                        onClick={handleGenerateClick}
+                        disabled={isLoading}
+                        data-master-generate
+                        className="flex items-center justify-center gap-3 px-8 py-3 bg-fuchsia-600 text-white font-bold text-lg rounded-lg shadow-lg hover:bg-fuchsia-500 disabled:bg-fuchsia-900/50 disabled:cursor-not-allowed transition-all duration-300 transform hover:scale-105"
+                    >
+                        {isLoading ? (<><LoadingSpinner />{getLoadingText()}</>) : (<><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>Generate Image</>)}
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
+};
+
+export default MasterGenerationControl;

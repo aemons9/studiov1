@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERALABS | Shadow & Lace Campaign</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@200;300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a962;
+      --gold-light: #d4b978;
+      --black: #0a0a0a;
+      --charcoal: #1a1a1a;
+      --cream: #f5f0e8;
+      --warm-shadow: rgba(201, 169, 98, 0.15);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0d0d0d 100%);
+      color: var(--cream);
+      font-family: 'Montserrat', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    .campaign-header {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(180deg, rgba(201,169,98,0.1) 0%, transparent 100%);
+      border-bottom: 1px solid rgba(201,169,98,0.2);
+    }
+
+    .logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 4rem;
+      font-weight: 300;
+      letter-spacing: 0.5em;
+      color: var(--gold);
+      margin-bottom: 10px;
+    }
+
+    .tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      font-weight: 300;
+      color: rgba(245, 240, 232, 0.6);
+      letter-spacing: 0.3em;
+    }
+
+    .campaign-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.5rem;
+      font-weight: 300;
+      color: var(--cream);
+      margin-top: 30px;
+      letter-spacing: 0.2em;
+    }
+
+    /* Section Headers */
+    .section {
+      padding: 60px 20px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-number {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.5em;
+      margin-bottom: 10px;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      color: var(--cream);
+      letter-spacing: 0.15em;
+      margin-bottom: 15px;
+    }
+
+    .section-subtitle {
+      font-size: 0.85rem;
+      font-weight: 200;
+      color: rgba(245, 240, 232, 0.5);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    /* Carousel Post Layout */
+    .carousel-post {
+      background: var(--charcoal);
+      border-radius: 20px;
+      overflow: hidden;
+      margin-bottom: 60px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid rgba(201,169,98,0.15);
+    }
+
+    .carousel-header {
+      padding: 20px 25px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 1px solid rgba(201,169,98,0.1);
+    }
+
+    .profile-pic {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--black);
+      font-weight: 600;
+    }
+
+    .profile-name {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--cream);
+    }
+
+    .carousel-grid {
+      display: grid;
+      gap: 3px;
+      background: var(--black);
+    }
+
+    .carousel-grid.grid-2x2 {
+      grid-template-columns: repeat(2, 1fr);
+      aspect-ratio: 1/1;
+    }
+
+    .carousel-grid.grid-3x1 {
+      grid-template-columns: repeat(3, 1fr);
+      aspect-ratio: 3/1.2;
+    }
+
+    .carousel-grid.grid-1x3 {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(3, 1fr);
+    }
+
+    .carousel-grid.grid-featured {
+      grid-template-columns: 2fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      aspect-ratio: 1/0.8;
+    }
+
+    .carousel-grid.grid-featured .grid-item:first-child {
+      grid-row: span 2;
+    }
+
+    .grid-item {
+      position: relative;
+      overflow: hidden;
+      background: var(--charcoal);
+    }
+
+    .grid-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .grid-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .carousel-caption {
+      padding: 25px;
+      background: var(--charcoal);
+    }
+
+    .caption-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      line-height: 1.8;
+      color: var(--cream);
+      margin-bottom: 15px;
+    }
+
+    .caption-text .highlight {
+      color: var(--gold);
+      font-style: italic;
+    }
+
+    .hashtags {
+      font-size: 0.75rem;
+      color: rgba(201,169,98,0.7);
+      letter-spacing: 0.05em;
+    }
+
+    /* Story Template */
+    .stories-row {
+      display: flex;
+      gap: 20px;
+      overflow-x: auto;
+      padding: 20px 0;
+      scrollbar-width: none;
+    }
+
+    .stories-row::-webkit-scrollbar {
+      display: none;
+    }
+
+    .story-card {
+      flex: 0 0 280px;
+      aspect-ratio: 9/16;
+      border-radius: 20px;
+      overflow: hidden;
+      position: relative;
+      background: var(--charcoal);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      border: 2px solid transparent;
+      background-clip: padding-box;
+    }
+
+    .story-card::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--gold) 0%, transparent 50%, var(--gold) 100%);
+      z-index: -1;
+    }
+
+    .story-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .story-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, transparent 40%, transparent 60%, rgba(0,0,0,0.4) 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 25px 20px;
+    }
+
+    .story-top {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .story-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.9rem;
+      color: var(--black);
+      font-weight: 600;
+    }
+
+    .story-username {
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .story-bottom {
+      text-align: center;
+    }
+
+    .story-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--cream);
+      text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+      margin-bottom: 15px;
+      line-height: 1.4;
+    }
+
+    .story-cta {
+      display: inline-block;
+      padding: 10px 25px;
+      background: rgba(201,169,98,0.2);
+      border: 1px solid var(--gold);
+      border-radius: 25px;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* Single Post */
+    .single-post {
+      max-width: 500px;
+      margin: 0 auto 60px;
+      background: var(--charcoal);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      border: 1px solid rgba(201,169,98,0.15);
+    }
+
+    .single-post .post-image {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+    }
+
+    .single-post .post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Reel Cover */
+    .reels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .reel-cover {
+      aspect-ratio: 9/16;
+      border-radius: 15px;
+      overflow: hidden;
+      position: relative;
+      background: var(--charcoal);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .reel-cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .reel-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 50%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+    }
+
+    .reel-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      color: var(--cream);
+      margin-bottom: 5px;
+    }
+
+    .reel-views {
+      font-size: 0.7rem;
+      color: rgba(245, 240, 232, 0.6);
+    }
+
+    .play-icon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: rgba(255,255,255,0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(10px);
+    }
+
+    .play-icon::after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-left: 15px solid var(--cream);
+      border-top: 10px solid transparent;
+      border-bottom: 10px solid transparent;
+      margin-left: 4px;
+    }
+
+    /* Schedule Timeline */
+    .schedule {
+      background: rgba(201,169,98,0.05);
+      border-radius: 20px;
+      padding: 40px;
+      margin-top: 40px;
+      border: 1px solid rgba(201,169,98,0.1);
+    }
+
+    .schedule-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 30px;
+      text-align: center;
+      letter-spacing: 0.2em;
+    }
+
+    .schedule-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .schedule-item {
+      background: var(--charcoal);
+      border-radius: 15px;
+      padding: 25px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .schedule-day {
+      font-size: 0.7rem;
+      color: var(--gold);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .schedule-content {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--cream);
+      margin-bottom: 10px;
+    }
+
+    .schedule-type {
+      font-size: 0.75rem;
+      color: rgba(245, 240, 232, 0.5);
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+    }
+
+    /* Invocation Text Styles */
+    .invocation {
+      text-align: center;
+      padding: 60px 20px;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .invocation-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      font-style: italic;
+      color: var(--cream);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .invocation-text .gold {
+      color: var(--gold);
+    }
+
+    .invocation-sub {
+      font-size: 0.8rem;
+      letter-spacing: 0.3em;
+      color: rgba(201,169,98,0.7);
+      text-transform: uppercase;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .logo {
+        font-size: 2.5rem;
+        letter-spacing: 0.3em;
+      }
+
+      .section-title {
+        font-size: 1.6rem;
+      }
+
+      .stories-row {
+        padding: 20px;
+      }
+
+      .story-card {
+        flex: 0 0 220px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="campaign-header">
+    <div class="logo">V</div>
+    <div class="tagline">where shadow becomes silk</div>
+    <h1 class="campaign-title">SHADOW & LACE</h1>
+  </header>
+
+  <!-- Opening Invocation -->
+  <div class="invocation">
+    <p class="invocation-text">
+      In the space between <span class="gold">light</span> and <span class="gold">darkness</span>,<br>
+      we find the poetry of <span class="gold">desire</span>
+    </p>
+    <p class="invocation-sub">A Visual Symphony in Chiaroscuro</p>
+  </div>
+
+  <!-- COLLECTION 01: SHADOW SYMPHONY -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-number">COLLECTION 01</p>
+      <h2 class="section-title">SHADOW SYMPHONY</h2>
+      <p class="section-subtitle">Where Light Becomes the Garment</p>
+    </div>
+
+    <!-- Carousel Post 1 -->
+    <div class="carousel-post">
+      <div class="carousel-header">
+        <div class="profile-pic">V</div>
+        <span class="profile-name">veralabs.ai</span>
+      </div>
+      <div class="carousel-grid grid-featured">
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_godmode_recline_abandon_1767888908992.png" alt="Shadow Symphony">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_godmode_twist_reveal_1767889224861.png" alt="Twist">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_godmode_languid_stretch_1767889250331.png" alt="Stretch">
+        </div>
+      </div>
+      <div class="carousel-caption">
+        <p class="caption-text">
+          <span class="highlight">Shadow speaks</span> where words dare not venture.<br>
+          Light sculpts. Darkness embraces. The body becomes canvas.
+        </p>
+        <p class="hashtags">#VERALABS #ShadowArt #ChiaroscuroPoetry #FineArtNude #LightAndShadow #ArtisticExpression #SensualArt #MuseumQuality</p>
+      </div>
+    </div>
+
+    <!-- Carousel Post 2 -->
+    <div class="carousel-post">
+      <div class="carousel-header">
+        <div class="profile-pic">V</div>
+        <span class="profile-name">veralabs.ai</span>
+      </div>
+      <div class="carousel-grid grid-2x2">
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_godmode_sprawl_divine_1767888969527.png" alt="Divine">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_godmode_side_recline_1767889277715.png" alt="Recline">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_godmode_seated_lean_1767889306081.png" alt="Lean">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_godmode_floor_intimate_1767889332364.png" alt="Intimate">
+        </div>
+      </div>
+      <div class="carousel-caption">
+        <p class="caption-text">
+          <span class="highlight">Venetian dreams.</span><br>
+          Every stripe a verse. Every shadow a secret kept.
+        </p>
+        <p class="hashtags">#VERALABS #VenetianLight #ShadowPlay #IntimateArt #BoudoirPhotography #ArtisticNude #DramaticLighting</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION 02: LACE POETRY -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-number">COLLECTION 02</p>
+      <h2 class="section-title">LACE POETRY</h2>
+      <p class="section-subtitle">Whispers Woven in Thread</p>
+    </div>
+
+    <div class="carousel-post">
+      <div class="carousel-header">
+        <div class="profile-pic">V</div>
+        <span class="profile-name">veralabs.ai</span>
+      </div>
+      <div class="carousel-grid grid-3x1">
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_lace_renaissance_1767888233122.png" alt="Renaissance">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_chantilly_dream_1767888280802.png" alt="Chantilly">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_french_elegance_1767888545419.png" alt="French">
+        </div>
+      </div>
+      <div class="carousel-caption">
+        <p class="caption-text">
+          <span class="highlight">Chantilly whispers.</span> Valenciennes sings.<br>
+          The language of lace needs no translation.
+        </p>
+        <p class="hashtags">#VERALABS #LaceArt #FrenchLingerie #ChantillyLace #IntimateElegance #BoudoirArt #LuxuryLingerie</p>
+      </div>
+    </div>
+
+    <div class="carousel-post">
+      <div class="carousel-header">
+        <div class="profile-pic">V</div>
+        <span class="profile-name">veralabs.ai</span>
+      </div>
+      <div class="carousel-grid grid-featured">
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_sculptural_lace_1767888493536.png" alt="Sculptural">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/minimalist_whisper_lace_1767887825929.png" alt="Whisper">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/lingerie_lace_teddy_1767869031426.png" alt="Teddy">
+        </div>
+      </div>
+      <div class="carousel-caption">
+        <p class="caption-text">
+          <span class="highlight">Geometry meets desire.</span><br>
+          Architecture for the body. Poetry for the soul.
+        </p>
+        <p class="hashtags">#VERALABS #GeometricLace #SculpturalLingerie #ArtDeco #ModernBoudoir #DesignerLingerie</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORIES SECTION -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-number">STORIES</p>
+      <h2 class="section-title">DAILY INVOCATIONS</h2>
+      <p class="section-subtitle">Swipe Up to Enter</p>
+    </div>
+
+    <div class="stories-row">
+      <div class="story-card">
+        <img src="../generated-vera-variants/vera_godmode_recline_abandon_1767888908992.png" alt="Story 1">
+        <div class="story-overlay">
+          <div class="story-top">
+            <div class="story-avatar">V</div>
+            <span class="story-username">veralabs.ai</span>
+          </div>
+          <div class="story-bottom">
+            <p class="story-text">surrender<br>to shadow</p>
+            <span class="story-cta">See More</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <img src="../generated-vera-variants/vera_silk_intimacy_1767888208820.png" alt="Story 2">
+        <div class="story-overlay">
+          <div class="story-top">
+            <div class="story-avatar">V</div>
+            <span class="story-username">veralabs.ai</span>
+          </div>
+          <div class="story-bottom">
+            <p class="story-text">silk<br>confessions</p>
+            <span class="story-cta">See More</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <img src="../generated-vera-variants/minimalist_ethereal_veil_1767887886587.png" alt="Story 3">
+        <div class="story-overlay">
+          <div class="story-top">
+            <div class="story-avatar">V</div>
+            <span class="story-username">veralabs.ai</span>
+          </div>
+          <div class="story-bottom">
+            <p class="story-text">veiled<br>in midnight</p>
+            <span class="story-cta">See More</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <img src="../generated-vera-variants/vera_tulle_whisper_1767888329435.png" alt="Story 4">
+        <div class="story-overlay">
+          <div class="story-top">
+            <div class="story-avatar">V</div>
+            <span class="story-username">veralabs.ai</span>
+          </div>
+          <div class="story-bottom">
+            <p class="story-text">ballet<br>noir</p>
+            <span class="story-cta">See More</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="story-card">
+        <img src="../generated-vera-variants/vera_satin_noir_1767888303700.png" alt="Story 5">
+        <div class="story-overlay">
+          <div class="story-top">
+            <div class="story-avatar">V</div>
+            <span class="story-username">veralabs.ai</span>
+          </div>
+          <div class="story-bottom">
+            <p class="story-text">golden<br>hour secrets</p>
+            <span class="story-cta">See More</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION 03: MESH & SILK -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-number">COLLECTION 03</p>
+      <h2 class="section-title">MESH & SILK</h2>
+      <p class="section-subtitle">The Art of Transparency</p>
+    </div>
+
+    <div class="carousel-post">
+      <div class="carousel-header">
+        <div class="profile-pic">V</div>
+        <span class="profile-name">veralabs.ai</span>
+      </div>
+      <div class="carousel-grid grid-2x2">
+        <div class="grid-item">
+          <img src="../generated-vera-variants/minimalist_shadow_mesh_1767887852458.png" alt="Shadow Mesh">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_mesh_moderne_1767888257912.png" alt="Moderne">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_contemporary_mesh_1767888568496.png" alt="Contemporary">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_midnight_silk_1767888520040.png" alt="Midnight">
+        </div>
+      </div>
+      <div class="carousel-caption">
+        <p class="caption-text">
+          <span class="highlight">Transparency</span> as philosophy.<br>
+          What is concealed reveals more than what is shown.
+        </p>
+        <p class="hashtags">#VERALABS #MeshArt #SilkLingerie #Transparency #ModernBoudoir #MinimalistArt #SensualElegance</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- COLLECTION 04: ETHEREAL -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-number">COLLECTION 04</p>
+      <h2 class="section-title">ETHEREAL VISIONS</h2>
+      <p class="section-subtitle">Dreams Made Textile</p>
+    </div>
+
+    <div class="carousel-post">
+      <div class="carousel-header">
+        <div class="profile-pic">V</div>
+        <span class="profile-name">veralabs.ai</span>
+      </div>
+      <div class="carousel-grid grid-3x1">
+        <div class="grid-item">
+          <img src="../generated-vera-variants/minimalist_ethereal_veil_1767887886587.png" alt="Ethereal">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/vera_tulle_whisper_1767888329435.png" alt="Tulle">
+        </div>
+        <div class="grid-item">
+          <img src="../generated-vera-variants/lingerie_sheer_chemise_1767869094959.png" alt="Chemise">
+        </div>
+      </div>
+      <div class="carousel-caption">
+        <p class="caption-text">
+          <span class="highlight">Floating</span> between worlds.<br>
+          Where fabric becomes atmosphere and skin becomes sky.
+        </p>
+        <p class="hashtags">#VERALABS #EtherealArt #DreamyBoudoir #TulleArt #FloatingFabric #ArtisticVision #PoetryInMotion</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- REELS SECTION -->
+  <section class="section">
+    <div class="section-header">
+      <p class="section-number">REELS</p>
+      <h2 class="section-title">MOVING POETRY</h2>
+      <p class="section-subtitle">15 Seconds of Transcendence</p>
+    </div>
+
+    <div class="reels-grid">
+      <div class="reel-cover">
+        <img src="../generated-vera-variants/vera_godmode_sprawl_divine_1767888969527.png" alt="Reel 1">
+        <div class="play-icon"></div>
+        <div class="reel-overlay">
+          <p class="reel-title">Shadow Dance</p>
+          <p class="reel-views">Ken Burns • 15s</p>
+        </div>
+      </div>
+
+      <div class="reel-cover">
+        <img src="../generated-vera-variants/vera_godmode_floor_intimate_1767889332364.png" alt="Reel 2">
+        <div class="play-icon"></div>
+        <div class="reel-overlay">
+          <p class="reel-title">Venetian Dreams</p>
+          <p class="reel-views">Ken Burns • 15s</p>
+        </div>
+      </div>
+
+      <div class="reel-cover">
+        <img src="../generated-vera-variants/vera_sculptural_lace_1767888493536.png" alt="Reel 3">
+        <div class="play-icon"></div>
+        <div class="reel-overlay">
+          <p class="reel-title">Lace Symphony</p>
+          <p class="reel-views">Ken Burns • 15s</p>
+        </div>
+      </div>
+
+      <div class="reel-cover">
+        <img src="../generated-vera-variants/minimalist_ethereal_veil_1767887886587.png" alt="Reel 4">
+        <div class="play-icon"></div>
+        <div class="reel-overlay">
+          <p class="reel-title">Midnight Veil</p>
+          <p class="reel-views">Ken Burns • 15s</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- POSTING SCHEDULE -->
+  <section class="section">
+    <div class="schedule">
+      <h3 class="schedule-title">7-DAY CAMPAIGN SCHEDULE</h3>
+      <div class="schedule-grid">
+        <div class="schedule-item">
+          <p class="schedule-day">Day 1 — Monday</p>
+          <p class="schedule-content">Shadow Symphony Carousel</p>
+          <p class="schedule-type">Carousel Post • 4 Images</p>
+        </div>
+        <div class="schedule-item">
+          <p class="schedule-day">Day 2 — Tuesday</p>
+          <p class="schedule-content">Daily Invocation Stories</p>
+          <p class="schedule-type">Stories • 5 Frames</p>
+        </div>
+        <div class="schedule-item">
+          <p class="schedule-day">Day 3 — Wednesday</p>
+          <p class="schedule-content">Lace Poetry Carousel</p>
+          <p class="schedule-type">Carousel Post • 3 Images</p>
+        </div>
+        <div class="schedule-item">
+          <p class="schedule-day">Day 4 — Thursday</p>
+          <p class="schedule-content">Shadow Dance Reel</p>
+          <p class="schedule-type">Reel • 15 Seconds</p>
+        </div>
+        <div class="schedule-item">
+          <p class="schedule-day">Day 5 — Friday</p>
+          <p class="schedule-content">Mesh & Silk Carousel</p>
+          <p class="schedule-type">Carousel Post • 4 Images</p>
+        </div>
+        <div class="schedule-item">
+          <p class="schedule-day">Day 6 — Saturday</p>
+          <p class="schedule-content">Ethereal Visions</p>
+          <p class="schedule-type">Carousel + Stories</p>
+        </div>
+        <div class="schedule-item">
+          <p class="schedule-day">Day 7 — Sunday</p>
+          <p class="schedule-content">Campaign Finale Reel</p>
+          <p class="schedule-type">Reel • 30 Seconds</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Closing Invocation -->
+  <div class="invocation">
+    <p class="invocation-text">
+      <span class="gold">Beauty</span> is not seen.<br>
+      It is <span class="gold">felt</span>.
+    </p>
+    <p class="invocation-sub">VERALABS — The Art of Intimate Expression</p>
+  </div>
+
+</body>
+</html>

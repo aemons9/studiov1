@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asymmetric Art - Look 14</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--ivory);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .asymmetric-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            height: 100%;
+            padding: 50px;
+        }
+
+        .grid-item {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-main {
+            grid-row: span 2;
+        }
+
+        .grid-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .item-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(180deg, transparent 60%, rgba(28, 25, 23, 0.4) 100%);
+        }
+
+        .item-number {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-family: var(--font-luxury);
+            font-size: 36px;
+            color: rgba(250, 248, 245, 0.7);
+        }
+
+        .content-strip {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: var(--ivory);
+        }
+
+        .title-floating {
+            position: absolute;
+            bottom: 70px;
+            left: 50px;
+            z-index: 2;
+        }
+
+        .look-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--pale-gold);
+            margin-bottom: 10px;
+        }
+
+        .look-title {
+            font-family: var(--font-display);
+            font-size: 36px;
+            font-style: italic;
+            color: var(--deep-espresso);
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 15px;
+            right: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+            z-index: 2;
+        }
+
+        .accent-dots {
+            position: absolute;
+            bottom: 18px;
+            left: 50px;
+            display: flex;
+            gap: 6px;
+            z-index: 2;
+        }
+
+        .dot {
+            width: 5px;
+            height: 5px;
+            background: var(--rose-gold);
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="asymmetric-grid">
+            <div class="grid-item item-main">
+                <img src="../photo/couture-1763745364192.jpg" alt="Main">
+                <div class="item-overlay"></div>
+                <span class="item-number">XIV</span>
+            </div>
+            <div class="grid-item">
+                <img src="../photo/couture-1763745593630.jpg" alt="Top Right">
+                <div class="item-overlay"></div>
+            </div>
+            <div class="grid-item">
+                <img src="../photo/couture-1763745615921.jpg" alt="Bottom Right">
+                <div class="item-overlay"></div>
+            </div>
+        </div>
+
+        <div class="content-strip"></div>
+
+        <div class="title-floating">
+            <span class="look-label">LOOK XIV</span>
+            <h2 class="look-title">Asymmetric Grace</h2>
+        </div>
+
+        <div class="accent-dots">
+            <div class="dot"></div>
+            <div class="dot"></div>
+            <div class="dot"></div>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

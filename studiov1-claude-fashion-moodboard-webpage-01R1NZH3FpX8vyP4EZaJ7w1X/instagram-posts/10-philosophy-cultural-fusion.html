@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philosophy - Cultural Fusion</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: linear-gradient(135deg, var(--ivory) 0%, var(--champagne) 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .heritage-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                repeating-linear-gradient(
+                    45deg,
+                    transparent,
+                    transparent 80px,
+                    rgba(212, 175, 55, 0.03) 80px,
+                    rgba(212, 175, 55, 0.03) 82px
+                ),
+                repeating-linear-gradient(
+                    -45deg,
+                    transparent,
+                    transparent 80px,
+                    rgba(212, 175, 55, 0.03) 80px,
+                    rgba(212, 175, 55, 0.03) 82px
+                );
+            pointer-events: none;
+        }
+
+        .content-block {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .aesthetic-number {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 40px;
+        }
+
+        .philosophy-title {
+            font-family: var(--font-display);
+            font-size: 64px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .dual-accent-line {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .line-segment {
+            width: 60px;
+            height: 1px;
+        }
+
+        .line-gold { background: var(--pale-gold); }
+        .line-rose { background: var(--rose-gold); }
+
+        .diamond-center {
+            width: 8px;
+            height: 8px;
+            background: var(--pale-gold);
+            transform: rotate(45deg);
+        }
+
+        .philosophy-tagline {
+            font-family: var(--font-body);
+            font-size: 18px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--warm-taupe);
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 0.02em;
+        }
+
+        .philosophy-description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--soft-charcoal);
+            text-align: center;
+            line-height: 1.9;
+            max-width: 550px;
+            letter-spacing: 0.01em;
+        }
+
+        .corner-ornament {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+        }
+
+        .ornament-tl {
+            top: 60px;
+            left: 60px;
+            border-left: 2px solid var(--pale-gold);
+            border-top: 2px solid var(--pale-gold);
+        }
+
+        .ornament-tr {
+            top: 60px;
+            right: 60px;
+            border-right: 2px solid var(--pale-gold);
+            border-top: 2px solid var(--pale-gold);
+        }
+
+        .ornament-bl {
+            bottom: 60px;
+            left: 60px;
+            border-left: 2px solid var(--pale-gold);
+            border-bottom: 2px solid var(--pale-gold);
+        }
+
+        .ornament-br {
+            bottom: 60px;
+            right: 60px;
+            border-right: 2px solid var(--pale-gold);
+            border-bottom: 2px solid var(--pale-gold);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 60px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="heritage-pattern"></div>
+
+        <div class="corner-ornament ornament-tl"></div>
+        <div class="corner-ornament ornament-tr"></div>
+        <div class="corner-ornament ornament-bl"></div>
+        <div class="corner-ornament ornament-br"></div>
+
+        <div class="content-block">
+            <span class="aesthetic-number">AESTHETIC 003</span>
+
+            <h1 class="philosophy-title">Cultural<br>Fusion</h1>
+
+            <div class="dual-accent-line">
+                <div class="line-segment line-gold"></div>
+                <div class="diamond-center"></div>
+                <div class="line-segment line-rose"></div>
+            </div>
+
+            <p class="philosophy-tagline">"Heritage meets modernity"</p>
+
+            <p class="philosophy-description">
+                Traditional craftsmanship intertwines with cutting-edge innovation.
+                We create timeless pieces for the global citizen,
+                honoring the past while embracing the future.
+            </p>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

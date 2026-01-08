@@ -1,0 +1,47 @@
+{
+  "published": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "lastPublish": "2026-01-08T08:10:02.156Z",
+  "mediaIds": {
+    "01-brand-intro.html": "17904444906177122",
+    "welcome-carousel": "18305932168255803",
+    "02-silk-shadow-moodboard.html": "18005563826684608",
+    "08-philosophy-minimalist-luxe.html": "18147890161445309",
+    "11-color-palette-signature.html": "17948310354088632",
+    "24-couture-feature-1.html": "17933612778138006",
+    "22-ai-meets-couture.html": "17871749031501127",
+    "carousel-8": "18078992666266471",
+    "carousel-9": "18186494143351344",
+    "carousel-10": "17875659213470109",
+    "carousel-11": "18081544529332333",
+    "carousel-12": "18104307379741084",
+    "carousel-13": "17877369066461809",
+    "carousel-14": "17957594895021636",
+    "carousel-15": "18052269824409342",
+    "carousel-16": "17964155211007771",
+    "carousel-17": "18090612556824076",
+    "carousel-18": "17864752629552899",
+    "carousel-19": "18091851961788617"
+  },
+  "publishedCarousels": [
+    "carousel-8",
+    "carousel-9",
+    "carousel-10",
+    "carousel-11",
+    "carousel-12",
+    "carousel-13",
+    "carousel-14",
+    "carousel-15",
+    "carousel-16",
+    "carousel-17",
+    "carousel-18",
+    "carousel-19"
+  ]
+}

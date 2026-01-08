@@ -777,6 +777,102 @@
             transform: translateY(-3px);
         }
 
+        /* ==================== CAMPAIGN BANNER ==================== */
+        .campaign-banner {
+            padding: var(--space-xl) var(--space-lg);
+            background: linear-gradient(135deg, #1C1917 0%, #0a0a0a 100%);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .campaign-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--space-xl);
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .campaign-label {
+            display: inline-block;
+            font-family: var(--font-modern);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            color: #D4AF37;
+            background: rgba(212, 175, 55, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-bottom: var(--space-sm);
+        }
+
+        .campaign-title {
+            font-family: var(--font-editorial);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-style: italic;
+            color: #FAF8F5;
+            margin-bottom: var(--space-sm);
+        }
+
+        .campaign-description {
+            font-family: var(--font-modern);
+            font-size: 0.95rem;
+            font-weight: 300;
+            line-height: 1.8;
+            color: rgba(250, 248, 245, 0.7);
+            margin-bottom: var(--space-md);
+        }
+
+        .campaign-cta {
+            display: inline-block;
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            color: #D4AF37;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .campaign-cta:hover {
+            background: rgba(212, 175, 55, 0.1);
+            border-color: #D4AF37;
+            transform: translateX(5px);
+        }
+
+        .preview-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .preview-grid img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            transition: transform 0.5s var(--ease-luxury);
+        }
+
+        .preview-grid img:hover {
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .campaign-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            .preview-grid {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+        }
+
         /* ==================== SMOOTH SCROLL REVEAL ==================== */
         .reveal {
             opacity: 0;
@@ -899,6 +995,7 @@
                 <li><a href="gallery.html" class="nav-link">Gallery</a></li>
                 <li><a href="concepts.html" class="nav-link">Concepts</a></li>
                 <li><a href="moodboards.html" class="nav-link">Moodboards</a></li>
+                <li><a href="studiov1-claude-fashion-moodboard-webpage-01R1NZH3FpX8vyP4EZaJ7w1X/instagram-campaign/index.html" class="nav-link" style="color: var(--pale-gold);">Campaign</a></li>
                 <li><a href="#aesthetics" class="nav-link">Aesthetics</a></li>
             </ul>
         </div>
@@ -1174,6 +1271,33 @@
                             and arrangement, creating cohesive moodboards that tell
                             compelling fashion stories.
                         </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Campaign Banner -->
+    <section class="campaign-banner">
+        <div class="container">
+            <div class="campaign-content reveal">
+                <div class="campaign-text">
+                    <span class="campaign-label">NEW CAMPAIGN</span>
+                    <h2 class="campaign-title">Shadow & Lace</h2>
+                    <p class="campaign-description">
+                        Where shadow becomes silk. An intimate exploration of light, texture, and form.
+                        Experience our latest Instagram campaign featuring Ken Burns reels and curated collections.
+                    </p>
+                    <a href="studiov1-claude-fashion-moodboard-webpage-01R1NZH3FpX8vyP4EZaJ7w1X/instagram-campaign/index.html" class="campaign-cta">
+                        Explore Campaign →
+                    </a>
+                </div>
+                <div class="campaign-preview">
+                    <div class="preview-grid">
+                        <img src="studiov1-claude-fashion-moodboard-webpage-01R1NZH3FpX8vyP4EZaJ7w1X/generated-vera-variants/vera_godmode_recline_abandon_1767888908992.png" alt="Shadow Symphony">
+                        <img src="studiov1-claude-fashion-moodboard-webpage-01R1NZH3FpX8vyP4EZaJ7w1X/generated-vera-variants/vera_sculptural_lace_1767888493536.png" alt="Lace Poetry">
+                        <img src="studiov1-claude-fashion-moodboard-webpage-01R1NZH3FpX8vyP4EZaJ7w1X/generated-vera-variants/vera_silk_intimacy_1767888208820.png" alt="Mesh & Silk">
+                        <img src="studiov1-claude-fashion-moodboard-webpage-01R1NZH3FpX8vyP4EZaJ7w1X/generated-vera-variants/minimalist_ethereal_veil_1767887886587.png" alt="Ethereal Visions">
                     </div>
                 </div>
             </div>

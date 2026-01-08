@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minimalist Essence</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-container {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 700px;
+            overflow: hidden;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        .frame-accent {
+            position: absolute;
+            top: 110px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 620px;
+            height: 720px;
+            border: 1px solid var(--champagne);
+            pointer-events: none;
+        }
+
+        .top-header {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 60px;
+        }
+
+        .header-left {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .header-right {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .bottom-content {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            text-align: center;
+        }
+
+        .essence-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            letter-spacing: 0.02em;
+        }
+
+        .essence-line {
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin: 15px auto 0;
+        }
+
+        .side-text {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-family: var(--font-body);
+            font-size: 10px;
+            font-weight: 300;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--champagne);
+        }
+
+        .side-left { left: 20px; }
+        .side-right { right: 20px; }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="top-header">
+            <span class="header-left">MINIMALIST</span>
+            <span class="header-right">VERALABS</span>
+        </div>
+
+        <span class="side-text side-left">Pure Form</span>
+        <span class="side-text side-right">Clean Lines</span>
+
+        <div class="frame-accent"></div>
+        <div class="photo-container">
+            <img src="../photo/minimalist-1763747016555.jpg" alt="Minimalist Portrait" class="model-photo">
+        </div>
+
+        <div class="bottom-content">
+            <h2 class="essence-title">Pure Essence</h2>
+            <div class="essence-line"></div>
+        </div>
+    </div>
+</body>
+</html>

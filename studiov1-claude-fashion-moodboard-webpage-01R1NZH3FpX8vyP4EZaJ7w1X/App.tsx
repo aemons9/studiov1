@@ -1,0 +1,1986 @@
+import React, { useState, useCallback, useEffect } from 'react';
+import type { PromptData, SavedPrompt, GenerationSettings, EnhancementStyle, GeneratedImageData, AnalysisSuggestion, GenerationStep, HistoryEntry, AdherenceLevel, CloudStorageConfig, StorageProvider, StorageSettings, CalculatedLevels } from './types';
+import { generateImage, enhancePrompt, weavePrompt, generateAndSaveImage, type StorageConfig, applyAdvancedSelections } from './services/geminiService';
+import { generateWithMaximumSafety, getGenerationSummary } from './services/intelligentGenerationService';
+import { parseFluxPromptToData } from './services/promptParser';
+import { DEFAULT_BUCKET_NAME } from './services/cloudStorageService';
+import { DEFAULT_DRIVE_FOLDER } from './services/googleDriveService';
+import Header from './components/Header';
+import PromptEditor from './components/PromptEditor';
+import ImageDisplay from './components/ImageDisplay';
+import LoadPromptModal from './components/LoadPromptModal';
+import { ArtisticConcept } from './concepts/concepts';
+import AnalysisModal from './components/AnalysisModal';
+import HistoryModal from './components/HistoryModal';
+import LockFieldsDropdown from './components/LockFieldsDropdown';
+import MasterGenerationControl, { MasterGenerateOptions } from './components/MasterGenerationControl';
+import GalleryModal from './components/GalleryModal';
+import StorageConfigModal from './components/StorageConfigModal';
+import PromptReviewModal from './components/PromptReviewModal';
+import TextPromptEditor from './components/TextPromptEditor';
+import SafetyBypassStrategySelector from './components/SafetyBypassStrategySelector';
+import FluxPromptLibrarySelector from './components/FluxPromptLibrarySelector';
+import ImagenPromptLibrarySelector from './components/ImagenPromptLibrarySelector';
+import QuickCorporateGenerator from './components/QuickCorporateGenerator';
+import QuickInstagramGenerator from './components/QuickInstagramGenerator';
+import { VeraLabsCollectionGenerator } from './components/VeraLabsCollectionGenerator';
+import QuickDirectGenerate from './components/QuickDirectGenerate';
+import AuthenticationSettings from './components/AuthenticationSettings';
+import MobileControlBar from './components/MobileControlBar';
+import { FluxPromptTemplate } from './concepts/fluxPromptLibrary';
+import { ImagenPromptTemplate } from './concepts/imagenPromptLibrary';
+import ExperimentalMode from './experimental/ExperimentalMode';
+import { mapNodesToPromptData } from './experimental/nodeToPromptMapper';
+import ArtisticMode from './artistic/ArtisticMode';
+import CorporateMode from './corporate/CorporateMode';
+import PlatinumMode from './platinum/PlatinumMode';
+import IndianRolePlayMode from './roleplay/IndianRolePlayMode';
+import IndianModelsGallery from './roleplay/IndianModelsGallery';
+import VideoGenerationMode from './video/VideoGenerationMode';
+import VeraMode from './vera/VeraMode';
+import MasterClassMode from './masterclass/MasterClassMode';
+import RealVisualNovel from './visualnovel/RealVisualNovel';
+import VisualNovelAssetGenerator from './visualnovel/VisualNovelAssetGenerator';
+import VideoGeneratorUI from './components/VideoGeneratorUI';
+import type { ArtisticGenerationConfig } from './artistic/types';
+import type { CorporatePowerState } from './corporate/types';
+import type { PlatinumModeState } from './platinum/types';
+import { PlatinumPromptEngine } from './platinum/promptEngine';
+import { CORPORATE_ROLES } from './corporate/corporateRoles';
+import { OFFICE_ENVIRONMENTS } from './corporate/corporateEnvironments';
+import { INDIAN_MODEL_ARCHETYPES, getModelArchetype } from './artistic/indianModels';
+import { MASTER_STYLES, getMasterStyle } from './artistic/masterStyles';
+
+const initialPromptJson = `{
+  "shot": "Masterful portrait (4:5), capturing the interplay of light and emotion with profound depth.",
+  "subject": {
+    "variant": "Indian model with a modern, expressive face perfect for cinematic close-ups (height 5'8\\"). Possesses a slender but soft athletic form (bust 36C\\", waist 28\\", hips 38\\"). Her luminous fair skin tone interacts beautifully with dramatic chiaroscuro lighting, conveying deep emotion through a serene, direct gaze.",
+    "pose": "Seated on an unseen surface, leaning slightly forward, one hand gently resting on her knee, creating a natural and engaging posture. The pose feels candid and unforced, inviting connection.",
+    "hair_color": "dark",
+    "hair_style": "long, loose waves with a few stray strands catching the light, styled with natural volume and texture",
+    "skin_finish": "Natural, with a soft, healthy glow. Not overly matte or dewy, just authentic.",
+    "hand_and_nail_details": "Hands are relaxed and anatomically correct, with graceful, natural finger placement. Nails are impeccably manicured with a clean, neutral polish, reflecting the soft light.",
+    "tattoos": "none",
+    "piercings": "none",
+    "body_art": "none",
+    "nail_art": "Impeccably manicured nails, clean with a neutral polish.",
+    "high_heels": "not visible"
+  },
+  "wardrobe": "A simple, elegant, off-white linen blouse, with visible fabric texture and subtle creasing. The focus is on the subject's natural beauty, not the clothing.",
+  "environment": "A minimalist artist's loft with a large, north-facing window just out of frame. The background is a textured, neutral-toned wall, providing depth without distraction.",
+  "lighting": "Soft, directional window light (emulating a large octabox) that wraps around the subject's features, creating soft shadows that sculpt the face and form. A subtle reflector provides fill light to retain detail in the shadows.",
+  "camera": {
+    "focal_length": "85mm f/1.4 Portrait Lens",
+    "aperture": "f/1.8",
+    "distance": "1.5 m",
+    "angle": "Eye-level, creating a direct and personal connection with the subject.",
+    "framing": "Tight medium shot, from the mid-torso up, emphasizing facial expression, hand placement, and the texture of the wardrobe."
+  },
+  "color_grade": "Warm, natural tones with a painterly quality. Soft, luminous highlights and gentle contrast, preserving the full spectrum of realistic skin tones. Inspired by the color palette of classical portraiture.",
+  "style": "Hyper-realistic fine-art portraiture, in the style of a master photographer like Annie Leibovitz. A profound focus on emotional depth, authenticity, and technical perfection.",
+  "quality": "Shot on a Hasselblad X2D. Unmatched 8K detail. Extremely sharp focus on the eyes and hands. Every micro-detail, from fabric weave to skin pores, is rendered with absolute clarity.",
+  "figure_and_form": "Natural form, emphasizing the realistic drape of fabric over the subject's physique. The lighting and pose are composed to be tasteful and artistic.",
+  "skin_micro_details": "Authentic, high-resolution skin texture with visible pores, subtle freckles, and natural imperfections. A hint of subsurface scattering on the cheekbones where the light hits. No airbrushing, creating a raw and honest depiction of beauty.",
+  "fabric_physics": "The linen blouse drapes naturally, with realistic creases and folds that follow the subject's form. The weave of the fabric is visible upon close inspection, showing subtle textile imperfections.",
+  "material_properties": "The off-white linen has a soft, matte texture that absorbs light, contrasting with the subtle specular highlights on the subject's skin. No synthetic sheen."
+}`;
+
+const constructSimplePromptString = (data: PromptData): string => {
+  const safeStringify = (value: any): string => {
+    if (value === null || value === undefined) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value === 'object') {
+      return Object.entries(value)
+        .map(([k, v]) => `${k}: ${safeStringify(v)}`)
+        .filter(Boolean)
+        .join(', ');
+    }
+    return String(value);
+  };
+
+  return Object.entries(data)
+    .map(([key, value]) => `${key}: ${safeStringify(value)}`)
+    .filter(Boolean)
+    .join('. ');
+};
+
+const PROMPTS_STORAGE_key = 'ai-image-studio-prompts';
+const HISTORY_STORAGE_key = 'ai-image-studio-history';
+const MAX_HISTORY_SIZE = 20;
+
+const App: React.FC = () => {
+  const [uiMode, setUiMode] = useState<'classic' | 'experimental' | 'artistic' | 'corporate' | 'platinum' | 'roleplay' | 'gallery' | 'video' | 'vera' | 'masterclass' | 'visualnovel' | 'vnassets'>('classic');
+  const [promptMode, setPromptMode] = useState<'json' | 'text'>('json');
+  const [textPrompt, setTextPrompt] = useState<string>('');
+  const [promptData, setPromptData] = useState<PromptData>(JSON.parse(initialPromptJson));
+  const [generatedImages, setGeneratedImages] = useState<GeneratedImageData[] | null>(null);
+  const [visualNovelImages, setVisualNovelImages] = useState<GeneratedImageData[] | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoadModalOpen, setIsLoadModalOpen] = useState(false);
+  const [savedPrompts, setSavedPrompts] = useState<SavedPrompt[]>([]);
+  const [isHistoryModalOpen, setIsHistoryModalOpen] = useState(false);
+  const [promptHistory, setPromptHistory] = useState<HistoryEntry[]>([]);
+  const [activeConcept, setActiveConcept] = useState<string>('custom');
+  const [analysisSuggestions, setAnalysisSuggestions] = useState<AnalysisSuggestion[] | null>(null);
+  const [wovenPrompt, setWovenPrompt] = useState<string | null>(null);
+  const [generationStep, setGenerationStep] = useState<GenerationStep | null>(null);
+  const [lockedFields, setLockedFields] = useState<string[]>([]);
+  const [generationSettings, setGenerationSettings] = useState<GenerationSettings>({
+    provider: 'vertex-ai',
+    vertexAuthMethod: 'apikey', // Use API Key by default (easier setup)
+    projectId: '',
+    accessToken: '',
+    vertexApiKey: (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '', // Auto-populate from environment
+    numberOfImages: 1,
+    aspectRatio: '9:16',
+    personGeneration: 'allow_all',
+    safetySetting: 'block_few',
+    addWatermark: true,
+    outputFormat: 'png',
+    jpegQuality: 95,
+    enhancePrompt: true,
+    modelId: 'imagen-4.0-generate-001', // Use standard model for API key auth
+    seed: null,
+    intimacyLevel: 6,
+    safetyBypassStrategy: 'auto',
+    replicateApiToken: '',
+    fluxModel: 'black-forest-labs/flux-1.1-pro-ultra',
+    fluxRawMode: true,
+    fluxSafetyTolerance: 4,
+    // Weaving Settings (for using Google Gemini weaving with Flux generation)
+    weavingProjectId: '',
+    weavingAccessToken: '',
+    useGoogleForWeaving: false,
+  });
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  const [isStorageModalOpen, setIsStorageModalOpen] = useState(false);
+  const [isPromptReviewModalOpen, setIsPromptReviewModalOpen] = useState(false);
+  const [isAuthSettingsOpen, setIsAuthSettingsOpen] = useState(false);
+  const [pendingGeneration, setPendingGeneration] = useState<{
+    finalPrompt: string;
+    promptData: PromptData;
+    continueGeneration: () => Promise<void>;
+  } | null>(null);
+  const [storageSettings, setStorageSettings] = useState<StorageSettings>({
+    enableStorage: false, // Disabled by default - user must enable explicitly
+    provider: 'google-drive',
+    bucketName: DEFAULT_BUCKET_NAME,
+    driveFolderName: DEFAULT_DRIVE_FOLDER,
+    driveAccessToken: '',
+  });
+  const [videoPrompt, setVideoPrompt] = useState<string>('');
+  const [showVideoGenerator, setShowVideoGenerator] = useState<boolean>(false);
+  const [isGeneratingPrompt, setIsGeneratingPrompt] = useState<boolean>(false);
+
+
+  const handlePromptChange = useCallback((newPromptData: PromptData) => {
+    setPromptData(newPromptData);
+    setActiveConcept('custom');
+  }, []);
+
+  const handleConceptChange = useCallback((concept: ArtisticConcept) => {
+    setPromptData(concept.data);
+    setActiveConcept(concept.name);
+  }, []);
+
+  const validateCredentials = (options?: MasterGenerateOptions) => {
+    // Validate generation provider credentials
+    if (generationSettings.provider === 'vertex-ai') {
+      const authMethod = generationSettings.vertexAuthMethod || 'oauth';
+      if (authMethod === 'oauth') {
+        if (!generationSettings.projectId || !generationSettings.accessToken) {
+          setError('Please provide a valid Google Cloud Project ID and OAuth2 Access Token in the Generation Settings section.');
+          return false;
+        }
+      } else if (authMethod === 'apikey') {
+        const envApiKey = (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY;
+        if (!generationSettings.vertexApiKey && !envApiKey) {
+          setError('Please provide a valid Google AI API Key in the Generation Settings section.');
+          return false;
+        }
+      }
+    } else if (generationSettings.provider === 'replicate-flux') {
+      if (!generationSettings.replicateApiToken) {
+        setError('Please provide a valid Replicate API Token in the Generation Settings section.');
+        return false;
+      }
+    }
+
+    // Validate weaving credentials if weaving/enhancement enabled with Flux + Google weaving
+    if (options?.weave?.enabled || options?.enhance?.enabled) {
+      if (generationSettings.provider === 'replicate-flux' && generationSettings.useGoogleForWeaving) {
+        // Check if weaving credentials are available (either dedicated or OAuth)
+        const hasWeavingCreds = generationSettings.weavingProjectId && generationSettings.weavingAccessToken;
+        const hasOAuthCreds = generationSettings.projectId && generationSettings.accessToken;
+
+        if (!hasWeavingCreds && !hasOAuthCreds) {
+          setError('Google weaving enabled but missing credentials. Please ensure OAuth token is loaded, or provide separate weaving credentials, or disable "Use Google for Weaving".');
+          return false;
+        }
+
+        // If OAuth credentials are available but weaving credentials aren't, use OAuth
+        if (!hasWeavingCreds && hasOAuthCreds) {
+          console.log('🔄 Using OAuth credentials for weaving');
+          setGenerationSettings(prev => ({
+            ...prev,
+            weavingProjectId: prev.projectId,
+            weavingAccessToken: prev.accessToken
+          }));
+        }
+      }
+    }
+
+    return true;
+  };
+
+  const resetGenerationState = () => {
+    setIsLoading(true); setError(null); setGeneratedImages(null);
+    setWovenPrompt(null); setAnalysisSuggestions(null);
+  };
+
+  const applySuggestionsToPrompt = (currentPrompt: PromptData, suggestions: AnalysisSuggestion[]): PromptData => {
+    let updatedPromptData = JSON.parse(JSON.stringify(currentPrompt));
+    suggestions.forEach(suggestion => {
+        try {
+            const pathParts = suggestion.field.split('.');
+            let current: any = updatedPromptData;
+            for (let i = 0; i < pathParts.length - 1; i++) { current = current[pathParts[i]]; }
+            current[pathParts[pathParts.length - 1]] = suggestion.suggestedText;
+        } catch (e) { console.error(`Failed to apply suggestion for field: ${suggestion.field}`, e); }
+    });
+    return updatedPromptData;
+  };
+
+  const loadHistoryFromStorage = (): HistoryEntry[] => {
+    try {
+      const storedHistory = localStorage.getItem(HISTORY_STORAGE_key);
+      return storedHistory ? JSON.parse(storedHistory) : [];
+    } catch (e) { console.error("Failed to load history:", e); return []; }
+  };
+
+  const addToHistory = (promptToAdd: PromptData, settingsToAdd: GenerationSettings) => {
+    const newEntry: HistoryEntry = { timestamp: Date.now(), data: promptToAdd, settings: settingsToAdd };
+    setPromptHistory(currentHistory => {
+      if (currentHistory.length > 0 && JSON.stringify(currentHistory[0].data) === JSON.stringify(promptToAdd)) return currentHistory;
+      const updatedHistory = [newEntry, ...currentHistory].slice(0, MAX_HISTORY_SIZE);
+      try { localStorage.setItem(HISTORY_STORAGE_key, JSON.stringify(updatedHistory)); } catch (e) { console.error("Failed to save history:", e); }
+      return updatedHistory;
+    });
+  };
+
+  useEffect(() => { setPromptHistory(loadHistoryFromStorage()); }, []);
+
+  // Auto-refresh GCP OAuth token every 50 minutes (before 60-min expiration)
+  useEffect(() => {
+    const REFRESH_INTERVAL = 50 * 60 * 1000; // 50 minutes in milliseconds
+
+    async function fetchAndUpdateGcloudToken() {
+      try {
+        console.log('🔄 Auto-refreshing GCP OAuth token...');
+
+        // Fetch both token and project ID in parallel
+        const [tokenResponse, projectResponse] = await Promise.all([
+          fetch('/api/gcloud-token'),
+          fetch('/api/gcloud-project')
+        ]);
+
+        if (tokenResponse.ok) {
+          const tokenData = await tokenResponse.json();
+          const token = tokenData.token;
+
+          // Update localStorage
+          localStorage.setItem('mainToken', token);
+
+          // Update state
+          setGenerationSettings(prev => ({ ...prev, accessToken: token }));
+
+          console.log('✅ OAuth token auto-refreshed:', token.substring(0, 20) + '...');
+        } else {
+          const error = await tokenResponse.json();
+          console.warn('⚠️ Failed to auto-refresh token:', error.error);
+          console.log('💡 Hint:', error.hint);
+        }
+
+        if (projectResponse.ok) {
+          const projectData = await projectResponse.json();
+          const projectId = projectData.projectId;
+
+          // Update localStorage
+          localStorage.setItem('projectId', projectId);
+
+          // Update state
+          setGenerationSettings(prev => ({ ...prev, projectId: projectId }));
+
+          console.log('✅ GCP Project ID loaded:', projectId);
+        }
+
+      } catch (error) {
+        console.warn('⚠️ Token auto-refresh failed:', error);
+        console.log('💡 Make sure gcloud CLI is installed and authenticated');
+      }
+    }
+
+    // Fetch immediately on startup
+    fetchAndUpdateGcloudToken();
+
+    // Set up periodic refresh every 50 minutes
+    const intervalId = setInterval(fetchAndUpdateGcloudToken, REFRESH_INTERVAL);
+
+    console.log('⏰ GCP OAuth auto-refresh enabled (every 50 minutes)');
+
+    // Cleanup on unmount
+    return () => clearInterval(intervalId);
+  }, []);
+
+  // Load tokens and project IDs from localStorage on startup
+  useEffect(() => {
+    const mainToken = localStorage.getItem('mainToken');
+    const projectId = localStorage.getItem('projectId');
+    const driveToken = localStorage.getItem('driveToken');
+    const replicateToken = localStorage.getItem('replicateToken');
+    const weavingToken = localStorage.getItem('weavingToken');
+    const weavingProjectId = localStorage.getItem('weavingProjectId');
+
+    let loadedCount = 0;
+    const missingTokens: string[] = [];
+
+    // Load main Vertex AI credentials
+    if (mainToken && projectId) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        accessToken: mainToken,
+        projectId: projectId
+      }));
+      loadedCount += 2;
+      console.log('✅ Vertex AI token and project ID loaded');
+    } else if (mainToken) {
+      setGenerationSettings(prev => ({ ...prev, accessToken: mainToken }));
+      loadedCount++;
+      missingTokens.push('Vertex AI Project ID');
+    } else if (projectId) {
+      setGenerationSettings(prev => ({ ...prev, projectId: projectId }));
+      loadedCount++;
+      missingTokens.push('Vertex AI Token');
+    } else {
+      missingTokens.push('Vertex AI');
+    }
+
+    // Load Google Drive token
+    if (driveToken) {
+      setStorageSettings(prev => ({ ...prev, driveAccessToken: driveToken }));
+      loadedCount++;
+    } else {
+      missingTokens.push('Google Drive');
+    }
+
+    // Load Replicate token
+    if (replicateToken) {
+      setGenerationSettings(prev => ({ ...prev, replicateApiToken: replicateToken }));
+      loadedCount++;
+    } else {
+      missingTokens.push('Replicate');
+    }
+
+    // Load Weaving credentials (for Google Gemini weaving with Flux)
+    if (weavingToken && weavingProjectId) {
+      setGenerationSettings(prev => ({
+        ...prev,
+        weavingAccessToken: weavingToken,
+        weavingProjectId: weavingProjectId
+      }));
+      loadedCount += 2;
+      console.log('✅ Weaving token and project ID loaded (for Google Gemini weaving with Flux)');
+    } else if (weavingToken) {
+      setGenerationSettings(prev => ({ ...prev, weavingAccessToken: weavingToken }));
+      loadedCount++;
+      console.log('⚠️ Weaving token loaded but missing project ID');
+    } else if (weavingProjectId) {
+      setGenerationSettings(prev => ({ ...prev, weavingProjectId: weavingProjectId }));
+      loadedCount++;
+      console.log('⚠️ Weaving project ID loaded but missing token');
+    }
+
+    // Single consolidated message
+    if (loadedCount > 0) {
+      console.log(`✅ Loaded ${loadedCount} credential(s) from localStorage`);
+    }
+
+    // Show instructions for missing credentials
+    if (missingTokens.length > 0) {
+      console.log(`ℹ️ Missing credentials for: ${missingTokens.join(', ')}`);
+      console.log('💡 To set credentials, open console and paste:');
+      console.log('');
+      if (missingTokens.includes('Vertex AI') || missingTokens.includes('Vertex AI Token') || missingTokens.includes('Vertex AI Project ID')) {
+        console.log('// Vertex AI (Imagen) - OAuth credentials:');
+        console.log('localStorage.setItem("projectId", "YOUR_GCP_PROJECT_ID");');
+        console.log('localStorage.setItem("mainToken", "YOUR_VERTEX_OAUTH_TOKEN");');
+        console.log('');
+      }
+      if (missingTokens.includes('Google Drive')) {
+        console.log('// Google Drive storage:');
+        console.log('localStorage.setItem("driveToken", "YOUR_DRIVE_OAUTH_TOKEN");');
+        console.log('');
+      }
+      if (missingTokens.includes('Replicate')) {
+        console.log('// Replicate (Flux):');
+        console.log('localStorage.setItem("replicateToken", "YOUR_REPLICATE_API_TOKEN");');
+        console.log('');
+      }
+      console.log('// Optional: Google Gemini weaving (for prompt enhancement with Flux):');
+      console.log('localStorage.setItem("weavingProjectId", "YOUR_GCP_PROJECT_ID");');
+      console.log('localStorage.setItem("weavingToken", "YOUR_GOOGLE_OAUTH_TOKEN");');
+      console.log('');
+      console.log('Then reload the page to apply changes.');
+    }
+  }, []);
+
+  // Execute the actual image generation (called after prompt review or immediately)
+  const executeGeneration = async (finalPrompt: string, promptForNextStep: PromptData, options: MasterGenerateOptions) => {
+    try {
+      setIsLoading(true);
+      setGenerationStep('generating');
+
+      // Build storage config based on user selection
+      let storageConfig: StorageConfig | null = null;
+      if (storageSettings.enableStorage) {
+        if (storageSettings.provider === 'google-drive') {
+          // Use separate Drive token if provided, otherwise use main token
+          const driveToken = storageSettings.driveAccessToken || generationSettings.accessToken;
+          storageConfig = {
+            provider: 'google-drive',
+            googleDrive: {
+              accessToken: driveToken,
+              folderName: storageSettings.driveFolderName
+            }
+          };
+        } else {
+          storageConfig = {
+            provider: 'cloud-storage',
+            cloudStorage: {
+              projectId: generationSettings.projectId,
+              bucketName: storageSettings.bucketName,
+              accessToken: generationSettings.accessToken,
+              region: 'us-east4'
+            }
+          };
+        }
+      }
+
+      let result;
+
+      // Route to appropriate generation service
+      if (generationSettings.provider === 'replicate-flux') {
+        // Use Replicate Flux API
+        const { generateWithFlux, getOptimalFluxSettings } = await import('./services/replicateService');
+
+        // Get optimal Flux settings based on intimacy level
+        const fluxOptimalSettings = getOptimalFluxSettings(generationSettings.intimacyLevel);
+
+        const fluxConfig = {
+          apiToken: generationSettings.replicateApiToken!,
+          model: generationSettings.fluxModel || fluxOptimalSettings.model!,
+          aspectRatio: generationSettings.aspectRatio,
+          numOutputs: generationSettings.numberOfImages,
+          seed: generationSettings.seed,
+          outputFormat: (generationSettings.fluxOutputFormat || 'jpg') as 'jpg' | 'png',
+          outputQuality: fluxOptimalSettings.outputQuality || 90,
+          raw: generationSettings.fluxRawMode !== undefined ? generationSettings.fluxRawMode : fluxOptimalSettings.raw,
+          safetyTolerance: generationSettings.fluxSafetyTolerance || fluxOptimalSettings.safetyTolerance,
+          numInferenceSteps: fluxOptimalSettings.numInferenceSteps,
+          guidanceScale: fluxOptimalSettings.guidanceScale,
+          imagePrompt: options.fluxImagePrompt, // Pass the uploaded image if provided
+        };
+
+        console.log('🎨 Using Replicate Flux:', {
+          model: fluxConfig.model,
+          raw: fluxConfig.raw,
+          safetyTolerance: fluxConfig.safetyTolerance,
+          outputFormat: fluxConfig.outputFormat,
+          intimacyLevel: generationSettings.intimacyLevel,
+          imageToImage: !!options.fluxImagePrompt,
+        });
+
+        const base64Images = await generateWithFlux(finalPrompt, fluxConfig);
+
+        result = {
+          images: base64Images,
+          metadata: [], // Flux doesn't need metadata for storage (images are already downloaded)
+          errors: [],
+        };
+      } else {
+        // Use Vertex AI Imagen with intelligent safety bypass cascade
+        console.log('🚀 Using intelligent generation system with multi-layer safety bypass');
+
+        const generationResult = await generateWithMaximumSafety(
+          finalPrompt,
+          promptForNextStep,
+          generationSettings
+        );
+
+        // Display generation summary
+        console.log(getGenerationSummary(generationResult));
+
+        // Handle storage separately if enabled
+        // TODO: Integrate storage with intelligent generation
+        result = {
+          images: generationResult.images,
+          metadata: [], // Storage integration pending
+          errors: [],
+        };
+      }
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = generationSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+
+      const newImageData = result.images.map(b64 => ({
+        url: `data:${mimeType};base64,${b64}`,
+        settings: {
+          modelId: generationSettings.provider === 'vertex-ai'
+            ? generationSettings.modelId
+            : (generationSettings.fluxModel || 'flux-1.1-pro-ultra'),
+          seed: generationSettings.seed,
+          aspectRatio: generationSettings.aspectRatio
+        }
+      }));
+      setGeneratedImages(newImageData);
+
+      // Log upload results
+      if (storageSettings.enableStorage) {
+        const providerName = storageSettings.provider === 'google-drive' ? 'Google Drive' : 'Cloud Storage';
+        console.log(`✅ Uploaded ${result.metadata.length} images to ${providerName}`);
+        if (result.errors.length > 0) {
+          console.warn('Upload errors:', result.errors);
+        }
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+      throw err; // Re-throw to be caught by handleMasterGenerate
+    } finally {
+      setIsLoading(false);
+      setGenerationStep(null);
+    }
+  };
+
+  const handleMasterGenerate = async (options: MasterGenerateOptions) => {
+    if (!validateCredentials(options)) return;
+    addToHistory(promptData, generationSettings);
+    resetGenerationState();
+
+    let promptForNextStep = promptData;
+    let finalPrompt = '';
+
+    try {
+      // Check if we're in text mode
+      if (promptMode === 'text') {
+        if (!textPrompt.trim()) {
+          setError('Please enter a text prompt before generating.');
+          return;
+        }
+
+        console.log('📝 Using direct text prompt mode');
+
+        // In text mode, we can still apply enhancement/weaving if requested
+        // But we start with the raw text instead of JSON
+
+        // 1. (Optional) Weave Text Prompt
+        if (options.weave.enabled && (generationSettings.provider === 'vertex-ai' || generationSettings.useGoogleForWeaving)) {
+          setGenerationStep('weaving');
+          try {
+            // For text mode weaving, we'll use the text as-is with Gemini to improve it
+            const response = await fetch(`https://us-east4-aiplatform.googleapis.com/v1/projects/${generationSettings.useGoogleForWeaving ? generationSettings.weavingProjectId : generationSettings.projectId}/locations/us-east4/publishers/google/models/gemini-2.5-pro:generateContent`, {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${generationSettings.useGoogleForWeaving ? generationSettings.weavingAccessToken : generationSettings.accessToken}`,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                contents: [{
+                  role: 'user',
+                  parts: [{ text: `You are a master photographer helping to refine an image generation prompt. Improve and expand this prompt for maximum clarity and detail, maintaining its original intent:\n\n${textPrompt}` }]
+                }],
+                generationConfig: {
+                  temperature: 0.3,
+                  maxOutputTokens: 2048,
+                }
+              })
+            });
+
+            if (response.ok) {
+              const data = await response.json();
+              finalPrompt = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || textPrompt;
+              setWovenPrompt(finalPrompt);
+              console.log('✅ Text prompt woven successfully');
+            } else {
+              throw new Error('Failed to weave text prompt');
+            }
+          } catch (weaveError) {
+            console.error('Weaving failed:', weaveError);
+            setError(`⚠️ Weaving failed: ${weaveError instanceof Error ? weaveError.message : 'Unknown error'}. Using original text prompt.`);
+            finalPrompt = textPrompt;
+            setWovenPrompt(`RAW TEXT PROMPT: ${finalPrompt}`);
+          }
+        } else {
+          // Use text prompt as-is
+          finalPrompt = textPrompt;
+          setWovenPrompt(`RAW TEXT PROMPT: ${finalPrompt}`);
+        }
+
+        promptForNextStep = promptData; // Keep promptData for metadata/history
+      } else {
+        // JSON Mode - existing flow
+        // 0. (Optional) Apply Advanced Selectors FIRST
+        const hasAdvancedSelections =
+          options.intimateWeaving?.enabled ||
+          options.wardrobeSelection?.enabled ||
+          options.qualityPreset?.enabled;
+
+        if (hasAdvancedSelections) {
+          console.log('🎨 Applying Advanced Super-Seductress Selectors...');
+          promptForNextStep = applyAdvancedSelections(promptForNextStep, {
+            intimateWeaving: options.intimateWeaving,
+            wardrobeSelection: options.wardrobeSelection,
+            qualityPreset: options.qualityPreset
+          });
+          setPromptData(promptForNextStep); // Update UI to show enhanced prompt
+        }
+
+        // 1. (Optional) Enhance Prompt
+        if (options.enhance.enabled) {
+          setGenerationStep('enhancing');
+          try {
+            const enhancedData = await enhancePrompt(promptForNextStep, generationSettings, options.enhance.style, lockedFields);
+            setPromptData(enhancedData);
+            promptForNextStep = enhancedData;
+          } catch (enhanceError) {
+            console.error('Enhancement failed:', enhanceError);
+            setError(`⚠️ Enhancement failed: ${enhanceError instanceof Error ? enhanceError.message : 'Unknown error'}. Proceeding with original prompt.`);
+            // Continue with original prompt - don't throw
+          }
+        }
+
+        // 2. (Optional) Weave Prompt
+        if (options.weave.enabled) {
+          setGenerationStep('weaving');
+          try {
+            finalPrompt = await weavePrompt(promptForNextStep, generationSettings, {
+              adherence: options.weave.adherence,
+              lockFields: lockedFields,
+              weavingMode: options.weave.weavingMode
+            });
+            setWovenPrompt(finalPrompt);
+          } catch (weaveError) {
+            console.error('Weaving failed:', weaveError);
+            throw new Error(`Prompt weaving failed: ${weaveError instanceof Error ? weaveError.message : 'Unknown error'}`);
+          }
+        } else {
+          // 3. (If no weave) Use Raw Prompt
+          finalPrompt = constructSimplePromptString(promptForNextStep);
+          setWovenPrompt(`RAW PROMPT: ${finalPrompt}`);
+        }
+      }
+
+      // 3.5. (Optional) Show Prompt Review Modal
+      if (generationSettings.reviewPromptBeforeGeneration) {
+        // Create a continuation function that will be called when user confirms
+        const continueGeneration = async () => {
+          await executeGeneration(finalPrompt, promptForNextStep, options);
+        };
+
+        // Show the modal and wait for user action
+        setPendingGeneration({
+          finalPrompt,
+          promptData: promptForNextStep,
+          continueGeneration,
+        });
+        setIsPromptReviewModalOpen(true);
+        setIsLoading(false); // Stop loading indicator while waiting for user
+        return; // Exit here - will continue when user confirms
+      }
+
+      // 4. Generate Image and Save to Storage
+      await executeGeneration(finalPrompt, promptForNextStep, options);
+
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
+    } finally {
+      setIsLoading(false);
+      setGenerationStep(null);
+    }
+  };
+
+
+  const handlePromptReviewGenerate = async () => {
+    if (!pendingGeneration) return;
+
+    try {
+      await pendingGeneration.continueGeneration();
+    } catch (err) {
+      // Error is already handled in executeGeneration
+      console.error('Generation failed:', err);
+    } finally {
+      setPendingGeneration(null);
+      setIsPromptReviewModalOpen(false);
+    }
+  };
+
+  const handlePromptReviewCancel = () => {
+    setPendingGeneration(null);
+    setIsPromptReviewModalOpen(false);
+    setIsLoading(false);
+    setGenerationStep(null);
+  };
+
+  const handleSavePrompt = () => {
+    const name = window.prompt("Enter a name for this prompt configuration:");
+    if (name && name.trim()) {
+      try {
+        const storedPrompts = localStorage.getItem(PROMPTS_STORAGE_key);
+        const prompts: SavedPrompt[] = storedPrompts ? JSON.parse(storedPrompts) : [];
+        const newSavedPrompt: SavedPrompt = { name, data: promptData, settings: generationSettings };
+        const existingPromptIndex = prompts.findIndex(p => p.name === name);
+        if (existingPromptIndex !== -1) {
+          if (!window.confirm(`A prompt with the name "${name}" already exists. Overwrite it?`)) return;
+          prompts[existingPromptIndex] = newSavedPrompt;
+        } else { prompts.push(newSavedPrompt); }
+        localStorage.setItem(PROMPTS_STORAGE_key, JSON.stringify(prompts));
+        alert(`Prompt "${name}" saved successfully!`);
+      } catch (e) { console.error("Failed to save prompt:", e); alert("Error: Could not save the prompt."); }
+    }
+  };
+
+  const loadPromptsFromStorage = (): SavedPrompt[] => {
+    try {
+      const storedPrompts = localStorage.getItem(PROMPTS_STORAGE_key);
+      return storedPrompts ? JSON.parse(storedPrompts) : [];
+    } catch (e) { console.error("Failed to load prompts:", e); return []; }
+  };
+
+  const handleOpenLoadModal = () => { setSavedPrompts(loadPromptsFromStorage()); setIsLoadModalOpen(true); };
+  const handleLoadSelectedPrompt = (promptToLoad: SavedPrompt) => {
+    handlePromptChange(promptToLoad.data);
+    setGenerationSettings(prev => ({...prev, ...promptToLoad.settings}));
+    setIsLoadModalOpen(false);
+  };
+  const handleDeletePrompt = (name: string) => {
+    if (window.confirm(`Are you sure you want to delete "${name}"?`)) {
+      try {
+        const prompts = loadPromptsFromStorage();
+        const updatedPrompts = prompts.filter((p: SavedPrompt) => p.name !== name);
+        localStorage.setItem(PROMPTS_STORAGE_key, JSON.stringify(updatedPrompts));
+        setSavedPrompts(updatedPrompts);
+      } catch (e) { console.error("Failed to delete prompt:", e); alert("Error: Could not delete prompt."); }
+    }
+  };
+  const handleResetPrompt = () => {
+    if (window.confirm("Reset the prompt to its default state? Unsaved changes will be lost.")) {
+      setPromptData(JSON.parse(initialPromptJson));
+      setActiveConcept('custom');
+    }
+  };
+  const handleCopyPrompt = () => {
+    const promptText = wovenPrompt || constructSimplePromptString(promptData);
+    navigator.clipboard.writeText(promptText).then(() => alert('Final prompt copied to clipboard!')).catch(err => {
+      console.error('Failed to copy prompt: ', err); alert('Failed to copy prompt.');
+    });
+  };
+  const handleApplySuggestion = (suggestion: AnalysisSuggestion) => {
+     setPromptData(currentPrompt => applySuggestionsToPrompt(currentPrompt, [suggestion]));
+     setAnalysisSuggestions(prev => prev ? prev.filter(s => s !== suggestion) : null);
+     setActiveConcept('custom');
+  };
+  const handleOpenHistoryModal = () => { setPromptHistory(loadHistoryFromStorage()); setIsHistoryModalOpen(true); };
+  const handleLoadFromHistory = (entryToLoad: HistoryEntry) => {
+    handlePromptChange(entryToLoad.data);
+    setGenerationSettings(prev => ({...prev, ...entryToLoad.settings}));
+    setIsHistoryModalOpen(false);
+  };
+  const handleClearHistory = () => {
+    if (window.confirm("Clear the entire prompt history? This cannot be undone.")) {
+      try {
+        localStorage.removeItem(HISTORY_STORAGE_key);
+        setPromptHistory([]);
+        setIsHistoryModalOpen(false);
+      } catch (e) { console.error("Failed to clear history:", e); alert("Error: Could not clear history."); }
+    }
+  };
+
+  const handleSelectFluxPrompt = (template: FluxPromptTemplate) => {
+    console.log('📚 Selected Flux prompt template:', template.name);
+
+    // Set the prompt in text mode (these prompts are designed for direct usage)
+    setTextPrompt(template.prompt);
+    setPromptMode('text');
+
+    // Update generation settings to match template recommendations
+    setGenerationSettings(prev => {
+      // Use the current provider or default to Flux
+      const targetProvider = prev.provider || 'replicate-flux';
+
+      // Convert aspect ratio if using Imagen
+      let aspectRatio: typeof template.aspectRatio = template.aspectRatio;
+      if (targetProvider === 'vertex-ai' && template.aspectRatio === '4:5') {
+        aspectRatio = '3:4' as typeof template.aspectRatio; // Imagen doesn't support 4:5, use closest (3:4)
+        console.log('🔄 Converted aspect ratio 4:5 → 3:4 for Imagen compatibility');
+      }
+
+      return {
+        ...prev,
+        aspectRatio,
+        fluxSafetyTolerance: template.safetyTolerance,
+        intimacyLevel: template.intimacyLevel,
+        // Recommend using Flux for these optimized prompts, but respect user's current provider
+        provider: targetProvider
+      };
+    });
+
+    console.log('✅ Flux prompt loaded with optimal settings:', {
+      aspectRatio: generationSettings.aspectRatio,
+      safetyTolerance: template.safetyTolerance,
+      intimacyLevel: template.intimacyLevel,
+      category: template.category
+    });
+  };
+
+  const handleSelectImagenPrompt = (template: ImagenPromptTemplate) => {
+    console.log('🎨 Selected Imagen prompt template:', template.name);
+
+    // Set the prompt in text mode (Imagen prompts include art director declarations)
+    setTextPrompt(template.prompt);
+    setPromptMode('text');
+
+    // Update generation settings to match template recommendations
+    setGenerationSettings(prev => {
+      return {
+        ...prev,
+        aspectRatio: template.aspectRatio,
+        intimacyLevel: template.intimacyLevel,
+        // Set provider to Vertex AI (Imagen 4) for these optimized prompts
+        provider: 'vertex-ai',
+        personGeneration: template.personGeneration,
+        safetySetting: template.safetyFilter,
+        // Ensure modelId is set for Imagen templates
+        modelId: prev.modelId || 'imagen-4.0-generate-001'
+      };
+    });
+
+    console.log('✅ Imagen prompt loaded with optimal settings:', {
+      aspectRatio: template.aspectRatio,
+      intimacyLevel: template.intimacyLevel,
+      category: template.category,
+      personGeneration: template.personGeneration,
+      safetyFilter: template.safetyFilter
+    });
+  };
+
+  const handleQuickCorporateGenerate = async (
+    prompt: string,
+    settings: { aspectRatio: '4:5' | '9:16' | '16:9' | '1:1', intimacyLevel: number, safetyTolerance: number }
+  ) => {
+    console.log('🎯 Quick Corporate Generate triggered:', {
+      promptLength: prompt.length,
+      aspectRatio: settings.aspectRatio,
+      intimacyLevel: settings.intimacyLevel,
+      safetyTolerance: settings.safetyTolerance
+    });
+
+    // Set the prompt in text mode
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Configure optimal Flux settings for corporate power photography
+    setGenerationSettings(prev => {
+      // Default to Flux for corporate generator (it's optimized for it)
+      const targetProvider = 'replicate-flux';
+
+      // Convert aspect ratio if somehow using Imagen
+      let aspectRatio = settings.aspectRatio;
+      if (prev.provider === 'vertex-ai' && settings.aspectRatio === '4:5') {
+        aspectRatio = '3:4' as '4:5' | '9:16' | '16:9' | '1:1'; // Type cast for TS
+        console.log('🔄 Converted aspect ratio 4:5 → 3:4 for Imagen compatibility');
+      }
+
+      return {
+        ...prev,
+        provider: targetProvider,
+        aspectRatio,
+        intimacyLevel: settings.intimacyLevel,
+        fluxSafetyTolerance: settings.safetyTolerance,
+        fluxRawMode: true, // CRITICAL: Raw mode for maximum fidelity
+        fluxModel: 'black-forest-labs/flux-1.1-pro-ultra',
+        fluxOutputFormat: 'jpg',
+        numberOfImages: 1
+      };
+    });
+
+    console.log('✅ Corporate prompt loaded with proven success settings (raw: true, safety: 6)');
+
+    // Auto-trigger generation with optimal options
+    const options: MasterGenerateOptions = {
+      enhance: { enabled: false, style: 'creative' },
+      weave: { enabled: false, adherence: 'balanced', weavingMode: 'passion' }
+    };
+
+    // Small delay to ensure state updates
+    setTimeout(() => {
+      handleMasterGenerate(options);
+    }, 100);
+  };
+
+  const handlePopulateFields = async (data: PromptData) => {
+    console.log('📋 Populating JSON fields with structured data');
+
+    // If using Imagen (vertex-ai), optimize the prompt data for Imagen 4
+    let finalData = data;
+    if (generationSettings.provider === 'vertex-ai') {
+      const { optimizePromptDataForImagen } = await import('./services/imagenOptimizer');
+      finalData = optimizePromptDataForImagen(data);
+      console.log('🖼️ Applied Imagen 4 optimizations to populated fields');
+    }
+
+    // Switch to JSON mode to show the populated fields
+    setPromptMode('json');
+
+    // Set the prompt data
+    setPromptData(finalData);
+
+    // Mark as custom concept since it's populated
+    setActiveConcept('custom');
+
+    console.log('✅ Fields populated successfully');
+  };
+
+  const handleExperimentalGenerate = (selectedNodes: string[], levels: CalculatedLevels) => {
+    // Convert node configuration to PromptData
+    const configuredPrompt = mapNodesToPromptData(selectedNodes, levels, promptData);
+
+    // Update prompt data
+    setPromptData(configuredPrompt);
+    setActiveConcept('experimental-config');
+
+    // Switch back to classic mode to show the result
+    setUiMode('classic');
+
+    // Trigger master generation with default settings
+    // Use PassionWeave as default for experimental mode
+    const options: MasterGenerateOptions = {
+      enhance: { enabled: true, style: 'creative' },
+      weave: { enabled: true, adherence: 'balanced', weavingMode: 'passion' },
+    };
+
+    handleMasterGenerate(options);
+  };
+
+  const handleExitExperimental = () => {
+    setUiMode('classic');
+  };
+
+  const handleArtisticGenerate = async (prompt: string, settings: any) => {
+    // Artistic mode passes a complete prompt and calibrated settings
+    setIsLoading(true);
+    setError(null);
+    setGenerationStep({ step: 'generating', message: 'Generating artistic image...' });
+
+    try {
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+
+      setGeneratedImages(images.map(img => ({
+        url: `data:${mimeType};base64,${img}`,
+        settings: {
+          modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
+          seed: generationSettings.seed,
+          aspectRatio: generationSettings.aspectRatio
+        }
+      })));
+
+      setWovenPrompt(prompt);
+      setGenerationStep(null);
+    } catch (err) {
+      console.error('Artistic generation error:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error during artistic generation');
+      setGenerationStep(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExitArtistic = () => {
+    setUiMode('classic');
+  };
+
+  const handleCorporateGenerate = async (prompt: string, settings: any) => {
+    // Corporate mode passes a complete prompt and calibrated settings
+    setIsLoading(true);
+    setError(null);
+    setGenerationStep({ step: 'generating', message: 'Generating corporate image...' });
+
+    try {
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+
+      setGeneratedImages(images.map(img => ({
+        url: `data:${mimeType};base64,${img}`,
+        settings: {
+          modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
+          seed: generationSettings.seed,
+          aspectRatio: generationSettings.aspectRatio
+        }
+      })));
+
+      setWovenPrompt(prompt);
+      setGenerationStep(null);
+    } catch (err) {
+      console.error('Corporate generation error:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error during corporate generation');
+      setGenerationStep(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExitCorporate = () => {
+    setUiMode('classic');
+  };
+
+  const handleMigrateFromArtistic = (prompt: string, config: ArtisticGenerationConfig, sceneData: {scene: string, wardrobe: string, lighting: string, composition: string}) => {
+    // Get master style and model archetype details
+    const masterStyle = getMasterStyle(config.masterStyle);
+    const modelArchetype = getModelArchetype(config.modelArchetype);
+
+    // Default camera settings based on master style and quality
+    const cameraDefaults = {
+      newton: { focal_length: '50mm', aperture: 'f/2.8', distance: '3 m', angle: 'Low angle, powerful perspective' },
+      penn: { focal_length: '85mm', aperture: 'f/4.0', distance: '2.5 m', angle: 'Eye-level, direct connection' },
+      roversi: { focal_length: '85mm f/1.4', aperture: 'f/1.8', distance: '2 m', angle: 'Intimate eye-level' },
+      ritts: { focal_length: '70mm', aperture: 'f/5.6', distance: '4 m', angle: 'Natural perspective' }
+    };
+
+    const camera = cameraDefaults[config.masterStyle] || cameraDefaults.newton;
+
+    // Map artistic config to complete JSON promptData
+    const newPromptData: PromptData = {
+      shot: `${masterStyle.displayName}-style fine-art photography. Intimacy level ${config.intimacyLevel}/10. ${config.qualityPreset} quality.`,
+      subject: {
+        variant: modelArchetype ? `Indian ${modelArchetype.name}. ${modelArchetype.physicalTraits.figure}. ${modelArchetype.physicalTraits.skinTone}. ${modelArchetype.physicalTraits.features}` : `Indian model with ${config.modelArchetype} aesthetic`,
+        pose: sceneData.composition || 'Confident natural pose expressing feminine power and grace',
+        hair_color: config.intimacyLevel >= 7 ? 'jet black' : 'dark',
+        hair_style: config.intimacyLevel >= 8 ? 'loose flowing waves' : config.intimacyLevel >= 5 ? 'styled with natural volume' : 'elegantly styled',
+        skin_finish: config.qualityPreset === 'gallery' ? 'Natural luminous glow with authentic texture' : 'Natural healthy radiance',
+        hand_and_nail_details: 'Impeccably manicured with graceful natural placement',
+        tattoos: 'none',
+        piercings: 'none',
+        body_art: 'none',
+        nail_art: config.intimacyLevel >= 7 ? 'Classic red polish' : 'Natural neutral manicure',
+        high_heels: config.intimacyLevel >= 6 ? 'Sharp stiletto heels' : 'not visible'
+      },
+      wardrobe: sceneData.wardrobe,
+      environment: sceneData.scene,
+      lighting: sceneData.lighting,
+      camera: {
+        focal_length: camera.focal_length,
+        aperture: camera.aperture,
+        distance: camera.distance,
+        angle: camera.angle,
+        framing: sceneData.composition
+      },
+      color_grade: masterStyle.technicalSpecs.saturation === 'muted' ? 'High-contrast monochrome or desaturated tones' :
+                   masterStyle.technicalSpecs.saturation === 'warm' ? 'Warm romantic tones with soft highlights' :
+                   'Balanced natural color with cinematic depth',
+      style: `${masterStyle.displayName} ${masterStyle.description}. ${masterStyle.examplePromptFragment}`,
+      quality: config.qualityPreset === 'gallery' ? 'Museum-quality 8K fine-art photography with impeccable detail and texture' :
+               config.qualityPreset === 'premium' ? 'Premium 8K photography with exceptional clarity and professional retouching' :
+               'Professional 8K photography with natural authentic quality',
+      figure_and_form: `Artistic emphasis on feminine form and sculptural composition, ${masterStyle.compositionStyle}`,
+      skin_micro_details: 'High-resolution authentic skin texture with visible pores, natural imperfections, and subtle subsurface scattering. No airbrushing.',
+      fabric_physics: 'Realistic fabric draping with natural creases and folds following the body. Visible fabric weave and texture upon close inspection.',
+      material_properties: 'Natural material properties with authentic light interaction, soft matte to subtle specular highlights depending on fabric type'
+    };
+
+    setPromptData(newPromptData);
+    setPromptMode('json');
+    setUiMode('classic');
+
+    setTimeout(() => {
+      alert('Artistic configuration migrated to JSON mode! All fields populated - review and adjust as needed.');
+    }, 100);
+  };
+
+  const handleMigrateFromCorporate = (prompt: string, state: CorporatePowerState) => {
+    // Map corporate state to JSON promptData
+    const role = state.selectedRole ? CORPORATE_ROLES.find(r => r.role === state.selectedRole) : null;
+    const environment = state.selectedEnvironment ? OFFICE_ENVIRONMENTS.find(e => e.type === state.selectedEnvironment) : null;
+
+    // Get model archetype details
+    const modelArchetype = getModelArchetype(state.modelVariant);
+
+    // Camera settings based on power level and environment
+    const cameraSettings = {
+      focal_length: role && role.powerLevel >= 8 ? '35mm' : '50mm',
+      aperture: role && role.powerLevel >= 8 ? 'f/2.8' : 'f/4.0',
+      distance: role && role.powerLevel >= 8 ? '4 m' : '3 m',
+      angle: state.intimacyCalibration.powerDynamic === 'dominant' ? 'Low angle emphasizing power and authority' :
+             state.intimacyCalibration.powerDynamic === 'submissive' ? 'High angle suggesting vulnerability within power' :
+             'Eye-level balanced perspective',
+      framing: role && role.powerLevel >= 8 ? 'Full body or wide medium shot showing environment and power' : 'Medium shot emphasizing presence'
+    };
+
+    // Complete PromptData with all fields populated
+    const newPromptData: PromptData = {
+      shot: `Corporate power photography in ${state.intimacyCalibration.artisticExplicitness} style. Intimacy ${state.intimacyCalibration.level}/10, ${state.intimacyCalibration.powerDynamic} power dynamic.`,
+      subject: {
+        variant: modelArchetype ?
+          `Indian ${modelArchetype.name} as ${role?.role.replace(/_/g, ' ') || 'executive'}. ${modelArchetype.physicalTraits.figure}. ${modelArchetype.physicalTraits.skinTone}. ${modelArchetype.physicalTraits.features}. ${role?.sensualityStyle || 'sophisticated'} presence.` :
+          `Indian ${role?.role.replace(/_/g, ' ') || 'executive'} with ${role?.sensualityStyle || 'sophisticated'} presence and commanding authority`,
+        pose: state.customPose || role?.powerPoses[0] || 'Confident executive power stance expressing authority and sensuality',
+        hair_color: 'jet black',
+        hair_style: state.intimacyCalibration.powerDynamic === 'dominant' ? 'Sleek professional styling with sharp lines' :
+                    state.intimacyCalibration.powerDynamic === 'balanced' ? 'Sophisticated styled waves with professional finish' :
+                    'Elegant flowing style with soft framing',
+        skin_finish: 'Luminous professional finish with natural radiance',
+        hand_and_nail_details: 'Executive manicure with impeccable attention to detail',
+        tattoos: 'none',
+        piercings: 'none',
+        body_art: 'none',
+        nail_art: state.intimacyCalibration.level >= 7 ? 'Bold red executive polish' : 'Professional neutral manicure',
+        high_heels: state.intimacyCalibration.level >= 5 ? 'Designer stiletto power heels' : 'not visible'
+      },
+      wardrobe: state.customWardrobe || role?.wardrobeSignature || `${state.intimacyCalibration.artisticExplicitness} corporate power attire with reveal level ${state.intimacyCalibration.wardrobeReveal}/10, combining executive authority with strategic sensuality`,
+      environment: environment?.exclusiveSpaces[0] || `Luxury ${environment?.type.replace(/_/g, ' ') || 'corporate'} setting with ${environment?.aesthetic || 'modern executive aesthetic'}`,
+      lighting: environment?.lightingProfiles[0] || 'Dramatic executive lighting emphasizing power and sensuality',
+      camera: cameraSettings,
+      color_grade: state.intimacyCalibration.artisticExplicitness === 'minimal' ? 'Cool professional tones with corporate precision' :
+                   state.intimacyCalibration.artisticExplicitness === 'suggestive' ? 'Warm luxury tones with sophisticated depth' :
+                   state.intimacyCalibration.artisticExplicitness === 'revealing' ? 'Rich dramatic tones with sensual warmth' :
+                   'Bold artistic color with high-end luxury grading',
+      style: `Corporate fine-art photography celebrating feminine executive power. ${role?.sensualityStyle || 'Authoritative'} sensuality style. Power level ${role?.powerLevel || 7}/10. ${environment?.aesthetic || 'Luxury modern corporate aesthetic'}.`,
+      quality: 'Ultra-high-end 8K corporate fashion photography with impeccable detail, professional retouching maintaining authentic texture',
+      figure_and_form: `${state.intimacyCalibration.powerDynamic === 'dominant' ? 'Commanding sculptural form emphasizing executive authority and confident sensuality' :
+                         state.intimacyCalibration.powerDynamic === 'balanced' ? 'Balanced elegant form combining professional poise with artistic sensuality' :
+                         'Sophisticated form suggesting power through subtle feminine grace'}`,
+      skin_micro_details: 'Premium high-resolution skin texture with executive-level retouching, maintaining authentic pores and natural radiance while perfecting professional appearance',
+      fabric_physics: `Luxury corporate fabric with precise tailoring and strategic draping. ${state.intimacyCalibration.artisticExplicitness === 'artistically_explicit' ? 'Revealing cuts showing architectural precision and body interaction' : 'Professional draping with subtle body-conscious elements'}.`,
+      material_properties: environment ?
+        `Luxury materials from environment: ${environment.materialPalette.slice(0, 3).join(', ')}. Executive-level fabrics with premium light interaction and tactile richness.` :
+        'Premium corporate materials with sophisticated light interaction, combining matte executive fabrics with strategic specular highlights'
+    };
+
+    setPromptData(newPromptData);
+    setPromptMode('json');
+    setUiMode('classic');
+
+    setTimeout(() => {
+      alert('Corporate configuration migrated to JSON mode! All fields fully populated - review and customize as needed.');
+    }, 100);
+  };
+
+  const handleMigrateFromExperimental = (selectedNodes: string[], levels: CalculatedLevels) => {
+    // Convert node configuration to complete PromptData
+    const configuredPrompt = mapNodesToPromptData(selectedNodes, levels, promptData);
+
+    // Set the mapped data
+    setPromptData(configuredPrompt);
+    setPromptMode('json');
+    setUiMode('classic');
+
+    // Generate warning message based on levels
+    let warningMsg = 'Experimental configuration migrated to JSON mode! All fields populated from node selection.';
+    if (levels.boundary >= 16) {
+      warningMsg += '\n⚠️ WARNING: High boundary level (Premium Tier) - Review safety settings.';
+    }
+    if (levels.intimacy >= 15) {
+      warningMsg += '\n⚠️ High intimacy level detected.';
+    }
+    if (levels.eroticism >= 12) {
+      warningMsg += '\n⚠️ High eroticism level detected.';
+    }
+
+    setTimeout(() => {
+      alert(warningMsg);
+    }, 100);
+  };
+
+  const handlePlatinumGenerate = async (prompt: string, settings: any) => {
+    // Platinum mode passes a complete prompt and calibrated settings
+    setIsLoading(true);
+    setError(null);
+    setGenerationStep({ step: 'generating', message: 'Generating platinum collection image...' });
+
+    try {
+      const mergedSettings = {
+        ...generationSettings,
+        ...settings,
+      };
+
+      const images = await generateImage(prompt, mergedSettings);
+
+      // Determine MIME type from user settings or default to PNG
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+
+      setGeneratedImages(images.map(img => ({
+        url: `data:${mimeType};base64,${img}`,
+        settings: {
+          modelId: settings.provider === 'vertex-ai' ? generationSettings.modelId : 'flux-1.1-pro-ultra',
+          seed: generationSettings.seed,
+          aspectRatio: generationSettings.aspectRatio
+        }
+      })));
+
+      setWovenPrompt(prompt);
+      setGenerationStep(null);
+    } catch (err) {
+      console.error('Platinum generation error:', err);
+      setError(err instanceof Error ? err.message : 'Unknown error during platinum generation');
+      setGenerationStep(null);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExitPlatinum = () => {
+    setUiMode('classic');
+  };
+
+  const handleExitRolePlay = () => {
+    setUiMode('classic');
+  };
+
+  const handleExitGallery = () => {
+    setUiMode('classic');
+  };
+
+  const handleExitVideo = () => {
+    setUiMode('classic');
+  };
+
+  const handleExitVera = () => {
+    setUiMode('classic');
+  };
+
+  const handleGalleryGenerate = async (prompt: string, settings: any) => {
+    console.log('🎨 Gallery Generate triggered:', { prompt: prompt.substring(0, 100), settings });
+
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Merge settings properly
+    const mergedSettings = { ...generationSettings, ...settings };
+    setGenerationSettings(mergedSettings);
+
+    // Auto-generate with the gallery prompt
+    setIsLoading(true);
+    setError(null);
+    setGenerationStep(null);
+
+    try {
+      const result = await generateWithMaximumSafety(
+        prompt,           // wovenPrompt: string
+        null,             // promptData: PromptData | null
+        mergedSettings    // settings: GenerationSettings
+      );
+
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const imageData = result.images.map(b64 => ({
+        url: `data:${mimeType};base64,${b64}`,
+        settings: {
+          modelId: mergedSettings.provider === 'vertex-ai'
+            ? mergedSettings.modelId
+            : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+          seed: mergedSettings.seed,
+          aspectRatio: mergedSettings.aspectRatio
+        }
+      }));
+
+      setGeneratedImages(imageData);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
+    } catch (err: any) {
+      console.error('🎨 Gallery Generation Error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleMigrateFromGallery = (promptTemplate: string) => {
+    try {
+      // Parse the gallery prompt into PromptData
+      const parsedData = parseFluxPromptToData(promptTemplate);
+      setPromptData(parsedData);
+      setPromptMode('json');
+      setTextPrompt(promptTemplate);
+      setUiMode('classic');
+      alert('Gallery selections migrated to Main Mode successfully!');
+    } catch (error) {
+      console.error('Failed to parse gallery prompt:', error);
+      setTextPrompt(promptTemplate);
+      setPromptMode('text');
+      setUiMode('classic');
+      alert('Migrated to text mode (JSON parsing not available for this prompt structure)');
+    }
+  };
+
+  const handleQuickGenerateFromText = useCallback(async () => {
+    if (!textPrompt.trim()) {
+      setError('Please enter a text prompt before generating.');
+      return;
+    }
+
+    if (!validateCredentials()) return;
+
+    console.log('⚡ Quick Generate triggered from text mode');
+
+    // Use default options (no enhancement, no weaving)
+    const options: MasterGenerateOptions = {
+      enhance: { enabled: false, style: 'creative' },
+      weave: { enabled: false, adherence: 'balanced', weavingMode: 'passion' }
+    };
+
+    // Trigger generation
+    await handleMasterGenerate(options);
+  }, [textPrompt, validateCredentials, handleMasterGenerate]);
+
+  const handleRolePlayGenerate = async (prompt: string, settings: any) => {
+    console.log('🎭 Role-Play Generate triggered:', { prompt: prompt.substring(0, 100), settings });
+
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Merge settings properly
+    const mergedSettings = { ...generationSettings, ...settings };
+    setGenerationSettings(mergedSettings);
+
+    // Auto-generate with the role-play prompt
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      // Fix: generateWithMaximumSafety expects (wovenPrompt, promptData, settings)
+      const result = await generateWithMaximumSafety(
+        prompt,           // wovenPrompt: string
+        null,            // promptData: PromptData | null
+        mergedSettings   // settings: GenerationSettings
+      );
+
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const imageData = result.images.map(b64 => ({
+        url: `data:${mimeType};base64,${b64}`,
+        settings: {
+          modelId: mergedSettings.provider === 'vertex-ai'
+            ? mergedSettings.modelId
+            : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+          seed: mergedSettings.seed,
+          aspectRatio: mergedSettings.aspectRatio
+        }
+      }));
+
+      setGeneratedImages(imageData);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
+    } catch (err: any) {
+      console.error('🎭 Role-Play Generation Error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleVisualNovelGenerate = async (prompt: string, settings: any) => {
+    console.log('📖 Visual Novel Generate triggered:', { prompt: prompt.substring(0, 100), settings });
+
+    setTextPrompt(prompt);
+    setPromptMode('text');
+
+    // Merge settings properly
+    const mergedSettings = { ...generationSettings, ...settings };
+    setGenerationSettings(mergedSettings);
+
+    // Auto-generate with the visual novel prompt
+    try {
+      setIsLoading(true);
+      setError(null);
+      setVisualNovelImages(null); // Clear old images BEFORE generating new one
+
+      const result = await generateWithMaximumSafety(
+        prompt,           // wovenPrompt: string
+        null,            // promptData: PromptData | null
+        mergedSettings   // settings: GenerationSettings
+      );
+
+      // Log generation summary
+      console.log(getGenerationSummary(result));
+
+      console.log('📖 Visual Novel Generation Result:', {
+        hasImages: !!result.images,
+        imageCount: result.images?.length || 0,
+        firstImageType: typeof result.images?.[0],
+        firstImageLength: result.images?.[0]?.length
+      });
+
+      // Transform base64 images to GeneratedImageData format
+      const mimeType = mergedSettings.outputFormat === 'jpeg' ? 'image/jpeg' : 'image/png';
+      const generatedImageData: GeneratedImageData[] | null = result.images
+        ? result.images.map(b64 => ({
+            url: `data:${mimeType};base64,${b64}`,
+            settings: {
+              modelId: mergedSettings.provider === 'vertex-ai'
+                ? mergedSettings.modelId
+                : (mergedSettings.fluxModel || 'flux-1.1-pro-ultra'),
+              seed: mergedSettings.seed,
+              aspectRatio: mergedSettings.aspectRatio
+            }
+          }))
+        : null;
+
+      const conversionId = Date.now();
+      console.log(`🔄 Converted to GeneratedImageData [ID:${conversionId}]:`, {
+        hasData: !!generatedImageData,
+        count: generatedImageData?.length || 0,
+        firstItemType: typeof generatedImageData?.[0],
+        firstItemHasUrl: !!generatedImageData?.[0]?.url,
+        firstItemUrlLength: generatedImageData?.[0]?.url?.length,
+        data: generatedImageData
+      });
+
+      console.log(`📤 Calling setVisualNovelImages (NOT setGeneratedImages) with conversion ID:${conversionId}`);
+      setVisualNovelImages(generatedImageData);
+      console.log(`✅ setVisualNovelImages called with ID:${conversionId} - images isolated from main UI`);
+      setWovenPrompt(result.finalPrompt);
+      setGenerationStep('generating');
+    } catch (err: any) {
+      console.error('📖 Visual Novel Generation Error:', err);
+      setError(err.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleExitVisualNovel = () => {
+    setUiMode('classic');
+  };
+
+  const handleMigrateFromRolePlay = (promptTemplate: string) => {
+    try {
+      // Parse the role-play prompt template into PromptData
+      // The template contains placeholders, so extract the base structure
+      const basePrompt = promptTemplate
+        .replace('{ROLEPLAY_POSE}', 'Natural confident pose with intimate expression')
+        .replace('{ROLEPLAY_WARDROBE}', 'Minimal luxury designer aesthetic with strategic reveals')
+        .replace('{ROLEPLAY_ANGLE}', 'Eye level intimate perspective')
+        .replace('{ROLEPLAY_FRAMING}', 'Medium shot emphasizing curves and presence');
+
+      // Parse into structured JSON fields
+      const parsedData = parseFluxPromptToData(basePrompt);
+
+      // Set the parsed data and switch to JSON mode
+      setPromptData(parsedData);
+      setPromptMode('json');
+      setUiMode('classic');
+
+      // Show success message
+      setTimeout(() => {
+        alert('🎭 Role-play scenario migrated to JSON mode! All fields populated from scenario template. You can now customize each field individually.');
+      }, 100);
+    } catch (error) {
+      console.error('Error migrating from role-play mode:', error);
+      // Fallback to text mode if parsing fails
+      setTextPrompt(promptTemplate);
+      setPromptMode('text');
+      setUiMode('classic');
+      alert('🎭 Role-play scenario migrated to text mode. Note: Parsing to JSON failed, but you can edit the raw prompt.');
+    }
+  };
+
+  const handleMigrateFromPlatinum = (prompt: string, state: PlatinumModeState) => {
+    // Use PlatinumPromptEngine to map state to complete PromptData
+    const promptEngine = new PlatinumPromptEngine();
+
+    try {
+      const newPromptData = promptEngine.mapToPromptData(state, promptData);
+
+      setPromptData(newPromptData);
+      setPromptMode('json');
+      setUiMode('classic');
+
+      // Generate warning based on intimacy level
+      let warningMsg = 'Platinum Collection migrated to JSON mode! All fields fully populated from variant configuration.';
+      if (state.intimacyLevel >= 9) {
+        warningMsg += '\n⚠️ WARNING: Maximum intimacy level (Premium Tier) - Review safety settings.';
+      }
+
+      setTimeout(() => {
+        alert(warningMsg);
+      }, 100);
+    } catch (error) {
+      console.error('Error migrating from Platinum:', error);
+      alert(`Migration error: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  };
+
+  const handleGenerateVideoPrompt = async () => {
+    setIsGeneratingPrompt(true);
+    setError(null);
+
+    try {
+      console.log('🎬 Generating optimized video prompt with strategy:', generationSettings.safetyBypassStrategy);
+
+      // Get base prompt from current mode
+      let basePrompt = promptMode === 'text' ? textPrompt : constructSimplePromptString(promptData);
+
+      if (!basePrompt.trim()) {
+        setError('Please enter a prompt before generating a video prompt.');
+        setIsGeneratingPrompt(false);
+        return;
+      }
+
+      // Apply the selected safety strategy to optimize the prompt
+      const strategy = generationSettings.safetyBypassStrategy || 'balanced';
+      let optimizedPrompt = basePrompt;
+
+      if (strategy === 'verastrategy' || strategy === 'ultraoptimizer') {
+        // Use intelligent generation service to optimize the prompt
+        const { executeVeraStrategy, executeUltraOptimizer } = await import('./services/intelligentGenerationService');
+
+        if (strategy === 'verastrategy') {
+          console.log('✨ Applying Vera Strategy optimization for video prompt');
+          const result = await executeVeraStrategy(
+            basePrompt,
+            promptMode === 'json' ? promptData : null,
+            generationSettings,
+            generationSettings.intimacyLevel
+          );
+          optimizedPrompt = result.finalPrompt;
+        } else if (strategy === 'ultraoptimizer') {
+          console.log('🎨 Applying Ultra Optimizer for video prompt');
+          const result = await executeUltraOptimizer(
+            basePrompt,
+            promptMode === 'json' ? promptData : null,
+            generationSettings,
+            generationSettings.intimacyLevel
+          );
+          optimizedPrompt = result.finalPrompt;
+        }
+      } else if (strategy !== 'conservative') {
+        // For other strategies, apply basic Gemini enhancement
+        try {
+          console.log('🤖 Applying Gemini enhancement for video prompt');
+          const response = await fetch(`https://us-east4-aiplatform.googleapis.com/v1/projects/${generationSettings.projectId}/locations/us-east4/publishers/google/models/gemini-2.5-pro:generateContent`, {
+            method: 'POST',
+            headers: {
+              'Authorization': `Bearer ${generationSettings.accessToken}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              contents: [{
+                role: 'user',
+                parts: [{ text: `You are optimizing a prompt for video generation. Enhance this prompt for cinematic video output, maintaining the original intent but adding motion, timing, and cinematography details:\n\n${basePrompt}` }]
+              }],
+              generationConfig: {
+                temperature: 0.3,
+                maxOutputTokens: 2048,
+              }
+            })
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            optimizedPrompt = data.candidates?.[0]?.content?.parts?.[0]?.text?.trim() || basePrompt;
+          }
+        } catch (enhanceError) {
+          console.warn('Enhancement failed, using original prompt:', enhanceError);
+        }
+      }
+
+      console.log('✅ Video prompt generated successfully');
+      console.log('📝 Prompt length:', optimizedPrompt.length, 'chars');
+
+      setVideoPrompt(optimizedPrompt);
+      setShowVideoGenerator(true);
+
+      // Scroll to video generator
+      setTimeout(() => {
+        const videoElement = document.getElementById('video-generator-section');
+        videoElement?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+
+    } catch (err) {
+      console.error('Video prompt generation error:', err);
+      setError(err instanceof Error ? err.message : 'Failed to generate video prompt');
+    } finally {
+      setIsGeneratingPrompt(false);
+    }
+  };
+
+  // Defensive rendering - ensure we always have valid state
+  const safePromptData = promptData || JSON.parse(initialPromptJson);
+  const safeGenerationSettings = generationSettings || {
+    provider: 'vertex-ai' as const,
+    projectId: '',
+    accessToken: '',
+    numberOfImages: 1,
+    aspectRatio: '9:16' as const,
+    personGeneration: 'allow_all' as const,
+    safetySetting: 'block_few' as const,
+    addWatermark: true,
+    enhancePrompt: true,
+    modelId: 'imagen-4.0-ultra-generate-001',
+    seed: null,
+    intimacyLevel: 6,
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-900 text-gray-200 font-sans">
+      {uiMode === 'experimental' ? (
+        // EXPERIMENTAL MODE: Visual Node-Based Configuration
+        <ExperimentalMode
+          onGenerateWithConfig={handleExperimentalGenerate}
+          onMigrateToMain={handleMigrateFromExperimental}
+          onExit={handleExitExperimental}
+        />
+      ) : uiMode === 'artistic' ? (
+        // ARTISTIC MODE: Master Photographer Style Generator
+        <ArtisticMode
+          onGenerate={handleArtisticGenerate}
+          onExit={handleExitArtistic}
+          onMigrateToMain={handleMigrateFromArtistic}
+          generationSettings={safeGenerationSettings}
+        />
+      ) : uiMode === 'corporate' ? (
+        // CORPORATE MODE: Executive Sensuality Generator
+        <CorporateMode
+          onGenerate={handleCorporateGenerate}
+          onExit={handleExitCorporate}
+          onMigrateToMain={handleMigrateFromCorporate}
+          generationSettings={safeGenerationSettings}
+        />
+      ) : uiMode === 'platinum' ? (
+        // PLATINUM COLLECTION MODE: Next-Level Premium Variants
+        <PlatinumMode
+          onGenerate={handlePlatinumGenerate}
+          onExit={handleExitPlatinum}
+          onMigrateToMain={handleMigrateFromPlatinum}
+          generationSettings={safeGenerationSettings}
+        />
+      ) : uiMode === 'roleplay' ? (
+        // INDIAN ROLE-PLAY MODE: Gamified Midnight Encounters
+        <IndianRolePlayMode
+          onGenerate={handleRolePlayGenerate}
+          onMigrateToMain={handleMigrateFromRolePlay}
+          onExit={handleExitRolePlay}
+          generatedImages={generatedImages}
+          isLoading={isLoading}
+          error={error}
+          wovenPrompt={wovenPrompt}
+          generationStep={generationStep}
+        />
+      ) : uiMode === 'gallery' ? (
+        // INDIAN MODELS GALLERY: Comprehensive Selector
+        <IndianModelsGallery
+          onGenerate={handleGalleryGenerate}
+          onMigrateToMain={handleMigrateFromGallery}
+          onExit={handleExitGallery}
+        />
+      ) : uiMode === 'video' ? (
+        // VIDEO GENERATION MODE: Veo 3.1 Cinematic Videos
+        <VideoGenerationMode
+          onExit={handleExitVideo}
+          accessToken={generationSettings.accessToken || ''}
+        />
+      ) : uiMode === 'vera' ? (
+        // VERA MODE: Advanced Veo & Imagen 4 Prompt Architect
+        <VeraMode
+          onExit={handleExitVera}
+        />
+      ) : uiMode === 'masterclass' ? (
+        // MASTERCLASS MODE: The Apex of AI-Driven Creative Direction
+        <MasterClassMode
+          onExit={() => setUiMode('classic')}
+        />
+      ) : uiMode === 'vnassets' ? (
+        // VISUAL NOVEL ASSET GENERATOR: Generate all sprites, backgrounds, CGs, videos
+        <VisualNovelAssetGenerator
+          onExit={() => setUiMode('classic')}
+          generationSettings={safeGenerationSettings}
+          onGenerate={handleVisualNovelGenerate}
+          generatedImages={visualNovelImages}
+        />
+      ) : uiMode === 'visualnovel' ? (
+        // VISUAL NOVEL MODE: Real visual novel game (like Steam games)
+        <RealVisualNovel
+          onExit={handleExitVisualNovel}
+        />
+      ) : (
+        // CLASSIC MODE: Traditional Prompt Editor
+        <>
+          <Header />
+
+          {/* Auth Settings Button */}
+          <div className="fixed top-4 right-4 z-40">
+            <button
+              onClick={() => setIsAuthSettingsOpen(true)}
+              className="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 font-semibold transition-all"
+              title="Authentication Settings"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M18 8a6 6 0 01-7.743 5.743L10 14l-1 1-1 1H6v2H2v-4l4.257-4.257A6 6 0 1118 8zm-6-4a1 1 0 100 2 2 2 0 012 2 1 1 0 102 0 4 4 0 00-4-4z" clipRule="evenodd" />
+              </svg>
+              Auth
+            </button>
+          </div>
+
+          {/* Mode Toggle */}
+          <div className="p-4 md:px-8 md:pt-4 md:pb-0">
+            <div className="flex items-center justify-center gap-2 bg-gray-800 rounded-lg p-1 border border-gray-700 w-fit mx-auto">
+              <button
+                onClick={() => setPromptMode('json')}
+                disabled={isLoading}
+                className={`px-6 py-2 rounded-md font-semibold transition-all flex items-center gap-2 ${
+                  promptMode === 'json'
+                    ? 'bg-indigo-600 text-white shadow-md'
+                    : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clipRule="evenodd" />
+                </svg>
+                JSON Mode
+              </button>
+              <button
+                onClick={() => setPromptMode('text')}
+                disabled={isLoading}
+                className={`px-6 py-2 rounded-md font-semibold transition-all flex items-center gap-2 ${
+                  promptMode === 'text'
+                    ? 'bg-emerald-600 text-white shadow-md'
+                    : 'text-gray-400 hover:text-gray-200'
+                }`}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                  <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+                </svg>
+                Text Mode
+              </button>
+            </div>
+            <p className="text-center text-sm text-gray-500 mt-2">
+              {promptMode === 'json' ? (
+                <>📋 Structured JSON editor with advanced controls</>
+              ) : (
+                <>✍️ Direct text prompt input - Just write and generate!</>
+              )}
+            </p>
+          </div>
+
+          <main className="p-4 md:p-8">
+            {/* Quick Direct Generate - Prominent Position */}
+            <div className="mb-8">
+              <QuickDirectGenerate
+                generationSettings={safeGenerationSettings}
+                onGenerationComplete={(images) => {
+                  if (images.length > 0) {
+                    setGeneratedImages([{
+                      url: images[0],
+                      prompt: 'Quick Direct Generation',
+                      timestamp: new Date().toISOString(),
+                      settings: safeGenerationSettings
+                    }]);
+                  }
+                }}
+              />
+            </div>
+
+            <SafetyBypassStrategySelector
+              strategy={safeGenerationSettings.safetyBypassStrategy || 'auto'}
+              onChange={(strategy) => setGenerationSettings(prev => ({ ...prev, safetyBypassStrategy: strategy }))}
+            />
+
+            <div className="mt-6">
+              <FluxPromptLibrarySelector
+                onSelectPrompt={handleSelectFluxPrompt}
+                onPopulateFields={handlePopulateFields}
+              />
+            </div>
+
+            <div className="mt-6">
+              <ImagenPromptLibrarySelector
+                onSelectPrompt={handleSelectImagenPrompt}
+                onPopulateFields={handlePopulateFields}
+              />
+            </div>
+
+            <div className="mt-6">
+              <QuickCorporateGenerator
+                onGenerate={handleQuickCorporateGenerate}
+                onPopulateFields={handlePopulateFields}
+                isLoading={isLoading}
+              />
+            </div>
+
+            <div className="mt-6">
+              <QuickInstagramGenerator
+                onGenerate={handleQuickCorporateGenerate}
+                onPopulateFields={handlePopulateFields}
+                isLoading={isLoading}
+              />
+            </div>
+
+            <div className="mt-6">
+              <VeraLabsCollectionGenerator
+                onApplyPrompt={(promptData, finalPrompt) => {
+                  handlePromptChange(promptData);
+                  setTextPrompt(finalPrompt);
+                  setPromptMode('text');
+                }}
+                currentPromptData={promptData}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-6">
+              {promptMode === 'json' ? (
+                <PromptEditor promptData={safePromptData} onPromptChange={handlePromptChange} isLoading={isLoading}
+                  generationSettings={safeGenerationSettings} onGenerationSettingsChange={setGenerationSettings}
+                  activeConcept={activeConcept} onConceptChange={handleConceptChange} />
+              ) : (
+                <TextPromptEditor
+                  textPrompt={textPrompt}
+                  onTextPromptChange={setTextPrompt}
+                  generationSettings={safeGenerationSettings}
+                  onSettingsChange={setGenerationSettings}
+                  isLoading={isLoading}
+                  onQuickGenerate={handleQuickGenerateFromText}
+                />
+              )}
+              <div className="lg:sticky lg:top-8 self-start space-y-6">
+                <ImageDisplay imageData={generatedImages} isLoading={isLoading} error={error} wovenPrompt={wovenPrompt} generationStep={generationStep} />
+
+                {showVideoGenerator && (
+                  <div id="video-generator-section">
+                    <VideoGeneratorUI
+                      generationSettings={safeGenerationSettings}
+                      initialPrompt={videoPrompt}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </main>
+
+          <MobileControlBar
+            isLoading={isLoading}
+            onLoad={handleOpenLoadModal}
+            onStorage={() => setIsStorageModalOpen(true)}
+            onGallery={() => setIsGalleryModalOpen(true)}
+            onHistory={handleOpenHistoryModal}
+            onSave={handleSavePrompt}
+            onCopy={handleCopyPrompt}
+            onReset={handleResetPrompt}
+            onGenerateVideo={handleGenerateVideoPrompt}
+            onMasterGenerate={() => {
+              // Trigger master generate via ref
+              const masterBtn = document.querySelector('[data-master-generate]') as HTMLButtonElement;
+              masterBtn?.click();
+            }}
+            onExperimental={() => setUiMode('experimental')}
+            onArtistic={() => setUiMode('artistic')}
+            onCorporate={() => setUiMode('corporate')}
+            onPlatinum={() => setUiMode('platinum')}
+            onRoleplay={() => setUiMode('roleplay')}
+            onGalleryMode={() => setUiMode('gallery')}
+            onVideoMode={() => setUiMode('video')}
+            onVera={() => setUiMode('vera')}
+            onMasterClass={() => setUiMode('masterclass')}
+            onVisualNovel={() => setUiMode('visualnovel')}
+            onVNAssets={() => setUiMode('vnassets')}
+            isGeneratingPrompt={isGeneratingPrompt}
+            hasPrompt={!!(textPrompt.trim() || promptData)}
+            hasProjectId={!!generationSettings.projectId}
+          />
+          {/* MasterGenerationControl - Hidden on mobile, visible on desktop */}
+          <div className="hidden md:block">
+            <MasterGenerationControl
+              onGenerate={handleMasterGenerate}
+              isLoading={isLoading}
+              generationStep={generationStep}
+              generationSettings={generationSettings}
+              onImagePromptChange={(imageData) => setGenerationSettings(prev => ({
+                ...prev,
+                fluxImagePrompt: imageData
+              }))}
+            />
+          </div>
+          {/* Hidden LockFieldsDropdown for functionality */}
+          <div className="hidden">
+            <LockFieldsDropdown lockedFields={lockedFields} onLockedFieldsChange={setLockedFields} isBusy={isLoading} />
+          </div>
+        </>
+      )}
+      <LoadPromptModal isOpen={isLoadModalOpen} onClose={() => setIsLoadModalOpen(false)} prompts={savedPrompts} onLoad={handleLoadSelectedPrompt} onDelete={handleDeletePrompt} />
+      <HistoryModal isOpen={isHistoryModalOpen} onClose={() => setIsHistoryModalOpen(false)} history={promptHistory} onLoad={handleLoadFromHistory} onClear={handleClearHistory} />
+      <AnalysisModal isOpen={!!analysisSuggestions && analysisSuggestions.length > 0} onClose={() => setAnalysisSuggestions(null)} suggestions={analysisSuggestions || []} onApply={handleApplySuggestion} />
+      <StorageConfigModal
+        isOpen={isStorageModalOpen}
+        onClose={() => setIsStorageModalOpen(false)}
+        settings={storageSettings}
+        onSettingsChange={setStorageSettings}
+      />
+      {isAuthSettingsOpen && (
+        <AuthenticationSettings
+          settings={generationSettings}
+          onSettingsChange={setGenerationSettings}
+          onClose={() => setIsAuthSettingsOpen(false)}
+        />
+      )}
+      <PromptReviewModal
+        isOpen={isPromptReviewModalOpen}
+        onClose={handlePromptReviewCancel}
+        onGenerate={handlePromptReviewGenerate}
+        rawPromptData={pendingGeneration?.promptData || promptData}
+        finalPrompt={pendingGeneration?.finalPrompt || ''}
+        provider={generationSettings.provider}
+      />
+      <GalleryModal
+        isOpen={isGalleryModalOpen}
+        onClose={() => setIsGalleryModalOpen(false)}
+        config={{
+          provider: storageSettings.provider,
+          cloudStorage: storageSettings.provider === 'cloud-storage' ? {
+            projectId: generationSettings.projectId || 'creatives-476816',
+            bucketName: storageSettings.bucketName,
+            accessToken: generationSettings.accessToken,
+            region: 'us-east4'
+          } : undefined,
+          googleDrive: storageSettings.provider === 'google-drive' ? {
+            accessToken: storageSettings.driveAccessToken || generationSettings.accessToken,
+            folderName: storageSettings.driveFolderName
+          } : undefined
+        }}
+        onSelectImage={(metadata) => {
+          setPromptData(metadata.promptData);
+          setGenerationSettings(prev => ({...prev, ...metadata.settings}));
+          setActiveConcept(metadata.conceptName);
+        }}
+      />
+    </div>
+  );
+};
+export default App;

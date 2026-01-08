@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editorial Spread 1</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            position: relative;
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .photo-side {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .model-photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .content-side {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 60px;
+            background: var(--cream-white);
+        }
+
+        .editorial-label {
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 30px;
+        }
+
+        .editorial-title {
+            font-family: var(--font-display);
+            font-size: 52px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .gold-line {
+            width: 50px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin-bottom: 25px;
+        }
+
+        .editorial-text {
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--soft-charcoal);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .issue-info {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+        }
+
+        .brand-mark {
+            position: absolute;
+            bottom: 40px;
+            right: 40px;
+            font-family: var(--font-luxury);
+            font-size: 10px;
+            letter-spacing: 0.25em;
+            color: var(--warm-taupe);
+        }
+
+        .photo-number {
+            position: absolute;
+            bottom: 30px;
+            left: 30px;
+            font-family: var(--font-luxury);
+            font-size: 48px;
+            color: rgba(250, 248, 245, 0.8);
+            letter-spacing: 0.1em;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="photo-side">
+            <img src="../photo/editorial-fashion-shoot-1.jpg" alt="Editorial Fashion" class="model-photo">
+            <span class="photo-number">01</span>
+        </div>
+
+        <div class="content-side">
+            <span class="editorial-label">EDITORIAL</span>
+            <h1 class="editorial-title">The Art of<br>Presence</h1>
+            <div class="gold-line"></div>
+            <p class="editorial-text">
+                In fashion, presence is everything.
+                It's the silent confidence that transforms
+                fabric into poetry and movement into art.
+            </p>
+            <span class="issue-info">Issue 01 • Photography Series</span>
+        </div>
+
+        <span class="brand-mark">VERALABS</span>
+    </div>
+</body>
+</html>

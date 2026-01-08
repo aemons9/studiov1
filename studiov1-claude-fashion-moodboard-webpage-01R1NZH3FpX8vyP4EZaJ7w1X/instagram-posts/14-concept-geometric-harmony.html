@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concept - Geometric Harmony</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--soft-charcoal);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .geometric-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .geo-shape {
+            position: absolute;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            top: 100px;
+            left: 100px;
+            transform: rotate(45deg);
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            top: 200px;
+            right: 150px;
+            transform: rotate(15deg);
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            bottom: 200px;
+            left: 300px;
+            transform: rotate(30deg);
+        }
+
+        .shape-4 {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            transform: rotate(45deg);
+            border-color: rgba(232, 180, 184, 0.15);
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .concept-label {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 30px;
+        }
+
+        .concept-title {
+            font-family: var(--font-display);
+            font-size: 58px;
+            font-style: italic;
+            color: var(--cream-white);
+            text-align: center;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 30px;
+        }
+
+        .accent-line {
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin: 20px 0;
+        }
+
+        .concept-description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--champagne);
+            text-align: center;
+            line-height: 1.8;
+            max-width: 450px;
+            letter-spacing: 0.01em;
+        }
+
+        .tags-row {
+            display: flex;
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .tag {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--warm-taupe);
+            padding: 8px 16px;
+            border: 1px solid var(--soft-charcoal);
+            border-color: rgba(184, 162, 142, 0.3);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="geometric-bg">
+            <div class="geo-shape shape-1"></div>
+            <div class="geo-shape shape-2"></div>
+            <div class="geo-shape shape-3"></div>
+            <div class="geo-shape shape-4"></div>
+        </div>
+
+        <div class="content-wrapper">
+            <span class="concept-label">CONCEPT REVEAL</span>
+
+            <h1 class="concept-title">Geometric<br>Harmony</h1>
+
+            <div class="accent-line"></div>
+
+            <p class="concept-description">
+                Precision-cut silhouettes meet mathematical elegance.
+                Structured jackets, angular details, and clean lines
+                create a symphony of form and function.
+            </p>
+
+            <div class="tags-row">
+                <span class="tag">Structured</span>
+                <span class="tag">Precision</span>
+                <span class="tag">Modern</span>
+            </div>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

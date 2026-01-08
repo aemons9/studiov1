@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monsoon Reverie - Moodboard</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: linear-gradient(180deg, #2C5F7C 0%, #1C1917 100%);
+            padding: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rain-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                repeating-linear-gradient(
+                    180deg,
+                    transparent,
+                    transparent 20px,
+                    rgba(123, 163, 155, 0.03) 20px,
+                    rgba(123, 163, 155, 0.03) 21px
+                );
+            pointer-events: none;
+        }
+
+        .layered-composition {
+            position: relative;
+            width: 700px;
+            height: 500px;
+            margin-bottom: 60px;
+        }
+
+        .layer {
+            position: absolute;
+            border-radius: 4px;
+        }
+
+        .layer-1 {
+            width: 450px;
+            height: 350px;
+            background: linear-gradient(135deg, var(--sage-teal) 0%, #5A8A7E 100%);
+            top: 0;
+            left: 0;
+        }
+
+        .layer-2 {
+            width: 400px;
+            height: 300px;
+            background: linear-gradient(135deg, #E8DCC4 0%, #D4C8AC 100%);
+            top: 100px;
+            left: 150px;
+        }
+
+        .layer-3 {
+            width: 300px;
+            height: 250px;
+            background: linear-gradient(135deg, #8B6F47 0%, #6B5337 100%);
+            top: 150px;
+            right: 0;
+        }
+
+        .water-ripple {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 1px solid rgba(123, 163, 155, 0.4);
+            border-radius: 50%;
+            bottom: 50px;
+            left: 100px;
+        }
+
+        .water-ripple::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px;
+            height: 50px;
+            border: 1px solid rgba(123, 163, 155, 0.3);
+            border-radius: 50%;
+        }
+
+        .collection-title {
+            font-family: var(--font-display);
+            font-size: 48px;
+            font-style: italic;
+            color: var(--cream-white);
+            letter-spacing: -0.02em;
+        }
+
+        .collection-season {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.25em;
+            color: var(--sage-teal);
+            margin-top: 12px;
+        }
+
+        .collection-tag {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #E8DCC4;
+            padding: 8px 20px;
+            border: 1px solid var(--sage-teal);
+            margin-top: 20px;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--sage-teal);
+        }
+
+        .color-dots {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        .color-dot {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="rain-effect"></div>
+
+        <div class="layered-composition">
+            <div class="layer layer-1"></div>
+            <div class="layer layer-2"></div>
+            <div class="layer layer-3"></div>
+            <div class="water-ripple"></div>
+        </div>
+
+        <h1 class="collection-title">Monsoon Reverie</h1>
+        <p class="collection-season">SEASONAL COLLECTION</p>
+
+        <div class="color-dots">
+            <div class="color-dot" style="background: #2C5F7C;"></div>
+            <div class="color-dot" style="background: #7BA39B;"></div>
+            <div class="color-dot" style="background: #E8DCC4;"></div>
+            <div class="color-dot" style="background: #8B6F47;"></div>
+        </div>
+
+        <span class="collection-tag">Editorial • Seasonal</span>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

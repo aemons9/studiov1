@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Palette - Signature</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            padding: 80px;
+            position: relative;
+        }
+
+        .header-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-label {
+            font-family: var(--font-luxury);
+            font-size: 12px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 20px;
+        }
+
+        .palette-title {
+            font-family: var(--font-display);
+            font-size: 42px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            letter-spacing: -0.02em;
+        }
+
+        .palette-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            width: 100%;
+            max-width: 800px;
+        }
+
+        .color-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .color-swatch {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .swatch-1 { background: var(--cream-white); border: 1px solid var(--champagne); }
+        .swatch-2 { background: var(--champagne); }
+        .swatch-3 { background: var(--nude-beige); }
+        .swatch-4 { background: var(--warm-taupe); }
+        .swatch-5 { background: var(--soft-charcoal); }
+        .swatch-6 { background: var(--deep-espresso); }
+        .swatch-7 { background: var(--rose-gold); }
+        .swatch-8 { background: var(--pale-gold); }
+
+        .color-name {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--soft-charcoal);
+            margin-bottom: 6px;
+        }
+
+        .color-hex {
+            font-family: var(--font-body);
+            font-size: 11px;
+            font-weight: 300;
+            color: var(--warm-taupe);
+            letter-spacing: 0.05em;
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 50px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+
+        .decorative-line {
+            width: 60px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin: 20px auto 0;
+        }
+
+        .palette-subtitle {
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--warm-taupe);
+            margin-top: 50px;
+            letter-spacing: 0.05em;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="header-section">
+            <span class="section-label">COLOR STORY</span>
+            <h1 class="palette-title">Signature Palette</h1>
+            <div class="decorative-line"></div>
+        </div>
+
+        <div class="palette-grid">
+            <div class="color-card">
+                <div class="color-swatch swatch-1"></div>
+                <span class="color-name">Cream White</span>
+                <span class="color-hex">#FAF8F5</span>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch swatch-2"></div>
+                <span class="color-name">Champagne</span>
+                <span class="color-hex">#E8DFD3</span>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch swatch-3"></div>
+                <span class="color-name">Nude Beige</span>
+                <span class="color-hex">#D4C4B0</span>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch swatch-4"></div>
+                <span class="color-name">Warm Taupe</span>
+                <span class="color-hex">#B8A28E</span>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch swatch-5"></div>
+                <span class="color-name">Soft Charcoal</span>
+                <span class="color-hex">#3E3A37</span>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch swatch-6"></div>
+                <span class="color-name">Deep Espresso</span>
+                <span class="color-hex">#1C1917</span>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch swatch-7"></div>
+                <span class="color-name">Rose Gold</span>
+                <span class="color-hex">#E8B4B8</span>
+            </div>
+            <div class="color-card">
+                <div class="color-swatch swatch-8"></div>
+                <span class="color-name">Pale Gold</span>
+                <span class="color-hex">#D4AF37</span>
+            </div>
+        </div>
+
+        <p class="palette-subtitle">The foundation of timeless elegance</p>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

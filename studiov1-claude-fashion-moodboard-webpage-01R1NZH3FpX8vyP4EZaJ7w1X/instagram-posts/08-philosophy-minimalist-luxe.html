@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Philosophy - Minimalist Luxe</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .post {
+            background: var(--cream-white);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .negative-space {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .content-block {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            padding: 100px;
+        }
+
+        .aesthetic-number {
+            font-family: var(--font-luxury);
+            font-size: 14px;
+            letter-spacing: 0.3em;
+            color: var(--pale-gold);
+            margin-bottom: 40px;
+        }
+
+        .philosophy-title {
+            font-family: var(--font-display);
+            font-size: 64px;
+            font-style: italic;
+            color: var(--deep-espresso);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .gold-accent-line {
+            width: 80px;
+            height: 1px;
+            background: var(--pale-gold);
+            margin: 30px 0;
+        }
+
+        .philosophy-tagline {
+            font-family: var(--font-body);
+            font-size: 18px;
+            font-weight: 300;
+            font-style: italic;
+            color: var(--warm-taupe);
+            text-align: center;
+            margin-bottom: 40px;
+            letter-spacing: 0.02em;
+        }
+
+        .philosophy-description {
+            font-family: var(--font-body);
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--soft-charcoal);
+            text-align: center;
+            line-height: 1.9;
+            max-width: 550px;
+            letter-spacing: 0.01em;
+        }
+
+        .corner-element {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+        }
+
+        .corner-tl {
+            top: 60px;
+            left: 60px;
+            border-left: 1px solid var(--champagne);
+            border-top: 1px solid var(--champagne);
+        }
+
+        .corner-br {
+            bottom: 60px;
+            right: 60px;
+            border-right: 1px solid var(--champagne);
+            border-bottom: 1px solid var(--champagne);
+        }
+
+        .brand-footer {
+            position: absolute;
+            bottom: 60px;
+            font-family: var(--font-luxury);
+            font-size: 11px;
+            letter-spacing: 0.3em;
+            color: var(--warm-taupe);
+        }
+
+        .subtle-texture {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--champagne) 0%, transparent 70%);
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body>
+    <div class="post post-square">
+        <div class="negative-space">
+            <div class="subtle-texture"></div>
+        </div>
+
+        <div class="corner-element corner-tl"></div>
+        <div class="corner-element corner-br"></div>
+
+        <div class="content-block">
+            <span class="aesthetic-number">AESTHETIC 001</span>
+
+            <h1 class="philosophy-title">Minimalist<br>Luxe</h1>
+
+            <div class="gold-accent-line"></div>
+
+            <p class="philosophy-tagline">"Clean lines meet sumptuous textures"</p>
+
+            <p class="philosophy-description">
+                We celebrate negative space as a luxury in itself.
+                Each element breathes with sophisticated restraint,
+                where less becomes infinitely more.
+            </p>
+        </div>
+
+        <span class="brand-footer">VERALABS</span>
+    </div>
+</body>
+</html>

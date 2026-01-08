@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VERALABS | Single Post Templates</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Montserrat:wght@200;300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #c9a962;
+      --black: #0a0a0a;
+      --charcoal: #1a1a1a;
+      --cream: #f5f0e8;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+      min-height: 100vh;
+      padding: 40px;
+      font-family: 'Montserrat', sans-serif;
+    }
+
+    .page-title {
+      text-align: center;
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      margin-bottom: 50px;
+      letter-spacing: 0.3em;
+    }
+
+    .posts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 40px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .instagram-post {
+      background: var(--charcoal);
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 15px 50px rgba(0,0,0,0.5);
+      border: 1px solid rgba(201,169,98,0.1);
+    }
+
+    .post-header {
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), #8b7355);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--black);
+      font-weight: 600;
+    }
+
+    .username {
+      font-size: 0.85rem;
+      color: var(--cream);
+      font-weight: 500;
+    }
+
+    .post-image {
+      aspect-ratio: 4/5;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .post-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Text overlay on image */
+    .image-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, transparent 40%);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 25px;
+    }
+
+    .overlay-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem;
+      font-style: italic;
+      color: var(--cream);
+      text-shadow: 0 2px 15px rgba(0,0,0,0.8);
+      line-height: 1.3;
+    }
+
+    .overlay-text .gold {
+      color: var(--gold);
+    }
+
+    .post-actions {
+      padding: 12px 15px;
+      display: flex;
+      gap: 15px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .action-icon {
+      width: 24px;
+      height: 24px;
+      fill: none;
+      stroke: var(--cream);
+      stroke-width: 2;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-icon:hover {
+      stroke: var(--gold);
+      transform: scale(1.1);
+    }
+
+    .action-icon.filled {
+      fill: #ff3040;
+      stroke: #ff3040;
+    }
+
+    .post-caption {
+      padding: 15px;
+    }
+
+    .caption-text {
+      font-size: 0.85rem;
+      color: var(--cream);
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .caption-text strong {
+      font-weight: 500;
+    }
+
+    .caption-text .highlight {
+      color: var(--gold);
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+    }
+
+    .hashtags {
+      font-size: 0.75rem;
+      color: rgba(201,169,98,0.6);
+    }
+
+    .post-label {
+      text-align: center;
+      padding: 15px;
+      background: rgba(201,169,98,0.05);
+      color: var(--gold);
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 class="page-title">SINGLE POST TEMPLATES</h1>
+
+  <div class="posts-grid">
+
+    <!-- Post 1: Shadow Symphony Hero -->
+    <div class="instagram-post">
+      <div class="post-header">
+        <div class="avatar">V</div>
+        <span class="username">veralabs.ai</span>
+      </div>
+      <div class="post-image">
+        <img src="../generated-vera-variants/vera_godmode_recline_abandon_1767888908992.png" alt="Shadow Symphony">
+        <div class="image-overlay">
+          <p class="overlay-text">shadow <span class="gold">speaks</span></p>
+        </div>
+      </div>
+      <div class="post-actions">
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <svg class="action-icon" style="margin-left: auto;" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </div>
+      <div class="post-caption">
+        <p class="caption-text">
+          <strong>veralabs.ai</strong> <span class="highlight">Shadow speaks</span> where words dare not venture.
+          <br><br>
+          Light sculpts. Darkness embraces. The body becomes canvas.
+          <br><br>
+          Where do you find your poetry? ↓
+        </p>
+        <p class="hashtags">#VERALABS #ShadowArt #ChiaroscuroPoetry #FineArtNude</p>
+      </div>
+      <div class="post-label">Hero Post — Day 1</div>
+    </div>
+
+    <!-- Post 2: Lace Poetry -->
+    <div class="instagram-post">
+      <div class="post-header">
+        <div class="avatar">V</div>
+        <span class="username">veralabs.ai</span>
+      </div>
+      <div class="post-image">
+        <img src="../generated-vera-variants/vera_sculptural_lace_1767888493536.png" alt="Lace Poetry">
+        <div class="image-overlay">
+          <p class="overlay-text">geometry of <span class="gold">desire</span></p>
+        </div>
+      </div>
+      <div class="post-actions">
+        <svg class="action-icon filled" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <svg class="action-icon" style="margin-left: auto;" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </div>
+      <div class="post-caption">
+        <p class="caption-text">
+          <strong>veralabs.ai</strong> <span class="highlight">Geometry meets desire</span> ◇
+          <br><br>
+          Architecture for the body. Poetry for the soul. Mathematics of attraction.
+          <br><br>
+          Tag someone who appreciates the art of structure ↓
+        </p>
+        <p class="hashtags">#VERALABS #GeometricLace #SculpturalLingerie #ArtDeco</p>
+      </div>
+      <div class="post-label">Lace Collection — Day 3</div>
+    </div>
+
+    <!-- Post 3: Ethereal -->
+    <div class="instagram-post">
+      <div class="post-header">
+        <div class="avatar">V</div>
+        <span class="username">veralabs.ai</span>
+      </div>
+      <div class="post-image">
+        <img src="../generated-vera-variants/minimalist_ethereal_veil_1767887886587.png" alt="Ethereal">
+        <div class="image-overlay">
+          <p class="overlay-text">veiled in <span class="gold">midnight</span></p>
+        </div>
+      </div>
+      <div class="post-actions">
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <svg class="action-icon" style="margin-left: auto;" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </div>
+      <div class="post-caption">
+        <p class="caption-text">
+          <strong>veralabs.ai</strong> <span class="highlight">v e i l e d</span>
+          <br><br>
+          Not hidden — revealed through mystery.
+          <br><br>
+          The most intimate truth: we are all searching to be seen.
+        </p>
+        <p class="hashtags">#VERALABS #Veiled #Mystery #IntimateRevelation</p>
+      </div>
+      <div class="post-label">Ethereal Series — Day 6</div>
+    </div>
+
+    <!-- Post 4: Floor Intimate -->
+    <div class="instagram-post">
+      <div class="post-header">
+        <div class="avatar">V</div>
+        <span class="username">veralabs.ai</span>
+      </div>
+      <div class="post-image">
+        <img src="../generated-vera-variants/vera_godmode_floor_intimate_1767889332364.png" alt="Floor Intimate">
+        <div class="image-overlay">
+          <p class="overlay-text">feel the <span class="gold">light</span></p>
+        </div>
+      </div>
+      <div class="post-actions">
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <svg class="action-icon" style="margin-left: auto;" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </div>
+      <div class="post-caption">
+        <p class="caption-text">
+          <strong>veralabs.ai</strong> <span class="highlight">s u r r e n d e r</span>
+          <br><br>
+          Not weakness. Power released.
+          <br><br>
+          The art of letting light find you.
+          <br><br>
+          Save this for when you need permission to simply... be. 🔖
+        </p>
+        <p class="hashtags">#VERALABS #Surrender #ArtOfLight #InnerPower #SelfLove</p>
+      </div>
+      <div class="post-label">Shadow Symphony — Day 2</div>
+    </div>
+
+    <!-- Post 5: Silk -->
+    <div class="instagram-post">
+      <div class="post-header">
+        <div class="avatar">V</div>
+        <span class="username">veralabs.ai</span>
+      </div>
+      <div class="post-image">
+        <img src="../generated-vera-variants/vera_silk_intimacy_1767888208820.png" alt="Silk">
+        <div class="image-overlay">
+          <p class="overlay-text">silk <span class="gold">confessions</span></p>
+        </div>
+      </div>
+      <div class="post-actions">
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <svg class="action-icon" style="margin-left: auto;" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </div>
+      <div class="post-caption">
+        <p class="caption-text">
+          <strong>veralabs.ai</strong> <span class="highlight">silk confessions</span>
+          <br><br>
+          Some truths are only told in textures.
+          <br><br>
+          Feel this. Save this. Share this.
+        </p>
+        <p class="hashtags">#VERALABS #SilkConfessions #LuxurySilk #IntimateTextures</p>
+      </div>
+      <div class="post-label">Mesh & Silk — Day 5</div>
+    </div>
+
+    <!-- Post 6: Ballet Noir -->
+    <div class="instagram-post">
+      <div class="post-header">
+        <div class="avatar">V</div>
+        <span class="username">veralabs.ai</span>
+      </div>
+      <div class="post-image">
+        <img src="../generated-vera-variants/vera_tulle_whisper_1767888329435.png" alt="Ballet Noir">
+        <div class="image-overlay">
+          <p class="overlay-text"><span class="gold">ballet</span> noir</p>
+        </div>
+      </div>
+      <div class="post-actions">
+        <svg class="action-icon filled" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        <svg class="action-icon" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+        <svg class="action-icon" style="margin-left: auto;" viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+      </div>
+      <div class="post-caption">
+        <p class="caption-text">
+          <strong>veralabs.ai</strong> <span class="highlight">Ballet noir</span> 🖤
+          <br><br>
+          Dance frozen in stillness. Movement captured in fabric. Grace rendered in shadow.
+          <br><br>
+          For every dancer within.
+        </p>
+        <p class="hashtags">#VERALABS #BalletNoir #DanceArt #TulleDreams #MovementArt</p>
+      </div>
+      <div class="post-label">Ethereal Series — Day 6</div>
+    </div>
+
+  </div>
+
+</body>
+</html>

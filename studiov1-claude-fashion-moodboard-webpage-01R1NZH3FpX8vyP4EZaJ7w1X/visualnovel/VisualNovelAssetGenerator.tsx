@@ -1,0 +1,834 @@
+import React, { useState, useEffect } from 'react';
+import { COMPLETE_ASSET_MANIFEST, getAssetsByPriority, getAssetsByType, getAssetStats, getAssetsByContentRating, type AssetRequirement } from './assetManifest';
+import type { GenerationSettings, GeneratedImageData } from '../types';
+import {
+  saveAssetToFile,
+  storeAssetInLocalStorage,
+  saveAssetToFileSystem,
+  loadAllAssetsFromLocalStorage,
+  clearAllStoredAssets,
+  getAssetFilename
+} from './assetFileSaver';
+import { getAssetStatus } from './assetLoader';
+
+interface VisualNovelAssetGeneratorProps {
+  onExit: () => void;
+  generationSettings: GenerationSettings;
+  onGenerate: (prompt: string, settings: any) => Promise<void>;
+  generatedImages: GeneratedImageData[] | null; // Images from App.tsx
+}
+
+const VisualNovelAssetGenerator: React.FC<VisualNovelAssetGeneratorProps> = ({
+  onExit,
+  generationSettings,
+  onGenerate,
+  generatedImages: latestGeneratedImages
+}) => {
+  // Debug: Log what we receive as props
+  console.log('🎯 VisualNovelAssetGenerator received props:', {
+    hasImages: !!latestGeneratedImages,
+    imageCount: latestGeneratedImages?.length || 0,
+    firstItemType: typeof latestGeneratedImages?.[0],
+    firstItemIsObject: typeof latestGeneratedImages?.[0] === 'object',
+    firstItemHasUrl: !!(latestGeneratedImages?.[0] as any)?.url
+  });
+
+  const [selectedAsset, setSelectedAsset] = useState<AssetRequirement | null>(null);
+  const [filterType, setFilterType] = useState<'all' | AssetRequirement['type']>('all');
+  const [filterPriority, setFilterPriority] = useState<'all' | 'critical' | 'high' | 'medium' | 'low'>('all');
+  const [filterContentRating, setFilterContentRating] = useState<'all' | 'general' | 'mature' | 'erotic_art' | 'artistic_nudity'>('all');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [assetImageMap, setAssetImageMap] = useState<Record<string, string>>({});
+  const [currentGeneratingAssetId, setCurrentGeneratingAssetId] = useState<string | null>(null);
+  const [lastProcessedImageCount, setLastProcessedImageCount] = useState<number>(0);
+  const [processedGenerations, setProcessedGenerations] = useState<Set<string>>(new Set());
+
+  const baseStats = getAssetStats();
+
+  // Override stats with actual generated count from assetImageMap
+  const stats = {
+    ...baseStats,
+    generated: Object.keys(assetImageMap).length,
+    progress: (Object.keys(assetImageMap).length / baseStats.total) * 100
+  };
+
+  // Load saved assets from localStorage on mount
+  useEffect(() => {
+    const savedAssets = loadAllAssetsFromLocalStorage();
+    if (Object.keys(savedAssets).length > 0) {
+      setAssetImageMap(savedAssets);
+      console.log(`📂 Loaded ${Object.keys(savedAssets).length} saved assets from localStorage`);
+    }
+  }, []);
+
+  // Capture newly generated images and associate them with the current asset
+  useEffect(() => {
+    // Only process if we have images AND an asset ID
+    if (latestGeneratedImages && latestGeneratedImages.length > 0 && currentGeneratingAssetId) {
+      // Get the LATEST image (last in array)
+      const latestImageData = latestGeneratedImages[latestGeneratedImages.length - 1];
+
+      // Check if latestImageData exists and has a url property
+      if (!latestImageData || !latestImageData.url) {
+        console.error('❌ Invalid image data received:', latestImageData);
+        setCurrentGeneratingAssetId(null);
+        return;
+      }
+
+      const latestImage = latestImageData.url; // Extract the base64 URL
+
+      // Create deduplication key using the SAME image we're storing (not the first one!)
+      const generationKey = `${currentGeneratingAssetId}-${latestImage.substring(0, 50)}`;
+
+      // Skip if we've already processed this exact generation
+      if (processedGenerations.has(generationKey)) {
+        console.log(`⏭️ Skipping already processed generation for ${currentGeneratingAssetId}`);
+        return;
+      }
+
+      console.log(`📊 Processing new generation for asset ${currentGeneratingAssetId}`);
+      console.log(`🔍 Image count in array: ${latestGeneratedImages.length}`);
+      console.log(`✅ Captured image for asset ${currentGeneratingAssetId}:`, {
+        imageLength: latestImage.length,
+        assetId: currentGeneratingAssetId,
+        startsWithData: latestImage.startsWith('data:'),
+        imagePreview: latestImage.substring(0, 100) + '...',
+        imageSignature: latestImage.substring(0, 30), // First 30 chars to identify uniqueness
+        timestampCheck: latestImageData.settings?.seed || 'no-seed'
+      });
+
+      // Find the asset
+      const asset = COMPLETE_ASSET_MANIFEST.find(a => a.id === currentGeneratingAssetId);
+
+      if (asset) {
+        console.log(`💾 Mapping asset "${asset.name}" (ID: ${asset.id}) to new image`);
+
+        // Store in component state
+        setAssetImageMap(prev => {
+          const updated = {
+            ...prev,
+            [currentGeneratingAssetId]: latestImage
+          };
+          console.log(`📊 Asset map now has ${Object.keys(updated).length} assets:`, Object.keys(updated));
+          return updated;
+        });
+
+        // Auto-save to file system (NO localStorage limits!)
+        saveAssetToFileSystem(asset, latestImage)
+          .then(() => {
+            console.log(`✅ Auto-saved ${asset.name} to file system - Visual Novel will auto-reload!`);
+          })
+          .catch((error) => {
+            console.error(`❌ Failed to save ${asset.name}:`, error);
+            alert(`Failed to save asset: ${error.message}\n\nMake sure the Asset Server is running: npm run asset-server`);
+          });
+      }
+
+      // Mark this generation as processed
+      setProcessedGenerations(prev => new Set(prev).add(generationKey));
+      setCurrentGeneratingAssetId(null);
+    }
+  }, [latestGeneratedImages, currentGeneratingAssetId, processedGenerations]);
+
+  // Filter assets
+  const filteredAssets = COMPLETE_ASSET_MANIFEST.filter(asset => {
+    if (filterType !== 'all' && asset.type !== filterType) return false;
+    if (filterPriority !== 'all' && asset.priority !== filterPriority) return false;
+    if (filterContentRating !== 'all' && asset.contentRating !== filterContentRating) return false;
+    return true;
+  });
+
+  const handleGenerateAsset = async (asset: AssetRequirement) => {
+    setIsGenerating(true);
+    setSelectedAsset(asset);
+
+    // Store the current image count before generation
+    const imageCountBefore = latestGeneratedImages?.length || 0;
+    console.log(`🎨 Starting generation for ${asset.name}, current image count: ${imageCountBefore}`);
+
+    setCurrentGeneratingAssetId(asset.id); // Track which asset we're generating
+
+    try {
+      // Determine which provider to use based on asset type
+      const provider = generationSettings.provider || 'replicate-flux';
+
+      // Build generation settings with random seed to force unique images
+      const randomSeed = Math.floor(Math.random() * 2147483647);
+      const settings: any = {
+        provider,
+        aspectRatio: asset.specifications.aspectRatio || '16:9',
+        numberOfImages: 1,
+        seed: randomSeed, // Force unique generation (prevent Imagen caching)
+      };
+
+      console.log(`🎲 Using random seed ${randomSeed} to ensure unique generation`);
+
+      // Video generation with Veo (Vertex AI required)
+      if (asset.type === 'cutscene_video') {
+        if (provider !== 'vertex-ai') {
+          alert('⚠️ Video cutscenes require Vertex AI with Veo. Please switch to Vertex AI in settings.');
+          setIsGenerating(false);
+          setCurrentGeneratingAssetId(null);
+          return;
+        }
+        console.log('🎬 Video cutscene generation: Using Veo (Vertex AI)');
+      }
+
+      // Add provider-specific settings with quality optimization
+      if (provider === 'vertex-ai') {
+        if (generationSettings.vertexAuthMethod !== 'oauth') {
+          alert('⚠️ Imagen/Veo requires OAuth authentication. Please configure in settings or switch to Flux.');
+          setIsGenerating(false);
+          setCurrentGeneratingAssetId(null);
+          return;
+        }
+
+        settings.vertexAuthMethod = 'oauth';
+        settings.projectId = generationSettings.projectId;
+        settings.accessToken = generationSettings.accessToken;
+
+        // Use Veo for videos, Imagen for images
+        if (asset.type === 'cutscene_video') {
+          settings.modelId = 'veo-002'; // Veo 2 for video generation
+          settings.videoDuration = 8; // 8-second cutscenes
+          settings.aspectRatio = '16:9'; // Widescreen cinematic
+          console.log('🎬 Veo settings: 8-second video, 16:9 aspect ratio');
+        } else {
+          settings.modelId = generationSettings.modelId || 'imagen-4.0-generate-001';
+          settings.guidanceScale = 15; // Higher guidance for better prompt following
+        }
+
+        settings.personGeneration = 'allow_all';
+        settings.safetySetting = 'block_few';
+        settings.addWatermark = false; // No watermarks for game assets
+
+      } else {
+        // Replicate Flux with quality optimizations
+        settings.replicateApiToken = generationSettings.replicateApiToken;
+        settings.fluxModel = generationSettings.fluxModel || 'black-forest-labs/flux-1.1-pro-ultra';
+        settings.fluxSafetyTolerance = 6; // Maximum tolerance for mature content
+        settings.fluxRawMode = true; // Raw mode for photorealistic quality
+        settings.fluxOutputFormat = 'png'; // PNG for sprites (transparency), JPG for others
+        settings.fluxOutputQuality = 100; // Maximum quality
+
+        // Flux Pro Ultra quality settings
+        if (settings.fluxModel.includes('flux-1.1-pro-ultra')) {
+          settings.fluxUltraQuality = true;
+          settings.fluxAspectRatio = asset.specifications.aspectRatio || '16:9';
+        }
+      }
+
+      // Asset-type specific optimizations
+      if (asset.type === 'character_sprite') {
+        // For character sprites: emphasize transparency and detail
+        settings.outputFormat = 'png'; // Always PNG for sprites
+        console.log('🧍 Character sprite mode: PNG with alpha transparency');
+      } else if (asset.type === 'ui_element' || asset.type === 'location_map') {
+        // For UI elements: crisp edges and clean design
+        settings.outputFormat = 'png'; // PNG for UI elements
+        console.log('🎨 UI/Map mode: PNG with clean edges');
+      } else if (asset.type === 'background' || asset.type === 'cg_image') {
+        // For backgrounds and CGs: high detail and cinematic quality
+        settings.outputFormat = asset.specifications.format.toLowerCase();
+        console.log('🖼️ Background/CG mode: Maximum detail and color depth');
+      }
+
+      console.log(`🎨 Generating asset: ${asset.name}`, { provider, settings });
+
+      await onGenerate(asset.prompt, settings);
+
+      // Mark as generated (image will be captured by useEffect)
+      asset.generated = true;
+
+    } catch (error) {
+      console.error('Asset generation failed:', error);
+      alert(`❌ Generation failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      setCurrentGeneratingAssetId(null);
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case 'critical': return 'text-red-400 bg-red-900/30';
+      case 'high': return 'text-orange-400 bg-orange-900/30';
+      case 'medium': return 'text-yellow-400 bg-yellow-900/30';
+      case 'low': return 'text-green-400 bg-green-900/30';
+      default: return 'text-gray-400 bg-gray-900/30';
+    }
+  };
+
+  const getTypeIcon = (type: AssetRequirement['type']) => {
+    switch (type) {
+      case 'character_sprite': return '🧍';
+      case 'background': return '🖼️';
+      case 'cg_image': return '✨';
+      case 'cutscene_video': return '🎬';
+      case 'ui_element': return '🎨';
+      case 'bgm': return '🎵';
+      case 'sfx': return '🔊';
+      case 'location_map': return '🗺️';
+      default: return '📦';
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-pink-900 text-white p-6">
+      {/* Header */}
+      <div className="max-w-7xl mx-auto">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-3xl font-bold mb-2">🎮 Visual Novel Asset Generator</h1>
+            <p className="text-purple-300">Generate all 51 assets for Chapter 1: Erotic-Art Photography Journey</p>
+            <p className="text-sm text-pink-300">30 original + 21 expanded boudoir & intimate assets</p>
+          </div>
+          <button
+            onClick={onExit}
+            className="px-6 py-3 bg-gray-700 hover:bg-gray-600 rounded-lg transition-all"
+          >
+            ← Back to Main
+          </button>
+        </div>
+
+        {/* Statistics Dashboard */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+          <div className="bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-6">
+            <div className="text-4xl font-bold text-purple-400">{stats.total}</div>
+            <div className="text-sm text-gray-400">Total Assets</div>
+          </div>
+          <div className="bg-black/40 backdrop-blur-md border border-green-500/30 rounded-xl p-6">
+            <div className="text-4xl font-bold text-green-400">{stats.generated}</div>
+            <div className="text-sm text-gray-400">Generated</div>
+          </div>
+          <div className="bg-black/40 backdrop-blur-md border border-red-500/30 rounded-xl p-6">
+            <div className="text-4xl font-bold text-red-400">{stats.criticalRemaining}</div>
+            <div className="text-sm text-gray-400">Critical Remaining</div>
+          </div>
+          <div className="bg-black/40 backdrop-blur-md border border-blue-500/30 rounded-xl p-6">
+            <div className="text-4xl font-bold text-blue-400">{Math.round(stats.progress)}%</div>
+            <div className="text-sm text-gray-400">Progress</div>
+          </div>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="mb-6 bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-4">
+          <div className="flex justify-between text-sm text-gray-400 mb-2">
+            <span>Overall Progress</span>
+            <span>{stats.generated} / {stats.total} assets</span>
+          </div>
+          <div className="w-full bg-gray-700 rounded-full h-4">
+            <div
+              className="bg-gradient-to-r from-purple-600 to-pink-600 h-4 rounded-full transition-all duration-500"
+              style={{ width: `${stats.progress}%` }}
+            />
+          </div>
+        </div>
+
+        {/* Filters */}
+        <div className="bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-6 mb-6">
+          <h3 className="font-bold mb-4">Filters</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Asset Type</label>
+              <select
+                value={filterType}
+                onChange={(e) => setFilterType(e.target.value as any)}
+                className="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-2"
+              >
+                <option value="all">All Types</option>
+                <option value="character_sprite">🧍 Character Sprites (20)</option>
+                <option value="background">🖼️ Backgrounds (13)</option>
+                <option value="cg_image">✨ CG Images (18)</option>
+                <option value="location_map">🗺️ Location Maps</option>
+                <option value="cutscene_video">🎬 Cutscene Videos</option>
+                <option value="bgm">🎵 Background Music</option>
+                <option value="sfx">🔊 Sound Effects</option>
+                <option value="ui_element">🎨 UI Elements</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Priority</label>
+              <select
+                value={filterPriority}
+                onChange={(e) => setFilterPriority(e.target.value as any)}
+                className="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-2"
+              >
+                <option value="all">All Priorities</option>
+                <option value="critical">🔴 Critical</option>
+                <option value="high">🟠 High</option>
+                <option value="medium">🟡 Medium</option>
+                <option value="low">🟢 Low</option>
+              </select>
+            </div>
+            <div>
+              <label className="block text-sm text-gray-400 mb-2">Content Rating</label>
+              <select
+                value={filterContentRating}
+                onChange={(e) => setFilterContentRating(e.target.value as any)}
+                className="w-full bg-gray-800 border border-gray-600 text-white rounded-lg px-4 py-2"
+              >
+                <option value="all">All Ratings</option>
+                <option value="general">👔 General (Professional)</option>
+                <option value="mature">💃 Mature (Boudoir/Lingerie)</option>
+                <option value="erotic_art">🎨 Erotic Art (Intimate Artistic)</option>
+                <option value="artistic_nudity">🖼️ Artistic Nudity (Fine Art)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        {/* Asset List */}
+        <div className="bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-6">
+          <h3 className="font-bold text-xl mb-4">
+            Assets ({filteredAssets.length})
+          </h3>
+
+          <div className="space-y-3">
+            {filteredAssets.map(asset => (
+              <div
+                key={asset.id}
+                className={`bg-gray-800/50 border rounded-lg p-4 transition-all ${
+                  selectedAsset?.id === asset.id
+                    ? 'border-purple-500 shadow-lg shadow-purple-500/20'
+                    : 'border-gray-700 hover:border-gray-600'
+                }`}
+              >
+                <div className="flex items-start justify-between">
+                  <div className="flex-1">
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-2xl">{getTypeIcon(asset.type)}</span>
+                      <div>
+                        <h4 className="font-bold text-lg">{asset.name}</h4>
+                        <p className="text-sm text-gray-400">{asset.description}</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-3 mt-3">
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold uppercase ${getPriorityColor(asset.priority)}`}>
+                        {asset.priority}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        {asset.specifications.width}x{asset.specifications.height} • {asset.specifications.format}
+                      </span>
+                      <span className="text-xs text-gray-400">
+                        Used in: {asset.sceneUsage.join(', ')}
+                      </span>
+                    </div>
+
+                    {/* Prompt Preview */}
+                    {selectedAsset?.id === asset.id && (
+                      <div className="mt-4 p-3 bg-black/40 rounded border border-gray-700">
+                        <div className="text-xs text-gray-400 mb-1">Generation Prompt:</div>
+                        <div className="text-sm text-gray-300">{asset.prompt}</div>
+                      </div>
+                    )}
+
+                    {/* Image Preview */}
+                    {assetImageMap[asset.id] && (
+                      <div className="mt-4">
+                        <div className="text-xs text-gray-400 mb-2">Generated Image Preview:</div>
+                        <img
+                          src={assetImageMap[asset.id].startsWith('data:') ? assetImageMap[asset.id] : `data:image/png;base64,${assetImageMap[asset.id]}`}
+                          alt={asset.name}
+                          className="w-full rounded-lg border border-gray-700 shadow-lg"
+                        />
+                        <div className="text-xs text-gray-500 mt-1">
+                          Size: {Math.round(assetImageMap[asset.id].length / 1024)} KB
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex flex-col gap-2 ml-4">
+                    {assetImageMap[asset.id] ? (
+                      <>
+                        <div className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-bold text-center">
+                          ✓ Generated
+                        </div>
+                        <button
+                          onClick={() => saveAssetToFile(asset, assetImageMap[asset.id])}
+                          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm transition-all"
+                        >
+                          💾 Download
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <button
+                          onClick={() => setSelectedAsset(asset)}
+                          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 rounded-lg text-sm transition-all"
+                        >
+                          View Details
+                        </button>
+                        <button
+                          onClick={() => handleGenerateAsset(asset)}
+                          disabled={isGenerating}
+                          className="px-4 py-2 bg-purple-600 hover:bg-purple-500 disabled:bg-gray-600 rounded-lg text-sm font-bold transition-all disabled:cursor-not-allowed"
+                        >
+                          {isGenerating && selectedAsset?.id === asset.id ? (
+                            <>⏳ Generating...</>
+                          ) : (
+                            <>🎨 Generate</>
+                          )}
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Quick Actions */}
+        <div className="mt-6 bg-black/40 backdrop-blur-md border border-yellow-500/30 rounded-xl p-6">
+          <h3 className="font-bold text-xl mb-4 text-yellow-400">⚡ Quick Actions</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <button
+              onClick={() => {
+                const critical = getAssetsByPriority('critical');
+                alert(`Found ${critical.length} critical assets. Generate them one by one using the buttons above.`);
+              }}
+              className="px-6 py-4 bg-red-600 hover:bg-red-500 rounded-lg font-bold transition-all"
+            >
+              🔴 Generate All Critical ({stats.criticalRemaining} remaining)
+            </button>
+            <button
+              onClick={() => {
+                const sprites = getAssetsByType('character_sprite');
+                alert(`Found ${sprites.length} character sprites. Generate them to bring Zara to life!\n\n12 original + 8 intimate wardrobe sprites`);
+              }}
+              className="px-6 py-4 bg-purple-600 hover:bg-purple-500 rounded-lg font-bold transition-all"
+            >
+              🧍 Generate All Sprites (20 total)
+            </button>
+            <button
+              onClick={() => {
+                const backgrounds = getAssetsByType('background');
+                alert(`Found ${backgrounds.length} background scenes. Generate them to build the world!\n\n8 original studio + 5 boudoir/intimate locations`);
+              }}
+              className="px-6 py-4 bg-blue-600 hover:bg-blue-500 rounded-lg font-bold transition-all"
+            >
+              🖼️ Generate All Backgrounds (13 total)
+            </button>
+            <button
+              onClick={() => {
+                const cgs = getAssetsByType('cg_image');
+                alert(`Found ${cgs.length} CG images. Generate them for key story moments!\n\n10 original + 8 intimate moment CGs`);
+              }}
+              className="px-6 py-4 bg-pink-600 hover:bg-pink-500 rounded-lg font-bold transition-all"
+            >
+              ✨ Generate All CG Images (18 total)
+            </button>
+            <button
+              onClick={() => {
+                const bgm = getAssetsByType('bgm');
+                alert(`Found ${bgm.length} background music tracks. Use Lyria (Vertex AI) or Suno/Udio for generation!`);
+              }}
+              className="px-6 py-4 bg-green-600 hover:bg-green-500 rounded-lg font-bold transition-all"
+            >
+              🎵 Generate All BGM (6 tracks)
+            </button>
+            <button
+              onClick={() => {
+                const sfx = getAssetsByType('sfx');
+                alert(`Found ${sfx.length} sound effects. Use free SFX libraries or AI generation!`);
+              }}
+              className="px-6 py-4 bg-teal-600 hover:bg-teal-500 rounded-lg font-bold transition-all"
+            >
+              🔊 Generate All SFX (7 sounds)
+            </button>
+            <button
+              onClick={() => {
+                const generatedCount = Object.keys(assetImageMap).length;
+                if (generatedCount === 0) {
+                  alert('No assets generated yet. Generate some assets first!');
+                  return;
+                }
+
+                // Download all generated assets
+                for (const asset of COMPLETE_ASSET_MANIFEST) {
+                  if (assetImageMap[asset.id]) {
+                    setTimeout(() => {
+                      saveAssetToFile(asset, assetImageMap[asset.id]);
+                    }, 100);
+                  }
+                }
+
+                alert(`Downloading ${generatedCount} generated assets...`);
+              }}
+              disabled={Object.keys(assetImageMap).length === 0}
+              className="px-6 py-4 bg-yellow-600 hover:bg-yellow-500 disabled:bg-gray-600 rounded-lg font-bold transition-all disabled:cursor-not-allowed"
+            >
+              💾 Download All Generated ({Object.keys(assetImageMap).length})
+            </button>
+            <button
+              onClick={() => {
+                if (confirm('Are you sure you want to clear all stored assets? This cannot be undone!')) {
+                  clearAllStoredAssets();
+                  setAssetImageMap({});
+                  alert('All stored assets cleared!');
+                }
+              }}
+              disabled={Object.keys(assetImageMap).length === 0}
+              className="px-6 py-4 bg-red-700 hover:bg-red-600 disabled:bg-gray-600 rounded-lg font-bold transition-all disabled:cursor-not-allowed"
+            >
+              🗑️ Clear All Stored
+            </button>
+            <button
+              onClick={() => {
+                const assetStatus = getAssetStatus();
+                const message = `
+🎮 Visual Novel Asset Status:
+
+✅ Generated: ${assetStatus.generated}/${assetStatus.total} assets (${Math.round(assetStatus.progress)}%)
+🔴 Critical: ${assetStatus.criticalGenerated}/${assetStatus.critical} complete
+
+Your Visual Novel will automatically use generated assets!
+
+How it works:
+• Generated assets are saved to localStorage
+• Visual Novel checks for new assets every 5 seconds
+• Falls back to placeholder images for missing assets
+• Works even with incomplete asset sets
+
+Ready to see your assets in action? Play the Visual Novel now!
+                `.trim();
+
+                alert(message);
+              }}
+              className="px-6 py-4 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 rounded-lg font-bold transition-all"
+            >
+              🎮 Update Visual Novel
+            </button>
+          </div>
+        </div>
+
+        {/* Audio Generation Tools Info */}
+        <div className="mt-6 bg-black/40 backdrop-blur-md border border-cyan-500/30 rounded-xl p-6">
+          <h3 className="font-bold text-xl mb-4 text-cyan-400">🎵 Audio Generation Tools</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Background Music */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-lg text-white">Background Music (BGM)</h4>
+
+              <div className="p-4 bg-purple-900/30 border border-purple-500/30 rounded-lg">
+                <h5 className="font-bold text-purple-300 mb-2">🎹 Lyria (Google Vertex AI)</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Google's music generation model - high-quality instrumental tracks
+                </p>
+                <p className="text-xs text-gray-400">
+                  • Use Vertex AI console<br />
+                  • Text-to-music generation<br />
+                  • 2-5 minute tracks<br />
+                  • Multiple genres/styles
+                </p>
+                <a
+                  href="https://cloud.google.com/vertex-ai/generative-ai/docs/music/overview"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-purple-400 hover:text-purple-300 mt-2 block"
+                >
+                  View Lyria Docs →
+                </a>
+              </div>
+
+              <div className="p-4 bg-blue-900/30 border border-blue-500/30 rounded-lg">
+                <h5 className="font-bold text-blue-300 mb-2">🎼 Suno AI (Free Tier)</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Popular music generation tool with free credits
+                </p>
+                <p className="text-xs text-gray-400">
+                  • 50 free credits/month<br />
+                  • Text-to-music<br />
+                  • Instrumental & vocal options<br />
+                  • Download MP3
+                </p>
+                <a
+                  href="https://suno.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-blue-400 hover:text-blue-300 mt-2 block"
+                >
+                  Try Suno →
+                </a>
+              </div>
+
+              <div className="p-4 bg-indigo-900/30 border border-indigo-500/30 rounded-lg">
+                <h5 className="font-bold text-indigo-300 mb-2">🎧 Udio (Free)</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Alternative music generation with free tier
+                </p>
+                <p className="text-xs text-gray-400">
+                  • Free daily generations<br />
+                  • High-quality output<br />
+                  • Genre control<br />
+                  • Commercial use (paid tier)
+                </p>
+                <a
+                  href="https://udio.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-indigo-400 hover:text-indigo-300 mt-2 block"
+                >
+                  Try Udio →
+                </a>
+              </div>
+
+              <div className="p-4 bg-gray-900/30 border border-gray-500/30 rounded-lg">
+                <h5 className="font-bold text-gray-300 mb-2">🎹 Free Music Archives</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Royalty-free music libraries (no AI)
+                </p>
+                <p className="text-xs text-gray-400">
+                  • YouTube Audio Library<br />
+                  • Free Music Archive<br />
+                  • Incompetech<br />
+                  • CC0 Music
+                </p>
+              </div>
+            </div>
+
+            {/* Sound Effects */}
+            <div className="space-y-4">
+              <h4 className="font-bold text-lg text-white">Sound Effects (SFX)</h4>
+
+              <div className="p-4 bg-green-900/30 border border-green-500/30 rounded-lg">
+                <h5 className="font-bold text-green-300 mb-2">🔊 ElevenLabs Sound Effects</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  AI sound effect generation (limited free tier)
+                </p>
+                <p className="text-xs text-gray-400">
+                  • Text-to-SFX<br />
+                  • Professional quality<br />
+                  • Quick generation<br />
+                  • WAV format
+                </p>
+                <a
+                  href="https://elevenlabs.io/sound-effects"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-green-400 hover:text-green-300 mt-2 block"
+                >
+                  Try ElevenLabs SFX →
+                </a>
+              </div>
+
+              <div className="p-4 bg-teal-900/30 border border-teal-500/30 rounded-lg">
+                <h5 className="font-bold text-teal-300 mb-2">🎚️ Free SFX Libraries</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  Download pre-made sound effects (recommended!)
+                </p>
+                <p className="text-xs text-gray-400">
+                  • <strong>Freesound.org</strong> - Massive library<br />
+                  • <strong>Zapsplat</strong> - UI sounds<br />
+                  • <strong>Sonniss GDC</strong> - Game audio<br />
+                  • <strong>BBC Sound Effects</strong> - Pro quality
+                </p>
+                <a
+                  href="https://freesound.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs text-teal-400 hover:text-teal-300 mt-2 block"
+                >
+                  Browse Freesound →
+                </a>
+              </div>
+
+              <div className="p-4 bg-yellow-900/30 border border-yellow-500/30 rounded-lg">
+                <h5 className="font-bold text-yellow-300 mb-2">💡 Recommendation</h5>
+                <p className="text-sm text-gray-300 mb-2">
+                  For SFX, download from free libraries first!
+                </p>
+                <p className="text-xs text-gray-400">
+                  Sound effects are hard to generate with AI and free libraries have everything you need. Search for:<br />
+                  • "UI click sound"<br />
+                  • "menu select chime"<br />
+                  • "camera shutter"<br />
+                  • "achievement unlock"
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Quality Settings Info */}
+        <div className="mt-6 bg-black/40 backdrop-blur-md border border-green-500/30 rounded-xl p-6">
+          <h3 className="font-bold text-xl mb-4 text-green-400">✨ High-Quality Generation Enabled</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 bg-green-900/20 border border-green-500/30 rounded-lg">
+              <h4 className="font-bold text-green-300 mb-2">🎨 Character Sprites & UI</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>✓ PNG with alpha transparency</li>
+                <li>✓ Maximum quality (100%)</li>
+                <li>✓ Raw mode for photorealism</li>
+                <li>✓ Clean edges for layering</li>
+              </ul>
+            </div>
+            <div className="p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+              <h4 className="font-bold text-blue-300 mb-2">🖼️ Backgrounds & CG</h4>
+              <ul className="text-sm text-gray-300 space-y-1">
+                <li>✓ Maximum detail rendering</li>
+                <li>✓ Cinematic color depth</li>
+                <li>✓ High guidance scale (15)</li>
+                <li>✓ No watermarks</li>
+              </ul>
+            </div>
+          </div>
+          <div className="mt-4 p-3 bg-yellow-900/20 border border-yellow-500/30 rounded-lg">
+            <p className="text-sm text-yellow-300">
+              <strong>⚡ Pro Tip:</strong> For best results with Flux Pro Ultra, use detailed prompts from ASSET_GENERATION_PROMPTS.md.
+              For Imagen 4.0, ensure OAuth authentication is configured and use "block_few" safety setting for mature content.
+            </p>
+          </div>
+        </div>
+
+        {/* Instructions */}
+        <div className="mt-6 bg-black/40 backdrop-blur-md border border-purple-500/30 rounded-xl p-6">
+          <h3 className="font-bold text-xl mb-4">📋 Instructions</h3>
+          <div className="mb-4 p-4 bg-pink-900/20 border border-pink-500/30 rounded-lg">
+            <h4 className="font-bold text-pink-300 mb-2">🎨 Expanded Chapter 1 Story</h4>
+            <p className="text-sm text-gray-300">
+              This expansion transforms Chapter 1 from 6 scenes to <strong>10 comprehensive scenes</strong> with progressive intimacy pathways:
+            </p>
+            <ul className="text-xs text-gray-400 mt-2 space-y-1 ml-4">
+              <li>• <strong>Scenes 1-4:</strong> Professional fashion photography (original path)</li>
+              <li>• <strong>Scene 5:</strong> Intimacy Gateway - player chooses progression level</li>
+              <li>• <strong>Scene 6:</strong> Boudoir Session - elegant lingerie photography</li>
+              <li>• <strong>Scene 7:</strong> Fine Art - artistic draping and museum-quality work</li>
+              <li>• <strong>Scene 8:</strong> Emotional Connection - deep personal moment</li>
+              <li>• <strong>Scene 9:</strong> Masterpiece - ultimate intimate session</li>
+              <li>• <strong>Scene 10:</strong> Reflection - portfolio review and future possibilities</li>
+            </ul>
+            <p className="text-xs text-pink-300 mt-2">
+              <strong>Total:</strong> 51 assets (30 original + 21 expanded boudoir/intimate)
+            </p>
+          </div>
+          <ol className="list-decimal list-inside space-y-2 text-gray-300">
+            <li><strong>Start with Critical Assets:</strong> Generate the 🔴 critical priority assets first - these are essential for gameplay.</li>
+            <li><strong>Character Sprites (20 assets):</strong> Generate all Zara sprites including 12 original (neutral, smile, flirty, shy, etc.) + 8 intimate wardrobe (lingerie_elegant, lingerie_minimal, artistic_drape, silk_robe, intimate_trust, etc.).</li>
+            <li><strong>Background Scenes (13 assets):</strong> Generate all locations including 8 original studio spaces + 5 boudoir/intimate locations (boudoir_bedroom_natural, boudoir_luxury_dramatic, natural_light_loft, etc.).</li>
+            <li><strong>CG Images (18 assets):</strong> Generate all special moments including 10 original + 8 intimate moments (wardrobe_discussion, mirror_preparation, boudoir_pose, artistic_draping_moment, climax_boudoir, climax_minimal, etc.).</li>
+            <li><strong>UI Elements (6+ assets):</strong> Generate dialogue boxes, buttons, title logo, menu backgrounds, relationship meters, and intimacy level indicators.</li>
+            <li><strong>Location Maps (6 assets):</strong> Generate city overview map and location cards for travel system.</li>
+            <li><strong>Miscellaneous (8 assets):</strong> Generate title screen, loading screen, achievement badges, chapter cards, save slots, settings panels.</li>
+            <li><strong>Background Music (6 tracks):</strong> Generate BGM using Lyria (Vertex AI), Suno, or Udio. See audio generation tools section below.</li>
+            <li><strong>Sound Effects (7 sounds):</strong> Download from Freesound.org, Zapsplat, or generate with ElevenLabs SFX.</li>
+            <li><strong>Content Ratings:</strong> Use filters to generate by rating level: General (professional), Mature (boudoir/lingerie), Erotic Art (intimate artistic), Artistic Nudity (fine art).</li>
+            <li><strong>Auto-Save:</strong> All generated assets are automatically saved to file system for instant use in the Visual Novel!</li>
+            <li><strong>Play Visual Novel:</strong> Assets automatically load when you play! The game checks for new assets and works even with incomplete sets.</li>
+          </ol>
+          <div className="mt-4 p-4 bg-blue-900/20 border border-blue-500/30 rounded-lg">
+            <p className="text-sm text-blue-300">
+              <strong>💡 Tip:</strong> Check <code>visualnovel/assetManifest.ts</code> for all 51 complete asset prompts with detailed specifications.
+              All prompts include updated Zara character baseline (Indian erotic-art film athletic glamourous, 5'9", 38D-27-39) and are optimized for high-quality photorealistic generation!
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default VisualNovelAssetGenerator;

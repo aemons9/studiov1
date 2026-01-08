@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concepts & Moodboards | VeraLabs</title>
+    <meta name="description" content="Explore the creative universe of high fashion photography concepts and curated moodboards">
+
+    <!-- Sophisticated Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@100;200;300;400;500;600&family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500;6..96,600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==================== DESIGN SYSTEM ==================== */
+        :root {
+            /* Creamy Minimalist Palette */
+            --cream-white: #FAF8F5;
+            --ivory: #F7F3ED;
+            --champagne: #E8DFD3;
+            --nude-beige: #D4C4B0;
+            --warm-taupe: #B8A28E;
+            --soft-charcoal: #3E3A37;
+            --deep-espresso: #1C1917;
+
+            /* Accent Colors */
+            --rose-gold: #E8B4B8;
+            --pale-gold: #D4AF37;
+            --dusty-mauve: #C8A2B8;
+            --sage-green: #9CAF88;
+            --steel-blue: #7C93A3;
+            --terracotta: #C17854;
+
+            /* Typography Scale */
+            --font-editorial: 'Playfair Display', serif;
+            --font-modern: 'Inter', sans-serif;
+            --font-luxury: 'Bodoni Moda', serif;
+
+            /* Spacing Rhythm */
+            --space-xs: 0.5rem;
+            --space-sm: 1rem;
+            --space-md: 2rem;
+            --space-lg: 3rem;
+            --space-xl: 5rem;
+            --space-2xl: 8rem;
+
+            /* Transitions */
+            --ease-luxury: cubic-bezier(0.23, 1, 0.32, 1);
+            --ease-gentle: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* ==================== RESET & BASE ==================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        ::selection {
+            background: var(--rose-gold);
+            color: var(--cream-white);
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        body {
+            font-family: var(--font-modern);
+            font-weight: 300;
+            line-height: 1.6;
+            color: var(--soft-charcoal);
+            background: var(--cream-white);
+            overflow-x: hidden;
+        }
+
+        /* ==================== NAVIGATION ==================== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: var(--space-md) var(--space-lg);
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 1px 0 rgba(216, 207, 195, 0.3);
+        }
+
+        .nav-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: var(--font-luxury);
+            font-size: 1.25rem;
+            font-weight: 500;
+            letter-spacing: 0.25em;
+            color: var(--deep-espresso);
+            text-decoration: none;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: var(--space-lg);
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-link {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            font-weight: 400;
+            letter-spacing: 0.08em;
+            color: var(--soft-charcoal);
+            text-decoration: none;
+            text-transform: uppercase;
+            position: relative;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: var(--pale-gold);
+            transition: width 0.4s var(--ease-luxury);
+        }
+
+        .nav-link:hover {
+            color: var(--deep-espresso);
+        }
+
+        .nav-link:hover::before {
+            width: 100%;
+        }
+
+        /* ==================== HERO SECTION ==================== */
+        .hero {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, var(--cream-white) 0%, var(--ivory) 30%, var(--champagne) 70%, var(--nude-beige) 100%);
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 80%;
+            height: 80%;
+            background: radial-gradient(circle, var(--dusty-mauve) 0%, transparent 70%);
+            opacity: 0.15;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(-30px, -30px) rotate(2deg); }
+            66% { transform: translate(30px, -20px) rotate(-2deg); }
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            text-align: center;
+            padding: var(--space-lg);
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-family: var(--font-luxury);
+            font-weight: 400;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--deep-espresso);
+            margin-bottom: var(--space-md);
+            opacity: 0;
+            animation: fadeInUp 1s 0.2s var(--ease-luxury) forwards;
+        }
+
+        .hero-subtitle {
+            font-family: var(--font-editorial);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            font-style: italic;
+            font-weight: 400;
+            color: var(--warm-taupe);
+            margin-bottom: var(--space-md);
+            opacity: 0;
+            animation: fadeInUp 1s 0.4s var(--ease-luxury) forwards;
+        }
+
+        .hero-description {
+            font-family: var(--font-modern);
+            font-size: 1.125rem;
+            font-weight: 300;
+            line-height: 1.9;
+            color: var(--soft-charcoal);
+            max-width: 750px;
+            margin: 0 auto;
+            opacity: 0;
+            animation: fadeInUp 1s 0.6s var(--ease-luxury) forwards;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==================== CATEGORY FILTERS ==================== */
+        .filters-section {
+            padding: var(--space-xl) var(--space-lg);
+            background: var(--ivory);
+            border-bottom: 1px solid var(--champagne);
+            position: sticky;
+            top: 88px;
+            z-index: 100;
+        }
+
+        .filters-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.75rem 2rem;
+            font-family: var(--font-modern);
+            font-size: 0.8125rem;
+            font-weight: 400;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--soft-charcoal);
+            background: var(--cream-white);
+            border: 1.5px solid var(--champagne);
+            cursor: pointer;
+            transition: all 0.4s var(--ease-luxury);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, var(--pale-gold), transparent);
+            opacity: 0.3;
+            transition: left 0.6s var(--ease-luxury);
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            color: var(--cream-white);
+            background: var(--deep-espresso);
+            border-color: var(--deep-espresso);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(28, 25, 23, 0.2);
+        }
+
+        /* ==================== CONCEPTS GRID ==================== */
+        .concepts-section {
+            padding: var(--space-2xl) var(--space-lg);
+            background: var(--cream-white);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .concepts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: var(--space-xl);
+            margin-top: var(--space-xl);
+        }
+
+        .concept-card {
+            background: var(--ivory);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.6s var(--ease-luxury);
+            box-shadow: 0 8px 30px rgba(62, 58, 55, 0.08);
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        .concept-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .concept-card:hover {
+            transform: translateY(-16px);
+            box-shadow: 0 30px 70px rgba(62, 58, 55, 0.18);
+        }
+
+        .concept-image {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 4/5;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--champagne), var(--nude-beige));
+        }
+
+        .concept-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s var(--ease-luxury);
+        }
+
+        .concept-card:hover .concept-image img {
+            transform: scale(1.08);
+        }
+
+        .concept-badge {
+            position: absolute;
+            top: var(--space-md);
+            left: var(--space-md);
+            padding: 0.625rem 1.25rem;
+            background: rgba(250, 248, 245, 0.95);
+            backdrop-filter: blur(15px);
+            font-family: var(--font-modern);
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--deep-espresso);
+            border-radius: 6px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .concept-season {
+            position: absolute;
+            top: var(--space-md);
+            right: var(--space-md);
+            padding: 0.5rem 1rem;
+            background: rgba(28, 25, 23, 0.9);
+            backdrop-filter: blur(15px);
+            font-family: var(--font-modern);
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--pale-gold);
+            border-radius: 6px;
+        }
+
+        .concept-content {
+            padding: var(--space-lg);
+        }
+
+        .concept-header {
+            margin-bottom: var(--space-md);
+        }
+
+        .concept-title {
+            font-family: var(--font-editorial);
+            font-size: 2rem;
+            font-weight: 500;
+            color: var(--deep-espresso);
+            margin-bottom: var(--space-xs);
+            line-height: 1.2;
+        }
+
+        .concept-subtitle {
+            font-family: var(--font-modern);
+            font-size: 0.9375rem;
+            font-style: italic;
+            color: var(--warm-taupe);
+            margin-bottom: var(--space-md);
+        }
+
+        .concept-description {
+            font-family: var(--font-modern);
+            font-size: 0.9375rem;
+            font-weight: 300;
+            color: var(--soft-charcoal);
+            line-height: 1.8;
+            margin-bottom: var(--space-md);
+        }
+
+        .concept-details {
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--champagne);
+        }
+
+        .detail-section {
+            margin-bottom: var(--space-md);
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-family: var(--font-modern);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--pale-gold);
+            margin-bottom: var(--space-xs);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-label::before {
+            content: '◆';
+            font-size: 0.6rem;
+            opacity: 0.6;
+        }
+
+        .detail-content {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            font-weight: 300;
+            color: var(--soft-charcoal);
+            line-height: 1.7;
+        }
+
+        .tags-container {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+            margin-top: var(--space-sm);
+        }
+
+        .tag {
+            padding: 0.375rem 0.875rem;
+            font-family: var(--font-modern);
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            background: rgba(212, 175, 55, 0.1);
+            color: var(--pale-gold);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 20px;
+            transition: all 0.3s var(--ease-gentle);
+        }
+
+        .tag:hover {
+            background: var(--pale-gold);
+            color: var(--deep-espresso);
+            transform: translateY(-2px);
+        }
+
+        /* Color Palette */
+        .color-palette {
+            margin-top: var(--space-md);
+            padding-top: var(--space-md);
+            border-top: 1px solid var(--champagne);
+        }
+
+        .palette-label {
+            font-family: var(--font-modern);
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--pale-gold);
+            margin-bottom: var(--space-sm);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .palette-label::before {
+            content: '◆';
+            font-size: 0.6rem;
+            opacity: 0.6;
+        }
+
+        .palette-colors {
+            display: flex;
+            gap: var(--space-sm);
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            position: relative;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            border: 3px solid var(--ivory);
+            cursor: pointer;
+            transition: all 0.4s var(--ease-luxury);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.4) translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            z-index: 10;
+        }
+
+        .color-swatch::after {
+            content: attr(data-color);
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            background: var(--deep-espresso);
+            color: var(--cream-white);
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-family: 'Courier New', monospace;
+            white-space: nowrap;
+            opacity: 0;
+            transition: all 0.3s var(--ease-gentle);
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .color-swatch:hover::after {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: var(--space-2xl);
+            opacity: 0;
+            animation: fadeInUp 0.8s var(--ease-luxury) forwards;
+        }
+
+        .empty-icon {
+            font-size: 5rem;
+            opacity: 0.2;
+            margin-bottom: var(--space-md);
+        }
+
+        .empty-title {
+            font-family: var(--font-editorial);
+            font-size: 2.5rem;
+            font-style: italic;
+            color: var(--soft-charcoal);
+            margin-bottom: var(--space-sm);
+        }
+
+        .empty-text {
+            font-family: var(--font-modern);
+            font-size: 1.125rem;
+            color: var(--warm-taupe);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ==================== FOOTER ==================== */
+        .footer {
+            padding: var(--space-xl) var(--space-lg);
+            background: var(--deep-espresso);
+            color: var(--champagne);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-family: var(--font-modern);
+            font-size: 0.875rem;
+            color: var(--warm-taupe);
+            margin-bottom: var(--space-sm);
+        }
+
+        .footer-link {
+            color: var(--pale-gold);
+            text-decoration: none;
+            transition: color 0.3s var(--ease-gentle);
+        }
+
+        .footer-link:hover {
+            color: var(--champagne);
+        }
+
+        /* ==================== SCROLL PROGRESS BAR ==================== */
+        .scroll-progress {
+            position: fixed;
+            top: 88px;
+            left: 0;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--pale-gold), var(--rose-gold), var(--dusty-mauve));
+            z-index: 1001;
+            transition: width 0.1s ease-out;
+        }
+
+        /* ==================== RESPONSIVE DESIGN ==================== */
+        @media (max-width: 1024px) {
+            .concepts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+                gap: var(--space-lg);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                letter-spacing: 0.1em;
+            }
+
+            .filters-section {
+                top: 72px;
+                padding: var(--space-md) var(--space-sm);
+            }
+
+            .filter-btn {
+                padding: 0.625rem 1.25rem;
+                font-size: 0.75rem;
+            }
+
+            .concepts-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-md);
+            }
+
+            .concept-title {
+                font-size: 1.75rem;
+            }
+
+            .color-swatch {
+                width: 48px;
+                height: 48px;
+            }
+
+            .nav-menu {
+                gap: var(--space-md);
+            }
+
+            .nav-link {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="veralabs-landing-v2.html" class="logo">VERALABS</a>
+            <ul class="nav-menu">
+                <li><a href="veralabs-landing-v2.html" class="nav-link">Home</a></li>
+                <li><a href="gallery.html" class="nav-link">Gallery</a></li>
+                <li><a href="concepts.html" class="nav-link">Concepts</a></li>
+                <li><a href="moodboards.html" class="nav-link">Moodboards</a></li>
+                <li><a href="lookbook.html" class="nav-link">Lookbook</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Concepts & Moodboards</h1>
+            <p class="hero-subtitle">A Portal of Artistic Creativity & Imagination</p>
+            <p class="hero-description">
+                Discover our meticulously crafted high fashion photography concepts, each a
+                testament to the fusion of artistic vision, editorial sophistication, and
+                timeless elegance. Every concept tells a story through color, form, and style.
+            </p>
+        </div>
+    </section>
+
+    <!-- Category Filters -->
+    <section class="filters-section">
+        <div class="filters-container">
+            <button class="filter-btn active" data-category="all">All Concepts</button>
+            <button class="filter-btn" data-category="editorial">Editorial</button>
+            <button class="filter-btn" data-category="minimalist">Minimalist</button>
+            <button class="filter-btn" data-category="couture">Couture</button>
+            <button class="filter-btn" data-category="avant-garde">Avant-Garde</button>
+            <button class="filter-btn" data-category="artistic">Artistic</button>
+            <button class="filter-btn" data-category="architectural">Architectural</button>
+        </div>
+    </section>
+
+    <!-- Concepts Grid -->
+    <section class="concepts-section">
+        <div class="container">
+            <div class="concepts-grid" id="conceptsGrid">
+                <!-- Concepts will be dynamically loaded here -->
+            </div>
+            <div class="empty-state" id="emptyState" style="display: none;">
+                <div class="empty-icon">◈</div>
+                <h3 class="empty-title">No concepts found</h3>
+                <p class="empty-text">Try selecting a different category to explore more creative concepts.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p class="footer-text">
+            © 2025 VeraLabs. A Creative Universe of High Fashion Photography.
+        </p>
+        <p class="footer-text">
+            <a href="veralabs-landing-v2.html" class="footer-link">Return to Home</a> |
+            <a href="gallery.html" class="footer-link">View Gallery</a> |
+            <a href="moodboards.html" class="footer-link">Explore Moodboards</a>
+        </p>
+    </footer>
+
+    <script>
+        // Concept Database
+        const concepts = [
+            {
+                category: 'editorial',
+                title: 'Urban Poetry',
+                subtitle: 'Contemporary Metropolitan Narratives',
+                season: 'FW 2025',
+                description: 'A modern exploration of urban sophistication where architectural lines meet fluid fashion narratives. This concept captures the essence of contemporary city life through editorial storytelling.',
+                wardrobe: 'Structured blazers, oversized coats, minimalist knitwear, wide-leg trousers, architectural accessories',
+                styling: 'Clean lines with subtle texture play, monochromatic layering, statement outerwear',
+                mood: 'Confident, sophisticated, modern, intellectual',
+                tags: ['Editorial', 'Urban', 'Contemporary', 'Architectural'],
+                colors: ['#1C1917', '#7C93A3', '#E8B4B8', '#D4AF37'],
+                image: 'photo/urban.jpg'
+            },
+            {
+                category: 'minimalist',
+                title: 'Silk & Shadow',
+                subtitle: 'Minimal Luxe Aesthetics',
+                season: 'SS 2025',
+                description: 'Minimalist elegance meets sumptuous textures in this exploration of light, shadow, and form. A celebration of understated luxury through carefully curated simplicity.',
+                wardrobe: 'Silk slip dresses, cashmere wraps, minimal jewelry, nude heels, delicate fabrics',
+                styling: 'Tonal dressing, natural draping, subtle shimmer, minimal accessories',
+                mood: 'Serene, elegant, refined, timeless',
+                tags: ['Minimalist', 'Luxe', 'Silk', 'Timeless'],
+                colors: ['#FAF8F5', '#E8DFD3', '#B8A28E', '#3E3A37'],
+                image: 'photo/silk.jpg'
+            },
+            {
+                category: 'couture',
+                title: 'Gilded Dreams',
+                subtitle: 'Heritage Meets Opulence',
+                season: 'Couture 2025',
+                description: 'Heritage craftsmanship meets opulent design in this celebration of timeless luxury. Rich textiles and intricate details create a visual feast of cultural elegance.',
+                wardrobe: 'Embroidered gowns, metallic accents, vintage jewelry, opulent fabrics, statement pieces',
+                styling: 'Layered richness, ornate details, jewel tones, luxurious textiles',
+                mood: 'Regal, luxurious, sophisticated, dramatic',
+                tags: ['Couture', 'Heritage', 'Luxury', 'Opulent'],
+                colors: ['#D4AF37', '#8B0000', '#F7F3ED', '#2C1810'],
+                image: 'photo/gilded.jpg'
+            },
+            {
+                category: 'avant-garde',
+                title: 'Fluid Architecture',
+                subtitle: 'Form Meets Function',
+                season: 'Resort 2025',
+                description: 'Avant-garde silhouettes inspired by natural forms and contemporary design principles. Where architectural innovation meets fluid movement in unexpected ways.',
+                wardrobe: 'Sculptural pieces, asymmetric cuts, experimental fabrics, bold shapes, innovative construction',
+                styling: 'Dramatic silhouettes, unexpected proportions, artistic layering',
+                mood: 'Innovative, bold, artistic, futuristic',
+                tags: ['Avant-Garde', 'Architectural', 'Innovative', 'Resort'],
+                colors: ['#9CAF88', '#C8A2B8', '#FAF8F5', '#7C93A3'],
+                image: 'photo/fluid.jpg'
+            },
+            {
+                category: 'minimalist',
+                title: 'Quiet Luxury',
+                subtitle: 'The Power of Understatement',
+                season: 'Timeless',
+                description: 'Understated elegance and refined simplicity define this timeless approach to modern dressing. Where quality speaks louder than logos and sophistication is found in restraint.',
+                wardrobe: 'Cashmere basics, tailored trousers, leather loafers, minimal watches, investment pieces',
+                styling: 'Monochromatic elegance, perfect tailoring, quality over quantity',
+                mood: 'Refined, understated, confident, timeless',
+                tags: ['Minimalist', 'Luxury', 'Timeless', 'Quality'],
+                colors: ['#F7F3ED', '#D4C4B0', '#B8A28E', '#3E3A37'],
+                image: 'photo/quiet.jpg'
+            },
+            {
+                category: 'editorial',
+                title: 'Monsoon Reverie',
+                subtitle: 'Seasonal Romance',
+                season: 'Monsoon 2025',
+                description: 'Inspired by the romance of monsoon seasons, blending natural elements with editorial sophistication. A celebration of organic beauty and atmospheric storytelling.',
+                wardrobe: 'Flowing fabrics, natural textures, earthy tones, organic shapes, artisanal details',
+                styling: 'Layered textures, earth-inspired palette, natural movement',
+                mood: 'Romantic, natural, atmospheric, poetic',
+                tags: ['Editorial', 'Seasonal', 'Natural', 'Romantic'],
+                colors: ['#2C5F7C', '#7BA39B', '#E8DCC4', '#8B6F47'],
+                image: 'photo/monsoon.jpg'
+            },
+            {
+                category: 'artistic',
+                title: 'Abstract Expressions',
+                subtitle: 'Art Meets Fashion',
+                season: 'AW 2025',
+                description: 'Where contemporary art intersects with high fashion. Bold color blocking and artistic prints create wearable masterpieces inspired by abstract expressionism.',
+                wardrobe: 'Color-blocked garments, artistic prints, bold accessories, statement pieces',
+                styling: 'Color theory in motion, artistic composition, bold contrasts',
+                mood: 'Creative, expressive, bold, artistic',
+                tags: ['Artistic', 'Contemporary', 'Bold', 'Expressive'],
+                colors: ['#E8374F', '#1C1917', '#FAF8F5', '#D4AF37'],
+                image: null
+            },
+            {
+                category: 'architectural',
+                title: 'Geometric Harmony',
+                subtitle: 'Structure & Balance',
+                season: 'SS 2026',
+                description: 'Precision-cut silhouettes and geometric patterns create a symphony of structure and balance. Architecture becomes wearable art.',
+                wardrobe: 'Structured jackets, geometric prints, sharp tailoring, angular accessories',
+                styling: 'Clean lines, architectural proportions, balanced asymmetry',
+                mood: 'Precise, balanced, structured, modern',
+                tags: ['Architectural', 'Geometric', 'Structured', 'Modern'],
+                colors: ['#1C1917', '#FAF8F5', '#B8A28E', '#7C93A3'],
+                image: null
+            },
+            {
+                category: 'couture',
+                title: 'Baroque Renaissance',
+                subtitle: 'Historical Opulence Reimagined',
+                season: 'Haute Couture',
+                description: 'A modern interpretation of Baroque grandeur, featuring intricate embroidery, rich velvets, and ornate details that pay homage to historical craftsmanship.',
+                wardrobe: 'Velvet gowns, embroidered capes, period-inspired jewelry, luxe fabrics',
+                styling: 'Layered opulence, historical references, intricate details',
+                mood: 'Opulent, dramatic, historical, grand',
+                tags: ['Couture', 'Baroque', 'Historical', 'Ornate'],
+                colors: ['#5B0E2D', '#D4AF37', '#2C1810', '#F7F3ED'],
+                image: null
+            },
+            {
+                category: 'editorial',
+                title: 'Nordic Minimalism',
+                subtitle: 'Scandinavian Simplicity',
+                season: 'FW 2025',
+                description: 'Inspired by Scandinavian design philosophy, this concept celebrates functional beauty, clean aesthetics, and timeless simplicity with a modern edge.',
+                wardrobe: 'Wool coats, minimal knitwear, clean lines, neutral palette, functional design',
+                styling: 'Scandinavian simplicity, functional elegance, tonal harmony',
+                mood: 'Calm, functional, pure, sophisticated',
+                tags: ['Editorial', 'Nordic', 'Minimal', 'Functional'],
+                colors: ['#E8E8E8', '#9CA8B8', '#6B7C8E', '#2C3E50'],
+                image: null
+            },
+            {
+                category: 'avant-garde',
+                title: 'Digital Dystopia',
+                subtitle: 'Futuristic Fashion Frontiers',
+                season: 'Concept 2026',
+                description: 'A bold exploration of fashion in a digital age, featuring metallic fabrics, holographic elements, and silhouettes that blur the line between reality and virtuality.',
+                wardrobe: 'Metallic garments, holographic accessories, tech-inspired pieces, LED elements',
+                styling: 'Futuristic layering, digital aesthetics, technological integration',
+                mood: 'Futuristic, edgy, innovative, provocative',
+                tags: ['Avant-Garde', 'Futuristic', 'Tech', 'Experimental'],
+                colors: ['#0A0A0A', '#C0C0C0', '#4A90E2', '#FF3E78'],
+                image: null
+            },
+            {
+                category: 'minimalist',
+                title: 'Desert Mirage',
+                subtitle: 'Nomadic Elegance',
+                season: 'Resort 2025',
+                description: 'Inspired by desert landscapes and nomadic cultures, featuring flowing silhouettes in sand-inspired hues and natural textures.',
+                wardrobe: 'Linen dresses, flowing caftans, woven accessories, natural fibers',
+                styling: 'Effortless draping, desert palette, natural textures',
+                mood: 'Free-spirited, natural, serene, wandering',
+                tags: ['Minimalist', 'Resort', 'Natural', 'Nomadic'],
+                colors: ['#E8D5B7', '#C9A882', '#8B6F47', '#4A3C2A'],
+                image: null
+            }
+        ];
+
+        // DOM Elements
+        const conceptsGrid = document.getElementById('conceptsGrid');
+        const emptyState = document.getElementById('emptyState');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const scrollProgress = document.getElementById('scrollProgress');
+
+        // Render Concepts
+        function renderConcepts(category = 'all') {
+            const filteredConcepts = category === 'all'
+                ? concepts
+                : concepts.filter(c => c.category === category);
+
+            if (filteredConcepts.length === 0) {
+                conceptsGrid.style.display = 'none';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            conceptsGrid.style.display = 'grid';
+            emptyState.style.display = 'none';
+
+            conceptsGrid.innerHTML = filteredConcepts.map((concept, index) => `
+                <div class="concept-card" style="animation-delay: ${index * 0.1}s">
+                    <div class="concept-image">
+                        ${concept.image
+                            ? `<img src="${concept.image}" alt="${concept.title}">`
+                            : `<div style="width: 100%; height: 100%; background: linear-gradient(135deg, ${concept.colors[0]}, ${concept.colors[1]}); display: flex; align-items: center; justify-content: center; font-size: 4rem; opacity: 0.3; color: ${concept.colors[2]}"}>◈</div>`
+                        }
+                        <div class="concept-badge">${concept.category}</div>
+                        <div class="concept-season">${concept.season}</div>
+                    </div>
+                    <div class="concept-content">
+                        <div class="concept-header">
+                            <h3 class="concept-title">${concept.title}</h3>
+                            <p class="concept-subtitle">${concept.subtitle}</p>
+                        </div>
+                        <p class="concept-description">${concept.description}</p>
+
+                        <div class="concept-details">
+                            <div class="detail-section">
+                                <div class="detail-label">Wardrobe</div>
+                                <div class="detail-content">${concept.wardrobe}</div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Styling</div>
+                                <div class="detail-content">${concept.styling}</div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-label">Mood & Atmosphere</div>
+                                <div class="detail-content">${concept.mood}</div>
+                            </div>
+                        </div>
+
+                        <div class="tags-container">
+                            ${concept.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+                        </div>
+
+                        <div class="color-palette">
+                            <div class="palette-label">Color Palette</div>
+                            <div class="palette-colors">
+                                ${concept.colors.map(color =>
+                                    `<div class="color-swatch" style="background: ${color};" data-color="${color}"></div>`
+                                ).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Observe cards for scroll animation
+            observeCards();
+
+            // Add color swatch click handlers
+            document.querySelectorAll('.color-swatch').forEach(swatch => {
+                swatch.addEventListener('click', async () => {
+                    const color = swatch.dataset.color;
+                    try {
+                        await navigator.clipboard.writeText(color);
+                        const originalTransform = swatch.style.transform;
+                        swatch.style.transform = 'scale(1.6) translateY(-8px)';
+                        setTimeout(() => {
+                            swatch.style.transform = originalTransform;
+                        }, 300);
+                    } catch (err) {
+                        console.log('Failed to copy color');
+                    }
+                });
+            });
+        }
+
+        // Filter Functionality
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderConcepts(btn.dataset.category);
+            });
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', () => {
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+        });
+
+        // Intersection Observer for card animations
+        function observeCards() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            });
+
+            document.querySelectorAll('.concept-card').forEach(card => {
+                observer.observe(card);
+            });
+        }
+
+        // Initial render
+        renderConcepts();
+    </script>
+</body>
+</html>

@@ -1,0 +1,512 @@
+{
+  "generatedAt": "2026-01-07T20:46:42.074Z",
+  "totalPosts": 63,
+  "success": 63,
+  "failed": 0,
+  "posts": [
+    {
+      "order": 1,
+      "day": 1,
+      "file": "01-brand-intro.html",
+      "category": "launch",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 2,
+      "day": 2,
+      "file": "17-carousel-welcome-1.html",
+      "category": "carousel-welcome",
+      "carousel": 1,
+      "boost": false
+    },
+    {
+      "order": 3,
+      "day": 2,
+      "file": "18-carousel-welcome-2.html",
+      "category": "carousel-welcome",
+      "carousel": 2,
+      "boost": false
+    },
+    {
+      "order": 4,
+      "day": 2,
+      "file": "19-carousel-welcome-3.html",
+      "category": "carousel-welcome",
+      "carousel": 3,
+      "boost": false
+    },
+    {
+      "order": 5,
+      "day": 2,
+      "file": "20-carousel-welcome-4.html",
+      "category": "carousel-welcome",
+      "carousel": 4,
+      "boost": false
+    },
+    {
+      "order": 6,
+      "day": 2,
+      "file": "21-carousel-welcome-5.html",
+      "category": "carousel-welcome",
+      "carousel": 5,
+      "boost": false
+    },
+    {
+      "order": 7,
+      "day": 3,
+      "file": "02-silk-shadow-moodboard.html",
+      "category": "moodboard",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 8,
+      "day": 4,
+      "file": "08-philosophy-minimalist-luxe.html",
+      "category": "philosophy",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 9,
+      "day": 5,
+      "file": "11-color-palette-signature.html",
+      "category": "color",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 10,
+      "day": 6,
+      "file": "24-couture-feature-1.html",
+      "category": "couture",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 11,
+      "day": 7,
+      "file": "22-ai-meets-couture.html",
+      "category": "special",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 12,
+      "day": 8,
+      "file": "14-concept-geometric-harmony.html",
+      "category": "concept",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 13,
+      "day": 9,
+      "file": "03-urban-poetry-moodboard.html",
+      "category": "moodboard",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 14,
+      "day": 10,
+      "file": "26-editorial-spread-1.html",
+      "category": "editorial",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 15,
+      "day": 11,
+      "file": "09-philosophy-editorial-narrative.html",
+      "category": "philosophy",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 16,
+      "day": 12,
+      "file": "12-quote-elegance.html",
+      "category": "quote",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 17,
+      "day": 13,
+      "file": "25-couture-feature-2.html",
+      "category": "couture",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 18,
+      "day": 14,
+      "file": "04-gilded-dreams-moodboard.html",
+      "category": "moodboard",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 19,
+      "day": 15,
+      "file": "15-concept-digital-dystopia.html",
+      "category": "concept",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 20,
+      "day": 16,
+      "file": "36-couture-grid.html",
+      "category": "couture",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 21,
+      "day": 17,
+      "file": "10-philosophy-cultural-fusion.html",
+      "category": "philosophy",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 22,
+      "day": 18,
+      "file": "28-minimal-portrait-1.html",
+      "category": "minimalist",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 23,
+      "day": 19,
+      "file": "29-silk-concept.html",
+      "category": "concept-photo",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 24,
+      "day": 20,
+      "file": "13-quote-simplicity.html",
+      "category": "quote",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 25,
+      "day": 21,
+      "file": "41-couture-look-08.html",
+      "category": "couture-look",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 26,
+      "day": 22,
+      "file": "05-fluid-architecture-moodboard.html",
+      "category": "moodboard",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 27,
+      "day": 23,
+      "file": "27-editorial-spread-2.html",
+      "category": "editorial",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 28,
+      "day": 24,
+      "file": "30-gilded-concept.html",
+      "category": "concept-photo",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 29,
+      "day": 25,
+      "file": "37-minimalist-series.html",
+      "category": "minimalist",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 30,
+      "day": 26,
+      "file": "42-couture-look-09.html",
+      "category": "couture-look",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 31,
+      "day": 27,
+      "file": "06-quiet-luxury-moodboard.html",
+      "category": "moodboard",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 32,
+      "day": 28,
+      "file": "38-editorial-diptych.html",
+      "category": "editorial",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 33,
+      "day": 29,
+      "file": "31-monsoon-concept.html",
+      "category": "concept-photo",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 34,
+      "day": 30,
+      "file": "39-model-spotlight.html",
+      "category": "couture",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 35,
+      "day": 31,
+      "file": "43-couture-look-10.html",
+      "category": "couture-look",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 36,
+      "day": 32,
+      "file": "07-monsoon-reverie-moodboard.html",
+      "category": "moodboard",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 37,
+      "day": 33,
+      "file": "44-couture-gallery-1.html",
+      "category": "gallery",
+      "carousel": null,
+      "boost": true
+    },
+    {
+      "order": 38,
+      "day": 34,
+      "file": "16-concept-baroque-renaissance.html",
+      "category": "concept",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 39,
+      "day": 35,
+      "file": "33-quiet-concept.html",
+      "category": "concept-photo",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 40,
+      "day": 36,
+      "file": "45-couture-gallery-2.html",
+      "category": "gallery",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 41,
+      "day": 37,
+      "file": "32-urban-style-1.html",
+      "category": "urban",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 42,
+      "day": 38,
+      "file": "40-portrait-feature.html",
+      "category": "portrait",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 43,
+      "day": 39,
+      "file": "34-fluid-concept.html",
+      "category": "concept-photo",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 44,
+      "day": 40,
+      "file": "46-urban-collection.html",
+      "category": "urban",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 45,
+      "day": 41,
+      "file": "35-contemporary-urban-feature.html",
+      "category": "urban",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 46,
+      "day": 42,
+      "file": "47-street-luxe.html",
+      "category": "urban",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 47,
+      "day": 43,
+      "file": "48-minimalist-essence.html",
+      "category": "minimalist",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 48,
+      "day": 44,
+      "file": "49-minimalist-triptych.html",
+      "category": "minimalist",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 49,
+      "day": 45,
+      "file": "50-editorial-finale.html",
+      "category": "editorial",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 50,
+      "day": 46,
+      "file": "51-editorial-last-look.html",
+      "category": "editorial",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 51,
+      "day": 47,
+      "file": "52-minimal-portraits.html",
+      "category": "portrait",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 52,
+      "day": 48,
+      "file": "53-couture-showcase.html",
+      "category": "couture",
+      "carousel": null,
+      "boost": true
+    },
+    {
+      "order": 53,
+      "day": 49,
+      "file": "54-intimate-split-11.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": true
+    },
+    {
+      "order": 54,
+      "day": 50,
+      "file": "55-sensual-diptych-12.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": true
+    },
+    {
+      "order": 55,
+      "day": 51,
+      "file": "56-art-collage-13.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 56,
+      "day": 52,
+      "file": "57-asymmetric-14.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 57,
+      "day": 53,
+      "file": "58-intimate-overlay-15.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 58,
+      "day": 54,
+      "file": "59-circular-frame-16.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 59,
+      "day": 55,
+      "file": "60-diagonal-split-17.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 60,
+      "day": 56,
+      "file": "61-stacked-frames-18.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 61,
+      "day": 57,
+      "file": "62-intimate-mosaic-19.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": false
+    },
+    {
+      "order": 62,
+      "day": 58,
+      "file": "63-magazine-spread-20.html",
+      "category": "intimate",
+      "carousel": null,
+      "boost": true
+    },
+    {
+      "order": 63,
+      "day": 59,
+      "file": "23-coming-soon.html",
+      "category": "teaser",
+      "carousel": null,
+      "boost": false
+    }
+  ]
+}

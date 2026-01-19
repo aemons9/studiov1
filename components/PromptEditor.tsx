@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useState, useEffect, useRef } from 'react';
 import type { PromptData, Preset, GenerationSettings, WardrobeConcept, RiskAnalysis } from '../types';
 import { artisticConcepts, ArtisticConcept } from '../concepts/concepts';
+import { masterclassV2Concepts, intimacyMaxV2Concepts, patreonExclusiveV2Concepts } from '../concepts/meeraGeneratorV2Concepts';
 import WardrobeSelectorModal from './WardrobeSelectorModal';
 import { allWardrobeConcepts } from '../concepts/wardrobe';
 import { getRiskAnalysis } from '../services/geminiService';
@@ -492,11 +493,26 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
               className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors disabled:bg-gray-800/50"
             >
               <option value="custom">-- Custom Prompt --</option>
-              {artisticConcepts.map((concept) => (
-                <option key={concept.name} value={concept.name}>
-                  {concept.name}
-                </option>
-              ))}
+              <optgroup label="🎨 Masterclass v2 (Classical Art)">
+                {masterclassV2Concepts.map((concept) => (
+                  <option key={concept.name} value={concept.name}>{concept.name}</option>
+                ))}
+              </optgroup>
+              <optgroup label="💎 Intimacy Max v2 (Fine Art)">
+                {intimacyMaxV2Concepts.map((concept) => (
+                  <option key={concept.name} value={concept.name}>{concept.name}</option>
+                ))}
+              </optgroup>
+              <optgroup label="⭐ Patreon Exclusive v2 (Natural Light)">
+                {patreonExclusiveV2Concepts.map((concept) => (
+                  <option key={concept.name} value={concept.name}>{concept.name}</option>
+                ))}
+              </optgroup>
+              <optgroup label="─── All Concepts ───">
+                {artisticConcepts.filter(c => !c.name.startsWith('MC v2:') && !c.name.startsWith('Intimacy v2:') && !c.name.startsWith('Patreon v2:')).map((concept) => (
+                  <option key={concept.name} value={concept.name}>{concept.name}</option>
+                ))}
+              </optgroup>
             </select>
           </div>
           <div className="flex flex-col gap-2">

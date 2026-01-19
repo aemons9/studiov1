@@ -52,7 +52,7 @@ import { PlatinumPromptEngine } from './platinum/promptEngine';
 import { CORPORATE_ROLES } from './corporate/corporateRoles';
 import { OFFICE_ENVIRONMENTS } from './corporate/corporateEnvironments';
 import { INDIAN_MODEL_ARCHETYPES, getModelArchetype } from './artistic/indianModels';
-import { saveAuthCredentials, getOAuthToken, getProjectId } from './utils/sharedAuthManager';
+import { saveAuthCredentials, getOAuthToken, getProjectId, getProxyBaseUrl } from './utils/sharedAuthManager';
 import { MASTER_STYLES, getMasterStyle } from './artistic/masterStyles';
 
 const initialPromptJson = `{
@@ -135,7 +135,7 @@ const App: React.FC = () => {
     vertexAuthMethod: 'apikey', // Use API Key by default (easier setup)
     projectId: '',
     accessToken: '',
-    vertexApiKey: (import.meta as any).env?.GEMINI_API_KEY || process.env.GEMINI_API_KEY || '', // Auto-populate from environment
+    vertexApiKey: import.meta.env.VITE_GEMINI_API_KEY || '', // Auto-populate from environment
     numberOfImages: 1,
     aspectRatio: '1:1', // Instagram-compatible square format
     personGeneration: 'allow_all',
@@ -204,16 +204,16 @@ const App: React.FC = () => {
           return false;
         }
       }
-    } else if (generationSettings.provider === 'replicate-flux') {
+    } else if (generationSettings.provider === 'replicate-flux' || generationSettings.provider === 'replicate-imagineart') {
       if (!generationSettings.replicateApiToken) {
         setError('Please provide a valid Replicate API Token in the Generation Settings section.');
         return false;
       }
     }
 
-    // Validate weaving credentials if weaving/enhancement enabled with Flux + Google weaving
+    // Validate weaving credentials if weaving/enhancement enabled with Replicate + Google weaving
     if (options?.weave?.enabled || options?.enhance?.enabled) {
-      if (generationSettings.provider === 'replicate-flux' && generationSettings.useGoogleForWeaving) {
+      if ((generationSettings.provider === 'replicate-flux' || generationSettings.provider === 'replicate-imagineart') && generationSettings.useGoogleForWeaving) {
         // Check if weaving credentials are available (either dedicated or OAuth)
         const hasWeavingCreds = generationSettings.weavingProjectId && generationSettings.weavingAccessToken;
         const hasOAuthCreds = generationSettings.projectId && generationSettings.accessToken;
@@ -284,9 +284,11 @@ const App: React.FC = () => {
         console.log('🔄 Auto-refreshing GCP OAuth token...');
 
         // Fetch both token and project ID in parallel
+        // Use getProxyBaseUrl() for development mode (handles localhost vs Tailscale)
+        const proxyBase = getProxyBaseUrl();
         const [tokenResponse, projectResponse] = await Promise.all([
-          fetch('/api/gcloud-token'),
-          fetch('/api/gcloud-project')
+          fetch(`${proxyBase}/api/gcloud-token`),
+          fetch(`${proxyBase}/api/gcloud-project`)
         ]);
 
         let newToken = '';
@@ -578,6 +580,36 @@ const App: React.FC = () => {
           metadata: [], // Flux doesn't need metadata for storage (images are already downloaded)
           errors: [],
         };
+      } else if (generationSettings.provider === 'replicate-imagineart') {
+        // Use Replicate ImagineArt API
+        const { generateWithImagineArt, getOptimalImagineArtSettings } = await import('./services/replicateService');
+
+        // Get optimal ImagineArt settings based on intimacy level
+        const imagineArtOptimalSettings = getOptimalImagineArtSettings(generationSettings.intimacyLevel);
+
+        const imagineArtConfig = {
+          apiToken: generationSettings.replicateApiToken!,
+          model: generationSettings.imagineArtModel || 'imagineart/imagineart-1.0',
+          aspectRatio: generationSettings.aspectRatio,
+          numOutputs: generationSettings.numberOfImages,
+          seed: generationSettings.seed,
+          outputFormat: 'png' as 'jpg' | 'png',
+          outputQuality: imagineArtOptimalSettings.outputQuality || 100,
+        };
+
+        console.log('🎨 Using Replicate ImagineArt:', {
+          model: imagineArtConfig.model,
+          aspectRatio: imagineArtConfig.aspectRatio,
+          intimacyLevel: generationSettings.intimacyLevel,
+        });
+
+        const base64Images = await generateWithImagineArt(finalPrompt, imagineArtConfig);
+
+        result = {
+          images: base64Images,
+          metadata: [],
+          errors: [],
+        };
       } else {
         // Use Vertex AI Imagen with intelligent safety bypass cascade
         console.log('🚀 Using intelligent generation system with multi-layer safety bypass');
@@ -610,7 +642,9 @@ const App: React.FC = () => {
         settings: {
           modelId: generationSettings.provider === 'vertex-ai'
             ? generationSettings.modelId
-            : (generationSettings.fluxModel || 'flux-1.1-pro-ultra'),
+            : generationSettings.provider === 'replicate-imagineart'
+              ? (generationSettings.imagineArtModel || 'imagineart/imagineart-1.0')
+              : (generationSettings.fluxModel || 'flux-1.1-pro-ultra'),
           seed: generationSettings.seed,
           aspectRatio: generationSettings.aspectRatio
         }

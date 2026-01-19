@@ -14,6 +14,62 @@ const STRATEGIES: Array<{
   color: string;
 }> = [
   {
+    value: 'meeranuke',
+    label: 'MeeraNuke 💎',
+    description: 'Ultimate fail-proof strategy: Nuclear translation + Vera2 safe language + Ultra optimizer + Meera model lock. Works with ALL providers (Imagen, Flux, ImagineArt). 99%+ success.',
+    icon: '💎',
+    color: 'pink'
+  },
+  {
+    value: 'recursive',
+    label: 'Recursive Prompting (RLM) 🔄',
+    description: 'MIT CSAIL-inspired strategy: Decomposes prompts into components (subject, pose, wardrobe, environment, lighting) via sub-LM calls. Each component optimized individually with safe language, then synthesized. Adaptive refinement on failure. Best for complex intimate prompts.',
+    icon: '🔄',
+    color: 'cyan'
+  },
+  {
+    value: 'rlm-meeranuke',
+    label: 'RLM+MeeraNuke 🔄💎',
+    description: 'Hybrid ultimate: RLM component decomposition + MeeraNuke strategy (Nuclear translation + Vera2 safe language + Meera model lock). The absolute most powerful generation strategy available.',
+    icon: '💎',
+    color: 'pink'
+  },
+  {
+    value: 'ultra-rlm',
+    label: 'Ultra RLM 🔄💎✨',
+    description: 'Enhanced recursive prompting with hyper-detailed components. Uses proven quality patterns: exact measurements (37DD-27"-40"), master photographer references (Helmut Newton, Irving Penn), camera specs (Hasselblad X2D 100C), realistic skin texture (visible pores, vellus hair). Matches crystalline-exclusive quality. BEST for 10+ intimacy masterpieces.',
+    icon: '✨',
+    color: 'pink'
+  },
+  {
+    value: 'rlm-nuclear-imagen',
+    label: 'RLM+Nuclear Imagen 🔄🔥',
+    description: 'Hybrid: RLM component decomposition + Nuclear translation bypass (FR/IT/ES/DE) for Imagen 4. Combines recursive prompting with translation strategies.',
+    icon: '🔥',
+    color: 'red'
+  },
+  {
+    value: 'rlm-vera2',
+    label: 'RLM+Vera2 🔄🚀',
+    description: 'Hybrid: RLM component decomposition + Vera2 safe language mapping. Combines recursive prompting with euphemistic translations for blocked terms.',
+    icon: '🚀',
+    color: 'emerald'
+  },
+  {
+    value: 'rlm-vera',
+    label: 'RLM+Vera ✨🔄',
+    description: 'Hybrid: RLM component decomposition + Vera Art Directors Declaration and quality optimization. Combines recursive prompting with professional framing.',
+    icon: '✨',
+    color: 'purple'
+  },
+  {
+    value: 'vera2',
+    label: 'Vera Strategy 2 🚀',
+    description: 'Adaptive failure-proof engine with safe language mapping - 95%+ success rate at any intimacy level (RECOMMENDED)',
+    icon: '🚀',
+    color: 'emerald'
+  },
+  {
     value: 'auto',
     label: 'Auto (Smart Cascade)',
     description: 'Tries all strategies automatically - best success rate (~75% at intimacy 8-10)',
@@ -68,6 +124,13 @@ const STRATEGIES: Array<{
     description: 'Skip all, direct to Translation + Flux max tolerance (6/6)',
     icon: '☢️',
     color: 'red'
+  },
+  {
+    value: 'lucidorigin',
+    label: 'Lucid Origin 🎨',
+    description: 'Leonardo AI style-based artistic optimization. Use fashion/cinematic/moody styles with detailed prompts (LOCATION, LIGHTING, WARDROBE, POSE, MOOD). 83% intimate success.',
+    icon: '🎨',
+    color: 'orange'
   }
 ];
 
@@ -92,6 +155,8 @@ const SafetyBypassStrategySelector: React.FC<SafetyBypassStrategySelectorProps> 
         {STRATEGIES.map((s) => {
           const isSelected = strategy === s.value;
           const colorClasses = {
+            pink: isSelected ? 'bg-pink-500/20 border-pink-500' : 'border-gray-700 hover:border-pink-500/50',
+            emerald: isSelected ? 'bg-emerald-500/20 border-emerald-500' : 'border-gray-700 hover:border-emerald-500/50',
             blue: isSelected ? 'bg-blue-500/20 border-blue-500' : 'border-gray-700 hover:border-blue-500/50',
             green: isSelected ? 'bg-green-500/20 border-green-500' : 'border-gray-700 hover:border-green-500/50',
             yellow: isSelected ? 'bg-yellow-500/20 border-yellow-500' : 'border-gray-700 hover:border-yellow-500/50',
@@ -134,6 +199,12 @@ const SafetyBypassStrategySelector: React.FC<SafetyBypassStrategySelectorProps> 
           <div className="text-sm">
             <p className="text-purple-300 font-semibold mb-1">How it works with Imagen 4:</p>
             <ul className="text-purple-200/80 space-y-1 text-xs">
+              <li><strong>MeeraNuke:</strong> <span className="text-pink-300">Ultimate: Translation + Vera2 Safe Language + Ultra Optimizer + Meera Lock → ALL Providers</span></li>
+              <li><strong>Recursive (RLM):</strong> <span className="text-cyan-300">Decompose prompt → Sub-LM components (Gemini) → Synthesize → Adaptive refinement → Imagen 4</span></li>
+              <li><strong>RLM+MeeraNuke:</strong> <span className="text-pink-300">HYBRID: RLM decomposition → MeeraNuke ultimate strategy (most powerful)</span></li>
+              <li><strong>RLM+Nuclear-Imagen:</strong> <span className="text-red-300">HYBRID: RLM decomposition → Nuclear translation bypass (FR/IT/ES/DE)</span></li>
+              <li><strong>RLM+Vera2:</strong> <span className="text-emerald-300">HYBRID: RLM decomposition → Vera2 safe language mapping</span></li>
+              <li><strong>RLM+Vera:</strong> <span className="text-purple-300">HYBRID: RLM decomposition → Vera Art Directors optimization</span></li>
               <li><strong>Auto:</strong> NL API → Gemini Rewrite → Imagen 4 → Translation → Flux</li>
               <li><strong>Conservative:</strong> Gemini rewrite → Imagen 4 only</li>
               <li><strong>Balanced:</strong> + Translation API (FR/IT/ES/DE) → Imagen 4</li>

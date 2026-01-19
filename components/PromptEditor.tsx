@@ -628,7 +628,7 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
         {/* Provider Selection */}
         <div className="mb-6">
             <label className="font-semibold text-gray-300 block mb-3">Image Provider</label>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-3 gap-3">
                 <button
                     type="button"
                     onClick={() => handleSettingsChange('provider', 'vertex-ai')}
@@ -661,10 +661,101 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
                         <div className="text-xs mt-1 opacity-75">Replicate API</div>
                     </div>
                 </button>
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'replicate-imagineart')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'replicate-imagineart'
+                            ? 'border-pink-500 bg-pink-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">🎨</div>
+                        <div className="font-semibold text-sm">ImagineArt</div>
+                        <div className="text-xs mt-1 opacity-75">Replicate API</div>
+                    </div>
+                </button>
+                {/* NEW PROVIDERS - Row 2 */}
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'replicate-hunyuan3')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'replicate-hunyuan3'
+                            ? 'border-cyan-500 bg-cyan-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">🔓</div>
+                        <div className="font-semibold text-sm">Hunyuan 3</div>
+                        <div className="text-xs mt-1 opacity-75 text-cyan-400">NSFW Off</div>
+                    </div>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'replicate-prunaai')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'replicate-prunaai'
+                            ? 'border-violet-500 bg-violet-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">🔓</div>
+                        <div className="font-semibold text-sm">PrunaAI</div>
+                        <div className="text-xs mt-1 opacity-75 text-violet-400">NSFW Off</div>
+                    </div>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'replicate-lumaphoton')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'replicate-lumaphoton'
+                            ? 'border-yellow-500 bg-yellow-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">✨</div>
+                        <div className="font-semibold text-sm">Luma Photon</div>
+                        <div className="text-xs mt-1 opacity-75 text-yellow-400">Creative</div>
+                    </div>
+                </button>
+                <button
+                    type="button"
+                    onClick={() => handleSettingsChange('provider', 'replicate-lucidorigin')}
+                    disabled={isLoading}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                        generationSettings.provider === 'replicate-lucidorigin'
+                            ? 'border-orange-500 bg-orange-500/10 text-white'
+                            : 'border-gray-600 bg-gray-900/50 text-gray-400 hover:border-gray-500'
+                    } disabled:opacity-50 disabled:cursor-not-allowed`}
+                >
+                    <div className="text-center">
+                        <div className="text-2xl mb-1">🎨</div>
+                        <div className="font-semibold text-sm">Lucid Origin</div>
+                        <div className="text-xs mt-1 opacity-75 text-orange-400">Leonardo AI</div>
+                    </div>
+                </button>
             </div>
             <p className="text-xs text-gray-500 mt-2">
                 {generationSettings.provider === 'vertex-ai'
                     ? '💡 Vertex AI recommended for professional fashion (intimacy 1-6)'
+                    : generationSettings.provider === 'replicate-imagineart'
+                    ? '💡 ImagineArt 1.0 for ultra-realistic sensuous photography'
+                    : generationSettings.provider === 'replicate-hunyuan3'
+                    ? '🔓 Hunyuan Image 3 with NSFW safety checker disabled - max intimate'
+                    : generationSettings.provider === 'replicate-prunaai'
+                    ? '🔓 PrunaAI P-Image with NSFW safety checker disabled - fast generation'
+                    : generationSettings.provider === 'replicate-lumaphoton'
+                    ? '✨ Luma Photon for creative high-quality generation - simple prompts work best'
+                    : generationSettings.provider === 'replicate-lucidorigin'
+                    ? '🎨 Leonardo AI Lucid Origin - Artistic high-quality with style presets (fashion, cinematic, moody)'
                     : '💡 Flux recommended for artistic intimate photography (intimacy 7+)'}
             </p>
         </div>
@@ -888,8 +979,291 @@ const PromptEditor: React.FC<PromptEditorProps> = ({
             </div>
         )}
 
+        {/* Replicate ImagineArt Settings */}
+        {generationSettings.provider === 'replicate-imagineart' && (
+            <div className="space-y-4 p-4 bg-pink-500/5 rounded-lg border border-pink-500/20">
+                <div>
+                    <label htmlFor="imagineArtApiToken" className="font-semibold text-gray-300 block mb-2">Replicate API Token</label>
+                    <input
+                        id="imagineArtApiToken"
+                        type="password"
+                        placeholder="Enter your Replicate API token"
+                        value={generationSettings.replicateApiToken || ''}
+                        onChange={(e) => handleSettingsChange('replicateApiToken', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors disabled:bg-gray-800/50"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        Get your API token from <a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener noreferrer" className="text-pink-400 hover:text-pink-300 underline">replicate.com/account</a>
+                    </p>
+                </div>
+                <div className="bg-pink-900/20 rounded-lg p-3 border border-pink-500/30">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">🎨</span>
+                        <span className="font-semibold text-pink-300">ImagineArt 1.0</span>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                        Ultra-realistic sensuous photography model optimized for dusky skin tones and intimate artistic content.
+                        Best for Meera Dusky collection and similar concepts.
+                    </p>
+                </div>
+
+                {/* Google Weaving for ImagineArt (Hybrid Mode) */}
+                <div className="mt-4 pt-4 border-t border-pink-500/20">
+                    <div className="flex items-center gap-3 mb-3">
+                        <input
+                            id="useGoogleForWeavingImagineArt"
+                            type="checkbox"
+                            checked={generationSettings.useGoogleForWeaving || false}
+                            onChange={(e) => handleSettingsChange('useGoogleForWeaving', e.target.checked)}
+                            disabled={isLoading}
+                            className="h-4 w-4 rounded border-gray-600 bg-gray-900/50 text-pink-600 focus:ring-pink-500"
+                        />
+                        <label htmlFor="useGoogleForWeavingImagineArt" className="font-semibold text-gray-300">
+                            Use Google Gemini for Weaving
+                        </label>
+                    </div>
+                    <p className="text-xs text-gray-400 mb-3">
+                        Enable this to use Google Gemini for prompt enhancement and weaving, while keeping ImagineArt for image generation.
+                    </p>
+
+                    {generationSettings.useGoogleForWeaving && (
+                        <div className="space-y-3 pl-7">
+                            <div>
+                                <label htmlFor="weavingProjectIdIA" className="font-semibold text-gray-300 block mb-2 text-sm">
+                                    Google Cloud Project ID (for weaving)
+                                </label>
+                                <input
+                                    id="weavingProjectIdIA"
+                                    type="text"
+                                    placeholder="e.g., my-gcp-project-123"
+                                    value={generationSettings.weavingProjectId || ''}
+                                    onChange={(e) => handleSettingsChange('weavingProjectId', e.target.value)}
+                                    disabled={isLoading}
+                                    className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2 text-sm text-gray-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors disabled:bg-gray-800/50"
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="weavingAccessTokenIA" className="font-semibold text-gray-300 block mb-2 text-sm">
+                                    OAuth2 Access Token (for weaving)
+                                </label>
+                                <input
+                                    id="weavingAccessTokenIA"
+                                    type="password"
+                                    placeholder="Enter Google access token for Gemini"
+                                    value={generationSettings.weavingAccessToken || ''}
+                                    onChange={(e) => handleSettingsChange('weavingAccessToken', e.target.value)}
+                                    disabled={isLoading}
+                                    className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2 text-sm text-gray-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 transition-colors disabled:bg-gray-800/50"
+                                />
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Generate token: <code className="bg-gray-700 px-1 rounded">gcloud auth print-access-token</code>
+                                </p>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            </div>
+        )}
+
+        {/* Replicate Hunyuan Image 3 Settings */}
+        {generationSettings.provider === 'replicate-hunyuan3' && (
+            <div className="space-y-4 p-4 bg-cyan-500/5 rounded-lg border border-cyan-500/20">
+                <div>
+                    <label htmlFor="hunyuan3ApiToken" className="font-semibold text-gray-300 block mb-2">Replicate API Token</label>
+                    <input
+                        id="hunyuan3ApiToken"
+                        type="password"
+                        placeholder="Enter your Replicate API token"
+                        value={generationSettings.replicateApiToken || ''}
+                        onChange={(e) => handleSettingsChange('replicateApiToken', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition-colors disabled:bg-gray-800/50"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        Get your API token from <a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener noreferrer" className="text-cyan-400 hover:text-cyan-300 underline">replicate.com/account</a>
+                    </p>
+                </div>
+                <div className="bg-cyan-900/20 rounded-lg p-3 border border-cyan-500/30">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">🔓</span>
+                        <span className="font-semibold text-cyan-300">Tencent Hunyuan Image 3</span>
+                        <span className="text-xs bg-cyan-500/20 text-cyan-300 px-2 py-0.5 rounded-full">NSFW Filter OFF</span>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                        High-quality image generation with safety checker disabled (disable_safety_checker: true).
+                        Outputs PNG at 768x1024. Best for max intimate content.
+                    </p>
+                </div>
+            </div>
+        )}
+
+        {/* Replicate PrunaAI P-Image Settings */}
+        {generationSettings.provider === 'replicate-prunaai' && (
+            <div className="space-y-4 p-4 bg-violet-500/5 rounded-lg border border-violet-500/20">
+                <div>
+                    <label htmlFor="prunaaiApiToken" className="font-semibold text-gray-300 block mb-2">Replicate API Token</label>
+                    <input
+                        id="prunaaiApiToken"
+                        type="password"
+                        placeholder="Enter your Replicate API token"
+                        value={generationSettings.replicateApiToken || ''}
+                        onChange={(e) => handleSettingsChange('replicateApiToken', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-violet-500 focus:border-violet-500 transition-colors disabled:bg-gray-800/50"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        Get your API token from <a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener noreferrer" className="text-violet-400 hover:text-violet-300 underline">replicate.com/account</a>
+                    </p>
+                </div>
+                <div className="bg-violet-900/20 rounded-lg p-3 border border-violet-500/30">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">🔓</span>
+                        <span className="font-semibold text-violet-300">PrunaAI P-Image</span>
+                        <span className="text-xs bg-violet-500/20 text-violet-300 px-2 py-0.5 rounded-full">NSFW Filter OFF</span>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                        Fast efficient image generation with safety checker disabled (disable_safety_checker: true).
+                        Optimized for speed and quality. Best for rapid intimate generation.
+                    </p>
+                </div>
+            </div>
+        )}
+
+        {/* Replicate Luma Photon Settings */}
+        {generationSettings.provider === 'replicate-lumaphoton' && (
+            <div className="space-y-4 p-4 bg-yellow-500/5 rounded-lg border border-yellow-500/20">
+                <div>
+                    <label htmlFor="lumaphotonApiToken" className="font-semibold text-gray-300 block mb-2">Replicate API Token</label>
+                    <input
+                        id="lumaphotonApiToken"
+                        type="password"
+                        placeholder="Enter your Replicate API token"
+                        value={generationSettings.replicateApiToken || ''}
+                        onChange={(e) => handleSettingsChange('replicateApiToken', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition-colors disabled:bg-gray-800/50"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        Get your API token from <a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener noreferrer" className="text-yellow-400 hover:text-yellow-300 underline">replicate.com/account</a>
+                    </p>
+                </div>
+                <div className="bg-yellow-900/20 rounded-lg p-3 border border-yellow-500/30">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">✨</span>
+                        <span className="font-semibold text-yellow-300">Luma Photon</span>
+                        <span className="text-xs bg-yellow-500/20 text-yellow-300 px-2 py-0.5 rounded-full">Creative</span>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                        High-quality creative image generation from Luma Labs. Simple direct prompts work best
+                        (e.g., "photorealistic stunning Indian woman full body shot..."). Great for artistic photography.
+                    </p>
+                </div>
+            </div>
+        )}
+
+        {/* Replicate Leonardo AI Lucid Origin Settings */}
+        {generationSettings.provider === 'replicate-lucidorigin' && (
+            <div className="space-y-4 p-4 bg-orange-500/5 rounded-lg border border-orange-500/20">
+                <div>
+                    <label htmlFor="lucidoriginApiToken" className="font-semibold text-gray-300 block mb-2">Replicate API Token</label>
+                    <input
+                        id="lucidoriginApiToken"
+                        type="password"
+                        placeholder="Enter your Replicate API token"
+                        value={generationSettings.replicateApiToken || ''}
+                        onChange={(e) => handleSettingsChange('replicateApiToken', e.target.value)}
+                        disabled={isLoading}
+                        className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors disabled:bg-gray-800/50"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">
+                        Get your API token from <a href="https://replicate.com/account/api-tokens" target="_blank" rel="noopener noreferrer" className="text-orange-400 hover:text-orange-300 underline">replicate.com/account</a>
+                    </p>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="lucidOriginStyle" className="font-semibold text-gray-300 block mb-2">Style Preset</label>
+                        <select
+                            id="lucidOriginStyle"
+                            value={generationSettings.lucidOriginStyle || 'fashion'}
+                            onChange={(e) => handleSettingsChange('lucidOriginStyle', e.target.value)}
+                            disabled={isLoading}
+                            className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors disabled:bg-gray-800/50"
+                        >
+                            <option value="fashion">Fashion</option>
+                            <option value="cinematic">Cinematic</option>
+                            <option value="cinematic_close_up">Cinematic Close-Up</option>
+                            <option value="portrait">Portrait</option>
+                            <option value="moody">Moody</option>
+                            <option value="creative">Creative</option>
+                            <option value="vibrant">Vibrant</option>
+                            <option value="monochrome">Monochrome</option>
+                            <option value="film">Film</option>
+                            <option value="bokeh">Bokeh</option>
+                            <option value="minimalist">Minimalist</option>
+                            <option value="dynamic">Dynamic</option>
+                            <option value="none">None</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="lucidOriginContrast" className="font-semibold text-gray-300 block mb-2">Contrast</label>
+                        <select
+                            id="lucidOriginContrast"
+                            value={generationSettings.lucidOriginContrast || 'medium'}
+                            onChange={(e) => handleSettingsChange('lucidOriginContrast', e.target.value)}
+                            disabled={isLoading}
+                            className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors disabled:bg-gray-800/50"
+                        >
+                            <option value="low">Low</option>
+                            <option value="medium">Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div>
+                        <label htmlFor="lucidOriginMode" className="font-semibold text-gray-300 block mb-2">Generation Mode</label>
+                        <select
+                            id="lucidOriginMode"
+                            value={generationSettings.lucidOriginGenerationMode || 'ultra'}
+                            onChange={(e) => handleSettingsChange('lucidOriginGenerationMode', e.target.value)}
+                            disabled={isLoading}
+                            className="w-full bg-gray-900/50 border border-gray-600 rounded-md p-2.5 text-gray-200 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors disabled:bg-gray-800/50"
+                        >
+                            <option value="ultra">Ultra (Max Quality)</option>
+                            <option value="standard">Standard</option>
+                        </select>
+                    </div>
+                    <div className="flex items-center">
+                        <label className="flex items-center gap-2 cursor-pointer mt-6">
+                            <input
+                                type="checkbox"
+                                checked={generationSettings.lucidOriginPromptEnhance ?? false}
+                                onChange={(e) => handleSettingsChange('lucidOriginPromptEnhance', e.target.checked)}
+                                disabled={isLoading}
+                                className="w-4 h-4 text-orange-500 bg-gray-900 border-gray-600 rounded focus:ring-orange-500"
+                            />
+                            <span className="text-gray-300 text-sm">Prompt Enhancement</span>
+                        </label>
+                    </div>
+                </div>
+                <div className="bg-orange-900/20 rounded-lg p-3 border border-orange-500/30">
+                    <div className="flex items-center gap-2 mb-2">
+                        <span className="text-lg">🎨</span>
+                        <span className="font-semibold text-orange-300">Leonardo AI Lucid Origin</span>
+                        <span className="text-xs bg-orange-500/20 text-orange-300 px-2 py-0.5 rounded-full">Artistic</span>
+                    </div>
+                    <p className="text-xs text-gray-400">
+                        High-quality artistic visuals with improved prompt adherence and style control.
+                        Use detailed prompts with LOCATION, LIGHTING, WARDROBE, POSE, MOOD sections.
+                        Ultra mode for best quality. 83% success rate on intimate content.
+                    </p>
+                </div>
+            </div>
+        )}
+
         <div className="mt-6 pt-6 border-t border-gray-700 space-y-4">
-            <IntimacyController 
+            <IntimacyController
               level={generationSettings.intimacyLevel}
               onLevelChange={(level) => handleSettingsChange('intimacyLevel', level)}
               disabled={isLoading}

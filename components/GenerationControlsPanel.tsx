@@ -94,7 +94,14 @@ const GenerationControlsPanel: React.FC<GenerationControlsPanelProps> = ({
           <span>|</span>
           <span>{settings.aspectRatio}</span>
           <span>|</span>
-          <span>{settings.provider === 'vertex-ai' ? 'Imagen' : 'Flux'}</span>
+          <span>{
+                  settings.provider === 'vertex-ai' ? 'Imagen' :
+                  settings.provider === 'replicate-imagineart' ? 'ImagineArt' :
+                  settings.provider === 'replicate-hunyuan3' ? 'Hunyuan3' :
+                  settings.provider === 'replicate-prunaai' ? 'PrunaAI' :
+                  settings.provider === 'replicate-lumaphoton' ? 'LumaPhoton' :
+                  'Flux'
+                }</span>
         </div>
         <svg
           className={`w-5 h-5 text-gray-400 transition-transform ${expanded ? 'rotate-180' : ''}`}
@@ -129,7 +136,7 @@ const GenerationControlsPanel: React.FC<GenerationControlsPanelProps> = ({
             <label className={`block font-semibold ${theme.text} mb-3`}>
               Generation Provider
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 onClick={() => updateSetting('provider', 'vertex-ai')}
                 disabled={disabled}
@@ -153,6 +160,54 @@ const GenerationControlsPanel: React.FC<GenerationControlsPanelProps> = ({
               >
                 <div className="text-lg mb-1">Flux</div>
                 <div className="text-xs text-gray-400">Replicate</div>
+              </button>
+              <button
+                onClick={() => updateSetting('provider', 'replicate-imagineart')}
+                disabled={disabled}
+                className={`p-3 rounded-lg border-2 transition-all ${
+                  settings.provider === 'replicate-imagineart'
+                    ? 'border-pink-500 bg-pink-500/20 text-white'
+                    : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-pink-500/50'
+                } disabled:opacity-50`}
+              >
+                <div className="text-lg mb-1">ImagineArt</div>
+                <div className="text-xs text-gray-400">Replicate</div>
+              </button>
+              <button
+                onClick={() => updateSetting('provider', 'replicate-hunyuan3')}
+                disabled={disabled}
+                className={`p-3 rounded-lg border-2 transition-all ${
+                  settings.provider === 'replicate-hunyuan3'
+                    ? 'border-cyan-500 bg-cyan-500/20 text-white'
+                    : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-cyan-500/50'
+                } disabled:opacity-50`}
+              >
+                <div className="text-lg mb-1">Hunyuan 3</div>
+                <div className="text-xs text-gray-400">NSFW Off</div>
+              </button>
+              <button
+                onClick={() => updateSetting('provider', 'replicate-prunaai')}
+                disabled={disabled}
+                className={`p-3 rounded-lg border-2 transition-all ${
+                  settings.provider === 'replicate-prunaai'
+                    ? 'border-purple-500 bg-purple-500/20 text-white'
+                    : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-purple-500/50'
+                } disabled:opacity-50`}
+              >
+                <div className="text-lg mb-1">PrunaAI</div>
+                <div className="text-xs text-gray-400">NSFW Off</div>
+              </button>
+              <button
+                onClick={() => updateSetting('provider', 'replicate-lumaphoton')}
+                disabled={disabled}
+                className={`p-3 rounded-lg border-2 transition-all ${
+                  settings.provider === 'replicate-lumaphoton'
+                    ? 'border-yellow-500 bg-yellow-500/20 text-white'
+                    : 'border-gray-600 bg-gray-800/50 text-gray-300 hover:border-yellow-500/50'
+                } disabled:opacity-50`}
+              >
+                <div className="text-lg mb-1">Luma Photon</div>
+                <div className="text-xs text-gray-400">Creative</div>
               </button>
             </div>
           </div>

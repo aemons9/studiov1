@@ -29,6 +29,9 @@ import {
   ModelVariant,
   WardrobeCategory,
   EnvironmentType,
+  MODEL_DEFINITIONS,
+  WARDROBE_DEFINITIONS,
+  ENVIRONMENT_DEFINITIONS,
 } from './types';
 import { GenerationSettings } from '../types';
 import { getOAuthToken, getProjectId } from '../utils/sharedAuthManager';
@@ -43,36 +46,10 @@ const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO || 'studiov1';
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN || '';
 const INSTAGRAM_TOKEN = import.meta.env.VITE_INSTAGRAM_TOKEN || '';
 
-const MODEL_VARIANTS: { id: ModelVariant; name: string; description: string }[] = [
-  { id: 'hourglassPrimary', name: 'Hourglass Primary', description: '36-26-38, Golden brown, Classic beauty' },
-  { id: 'hourglassCurves', name: 'Hourglass Curves', description: '36C-26-46, Deep dusky, Pear-shaped' },
-  { id: 'hourglassSensual', name: 'Hourglass Sensual', description: '38D-26-40, Warm caramel, Balanced' },
-  { id: 'classic', name: 'Classic', description: 'Elegant features, confident direct gaze' },
-  { id: 'sultry', name: 'Sultry', description: 'Bedroom eyes, slightly parted lips' },
-  { id: 'mysterious', name: 'Mysterious', description: 'Alluring gaze, enigmatic expression' },
-];
-
-const WARDROBE_OPTIONS: { id: WardrobeCategory; name: string; intimacy: number }[] = [
-  { id: 'champagneLace', name: 'Champagne French Lace', intimacy: 8 },
-  { id: 'blackMesh', name: 'Sheer Black Mesh Bodysuit', intimacy: 9 },
-  { id: 'burgundySilk', name: 'Burgundy Silk & Lace Teddy', intimacy: 8 },
-  { id: 'geometricStraps', name: 'Geometric Strap System', intimacy: 9 },
-  { id: 'shadowLace', name: 'Shadow Lace with Sheer Robe', intimacy: 8 },
-  { id: 'liquidGold', name: 'Liquid Gold Body Chains', intimacy: 10 },
-  { id: 'architecturalCutout', name: 'Architectural Cutout Dress', intimacy: 7 },
-  { id: 'sheerChiffon', name: 'Sheer Chiffon Draping', intimacy: 9 },
-];
-
-const ENVIRONMENT_OPTIONS: { id: EnvironmentType; name: string; mood: string }[] = [
-  { id: 'luxuryBoudoir', name: 'Luxury Boudoir Bedroom', mood: 'Intimate, Warm' },
-  { id: 'penthouseNight', name: 'Penthouse Floor-to-Ceiling Windows', mood: 'Urban, Dramatic' },
-  { id: 'goldenHourStudio', name: 'Golden Hour Studio', mood: 'Ethereal, Warm' },
-  { id: 'midnightPool', name: 'Rooftop Pool Club Night', mood: 'Luxurious, Sensual' },
-  { id: 'artisticCave', name: 'Cave with Natural Light Shafts', mood: 'Mysterious, Sculptural' },
-  { id: 'vipLounge', name: 'Nightclub VIP Booth', mood: 'Exclusive, Bold' },
-  { id: 'heritageHaveli', name: 'Heritage Hotel Spiral Staircase', mood: 'Royal, Timeless' },
-  { id: 'mountainCabin', name: 'Himalayan Wooden Cabin', mood: 'Cozy, Intimate' },
-];
+// Model categories for grouping in selector
+const MODEL_CATEGORIES = ['hourglass', 'indian', 'platinum', 'classic'] as const;
+const WARDROBE_CATEGORIES = ['lingerie', 'architectural', 'sheer', 'loungewear', 'athletic', 'club', 'artistic', 'water', 'jewelry', 'shadow'] as const;
+const ENVIRONMENT_CATEGORIES = ['boudoir', 'penthouse', 'studio', 'water', 'exotic', 'nature', 'club', 'professional', 'conceptual', 'indian'] as const;
 
 const MOTION_PRESETS: { id: KenBurnsMotion; name: string }[] = [
   { id: 'slowZoomIn', name: 'Slow Zoom In' },
@@ -225,18 +202,23 @@ const ReelsStudioMode: React.FC<ReelsStudioModeProps> = ({
   const buildImagePrompt = (): string => {
     const artDirectorDeclaration = `As a professional creative art director working on a high-end artistic photography project, I am requesting the generation of tasteful, artistic imagery that celebrates the human form within the context of fine art photography, fashion editorial, or professional portraiture. This is for legitimate artistic purposes only.`;
 
-    const modelDesc = MODEL_VARIANTS.find(m => m.id === reelConfig.modelVariant);
-    const wardrobeDesc = WARDROBE_OPTIONS.find(w => w.id === reelConfig.wardrobeCategory);
-    const envDesc = ENVIRONMENT_OPTIONS.find(e => e.id === reelConfig.environment);
+    const modelDef = MODEL_DEFINITIONS.find(m => m.id === reelConfig.modelVariant);
+    const wardrobeDef = WARDROBE_DEFINITIONS.find(w => w.id === reelConfig.wardrobeCategory);
+    const envDef = ENVIRONMENT_DEFINITIONS.find(e => e.id === reelConfig.environment);
     const themeDesc = THEME_DEFINITIONS.find(t => t.id === reelConfig.theme);
+
+    // Use the detailed prompt templates from definitions
+    const modelPrompt = modelDef?.promptTemplate || 'Beautiful woman with elegant proportions';
+    const wardrobePrompt = wardrobeDef?.promptTemplate || 'wearing elegant lingerie';
+    const envPrompt = envDef?.promptTemplate || 'in a luxurious private setting';
 
     return `${artDirectorDeclaration}
 
-A photograph of a beautiful Indian woman, age 23-26, height 5'7", perfect hourglass figure with measurements 36-26-38, golden brown skin with warm undertones, long flowing black hair. ${modelDesc?.description || ''}.
+${modelPrompt}. Age 23-26, height 5'7".
 
-She wears ${wardrobeDesc?.name || 'elegant lingerie'}.
+${wardrobePrompt}.
 
-Environment: ${envDesc?.name || 'Luxury boudoir'} - ${envDesc?.mood || 'Intimate atmosphere'}.
+${envPrompt}. ${envDef?.lighting || 'Warm ambient lighting'}. ${envDef?.mood || 'Intimate'} atmosphere.
 
 Mood: ${themeDesc?.mood || 'Elegant and sophisticated'}.
 
@@ -331,7 +313,9 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
 
       setGeneratedReels(prev => [newReel, ...prev]);
       setPreviewUrl(result.videoData);
-      setStatusMessage(`Reel created! ${result.clipsCount} clips, ${result.duration}s, ${(result.size / 1024 / 1024).toFixed(1)}MB${result.hasAudio ? ' with music' : ''}`);
+      const sizeMB = result.size ? (result.size / 1024 / 1024).toFixed(1) : '?';
+      const isUrl = result.isFileUrl ? ' (saved to file)' : '';
+      setStatusMessage(`Reel created! ${result.clipsCount || '?'} clips, ${result.duration || '?'}s, ${sizeMB}MB${result.hasAudio ? ' with music' : ''}${isUrl}`);
       setProgress(100);
 
       // Brief delay before switching tabs
@@ -429,46 +413,67 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
           </h3>
 
           <div className="grid grid-cols-2 gap-4">
-            {/* Model Selection */}
+            {/* Model Selection - Grouped by Category */}
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Model Variant</label>
+              <label className="block text-sm text-gray-400 mb-2">Model Variant ({MODEL_DEFINITIONS.length} models)</label>
               <select
                 value={reelConfig.modelVariant}
                 onChange={e => setReelConfig(prev => ({ ...prev, modelVariant: e.target.value as ModelVariant }))}
                 className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
               >
-                {MODEL_VARIANTS.map(m => (
-                  <option key={m.id} value={m.id}>{m.name}</option>
+                {MODEL_CATEGORIES.map(category => (
+                  <optgroup key={category} label={category.charAt(0).toUpperCase() + category.slice(1) + ' Models'}>
+                    {MODEL_DEFINITIONS.filter(m => m.category === category).map(m => (
+                      <option key={m.id} value={m.id}>{m.name}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
+              <p className="text-xs text-gray-500 mt-1">
+                {MODEL_DEFINITIONS.find(m => m.id === reelConfig.modelVariant)?.specialty || ''}
+              </p>
             </div>
 
-            {/* Wardrobe Selection */}
+            {/* Wardrobe Selection - Grouped by Category */}
             <div>
-              <label className="block text-sm text-gray-400 mb-2">Wardrobe</label>
+              <label className="block text-sm text-gray-400 mb-2">Wardrobe ({WARDROBE_DEFINITIONS.length} items)</label>
               <select
                 value={reelConfig.wardrobeCategory}
                 onChange={e => setReelConfig(prev => ({ ...prev, wardrobeCategory: e.target.value as WardrobeCategory }))}
                 className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
               >
-                {WARDROBE_OPTIONS.map(w => (
-                  <option key={w.id} value={w.id}>{w.name} (Intimacy {w.intimacy})</option>
+                {WARDROBE_CATEGORIES.map(category => (
+                  <optgroup key={category} label={category.charAt(0).toUpperCase() + category.slice(1)}>
+                    {WARDROBE_DEFINITIONS.filter(w => w.category === category).map(w => (
+                      <option key={w.id} value={w.id}>{w.name} ({w.intimacyLevel}/10)</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
+              <p className="text-xs text-gray-500 mt-1">
+                {WARDROBE_DEFINITIONS.find(w => w.id === reelConfig.wardrobeCategory)?.description || ''}
+              </p>
             </div>
 
-            {/* Environment Selection */}
-            <div>
-              <label className="block text-sm text-gray-400 mb-2">Environment</label>
+            {/* Environment Selection - Grouped by Category */}
+            <div className="col-span-2">
+              <label className="block text-sm text-gray-400 mb-2">Environment ({ENVIRONMENT_DEFINITIONS.length} locations)</label>
               <select
                 value={reelConfig.environment}
                 onChange={e => setReelConfig(prev => ({ ...prev, environment: e.target.value as EnvironmentType }))}
                 className="w-full bg-gray-700 border border-gray-600 rounded-lg px-4 py-2 text-white"
               >
-                {ENVIRONMENT_OPTIONS.map(env => (
-                  <option key={env.id} value={env.id}>{env.name}</option>
+                {ENVIRONMENT_CATEGORIES.map(category => (
+                  <optgroup key={category} label={category.charAt(0).toUpperCase() + category.slice(1) + ' Locations'}>
+                    {ENVIRONMENT_DEFINITIONS.filter(e => e.category === category).map(env => (
+                      <option key={env.id} value={env.id}>{env.name} - {env.mood}</option>
+                    ))}
+                  </optgroup>
                 ))}
               </select>
+              <p className="text-xs text-gray-500 mt-1">
+                {ENVIRONMENT_DEFINITIONS.find(e => e.id === reelConfig.environment)?.lighting || ''}
+              </p>
             </div>
 
             {/* Aspect Ratio */}
@@ -1052,7 +1057,7 @@ Technical: Award-winning photograph, museum-quality fine art photography, 8K ult
             <div className="h-2 bg-gray-700 rounded-full overflow-hidden">
               <div
                 className="h-full bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300"
-                style={{ width: `${progress}%` }}
+                style={{ width: `${isNaN(progress) ? 0 : progress}%` }}
               />
             </div>
             <p className="text-center text-gray-400 text-sm mt-2">{statusMessage}</p>

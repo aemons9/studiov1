@@ -4,6 +4,42 @@
  * Syncs between localStorage and GenerationSettings
  */
 
+/**
+ * Get the proxy server base URL
+ * Supports remote development via Tailscale by using VITE_PROXY_URL env var
+ * Falls back to localhost:3001 for local development
+ */
+export function getProxyBaseUrl(): string {
+  // Check for environment variable first (for remote development via Tailscale)
+  const envProxyUrl = import.meta.env.VITE_PROXY_URL;
+  if (envProxyUrl) {
+    return envProxyUrl.replace(/\/$/, ''); // Remove trailing slash if present
+  }
+
+  // In production, use relative URLs (same origin)
+  if (import.meta.env.PROD) {
+    return '';
+  }
+
+  // For local development, check if we're on localhost or a remote IP
+  const hostname = window.location.hostname;
+
+  // If accessing via IP or custom domain (not localhost), use same host with proxy port
+  if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
+    // Use protocol matching current page, with proxy port
+    const protocol = window.location.protocol;
+    // For HTTPS access (via Caddy), use relative URL since Caddy can proxy
+    if (protocol === 'https:') {
+      return ''; // Use relative URL - Caddy should proxy /api/* to proxy server
+    }
+    // For HTTP, use the same hostname with proxy port
+    return `http://${hostname}:3001`;
+  }
+
+  // Default: local development on localhost
+  return 'http://localhost:3001';
+}
+
 export interface AuthCredentials {
   authMethod: 'oauth' | 'apikey';
   projectId: string;
@@ -195,4 +231,77 @@ export function updateTokenTimestamp(): void {
   const credentials = getAuthCredentials();
   credentials.tokenTimestamp = Date.now();
   saveAuthCredentials(credentials);
+}
+
+/**
+ * Auto-refresh OAuth token using proxy server (which has gcloud access)
+ * Returns the new token if successful, null if failed
+ */
+export async function refreshOAuthToken(): Promise<string | null> {
+  try {
+    const proxyUrl = getProxyBaseUrl();
+    console.log(`🔄 Refreshing OAuth token via proxy: ${proxyUrl || '(relative URL)'}`);
+
+    // Try to get fresh token from proxy server
+    const tokenResponse = await fetch(`${proxyUrl}/api/gcloud-token`);
+    if (!tokenResponse.ok) {
+      const errorText = await tokenResponse.text();
+      console.warn('Failed to refresh OAuth token from proxy:', tokenResponse.status, errorText);
+      return null;
+    }
+
+    const tokenData = await tokenResponse.json();
+    if (!tokenData.token) {
+      console.warn('No token in proxy response:', tokenData);
+      return null;
+    }
+
+    // Also get project ID
+    const projectResponse = await fetch(`${proxyUrl}/api/gcloud-project`);
+    const projectData = projectResponse.ok ? await projectResponse.json() : { projectId: 'zaranovel' };
+
+    // Save the new credentials
+    const credentials = getAuthCredentials();
+    credentials.oauthToken = tokenData.token;
+    credentials.projectId = projectData.projectId || credentials.projectId;
+    credentials.tokenTimestamp = Date.now();
+    credentials.authMethod = 'oauth';
+    saveAuthCredentials(credentials);
+
+    console.log('✅ OAuth token auto-refreshed successfully');
+    return tokenData.token;
+  } catch (error) {
+    console.error('Failed to auto-refresh OAuth token:', error);
+    return null;
+  }
+}
+
+/**
+ * Get OAuth token with auto-refresh if expired
+ * This is the recommended way to get a token for API calls
+ */
+export async function getOAuthTokenWithAutoRefresh(): Promise<string | null> {
+  const credentials = getAuthCredentials();
+
+  if (credentials.authMethod !== 'oauth') {
+    return null;
+  }
+
+  const { isExpired, isExpiringSoon } = checkTokenExpiration();
+
+  // If expired or expiring soon, try to refresh
+  if (isExpired || isExpiringSoon) {
+    console.log('🔄 Token expired or expiring soon, attempting auto-refresh...');
+    const newToken = await refreshOAuthToken();
+    if (newToken) {
+      return newToken;
+    }
+    // If refresh failed and token is expired, return null
+    if (isExpired) {
+      console.warn('⚠️ OAuth token has expired and auto-refresh failed!');
+      return null;
+    }
+  }
+
+  return credentials.oauthToken || null;
 }

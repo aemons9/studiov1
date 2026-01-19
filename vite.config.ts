@@ -10,15 +10,8 @@ export default defineConfig(({ mode }) => {
       server: {
         port: 3000,
         host: '0.0.0.0',
-        // Proxy only in development mode
-        ...(isDev && {
-          proxy: {
-            '/api': {
-              target: 'http://localhost:3001',
-              changeOrigin: true,
-            }
-          }
-        })
+        // Note: /api proxy disabled because Vercel api folder conflicts
+        // App.tsx uses getProxyBaseUrl() directly for dev mode
       },
       plugins: [react()],
       define: {

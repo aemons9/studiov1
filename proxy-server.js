@@ -36,6 +36,17 @@ app.use(express.json({ limit: '50mb' }));
 // Asset directory for Visual Novel
 const ASSETS_DIR = path.join(__dirname, 'visualnovel', 'assets');
 
+// Generated reels directory (for large videos that can't be sent as base64)
+const REELS_OUTPUT_DIR = path.join(__dirname, 'generated-reels');
+
+// Ensure reels output directory exists
+try {
+  fsSync.mkdirSync(REELS_OUTPUT_DIR, { recursive: true });
+} catch {}
+
+// Serve generated reels as static files
+app.use('/reels', express.static(REELS_OUTPUT_DIR));
+
 // Health check endpoint
 app.get('/health', (req, res) => {
   res.json({ status: 'ok', service: 'replicate-proxy' });
@@ -541,22 +552,35 @@ app.post('/api/instagram/publish', async (req, res) => {
     console.log(`   ✅ Container created: ${containerId}`);
 
     // Step 4: Wait for container to be ready
+    // Wait for processing with exponential backoff to reduce API calls
     console.log('   Step 3: Waiting for processing...');
     let containerReady = false;
     let attempts = 0;
-    const maxAttempts = 30;
+    const maxAttempts = 20;
+    let delay = 3000; // Start with 3 seconds for images (faster than video)
+    const maxDelay = 10000;
 
     while (!containerReady && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, delay));
 
       const statusUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${containerId}?fields=status,status_code&access_token=${accessToken}`;
       const statusResponse = await fetch(statusUrl);
       const statusData = await statusResponse.json();
 
-      if (statusData.status === 'FINISHED') {
+      // Handle rate limit gracefully
+      if (statusData.error?.code === 4) {
+        console.log(`   ⚠️ Rate limited, waiting 30s...`);
+        await new Promise(resolve => setTimeout(resolve, 30000));
+        attempts++;
+        continue;
+      }
+
+      console.log(`   📊 Status: ${statusData.status || statusData.status_code || 'checking...'}`);
+
+      if (statusData.status === 'FINISHED' || statusData.status_code === 'FINISHED') {
         containerReady = true;
         console.log('   ✅ Container ready');
-      } else if (statusData.status === 'ERROR') {
+      } else if (statusData.status === 'ERROR' || statusData.status_code === 'ERROR') {
         console.error('❌ Container processing failed:', statusData);
         return res.status(500).json({
           error: 'Media container processing failed',
@@ -565,11 +589,13 @@ app.post('/api/instagram/publish', async (req, res) => {
       }
 
       attempts++;
+      delay = Math.min(delay * 1.4, maxDelay);
     }
 
     if (!containerReady) {
       return res.status(500).json({
         error: 'Timeout waiting for media container to process',
+        containerId: containerId,
       });
     }
 
@@ -664,10 +690,259 @@ app.post('/api/instagram/create-container', async (req, res) => {
     }
 
     console.log(`✅ Container created: ${data.id}`);
-    res.json({ success: true, containerId: data.id });
+    res.json({ success: true, containerId: data.id, id: data.id });
 
   } catch (error) {
     console.error('❌ Container creation error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/instagram/create-carousel-item
+ *
+ * Create a carousel child item (Step 1 of carousel publishing)
+ */
+app.post('/api/instagram/create-carousel-item', async (req, res) => {
+  try {
+    const {
+      accessToken,
+      imageUrl,
+      instagramAccountId = INSTAGRAM_CONFIG.BUSINESS_ACCOUNT_ID,
+    } = req.body;
+
+    if (!accessToken || !imageUrl) {
+      return res.status(400).json({
+        error: 'accessToken and imageUrl are required',
+      });
+    }
+
+    console.log('📦 Creating Instagram carousel item...');
+
+    const url = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${instagramAccountId}/media`;
+    const params = new URLSearchParams({
+      image_url: imageUrl,
+      is_carousel_item: 'true',
+      access_token: accessToken,
+    });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Carousel item creation failed:', data);
+      return res.status(response.status).json({
+        error: 'Failed to create carousel item',
+        details: data.error?.message || data,
+      });
+    }
+
+    console.log(`✅ Carousel item created: ${data.id}`);
+    res.json({ success: true, id: data.id });
+
+  } catch (error) {
+    console.error('❌ Carousel item creation error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/instagram/create-carousel
+ *
+ * Create a carousel container from child items (Step 2 of carousel publishing)
+ */
+app.post('/api/instagram/create-carousel', async (req, res) => {
+  try {
+    const {
+      accessToken,
+      childrenIds,
+      caption,
+      instagramAccountId = INSTAGRAM_CONFIG.BUSINESS_ACCOUNT_ID,
+    } = req.body;
+
+    if (!accessToken || !childrenIds || !Array.isArray(childrenIds) || childrenIds.length < 2) {
+      return res.status(400).json({
+        error: 'accessToken and childrenIds (array with at least 2 items) are required',
+      });
+    }
+
+    console.log(`📦 Creating Instagram carousel with ${childrenIds.length} items...`);
+
+    const url = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${instagramAccountId}/media`;
+    const params = new URLSearchParams({
+      media_type: 'CAROUSEL',
+      children: childrenIds.join(','),
+      caption: caption || '',
+      access_token: accessToken,
+    });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Carousel creation failed:', data);
+      return res.status(response.status).json({
+        error: 'Failed to create carousel',
+        details: data.error?.message || data,
+      });
+    }
+
+    console.log(`✅ Carousel container created: ${data.id}`);
+    res.json({ success: true, id: data.id });
+
+  } catch (error) {
+    console.error('❌ Carousel creation error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/instagram/publish-story
+ *
+ * Publish an image as a story
+ */
+app.post('/api/instagram/publish-story', async (req, res) => {
+  try {
+    const {
+      accessToken,
+      imageUrl,
+      instagramAccountId = INSTAGRAM_CONFIG.BUSINESS_ACCOUNT_ID,
+    } = req.body;
+
+    if (!accessToken || !imageUrl) {
+      return res.status(400).json({
+        error: 'accessToken and imageUrl are required',
+      });
+    }
+
+    console.log('📱 Creating Instagram story container...');
+
+    // Step 1: Create story container
+    const createUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${instagramAccountId}/media`;
+    const createParams = new URLSearchParams({
+      image_url: imageUrl,
+      media_type: 'STORIES',
+      access_token: accessToken,
+    });
+
+    const createResponse = await fetch(createUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: createParams.toString(),
+    });
+
+    const createData = await createResponse.json();
+
+    if (!createResponse.ok) {
+      console.error('❌ Story container creation failed:', createData);
+      return res.status(createResponse.status).json({
+        error: 'Failed to create story container',
+        details: createData.error?.message || createData,
+      });
+    }
+
+    const containerId = createData.id;
+    console.log(`✅ Story container created: ${containerId}`);
+
+    // Wait for processing
+    await new Promise(r => setTimeout(r, 5000));
+
+    // Step 2: Publish the story
+    console.log('📱 Publishing story...');
+
+    const publishUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${instagramAccountId}/media_publish`;
+    const publishParams = new URLSearchParams({
+      creation_id: containerId,
+      access_token: accessToken,
+    });
+
+    const publishResponse = await fetch(publishUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: publishParams.toString(),
+    });
+
+    const publishData = await publishResponse.json();
+
+    if (!publishResponse.ok) {
+      console.error('❌ Story publish failed:', publishData);
+      return res.status(publishResponse.status).json({
+        error: 'Failed to publish story',
+        details: publishData.error?.message || publishData,
+      });
+    }
+
+    console.log(`✅ Story published: ${publishData.id}`);
+    res.json({ success: true, id: publishData.id });
+
+  } catch (error) {
+    console.error('❌ Story publish error:', error);
+    res.status(500).json({
+      error: error instanceof Error ? error.message : 'Unknown error',
+    });
+  }
+});
+
+/**
+ * POST /api/instagram/comment
+ *
+ * Add a comment to a media post (for first comment hashtag strategy)
+ */
+app.post('/api/instagram/comment', async (req, res) => {
+  try {
+    const { accessToken, mediaId, message } = req.body;
+
+    if (!accessToken || !mediaId || !message) {
+      return res.status(400).json({
+        error: 'accessToken, mediaId, and message are required',
+      });
+    }
+
+    console.log('💬 Adding comment to media...');
+
+    const url = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${mediaId}/comments`;
+    const params = new URLSearchParams({
+      message: message,
+      access_token: accessToken,
+    });
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: params.toString(),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      console.error('❌ Comment failed:', data);
+      return res.status(response.status).json({
+        error: 'Failed to add comment',
+        details: data.error?.message || data,
+      });
+    }
+
+    console.log(`✅ Comment added: ${data.id}`);
+    res.json({ success: true, id: data.id });
+
+  } catch (error) {
+    console.error('❌ Comment error:', error);
     res.status(500).json({
       error: error instanceof Error ? error.message : 'Unknown error',
     });
@@ -1583,16 +1858,51 @@ app.post('/api/reels/create-professional', async (req, res) => {
       execSync(thumbCmd);
     } catch {}
 
-    // Read final video
-    const videoBuffer = await fs.readFile(currentOutput);
-    const videoBase64 = videoBuffer.toString('base64');
+    // Read final video stats
+    const videoStats = await fs.stat(currentOutput);
+    const videoSizeMB = videoStats.size / 1024 / 1024;
 
-    // Read thumbnail if exists
-    let thumbnailBase64 = null;
-    try {
-      const thumbBuffer = await fs.readFile(thumbnailPath);
-      thumbnailBase64 = thumbBuffer.toString('base64');
-    } catch {}
+    console.log(`✅ Professional Reel ready: ${videoSizeMB.toFixed(2)} MB, ${totalDuration}s`);
+
+    // For large videos (>10MB), save to file and return URL instead of base64
+    const MAX_BASE64_SIZE_MB = 10;
+    let videoData, thumbnailData;
+
+    if (videoSizeMB > MAX_BASE64_SIZE_MB) {
+      // Save to persistent output directory with unique filename
+      const timestamp = Date.now();
+      const reelFilename = `reel_${theme}_${timestamp}.mp4`;
+      const thumbFilename = `thumb_${theme}_${timestamp}.jpg`;
+      const savedReelPath = path.join(REELS_OUTPUT_DIR, reelFilename);
+      const savedThumbPath = path.join(REELS_OUTPUT_DIR, thumbFilename);
+
+      // Copy video to output directory
+      await fs.copyFile(currentOutput, savedReelPath);
+      console.log(`   📁 Video saved to: ${savedReelPath}`);
+
+      // Copy thumbnail if exists
+      try {
+        await fs.copyFile(thumbnailPath, savedThumbPath);
+        thumbnailData = `http://localhost:${PORT}/reels/${thumbFilename}`;
+      } catch {
+        thumbnailData = null;
+      }
+
+      videoData = `http://localhost:${PORT}/reels/${reelFilename}`;
+      console.log(`   🔗 Video URL: ${videoData}`);
+    } else {
+      // Small enough for base64
+      const videoBuffer = await fs.readFile(currentOutput);
+      videoData = `data:video/mp4;base64,${videoBuffer.toString('base64')}`;
+
+      // Read thumbnail if exists
+      try {
+        const thumbBuffer = await fs.readFile(thumbnailPath);
+        thumbnailData = `data:image/jpeg;base64,${thumbBuffer.toString('base64')}`;
+      } catch {
+        thumbnailData = null;
+      }
+    }
 
     // Clean up temp directory
     try {
@@ -1603,17 +1913,16 @@ app.post('/api/reels/create-professional', async (req, res) => {
       await fs.rmdir(tempClipsDir).catch(() => {});
     } catch {}
 
-    console.log(`✅ Professional Reel ready: ${(videoBuffer.length / 1024 / 1024).toFixed(2)} MB, ${totalDuration}s`);
-
     res.json({
       success: true,
-      videoData: `data:video/mp4;base64,${videoBase64}`,
-      thumbnailData: thumbnailBase64 ? `data:image/jpeg;base64,${thumbnailBase64}` : null,
-      size: videoBuffer.length,
+      videoData,
+      thumbnailData,
+      size: videoStats.size,
       duration: totalDuration,
       theme: themeConfig.name,
       clipsCount: clipPaths.length,
       hasAudio: !!selectedMusicPath,
+      isFileUrl: videoSizeMB > MAX_BASE64_SIZE_MB, // Flag to indicate URL vs base64
     });
 
   } catch (error) {
@@ -1715,38 +2024,57 @@ app.post('/api/instagram/publish-reel', async (req, res) => {
     const containerId = containerData.id;
     console.log(`   ✅ Reel container created: ${containerId}`);
 
-    // Step 2: Wait for video processing (can take longer than images)
+    // Step 2: Wait for video processing with exponential backoff
+    // Instagram video processing typically takes 30-120 seconds
     console.log('   Step 2: Waiting for video processing...');
     let containerReady = false;
     let attempts = 0;
-    const maxAttempts = 60; // Up to 2 minutes for video processing
+    const maxAttempts = 36; // Max ~6 minutes with exponential backoff
+    let delay = 5000; // Start with 5 seconds (like working scripts)
+    const maxDelay = 15000; // Cap at 15 seconds between checks
 
     while (!containerReady && attempts < maxAttempts) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise(resolve => setTimeout(resolve, delay));
 
       const statusUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${containerId}?fields=status,status_code&access_token=${accessToken}`;
       const statusResponse = await fetch(statusUrl);
       const statusData = await statusResponse.json();
 
-      console.log(`   📊 Status check ${attempts + 1}: ${statusData.status || 'UNKNOWN'}`);
+      // Handle rate limit errors gracefully
+      if (statusData.error?.code === 4) {
+        console.log(`   ⚠️ Rate limited, waiting 30s before retry...`);
+        await new Promise(resolve => setTimeout(resolve, 30000));
+        attempts++;
+        continue;
+      }
 
-      if (statusData.status === 'FINISHED') {
+      console.log(`   📊 Status check ${attempts + 1}/${maxAttempts}: ${statusData.status || statusData.status_code || 'UNKNOWN'}`);
+
+      if (statusData.status === 'FINISHED' || statusData.status_code === 'FINISHED') {
         containerReady = true;
         console.log('   ✅ Reel container ready');
-      } else if (statusData.status === 'ERROR') {
+      } else if (statusData.status === 'ERROR' || statusData.status_code === 'ERROR') {
         console.error('❌ Reel processing failed:', statusData);
         return res.status(500).json({
           error: 'Reel processing failed',
           status_code: statusData.status_code,
         });
+      } else if (statusData.status === 'EXPIRED' || statusData.status_code === 'EXPIRED') {
+        console.error('❌ Container expired');
+        return res.status(500).json({
+          error: 'Container expired before publishing',
+        });
       }
 
       attempts++;
+      // Increase delay with exponential backoff, capped at maxDelay
+      delay = Math.min(delay * 1.3, maxDelay);
     }
 
     if (!containerReady) {
       return res.status(500).json({
-        error: 'Timeout waiting for Reel to process (2 minutes exceeded)',
+        error: 'Timeout waiting for Reel to process',
+        containerId: containerId, // Return container ID so user can retry publish
       });
     }
 
@@ -1980,29 +2308,46 @@ app.post('/api/reels/upload-and-publish', async (req, res) => {
     const containerId = containerData.id;
     console.log(`   ✅ Reel container: ${containerId}`);
 
-    // Wait for processing
+    // Wait for processing with exponential backoff
     let containerReady = false;
     let attempts = 0;
-    while (!containerReady && attempts < 60) {
-      await new Promise(resolve => setTimeout(resolve, 2000));
+    let delay = 5000;
+    const maxDelay = 15000;
+    while (!containerReady && attempts < 36) {
+      await new Promise(resolve => setTimeout(resolve, delay));
 
       const statusUrl = `${INSTAGRAM_CONFIG.GRAPH_API_BASE}/${containerId}?fields=status,status_code&access_token=${accessToken}`;
       const statusResponse = await fetch(statusUrl);
       const statusData = await statusResponse.json();
 
-      if (statusData.status === 'FINISHED') {
+      // Handle rate limit
+      if (statusData.error?.code === 4) {
+        console.log(`   ⚠️ Rate limited, waiting 30s...`);
+        await new Promise(resolve => setTimeout(resolve, 30000));
+        attempts++;
+        delay = Math.min(delay * 1.3, maxDelay);
+        continue;
+      }
+
+      console.log(`   📊 Status: ${statusData.status || statusData.status_code || 'processing...'}`);
+
+      if (statusData.status === 'FINISHED' || statusData.status_code === 'FINISHED') {
         containerReady = true;
-      } else if (statusData.status === 'ERROR') {
+      } else if (statusData.status === 'ERROR' || statusData.status_code === 'ERROR') {
         return res.status(500).json({
           error: 'Reel processing failed',
           status_code: statusData.status_code,
         });
       }
       attempts++;
+      delay = Math.min(delay * 1.3, maxDelay);
     }
 
     if (!containerReady) {
-      return res.status(500).json({ error: 'Timeout waiting for Reel processing' });
+      return res.status(500).json({
+        error: 'Timeout waiting for Reel processing',
+        containerId: containerId
+      });
     }
 
     // Publish

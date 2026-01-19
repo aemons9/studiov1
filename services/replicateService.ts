@@ -1,17 +1,22 @@
 /**
- * REPLICATE FLUX API SERVICE
+ * REPLICATE API SERVICE
  *
- * Integrates Replicate.com Flux models as an alternative to Vertex AI
+ * Integrates Replicate.com models as an alternative to Vertex AI
  * for higher intimacy levels and specialized artistic photography.
  *
- * Recommended Models:
+ * Supported Models:
+ * FLUX Models:
  * - FLUX 1.1 Pro Ultra: Best quality, 4MP images, "raw" mode for photorealism
  * - FLUX 1.1 Pro: 6x faster, excellent quality/speed balance
  * - FLUX Dev: Near-Pro quality, lower cost, non-commercial
  * - FLUX Schnell: Fastest, good for prototyping
+ *
+ * ImagineArt Models:
+ * - ImagineArt 1.0: High quality artistic image generation, excellent for intimate photography
  */
 
 import type { GenerationSettings } from '../types';
+import { getProxyBaseUrl } from '../utils/sharedAuthManager';
 
 export type FluxModel =
   | 'black-forest-labs/flux-1.1-pro-ultra'
@@ -19,9 +24,24 @@ export type FluxModel =
   | 'black-forest-labs/flux-dev'
   | 'black-forest-labs/flux-schnell';
 
+export type ImagineArtModel =
+  | 'imagineart/imagineart-1.0';
+
+export type HunyuanModel =
+  | 'tencent/hunyuan-image-3';
+
+export type PrunaAIModel =
+  | 'prunaai/p-image';
+
+export type LumaPhotonModel =
+  | 'luma/photon'
+  | 'luma/photon-flash';
+
+export type ReplicateModel = FluxModel | ImagineArtModel | HunyuanModel | PrunaAIModel | LumaPhotonModel;
+
 export interface ReplicateConfig {
   apiToken: string;
-  model: FluxModel;
+  model: ReplicateModel;
   width?: number;
   height?: number;
   numOutputs?: number;
@@ -36,6 +56,20 @@ export interface ReplicateConfig {
   imagePrompt?: string; // Data URI or base64 image for image-to-image generation
 }
 
+/**
+ * Check if the model is an ImagineArt model
+ */
+export function isImagineArtModel(model: ReplicateModel): model is ImagineArtModel {
+  return model.startsWith('imagineart/');
+}
+
+/**
+ * Check if the model is a Flux model
+ */
+export function isFluxModel(model: ReplicateModel): model is FluxModel {
+  return model.startsWith('black-forest-labs/');
+}
+
 export interface ReplicateResponse {
   id: string;
   status: 'starting' | 'processing' | 'succeeded' | 'failed' | 'canceled';
@@ -45,6 +79,34 @@ export interface ReplicateResponse {
   metrics?: {
     predict_time?: number;
   };
+}
+
+/**
+ * Get optimal settings for ImagineArt based on intimacy level
+ */
+export function getOptimalImagineArtSettings(intimacyLevel: number): Partial<ReplicateConfig> {
+  // ImagineArt 1.0 is more permissive and produces high quality results
+  return {
+    model: 'imagineart/imagineart-1.0',
+    aspectRatio: '3:4', // Portrait format works best for intimate photography
+    outputQuality: 100,
+  };
+}
+
+/**
+ * Generate image using ImagineArt 1.0
+ */
+export async function generateWithImagineArt(
+  prompt: string,
+  config: ReplicateConfig
+): Promise<string[]> {
+  // Override model to ensure ImagineArt
+  const imagineArtConfig: ReplicateConfig = {
+    ...config,
+    model: 'imagineart/imagineart-1.0',
+  };
+
+  return generateWithFlux(prompt, imagineArtConfig);
 }
 
 /**
@@ -209,7 +271,17 @@ export async function generateWithFlux(
   }
 
   // Model-specific parameters
-  if (model === 'black-forest-labs/flux-1.1-pro-ultra') {
+  if (isImagineArtModel(model)) {
+    // ImagineArt 1.0 configuration
+    input.aspect_ratio = aspectRatio || '3:4';
+    // ImagineArt uses simpler parameters
+    delete input.width;
+    delete input.height;
+    delete input.num_outputs;
+    delete input.output_format;
+    delete input.output_quality;
+    console.log('🎨 Using ImagineArt 1.0 model configuration');
+  } else if (model === 'black-forest-labs/flux-1.1-pro-ultra') {
     input.aspect_ratio = aspectRatio || '9:16';
     input.raw = config.raw !== undefined ? config.raw : true;
     input.safety_tolerance = config.safetyTolerance || 4;
@@ -227,18 +299,17 @@ export async function generateWithFlux(
     input.guidance_scale = config.guidanceScale || 3.5;
   }
 
-  console.log('🎨 Generating with Flux:', {
+  const modelName = isImagineArtModel(model) ? 'ImagineArt' : 'Flux';
+  console.log(`🎨 Generating with ${modelName}:`, {
     model,
-    dimensions: model.includes('ultra') || model.includes('1.1-pro') ? aspectRatio : dimensions,
+    dimensions: isImagineArtModel(model) || model.includes('ultra') || model.includes('1.1-pro') ? aspectRatio : dimensions,
     raw: input.raw,
     safetyTolerance: input.safety_tolerance,
   });
 
   // Use proxy server to avoid CORS issues
-  // In production (Vercel), use relative path for serverless functions
-  // In development, use localhost:3001 or vite proxy
-  const PROXY_URL = (import.meta as any).env?.VITE_PROXY_URL ||
-    (import.meta.env.PROD ? '' : 'http://localhost:3001');
+  // Supports remote development via Tailscale
+  const PROXY_URL = getProxyBaseUrl();
 
   // Fetch the actual model version
   const version = await fetchModelVersion(model, apiToken, PROXY_URL);
@@ -382,7 +453,7 @@ export async function generateWithFlux(
 /**
  * Fetch the latest version hash for a model from Replicate API
  */
-async function fetchModelVersion(model: FluxModel, apiToken: string, proxyUrl: string): Promise<string> {
+async function fetchModelVersion(model: ReplicateModel, apiToken: string, proxyUrl: string): Promise<string> {
   try {
     // Call proxy to get model info
     const response = await fetch(`${proxyUrl}/api/replicate/models/${encodeURIComponent(model)}`, {
@@ -415,12 +486,15 @@ async function fetchModelVersion(model: FluxModel, apiToken: string, proxyUrl: s
 /**
  * Fallback version hashes (updated as of Jan 2025)
  */
-function getFallbackVersion(model: FluxModel): string {
-  const versionMap: Record<FluxModel, string> = {
+function getFallbackVersion(model: ReplicateModel): string {
+  const versionMap: Record<string, string> = {
+    // Flux models
     'black-forest-labs/flux-1.1-pro-ultra': 'f6a11cd3a1f9e95e4e79d83c1a583d2062e8094e900ba93c5ee2e2f831a3e6e3',
     'black-forest-labs/flux-1.1-pro': 'a8f29a27ca15c3e86b8fcb973a1f2e04663b8b0b2a6f56ec0e3b4e3c6c6f7e8f',
     'black-forest-labs/flux-dev': '5e4e0b67b3bfcf7f7e8f1c7b6b1b0c0e7b3e6e5e6e7e8e9e0e1e2e3e4e5e6e7',
     'black-forest-labs/flux-schnell': '6e7e8e9e0e1e2e3e4e5e6e7e8e9e0e1e2e3e4e5e6e7e8e9e0e1e2e3e4e5e6e',
+    // ImagineArt models
+    'imagineart/imagineart-1.0': 'b7178694f11dc428590f98d295a6e370bc3dc843819043d0f3621d66be13e440',
   };
 
   console.log('📌 Using fallback version for:', model);
@@ -443,4 +517,399 @@ export async function validateReplicateToken(apiToken: string): Promise<boolean>
     console.error('Token validation error:', error);
     return false;
   }
+}
+
+// ============================================================================
+// NEW REPLICATE MODELS - Hunyuan3, PrunaAI, Luma Photon
+// ============================================================================
+
+export interface Hunyuan3Config {
+  apiToken: string;
+  width?: number;
+  height?: number;
+  outputFormat?: 'png' | 'webp';
+  outputQuality?: number;
+  disableSafetyChecker?: boolean;
+}
+
+export interface PrunaAIConfig {
+  apiToken: string;
+  disableSafetyChecker?: boolean;
+}
+
+export interface LumaPhotonConfig {
+  apiToken: string;
+  aspectRatio?: '1:1' | '3:4' | '4:3' | '16:9' | '9:16' | '21:9';
+  imageReferenceWeight?: number;
+  styleReferenceWeight?: number;
+  model?: 'luma/photon' | 'luma/photon-flash';
+}
+
+/**
+ * Generate image using Tencent Hunyuan Image 3 (NSFW filter can be disabled)
+ */
+export async function generateWithHunyuan3(
+  prompt: string,
+  config: Hunyuan3Config
+): Promise<string[]> {
+  const { apiToken, width = 768, height = 1024, outputFormat = 'png', outputQuality = 100, disableSafetyChecker = true } = config;
+
+  if (!apiToken) {
+    throw new Error('Replicate API token is required for Hunyuan3');
+  }
+
+  console.log('🎨 Hunyuan3: Calling tencent/hunyuan-image-3');
+  console.log(`   NSFW Safety Checker: ${disableSafetyChecker ? 'DISABLED' : 'ENABLED'}`);
+
+  // Use proxy server to avoid CORS issues (supports remote dev via Tailscale)
+  const PROXY_URL = getProxyBaseUrl();
+
+  const input: any = {
+    prompt,
+    width,
+    height,
+    output_format: outputFormat,
+    output_quality: outputQuality,
+    disable_safety_checker: disableSafetyChecker,
+  };
+
+  // Fetch model version via proxy
+  const version = await fetchModelVersion('tencent/hunyuan-image-3' as ReplicateModel, apiToken, PROXY_URL);
+
+  // Create prediction via proxy
+  const createResponse = await fetch(`${PROXY_URL}/api/replicate/predictions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: apiToken,
+      version: version,
+      input,
+    }),
+  });
+
+  if (!createResponse.ok) {
+    const errorText = await createResponse.text();
+    throw new Error(`Hunyuan3 API error: ${createResponse.status} - ${errorText}`);
+  }
+
+  const prediction = await createResponse.json();
+
+  // Poll for completion if needed
+  if (prediction.status !== 'succeeded') {
+    return await pollForCompletionViaProxy(prediction.id, apiToken, PROXY_URL);
+  }
+
+  // Extract image URLs from output
+  const output = prediction.output;
+  if (Array.isArray(output)) {
+    return output.map((item: any) => typeof item === 'string' ? item : item.url?.() || item.url || item);
+  }
+
+  return output ? [output] : [];
+}
+
+/**
+ * Generate image using PrunaAI P-Image (NSFW filter can be disabled)
+ */
+export async function generateWithPrunaAI(
+  prompt: string,
+  config: PrunaAIConfig
+): Promise<string[]> {
+  const { apiToken, disableSafetyChecker = true } = config;
+
+  if (!apiToken) {
+    throw new Error('Replicate API token is required for PrunaAI');
+  }
+
+  console.log('🎨 PrunaAI: Calling prunaai/p-image');
+  console.log(`   NSFW Safety Checker: ${disableSafetyChecker ? 'DISABLED' : 'ENABLED'}`);
+
+  // Use proxy server to avoid CORS issues (supports remote dev via Tailscale)
+  const PROXY_URL = getProxyBaseUrl();
+
+  const input: any = {
+    prompt,
+    disable_safety_checker: disableSafetyChecker,
+  };
+
+  // Fetch model version via proxy
+  const version = await fetchModelVersion('prunaai/p-image' as ReplicateModel, apiToken, PROXY_URL);
+
+  // Create prediction via proxy
+  const createResponse = await fetch(`${PROXY_URL}/api/replicate/predictions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: apiToken,
+      version: version,
+      input,
+    }),
+  });
+
+  if (!createResponse.ok) {
+    const errorText = await createResponse.text();
+    throw new Error(`PrunaAI API error: ${createResponse.status} - ${errorText}`);
+  }
+
+  const prediction = await createResponse.json();
+
+  // Poll for completion if needed
+  if (prediction.status !== 'succeeded') {
+    return await pollForCompletionViaProxy(prediction.id, apiToken, PROXY_URL);
+  }
+
+  // Extract image URL from output
+  const output = prediction.output;
+  if (typeof output === 'string') {
+    return [output];
+  }
+  if (output?.url) {
+    return [typeof output.url === 'function' ? output.url() : output.url];
+  }
+
+  return output ? [output] : [];
+}
+
+/**
+ * Generate image using Luma Photon (creative high-quality generation)
+ */
+export async function generateWithLumaPhoton(
+  prompt: string,
+  config: LumaPhotonConfig
+): Promise<string[]> {
+  const { apiToken, aspectRatio = '3:4', imageReferenceWeight = 0.85, styleReferenceWeight = 0.85, model = 'luma/photon' } = config;
+
+  if (!apiToken) {
+    throw new Error('Replicate API token is required for Luma Photon');
+  }
+
+  console.log('🎨 Luma Photon: Calling', model);
+  console.log(`   Aspect Ratio: ${aspectRatio}`);
+
+  // Use proxy server to avoid CORS issues (supports remote dev via Tailscale)
+  const PROXY_URL = getProxyBaseUrl();
+
+  const input: any = {
+    prompt,
+    aspect_ratio: aspectRatio,
+    image_reference_weight: imageReferenceWeight,
+    style_reference_weight: styleReferenceWeight,
+  };
+
+  // Fetch model version via proxy
+  const version = await fetchModelVersion(model as ReplicateModel, apiToken, PROXY_URL);
+
+  // Create prediction via proxy
+  const createResponse = await fetch(`${PROXY_URL}/api/replicate/predictions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: apiToken,
+      version: version,
+      input,
+    }),
+  });
+
+  if (!createResponse.ok) {
+    const errorText = await createResponse.text();
+    throw new Error(`Luma Photon API error: ${createResponse.status} - ${errorText}`);
+  }
+
+  const prediction = await createResponse.json();
+
+  // Poll for completion if needed
+  if (prediction.status !== 'succeeded') {
+    return await pollForCompletionViaProxy(prediction.id, apiToken, PROXY_URL);
+  }
+
+  // Extract image URL from output
+  const output = prediction.output;
+  if (typeof output === 'string') {
+    return [output];
+  }
+  if (output?.url) {
+    return [typeof output.url === 'function' ? output.url() : output.url];
+  }
+
+  return output ? [output] : [];
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// LUCID ORIGIN CONFIGURATION
+// ═══════════════════════════════════════════════════════════════════════════════
+
+export type LucidOriginStyleType =
+  | 'bokeh' | 'cinematic' | 'cinematic_close_up' | 'creative' | 'dynamic'
+  | 'fashion' | 'film' | 'food' | 'hdr' | 'long_exposure' | 'macro'
+  | 'minimalist' | 'monochrome' | 'moody' | 'neutral' | 'none'
+  | 'portrait' | 'retro' | 'stock_photo' | 'unprocessed' | 'vibrant';
+
+export interface LucidOriginConfig {
+  apiToken: string;
+  style?: LucidOriginStyleType;
+  contrast?: 'low' | 'medium' | 'high';
+  aspectRatio?: string; // '1:1', '16:9', '9:16', '3:4', etc.
+  generationMode?: 'standard' | 'ultra';
+  promptEnhance?: boolean;
+  numImages?: number;
+}
+
+/**
+ * Generate image using Leonardo AI Lucid Origin
+ * High-quality artistic visuals with style presets and improved prompt adherence
+ */
+export async function generateWithLucidOrigin(
+  prompt: string,
+  config: LucidOriginConfig
+): Promise<string[]> {
+  const {
+    apiToken,
+    style = 'fashion',
+    contrast = 'medium',
+    aspectRatio = '3:4',
+    generationMode = 'ultra',
+    promptEnhance = false,
+    numImages = 1
+  } = config;
+
+  if (!apiToken) {
+    throw new Error('Replicate API token is required for Lucid Origin');
+  }
+
+  console.log('🎨 Lucid Origin: Calling leonardoai/lucid-origin');
+  console.log(`   Style: ${style}`);
+  console.log(`   Contrast: ${contrast}`);
+  console.log(`   Mode: ${generationMode}`);
+  console.log(`   Prompt Enhancement: ${promptEnhance ? 'ON' : 'OFF'}`);
+
+  // Use proxy server to avoid CORS issues (supports remote dev via Tailscale)
+  const PROXY_URL = getProxyBaseUrl();
+
+  const input: any = {
+    prompt,
+    style,
+    contrast,
+    aspect_ratio: aspectRatio,
+    generation_mode: generationMode,
+    prompt_enhance: promptEnhance,
+    num_images: numImages
+  };
+
+  // Fetch model version via proxy
+  const version = await fetchModelVersion('leonardoai/lucid-origin' as ReplicateModel, apiToken, PROXY_URL);
+
+  // Create prediction via proxy
+  const createResponse = await fetch(`${PROXY_URL}/api/replicate/predictions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      token: apiToken,
+      version: version,
+      input,
+    }),
+  });
+
+  if (!createResponse.ok) {
+    const errorText = await createResponse.text();
+    throw new Error(`Lucid Origin API error: ${createResponse.status} - ${errorText}`);
+  }
+
+  const prediction = await createResponse.json();
+
+  // Poll for completion if needed
+  if (prediction.status !== 'succeeded') {
+    return await pollForCompletionViaProxy(prediction.id, apiToken, PROXY_URL);
+  }
+
+  // Extract image URLs from output (Lucid Origin returns array of FileOutput)
+  const output = prediction.output;
+  if (Array.isArray(output)) {
+    return output.map((item: any) => {
+      if (typeof item === 'string') return item;
+      if (typeof item.url === 'function') return item.url();
+      if (item.url) return item.url;
+      return item;
+    });
+  }
+
+  if (typeof output === 'string') return [output];
+  if (output?.url) return [typeof output.url === 'function' ? output.url() : output.url];
+
+  return output ? [output] : [];
+}
+
+/**
+ * Poll for prediction completion via proxy server (avoids CORS)
+ */
+async function pollForCompletionViaProxy(predictionId: string, apiToken: string, proxyUrl: string, maxAttempts: number = 60): Promise<string[]> {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const response = await fetch(`${proxyUrl}/api/replicate/predictions/${predictionId}`, {
+      headers: { 'Authorization': `Bearer ${apiToken}` },
+    });
+
+    if (!response.ok) continue;
+
+    const prediction = await response.json();
+
+    if (prediction.status === 'succeeded') {
+      const output = prediction.output;
+      if (Array.isArray(output)) {
+        return output.map((item: any) => typeof item === 'string' ? item : item.url?.() || item.url || item);
+      }
+      if (typeof output === 'string') return [output];
+      if (output?.url) return [typeof output.url === 'function' ? output.url() : output.url];
+      return [];
+    }
+
+    if (prediction.status === 'failed' || prediction.status === 'canceled') {
+      throw new Error(`Prediction failed: ${prediction.error || 'Unknown error'}`);
+    }
+
+    console.log(`⏳ Polling attempt ${attempt + 1}/${maxAttempts}, status: ${prediction.status}`);
+  }
+
+  throw new Error('Prediction timed out after max attempts');
+}
+
+/**
+ * Poll for prediction completion (direct API - kept for backwards compatibility)
+ */
+async function pollForCompletion(predictionId: string, apiToken: string, maxAttempts: number = 60): Promise<string[]> {
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    await new Promise(resolve => setTimeout(resolve, 2000));
+
+    const response = await fetch(`https://api.replicate.com/v1/predictions/${predictionId}`, {
+      headers: { 'Authorization': `Bearer ${apiToken}` },
+    });
+
+    if (!response.ok) continue;
+
+    const prediction = await response.json();
+
+    if (prediction.status === 'succeeded') {
+      const output = prediction.output;
+      if (Array.isArray(output)) {
+        return output.map((item: any) => typeof item === 'string' ? item : item.url?.() || item.url || item);
+      }
+      if (typeof output === 'string') return [output];
+      if (output?.url) return [typeof output.url === 'function' ? output.url() : output.url];
+      return [];
+    }
+
+    if (prediction.status === 'failed' || prediction.status === 'canceled') {
+      throw new Error(`Prediction failed: ${prediction.error || 'Unknown error'}`);
+    }
+  }
+
+  throw new Error('Prediction timed out');
 }

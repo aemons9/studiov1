@@ -10,7 +10,10 @@
  * - Reel publishing via Instagram Graph API
  */
 
-const PROXY_BASE = 'http://localhost:3001';
+import { getProxyBaseUrl } from '../../utils/sharedAuthManager';
+
+// Dynamic proxy URL for remote development support
+const getProxyBase = () => getProxyBaseUrl();
 
 // ============================================================================
 // TYPES
@@ -82,7 +85,7 @@ export interface FullReelPublishOptions {
  */
 export async function getMusicLibrary(): Promise<MusicTrack[]> {
   try {
-    const response = await fetch(`${PROXY_BASE}/api/music/library`);
+    const response = await fetch(`${getProxyBase()}/api/music/library`);
     const data = await response.json();
 
     if (!response.ok || !data.success) {
@@ -106,7 +109,7 @@ export async function uploadMusic(file: File): Promise<{
   error?: string;
 }> {
   try {
-    const response = await fetch(`${PROXY_BASE}/api/music/upload`, {
+    const response = await fetch(`${getProxyBase()}/api/music/upload`, {
       method: 'POST',
       headers: {
         'Content-Type': file.type || 'audio/mpeg',
@@ -141,7 +144,7 @@ export async function createVideo(options: CreateVideoOptions): Promise<CreateVi
   try {
     console.log('🎬 Creating video from image...');
 
-    const response = await fetch(`${PROXY_BASE}/api/reels/create-video`, {
+    const response = await fetch(`${getProxyBase()}/api/reels/create-video`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -192,7 +195,7 @@ export async function publishReel(options: PublishReelOptions): Promise<PublishR
   try {
     console.log('🎬 Publishing Reel to Instagram...');
 
-    const response = await fetch(`${PROXY_BASE}/api/instagram/publish-reel`, {
+    const response = await fetch(`${getProxyBase()}/api/instagram/publish-reel`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -242,7 +245,7 @@ export async function createAndPublishReel(options: FullReelPublishOptions): Pro
   try {
     console.log('🎬 Starting full Reel creation and publishing...');
 
-    const response = await fetch(`${PROXY_BASE}/api/reels/upload-and-publish`, {
+    const response = await fetch(`${getProxyBase()}/api/reels/upload-and-publish`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -295,7 +298,7 @@ export async function createAndPublishReel(options: FullReelPublishOptions): Pro
  */
 export async function isReelsServiceAvailable(): Promise<boolean> {
   try {
-    const response = await fetch(`${PROXY_BASE}/health`);
+    const response = await fetch(`${getProxyBase()}/health`);
     return response.ok;
   } catch {
     return false;

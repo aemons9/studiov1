@@ -108,7 +108,7 @@ export interface LevelCategory {
   description: string;
 }
 
-export type ImageProvider = 'vertex-ai' | 'replicate-flux';
+export type ImageProvider = 'vertex-ai' | 'replicate-flux' | 'replicate-imagineart' | 'replicate-hunyuan3' | 'replicate-prunaai' | 'replicate-lumaphoton' | 'replicate-lucidorigin';
 
 export type FluxModel =
   | 'black-forest-labs/flux-1.1-pro-ultra'
@@ -116,7 +116,32 @@ export type FluxModel =
   | 'black-forest-labs/flux-dev'
   | 'black-forest-labs/flux-schnell';
 
+export type ImagineArtModel =
+  | 'imagineart/imagineart-1.0';
+
+export type HunyuanModel =
+  | 'tencent/hunyuan-image-3';
+
+export type PrunaAIModel =
+  | 'prunaai/p-image';
+
+export type LumaPhotonModel =
+  | 'luma/photon'
+  | 'luma/photon-flash';
+
+export type LucidOriginModel =
+  | 'leonardoai/lucid-origin';
+
+export type LucidOriginStyle =
+  | 'bokeh' | 'cinematic' | 'cinematic_close_up' | 'creative' | 'dynamic'
+  | 'fashion' | 'film' | 'food' | 'hdr' | 'long_exposure' | 'macro'
+  | 'minimalist' | 'monochrome' | 'moody' | 'neutral' | 'none'
+  | 'portrait' | 'retro' | 'stock_photo' | 'unprocessed' | 'vibrant';
+
+export type ReplicateModel = FluxModel | ImagineArtModel | HunyuanModel | PrunaAIModel | LumaPhotonModel | LucidOriginModel;
+
 export type SafetyBypassStrategy =
+  | 'vera2'          // Vera Strategy 2 - Adaptive failure-proof with safe language mapping
   | 'auto'           // Smart cascade - tries everything automatically
   | 'conservative'   // Only Gemini rewrite, no translation
   | 'balanced'       // Gemini + Translation if needed
@@ -124,7 +149,15 @@ export type SafetyBypassStrategy =
   | 'ultraoptimizer' // Ultra Optimizer - Sophisticated prompt engineering with Art Directors Declaration
   | 'aggressive'     // Gemini + Translation + Flux with high tolerance
   | 'nuclear-imagen' // Translation + Imagen 4 max bypass, no Flux
-  | 'nuclear';       // Direct to translation + Flux max tolerance
+  | 'nuclear'        // Direct to translation + Flux max tolerance
+  | 'meeranuke'      // MeeraNuke - Ultimate strategy: Nuclear + Vera2 + Ultra + Meera locking
+  | 'lucidorigin'    // LucidOrigin - Leonardo AI style-based artistic optimization
+  | 'recursive'      // Recursive Prompting (RLM) - MIT CSAIL strategy with component decomposition
+  | 'rlm-vera'       // Hybrid: RLM component decomposition + Vera optimization (Art Directors Declaration)
+  | 'rlm-vera2'      // Hybrid: RLM component decomposition + Vera2 safe language mapping
+  | 'rlm-nuclear-imagen' // Hybrid: RLM component decomposition + Nuclear translation bypass
+  | 'rlm-meeranuke'  // Hybrid: RLM component decomposition + MeeraNuke ultimate combo
+  | 'ultra-rlm';     // Ultra RLM - Enhanced recursive prompting with hyper-detailed components and proven quality patterns
 
 export interface GenerationSettings {
   // Provider Selection
@@ -158,6 +191,33 @@ export interface GenerationSettings {
   fluxSafetyTolerance?: number; // 1-6, higher = more permissive
   fluxOutputFormat?: 'jpg' | 'png'; // Output image format (per Flux API schema)
   fluxImagePrompt?: string; // Data URI of image for image-to-image generation
+
+  // Replicate ImagineArt Settings
+  imagineArtModel?: ImagineArtModel;
+  replicateModel?: ReplicateModel; // Generic replicate model selection
+
+  // Replicate Hunyuan Image 3 Settings (tencent/hunyuan-image-3)
+  hunyuanModel?: HunyuanModel;
+  hunyuanDisableSafetyChecker?: boolean; // disable_safety_checker: true
+  hunyuanOutputFormat?: 'png' | 'webp';
+  hunyuanOutputQuality?: number; // 1-100
+
+  // Replicate PrunaAI P-Image Settings (prunaai/p-image)
+  prunaaiModel?: PrunaAIModel;
+  prunaaiDisableSafetyChecker?: boolean; // disable_safety_checker: true
+
+  // Replicate Luma Photon Settings (luma/photon, luma/photon-flash)
+  lumaPhotonModel?: LumaPhotonModel;
+  lumaPhotonAspectRatio?: '1:1' | '3:4' | '4:3' | '16:9' | '9:16' | '21:9';
+  lumaPhotonImageRefWeight?: number; // 0-1, default 0.85
+  lumaPhotonStyleRefWeight?: number; // 0-1, default 0.85
+
+  // Replicate Leonardo AI Lucid Origin Settings (leonardoai/lucid-origin)
+  lucidOriginModel?: LucidOriginModel;
+  lucidOriginStyle?: LucidOriginStyle; // Style preset (fashion, cinematic, moody, etc.)
+  lucidOriginContrast?: 'low' | 'medium' | 'high';
+  lucidOriginGenerationMode?: 'standard' | 'ultra'; // Ultra = max quality
+  lucidOriginPromptEnhance?: boolean; // Enable/disable prompt enhancement
 
   // Weaving Settings (for using Google Gemini weaving with Flux generation)
   weavingProjectId?: string; // Google Cloud Project ID for weaving only

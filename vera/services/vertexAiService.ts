@@ -2,7 +2,7 @@ import { Prompt, GenerationSettings } from '../types';
 import { INDIAN_GLAMOUR_MODELS, ALL_ARTISTIC_CONCEPTS as ARTISTIC_CONCEPTS, PHOTOGRAPHER_STYLES } from '../constants';
 import { INDIAN_CORPORATE_VARIANTS } from "../corporateModels";
 import { getPhotographerById } from '../photographerStyles';
-import { getOAuthToken, getProjectId } from '../../utils/sharedAuthManager';
+import { getOAuthToken, getProjectId, refreshOAuthToken, checkTokenExpiration } from '../../utils/sharedAuthManager';
 
 // Get VertexAI credentials from localStorage or shared auth manager
 function getVertexAICredentials(): { projectId: string; oauthToken: string } {
@@ -21,6 +21,24 @@ function getVertexAICredentials(): { projectId: string; oauthToken: string } {
   }
 
   return { projectId, oauthToken };
+}
+
+// Get credentials with auto-refresh capability for video generation
+async function getVertexAICredentialsWithRefresh(): Promise<{ projectId: string; oauthToken: string }> {
+  const { isExpired, isExpiringSoon } = checkTokenExpiration();
+
+  // If token is expired or expiring soon, try to refresh
+  if (isExpired || isExpiringSoon) {
+    console.log('🔄 OAuth token needs refresh for Veo...');
+    const newToken = await refreshOAuthToken();
+    if (newToken) {
+      const projectId = getProjectId() || 'zaranovel';
+      return { projectId, oauthToken: newToken };
+    }
+  }
+
+  // Fall back to regular credentials
+  return getVertexAICredentials();
 }
 
 // Helper function to make authenticated requests to VertexAI
@@ -265,14 +283,17 @@ export const generateImage = async (
 };
 
 export const generateVideo = async (prompt: string, onStatusUpdate: (status: string) => void): Promise<string> => {
-  const { projectId, oauthToken } = getVertexAICredentials();
+  // Use auto-refresh version to ensure fresh OAuth token
+  const { projectId, oauthToken } = await getVertexAICredentialsWithRefresh();
   const location = 'us-central1';
+  const modelId = 'veo-3.1-generate-preview';
 
   try {
     onStatusUpdate('Submitting Veo 3.1 video generation job via VertexAI...');
+    console.log('🎬 Veo request:', { prompt: prompt.substring(0, 100), projectId, location });
 
-    // Submit video generation request
-    const submitUrl = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/veo-3.1-generate-preview:predict`;
+    // Use predictLongRunning endpoint for async video generation
+    const submitUrl = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/${modelId}:predictLongRunning`;
 
     const submitResponse = await fetch(submitUrl, {
       method: 'POST',
@@ -286,69 +307,120 @@ export const generateVideo = async (prompt: string, onStatusUpdate: (status: str
         }],
         parameters: {
           sampleCount: 1,
+          durationSeconds: '8',
           resolution: '720p',
           aspectRatio: '16:9',
+          personGeneration: 'allow_adult',
+          addWatermark: true,
+          includeRaiReason: true,
+          generateAudio: true,
         }
       }),
     });
 
     if (!submitResponse.ok) {
       const errorText = await submitResponse.text();
+      console.error('❌ Veo API Error:', errorText);
+
+      // Check for specific error types
+      if (submitResponse.status === 401 || submitResponse.status === 403) {
+        throw new Error(`Authentication failed. Please refresh your OAuth token. Status: ${submitResponse.status}`);
+      }
+      if (submitResponse.status === 429) {
+        throw new Error('Quota exceeded. Please try again later or check your GCP quota limits.');
+      }
+      if (submitResponse.status === 404) {
+        throw new Error('Veo model not found. Ensure veo-3.1-generate-preview is enabled in your project.');
+      }
+
       throw new Error(`VertexAI video generation error: ${submitResponse.status} - ${errorText}`);
     }
 
     const submitResult = await submitResponse.json();
     const operationName = submitResult.name;
+    console.log('✅ Veo Operation Started:', operationName);
 
     if (!operationName) {
       throw new Error('No operation name received from VertexAI video generation.');
     }
 
-    onStatusUpdate('Job submitted. Polling for results (this may take several minutes)...');
+    onStatusUpdate('Job submitted. Polling for results (this may take 2-5 minutes)...');
 
-    // Poll for completion
-    let operation = submitResult;
-    while (!operation.done) {
-      await new Promise(resolve => setTimeout(resolve, 10000)); // Poll every 10 seconds
+    // Poll using fetchPredictOperation endpoint (correct method for Veo)
+    let attempts = 0;
+    const maxAttempts = 100; // ~8 minutes at 5 second intervals
 
-      const pollUrl = `https://${location}-aiplatform.googleapis.com/v1/${operationName}`;
+    while (attempts < maxAttempts) {
+      await new Promise(resolve => setTimeout(resolve, 5000)); // Poll every 5 seconds
+      attempts++;
+
+      const pollUrl = `https://${location}-aiplatform.googleapis.com/v1/projects/${projectId}/locations/${location}/publishers/google/models/${modelId}:fetchPredictOperation`;
+
       const pollResponse = await fetch(pollUrl, {
-        method: 'GET',
+        method: 'POST',
         headers: {
           'Authorization': `Bearer ${oauthToken}`,
+          'Content-Type': 'application/json',
         },
+        body: JSON.stringify({
+          operationName: operationName
+        }),
       });
 
       if (!pollResponse.ok) {
-        throw new Error(`Failed to poll operation status: ${pollResponse.statusText}`);
+        console.warn(`Poll attempt ${attempts} failed:`, pollResponse.statusText);
+        continue; // Keep trying
       }
 
-      operation = await pollResponse.json();
-      onStatusUpdate(`Processing... Hang tight, high-quality video takes time.`);
+      const operation = await pollResponse.json();
+      console.log(`📊 Poll ${attempts}/${maxAttempts}:`, operation.done ? 'DONE' : 'Processing...');
+
+      if (operation.done === true) {
+        // Check for error in completed operation
+        if (operation.error) {
+          throw new Error(`Video generation failed: ${operation.error.message || 'Unknown error'}`);
+        }
+
+        // Get video data
+        const predictions = operation.response?.predictions;
+        if (!predictions || predictions.length === 0) {
+          throw new Error("Video generation succeeded, but no predictions found.");
+        }
+
+        const videoBase64 = predictions[0].bytesBase64Encoded;
+        if (!videoBase64) {
+          // Check if there's a GCS URI instead
+          const gcsUri = predictions[0].gcsUri;
+          if (gcsUri) {
+            throw new Error(`Video saved to GCS: ${gcsUri}. Direct download not supported - please check your GCS bucket.`);
+          }
+          throw new Error("Video generation succeeded, but no video data was found.");
+        }
+
+        onStatusUpdate('Operation complete. Processing video...');
+
+        // Convert base64 to blob
+        const byteCharacters = atob(videoBase64);
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+        const videoBlob = new Blob([byteArray], { type: 'video/mp4' });
+        const videoUrl = URL.createObjectURL(videoBlob);
+
+        onStatusUpdate('Video ready!');
+        console.log('✅ Video generation complete!');
+        return videoUrl;
+      }
+
+      onStatusUpdate(`Processing... ${Math.round((attempts / maxAttempts) * 100)}% (attempt ${attempts}/${maxAttempts})`);
     }
 
-    onStatusUpdate('Operation complete. Downloading video file...');
-
-    const videoUri = operation.response?.predictions?.[0]?.bytesBase64Encoded;
-    if (!videoUri) {
-      throw new Error("Video generation succeeded, but no video data was found.");
-    }
-
-    // Convert base64 to blob
-    const byteCharacters = atob(videoUri);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const videoBlob = new Blob([byteArray], { type: 'video/mp4' });
-    const videoUrl = URL.createObjectURL(videoBlob);
-
-    onStatusUpdate('Video ready!');
-    return videoUrl;
+    throw new Error('Timeout: Video generation took too long. Please try again.');
 
   } catch (error) {
-    console.error("Error generating video via VertexAI:", error);
+    console.error("❌ Error generating video via VertexAI:", error);
     throw new Error(`Failed to generate video via VertexAI. ${error instanceof Error ? error.message : ''}`);
   }
 };

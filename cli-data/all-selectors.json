@@ -1,0 +1,2585 @@
+{
+  "meta": {
+    "extractedAt": "2026-01-05T19:41:10.524Z",
+    "version": "1.0.0",
+    "source": "VERALABS AI Studio Web App"
+  },
+  "mainMode": {
+    "shot": [
+      {
+        "name": "Ultra Close-up",
+        "value": "Ultra close-up editorial (9:16), focusing on intricate details."
+      },
+      {
+        "name": "Intimate Close-up",
+        "value": "Intimate close-up shot, focusing on a specific feature like the lips, eyes, or hands, creating a sense of closeness and personal connection."
+      },
+      {
+        "name": "Sensual Detail Shot",
+        "value": "A macro or detail shot focusing on the texture of fabric against skin, the curve of the neck, or the line of the collarbone, emphasizing sensuality through detail."
+      },
+      {
+        "name": "Artistic Body-scape",
+        "value": "An abstract, artistic shot that frames the body as a landscape, using light and shadow to create shapes and lines rather than a traditional portrait."
+      },
+      {
+        "name": "Close-up Portrait",
+        "value": "Close-up portrait shot, from the shoulders up, capturing emotion."
+      },
+      {
+        "name": "Medium Shot",
+        "value": "Medium shot from the waist up, showing the subject and their immediate environment."
+      },
+      {
+        "name": "Cowboy Shot",
+        "value": "Cowboy shot, framed from mid-thigh up, ideal for showing action or confidence."
+      },
+      {
+        "name": "Full Body Shot",
+        "value": "Full body shot, capturing the entire subject from head to toe, showcasing wardrobe and pose."
+      }
+    ],
+    "pose": [
+      {
+        "name": "Architectural Power Stance",
+        "value": "Standing with a powerful, almost architectural posture, one arm raised, creating strong lines that emphasize the structure of the garment. Torso is slightly twisted, revealing the midriff. Wide, stable stance."
+      },
+      {
+        "name": "Relaxed Supine (Overhead)",
+        "value": "Lying on back on a simple white sheet on the floor, arms resting loosely at sides. The pose is vulnerable and completely relaxed, turning the body into a flat canvas for light and shadow."
+      },
+      {
+        "name": "Dynamic Motion",
+        "value": "Captured mid-motion, as if gracefully pivoting or stepping. Her torso is in a subtle, elegant twist. The pose feels candid, yet perfectly composed."
+      },
+      {
+        "name": "Confident Stand",
+        "value": "Standing confidently, facing the camera with a strong posture, one hand on hip, looking directly into the lens."
+      },
+      {
+        "name": "Relaxed Sitting",
+        "value": "Sitting on a vintage chair, leaning slightly forward with crossed legs, exuding a relaxed and engaging expression."
+      },
+      {
+        "name": "Elegant Recline",
+        "value": "Reclining gracefully on a velvet chaise lounge, creating long, elegant lines with the body, head tilted back slightly."
+      },
+      {
+        "name": "Leaning on Wall",
+        "value": "Casually leaning against a textured wall, one leg bent, creating a relaxed but composed triangular shape with the body."
+      },
+      {
+        "name": "Kneeling Glance",
+        "value": "Kneeling on the floor on one or both knees, body angled slightly away, glancing softly over the shoulder at the camera."
+      },
+      {
+        "name": "Kneeling Over-the-Shoulder",
+        "value": "Kneeling on the floor facing away from the camera, head and torso twisted to look back over the shoulder, creating a dynamic and alluring line."
+      },
+      {
+        "name": "Relaxed & Vulnerable",
+        "value": "Lying on a soft surface like a bed or rug, looking at the camera with a soft, relaxed expression, conveying a sense of trust and vulnerability."
+      },
+      {
+        "name": "Confident & Bold Stare",
+        "value": "Seated, leaning forward with elbows on knees, looking directly and intensely into the camera with a powerful and confident expression."
+      },
+      {
+        "name": "Thoughtful & Enchanting Glance",
+        "value": "Subject is turned slightly away from the camera, looking off-frame with a thoughtful or distant expression, lit by soft window light."
+      },
+      {
+        "name": "Candid Walking",
+        "value": "Captured mid-stride while walking towards the camera on a city street, with natural movement and a slight, confident smile."
+      },
+      {
+        "name": "Candid Laughter",
+        "value": "A genuine moment of laughter, head tilted back slightly, eyes sparkling with joy. A natural, unposed expression."
+      },
+      {
+        "name": "Leaning Forward Intently",
+        "value": "Leaning forward over a table or surface, hands clasped, with an intense and focused gaze towards the camera, creating a feeling of intimacy and engagement."
+      },
+      {
+        "name": "Mid-Twirl",
+        "value": "Captured in the middle of a graceful twirl, with fabric flowing and a sense of dynamic, joyful motion."
+      },
+      {
+        "name": "Reaching Towards Camera",
+        "value": "One hand gently reaching towards the camera lens, creating a sense of connection and breaking the fourth wall."
+      },
+      {
+        "name": "Arching Back on Bed",
+        "value": "Lying on a bed, back gently arched to create a graceful curve, head turned towards the camera with a soft expression."
+      },
+      {
+        "name": "Seated Highlighting Curves",
+        "value": "Seated on the edge of a chair or floor, one leg drawn up, torso twisted to emphasize the natural curves of the waist and hips."
+      },
+      {
+        "name": "Prone Glance Back",
+        "value": "Lying on stomach, propped up on elbows, looking back over the shoulder at the camera. A pose that is both relaxed and engaging."
+      },
+      {
+        "name": "Draped Over Furniture",
+        "value": "Casually and elegantly draped over a piece of furniture like a sofa arm or chaise lounge, creating long, flowing lines."
+      },
+      {
+        "name": "Hands Tracing Form",
+        "value": "Pose where one or both hands are gently tracing the lines of the body, such as the waist, hip, or collarbone, suggesting intimacy and self-awareness."
+      },
+      {
+        "name": "Dynamic Floor S-Curve",
+        "value": "Sitting on the floor in a dynamic S-curve, one leg extended, torso twisted with one arm braced behind, creating a fluid, sculptural line."
+      },
+      {
+        "name": "Commanding Seated Lean",
+        "value": "Seated on a low stool, leaning to one side with a powerful, commanding expression, looking down towards the camera."
+      },
+      {
+        "name": "Power Arch (Seated)",
+        "value": "Seated on a low stool, leaning back on her hands, arching her back with chin tilted up, exuding dominance and power."
+      },
+      {
+        "name": "Contemplative Seated Curl",
+        "value": "Seated on the floor, curled slightly with knees drawn up and arms wrapped around them, head bowed in a thoughtful, classical pose."
+      },
+      {
+        "name": "Confident Recline on Bed",
+        "value": "Reclining on a messy bed with an arm resting behind her head, one leg bent, exuding a bold and natural confidence."
+      }
+    ],
+    "hairColor": [
+      {
+        "name": "Dark",
+        "value": "dark"
+      },
+      {
+        "name": "Blonde",
+        "value": "blonde"
+      },
+      {
+        "name": "Red",
+        "value": "red"
+      },
+      {
+        "name": "Pastel Pink",
+        "value": "pastel pink"
+      },
+      {
+        "name": "Jet Black",
+        "value": "jet black"
+      },
+      {
+        "name": "Honey Blonde",
+        "value": "honey blonde"
+      },
+      {
+        "name": "Silver Gray",
+        "value": "silver gray"
+      },
+      {
+        "name": "Deep Auburn",
+        "value": "deep auburn"
+      }
+    ],
+    "hairStyle": [
+      {
+        "name": "Flowing Ponytail",
+        "value": "elegant, flowing ponytail"
+      },
+      {
+        "name": "Sharp Bob",
+        "value": "sharp, asymmetrical bob"
+      },
+      {
+        "name": "Long Loose Waves",
+        "value": "long, loose waves with a few stray strands catching the light"
+      },
+      {
+        "name": "Slicked-Back (Severe)",
+        "value": "a severe, slicked-back style, creating a sharp and modern look."
+      },
+      {
+        "name": "Messy Bun",
+        "value": "a messy bun with face-framing tendrils for a relaxed, candid feel."
+      },
+      {
+        "name": "Sleek & Straight",
+        "value": "long dark hair styled sleek and straight for a graphic, high-fashion look."
+      },
+      {
+        "name": "Loose Low Bun",
+        "value": "long dark hair tied in a loose, low bun with strands escaping, creating a soft, elegant look."
+      },
+      {
+        "name": "Polished High Bun",
+        "value": "a polished, sleek high bun, for an elegant and statuesque profile."
+      }
+    ],
+    "tattoos": [],
+    "piercings": [],
+    "bodyArt": [],
+    "nailArt": [],
+    "highHeels": [],
+    "skinFinish": [],
+    "handAndNailDetails": [],
+    "skinMicroDetails": [],
+    "fabricPhysics": [],
+    "materialProperties": [],
+    "lighting": [
+      {
+        "name": "Cinematic Volumetric Lighting",
+        "value": "Cinematic volumetric lighting, with strong beams of light cutting through atmospheric haze, creating a sense of depth and mystery."
+      },
+      {
+        "name": "Soft Diffused Studio Light",
+        "value": "Soft, diffused studio lighting that eliminates harsh shadows and provides an even, flattering illumination, perfect for beauty shots."
+      },
+      {
+        "name": "Dramatic Rim Lighting",
+        "value": "Dramatic rim lighting that outlines the subject against a dark background, emphasizing their silhouette and creating a bold, graphic effect."
+      },
+      {
+        "name": "Bioluminescent Glow",
+        "value": "Bioluminescent lighting, with soft, natural glows emanating from fantastical flora or otherworldly sources, creating an enchanting and magical ambiance."
+      },
+      {
+        "name": "Dynamic Strobe Flash",
+        "value": "Strobe lighting with sharp, fast flashes, creating a sense of dynamic motion and high energy, with distinct frozen moments."
+      },
+      {
+        "name": "Dappled Light (Venetian Blinds)",
+        "value": "Sunlight or moonlight filtering through Venetian blinds, casting a dramatic pattern of sharp light and shadow stripes across the subject and the room."
+      },
+      {
+        "name": "Soft Clamshell Lighting",
+        "value": "Classic beauty lighting setup with two soft light sources on the subject from above and below, creating a clean, glamorous look with minimal shadows."
+      },
+      {
+        "name": "Hard High-Angle Studio",
+        "value": "Hard, directional warm studio lighting from a high side angle, creating dramatic, sharp shadows and brilliant highlights that intricately sculpt textures."
+      },
+      {
+        "name": "Filtered Light Moiré Pattern",
+        "value": "Sunlight filtered through two layers of patterned lace or mesh curtains, creating a complex, soft-edged moiré or cross-hatch shadow pattern."
+      },
+      {
+        "name": "Soft Side-Wrap Light (Octabox)",
+        "value": "A single, large, soft light source (like a large octabox softbox) placed to the side and slightly behind, creating a soft, wrapping light that highlights contours."
+      },
+      {
+        "name": "Painterly Chiaroscuro (Caravaggio)",
+        "value": "Dramatic, single-source Chiaroscuro lighting from the side and slightly above, illuminating part of the form while the rest of a falls into deep shadow, in the style of Caravaggio."
+      },
+      {
+        "name": "Moody Bedside Lamp",
+        "value": "Moody cinematic lighting from a single bedside lamp, creating deep shadows and a glamorous, intimate feel."
+      }
+    ],
+    "focalLength": [],
+    "aperture": [],
+    "distance": [],
+    "angle": [],
+    "framing": [],
+    "colorGrade": [
+      {
+        "name": "Warm & Natural",
+        "value": "Warm, natural tones with a painterly quality. Soft, luminous highlights and gentle contrast, preserving the full spectrum of realistic skin tones."
+      },
+      {
+        "name": "Cool Cinematic",
+        "value": "Cool, desaturated tones with deep blues and cyans in the shadows, creating a modern, cinematic feel."
+      },
+      {
+        "name": "High-Contrast B&W",
+        "value": "High-contrast black and white, with deep, crushed blacks and brilliant, clean whites, emphasizing form and texture."
+      },
+      {
+        "name": "Vintage Sepia",
+        "value": "Warm, brown-toned sepia finish, giving the image a nostalgic, vintage, and timeless quality."
+      },
+      {
+        "name": "Vibrant & Saturated",
+        "value": "Bold, vibrant, and highly saturated colors, creating a lively, energetic, and eye-catching image."
+      },
+      {
+        "name": "Painterly Desaturated (Timeless)",
+        "value": "Warm, rich, painterly tones. Deep browns, warm skin highlights, and velvety blacks. A desaturated, timeless feel."
+      },
+      {
+        "name": "Severe Monochromatic B&W",
+        "value": "Almost monochromatic. Deep, crushed blacks, brilliant whites, and neutral skin tones. A clean, severe, high-fashion magazine aesthetic."
+      }
+    ],
+    "style": [
+      {
+        "name": "Flowing Ponytail",
+        "value": "elegant, flowing ponytail"
+      },
+      {
+        "name": "Sharp Bob",
+        "value": "sharp, asymmetrical bob"
+      },
+      {
+        "name": "Long Loose Waves",
+        "value": "long, loose waves with a few stray strands catching the light"
+      },
+      {
+        "name": "Slicked-Back (Severe)",
+        "value": "a severe, slicked-back style, creating a sharp and modern look."
+      },
+      {
+        "name": "Messy Bun",
+        "value": "a messy bun with face-framing tendrils for a relaxed, candid feel."
+      },
+      {
+        "name": "Sleek & Straight",
+        "value": "long dark hair styled sleek and straight for a graphic, high-fashion look."
+      },
+      {
+        "name": "Loose Low Bun",
+        "value": "long dark hair tied in a loose, low bun with strands escaping, creating a soft, elegant look."
+      },
+      {
+        "name": "Polished High Bun",
+        "value": "a polished, sleek high bun, for an elegant and statuesque profile."
+      },
+      {
+        "name": "None",
+        "value": "none"
+      },
+      {
+        "name": "Subtle Arm & Collarbone",
+        "value": "subtle, artistic tattoos on the arm and collarbone"
+      },
+      {
+        "name": "Intricate Sleeve",
+        "value": "an intricate, full-sleeve tattoo with detailed line work"
+      },
+      {
+        "name": "Delicate Finger Tattoos",
+        "value": "delicate, minimalist tattoos on the fingers"
+      },
+      {
+        "name": "None",
+        "value": "none"
+      },
+      {
+        "name": "Subtle Gold Septum",
+        "value": "a subtle gold septum piercing"
+      },
+      {
+        "name": "Multiple Ear Piercings",
+        "value": "multiple delicate gold hoops and studs on the ears"
+      },
+      {
+        "name": "None",
+        "value": "none"
+      },
+      {
+        "name": "Gold Leaf Accents",
+        "value": "artistic application of gold leaf on the skin"
+      },
+      {
+        "name": "White Henna Patterns",
+        "value": "delicate white henna patterns on the hands and feet"
+      },
+      {
+        "name": "Natural Manicure",
+        "value": "natural manicure, clean and simple"
+      },
+      {
+        "name": "Glossy Black Polish",
+        "value": "glossy, matching black nail polish on fingernails and toenails"
+      },
+      {
+        "name": "Classic Red Polish",
+        "value": "classic, high-gloss red nail polish"
+      },
+      {
+        "name": "Black Matte Nails",
+        "value": "black matte nails"
+      },
+      {
+        "name": "Opalescent Nail Art",
+        "value": "opalescent nail art that catches the light with a pearly sheen"
+      },
+      {
+        "name": "Not Visible",
+        "value": "not visible"
+      },
+      {
+        "name": "Sharp Stiletto Heels",
+        "value": "sharp, modern stiletto high heels"
+      },
+      {
+        "name": "Architectural High Heels",
+        "value": "architectural black high heels with a bold, unique heel geometry"
+      },
+      {
+        "name": "Authentic (Visible Pores)",
+        "value": "Authentic, high-resolution skin texture with visible pores, subtle freckles, and natural imperfections. A hint of subsurface scattering on the cheekbones where the light hits. No airbrushing."
+      },
+      {
+        "name": "Subtle Subsurface Scattering",
+        "value": "Realistic skin texture with pronounced subsurface scattering, creating a soft, life-like glow as light penetrates and diffuses just below the surface, especially evident around the nose and ears."
+      },
+      {
+        "name": "Flawless Editorial Skin",
+        "value": "Perfectly smooth, high-fashion editorial skin. While pores are minimized, a micro-texture is retained to avoid a plastic look. Highlights show a gentle falloff."
+      },
+      {
+        "name": "Cinematic Skin",
+        "value": "Realistic skin with a cinematic feel, showing natural texture and subtle details that catch the light beautifully. Retains a filmic quality with a visible, fine grain texture."
+      },
+      {
+        "name": "Flowing Silk Dynamics",
+        "value": "The silk fabric is captured with dynamic, flowing motion. It appears lightweight, with realistic transparency where stretched and bunched, and follows the contours of the body with liquid grace."
+      },
+      {
+        "name": "Clinging Wet Look",
+        "value": "Fabric (like cotton or chiffon) clings to the skin as if damp, revealing the form beneath in a subtle, artistic way. Small droplets might be visible on the fabric surface."
+      },
+      {
+        "name": "Liquid Satin Sheen",
+        "value": "Liquid satin with a high specular sheen, creating brilliant, sharp highlights where the light hits directly, and falling into deep, rich shadows. The color shifts with the light angle."
+      },
+      {
+        "name": "Intricate Lace & Mesh",
+        "value": "The material is a combination of intricate floral lace patterns and fine, sheer mesh. Light passes through the mesh, creating a delicate pattern on the skin, while the lace remains opaque."
+      },
+      {
+        "name": "High-Gloss Latex",
+        "value": "High-gloss black latex that acts like a mirror, reflecting the light source and environment with sharp, distorted highlights. The material appears slick and futuristic."
+      },
+      {
+        "name": "Cinematic Volumetric Lighting",
+        "value": "Cinematic volumetric lighting, with strong beams of light cutting through atmospheric haze, creating a sense of depth and mystery."
+      },
+      {
+        "name": "Soft Diffused Studio Light",
+        "value": "Soft, diffused studio lighting that eliminates harsh shadows and provides an even, flattering illumination, perfect for beauty shots."
+      },
+      {
+        "name": "Dramatic Rim Lighting",
+        "value": "Dramatic rim lighting that outlines the subject against a dark background, emphasizing their silhouette and creating a bold, graphic effect."
+      },
+      {
+        "name": "Bioluminescent Glow",
+        "value": "Bioluminescent lighting, with soft, natural glows emanating from fantastical flora or otherworldly sources, creating an enchanting and magical ambiance."
+      },
+      {
+        "name": "Dynamic Strobe Flash",
+        "value": "Strobe lighting with sharp, fast flashes, creating a sense of dynamic motion and high energy, with distinct frozen moments."
+      },
+      {
+        "name": "Dappled Light (Venetian Blinds)",
+        "value": "Sunlight or moonlight filtering through Venetian blinds, casting a dramatic pattern of sharp light and shadow stripes across the subject and the room."
+      },
+      {
+        "name": "Soft Clamshell Lighting",
+        "value": "Classic beauty lighting setup with two soft light sources on the subject from above and below, creating a clean, glamorous look with minimal shadows."
+      },
+      {
+        "name": "Hard High-Angle Studio",
+        "value": "Hard, directional warm studio lighting from a high side angle, creating dramatic, sharp shadows and brilliant highlights that intricately sculpt textures."
+      },
+      {
+        "name": "Filtered Light Moiré Pattern",
+        "value": "Sunlight filtered through two layers of patterned lace or mesh curtains, creating a complex, soft-edged moiré or cross-hatch shadow pattern."
+      },
+      {
+        "name": "Soft Side-Wrap Light (Octabox)",
+        "value": "A single, large, soft light source (like a large octabox softbox) placed to the side and slightly behind, creating a soft, wrapping light that highlights contours."
+      },
+      {
+        "name": "Painterly Chiaroscuro (Caravaggio)",
+        "value": "Dramatic, single-source Chiaroscuro lighting from the side and slightly above, illuminating part of the form while the rest of a falls into deep shadow, in the style of Caravaggio."
+      },
+      {
+        "name": "Moody Bedside Lamp",
+        "value": "Moody cinematic lighting from a single bedside lamp, creating deep shadows and a glamorous, intimate feel."
+      },
+      {
+        "name": "35mm",
+        "value": "35mm"
+      },
+      {
+        "name": "50mm",
+        "value": "50mm"
+      },
+      {
+        "name": "85mm f/1.4 Portrait Lens",
+        "value": "85mm f/1.4 Portrait Lens"
+      },
+      {
+        "name": "105mm f/2.8 Macro Lens",
+        "value": "105mm f/2.8 Macro Lens"
+      },
+      {
+        "name": "f/1.8 (Creamy BG)",
+        "value": "f/1.8"
+      },
+      {
+        "name": "f/2.8",
+        "value": "f/2.8"
+      },
+      {
+        "name": "f/4.0",
+        "value": "f/4.0"
+      },
+      {
+        "name": "f/5.6",
+        "value": "f/5.6"
+      },
+      {
+        "name": "f/8.0 (Sharp BG)",
+        "value": "f/8.0"
+      },
+      {
+        "name": "0.5 m (Macro)",
+        "value": "0.5 m"
+      },
+      {
+        "name": "1.5 m (Close-up)",
+        "value": "1.5 m"
+      },
+      {
+        "name": "3 m (Medium)",
+        "value": "3 m"
+      },
+      {
+        "name": "5 m (Full Body)",
+        "value": "5 m"
+      },
+      {
+        "name": "Eye-Level",
+        "value": "Eye-level, creating a direct and personal connection with the subject."
+      },
+      {
+        "name": "Low Angle",
+        "value": "Dynamic low angle, emphasizing power and stature."
+      },
+      {
+        "name": "High Angle",
+        "value": "High angle, looking down on the subject, creating a sense of vulnerability or introspection."
+      },
+      {
+        "name": "Dutch Angle",
+        "value": "Tilted camera angle, creating a sense of unease, tension, or dynamic energy."
+      },
+      {
+        "name": "Low Angle (Glutes Focus)",
+        "value": "A dynamic low angle, positioned to emphasize the sculptural curves of the buttocks and upper thighs, treating the form as an artistic landscape."
+      },
+      {
+        "name": "Side Profile (Hip Curve)",
+        "value": "A side-profile angle, parallel to the subject, that frames the elegant S-curve of the hip and waist, focusing on the line and form."
+      },
+      {
+        "name": "High Angle (Décolletage Detail)",
+        "value": "A high angle looking down, artistically framing the décolletage, collarbones, and shoulders, focusing on the interplay of light and shadow on the skin."
+      },
+      {
+        "name": "Tight Medium Shot",
+        "value": "Tight medium shot, from the mid-torso up, emphasizing facial expression and hand placement."
+      },
+      {
+        "name": "Bust Close-up",
+        "value": "A tight close-up framing from the chest or bust up, focusing on expression, makeup, and neckline details."
+      },
+      {
+        "name": "Glutes Close-up (Back)",
+        "value": "A close-up shot focusing on the curvature and form of the buttocks from the back, often used in fitness or artistic photography."
+      },
+      {
+        "name": "Legs Close-up (Low Angle)",
+        "value": "A low-angle close-up that emphasizes the length and shape of the legs, often showcasing footwear or stockings."
+      },
+      {
+        "name": "Décolletage Close-up",
+        "value": "A close-up focusing on the chest and collarbone area, often to highlight a necklace, neckline, or the texture of the skin."
+      },
+      {
+        "name": "Lace/Fabric Texture Detail",
+        "value": "A macro-style shot focusing on the intricate details and texture of a piece of fabric as it lies against the skin."
+      },
+      {
+        "name": "Three-Quarters (from Shin)",
+        "value": "Three-quarters shot, from mid-shin up, emphasizing long lines of the legs and a commanding pose."
+      },
+      {
+        "name": "Warm & Natural",
+        "value": "Warm, natural tones with a painterly quality. Soft, luminous highlights and gentle contrast, preserving the full spectrum of realistic skin tones."
+      },
+      {
+        "name": "Cool Cinematic",
+        "value": "Cool, desaturated tones with deep blues and cyans in the shadows, creating a modern, cinematic feel."
+      },
+      {
+        "name": "High-Contrast B&W",
+        "value": "High-contrast black and white, with deep, crushed blacks and brilliant, clean whites, emphasizing form and texture."
+      },
+      {
+        "name": "Vintage Sepia",
+        "value": "Warm, brown-toned sepia finish, giving the image a nostalgic, vintage, and timeless quality."
+      },
+      {
+        "name": "Vibrant & Saturated",
+        "value": "Bold, vibrant, and highly saturated colors, creating a lively, energetic, and eye-catching image."
+      },
+      {
+        "name": "Painterly Desaturated (Timeless)",
+        "value": "Warm, rich, painterly tones. Deep browns, warm skin highlights, and velvety blacks. A desaturated, timeless feel."
+      },
+      {
+        "name": "Severe Monochromatic B&W",
+        "value": "Almost monochromatic. Deep, crushed blacks, brilliant whites, and neutral skin tones. A clean, severe, high-fashion magazine aesthetic."
+      },
+      {
+        "name": "Hyper-realistic Fine-Art",
+        "value": "Hyper-realistic fine-art portraiture, a profound focus on emotional depth, authenticity, and technical perfection."
+      },
+      {
+        "name": "Cinematic Noir",
+        "value": "A dark, moody, and atmospheric style inspired by classic film noir, with dramatic shadows and a sense of mystery."
+      },
+      {
+        "name": "Gritty Urban Realism",
+        "value": "A raw, documentary-style approach that captures the authentic, unpolished beauty of an urban environment and its subject."
+      },
+      {
+        "name": "Vaporwave Aesthetic",
+        "value": "A retro-futuristic style with a nostalgic nod to the 80s and 90s, featuring neon colors, glitch art, and classical statues."
+      },
+      {
+        "name": "Ansel Adams B&W",
+        "value": "High-contrast, epic black and white landscape photography style, applied to portraiture for a dramatic, sculptural effect."
+      },
+      {
+        "name": "Neo-noir Sensuality",
+        "value": "A modern take on film noir, blending its dark, moody atmosphere with a focus on sensual, intimate, and mysterious narratives."
+      },
+      {
+        "name": "Ethereal Dreamscape",
+        "value": "A soft, otherworldly, and romantic style that blends reality with fantasy, often featuring hazy, glowing light and magical elements."
+      },
+      {
+        "name": "Baroque Glamour",
+        "value": "An opulent, dramatic, and lavish style inspired by Baroque painting, characterized by rich textures, deep colors, and complex compositions."
+      },
+      {
+        "name": "Gritty Realism",
+        "value": "A raw, unflinching, and authentic style that captures imperfections and genuine moments, often with a documentary-like feel."
+      },
+      {
+        "name": "Romantic Fashion",
+        "value": "A soft, elegant, and romantic style often seen in high-fashion editorials, emphasizing flowing fabrics, soft light, and emotional connection."
+      },
+      {
+        "name": "Private & Personal",
+        "value": "An intimate, candid, and personal style that feels like a private moment captured, often with natural light and a relaxed atmosphere."
+      },
+      {
+        "name": "Fine Art Sensuality",
+        "value": "An artistic approach to sensuality that focuses on form, texture, and emotion rather than explicit detail, often using shadow and suggestion."
+      },
+      {
+        "name": "Fine-Art Dance Photography",
+        "value": "A style focused on capturing the sculptural, minimalist, and elegant movement of the human form, as if in a dance."
+      },
+      {
+        "name": "Graphic Fashion-Editorial",
+        "value": "A minimalist, powerful, and sensual style with a graphic quality, often seen in high-fashion magazines."
+      },
+      {
+        "name": "Classical-Dramatic (Boudoir)",
+        "value": "An introspective, philosophical, and dramatic style reminiscent of classical paintings, applied to a boudoir setting."
+      },
+      {
+        "name": "Helmut Newton Inspired",
+        "value": "A bold, cinematic, and glamorous style inspired by the iconic photographer Helmut Newton, often featuring powerful female subjects in luxurious settings."
+      },
+      {
+        "name": "Experimental Fine-Art Boudoir",
+        "value": "An abstract, mysterious, and tactile approach to boudoir, focusing on texture, pattern, and the interplay of light and shadow over clear representation."
+      }
+    ],
+    "quality": [
+      {
+        "name": "Hasselblad X2D",
+        "value": "Shot on a Hasselblad X2D. Unmatched 8K detail. Extremely sharp focus. Every micro-detail, from fabric weave to skin pores, is rendered with absolute clarity."
+      },
+      {
+        "name": "Kodak Portra 400 Look",
+        "value": "Shot on Kodak Portra 400 film. 8k, natural textures, beautiful color rendition, and a subtle, pleasing film grain. High-end cinematic quality."
+      },
+      {
+        "name": "IMAX 70mm Cinematic",
+        "value": "Cinematic still, shot on IMAX 70mm film. Incredible detail, epic scope, and rich, deep colors. Visible film grain."
+      },
+      {
+        "name": "Leica Noctilux Look",
+        "value": "Shot on a Leica M11 with a Noctilux 50mm f/0.95 lens. Extremely shallow depth of field, beautiful bokeh, and a dreamy, ethereal quality."
+      },
+      {
+        "name": "RAW Cinematic (Helmut Newton)",
+        "value": "A glamorous, bold, and realistic feel, inspired by the cinematic and provocative style of Helmut Newton. 8k, natural textures, no artificial plastic look, high-end cinematic quality."
+      }
+    ],
+    "figureAndForm": [
+      {
+        "name": "Revealing Curves (Shadow Play)",
+        "value": "Focus on revealing the natural curves and shapes of the body (e.g., lower back, upper bust) using strategic shadow and light, obscuring precise details for an artistic, evocative effect."
+      },
+      {
+        "name": "Back & Hip Curves (Kneeling)",
+        "value": "Emphasizes the elegant S-curve of the spine and hips from a three-quarter back angle while kneeling, focusing on the fine lines of form."
+      },
+      {
+        "name": "Side Profile (Reclining)",
+        "value": "Artistically frames the lines of the hip, thigh, and waist as a landscape of curves, with the subject reclining."
+      },
+      {
+        "name": "Torso Detail (Obscured)",
+        "value": "A close-up on the torso, using sheer fabric, deep shadows, or other elements to highlight form while obscuring direct details."
+      }
+    ]
+  },
+  "models": {
+    "indian": [
+      {
+        "name": "Instagram Hourglass Influencer (Golden-Bronze) 36-26-38",
+        "value": "Indian Instagram influencer model (height 5'7\"), with curvaceous hourglass figure and exact measurements (bust 36\", waist 26\", hips 38\"). Features radiant golden-bronze complexion with sun-kissed glow. Bold influencer beauty: sultry bedroom eyes with dramatic lashes and winged liner, glossy plump lips, contoured cheekbones, perfect Instagram face. Age 22-26. Modern Indian social media star with bold confidence. Long dark brown hair with honey highlights in loose glamorous beach waves. Flawless Instagram-ready glow with highlighting on cheekbones and collarbones. Manicured hands with long stiletto nails in nude pink. Multiple ear piercings with gold hoops and studs, delicate nose ring."
+      },
+      {
+        "name": "College Fresher Influencer (Honey-Bronze) 34-25-36",
+        "value": "Indian college girl influencer (height 5'6\"), balanced curvy-athletic figure with measurements (bust 34\", waist 25\", hips 36\"), natural curves with youthful energy. Fresh honey-bronze complexion with natural radiance. College girl beauty: bright confident eyes with natural makeup, fresh glossy lips, genuine smile, accessible beauty with edge. Age 19-22. Dark brown hair with subtle caramel highlights. Natural fresh glow with minimal makeup showing youthful skin."
+      },
+      {
+        "name": "Bollywood Actress Fantasy (Porcelain-Bronze) 36-24-36",
+        "value": "Indian actress-style influencer model (height 5'8\"), perfect hourglass figure with measurements (bust 36\", waist 24\", hips 36\"), tiny waist with full curves. Flawless porcelain-bronze complexion with luminous radiance. Bollywood actress beauty: dramatic sultry eyes with heavy kohl and winged liner, glossy red lips, perfectly contoured face, high cheekbones, movie star presence. Age 24-28. Long jet black hair with voluminous Bollywood waves. High-glam finish with professional highlights."
+      },
+      {
+        "name": "Morning Routine Influencer (Golden-Honey) 35-26-37",
+        "value": "Indian lifestyle influencer (height 5'7\"), curvaceous figure with measurements (bust 35\", waist 26\", hips 37\"), natural feminine curves. Warm golden-honey complexion with fresh morning glow. Natural morning beauty: genuine warm eyes with minimal/no makeup, natural brows, fresh lips, authentic real skin. Age 23-27. Dark brown hair in messy morning texture. Fresh natural glow celebrating real skin texture."
+      },
+      {
+        "name": "Indian Cinematic Muse (Fair)",
+        "value": "Indian model with a modern, expressive face perfect for cinematic close-ups (height 5'8\"). Possesses a slender but soft athletic form (bust 36C\", waist 28\", hips 38\"). Her luminous fair skin tone interacts beautifully with dramatic chiaroscuro lighting, conveying deep emotion through a serene, direct gaze."
+      },
+      {
+        "name": "Indian Glamour Seductress (Dusky)",
+        "value": "Indian fashion model (height 5'7\"), with a sensual and curvaceous hourglass figure (bust 38DD\", waist 27\", hips 42\"). Features a captivating, magnetic gaze, full lips, and a beautiful dusky skin tone that glows under soft light. Exudes an aura of confident, commanding seduction."
+      },
+      {
+        "name": "Indian Super-Seductress Artist (Dusky)",
+        "value": "Elite Indian artistic model (height 5'7\") specializing in modern concept films, private editorial art, and expressive erotic-art photography. Possesses an exceptionally curvaceous bombshell hourglass figure (bust 40DD\", waist 26\", hips 44\") with pronounced wide hips and dramatic curves. Her luminous dusky skin tone responds beautifully to diverse lighting scenarios. Features include: intensely expressive eyes capable of conveying complex intimate emotions, full sensual lips, high cheekbones, and an exceptionally photogenic face from all angles. Trained in artistic movement, body language mastery, and emotional expression for role-based sessions. Her presence combines raw sensuality with sophisticated artistic intelligence - she understands light, shadow, composition, and how to embody diverse artistic concepts. Experienced in fine-art nude studies, intimate portraiture, fashion editorial, and private collection work. Exudes confident, fearless artistic expression with natural ability to transition between powerful dominance and vulnerable intimacy. Her proportions and expressive range make her ideal for maximum artistic intimacy while maintaining high-art sophistication."
+      },
+      {
+        "name": "Indian Fitness Athlete (Wheatish)",
+        "value": "Indian fitness model (height 5'9\"), with a powerful and athletic physique (bust 34C\", waist 26\", hips 36\"). Displays lean, defined musculature, especially in the abs and legs. Has a healthy, sun-kissed wheatish skin tone and an energetic, determined expression."
+      },
+      {
+        "name": "Indian High-Fashion Mannequin (Olive)",
+        "value": "High-fashion Indian runway model (height 5'11\"), with a slender, statuesque, androgynous frame (bust 34B\", waist 25\", hips 35\"). Features high cheekbones, an angular jawline, and flawless olive skin. Her expression is serene, aloof, and perfect for avant-garde editorial concepts."
+      },
+      {
+        "name": "Indian Femme Fatale (Dusky)",
+        "value": "A statuesque Indian model (height 5'9\") with a sharp, intelligent gaze and high cheekbones. Her figure is lean and powerful (bust 34C\", waist 26\", hips 37\"), with a dusky complexion that looks striking in high-contrast lighting. She embodies a mysterious, intelligent, and dangerous allure, perfect for noir themes."
+      },
+      {
+        "name": "Indian Bombshell Diva (Fair)",
+        "value": "A voluptuous Indian model (height 5'6\") channeling classic Bollywood glamour. She has a classic hourglass figure (bust 40D\", waist 29\", hips 44\"), large expressive eyes, and a radiant fair skin tone. Her aura is one of pure, unapologetic, high-octane glamour and stardom."
+      },
+      {
+        "name": "Indian Natural Allure (Wheatish)",
+        "value": "An Indian model (height 5'5\") with a soft, natural, girl-next-door appeal. Her figure is curvy and relatable (bust 36C\", waist 28\", hips 40\"), with a warm wheatish skin tone and a gentle, inviting smile. She represents an accessible and authentic sensuality."
+      },
+      {
+        "name": "Indian Erotic-Art Muse (Olive)",
+        "value": "A highly expressive Indian model (height 5'8\") with a lithe, flexible, dancer's physique (bust 34B\", waist 25\", hips 36\"). Her olive skin beautifully highlights subtle muscle definition. Her gaze is profound and soulful, capable of conveying complex emotion for fine-art concepts."
+      },
+      {
+        "name": "Indian Primal Venus (Dusky)",
+        "value": "A powerful Indian model (height 5'10\") with a heavy, statuesque, and unapologetically curvaceous build (bust 42DD\", waist 34\", hips 48\"). Her deep dusky skin has a rich, uniform tone. She embodies a raw, primal, and earthy energy, like an ancient goddess of fertility and power."
+      },
+      {
+        "name": "Indian Yoga Practitioner (Wheatish)",
+        "value": "An Indian model (height 5'7\") with the lean, flexible, and gracefully toned body of an advanced yoga practitioner (bust 34B\", waist 26\", hips 36\"). Her sun-kissed wheatish skin looks healthy and vibrant. She projects an aura of serene strength, balance, and spiritual depth."
+      },
+      {
+        "name": "Indian Androgynous Icon (Fair)",
+        "value": "A striking Indian high-fashion model (height 6'0\") with an androgynous, slender, and angular frame (bust 32A\", waist 24\", hips 34\"). Features sharp, unique facial features, short-cropped hair, and a very fair, almost alabaster skin tone. Perfect for avant-garde and gender-fluid fashion concepts."
+      },
+      {
+        "name": "Indian Petite Powerhouse (Porcelain)",
+        "value": "A petite but powerful Indian model (height 5'3\"), with a compact, athletic build (bust 34B\", waist 25\", hips 36\"). Her skin is a very fair, porcelain tone that contrasts beautifully with dark hair and bold colors. She projects an intense, fiery energy and confidence that belies her small stature."
+      },
+      {
+        "name": "Indian Plus-Size Goddess (Ebony)",
+        "value": "An incredibly confident Indian plus-size model (height 5'9\"), with a magnificent, statuesque figure (bust 44DD\", waist 38\", hips 52\"). She possesses a deep, rich ebony skin tone that is smooth and luminous. Her presence is regal and commanding, celebrating beauty in all its forms."
+      },
+      {
+        "name": "Indian Curvy Athlete (Golden Tan)",
+        "value": "A dynamic Indian model (height 5'8\") with a unique 'curvy athletic' physique, blending powerful, toned muscles with soft, full curves (bust 38D\", waist 29\", hips 44\"). Her skin has a radiant golden tan, and she moves with the grace and strength of a trained dancer or martial artist."
+      },
+      {
+        "name": "Indian Regal Matriarch (Warm Ivory)",
+        "value": "A mature, elegant Indian model in her late 40s (height 5'7\"), exuding wisdom and a timeless, regal beauty. Her figure is graceful and womanly (bust 38C\", waist 31\", hips 42\"), and her warm ivory skin shows subtle signs of a life well-lived. Her gaze is knowing and powerful."
+      },
+      {
+        "name": "Indian Bohemian Dreamer (Freckled)",
+        "value": "An Indian model (height 5'6\") with a unique, unconventional beauty. She has a slender, willowy frame (bust 34A\", waist 26\", hips 35\") and a sun-kissed wheatish complexion adorned with a dusting of natural freckles across her nose and cheeks. She embodies a free-spirited, bohemian, and artistic soul."
+      },
+      {
+        "name": "Midnight Floor Artist (Golden-Bronze) 36-26-38",
+        "value": "Elite Indian Instagram model (height 5'7\") specializing in intimate fine-art floor photography. Perfect hourglass measurements (bust 36\", waist 26\", hips 38\") with golden-bronze skin that glows in candlelight. Master of vulnerable floor poses creating Rembrandt-style chiaroscuro. Age 22-26. Expressive eyes conveying deep intimacy, naturally full lips, sculpted features perfect for dramatic shadow play. Specializes in artistic nude and implied nude photography with champagne silk and scattered rose petals."
+      },
+      {
+        "name": "Balcony Moonlight Muse (Golden-Bronze) 36-26-38",
+        "value": "Indian Instagram influencer (height 5'7\") expert in moonlit balcony photography. Curvaceous figure (bust 36\", waist 26\", hips 38\") with luminescent golden-bronze skin. Creates cinematic tension with city lights backdrop. Age 22-26. Wind-swept hair, penetrating gaze, natural grace in movement. Specializes in gossamer robes and ethereal midnight photography with urban romance aesthetic."
+      },
+      {
+        "name": "Private Chamber Poetess (Golden-Bronze) 36-26-38",
+        "value": "Sophisticated Indian model (height 5'7\") channeling Pre-Raphaelite beauty. Classic measurements (bust 36\", waist 26\", hips 38\") with warm golden-bronze complexion. Age 22-26. Intellectual sensuality with expressive features, romantic eyes, classical beauty. Expert in vintage negligee styling with velvet and lace, creating painterly portraits in Victorian settings."
+      },
+      {
+        "name": "Library Midnight Scholar (Golden-Bronze) 36-26-38",
+        "value": "Indian Instagram model (height 5'7\") embodying intellectual seduction. Perfect proportions (bust 36\", waist 26\", hips 38\") with radiant golden-bronze skin. Age 22-26. Scholarly beauty with intelligent eyes, natural elegance, subtle sensuality. Specializes in 'undressed academic' aesthetic - oversized oxford shirts in ancient library settings after hours."
+      },
+      {
+        "name": "Alley Noir Siren (Golden-Bronze) 36-26-38",
+        "value": "Urban Indian influencer (height 5'7\") mastering film noir aesthetics. Hourglass figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin catching neon reflections. Age 22-26. Dangerous beauty with smoky eyes, rebellious attitude, mysterious allure. Expert in leather-and-lace contrast styling, creating Wong Kar-wai inspired urban narratives."
+      },
+      {
+        "name": "Wooden Cabin Recluse (Golden-Bronze) 36-26-38",
+        "value": "Indian Instagram model (height 5'7\") specializing in cozy intimate settings. Natural curves (bust 36\", waist 26\", hips 38\") with warm golden-bronze glow enhanced by firelight. Age 22-26. Natural beauty with relaxed sensuality, genuine warmth, approachable intimacy. Master of oversized knit sweaters and fireside photography with Terrence Malick natural light philosophy."
+      },
+      {
+        "name": "Rooftop Sunrise Goddess (Golden-Bronze) 36-26-38",
+        "value": "Indian wellness influencer (height 5'7\") capturing dawn's first light. Yoga-toned figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin creating perfect rim lighting. Age 22-26. Ethereal beauty with peaceful expression, graceful movement, transcendent presence. Specializes in backlit sheer wraps and golden hour urban goddess aesthetic."
+      },
+      {
+        "name": "Vintage Bathroom Venus (Golden-Bronze) 36-26-38",
+        "value": "Classic beauty Indian model (height 5'7\") recreating Degas-inspired bathing scenes. Statuesque measurements (bust 36\", waist 26\", hips 38\") with wet golden-bronze skin creating artistic reflections. Age 22-26. Timeless features with classical proportions, serene expression, Venus-like grace. Expert in artistic nude photography with water, foam, and rose petals in vintage clawfoot tubs."
+      },
+      {
+        "name": "Artist Studio Muse (Golden-Bronze) 36-26-38",
+        "value": "Bohemian Indian model (height 5'7\") embodying creative energy. Artist's dream figure (bust 36\", waist 26\", hips 38\") with golden-bronze skin contrasting paint splatters. Age 22-26. Expressive features with artistic soul, raw authenticity, creative passion. Specializes in paint-splattered shirts and artist studio environmental portraits channeling Lucian Freud's honesty."
+      },
+      {
+        "name": "Secret Garden Nymph (Golden-Bronze) 36-26-38",
+        "value": "Mystical Indian influencer (height 5'7\") creating fairy-tale narratives. Nature-perfect curves (bust 36\", waist 26\", hips 38\") with golden-bronze skin luminous in moonlight. Age 22-26. Ethereal beauty with dreamy eyes, natural grace, fantasy presence. Master of botanical sheer wraps and Tim Walker-inspired garden conservatory midnight sessions."
+      }
+    ],
+    "hourglass": [],
+    "platinum": [],
+    "artistic": [],
+    "erotic": []
+  },
+  "wardrobes": {
+    "vera": [
+      {
+        "id": "midnight-lace-bodysuit",
+        "name": "Midnight Lace Bodysuit",
+        "category": "lingerie-outerwear",
+        "coverage": 2,
+        "description": "An intricate bodysuit crafted from fine French Chantilly lace, featuring a daringly low neckline, high-cut legs, and a completely open back. The delicate floral patterns are strategically placed to both conceal and reveal."
+      },
+      {
+        "id": "crimson-silk-teddy",
+        "name": "Crimson Silk Teddy",
+        "category": "lingerie-outerwear",
+        "coverage": 3,
+        "description": "A bias-cut teddy made from liquid-like crimson silk charmeuse. It drapes loosely over the torso and features delicate spaghetti straps and eyelash lace trim along the bust and hem."
+      },
+      {
+        "id": "geometric-cutout-bodysuit",
+        "name": "Geometric Cutout Bodysuit",
+        "category": "architectural-minimal",
+        "coverage": 2,
+        "description": "A high-fashion bodysuit made from a matte, scuba-like material. It features sharp, asymmetrical cutouts that create a play of negative space, highlighting the form beneath in a graphic, architectural manner."
+      },
+      {
+        "id": "single-thread-harness",
+        "name": "Single-Thread Body Harness",
+        "category": "architectural-minimal",
+        "coverage": 1,
+        "description": "The most minimal of garments. A single, continuous thread of elasticated silk or fine leather that wraps around the body to create geometric patterns, emphasizing contours without concealing them."
+      },
+      {
+        "id": "bondage-inspired-harness",
+        "name": "Strappy Geometric Harness",
+        "category": "strappy-geometric",
+        "coverage": 1,
+        "description": "A complex harness of interconnected faux leather straps that frame the torso, waist, and hips. It features polished metal O-rings and buckles, creating a look that is both restrictive and empowering."
+      },
+      {
+        "id": "ethereal-silk-chiffon-robe",
+        "name": "Sheer Silk Chiffon Robe",
+        "category": "sheer-layers",
+        "coverage": 4,
+        "description": "A floor-length, completely sheer robe made from the lightest silk chiffon. It has voluminous bishop sleeves and floats around the body, creating a hazy, dreamlike silhouette."
+      },
+      {
+        "id": "slashed-jersey-monokini",
+        "name": "Slashed-Jersey Monokini",
+        "category": "cutout-designs",
+        "coverage": 2,
+        "description": "A one-piece garment that looks like a swimsuit but is made from soft jersey. It features strategic \"slashes\" and cutouts held together by small metal rings, revealing slices of skin in an unexpected, artistic pattern."
+      },
+      {
+        "id": "liquid-latex-catsuit",
+        "name": "Liquid Latex Catsuit",
+        "category": "minimalist-boudoir",
+        "coverage": 5,
+        "description": "A second-skin catsuit made from high-shine black latex. While it covers the entire body, its form-fitting nature and reflective surface highlight every curve and contour."
+      },
+      {
+        "id": "golden-chains-minimal",
+        "name": "Golden Body Chains",
+        "category": "architectural-minimal",
+        "coverage": 1,
+        "description": "Ultra-luxury golden body chains creating geometric patterns across décolletage, waist, and hips. Strategic minimal coverage emphasizing natural form with artistic precision."
+      },
+      {
+        "id": "leather-harness-architectural",
+        "name": "Architectural Leather Harness",
+        "category": "strappy-geometric",
+        "coverage": 1,
+        "description": "Intricate black leather harness with geometric straps creating graphic patterns. Strategic bands frame torso, waist, and hips with architectural precision."
+      },
+      {
+        "id": "mesh-minimal-thong",
+        "name": "Delicate Mesh Thong Set",
+        "category": "minimalist-boudoir",
+        "coverage": 1,
+        "description": "High-waisted black mesh thong with geometric details and matching sheer thigh-high stockings. Minimal fine art aesthetic sculpted by light."
+      },
+      {
+        "id": "silk-stockings-seamed",
+        "name": "Vintage Seamed Stockings",
+        "category": "lingerie-outerwear",
+        "coverage": 3,
+        "description": "Sheer black silk stockings with classic back seams and delicate lace tops. Pairs with corsetry for film noir glamour."
+      },
+      {
+        "id": "lace-bralette-intimate",
+        "name": "Intimate Lace Bralette",
+        "category": "lingerie-outerwear",
+        "coverage": 2,
+        "description": "Delicate black lace bralette with intricate floral patterns and matching high-waisted lace-trimmed briefs. Natural beauty emphasis."
+      },
+      {
+        "id": "corset-lace-ornate",
+        "name": "Ornate Lace Corset",
+        "category": "architectural-minimal",
+        "coverage": 3,
+        "description": "Black lace corset with intricate embroidery, structured boning, and dramatic waist cinching. Creates classic hourglass silhouette."
+      },
+      {
+        "id": "chiffon-robe-sheer",
+        "name": "Sheer Black Chiffon Robe",
+        "category": "sheer-layers",
+        "coverage": 4,
+        "description": "Floor-length completely sheer black chiffon robe with flowing movement. Creates hazy, mysterious silhouette worn open."
+      },
+      {
+        "id": "body-chain-minimal",
+        "name": "Minimal Body Chain Design",
+        "category": "architectural-minimal",
+        "coverage": 1,
+        "description": "Single continuous chain creating geometric patterns emphasizing chest, waist, and curves with artistic minimalism."
+      },
+      {
+        "id": "seductress-level-1-professional",
+        "name": "Seductress Level 1: Professional Elegance",
+        "category": "office-power",
+        "coverage": 3,
+        "description": "Structured architectural foundation garments with executive sophistication. Matte black with seamless construction, high-waisted foundation creating flawless executive silhouette."
+      },
+      {
+        "id": "seductress-level-2-sophisticated",
+        "name": "Seductress Level 2: Sophisticated Allure",
+        "category": "lingerie-outerwear",
+        "coverage": 3,
+        "description": "Haute couture intimates with designer details. Black silk and delicate Chantilly lace with intricate patterns, architectural seams, fine appliqués, and pearl-tipped closures."
+      },
+      {
+        "id": "seductress-level-3-editorial",
+        "name": "Seductress Level 3: Editorial Sensuality",
+        "category": "strappy-geometric",
+        "coverage": 2,
+        "description": "Graphic editorial pieces with sheer mesh and architectural lines. Black gossamer lace V-neck bodysuit with geometric cutouts and mesh panels playing with opacity."
+      },
+      {
+        "id": "seductress-level-4-intimate",
+        "name": "Seductress Level 4: Intimate Artistry",
+        "category": "strappy-geometric",
+        "coverage": 2,
+        "description": "High-fashion artistic bodysuits with transparent elements. Geometric strap bodysuit in matte black featuring interconnected architectural straps creating cage-like framework."
+      },
+      {
+        "id": "seductress-level-5-high-concept",
+        "name": "Seductress Level 5: High Concept Seduction",
+        "category": "architectural-minimal",
+        "coverage": 1,
+        "description": "Minimalist architectural pieces with maximum expression. Open framework bodice with architectural underwire composed of open space, creating graphic outlines with strategic straps."
+      },
+      {
+        "id": "seductress-level-6-maximum",
+        "name": "Seductress Level 6: Maximum Expression",
+        "category": "architectural-minimal",
+        "coverage": 1,
+        "description": "Ultra-minimal foundation and body adornments for fine art. Delicate metallic body chains draping over shoulders, torso, and hips. Minimalist triangle with pearl-tipped closures."
+      },
+      {
+        "id": "seductress-level-7-pure-art",
+        "name": "Seductress Level 7: Pure Artistry",
+        "category": "sheer-layers",
+        "coverage": 1,
+        "description": "Conceptual art wardrobe using shadow, light, and silk draping. Strategically draped liquid silk or artistic use of deep shadows and light patterns creating clothing through pure light manipulation."
+      }
+    ],
+    "artistic": [],
+    "platinum": []
+  },
+  "environments": {
+    "vera": [
+      {
+        "id": "penthouse-suite",
+        "name": "Luxury Penthouse Suite",
+        "description": "A sprawling penthouse with floor-to-ceiling windows overlooking a sparkling city at night. Features modern, minimalist furniture, a marble fireplace, and a sense of opulent isolation."
+      },
+      {
+        "id": "neon-alley",
+        "name": "Rain-Soaked Neon Alley",
+        "description": "A narrow, gritty alley in a futuristic city, slick with rain. The scene is illuminated only by the vibrant, chaotic glow of neon signs reflecting off wet pavement."
+      },
+      {
+        "id": "art-gallery",
+        "name": "Modern Art Gallery After Hours",
+        "description": "A stark, minimalist art gallery, empty of visitors. Large, abstract canvases and dramatic sculptures create a backdrop of sophisticated creativity."
+      },
+      {
+        "id": "secluded-beach",
+        "name": "Secluded Beach at Sunset",
+        "description": "An untouched stretch of black sand beach as the sun dips below the horizon, casting the sky in fiery colors. Volcanic rock formations create dramatic silhouettes."
+      },
+      {
+        "id": "industrial-loft",
+        "name": "Industrial Loft with City Views",
+        "description": "A spacious, open-plan loft in a converted warehouse, featuring exposed brick walls, large factory windows, and a mix of vintage and modern furnishings."
+      },
+      {
+        "id": "vintage-train",
+        "name": "Vintage Orient Express Carriage",
+        "description": "An opulent, restored train carriage from the 1920s, featuring polished wood paneling, velvet upholstery, and Art Deco details, moving through a misty landscape."
+      },
+      {
+        "id": "photography-studio",
+        "name": "Professional Photography Studio",
+        "description": "Minimalist photography studio with seamless grey backdrop, polished concrete floor creating subtle reflections, vast negative space for fine art compositions."
+      },
+      {
+        "id": "industrial-minimal",
+        "name": "Industrial Minimalist Space",
+        "description": "Raw industrial space with textured concrete walls, dramatic shadows, and cold ambient light creating stark, powerful atmosphere."
+      },
+      {
+        "id": "luxury-boudoir",
+        "name": "Luxury Private Boudoir",
+        "description": "Intimate luxury bedroom with ivory silk sheets, soft white walls, sheer curtains, and warm morning light creating private sanctuary."
+      },
+      {
+        "id": "art-deco-suite",
+        "name": "Art Deco Hotel Suite",
+        "description": "Opulent art deco hotel suite with rich burgundy velvet furniture, gold accents, dramatic shadows, and warm amber lighting from vintage fixtures."
+      },
+      {
+        "id": "infinity-pool",
+        "name": "Luxury Infinity Pool",
+        "description": "Crystal clear infinity pool or shallow natural water with pristine white background, water creating refraction and ripples in bright natural light."
+      },
+      {
+        "id": "white-studio-minimalist",
+        "name": "Minimalist White Studio",
+        "description": "Minimalist white studio with seamless background and warm golden hour sunlight streaming through large diffused windows creating ethereal atmosphere."
+      },
+      {
+        "id": "wooden-cabin",
+        "name": "Cozy Wooden Cabin",
+        "description": "Minimalist wooden cabin with warm crackling fireplace, natural wood textures, and sheepskin rugs creating intimate rustic comfort."
+      },
+      {
+        "id": "underground-club",
+        "name": "Underground VIP Club",
+        "description": "Exclusive underground club VIP room with velvet furniture, dramatic dark lighting, and soundproof privacy creating mysterious midnight atmosphere."
+      }
+    ],
+    "artistic": [],
+    "platinum": [],
+    "categorized": [
+      {
+        "category": "Professional",
+        "name": "Modern Executive Office",
+        "value": "A sleek, modern executive office at night, with glass walls, designer furniture (like an Eames chair), and the ambient glow from computer monitors and the city skyline."
+      },
+      {
+        "category": "Professional",
+        "name": "Corner Office (Day)",
+        "value": "A sun-drenched corner office with panoramic floor-to-ceiling windows overlooking a bustling city during the day. Minimalist, high-end decor."
+      },
+      {
+        "category": "Professional",
+        "name": "Luxury Boardroom",
+        "value": "A state-of-the-art boardroom with a long, polished mahogany table, leather chairs, and advanced teleconferencing equipment subtly in the background."
+      },
+      {
+        "category": "Professional",
+        "name": "High-Tech Server Room",
+        "value": "A cool, blue-lit server room with rows of humming server racks, creating a futuristic and industrial-corporate feel."
+      },
+      {
+        "category": "Professional",
+        "name": "Architectural Firm Studio",
+        "value": "A bright, open-plan architectural studio filled with models, blueprints, and drafting tables, under skylights."
+      },
+      {
+        "category": "Professional",
+        "name": "Penthouse Apartment (Minimalist)",
+        "value": "A minimalist penthouse apartment with stark white walls, polished concrete floors, and designer furniture, offering a stunning view of the city below."
+      },
+      {
+        "category": "Professional",
+        "name": "Corporate Lobby",
+        "value": "The expansive, marble-floored lobby of a modern skyscraper, with a large, abstract sculpture and a sense of scale and power."
+      },
+      {
+        "category": "Professional",
+        "name": "Private Jet Interior",
+        "value": "The luxurious interior of a private jet, with cream leather seats, polished wood trim, and soft, ambient lighting."
+      },
+      {
+        "category": "Professional",
+        "name": "Rooftop Helipad",
+        "value": "A concrete helipad on the roof of a skyscraper at twilight, with the city lights beginning to sparkle below."
+      },
+      {
+        "category": "Artistic",
+        "name": "Minimalist Art Gallery",
+        "value": "A sterile, white-walled art gallery with high ceilings and polished concrete floors, featuring a single, large abstract painting."
+      },
+      {
+        "category": "Artistic",
+        "name": "Gritty Urban Loft",
+        "value": "A raw, gritty urban loft with exposed brick walls, visible pipes, large industrial windows, and a raw, edgy, creative feel."
+      },
+      {
+        "category": "Artistic",
+        "name": "Empty Dance Studio",
+        "value": "An empty dance studio with sprung wooden floors, a wall of mirrors, and soft, diffused light from large windows."
+      },
+      {
+        "category": "Artistic",
+        "name": "Baroque Palace Ballroom",
+        "value": "An opulent, grand ballroom in a Baroque palace, with gilded moldings, crystal chandeliers, and polished marble floors reflecting the light."
+      },
+      {
+        "category": "Artistic",
+        "name": "Museum (Classical Antiquity)",
+        "value": "A quiet hall in a museum, surrounded by ancient Greek and Roman marble statues, creating a timeless and classical atmosphere."
+      },
+      {
+        "category": "Artistic",
+        "name": "Abandoned Theatre",
+        "value": "The dusty, atmospheric stage of an abandoned Art Deco theatre, with decaying velvet seats and a single ghost light."
+      },
+      {
+        "category": "Artistic",
+        "name": "Graffiti-Covered Alley",
+        "value": "A vibrant, graffiti-covered alleyway in a bustling city, full of color, texture, and urban energy."
+      },
+      {
+        "category": "Artistic",
+        "name": "Modern Glasshouse/Conservatory",
+        "value": "A large, modern conservatory with a steel and glass structure, filled with exotic, oversized tropical plants and orchids."
+      },
+      {
+        "category": "Artistic",
+        "name": "Minimalist Concrete Studio",
+        "value": "A minimalist studio with a dark grey or black textured concrete wall. The floor is polished concrete that reflects subtle highlights."
+      },
+      {
+        "category": "Intimate",
+        "name": "Luxury Hotel (Night Cityscape)",
+        "value": "A luxurious, modern hotel room with floor-to-ceiling windows revealing a dazzling cityscape at night. The room is immaculate with high-end furniture."
+      },
+      {
+        "category": "Intimate",
+        "name": "Messy Luxury Hotel Room",
+        "value": "A dimly lit luxurious hotel room post-celebration, with a messy king-sized bed with silk sheets and clothes draped over a chair."
+      },
+      {
+        "category": "Intimate",
+        "name": "Intimate Bedroom (Morning Light)",
+        "value": "An intimate bedroom setting with soft, unmade cotton sheets on a bed, with gentle morning light filtering through a sheer curtain."
+      },
+      {
+        "category": "Intimate",
+        "name": "Private Library (Fireplace)",
+        "value": "A cozy, private library with dark wood paneling, a crackling fireplace, and comfortable leather armchairs."
+      },
+      {
+        "category": "Intimate",
+        "name": "Luxury Bathroom & Tub",
+        "value": "A spacious, luxurious bathroom with marble surfaces, a large freestanding bathtub filled with water, and soft, ambient lighting."
+      },
+      {
+        "category": "Intimate",
+        "name": "Secluded Cabin in Woods",
+        "value": "A rustic yet modern cabin deep in the woods, with a large window looking out onto a pine forest, and a warm, inviting interior."
+      },
+      {
+        "category": "Intimate",
+        "name": "Private Gallery Space",
+        "value": "A private, intimate studio sanctuary designed for personal reflection, with soft textures and a single, comfortable chaise lounge."
+      },
+      {
+        "category": "Intimate",
+        "name": "Rainy Window Nook",
+        "value": "A comfortable window seat in a high-rise apartment, with rain streaking down the glass and the city lights blurred in the background."
+      },
+      {
+        "category": "Intimate",
+        "name": "Velvet-Draped Boudoir",
+        "value": "A classic boudoir setting with heavy velvet curtains, antique furniture, and a soft, sensual, and private atmosphere."
+      },
+      {
+        "category": "Intimate",
+        "name": "Sun-Drenched Tuscan Villa Patio",
+        "value": "The rustic stone patio of a private Tuscan villa, bathed in the warm, golden light of late afternoon, overlooking rolling hills."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Infinite White Void",
+        "value": "An infinite, seamless white void or cyclorama, where the subject is the only element, creating a sense of isolation and focus on form."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Infinite Black Void",
+        "value": "An infinite, light-absorbing black void, where form is carved out of the darkness by carefully placed lighting."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Room of Mirrors",
+        "value": "A room where the walls, floor, and ceiling are covered in mirrors, creating an endless, fragmented reflection of the subject."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Submerged in Water",
+        "value": "The subject is floating gracefully in clear, still water, with fabric billowing around them and light refracting from the surface."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Abstract Geometric Set",
+        "value": "A physical set made of large, monochromatic geometric shapes (cubes, spheres, pyramids) that the subject can interact with."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Field of Single-Color Flowers",
+        "value": "An endless, surreal field of flowers, all of the exact same vibrant color (e.g., all scarlet poppies or all cobalt blue irises)."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Cloudscape at Sunset",
+        "value": "The subject appears to be sitting or standing on a solid bank of clouds during a vibrant, surreal sunset."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Neon-Lit Cyberpunk Alley",
+        "value": "A narrow, rain-slicked alley in a futuristic cyberpunk city, illuminated by the vibrant, chaotic glow of neon signs and holographic advertisements."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Surrealist Desert Landscape",
+        "value": "A dreamlike desert landscape inspired by Dali or Tanguy, with melting clocks, strange rock formations, and a dramatic, painted sky."
+      },
+      {
+        "category": "Conceptual",
+        "name": "Projected Universe",
+        "value": "The subject is in a dark room, and images of nebulae and galaxies are projected onto their form and the walls around them."
+      }
+    ]
+  },
+  "concepts": {
+    "artistic": [],
+    "corporate": [],
+    "experimental": [],
+    "roleplay": [],
+    "prebuilt": [
+      {
+        "name": "Executive Noir",
+        "value": "Cinematic medium shot (16:9), exuding power and confidence. Wardrobe: A transparent black business suit. The blazer is open, revealing an intricate black lace minimalist foundation piece and couture upper piece set. Environment: A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background. Lighting: Moody cinematic lighting from a single desk lamp, creating deep shadows and a glamorous, intimate feel.",
+        "shot": "Cinematic medium shot (16:9), exuding power and confidence.",
+        "wardrobe": "A transparent black business suit. The blazer is open, revealing an intricate black lace minimalist foundation piece and couture upper piece set.",
+        "environment": "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background.",
+        "lighting": "Moody cinematic lighting from a single desk lamp, creating deep shadows and a glamorous, intimate feel."
+      },
+      {
+        "name": "Sanctuary Muse",
+        "value": "Intimate close-up shot, creating a sense of closeness and personal connection. Wardrobe: A single piece of clothing: an oversized, unbuttoned man Environment: Messy Luxury Hotel Room: A dimly lit luxurious hotel room, with a messy king-sized bed with white silk sheets and soft morning light. Lighting: Soft, directional window light that wraps around the subject",
+        "shot": "Intimate close-up shot, creating a sense of closeness and personal connection.",
+        "wardrobe": "A single piece of clothing: an oversized, unbuttoned man",
+        "environment": "Messy Luxury Hotel Room: A dimly lit luxurious hotel room, with a messy king-sized bed with white silk sheets and soft morning light.",
+        "lighting": "Soft, directional window light that wraps around the subject"
+      },
+      {
+        "name": "Automotive Couture",
+        "value": "Full body shot (16:9) in a dynamic, high-fashion context. Wardrobe: A skin-tight, full-body catsuit made from high-gloss black latex, emphasizing a sleek, futuristic, and powerful silhouette. Environment: A modern, minimalist garage with polished concrete floors and dramatic uplighting, featuring a vintage red Ferrari 250 GTO. Lighting: Dramatic Rim Lighting that outlines the subject and the car against a dark background, emphasizing their silhouettes.",
+        "shot": "Full body shot (16:9) in a dynamic, high-fashion context.",
+        "wardrobe": "A skin-tight, full-body catsuit made from high-gloss black latex, emphasizing a sleek, futuristic, and powerful silhouette.",
+        "environment": "A modern, minimalist garage with polished concrete floors and dramatic uplighting, featuring a vintage red Ferrari 250 GTO.",
+        "lighting": "Dramatic Rim Lighting that outlines the subject and the car against a dark background, emphasizing their silhouettes."
+      },
+      {
+        "name": "Neon Empress",
+        "value": "Full body portrait (9:16) capturing a powerful, futuristic aesthetic. Wardrobe: A full-body architectural foundation garment defined by a series of interconnected geometric straps, creating a powerful, graphic statement that plays with negative space. Environment: A narrow, rain-slicked alley in a futuristic cyberpunk city, illuminated by the vibrant, chaotic glow of neon signs and holographic advertisements. Lighting: Cinematic Volumetric Lighting, with strong beams of light cutting through atmospheric haze and reflecting off wet pavement.",
+        "shot": "Full body portrait (9:16) capturing a powerful, futuristic aesthetic.",
+        "wardrobe": "A full-body architectural foundation garment defined by a series of interconnected geometric straps, creating a powerful, graphic statement that plays with negative space.",
+        "environment": "A narrow, rain-slicked alley in a futuristic cyberpunk city, illuminated by the vibrant, chaotic glow of neon signs and holographic advertisements.",
+        "lighting": "Cinematic Volumetric Lighting, with strong beams of light cutting through atmospheric haze and reflecting off wet pavement."
+      },
+      {
+        "name": "Chiaroscuro Form",
+        "value": "Medium portrait (9:16), painterly and dramatic Wardrobe: Artistic Draped Scarlet Silk: A single, long piece of flowing scarlet silk fabric, artistically draped around the body to create sculptural shapes that conceal and reveal the form. Environment: Dark Room with Wood Floor: A dark, minimalist room with aged wooden floors and a single, textured, unadorned wall, creating a contemplative atmosphere. Lighting: Painterly Chiaroscuro (Caravaggio): Dramatic, single-source Chiaroscuro lighting from the side and slightly above, illuminating part of the form while the rest falls into deep shadow, in the style of Caravaggio.",
+        "shot": "Medium portrait (9:16), painterly and dramatic",
+        "wardrobe": "Artistic Draped Scarlet Silk: A single, long piece of flowing scarlet silk fabric, artistically draped around the body to create sculptural shapes that conceal and reveal the form.",
+        "environment": "Dark Room with Wood Floor: A dark, minimalist room with aged wooden floors and a single, textured, unadorned wall, creating a contemplative atmosphere.",
+        "lighting": "Painterly Chiaroscuro (Caravaggio): Dramatic, single-source Chiaroscuro lighting from the side and slightly above, illuminating part of the form while the rest falls into deep shadow, in the style of Caravaggio."
+      },
+      {
+        "name": "Fitness Studio Portrait",
+        "value": "Full body portrait (9:16), contrasting raw and delicate textures. Wardrobe: An intricate, high-fashion black lace bodysuit with strategic cutouts and sheer panels. Environment: Minimalist Concrete Studio: A minimalist studio with a dark grey textured concrete wall and polished floor that reflects subtle highlights. Lighting: Soft Side-Wrap Light (Octabox): A single, large soft light source placed to the side, creating a soft, wrapping light that highlights contours against the dark background.",
+        "shot": "Full body portrait (9:16), contrasting raw and delicate textures.",
+        "wardrobe": "An intricate, high-fashion black lace bodysuit with strategic cutouts and sheer panels.",
+        "environment": "Minimalist Concrete Studio: A minimalist studio with a dark grey textured concrete wall and polished floor that reflects subtle highlights.",
+        "lighting": "Soft Side-Wrap Light (Octabox): A single, large soft light source placed to the side, creating a soft, wrapping light that highlights contours against the dark background."
+      },
+      {
+        "name": "High-Fashion Concrete",
+        "value": "Full Body Shot, capturing a powerful and modern aesthetic. Wardrobe: A two-piece, tight-fitting bodysuit crafted from textured, opaque black mesh netting, creating a powerful and sculptural silhouette. Environment: Minimalist Concrete Studio Lighting: Graphic Spotlight (",
+        "shot": "Full Body Shot, capturing a powerful and modern aesthetic.",
+        "wardrobe": "A two-piece, tight-fitting bodysuit crafted from textured, opaque black mesh netting, creating a powerful and sculptural silhouette.",
+        "environment": "Minimalist Concrete Studio",
+        "lighting": "Graphic Spotlight ("
+      },
+      {
+        "name": "Private Gallery Muse",
+        "value": "Artistic full-body nude study (9:16). Wardrobe: A single high-waisted, minimalist black mesh T-strap foundation piece. The rest of the body is unadorned, sculpted by light. Environment: Empty Dance Studio / Loft with smooth, light grey floors and walls, creating vast, uncluttered negative space. Lighting: Hard High-Angle Studio light: Hard, directional warm studio lighting from a high side angle, creating dramatic, sharp shadows and brilliant highlights that intricately sculpt textures.",
+        "shot": "Artistic full-body nude study (9:16).",
+        "wardrobe": "A single high-waisted, minimalist black mesh T-strap foundation piece. The rest of the body is unadorned, sculpted by light.",
+        "environment": "Empty Dance Studio / Loft with smooth, light grey floors and walls, creating vast, uncluttered negative space.",
+        "lighting": "Hard High-Angle Studio light: Hard, directional warm studio lighting from a high side angle, creating dramatic, sharp shadows and brilliant highlights that intricately sculpt textures."
+      },
+      {
+        "name": "Seductress Noir: Desk Command",
+        "value": "Cinematic medium shot (16:9), intimate yet powerful. Wardrobe: A form-fitting black pencil dress with a deep V-neckline and sheer lace panels at the sides, paired with an open black blazer that drapes off her shoulders. The architectural foundation garments beneath are subtly visible through the strategic transparency. Environment: A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background. Lighting: Moody cinematic lighting from a single desk lamp positioned low, creating dramatic side-lighting with soft shadows that sculpt her features and form.",
+        "shot": "Cinematic medium shot (16:9), intimate yet powerful.",
+        "wardrobe": "A form-fitting black pencil dress with a deep V-neckline and sheer lace panels at the sides, paired with an open black blazer that drapes off her shoulders. The architectural foundation garments beneath are subtly visible through the strategic transparency.",
+        "environment": "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background.",
+        "lighting": "Moody cinematic lighting from a single desk lamp positioned low, creating dramatic side-lighting with soft shadows that sculpt her features and form."
+      },
+      {
+        "name": "Seductress Noir: Power Recline",
+        "value": "Dramatic wide shot (16:9), emphasizing the full scene and power dynamics. Wardrobe: A gossamer fabric black silk bodysuit with strategic cutouts and an unbuttoned black vest that frames the torso. The architectural foundation garments create geometric patterns beneath the sheer fabric, playing with transparency and structure. Environment: A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background. Lighting: Dramatic chiaroscuro lighting from above and to the side, creating strong contrasts between illuminated skin and deep shadows. The desk lamp casts a warm glow that highlights the curve of her back.",
+        "shot": "Dramatic wide shot (16:9), emphasizing the full scene and power dynamics.",
+        "wardrobe": "A gossamer fabric black silk bodysuit with strategic cutouts and an unbuttoned black vest that frames the torso. The architectural foundation garments create geometric patterns beneath the sheer fabric, playing with transparency and structure.",
+        "environment": "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background.",
+        "lighting": "Dramatic chiaroscuro lighting from above and to the side, creating strong contrasts between illuminated skin and deep shadows. The desk lamp casts a warm glow that highlights the curve of her back."
+      },
+      {
+        "name": "Seductress Noir: Chair Dominance",
+        "value": "Intimate medium shot (9:16), capturing sensual confidence. Wardrobe: An unbuttoned crisp white dress shirt (oversized) with sleeves rolled up, revealing architectural black lace foundation garments beneath. The shirt falls open to create a deep V, with just enough coverage to maintain sophistication. Black high-waisted tailored trousers. Environment: A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background. Lighting: Soft wraparound lighting from a large window to the side, creating gentle shadows that sculpt the form. The desk lamp adds a warm accent light to her face.",
+        "shot": "Intimate medium shot (9:16), capturing sensual confidence.",
+        "wardrobe": "An unbuttoned crisp white dress shirt (oversized) with sleeves rolled up, revealing architectural black lace foundation garments beneath. The shirt falls open to create a deep V, with just enough coverage to maintain sophistication. Black high-waisted tailored trousers.",
+        "environment": "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background.",
+        "lighting": "Soft wraparound lighting from a large window to the side, creating gentle shadows that sculpt the form. The desk lamp adds a warm accent light to her face."
+      },
+      {
+        "name": "Seductress Noir: Window Silhouette",
+        "value": "Dramatic full body silhouette (9:16), artistic and graphic. Wardrobe: A floor-length sheer black silk robe with architectural structure, worn open to reveal a high-waisted minimalist foundation piece. The robe creates flowing, dramatic lines that catch the backlight. Environment: A sleek, modern executive office at night, with floor-to-ceiling glass walls showcasing the glowing city skyline in sharp focus behind her. Lighting: Dramatic rim lighting from the city lights behind, creating a strong backlit silhouette with a thin rim of light defining her profile and form. Minimal front fill light preserves the silhouette effect.",
+        "shot": "Dramatic full body silhouette (9:16), artistic and graphic.",
+        "wardrobe": "A floor-length sheer black silk robe with architectural structure, worn open to reveal a high-waisted minimalist foundation piece. The robe creates flowing, dramatic lines that catch the backlight.",
+        "environment": "A sleek, modern executive office at night, with floor-to-ceiling glass walls showcasing the glowing city skyline in sharp focus behind her.",
+        "lighting": "Dramatic rim lighting from the city lights behind, creating a strong backlit silhouette with a thin rim of light defining her profile and form. Minimal front fill light preserves the silhouette effect."
+      },
+      {
+        "name": "Seductress Noir: Table Lean",
+        "value": "Intimate close-up (16:9), emphasizing connection and details. Wardrobe: A plunging black silk camisole with delicate lace trim, revealing architectural black lace foundation garments with intricate geometric patterns. The garments are designed to be showcased from this angle, creating visual interest through texture and pattern. Environment: A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background. Lighting: Clamshell lighting setup: soft light from above and subtle fill from below via desk reflection, creating a classic beauty lighting pattern that illuminates her face and décolletage evenly with minimal shadows.",
+        "shot": "Intimate close-up (16:9), emphasizing connection and details.",
+        "wardrobe": "A plunging black silk camisole with delicate lace trim, revealing architectural black lace foundation garments with intricate geometric patterns. The garments are designed to be showcased from this angle, creating visual interest through texture and pattern.",
+        "environment": "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background.",
+        "lighting": "Clamshell lighting setup: soft light from above and subtle fill from below via desk reflection, creating a classic beauty lighting pattern that illuminates her face and décolletage evenly with minimal shadows."
+      },
+      {
+        "name": "Seductress Noir: After Hours",
+        "value": "Bold full-body shot (9:16), capturing uninhibited confidence. Wardrobe: A partially unbuttoned black silk shirt (men Environment: A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background. Lighting: Moody cinematic lighting from the desk lamp creating dramatic uplighting on her face and strong shadows. Additional rim light from the city windows separates her from the background.",
+        "shot": "Bold full-body shot (9:16), capturing uninhibited confidence.",
+        "wardrobe": "A partially unbuttoned black silk shirt (men",
+        "environment": "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background.",
+        "lighting": "Moody cinematic lighting from the desk lamp creating dramatic uplighting on her face and strong shadows. Additional rim light from the city windows separates her from the background."
+      },
+      {
+        "name": "Seductress Noir: Corner Office",
+        "value": "Powerful full-body portrait (9:16), emphasizing authority and presence. Wardrobe: A bespoke black power suit with architectural tailoring - the jacket features sharp, geometric lines and is worn with nothing beneath except intricate architectural black lace foundation garments visible through the deep V of the jacket. High-waisted cigarette pants complete the power ensemble. Environment: A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background. Lighting: Graphic Spotlight (",
+        "shot": "Powerful full-body portrait (9:16), emphasizing authority and presence.",
+        "wardrobe": "A bespoke black power suit with architectural tailoring - the jacket features sharp, geometric lines and is worn with nothing beneath except intricate architectural black lace foundation garments visible through the deep V of the jacket. High-waisted cigarette pants complete the power ensemble.",
+        "environment": "A sleek, modern executive office at night, with glass walls, and the ambient glow of the city skyline out of focus in the background.",
+        "lighting": "Graphic Spotlight ("
+      },
+      {
+        "name": "Seductress Noir: Close Quarters",
+        "value": "Ultra close-up portrait (9:16), macro intimacy and detail. Wardrobe: Only the strap of an intricate architectural black lace foundation garment visible over the shoulder, with most focus on bare skin, collarbones, and neck. Minimal coverage to emphasize skin texture and form. Environment: A sleek, modern executive office at night, completely out of focus - only bokeh of city lights visible in background. Lighting: Soft, diffused side lighting creating gentle shadows that sculpt facial features. Subtle catchlights in the eyes. Chiaroscuro effect with gradual falloff into shadow on the far side of the face.",
+        "shot": "Ultra close-up portrait (9:16), macro intimacy and detail.",
+        "wardrobe": "Only the strap of an intricate architectural black lace foundation garment visible over the shoulder, with most focus on bare skin, collarbones, and neck. Minimal coverage to emphasize skin texture and form.",
+        "environment": "A sleek, modern executive office at night, completely out of focus - only bokeh of city lights visible in background.",
+        "lighting": "Soft, diffused side lighting creating gentle shadows that sculpt facial features. Subtle catchlights in the eyes. Chiaroscuro effect with gradual falloff into shadow on the far side of the face."
+      },
+      {
+        "name": "Real: Newton Big Nudes (1980)",
+        "value": "Full body portrait (9:16), stark and powerful. Recreation of Helmut Newton Wardrobe: Minimal high-waisted black foundation piece. Rest of form unadorned. Sharp architectural high heels. Exactly as Newton composed his celebrated gallery pieces. Environment: Empty white studio with seamless paper backdrop, creating vast negative space exactly as Newton Lighting: Hard, directional studio strobe from high side angle creating dramatic, sharp shadows. Classic Newton chiaroscuro - 60% of image is shadow, 40% is brilliant highlight.",
+        "shot": "Full body portrait (9:16), stark and powerful. Recreation of Helmut Newton",
+        "wardrobe": "Minimal high-waisted black foundation piece. Rest of form unadorned. Sharp architectural high heels. Exactly as Newton composed his celebrated gallery pieces.",
+        "environment": "Empty white studio with seamless paper backdrop, creating vast negative space exactly as Newton",
+        "lighting": "Hard, directional studio strobe from high side angle creating dramatic, sharp shadows. Classic Newton chiaroscuro - 60% of image is shadow, 40% is brilliant highlight."
+      },
+      {
+        "name": "Real: Araki Tokyo Intimacy (1990s)",
+        "value": "Intimate documentary portrait (4:5), raw and honest. Based on Nobuyoshi Araki Wardrobe: Single oversized men Environment: Simple Tokyo apartment interior with natural clutter - books, unmade bed, morning light through window. Araki Lighting: Soft natural window light, slightly underexposed creating intimate mood. Araki",
+        "shot": "Intimate documentary portrait (4:5), raw and honest. Based on Nobuyoshi Araki",
+        "wardrobe": "Single oversized men",
+        "environment": "Simple Tokyo apartment interior with natural clutter - books, unmade bed, morning light through window. Araki",
+        "lighting": "Soft natural window light, slightly underexposed creating intimate mood. Araki"
+      },
+      {
+        "name": "Real: Roversi Polaroid Dream (1990s)",
+        "value": "Dreamlike portrait (4:5), soft and ethereal. Recreation of Paolo Roversi Wardrobe: Delicate gossamer silk draped fabric, barely covering form. Ethereal and romantic, creating soft shapes that conceal and reveal. Exactly as Roversi shot on 8x10 Polaroid. Environment: Minimal studio with soft gray backdrop, creating dreamlike atmosphere - Roversi Lighting: Extremely soft, diffused studio light creating painterly quality with almost no shadows. Roversi",
+        "shot": "Dreamlike portrait (4:5), soft and ethereal. Recreation of Paolo Roversi",
+        "wardrobe": "Delicate gossamer silk draped fabric, barely covering form. Ethereal and romantic, creating soft shapes that conceal and reveal. Exactly as Roversi shot on 8x10 Polaroid.",
+        "environment": "Minimal studio with soft gray backdrop, creating dreamlike atmosphere - Roversi",
+        "lighting": "Extremely soft, diffused studio light creating painterly quality with almost no shadows. Roversi"
+      },
+      {
+        "name": "Real: Lindbergh Supermodel B&W (1990s)",
+        "value": "Powerful black and white portrait (4:5), raw beauty. Based on Peter Lindbergh Wardrobe: Simple white cotton dress shirt worn loosely, or minimal black architectural foundation garments. Focus on raw, unretouched beauty exactly as Lindbergh shot. Environment: Simple neutral background - gray seamless or location with minimal distraction. Lindbergh Lighting: Natural, flattering but honest light. Soft shadows that enhance without glamorizing. Lindbergh",
+        "shot": "Powerful black and white portrait (4:5), raw beauty. Based on Peter Lindbergh",
+        "wardrobe": "Simple white cotton dress shirt worn loosely, or minimal black architectural foundation garments. Focus on raw, unretouched beauty exactly as Lindbergh shot.",
+        "environment": "Simple neutral background - gray seamless or location with minimal distraction. Lindbergh",
+        "lighting": "Natural, flattering but honest light. Soft shadows that enhance without glamorizing. Lindbergh"
+      },
+      {
+        "name": "Real: Leibovitz Celebrity Portrait (2000s)",
+        "value": "Intimate portrait (4:5), authentic and powerful. Based on Annie Leibovitz Wardrobe: Simple black slip dress or oversized white shirt. Minimal, timeless pieces allowing personality to shine. Exactly as Leibovitz photographs A-list celebrities. Environment: Simple gray studio backdrop with seamless paper. Classic portrait studio setup - Leibovitz Lighting: Soft, directional studio strobe creating gentle sculpting. Beautiful but not overly dramatic - Leibovitz",
+        "shot": "Intimate portrait (4:5), authentic and powerful. Based on Annie Leibovitz",
+        "wardrobe": "Simple black slip dress or oversized white shirt. Minimal, timeless pieces allowing personality to shine. Exactly as Leibovitz photographs A-list celebrities.",
+        "environment": "Simple gray studio backdrop with seamless paper. Classic portrait studio setup - Leibovitz",
+        "lighting": "Soft, directional studio strobe creating gentle sculpting. Beautiful but not overly dramatic - Leibovitz"
+      },
+      {
+        "name": "Real: Ritts Desert Sculpture (1988)",
+        "value": "Artistic outdoor nude (16:9), sculptural. Recreation of Herb Ritts Wardrobe: Unadorned form photographed as living sculpture. Minimal to no clothing, body as art object exactly as Ritts shot for Getty Museum collection. Environment: Desert landscape with sand dunes or rock formations. Natural outdoor setting - Ritts Lighting: Brilliant natural sunlight creating strong contrast and sculptural shadows. Golden hour or harsh noon sun - Ritts",
+        "shot": "Artistic outdoor nude (16:9), sculptural. Recreation of Herb Ritts",
+        "wardrobe": "Unadorned form photographed as living sculpture. Minimal to no clothing, body as art object exactly as Ritts shot for Getty Museum collection.",
+        "environment": "Desert landscape with sand dunes or rock formations. Natural outdoor setting - Ritts",
+        "lighting": "Brilliant natural sunlight creating strong contrast and sculptural shadows. Golden hour or harsh noon sun - Ritts"
+      },
+      {
+        "name": "📸 Instagram: Minimal Foundation Bedroom",
+        "value": "Intimate close-up portrait (9:16), museum-quality fine-art photography celebrating natural curves. Wardrobe: Micro golden metallic triangle bralette and matching high-waisted thong, emphasizing maximum curves with minimum coverage. Strategic minimal coverage celebrating 38DD-26-40 hourglass proportions with artistic restraint. Environment: Luxury Bedroom Sanctuary: Private master bedroom with king-sized bed dressed in cream silk sheets, soft ambient lighting from bedside lamps, floor-to-ceiling windows with sheer curtains filtering golden-hour sunlight, minimalist elegant décor. Lighting: Soft golden-hour window light wrapping around curves, creating gentle shadows that sculpt hourglass form. Warm intimate glow with subtle highlights on golden-bronze skin.",
+        "shot": "Intimate close-up portrait (9:16), museum-quality fine-art photography celebrating natural curves.",
+        "wardrobe": "Micro golden metallic triangle bralette and matching high-waisted thong, emphasizing maximum curves with minimum coverage. Strategic minimal coverage celebrating 38DD-26-40 hourglass proportions with artistic restraint.",
+        "environment": "Luxury Bedroom Sanctuary: Private master bedroom with king-sized bed dressed in cream silk sheets, soft ambient lighting from bedside lamps, floor-to-ceiling windows with sheer curtains filtering golden-hour sunlight, minimalist elegant décor.",
+        "lighting": "Soft golden-hour window light wrapping around curves, creating gentle shadows that sculpt hourglass form. Warm intimate glow with subtle highlights on golden-bronze skin."
+      },
+      {
+        "name": "📸 Instagram: Fine-Art Bold Hotel Suite",
+        "value": "Full body artistic portrait (9:16), fine-art nude photography with maximum artistic expression. Wardrobe: Intricate network of delicate gold chains with tiny diamonds creating geometric patterns across décolletage, waist, and hips. Jewelry as wardrobe - continuous precious metal chains mapping curvaceous topography. Museum-quality fine-art aesthetic. Environment: Luxury Hotel Penthouse Suite: Five-star hotel suite with floor-to-ceiling windows overlooking city skyline at golden hour, minimalist modern décor, warm neutral tones, vast negative space creating gallery-like atmosphere. Lighting: Hard directional side lighting creating dramatic shadows and highlights, sculpting hourglass form with chiaroscuro. Herb Ritts inspired natural light through windows.",
+        "shot": "Full body artistic portrait (9:16), fine-art nude photography with maximum artistic expression.",
+        "wardrobe": "Intricate network of delicate gold chains with tiny diamonds creating geometric patterns across décolletage, waist, and hips. Jewelry as wardrobe - continuous precious metal chains mapping curvaceous topography. Museum-quality fine-art aesthetic.",
+        "environment": "Luxury Hotel Penthouse Suite: Five-star hotel suite with floor-to-ceiling windows overlooking city skyline at golden hour, minimalist modern décor, warm neutral tones, vast negative space creating gallery-like atmosphere.",
+        "lighting": "Hard directional side lighting creating dramatic shadows and highlights, sculpting hourglass form with chiaroscuro. Herb Ritts inspired natural light through windows."
+      },
+      {
+        "name": "📸 Instagram: Cinematic Lower Curves Villa",
+        "value": "Dramatic cinematic shot (16:9), emphasizing lower curves with film noir aesthetic. Wardrobe: Low-slung golden chain belt with geometric medallions resting on 40-inch hips, plus sheer black mesh bodysuit with strategic geometric seaming. Emphasizes extreme hourglass ratio and lower curve drama with cinematic sophistication. Environment: Private Villa Bedroom: Luxury Mediterranean villa bedroom with dramatic chiaroscuro lighting, dark walls creating noir atmosphere, single window casting dramatic light beam, king-sized bed with black silk sheets. Lighting: Dramatic single-source side lighting creating film noir shadows, hard light sculpting lower curves with deep blacks and brilliant highlights. Helmut Newton neo-noir aesthetic.",
+        "shot": "Dramatic cinematic shot (16:9), emphasizing lower curves with film noir aesthetic.",
+        "wardrobe": "Low-slung golden chain belt with geometric medallions resting on 40-inch hips, plus sheer black mesh bodysuit with strategic geometric seaming. Emphasizes extreme hourglass ratio and lower curve drama with cinematic sophistication.",
+        "environment": "Private Villa Bedroom: Luxury Mediterranean villa bedroom with dramatic chiaroscuro lighting, dark walls creating noir atmosphere, single window casting dramatic light beam, king-sized bed with black silk sheets.",
+        "lighting": "Dramatic single-source side lighting creating film noir shadows, hard light sculpting lower curves with deep blacks and brilliant highlights. Helmut Newton neo-noir aesthetic."
+      },
+      {
+        "name": "📸 Instagram: Roleplay Sensual Boudoir",
+        "value": "Intimate storytelling portrait (4:5), capturing sensual roleplay moment with emotional connection. Wardrobe: Barely-there champagne silk chiffon wrap strategically draped and secured with single pearl pin. Minimalist textile creating layered opacity zones celebrating dramatic hourglass with intimate vulnerability. Environment: Private Boudoir Chamber: Intimate luxury bedroom with soft romantic lighting, cream and blush tones, plush velvet furnishings, personal intimate touches like perfume bottles and jewelry, creating personal private sanctuary. Lighting: Soft romantic window light creating Paolo Roversi dreamlike quality, gentle wraparound lighting with minimal shadows, warm intimate glow.",
+        "shot": "Intimate storytelling portrait (4:5), capturing sensual roleplay moment with emotional connection.",
+        "wardrobe": "Barely-there champagne silk chiffon wrap strategically draped and secured with single pearl pin. Minimalist textile creating layered opacity zones celebrating dramatic hourglass with intimate vulnerability.",
+        "environment": "Private Boudoir Chamber: Intimate luxury bedroom with soft romantic lighting, cream and blush tones, plush velvet furnishings, personal intimate touches like perfume bottles and jewelry, creating personal private sanctuary.",
+        "lighting": "Soft romantic window light creating Paolo Roversi dreamlike quality, gentle wraparound lighting with minimal shadows, warm intimate glow."
+      },
+      {
+        "name": "📸 Instagram: Golden Hour Intimacy Terrace",
+        "value": "Warm intimate portrait (9:16), celebrating natural beauty in golden-hour light. Wardrobe: Single large square of liquid gold charmeuse silk artistically draped and held by gravity. Sculptural fabric creating dynamic draping over curvaceous hourglass, Renaissance painting aesthetic. Environment: Private Penthouse Terrace: Luxury penthouse with floor-to-ceiling windows opening to private terrace, golden-hour sunset flooding space with warm light, panoramic views, minimal elegant furnishings creating intimate sanctuary. Lighting: Natural golden-hour sunset light flooding through windows, warm wraparound glow, Annie Leibovitz warmth with soft shadows sculpting curves.",
+        "shot": "Warm intimate portrait (9:16), celebrating natural beauty in golden-hour light.",
+        "wardrobe": "Single large square of liquid gold charmeuse silk artistically draped and held by gravity. Sculptural fabric creating dynamic draping over curvaceous hourglass, Renaissance painting aesthetic.",
+        "environment": "Private Penthouse Terrace: Luxury penthouse with floor-to-ceiling windows opening to private terrace, golden-hour sunset flooding space with warm light, panoramic views, minimal elegant furnishings creating intimate sanctuary.",
+        "lighting": "Natural golden-hour sunset light flooding through windows, warm wraparound glow, Annie Leibovitz warmth with soft shadows sculpting curves."
+      },
+      {
+        "name": "📸 Instagram: Luxury Boudoir Silk Sheets",
+        "value": "Opulent boudoir portrait (4:5), celebrating luxury intimate aesthetics. Wardrobe: Tiny burgundy crushed velvet triangle bralette with delicate gold chain straps, plus intricate backless chain harness visible. Luxurious minimal coverage with textured velvet creating tactile contrast, jewelry-like architectural support. Environment: Opulent Master Suite: Five-star luxury bedroom with cream silk sheets, multiple pillow layers, candles creating warm glow, fresh roses, champagne on nightstand, floor-to-ceiling draped windows, baroque-inspired elegant details. Lighting: Soft romantic candlelight mixed with subtle accent lighting, creating Paolo Roversi romantic intimacy with warm amber glow and gentle shadows.",
+        "shot": "Opulent boudoir portrait (4:5), celebrating luxury intimate aesthetics.",
+        "wardrobe": "Tiny burgundy crushed velvet triangle bralette with delicate gold chain straps, plus intricate backless chain harness visible. Luxurious minimal coverage with textured velvet creating tactile contrast, jewelry-like architectural support.",
+        "environment": "Opulent Master Suite: Five-star luxury bedroom with cream silk sheets, multiple pillow layers, candles creating warm glow, fresh roses, champagne on nightstand, floor-to-ceiling draped windows, baroque-inspired elegant details.",
+        "lighting": "Soft romantic candlelight mixed with subtle accent lighting, creating Paolo Roversi romantic intimacy with warm amber glow and gentle shadows."
+      },
+      {
+        "name": "📸 Instagram: Athletic Curves Fitness",
+        "value": "Dynamic athletic portrait (9:16), celebrating toned hourglass curves with fitness energy. Wardrobe: Geometric black leather strap framework creating cage-like structure around torso, plus ultra-sheer nude silk stockings with garter belt. Athletic intimate aesthetic celebrating toned curves with architectural constraint. Environment: Modern Minimalist Loft: Contemporary urban loft with exposed brick, concrete floors, large windows with natural light, minimalist furniture, fitness equipment visible in background, creating athletic lifestyle aesthetic. Lighting: Hard natural window light creating Herb Ritts body strength lighting, dramatic shadows emphasizing muscle definition and toned curves.",
+        "shot": "Dynamic athletic portrait (9:16), celebrating toned hourglass curves with fitness energy.",
+        "wardrobe": "Geometric black leather strap framework creating cage-like structure around torso, plus ultra-sheer nude silk stockings with garter belt. Athletic intimate aesthetic celebrating toned curves with architectural constraint.",
+        "environment": "Modern Minimalist Loft: Contemporary urban loft with exposed brick, concrete floors, large windows with natural light, minimalist furniture, fitness equipment visible in background, creating athletic lifestyle aesthetic.",
+        "lighting": "Hard natural window light creating Herb Ritts body strength lighting, dramatic shadows emphasizing muscle definition and toned curves."
+      },
+      {
+        "name": "📸 Instagram: Midnight Mystery Shadows",
+        "value": "Dramatic noir portrait (9:16), mysterious midnight aesthetic with shadow play. Wardrobe: Floor-length completely sheer black silk georgette robe with kimono sleeves worn open, plus micro golden triangle set beneath. Transparent layering creating ethereal black veil around curves with strategic reveals through shadow. Environment: Midnight Penthouse: Dark luxury penthouse at midnight with city lights visible through windows, single dramatic light source, mostly shadows with selective illumination, mysterious noir atmosphere. Lighting: Dramatic single-source lighting creating Bill Brandt noir mystery, mostly darkness with selective moonlight beams, chiaroscuro shadow play on curves.",
+        "shot": "Dramatic noir portrait (9:16), mysterious midnight aesthetic with shadow play.",
+        "wardrobe": "Floor-length completely sheer black silk georgette robe with kimono sleeves worn open, plus micro golden triangle set beneath. Transparent layering creating ethereal black veil around curves with strategic reveals through shadow.",
+        "environment": "Midnight Penthouse: Dark luxury penthouse at midnight with city lights visible through windows, single dramatic light source, mostly shadows with selective illumination, mysterious noir atmosphere.",
+        "lighting": "Dramatic single-source lighting creating Bill Brandt noir mystery, mostly darkness with selective moonlight beams, chiaroscuro shadow play on curves."
+      },
+      {
+        "name": "📸 Instagram: Soft Romantic Dream Villa",
+        "value": "Dreamy romantic portrait (4:5), soft focus celebrating gentle intimate beauty. Wardrobe: Oversized men Environment: Coastal Villa Morning: Private villa bedroom with ocean views, sheer white curtains billowing in morning breeze, soft natural light flooding space, white and cream tones creating dreamy atmosphere. Lighting: Extremely soft diffused morning light through sheer curtains, creating Paolo Roversi dreamlike quality with painterly soft-focus aesthetic.",
+        "shot": "Dreamy romantic portrait (4:5), soft focus celebrating gentle intimate beauty.",
+        "wardrobe": "Oversized men",
+        "environment": "Coastal Villa Morning: Private villa bedroom with ocean views, sheer white curtains billowing in morning breeze, soft natural light flooding space, white and cream tones creating dreamy atmosphere.",
+        "lighting": "Extremely soft diffused morning light through sheer curtains, creating Paolo Roversi dreamlike quality with painterly soft-focus aesthetic."
+      },
+      {
+        "name": "📸 Instagram: Urban Edge Raw Loft",
+        "value": "Edgy urban portrait (9:16), raw confident intimate celebration in industrial setting. Wardrobe: Full-body transparent black mesh bodysuit with strategic geometric seaming plus dramatic hip chain belt with medallions. Total transparency architecture creating illusion of coverage while revealing hourglass, urban rebellion aesthetic. Environment: Raw Industrial Loft: Converted warehouse loft with exposed brick, concrete floors, metal beams, urban gritty atmosphere, dramatic shadows, raw authentic space creating edgy intimate setting. Lighting: Hard industrial lighting with dramatic shadows, single harsh light source creating urban edge, Helmut Newton rebellion lighting with raw quality.",
+        "shot": "Edgy urban portrait (9:16), raw confident intimate celebration in industrial setting.",
+        "wardrobe": "Full-body transparent black mesh bodysuit with strategic geometric seaming plus dramatic hip chain belt with medallions. Total transparency architecture creating illusion of coverage while revealing hourglass, urban rebellion aesthetic.",
+        "environment": "Raw Industrial Loft: Converted warehouse loft with exposed brick, concrete floors, metal beams, urban gritty atmosphere, dramatic shadows, raw authentic space creating edgy intimate setting.",
+        "lighting": "Hard industrial lighting with dramatic shadows, single harsh light source creating urban edge, Helmut Newton rebellion lighting with raw quality."
+      },
+      {
+        "name": "📸 Instagram: Classic Elegance Suite",
+        "value": "Timeless elegant portrait (4:5), celebrating classic hourglass beauty with refined sophistication. Wardrobe: Ultra-sheer black mesh mini dress covered in tiny Swarovski crystals revealing minimal lace foundation beneath, plus classic seamed silk stockings with garter. Crystalline transparency with vintage sophistication and luxury sparkle. Environment: Classic Hotel Suite: Timeless five-star hotel suite with classic elegant décor, cream and gold tones, vintage furniture, crystal chandelier, floor-length drapes, sophisticated intimate setting. Lighting: Classic portrait lighting with soft key light and gentle fill, Irving Penn refinement creating timeless elegant illumination.",
+        "shot": "Timeless elegant portrait (4:5), celebrating classic hourglass beauty with refined sophistication.",
+        "wardrobe": "Ultra-sheer black mesh mini dress covered in tiny Swarovski crystals revealing minimal lace foundation beneath, plus classic seamed silk stockings with garter. Crystalline transparency with vintage sophistication and luxury sparkle.",
+        "environment": "Classic Hotel Suite: Timeless five-star hotel suite with classic elegant décor, cream and gold tones, vintage furniture, crystal chandelier, floor-length drapes, sophisticated intimate setting.",
+        "lighting": "Classic portrait lighting with soft key light and gentle fill, Irving Penn refinement creating timeless elegant illumination."
+      },
+      {
+        "name": "📸 Instagram: Beach Goddess Private Shore",
+        "value": "Natural outdoor portrait (9:16), celebrating sun-drenched curves in beach paradise. Wardrobe: Micro golden triangle set plus thin decorative body oil creating glossy sun-kissed effect. Ultra-minimal beach coverage celebrating natural outdoor curves with sun-drenched beauty. Environment: Private Beach Paradise: Secluded private beach with white sand, turquoise water, tropical paradise setting, natural outdoor intimate space, luxury beach villa visible in distance. Lighting: Brilliant natural sunlight creating Bruce Weber sun-drenched beauty, golden warm rays, water reflections creating sparkle, natural outdoor harsh yet beautiful light.",
+        "shot": "Natural outdoor portrait (9:16), celebrating sun-drenched curves in beach paradise.",
+        "wardrobe": "Micro golden triangle set plus thin decorative body oil creating glossy sun-kissed effect. Ultra-minimal beach coverage celebrating natural outdoor curves with sun-drenched beauty.",
+        "environment": "Private Beach Paradise: Secluded private beach with white sand, turquoise water, tropical paradise setting, natural outdoor intimate space, luxury beach villa visible in distance.",
+        "lighting": "Brilliant natural sunlight creating Bruce Weber sun-drenched beauty, golden warm rays, water reflections creating sparkle, natural outdoor harsh yet beautiful light."
+      },
+      {
+        "name": "🌙 IA Meera: Morning Invitation",
+        "value": "Full body portrait (3:4), intimate boudoir fine art. LOCKED Indian Meera (37DD-27-40) fully reclined on back, one knee raised, arms relaxed above head, inner thighs parted naturally, direct inviting gaze. Single gossamer thread, 99% golden-brown Indian skin exposed. Opulent king-size bed with cream silk sheets, soft diffused morning light. Soft golden morning light, warm diffused glow. ImagineArt 1.0 quality, 8K ultra-high resolution.",
+        "shot": "Full body portrait (3:4), intimate boudoir fine art",
+        "wardrobe": "Single gossamer thread across body, barely visible ultra-fine strand, 99% golden-brown Indian skin exposed, platinum navel ring, gold anklet",
+        "environment": "Opulent king-size bed with cream silk sheets and gold accents, plush pillows, soft diffused morning light through sheer curtains, intimate bedroom atmosphere",
+        "lighting": "Soft golden morning light through sheer curtains, warm diffused glow on golden-brown skin, intimate bedroom lighting"
+      },
+      {
+        "name": "🌙 IA Meera: Silk Surrender",
+        "value": "Full body portrait (3:4), complete surrender fine art. LOCKED Indian Meera (37DD-27-40) side-lying recline, one arm supporting head, top leg drawn up revealing inner thigh, 40\" hips prominent. Artistic nude with platinum navel ring and gold anklet only. Luxurious silk sheets in cream and gold. Soft golden morning light, romantic warmth. 8K museum quality.",
+        "shot": "Full body portrait (3:4), complete surrender fine art",
+        "wardrobe": "Artistic nude, platinum navel ring and gold anklet jewelry only, full golden-brown Indian body revealed",
+        "environment": "Luxurious king-size bed with silk sheets in cream and gold, plush pillows, soft diffused morning light through sheer curtains",
+        "lighting": "Soft golden morning light through sheer curtains, warm diffused glow, romantic warmth"
+      },
+      {
+        "name": "🌙 IA Meera: Velvet Recline",
+        "value": "Full body portrait (3:4), velvet chaise boudoir. LOCKED Indian Meera (37DD-27-40) side-lying recline with top leg revealing inner thigh. Single silk strand draped diagonally. Deep burgundy velvet chaise lounge with warm amber lamplight. Warm flickering candlelight, romantic shadows. 8K professional intimate photography.",
+        "shot": "Full body portrait (3:4), velvet chaise boudoir",
+        "wardrobe": "Single silk strand draped from shoulder, crossing body diagonally, 99% exposure of golden-brown Indian curves",
+        "environment": "Deep burgundy velvet chaise lounge, ornate carved wood frame, warm amber lamplight, vintage boudoir aesthetic",
+        "lighting": "Warm flickering candlelight, romantic shadows playing across curves, amber tones on golden-brown complexion"
+      },
+      {
+        "name": "🌙 IA Meera: Fireside Surrender",
+        "value": "Full body portrait (3:4), fireplace intimate. LOCKED Indian Meera (37DD-27-40) fully reclined, one knee raised, inner thighs parted naturally. Platinum navel ring and gold anklet only. Beside crackling fireplace on soft fur rug. Warm fireplace glow with dramatic shadows. 8K professional fine art.",
+        "shot": "Full body portrait (3:4), fireplace intimate",
+        "wardrobe": "Platinum navel ring and gold anklet only as coverage, otherwise completely exposed, museum fine art nude",
+        "environment": "Beside crackling fireplace, soft fur rug, warm flickering light, intimate warmth, cozy private corner",
+        "lighting": "Warm fireplace glow from side, dramatic shadows and highlights, cozy intimate illumination on skin"
+      },
+      {
+        "name": "🖤 IA Newton: Power Stance",
+        "value": "Full body portrait (3:4), Helmut Newton signature power nude. LOCKED Indian Meera (37DD-27-40) standing power pose - nude, legs apart showing inner thighs, hands on hips, bust lifted, chin raised. Fine art nude with platinum navel ring. Professional white studio, Helmut Newton lighting. High contrast noir. 8K museum exhibition quality.",
+        "shot": "Full body portrait (3:4), Helmut Newton signature power nude",
+        "wardrobe": "Fine art nude, platinum navel ring as sole adornment, museum-quality artistic photography",
+        "environment": "Professional white photography studio, seamless background, dramatic directional lighting",
+        "lighting": "Helmut Newton signature - high contrast, dramatic shadows, single strong key light creating bold sculptural shadows"
+      },
+      {
+        "name": "🖤 IA Newton: Goddess Recline",
+        "value": "Full body portrait (3:4), classical reclined nude inner thigh study. LOCKED Indian Meera (37DD-27-40) reclined on velvet chaise, legs parted naturally showing inner thigh detail, powerful gaze. Classic Parisian boudoir with gilded mirrors. Rembrandt lighting, painterly chiaroscuro. 8K medium format quality.",
+        "shot": "Full body portrait (3:4), classical reclined nude inner thigh study",
+        "wardrobe": "Fine art nude, platinum navel ring centered, gold anklet glinting",
+        "environment": "Classic Parisian boudoir, ornate gilded mirrors, velvet chaise in deep burgundy, antique chandelier casting warm light",
+        "lighting": "Classic Rembrandt lighting - triangular light on cheek, dramatic chiaroscuro, painterly quality highlighting golden-brown Indian skin"
+      },
+      {
+        "name": "🖤 IA Newton: Kneeling Power",
+        "value": "Full body portrait (3:4), kneeling nude power study. LOCKED Indian Meera (37DD-27-40) kneeling nude - knees apart revealing inner thigh curves, torso upright, commanding presence. Professional white studio. Helmut Newton signature high contrast. 8K professional fine art.",
+        "shot": "Full body portrait (3:4), kneeling nude power study",
+        "wardrobe": "Fine art nude, platinum navel ring catching dramatic light",
+        "environment": "Professional white photography studio, seamless background, dramatic directional lighting",
+        "lighting": "Helmut Newton signature - high contrast, dramatic shadows, single strong key light"
+      },
+      {
+        "name": "🖤 IA Newton: Seated Spread",
+        "value": "Full body portrait (3:4), seated spread nude. LOCKED Indian Meera (37DD-27-40) seated with legs spread - inner thighs prominently displayed, leaning back on hands. Ultra-modern penthouse at night. City glow through windows, dramatic silhouette. 8K cinematic photography.",
+        "shot": "Full body portrait (3:4), seated spread nude",
+        "wardrobe": "Fine art nude, platinum navel ring centered, gold anklet visible",
+        "environment": "Ultra-modern penthouse apartment, floor-to-ceiling windows with city skyline at night",
+        "lighting": "Night city lighting - ambient city glow through windows, dramatic silhouette with warm skin illumination"
+      },
+      {
+        "name": "🔬 IA Closeup: Intimate V",
+        "value": "Closeup portrait (3:4), detailed V-shape where inner thighs meet. LOCKED Indian Meera (37DD-27-40) laying position, golden-brown skin texture visible, soft feminine curves. On cream silk bedsheets. Soft diffused studio light. 8K macro detail.",
+        "shot": "Closeup portrait (3:4), detailed V-shape where thighs meet",
+        "wardrobe": "Artistic nude, inner thigh focus, platinum navel piercing visible when midriff in frame",
+        "environment": "On cream silk bedsheets, intimate bedroom setting, soft fabric contrast against golden-brown skin",
+        "lighting": "Soft diffused studio light, even illumination on golden-brown skin, minimal shadows, beauty photography lighting"
+      },
+      {
+        "name": "🔬 IA Closeup: Ultimate Detail",
+        "value": "Extreme closeup (3:4), peak inner thigh masterpiece. LOCKED Indian Meera (37DD-27-40) V-shaped intimate area with ultra-detailed golden-brown skin texture, natural pores visible. On cream silk bedsheets. Golden hour warm light. 8K macro photography.",
+        "shot": "Extreme closeup (3:4), peak inner thigh masterpiece",
+        "wardrobe": "Artistic nude, extreme inner thigh detail focus",
+        "environment": "On cream silk bedsheets, intimate bedroom setting, soft fabric contrast against golden-brown skin",
+        "lighting": "Golden hour warm light, amber tones on golden-brown Indian skin, soft shadows, intimate atmosphere"
+      },
+      {
+        "name": "🌙 IA Midnight: Candlelit Surrender",
+        "value": "Full body portrait (3:4), full spread surrender on candlelit bed. LOCKED Indian Meera (37DD-27-40) legs naturally parted, complete inner thigh landscape visible, V-shaped intimate space catching candlelight. Black silk sheets, burgundy velvet pillows, dozens of candles. Rembrandt lighting with chiaroscuro. 8K legendary cinematographic quality.",
+        "shot": "Full body portrait (3:4), full spread surrender on candlelit bed",
+        "wardrobe": "Artistic nude with platinum navel piercing catching candlelight, gold anklet glinting",
+        "environment": "Luxurious king-size bed with black silk sheets and burgundy velvet pillows, dozens of flickering candles, dark midnight atmosphere with pools of golden light",
+        "lighting": "Rembrandt lighting with single soft key creating triangular highlight, deep shadows, candle flames as practical lights, chiaroscuro mastery"
+      },
+      {
+        "name": "🌙 IA Midnight: Butterfly Position",
+        "value": "Full body portrait (3:4), maximum butterfly inner thigh exposure. LOCKED Indian Meera (37DD-27-40) butterfly position - soles together, knees fallen outward, maximum inner thigh exposure, diamond negative space. Candlelit bed. Golden candlelight simulating perpetual golden hour. 8K professional intimate photography.",
+        "shot": "Full body portrait (3:4), maximum butterfly inner thigh exposure",
+        "wardrobe": "Artistic nude, platinum navel ring with diamond, gold anklet visible",
+        "environment": "Luxurious king-size bed with black silk sheets, dozens of flickering candles, dark midnight atmosphere",
+        "lighting": "Warm golden candlelight simulating perpetual golden hour, amber tones wrapping around curves"
+      },
+      {
+        "name": "🌙 IA Midnight: Velvet Firelight",
+        "value": "Full body portrait (3:4), full body reclined on velvet by firelight. LOCKED Indian Meera (37DD-27-40) legs naturally parted, V-shaped intimate space, serene goddess expression. Antique velvet chaise before roaring fireplace. Flickering firelight with animated shadows. 8K cinematic firelight capture.",
+        "shot": "Full body portrait (3:4), full body reclined on velvet by firelight",
+        "wardrobe": "Artistic nude, platinum navel piercing visible, gold anklet",
+        "environment": "Antique velvet chaise lounge in deep burgundy, positioned before roaring fireplace, candlelit sconces, Persian rug",
+        "lighting": "Flickering firelight creating animated shadows, warm orange-red undertones, dancing light patterns on skin"
+      },
+      {
+        "name": "📐 IA Laying: Frontal Spread",
+        "value": "Full body portrait (3:4), classic frontal spread on silk bed. LOCKED Indian Meera (37DD-27-40) laying on back, legs naturally parted toward camera, inner thighs fully visible, V-shaped intimate space prominent. Cream silk sheets with warm ambient lighting. Golden warm light. 8K professional intimate photography.",
+        "shot": "Full body portrait (3:4), classic frontal spread on silk bed",
+        "wardrobe": "Artistic nude, platinum navel ring visible, gold anklet",
+        "environment": "Luxurious bed with cream silk sheets, scattered silk pillows, warm ambient lighting, private bedroom at golden hour",
+        "lighting": "Golden warm light wrapping around curves, soft shadows defining inner thigh contours, intimate warmth"
+      },
+      {
+        "name": "📐 IA Laying: Butterfly Display",
+        "value": "Full body portrait (3:4), maximum butterfly exposure. LOCKED Indian Meera (37DD-27-40) butterfly position - soles together, knees outward, maximum inner thigh exposure, diamond negative space, navel piercing visible. Cream silk sheets. Soft natural diffused light. 8K exceptional anatomical detail.",
+        "shot": "Full body portrait (3:4), maximum butterfly exposure",
+        "wardrobe": "Artistic nude, platinum navel ring centered",
+        "environment": "Luxurious bed with cream silk sheets, warm ambient lighting, private bedroom",
+        "lighting": "Soft natural diffused light, even illumination revealing skin texture, beauty lighting"
+      },
+      {
+        "name": "📐 IA Laying: Birds Eye Spread",
+        "value": "Full body portrait (3:4), overhead view full spread. LOCKED Indian Meera (37DD-27-40) laying on back, legs spread in V-shape, camera straight down, full body visible, geometric composition. Cream silk sheets. Soft natural diffused light from above. 8K overhead composition photography.",
+        "shot": "Full body portrait (3:4), overhead view full spread",
+        "wardrobe": "Artistic nude, platinum navel ring centered, all jewelry visible",
+        "environment": "Luxurious bed with cream silk sheets, warm ambient lighting",
+        "lighting": "Soft natural diffused light, even illumination from above revealing skin texture"
+      },
+      {
+        "name": "📐 IA Laying: Low Feet View",
+        "value": "Full body portrait (3:4), dramatic low angle from feet. LOCKED Indian Meera (37DD-27-40) laying on back, legs parted toward low camera, inner thighs creating dramatic converging perspective. Cream silk sheets. Backlighting creating glowing outline. 8K dramatic perspective photography.",
+        "shot": "Full body portrait (3:4), dramatic low angle from feet",
+        "wardrobe": "Artistic nude, gold anklet prominent, navel piercing visible",
+        "environment": "Luxurious bed with cream silk sheets",
+        "lighting": "Backlighting creating glowing outline, inner thighs catching fill light, ethereal goddess quality"
+      },
+      {
+        "name": "📐 IA Laying: Ultimate Intimate",
+        "value": "Full body portrait (3:4), ultimate intimate inner thigh masterpiece. LOCKED Indian Meera (37DD-27-40) among scattered pillows, legs naturally spread, comfortable vulnerable positioning, floor level perspective. Cream silk sheets at golden hour. Golden warm light. 8K museum quality intimate photography.",
+        "shot": "Full body portrait (3:4), ultimate intimate inner thigh masterpiece",
+        "wardrobe": "Artistic nude, platinum navel ring, gold anklet visible",
+        "environment": "Luxurious bed with cream silk sheets, soft cushions, warm ambient lighting, private bedroom at golden hour",
+        "lighting": "Golden warm light wrapping around curves, soft shadows defining inner thigh contours, intimate warmth"
+      },
+      {
+        "name": "🔬 IA Bent: Classic Window Light",
+        "value": "Full body portrait (3:4), classic bent knees in soft window light. LOCKED Indian Meera (37DD-27-40) laying on back, both knees bent at 90 degrees fallen apart, inner thighs fully exposed creating V-shape, ultra-realistic skin. Private intimate bedroom. Natural soft window light. 8K hyper-realistic skin detail.",
+        "shot": "Full body portrait (3:4), classic bent knees in soft window light",
+        "wardrobe": "Artistic nude, platinum navel ring visible, gold anklet",
+        "environment": "Private intimate bedroom, luxurious soft surfaces, natural morning atmosphere",
+        "lighting": "Natural soft light from large window, even diffused illumination, realistic indoor daylight, subtle shadows defining curves"
+      },
+      {
+        "name": "🔬 IA Bent: Wide Firelight",
+        "value": "Full body portrait (3:4), wide spread in warm firelight glow. LOCKED Indian Meera (37DD-27-40) knees bent extra wide, almost touching surface, maximum inner thigh exposure, dramatic V-shape. Beside fireplace on soft surface. Warm flickering firelight. 8K firelight capture with skin detail.",
+        "shot": "Full body portrait (3:4), wide spread in warm firelight glow",
+        "wardrobe": "Artistic nude, platinum navel ring catching firelight",
+        "environment": "Beside fireplace on soft surface, warm intimate atmosphere",
+        "lighting": "Warm flickering firelight, orange-amber tones, dancing subtle shadows, intimate fireplace scene"
+      },
+      {
+        "name": "🔬 IA V-Legs: Classic Window",
+        "value": "Full body portrait (3:4), classic V spread soft window light. LOCKED Indian Meera (37DD-27-40) legs extended straight in V-shape, inner thighs visible full length, 60-90 degree angle. Private intimate bedroom. Natural soft window light. 8K hyper-realistic photography.",
+        "shot": "Full body portrait (3:4), classic V spread soft window light",
+        "wardrobe": "Artistic nude, platinum navel ring centered, gold anklet visible",
+        "environment": "Private intimate bedroom, luxurious surfaces, natural morning atmosphere",
+        "lighting": "Natural soft light from large window, even diffused illumination, realistic indoor daylight"
+      },
+      {
+        "name": "🔬 IA V-Legs: Wide Golden",
+        "value": "Full body portrait (3:4), wide V in golden afternoon light. LOCKED Indian Meera (37DD-27-40) legs spread very wide V approaching 120 degrees, maximum inner thigh exposure, dramatic geometry. Private intimate space. Warm late afternoon sunlight. 8K golden hour photography.",
+        "shot": "Full body portrait (3:4), wide V in golden afternoon light",
+        "wardrobe": "Artistic nude, jewelry catching golden light",
+        "environment": "Private intimate space, warm afternoon atmosphere",
+        "lighting": "Warm late afternoon sunlight, golden tones wrapping around golden-brown Indian skin, romantic realistic warmth"
+      },
+      {
+        "name": "🔬 IA Bent: Ultimate Realistic",
+        "value": "Full body portrait (3:4), peak bent knees ultra-realistic masterpiece. LOCKED Indian Meera (37DD-27-40) knees bent extra wide, maximum inner thigh exposure, hyper-realistic skin with visible pores, natural variations. Private intimate bedroom. Natural soft window light. 8K hyper-realistic photography with visible pores.",
+        "shot": "Full body portrait (3:4), peak bent knees ultra-realistic masterpiece",
+        "wardrobe": "Artistic nude, platinum navel ring, gold anklet visible",
+        "environment": "Private intimate bedroom, luxurious soft surfaces, natural atmosphere",
+        "lighting": "Natural soft light from large window, even diffused illumination, realistic indoor daylight, true-to-life skin rendering"
+      },
+      {
+        "name": "🔬 IA V-Legs: Ultimate Realistic",
+        "value": "Full body portrait (3:4), peak V closeup ultra-realistic masterpiece. LOCKED Indian Meera (37DD-27-40) camera close between V-spread legs, extreme closeup inner thigh area, hyper-realistic golden-brown skin with visible pores. Private intimate setting. Warm late afternoon sunlight. 8K macro photography.",
+        "shot": "Full body portrait (3:4), peak V closeup ultra-realistic masterpiece",
+        "wardrobe": "Artistic nude, extreme inner thigh focus",
+        "environment": "Private intimate setting, luxurious atmosphere",
+        "lighting": "Warm late afternoon sunlight, golden tones wrapping around curves, romantic realistic warmth"
+      },
+      {
+        "name": "🌑 IA Dusky: Lowkey Drama V-Spread",
+        "value": "Full body portrait (3:4), V-spread inner thigh lowkey dramatic. DUSKY Indian Meera (37DD-27-40) deep warm dusky brown skin, knees bent fallen apart to sides, V-shaped inner thigh prominence. Fine art nude, platinum navel ring only. Black studio dramatic setup. Low-key lighting 80% shadow, extreme chiaroscuro. 8K museum exhibition quality.",
+        "shot": "Full body portrait (3:4), V-spread inner thigh lowkey dramatic",
+        "wardrobe": "Fine art nude, platinum navel ring and gold anklet only, NO coverage, museum quality artistic",
+        "environment": "Professional studio with dramatic black setup, deep black seamless velvet background, black fabric platform",
+        "lighting": "Low-key dramatic - single concentrated light source, 80% of frame in shadow, strategic illumination on inner thighs, extreme chiaroscuro"
+      },
+      {
+        "name": "🌑 IA Dusky: Front View V-Shape",
+        "value": "Full body portrait (3:4), front view V-shape inner thigh focused. DUSKY Indian Meera (37DD-27-40) deep dusky brown skin, laying head away from camera, knees bent forming symmetrical V-shape toward camera. Fine art nude NO coverage. Dark studio. Front lit V-shape with bronze highlights. 8K ultra-realistic.",
+        "shot": "Full body portrait (3:4), front view V-shape inner thigh focused",
+        "wardrobe": "Fine art nude, NO coverage, platinum navel ring visible, completely unclothed artistic form",
+        "environment": "Dark studio, black seamless background, dark fabric surface, intimate dramatic setting",
+        "lighting": "Front lit V-shape - light falling on inner thigh surfaces, soft directional light on dusky skin, bronze highlights"
+      },
+      {
+        "name": "🌑 IA Dusky: Inner Thigh Focus Detail",
+        "value": "Closeup portrait (3:4), inner thigh primary subject. DUSKY Indian Meera (37DD-27-40) deep coffee-with-milk undertones, V-spread pose with inner thighs as THE PRIMARY SUBJECT. Fine art nude inner thigh focus. Black studio. Dramatic artistic inner thighs lit with bronze highlights. 8K macro detail.",
+        "shot": "Closeup portrait (3:4), inner thigh primary subject",
+        "wardrobe": "Fine art nude, inner thigh focus, no coverage",
+        "environment": "Black studio, dramatic setting",
+        "lighting": "Dramatic artistic - inner thighs receive primary illumination, 70-80% shadow with strategic illumination, bronze highlights on dusky skin"
+      },
+      {
+        "name": "🌑 IA Dusky: Artistic No Coverage Classic",
+        "value": "Full body portrait (3:4), fine art nude V bent legs. DUSKY Indian Meera (37DD-27-40) deep warm dusky brown complexion, V bent legs knees spread, classical artistic nude pose. COMPLETELY UNCLOTHED platinum navel ring only. Fine art studio black velvet. Renaissance chiaroscuro with bronze highlights. 8K museum exhibition quality.",
+        "shot": "Full body portrait (3:4), fine art nude V bent legs",
+        "wardrobe": "COMPLETELY UNCLOTHED artistic nude, NO lingerie NO underwear NO fabric, platinum navel ring only, museum fine art tradition",
+        "environment": "Fine art photography studio, deep black seamless velvet, classical artistic atmosphere",
+        "lighting": "Renaissance/Baroque chiaroscuro technique, single concentrated light, 70-80% shadow, bronze highlights on dusky skin"
+      },
+      {
+        "name": "🌑 IA Dusky: Wide Bent Knees Maximum",
+        "value": "Full body portrait (3:4), maximum inner thigh exposure. DUSKY Indian Meera (37DD-27-40) deep dusky brown skin, knees bent fallen apart to maximum width, V-shape inner thigh prominence, 40\" hips framing. Fine art nude jewelry only. Black studio noir. Low-key 80% shadow, inner thighs lit. 8K ultra-realistic professional.",
+        "shot": "Full body portrait (3:4), maximum inner thigh exposure",
+        "wardrobe": "Fine art nude, no coverage, jewelry only as adornment",
+        "environment": "Black studio environment, professional setup, dramatic noir potential",
+        "lighting": "Low-key dramatic, 80% shadow, inner thighs strategically illuminated"
+      },
+      {
+        "name": "🌑 IA Dusky: Bronze Highlights Dramatic",
+        "value": "Full body portrait (3:4), bronze highlighted inner thigh art. DUSKY Indian Meera (37DD-27-40) V-spread position, deep warm dusky brown complexion with warm bronze highlights where light catches inner thigh skin. Platinum navel ring and gold anklet. Dramatic black studio spotlit. Bronze highlights on dusky skin, extreme chiaroscuro. 8K professional fine art.",
+        "shot": "Full body portrait (3:4), bronze highlighted inner thigh art",
+        "wardrobe": "Artistic nude, platinum navel ring catching light, gold anklet glinting",
+        "environment": "Dramatic black studio, deep shadows, spotlit artistic atmosphere",
+        "lighting": "Single concentrated light source creating bronze highlights on dusky inner thigh skin, warm tones, extreme chiaroscuro"
+      }
+    ]
+  },
+  "settings": {
+    "aspectRatios": [
+      {
+        "name": "1:1 (Square)",
+        "value": "1:1"
+      },
+      {
+        "name": "9:16 (Portrait/Stories)",
+        "value": "9:16"
+      },
+      {
+        "name": "16:9 (Landscape)",
+        "value": "16:9"
+      },
+      {
+        "name": "3:4 (Portrait)",
+        "value": "3:4"
+      },
+      {
+        "name": "4:3 (Landscape)",
+        "value": "4:3"
+      }
+    ],
+    "safetySettings": [
+      {
+        "name": "Block Few (Permissive)",
+        "value": "block_few"
+      },
+      {
+        "name": "Block Some (Balanced)",
+        "value": "block_some"
+      },
+      {
+        "name": "Block Most (Conservative)",
+        "value": "block_most"
+      }
+    ],
+    "safetyBypass": [
+      {
+        "name": "Vera Strategy 2 (Recommended)",
+        "value": "vera2",
+        "description": "Adaptive failure-proof with safe language"
+      },
+      {
+        "name": "Auto - Smart Cascade",
+        "value": "auto",
+        "description": "75% success at intimacy 8-10"
+      },
+      {
+        "name": "Conservative",
+        "value": "conservative",
+        "description": "Imagen only, no translation"
+      },
+      {
+        "name": "Balanced",
+        "value": "balanced",
+        "description": "Imagen + Translation if blocked"
+      },
+      {
+        "name": "Vera Strategy",
+        "value": "verastrategy",
+        "description": "Advanced Imagen 4 optimization"
+      },
+      {
+        "name": "Ultra Optimizer",
+        "value": "ultraoptimizer",
+        "description": "Art Directors Declaration"
+      },
+      {
+        "name": "Aggressive",
+        "value": "aggressive",
+        "description": "All strategies + Flux fallback"
+      },
+      {
+        "name": "Nuclear Imagen",
+        "value": "nuclear-imagen",
+        "description": "Translation + Imagen max bypass"
+      },
+      {
+        "name": "Nuclear",
+        "value": "nuclear",
+        "description": "Translation + Flux max tolerance"
+      }
+    ],
+    "personGeneration": [
+      {
+        "name": "Allow All",
+        "value": "allow_all"
+      },
+      {
+        "name": "Allow Adult",
+        "value": "allow_adult"
+      },
+      {
+        "name": "Don't Allow",
+        "value": "dont_allow"
+      }
+    ],
+    "intimacyLevels": [
+      {
+        "name": "Level 1",
+        "value": 1,
+        "description": "Conservative"
+      },
+      {
+        "name": "Level 2",
+        "value": 2,
+        "description": "Conservative"
+      },
+      {
+        "name": "Level 3",
+        "value": 3,
+        "description": "Conservative"
+      },
+      {
+        "name": "Level 4",
+        "value": 4,
+        "description": "Moderate"
+      },
+      {
+        "name": "Level 5",
+        "value": 5,
+        "description": "Moderate"
+      },
+      {
+        "name": "Level 6",
+        "value": 6,
+        "description": "Moderate"
+      },
+      {
+        "name": "Level 7",
+        "value": 7,
+        "description": "Intimate"
+      },
+      {
+        "name": "Level 8",
+        "value": 8,
+        "description": "Intimate"
+      },
+      {
+        "name": "Level 9",
+        "value": 9,
+        "description": "Maximum"
+      },
+      {
+        "name": "Level 10",
+        "value": 10,
+        "description": "Maximum"
+      }
+    ]
+  },
+  "reels": {
+    "themes": [
+      {
+        "name": "Big Nudes (B&W Newton)",
+        "value": "bigNudes"
+      },
+      {
+        "name": "Champagne Luxury",
+        "value": "champagneLuxury"
+      },
+      {
+        "name": "Golden Sensual",
+        "value": "goldenSensual"
+      },
+      {
+        "name": "Midnight Mystery",
+        "value": "midnightMystery"
+      },
+      {
+        "name": "Boudoir Glow",
+        "value": "boudoirGlow"
+      }
+    ],
+    "kenBurns": [
+      {
+        "name": "Slow Zoom In",
+        "value": "slowZoomIn"
+      },
+      {
+        "name": "Slow Zoom Out",
+        "value": "slowZoomOut"
+      },
+      {
+        "name": "Pan Left to Right",
+        "value": "panLeftToRight"
+      },
+      {
+        "name": "Pan Right to Left",
+        "value": "panRightToLeft"
+      },
+      {
+        "name": "Diagonal Drift",
+        "value": "diagonalDrift"
+      },
+      {
+        "name": "Face Zoom",
+        "value": "faceZoom"
+      }
+    ]
+  },
+  "visualNovel": {
+    "assetTypes": [
+      {
+        "name": "Character Sprite",
+        "value": "sprite",
+        "aspectRatio": "3:4"
+      },
+      {
+        "name": "Background Scene",
+        "value": "background",
+        "aspectRatio": "16:9"
+      },
+      {
+        "name": "CG Event",
+        "value": "cg",
+        "aspectRatio": "16:9"
+      }
+    ]
+  },
+  "roleplay": {
+    "models": [
+      {
+        "id": "erotic-model-001",
+        "name": "Aisha Décolletage",
+        "category": "Upper Body Reveal Specialist"
+      },
+      {
+        "id": "erotic-model-002",
+        "name": "Priya Curves",
+        "category": "Lower Body Curves Specialist"
+      },
+      {
+        "id": "erotic-model-003",
+        "name": "Meera Sensualité",
+        "category": "Overall Sensual Glamour Specialist"
+      },
+      {
+        "id": "erotic-model-004",
+        "name": "Zara Cinématique",
+        "category": "Erotic-Art Film & Role-Play Perfectionist"
+      },
+      {
+        "id": "erotic-model-005",
+        "name": "Kavya Athléa",
+        "category": "Natural Glamour Curved Athletic Specialist"
+      },
+      {
+        "id": "erotic-model-006",
+        "name": "Ishani Glamazon",
+        "category": "Maximum Glamour Diva Specialist"
+      },
+      {
+        "id": "erotic-model-007",
+        "name": "Maya Midnight",
+        "category": "Midnight Mystique Seductress Specialist"
+      },
+      {
+        "id": "erotic-model-008",
+        "name": "Riya Powerhouse",
+        "category": "Bold Athletic Action Star Specialist"
+      },
+      {
+        "id": "erotic-model-009",
+        "name": "Nisha Vitality",
+        "category": "Athletic Fitness Glamour Icon Specialist"
+      },
+      {
+        "id": "erotic-model-010",
+        "name": "Zara Voluptuous",
+        "category": "Glamour Bust Specialist"
+      },
+      {
+        "id": "erotic-model-011",
+        "name": "Simran Elegance",
+        "category": "Shoulder & Neck Artistry Specialist"
+      },
+      {
+        "id": "erotic-model-012",
+        "name": "Meera Sculpture",
+        "category": "Chest Sculpture & Ribcage Artistry"
+      },
+      {
+        "id": "erotic-model-013",
+        "name": "Ananya Curves",
+        "category": "Hip Emphasis & Curve Empress"
+      },
+      {
+        "id": "erotic-model-014",
+        "name": "Tanvi Legs",
+        "category": "Thigh & Leg Artistry Specialist"
+      },
+      {
+        "id": "erotic-model-015",
+        "name": "Sanya Curves",
+        "category": "Posterior Celebration & Back Curves Specialist"
+      },
+      {
+        "id": "vn-premium-zara",
+        "name": "Zara (VN Muse)",
+        "category": "VN Premium Character - Super Model"
+      }
+    ],
+    "photographers": [
+      {
+        "id": "REVEAL_SPECIALIST",
+        "name": "Dante Révélation",
+        "specialty": "Upper body reveal artistry and décolletage emphasis"
+      },
+      {
+        "id": "CURVES_MAESTRO",
+        "name": "Lorenzo Curvas",
+        "specialty": "Lower body curves and hip emphasis mastery"
+      },
+      {
+        "id": "SENSUAL_VISIONARY",
+        "name": "Rafael Sensualité",
+        "specialty": "Overall bold physique and complete form celebration"
+      },
+      {
+        "id": "CINEMATIC_AUTEUR",
+        "name": "Marcello Eros",
+        "specialty": "Erotic-art film and narrative role-play perfectionist"
+      },
+      {
+        "id": "ATHLETIC_ARTISAN",
+        "name": "Santiago Athléa",
+        "specialty": "Natural glamour with athletic curves and fitness aesthetics"
+      }
+    ],
+    "wardrobes": [
+      {
+        "id": "upper-lace-001",
+        "name": "Single Lace Thread Upper",
+        "description": "Ultra-minimal single black lace thread creating geometric patterns across décolletage, framing breasts with artistic precision, delicate shoulder straps"
+      },
+      {
+        "id": "upper-leather-001",
+        "name": "Single Leather Thread Harness",
+        "description": "Minimal black leather thread body harness emphasizing upper curves, strategic bands framing décolletage, shoulder statement"
+      },
+      {
+        "id": "upper-lingerie-001",
+        "name": "Erotic-Art Single Thread Bralette",
+        "description": "Architectural single thread bralette with minimal lace coverage, sheer mesh panels, provocative upper reveal design"
+      },
+      {
+        "id": "upper-full-body",
+        "name": "Full Body Upper Emphasis",
+        "description": "Standing pose with torso twist emphasizing décolletage, hands behind head lifting chest, confident sensual gaze"
+      },
+      {
+        "id": "upper-medium-shot",
+        "name": "Medium Shot Upper Focus",
+        "description": "Bust to mid-thigh framing, leaning forward with upper body emphasis, shoulder line creating elegant curves"
+      },
+      {
+        "id": "upper-back-form",
+        "name": "Back Form Upper Curves",
+        "description": "Rear view with shoulder blades prominent, looking back over shoulder, upper back curves emphasized"
+      },
+      {
+        "id": "upper-reclined",
+        "name": "Reclined Upper Reveal",
+        "description": "Reclined on surface with arched back, upper body elevated, décolletage fully revealed and emphasized"
+      },
+      {
+        "id": "lower-lace-001",
+        "name": "Single Lace Thread Lower",
+        "description": "Minimal single lace thread creating hip harness design, wrapping around hips and thighs with artistic precision, strategic posterior framing"
+      },
+      {
+        "id": "lower-leather-001",
+        "name": "Single Leather Thread Hip Harness",
+        "description": "Ultra-minimal black leather thread hip and thigh harness, strategic bands emphasizing curves, provocative posterior framing"
+      },
+      {
+        "id": "lower-lingerie-001",
+        "name": "Erotic-Art Single Thread Bottom",
+        "description": "Architectural single thread minimal bottom with strategic lace placement, hip chains, ultra-revealing cut emphasizing curves"
+      },
+      {
+        "id": "lower-full-body",
+        "name": "Full Body Lower Emphasis",
+        "description": "Standing with hip thrust, posterior emphasized, side profile showing full curve magnificence, confident stance"
+      },
+      {
+        "id": "lower-medium-shot",
+        "name": "Medium Shot Lower Focus",
+        "description": "Hip to thigh framing, dynamic pose emphasizing curve lines, hand on hip accentuating shape"
+      },
+      {
+        "id": "lower-back-form",
+        "name": "Back Form Lower Curves",
+        "description": "Posterior emphasis pose, looking back, spine curve leading to hip emphasis, dramatic lower body celebration"
+      },
+      {
+        "id": "lower-reclined",
+        "name": "Reclined Lower Reveal",
+        "description": "Side reclined position, top leg raised, hip and thigh curves fully emphasized, sensual lower body focus"
+      },
+      {
+        "id": "bold-lace-001",
+        "name": "Single Lace Thread Full Body",
+        "description": "Comprehensive single lace thread body suit design, strategic placement across all curves, artistic geometric patterns celebrating entire form"
+      },
+      {
+        "id": "bold-leather-001",
+        "name": "Single Leather Thread Body Harness",
+        "description": "Complete minimal leather thread body harness, strategic bands across bust, waist, and hips, cohesive full-body design"
+      },
+      {
+        "id": "bold-lingerie-001",
+        "name": "Erotic-Art Single Thread Set",
+        "description": "Matching minimal single thread bralette and bottom set, cohesive design celebrating full form, ultra-revealing artistic construction"
+      },
+      {
+        "id": "bold-full-body",
+        "name": "Full Body Bold Stance",
+        "description": "Confident standing pose, one hip thrust, full body visible, bold sensual presence, commanding glamour"
+      },
+      {
+        "id": "bold-medium-shot",
+        "name": "Medium Shot Sensual Balance",
+        "description": "Torso to thigh framing, balanced pose showing curves, sensual confident expression, complete form emphasis"
+      },
+      {
+        "id": "bold-back-form",
+        "name": "Back Form Complete",
+        "description": "Full back view, spine curve visible, looking back with bold confidence, complete posterior elegance"
+      },
+      {
+        "id": "bold-reclined",
+        "name": "Reclined Sensual Glory",
+        "description": "Fully reclined with body extended, all curves visible, bold sensual confidence, glamour positioning"
+      },
+      {
+        "id": "athletic-lace-001",
+        "name": "Single Lace Thread Athletic",
+        "description": "Sporty minimal single lace thread design, athletic aesthetic with artistic minimal coverage, emphasizing toned curves"
+      },
+      {
+        "id": "athletic-leather-001",
+        "name": "Single Leather Thread Athletic Harness",
+        "description": "Fitness-inspired minimal leather thread harness, athletic edge with erotic-art aesthetic, emphasizing muscular curves"
+      },
+      {
+        "id": "athletic-lingerie-001",
+        "name": "Erotic-Art Athletic Minimal Set",
+        "description": "Performance-inspired minimal lingerie with single thread construction, athletic glamour with natural sensuality, curved fitness aesthetic"
+      },
+      {
+        "id": "athletic-full-body",
+        "name": "Full Body Athletic Power",
+        "description": "Strong athletic stance, muscle definition visible, natural glamour confidence, powerful curved presence"
+      },
+      {
+        "id": "athletic-medium-shot",
+        "name": "Medium Shot Fitness Glamour",
+        "description": "Dynamic athletic positioning, torso emphasis showing toned curves, natural sensual confidence"
+      },
+      {
+        "id": "athletic-back-form",
+        "name": "Back Form Athletic Curves",
+        "description": "Back muscles defined, spine curve visible, athletic posterior emphasis, natural strength and sensuality"
+      },
+      {
+        "id": "athletic-reclined",
+        "name": "Reclined Athletic Glamour",
+        "description": "Relaxed athletic positioning, natural curves emphasized, fitness glamour at rest, toned sensuality"
+      },
+      {
+        "id": "fitness-bold-001",
+        "name": "Bold Fitness Harness",
+        "description": "Athletic harness with glamour boldness, fitness curves celebrated with strategic glamorous artistic reveals"
+      }
+    ],
+    "poses": [
+      {
+        "id": "upper-lace-001",
+        "name": "Single Lace Thread Upper",
+        "description": "Ultra-minimal single black lace thread creating geometric patterns across décolletage, framing breasts with artistic precision, delicate shoulder straps"
+      },
+      {
+        "id": "upper-leather-001",
+        "name": "Single Leather Thread Harness",
+        "description": "Minimal black leather thread body harness emphasizing upper curves, strategic bands framing décolletage, shoulder statement"
+      },
+      {
+        "id": "upper-lingerie-001",
+        "name": "Erotic-Art Single Thread Bralette",
+        "description": "Architectural single thread bralette with minimal lace coverage, sheer mesh panels, provocative upper reveal design"
+      },
+      {
+        "id": "upper-full-body",
+        "name": "Full Body Upper Emphasis",
+        "description": "Standing pose with torso twist emphasizing décolletage, hands behind head lifting chest, confident sensual gaze"
+      },
+      {
+        "id": "upper-medium-shot",
+        "name": "Medium Shot Upper Focus",
+        "description": "Bust to mid-thigh framing, leaning forward with upper body emphasis, shoulder line creating elegant curves"
+      },
+      {
+        "id": "upper-back-form",
+        "name": "Back Form Upper Curves",
+        "description": "Rear view with shoulder blades prominent, looking back over shoulder, upper back curves emphasized"
+      },
+      {
+        "id": "upper-reclined",
+        "name": "Reclined Upper Reveal",
+        "description": "Reclined on surface with arched back, upper body elevated, décolletage fully revealed and emphasized"
+      },
+      {
+        "id": "lower-lace-001",
+        "name": "Single Lace Thread Lower",
+        "description": "Minimal single lace thread creating hip harness design, wrapping around hips and thighs with artistic precision, strategic posterior framing"
+      },
+      {
+        "id": "lower-leather-001",
+        "name": "Single Leather Thread Hip Harness",
+        "description": "Ultra-minimal black leather thread hip and thigh harness, strategic bands emphasizing curves, provocative posterior framing"
+      },
+      {
+        "id": "lower-lingerie-001",
+        "name": "Erotic-Art Single Thread Bottom",
+        "description": "Architectural single thread minimal bottom with strategic lace placement, hip chains, ultra-revealing cut emphasizing curves"
+      },
+      {
+        "id": "lower-full-body",
+        "name": "Full Body Lower Emphasis",
+        "description": "Standing with hip thrust, posterior emphasized, side profile showing full curve magnificence, confident stance"
+      },
+      {
+        "id": "lower-medium-shot",
+        "name": "Medium Shot Lower Focus",
+        "description": "Hip to thigh framing, dynamic pose emphasizing curve lines, hand on hip accentuating shape"
+      },
+      {
+        "id": "lower-back-form",
+        "name": "Back Form Lower Curves",
+        "description": "Posterior emphasis pose, looking back, spine curve leading to hip emphasis, dramatic lower body celebration"
+      },
+      {
+        "id": "lower-reclined",
+        "name": "Reclined Lower Reveal",
+        "description": "Side reclined position, top leg raised, hip and thigh curves fully emphasized, sensual lower body focus"
+      },
+      {
+        "id": "bold-lace-001",
+        "name": "Single Lace Thread Full Body",
+        "description": "Comprehensive single lace thread body suit design, strategic placement across all curves, artistic geometric patterns celebrating entire form"
+      },
+      {
+        "id": "bold-leather-001",
+        "name": "Single Leather Thread Body Harness",
+        "description": "Complete minimal leather thread body harness, strategic bands across bust, waist, and hips, cohesive full-body design"
+      },
+      {
+        "id": "bold-lingerie-001",
+        "name": "Erotic-Art Single Thread Set",
+        "description": "Matching minimal single thread bralette and bottom set, cohesive design celebrating full form, ultra-revealing artistic construction"
+      },
+      {
+        "id": "bold-full-body",
+        "name": "Full Body Bold Stance",
+        "description": "Confident standing pose, one hip thrust, full body visible, bold sensual presence, commanding glamour"
+      },
+      {
+        "id": "bold-medium-shot",
+        "name": "Medium Shot Sensual Balance",
+        "description": "Torso to thigh framing, balanced pose showing curves, sensual confident expression, complete form emphasis"
+      },
+      {
+        "id": "bold-back-form",
+        "name": "Back Form Complete",
+        "description": "Full back view, spine curve visible, looking back with bold confidence, complete posterior elegance"
+      },
+      {
+        "id": "bold-reclined",
+        "name": "Reclined Sensual Glory",
+        "description": "Fully reclined with body extended, all curves visible, bold sensual confidence, glamour positioning"
+      },
+      {
+        "id": "athletic-lace-001",
+        "name": "Single Lace Thread Athletic",
+        "description": "Sporty minimal single lace thread design, athletic aesthetic with artistic minimal coverage, emphasizing toned curves"
+      },
+      {
+        "id": "athletic-leather-001",
+        "name": "Single Leather Thread Athletic Harness",
+        "description": "Fitness-inspired minimal leather thread harness, athletic edge with erotic-art aesthetic, emphasizing muscular curves"
+      },
+      {
+        "id": "athletic-lingerie-001",
+        "name": "Erotic-Art Athletic Minimal Set",
+        "description": "Performance-inspired minimal lingerie with single thread construction, athletic glamour with natural sensuality, curved fitness aesthetic"
+      },
+      {
+        "id": "athletic-full-body",
+        "name": "Full Body Athletic Power",
+        "description": "Strong athletic stance, muscle definition visible, natural glamour confidence, powerful curved presence"
+      },
+      {
+        "id": "athletic-medium-shot",
+        "name": "Medium Shot Fitness Glamour",
+        "description": "Dynamic athletic positioning, torso emphasis showing toned curves, natural sensual confidence"
+      },
+      {
+        "id": "athletic-back-form",
+        "name": "Back Form Athletic Curves",
+        "description": "Back muscles defined, spine curve visible, athletic posterior emphasis, natural strength and sensuality"
+      },
+      {
+        "id": "athletic-reclined",
+        "name": "Reclined Athletic Glamour",
+        "description": "Relaxed athletic positioning, natural curves emphasized, fitness glamour at rest, toned sensuality"
+      }
+    ],
+    "environments": []
+  },
+  "experimental": {
+    "subjects": [
+      {
+        "id": "subject-indian-fair",
+        "name": "Indian Model (Fair)",
+        "abbreviation": "IM-F",
+        "description": "Professional Indian model with fair skin tone for fashion/editorial work"
+      },
+      {
+        "id": "subject-indian-dusky",
+        "name": "Indian Model (Dusky)",
+        "abbreviation": "IM-D",
+        "description": "Professional Indian model with dusky skin tone for fashion/editorial work"
+      },
+      {
+        "id": "subject-seductress",
+        "name": "Indian Seductress (Bombshell)",
+        "abbreviation": "SEDU",
+        "description": "Bombshell hourglass figure, confident sensual presence, boudoir specialist"
+      },
+      {
+        "id": "subject-super-seductress",
+        "name": "Super-Seductress Artist",
+        "abbreviation": "S-SED",
+        "description": "Elite artistic model with bi-polar range from corporate power to vulnerable erotic-muse"
+      }
+    ],
+    "wardrobes": [
+      {
+        "id": "wardrobe-substantial",
+        "name": "Substantial Luxury",
+        "abbreviation": "SUBS",
+        "description": "Full coverage luxury garments, elegant and sophisticated"
+      },
+      {
+        "id": "wardrobe-moderate",
+        "name": "Moderate Elegant",
+        "abbreviation": "MODE",
+        "description": "Tasteful partial coverage, editorial sophistication"
+      },
+      {
+        "id": "wardrobe-high-artistic",
+        "name": "High Artistic",
+        "abbreviation": "HIGH",
+        "description": "Architectural foundation garments, sculptural forms"
+      },
+      {
+        "id": "wardrobe-maximum-artistic",
+        "name": "Maximum Artistic",
+        "abbreviation": "MAXI",
+        "description": "Minimal coverage, maximum artistic expression"
+      }
+    ],
+    "poses": [
+      {
+        "id": "pose-power-stance",
+        "name": "Power Stance",
+        "abbreviation": "POWR",
+        "description": "Commanding, authoritative posture, corporate confidence"
+      },
+      {
+        "id": "pose-confident-allure",
+        "name": "Confident Allure",
+        "abbreviation": "ALUR",
+        "description": "Magnetic presence, intentional body language, editorial elegance"
+      },
+      {
+        "id": "pose-seductive-invitation",
+        "name": "Seductive Invitation",
+        "abbreviation": "INVI",
+        "description": "Inviting, provocative, crossing thresholds with confidence"
+      },
+      {
+        "id": "pose-passionate-expression",
+        "name": "Passionate Expression",
+        "abbreviation": "PASS",
+        "description": "Bold, fearless, uninhibited expression of desire"
+      },
+      {
+        "id": "pose-sacred-positioning",
+        "name": "Sacred Positioning",
+        "abbreviation": "SACR",
+        "description": "Temple art tradition, Kamasutra-inspired, divine sensuality"
+      }
+    ],
+    "environments": [
+      {
+        "id": "env-corporate",
+        "name": "Corporate Office",
+        "abbreviation": "CORP",
+        "description": "Professional office setting, boardrooms, corporate power"
+      },
+      {
+        "id": "env-fashion-studio",
+        "name": "Fashion Studio",
+        "abbreviation": "STUD",
+        "description": "Professional photography studio, editorial shoots"
+      },
+      {
+        "id": "env-private-loft",
+        "name": "Private Loft",
+        "abbreviation": "LOFT",
+        "description": "Intimate loft space, artistic environment, personal collection"
+      },
+      {
+        "id": "env-boudoir",
+        "name": "Bedroom/Boudoir",
+        "abbreviation": "BOUD",
+        "description": "Private bedroom setting, intimate boudoir photography"
+      },
+      {
+        "id": "env-sacred-space",
+        "name": "Sacred Space",
+        "abbreviation": "TEMP",
+        "description": "Temple-inspired environment, classical art tradition"
+      },
+      {
+        "id": "env-private-sanctuary",
+        "name": "Private Sanctuary",
+        "abbreviation": "SANC",
+        "description": "Ultimate private space, sacred artistic freedom"
+      }
+    ],
+    "lighting": [],
+    "cameras": [],
+    "styles": []
+  }
+}

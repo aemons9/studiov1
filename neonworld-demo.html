@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>NEONWORLD: The Underground — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:#0a0a0f;font-family:'Inter',sans-serif;color:#e0e0e0;-webkit-font-smoothing:antialiased}
+
+/* ===== CUTSCENE VIDEO ===== */
+#cutscene-overlay{position:fixed;inset:0;z-index:200;background:#000;display:none;align-items:center;justify-content:center}
+#cutscene-overlay.active{display:flex}
+#cutscene-overlay video{width:100%;height:100%;object-fit:contain}
+#cutscene-skip{position:absolute;bottom:40px;right:40px;padding:10px 24px;font-family:'Inter',sans-serif;font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.6);background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.2);cursor:pointer;transition:all 0.3s;border-radius:2px}
+#cutscene-skip:hover{color:#fff;border-color:rgba(0,240,255,0.5);background:rgba(0,240,255,0.1)}
+
+/* ===== GAME CONTAINER ===== */
+#game{position:fixed;inset:0;overflow:hidden}
+
+/* ===== BACKGROUND ===== */
+#bg-layer{position:absolute;inset:0;background-size:cover;background-position:center;transition:opacity 0.8s ease;z-index:1}
+#bg-layer::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(10,10,15,0.1) 0%,rgba(10,10,15,0.05) 40%,rgba(10,10,15,0.4) 80%,rgba(10,10,15,0.85) 100%);z-index:2}
+
+/* Ken Burns */
+@keyframes ken-burns{0%{transform:scale(1) translate(0,0)}50%{transform:scale(1.05) translate(-1%,-0.5%)}100%{transform:scale(1) translate(0,0)}}
+#bg-layer.animate{animation:ken-burns 25s ease-in-out infinite}
+
+/* ===== CHARACTER SPRITE ===== */
+#sprite-layer{position:absolute;bottom:0;left:50%;transform:translateX(-50%);height:85%;z-index:5;opacity:0;transition:opacity 0.6s ease,transform 0.6s ease;pointer-events:none;filter:drop-shadow(0 0 30px rgba(0,0,0,0.5))}
+#sprite-layer.visible{opacity:1;transform:translateX(-50%) translateY(0)}
+#sprite-layer.entering{opacity:0;transform:translateX(-40%) translateY(10px)}
+
+/* ===== CG OVERLAY ===== */
+#cg-layer{position:absolute;inset:0;background-size:cover;background-position:center;z-index:10;opacity:0;transition:opacity 1s ease;pointer-events:none}
+#cg-layer.active{opacity:1;animation:ken-burns 30s ease-in-out infinite}
+
+/* ===== SCANLINES & VIGNETTE ===== */
+#scanlines{position:absolute;inset:0;z-index:15;pointer-events:none;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px);opacity:0.4}
+#vignette{position:absolute;inset:0;z-index:16;pointer-events:none;background:radial-gradient(ellipse at center,transparent 50%,rgba(0,0,0,0.6) 100%)}
+
+/* ===== SCENE TRANSITION ===== */
+#transition-flash{position:absolute;inset:0;z-index:100;pointer-events:none;opacity:0}
+@keyframes neon-flash{0%{opacity:0;background:radial-gradient(circle,rgba(0,240,255,0.3),transparent)}30%{opacity:1;background:radial-gradient(circle,rgba(255,0,255,0.4),transparent)}60%{opacity:0.8;background:#000}100%{opacity:0;background:transparent}}
+
+/* ===== DIALOGUE BOX ===== */
+#dialogue-box{position:absolute;bottom:0;left:0;right:0;z-index:50;padding:20px 24px 28px;background:linear-gradient(135deg,rgba(10,5,20,0.95),rgba(20,10,40,0.92));border-top:2px solid;border-image:linear-gradient(90deg,#00f0ff,#ff00ff,#00f0ff) 1;backdrop-filter:blur(12px);min-height:140px;cursor:pointer;opacity:0;transition:opacity 0.4s ease;display:flex;flex-direction:column}
+#dialogue-box.visible{opacity:1}
+
+/* Animated top bar */
+#dialogue-box::before{content:'';position:absolute;top:-3px;left:0;right:0;height:3px;background:linear-gradient(90deg,#00f0ff,#ff00ff,#8b5cf6,#00f0ff);background-size:300% 100%;animation:neon-shift 4s linear infinite}
+@keyframes neon-shift{0%{background-position:0% 0%}100%{background-position:300% 0%}}
+
+#speaker-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:500;letter-spacing:0.05em;margin-bottom:8px;text-transform:uppercase}
+#speaker-name.meera{color:#00f0ff;text-shadow:0 0 10px rgba(0,240,255,0.4)}
+#speaker-name.player{color:#ff00ff;text-shadow:0 0 10px rgba(255,0,255,0.4)}
+#speaker-name.narrator{color:#8b5cf6;text-shadow:0 0 10px rgba(139,92,246,0.3);font-style:italic;text-transform:none;font-size:0.9rem}
+
+#dialogue-text{font-family:'Inter',sans-serif;font-size:0.95rem;font-weight:300;line-height:1.7;color:rgba(230,230,240,0.95);flex:1}
+
+#advance-indicator{position:absolute;bottom:10px;right:20px;font-size:0.7rem;color:rgba(0,240,255,0.4);letter-spacing:0.1em;animation:pulse-indicator 2s ease-in-out infinite}
+@keyframes pulse-indicator{0%,100%{opacity:0.3}50%{opacity:0.8}}
+
+/* ===== CHOICES ===== */
+#choices-container{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);z-index:60;display:none;flex-direction:column;gap:12px;width:90%;max-width:700px}
+#choices-container.active{display:flex}
+
+.choice-btn{padding:16px 24px;font-family:'Inter',sans-serif;font-size:0.9rem;font-weight:300;color:rgba(230,230,240,0.9);background:linear-gradient(135deg,rgba(10,5,20,0.9),rgba(20,10,40,0.85));border:1px solid rgba(0,240,255,0.2);cursor:pointer;transition:all 0.3s ease;text-align:left;line-height:1.5;letter-spacing:0.01em;backdrop-filter:blur(8px)}
+.choice-btn:hover{border-color:rgba(0,240,255,0.6);background:linear-gradient(135deg,rgba(0,240,255,0.1),rgba(255,0,255,0.05));box-shadow:0 0 20px rgba(0,240,255,0.15);transform:translateY(-1px);color:#fff}
+
+/* ===== CHAPTER TITLE CARD ===== */
+#chapter-card{position:absolute;inset:0;z-index:80;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.95);flex-direction:column}
+#chapter-card.active{display:flex}
+#chapter-card h2{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.5rem);font-weight:400;color:#e0e0e0;letter-spacing:0.05em;opacity:0;animation:fade-up 1s 0.3s ease forwards}
+#chapter-card .chapter-sub{font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:rgba(0,240,255,0.6);margin-top:12px;opacity:0;animation:fade-up 1s 0.6s ease forwards}
+@keyframes fade-up{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== VARIABLE TRACKER ===== */
+#var-tracker{position:absolute;top:10px;right:10px;z-index:55;background:rgba(10,5,20,0.8);border:1px solid rgba(0,240,255,0.15);padding:10px 14px;font-size:0.7rem;min-width:140px;backdrop-filter:blur(8px);transition:opacity 0.3s;border-radius:2px}
+#var-tracker.hidden{opacity:0;pointer-events:none}
+.var-row{display:flex;justify-content:space-between;align-items:center;margin:4px 0}
+.var-label{color:rgba(200,200,210,0.7);letter-spacing:0.05em;text-transform:uppercase;font-size:0.65rem}
+.var-bar{width:60px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-left:8px}
+.var-fill{height:100%;border-radius:2px;transition:width 0.5s ease}
+.var-fill.intrigue{background:#6366f1}
+.var-fill.trust{background:#00f0ff}
+.var-fill.desire{background:#ff00ff}
+.var-fill.boldness{background:#f59e0b}
+
+/* ===== DEMO OVER OVERLAY ===== */
+#demo-over{position:absolute;inset:0;z-index:150;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,0.95);text-align:center;padding:40px}
+#demo-over.active{display:flex}
+#demo-over h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,6vw,4rem);font-weight:400;color:#e0e0e0;letter-spacing:0.05em;margin-bottom:16px;text-shadow:0 0 40px rgba(0,240,255,0.2);opacity:0;animation:fade-up 1.2s 0.3s ease forwards}
+#demo-over .tagline{font-family:'Playfair Display',serif;font-style:italic;font-size:1.1rem;color:rgba(0,240,255,0.5);margin-bottom:40px;opacity:0;animation:fade-up 1.2s 0.6s ease forwards}
+#demo-over .neon-line{width:120px;height:1px;background:linear-gradient(90deg,transparent,#00f0ff,#ff00ff,transparent);margin:0 auto 40px;opacity:0;animation:fade-up 1s 0.8s ease forwards}
+.demo-cta{display:inline-block;padding:16px 40px;font-family:'Inter',sans-serif;font-size:0.85rem;font-weight:400;letter-spacing:0.12em;text-transform:uppercase;text-decoration:none;color:#0a0a0f;background:linear-gradient(135deg,#00f0ff,#00c8ff);border:none;cursor:pointer;transition:all 0.4s ease;margin-bottom:16px;opacity:0;animation:fade-up 1s 1s ease forwards}
+.demo-cta:hover{box-shadow:0 0 30px rgba(0,240,255,0.4);transform:translateY(-2px)}
+.demo-return{display:inline-block;font-family:'Inter',sans-serif;font-size:0.8rem;color:rgba(200,200,210,0.5);text-decoration:none;letter-spacing:0.08em;margin-top:8px;transition:color 0.3s;opacity:0;animation:fade-up 1s 1.2s ease forwards}
+.demo-return:hover{color:#00f0ff}
+.demo-stats{margin-top:30px;font-size:0.75rem;color:rgba(200,200,210,0.3);opacity:0;animation:fade-up 1s 1.4s ease forwards}
+
+/* ===== LOADING ===== */
+#loading-screen{position:fixed;inset:0;z-index:300;background:#0a0a0f;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity 0.8s ease}
+#loading-screen.done{opacity:0;pointer-events:none}
+#loading-screen h1{font-family:'Playfair Display',serif;font-size:2rem;color:#e0e0e0;letter-spacing:0.1em;margin-bottom:20px}
+#loading-bar{width:200px;height:2px;background:rgba(255,255,255,0.1);border-radius:1px;overflow:hidden}
+#loading-fill{width:0%;height:100%;background:linear-gradient(90deg,#00f0ff,#ff00ff);transition:width 0.3s ease}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:768px){
+  #dialogue-box{padding:16px 18px 24px;min-height:120px}
+  #dialogue-text{font-size:0.88rem}
+  #sprite-layer{height:70%}
+  .choice-btn{padding:14px 18px;font-size:0.85rem}
+  #var-tracker{top:6px;right:6px;padding:6px 10px;font-size:0.6rem}
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <h1>NEONWORLD</h1>
+  <div id="loading-bar"><div id="loading-fill"></div></div>
+</div>
+
+<!-- Cutscene Video Overlay -->
+<div id="cutscene-overlay">
+  <video id="cutscene-video" playsinline></video>
+  <button id="cutscene-skip">SKIP</button>
+</div>
+
+<!-- Game Container -->
+<div id="game">
+  <div id="bg-layer" class="animate"></div>
+  <img id="sprite-layer" src="" alt="">
+  <div id="cg-layer"></div>
+  <div id="scanlines"></div>
+  <div id="vignette"></div>
+  <div id="transition-flash"></div>
+
+  <div id="var-tracker">
+    <div class="var-row"><span class="var-label">Intrigue</span><div class="var-bar"><div class="var-fill intrigue" id="bar-intrigue"></div></div></div>
+    <div class="var-row"><span class="var-label">Trust</span><div class="var-bar"><div class="var-fill trust" id="bar-trust"></div></div></div>
+    <div class="var-row"><span class="var-label">Desire</span><div class="var-bar"><div class="var-fill desire" id="bar-desire"></div></div></div>
+    <div class="var-row"><span class="var-label">Boldness</span><div class="var-bar"><div class="var-fill boldness" id="bar-boldness"></div></div></div>
+  </div>
+
+  <div id="dialogue-box">
+    <div id="speaker-name"></div>
+    <div id="dialogue-text"></div>
+    <div id="advance-indicator">CLICK TO CONTINUE</div>
+  </div>
+
+  <div id="choices-container"></div>
+  <div id="chapter-card"><h2></h2><div class="chapter-sub"></div></div>
+
+  <div id="demo-over">
+    <h1>DEMO OVER</h1>
+    <div class="tagline">The underground has more to reveal...</div>
+    <div class="neon-line"></div>
+    <a href="mailto:vera@aemons.com?subject=NEONWORLD%20Full%20Version" class="demo-cta">Book the Full Experience</a>
+    <a href="index.html" class="demo-return">Return to VERALABS</a>
+    <div class="demo-stats" id="demo-stats"></div>
+  </div>
+</div>
+
+<script>
+// ========================================================================
+// NEONWORLD DEMO — VANILLA JS VN ENGINE
+// ========================================================================
+
+const ASSET_BASE = 'assets/vn';
+
+// Asset ID to filename mappings
+const ASSET_MAP = {
+  'bg_neon_entrance':'backgrounds/neon_entrance_corridor.jpg',
+  'bg_vip_bar':'backgrounds/vip_bar_counter.jpg',
+  'bg_vip_ballroom':'backgrounds/vip_ballroom.jpg',
+  'bg_neon_pond':'backgrounds/neon_pond.jpg',
+  'bg_champagne_lounge':'backgrounds/champagne_lounge.jpg',
+  'bg_dance_floor':'backgrounds/dance_floor_arena.jpg',
+  'bg_underground_loft':'backgrounds/underground_loft.jpg',
+  'bg_mirror_labyrinth':'backgrounds/mirror_labyrinth.jpg',
+  'meera_welcoming':'sprites/meera_welcoming.png',
+  'meera_confident':'sprites/meera_confident.png',
+  'meera_mysterious':'sprites/meera_mysterious.png',
+  'meera_playful':'sprites/meera_playful.png',
+  'meera_alluring':'sprites/meera_alluring.png',
+  'meera_intimate':'sprites/meera_intimate.png',
+  'meera_vulnerable':'sprites/meera_vulnerable.png',
+  'meera_bold':'sprites/meera_bold.png',
+  'meera_aquatic':'sprites/meera_aquatic.png',
+  'meera_passionate':'sprites/meera_passionate.png',
+  'meera_contemplative':'sprites/meera_contemplative.png',
+  'meera_teasing':'sprites/meera_teasing.png',
+  'meera_trusting':'sprites/meera_trusting.png',
+  'meera_ethereal':'sprites/meera_ethereal.png',
+  'cg_descent_corridor':'cgs/cg_descent_corridor.jpg',
+  'cg_first_meeting':'cgs/cg_first_meeting.jpg',
+  'cg_ballroom_entrance':'cgs/cg_ballroom_entrance.jpg',
+  'cg_neon_pond_wade':'cgs/cg_neon_pond_wade.jpg',
+  'cg_dance_floor_energy':'cgs/cg_dance_floor_energy.jpg',
+  'cg_champagne_toast':'cgs/cg_champagne_toast.jpg',
+  'cg_loft_morning':'cgs/cg_loft_morning.jpg',
+  'cg_fever_dance':'cgs/cg_fever_dance.jpg',
+  'cg_garden_wonder':'cgs/cg_garden_wonder.jpg',
+  'cg_mirror_reflection':'cgs/cg_mirror_reflection.jpg'
+};
+
+function assetUrl(id) {
+  return ASSET_MAP[id] ? ASSET_BASE + '/' + ASSET_MAP[id] : '';
+}
+
+// Cutscene videos that play before certain scenes
+const CUTSCENE_MAP = {
+  'scene_1_descent': 'assets/vn/videos/intro_01_logo_reveal.mp4',
+  'scene_2_bar': 'assets/vn/videos/cutscene_bar_meeting.mp4',
+  'scene_6_morning_after': 'assets/vn/videos/cutscene_ch1_to_ch2.mp4'
+};
+
+// Scenes that trigger DEMO OVER when their choices would lead deeper
+const DEMO_END_SCENES = ['scene_7_mirror_room', 'scene_7b_fever'];
+
+// ========================================================================
+// SCENE DATA (extracted from neonworldScenes.ts)
+// ========================================================================
+const SCENES = {
+  scene_1_descent: {
+    id:'scene_1_descent', title:'The Descent', chapter:'Chapter 1: The Invitation',
+    sceneFlow:[
+      {beat:'TheInvitation',
+       dialogue:[
+         {speaker:'narrator',line:'The card arrived three days ago. No return address. No name. Just a black rectangle with a symbol that seemed to shift when you weren\'t looking directly at it \u2014 and an address written in ink that glowed faintly in the dark.'},
+         {speaker:'narrator',line:'Now you stand in a freight elevator descending into the earth. The walls vibrate with a low frequency you feel in your sternum more than hear with your ears. Somewhere below, a world is waiting.'},
+         {speaker:'player',line:'How far down does this go?'},
+         {speaker:'narrator',line:'The elevator answers with a gentle chime. The doors part. Before you stretches a corridor that shouldn\'t exist \u2014 a hundred meters of neon-soaked passage carved beneath the city streets.'}
+       ],background:'bg_neon_entrance'},
+      {beat:'TheCorridorWalk',
+       dialogue:[
+         {speaker:'narrator',line:'Magenta light bleeds into cyan along the corridor walls. Fog machines hidden in the baseboard breathe mist across the polished concrete floor, and your reflection walks beneath you like a ghost. The bass grows heavier \u2014 not music yet, but a heartbeat. The heartbeat of something vast and alive.'},
+         {speaker:'narrator',line:'Halfway down, you notice the walls are lined with one-way mirrors. You catch fractured glimpses of movement behind them \u2014 silhouettes, laughter, the clink of crystal. Entire rooms hide behind the glass, watching you approach without revealing themselves.'},
+         {speaker:'player',line:'This is either the most elaborate party invitation I\'ve ever received, or I\'m walking into something I can\'t walk out of.'},
+         {speaker:'narrator',line:'At the corridor\'s end, the passage opens. The ceiling lifts away, the walls dissolve, and the underground world reveals itself in a single breathtaking panorama.'}
+       ],background:'bg_neon_entrance',cg:'cg_descent_corridor'},
+      {beat:'TheReveal',
+       dialogue:[
+         {speaker:'narrator',line:'NEONWORLD. There is no other word for it. A subterranean cathedral of pleasure and light \u2014 three stories deep, carved from raw stone and lined with obsidian tile that reflects every neon frequency into infinity. Bars glow like aquariums. Balconies wrap around a central atrium where holographic projections swim through the air like bioluminescent jellyfish.'},
+         {speaker:'narrator',line:'And there, at the base of a spiral staircase wrapped in violet LEDs, stands a silhouette. She hasn\'t moved. She doesn\'t need to. The entire room seems to orbit her \u2014 light bending, sound softening, gravity shifting. She is waiting for you.'},
+         {speaker:'narrator',line:'She lifts a glass of something that glows faintly amber and tilts her head, studying you across the distance with dark eyes that miss nothing.'}
+       ],background:'bg_neon_entrance',cg:'cg_descent_corridor'}
+    ],
+    choices:[
+      {id:'choice_1_confident',text:'Step forward with confidence \u2014 walk straight toward her like you belong here.',effects:{Boldness:10,Intrigue:5},nextScene:'scene_2_bar'},
+      {id:'choice_1_cautious',text:'Take a cautious look around first \u2014 absorb the world before approaching.',effects:{Trust:5},nextScene:'scene_2_bar'}
+    ]
+  },
+
+  scene_2_bar: {
+    id:'scene_2_bar', title:'The Bar', chapter:'Chapter 1: The Invitation',
+    sceneFlow:[
+      {beat:'FirstSight',
+       dialogue:[
+         {speaker:'narrator',line:'She turns. The neon catches her jawline, the curve of her collarbone, the deliberate architecture of a woman who knows exactly what every angle of her face does to a room. Her dress is liquid black with a slit that reveals one leg from ankle to mid-thigh, and her eyes hold the particular confidence of someone who has never once needed to raise her voice to command attention.'},
+         {speaker:'meera',line:'You found us.',emotion:'welcoming'},
+         {speaker:'narrator',line:'Her voice is low, warm, unhurried. She says it like a fact \u2014 not a greeting. As if your arrival was always a matter of when, not if.'},
+         {speaker:'meera',line:'Most people who receive an invitation stand in that corridor for ten minutes before they work up the nerve to walk the whole way. You didn\'t hesitate.',emotion:'confident'}
+       ],background:'bg_vip_bar',character:'meera_welcoming',cg:'cg_first_meeting'},
+      {beat:'TheExchange',
+       dialogue:[
+         {speaker:'player',line:'Should I have?'},
+         {speaker:'meera',line:'Hesitated? No. The hesitators never make it past the second room. NEONWORLD isn\'t for the cautious \u2014 it\'s for people who want to feel something they can\'t feel anywhere else.',emotion:'confident'},
+         {speaker:'narrator',line:'She slides a glass across the marble. Something dark amber with a single sphere of ice, lit from beneath by the counter glow. You didn\'t order it. She knew what you\'d want before you did.'},
+         {speaker:'meera',line:'Drink. You\'ll need it where we\'re going.',emotion:'confident'},
+         {speaker:'narrator',line:'She watches you over the rim of her own glass. There\'s a game behind those dark eyes \u2014 a test you\'re already taking without knowing the rules.'}
+       ],background:'bg_vip_bar',character:'meera_confident'},
+      {beat:'TheChemistry',
+       dialogue:[
+         {speaker:'meera',line:'I should tell you \u2014 everyone who comes here thinks they understand what this place is. A club. A lounge. An experience. They\'re wrong. NEONWORLD is a question, and you don\'t find the answer by staying at the bar.',emotion:'mysterious'},
+         {speaker:'player',line:'And who are you in all of this?'},
+         {speaker:'meera',line:'I\'m the one who decides how deep you go.',emotion:'confident'},
+         {speaker:'narrator',line:'She sets her glass down with a quiet click. Her fingers are elegant, precise, adorned with a single ring that pulses with faint light \u2014 the same symbol from the invitation card.'}
+       ],background:'bg_vip_bar',character:'meera_confident'}
+    ],
+    choices:[
+      {id:'choice_2_compliment',text:'Compliment her and ask for her name \u2014 let her know she has your full attention.',effects:{Desire:10,Intrigue:5},nextScene:'scene_3_tour'},
+      {id:'choice_2_cool',text:'Order a drink first, play it cool \u2014 match her energy, don\'t give ground.',effects:{Intrigue:10,Trust:5,Boldness:5},nextScene:'scene_3_tour'},
+      {id:'choice_2_direct',text:'Ask directly: "What is this place?" \u2014 cut through the mystery.',effects:{Trust:10,Boldness:5},nextScene:'scene_3_tour'}
+    ]
+  },
+
+  scene_3_tour: {
+    id:'scene_3_tour', title:'The Tour', chapter:'Chapter 1: The Invitation',
+    sceneFlow:[
+      {beat:'TheBallroom',
+       dialogue:[
+         {speaker:'narrator',line:'Meera steps away from the bar and the crowd parts for her without being asked. She moves through NEONWORLD like water through a river \u2014 naturally, inevitably. You follow, drawn by something you can\'t name.'},
+         {speaker:'meera',line:'This is the surface. The part everyone sees. Beautiful, isn\'t it?',emotion:'mysterious'},
+         {speaker:'narrator',line:'The ballroom stretches before you \u2014 a vast space where holographic sculptures drift through the air like luminous sea creatures. The floor is polished obsidian, and every step echoes with the resonance of music that comes from everywhere and nowhere.'},
+         {speaker:'player',line:'Beautiful doesn\'t begin to cover it.'},
+         {speaker:'meera',line:'Good. Because beautiful is just the first layer.',emotion:'confident'}
+       ],background:'bg_vip_ballroom',character:'meera_mysterious',cg:'cg_ballroom_entrance'},
+      {beat:'TheCorridors',
+       dialogue:[
+         {speaker:'meera',line:'Every corridor leads somewhere different. The neon pond \u2014 that\'s down the aquamarine passage. The dance floor is through the violet arch. The champagne lounge is behind the gold curtain. And there are rooms below those rooms, and rooms below those.',emotion:'mysterious'},
+         {speaker:'player',line:'How many levels are there?'},
+         {speaker:'meera',line:'Enough that no one has ever seen them all. Not even me \u2014 and I built this place.',emotion:'confident'},
+         {speaker:'narrator',line:'She turns to face you. In the ballroom light, her features shift between shadow and luminance \u2014 one moment she is all sharp confidence, the next something softer, almost vulnerable, flickers beneath the surface.'},
+         {speaker:'meera',line:'So. Where do you want to go first? Choose carefully \u2014 the first door you walk through says more about you than you think.',emotion:'mysterious'}
+       ],background:'bg_vip_ballroom',character:'meera_confident'},
+      {beat:'TheInvitation',
+       dialogue:[
+         {speaker:'meera',line:'The pond is for people who want wonder. The dance floor is for people who want to feel alive. The lounge is for people who want to understand.',emotion:'alluring'},
+         {speaker:'player',line:'And which one would you choose?'},
+         {speaker:'meera',line:'I don\'t choose. I watch what others choose, and I learn who they really are.',emotion:'mysterious'},
+         {speaker:'narrator',line:'She smiles \u2014 slow, deliberate, devastating. The kind of smile that makes you forget every room you\'ve ever walked into before this one.'}
+       ],background:'bg_vip_ballroom',character:'meera_mysterious'}
+    ],
+    choices:[
+      {id:'choice_3_pond',text:'"The neon pond sounds incredible" \u2014 follow the aquamarine light.',effects:{Boldness:10,AccessLevel:2},nextScene:'scene_4_neon_pond'},
+      {id:'choice_3_dance',text:'"Take me to the dance floor" \u2014 follow the violet arch.',effects:{Desire:5,Boldness:10,AccessLevel:2},nextScene:'scene_4_dance_floor'},
+      {id:'choice_3_champagne',text:'"The champagne lounge sounds perfect" \u2014 follow the gold curtain.',effects:{Trust:5,Intrigue:10,AccessLevel:2},nextScene:'scene_4_champagne_lounge'}
+    ]
+  },
+
+  scene_4_neon_pond: {
+    id:'scene_4_neon_pond', title:'The Neon Pond', chapter:'Chapter 1: The Invitation',
+    sceneFlow:[
+      {beat:'TheGrotto',
+       dialogue:[
+         {speaker:'narrator',line:'The aquamarine corridor opens into a cavern that stops your breath. An underground pond stretches before you \u2014 perhaps thirty meters across \u2014 and the water glows. Not reflected light. The water itself is luminous, shifting through shades of cobalt and emerald and deep violet like a living aurora trapped beneath stone.'},
+         {speaker:'player',line:'How is this possible?'},
+         {speaker:'meera',line:'Bioluminescent microorganisms. I spent two years engineering the ecosystem. Every ripple creates new light.',emotion:'ethereal'},
+         {speaker:'narrator',line:'She descends the stone steps toward the water\'s edge, removing her shoes with casual grace. Her bare feet touch the wet stone and she turns back to you \u2014 lit from below by the living water, looking less like a woman and more like something born from the light itself.'}
+       ],background:'bg_neon_pond',character:'meera_aquatic'},
+      {beat:'MeeraInTheWater',
+       dialogue:[
+         {speaker:'meera',line:'Come closer. The water is warm \u2014 geothermally heated. It won\'t bite.',emotion:'alluring'},
+         {speaker:'narrator',line:'She steps into the shallows. The bioluminescent water swirls around her ankles, leaving trails of light across her skin like liquid constellations. Her dress darkens where it meets the water, clinging to her calves. She doesn\'t seem to care.'},
+         {speaker:'meera',line:'This is my favorite room in all of NEONWORLD. Most people never find it. I only bring people here when I sense something different about them.',emotion:'aquatic'},
+         {speaker:'player',line:'What\'s different about me?'},
+         {speaker:'meera',line:'You looked at this place with wonder, not greed. Everyone else sees what they can take. You see what it is.',emotion:'alluring'},
+         {speaker:'narrator',line:'The light from the water plays across her face \u2014 shifting, breathing, alive. For the first time since you arrived, the confidence in her eyes softens into something warmer. Something almost tender.'}
+       ],background:'bg_neon_pond',character:'meera_alluring',cg:'cg_neon_pond_wade'},
+      {beat:'TheConnection',
+       dialogue:[
+         {speaker:'meera',line:'I used to come here alone. Before NEONWORLD had guests, before anyone else knew this place existed. I\'d sit right here and watch the water breathe.',emotion:'aquatic'},
+         {speaker:'player',line:'It sounds lonely.'},
+         {speaker:'meera',line:'It was. But loneliness and solitude aren\'t the same thing. One is empty. The other is... full of potential.',emotion:'alluring'},
+         {speaker:'narrator',line:'She holds your gaze. The pond pulses gently around her, as if responding to the rhythm of the conversation. In this light, in this impossible place, the world above feels like the dream and this feels like what\'s real.'}
+       ],background:'bg_neon_pond',character:'meera_alluring'}
+    ],
+    choices:[
+      {id:'choice_4a_join',text:'Join her at the water\'s edge \u2014 step into the light with her.',effects:{Desire:15,Trust:5,Flag_PoolVisited:true},nextScene:'scene_5_after_hours'},
+      {id:'choice_4a_watch',text:'Watch from the steps, mesmerized \u2014 let her have this moment while you memorize it.',effects:{Intrigue:15,Trust:10},nextScene:'scene_5_after_hours'}
+    ]
+  },
+
+  scene_4_dance_floor: {
+    id:'scene_4_dance_floor', title:'The Dance Floor', chapter:'Chapter 1: The Invitation',
+    sceneFlow:[
+      {beat:'TheFloor',
+       dialogue:[
+         {speaker:'narrator',line:'The violet arch opens into a space that hits you like a wall of sound. The dance floor stretches below \u2014 a massive LED surface cycling through waves of color that respond to the music. Hundreds of people move in the light, but the space is so vast it feels both crowded and infinite.'},
+         {speaker:'meera',line:'You feel that? That frequency? It\'s tuned to match the human heartbeat at 128 BPM. Your body syncs whether you want it to or not.',emotion:'playful'},
+         {speaker:'narrator',line:'She\'s different here. The composed hostess from the bar has shed a layer \u2014 her eyes brighter, her movements looser, her smile wider and less careful. She rolls her shoulders to the beat and the neon catches the line of her neck.'},
+         {speaker:'player',line:'You designed the frequency too?'},
+         {speaker:'meera',line:'I designed everything. Every light, every frequency, every angle. NEONWORLD is my nervous system made physical.',emotion:'bold'}
+       ],background:'bg_dance_floor',character:'meera_playful'},
+      {beat:'TheDance',
+       dialogue:[
+         {speaker:'narrator',line:'She steps onto the floor and the LED surface responds \u2014 rippling outward from her feet in concentric rings of light. She moves like the bass moves \u2014 low, heavy, inevitable. Not performing. Inhabiting.'},
+         {speaker:'meera',line:'Are you going to stand there watching, or are you going to feel something?',emotion:'bold'},
+         {speaker:'narrator',line:'She extends a hand. Not requesting \u2014 daring. The holographic walls fracture and reform around her like she\'s the center of a kaleidoscope. The crowd parts. The light finds her. Everything finds her.'},
+         {speaker:'meera',line:'The dance floor doesn\'t lie. Up there \u2014 at the bar, in the ballroom \u2014 everyone performs. Down here, the music strips that away. You move how you actually feel.',emotion:'playful'}
+       ],background:'bg_dance_floor',character:'meera_bold',cg:'cg_dance_floor_energy'},
+      {beat:'TheRhythm',
+       dialogue:[
+         {speaker:'narrator',line:'You step onto the floor. The LED responds to you too \u2014 different color, different pattern, but it syncs with hers where your movements overlap. Two frequencies finding harmony.'},
+         {speaker:'meera',line:'There it is. You feel it now, don\'t you? That moment when thinking stops and your body just... knows.',emotion:'playful'},
+         {speaker:'player',line:'I feel it.'},
+         {speaker:'meera',line:'Good. Hold onto that feeling. You\'ll need it later, where we\'re going.',emotion:'bold'},
+         {speaker:'narrator',line:'The song shifts \u2014 slower, deeper. She moves closer. Not touching, but close enough that you can feel the warmth radiating from her skin, smell the faint scent of jasmine and something electric. The distance between you becomes its own kind of tension.'}
+       ],background:'bg_dance_floor',character:'meera_playful'}
+    ],
+    choices:[
+      {id:'choice_4b_close',text:'Dance close, match her energy \u2014 let the bass bridge the gap between you.',effects:{Desire:15,Boldness:10},nextScene:'scene_5_after_hours'},
+      {id:'choice_4b_follow',text:'Let her lead, follow the rhythm \u2014 give her the space to show you who she is here.',effects:{Trust:10,Intrigue:10},nextScene:'scene_5_after_hours'}
+    ]
+  },
+
+  scene_4_champagne_lounge: {
+    id:'scene_4_champagne_lounge', title:'The Champagne Lounge', chapter:'Chapter 1: The Invitation',
+    sceneFlow:[
+      {beat:'TheLounge',
+       dialogue:[
+         {speaker:'narrator',line:'Behind the gold curtain, the chaos of NEONWORLD falls away. The lounge is small \u2014 perhaps ten tables, each separated by panels of frosted glass lit from within. The acoustics swallow the bass until all that remains is a soft, ambient hum. It feels like stepping inside a whispered secret.'},
+         {speaker:'meera',line:'This is where I come to think. The rest of NEONWORLD is for feeling. This room is for understanding.',emotion:'intimate'},
+         {speaker:'narrator',line:'She slides into a velvet banquette and gestures for you to sit beside her \u2014 not across from her. Beside. She pours champagne with practiced ease, the golden liquid catching the amber light.'},
+         {speaker:'meera',line:'To curiosity. The only virtue that matters underground.',emotion:'alluring'}
+       ],background:'bg_champagne_lounge',character:'meera_alluring',cg:'cg_champagne_toast'},
+      {beat:'TheConversation',
+       dialogue:[
+         {speaker:'player',line:'Why underground? Why build all this beneath the city instead of above it?'},
+         {speaker:'meera',line:'Because the surface is full of sunlight and expectations. Down here, you can be whoever you actually are. No one knows you. No one judges you. The only identity that matters is the one you choose in the dark.',emotion:'intimate'},
+         {speaker:'narrator',line:'She sips her champagne. In the amber light, the sharp angles of her confidence soften. Something else shows through \u2014 not weakness, but depth. The quiet complexity of a person who has thought about everything twice.'},
+         {speaker:'meera',line:'Most people want to be seen. I wanted to build a place where people could finally stop performing long enough to see themselves.',emotion:'alluring'},
+         {speaker:'player',line:'And have you? Seen yourself?'},
+         {speaker:'meera',line:'I\'m still looking.',emotion:'intimate'}
+       ],background:'bg_champagne_lounge',character:'meera_intimate'},
+      {beat:'TheCloseness',
+       dialogue:[
+         {speaker:'narrator',line:'The champagne settles warm in your chest. She shifts on the banquette \u2014 closer, almost imperceptibly. Her knee barely touches yours beneath the table. She doesn\'t move it away.'},
+         {speaker:'meera',line:'You ask different questions than most people. Most people ask what NEONWORLD costs, how to get VIP access, whether I\'m single. You ask why.',emotion:'alluring'},
+         {speaker:'player',line:'Why is more interesting than what.'},
+         {speaker:'meera',line:'Yes. It is. And that\'s why I\'m still sitting here instead of making my rounds.',emotion:'intimate'},
+         {speaker:'narrator',line:'She holds your gaze long enough for the silence to become its own kind of conversation. Then she smiles \u2014 not the confident, practiced smile from the bar, but something smaller, quieter, realer.'}
+       ],background:'bg_champagne_lounge',character:'meera_intimate'}
+    ],
+    choices:[
+      {id:'choice_4c_past',text:'Ask about her past \u2014 who was she before NEONWORLD?',effects:{Trust:15,Intrigue:5},nextScene:'scene_5_after_hours'},
+      {id:'choice_4c_toast',text:'Toast to the night ahead \u2014 whatever it holds.',effects:{Desire:10,Boldness:10},nextScene:'scene_5_after_hours'},
+      {id:'choice_4c_silence',text:'Sit close, let the silence speak \u2014 some things are better felt than said.',effects:{Desire:10,Trust:10,Flag_IntimateMoment:true},nextScene:'scene_5_after_hours'}
+    ]
+  },
+
+  scene_5_after_hours: {
+    id:'scene_5_after_hours', title:'After Hours', chapter:'Chapter 1: The Invitation',
+    sceneFlow:[
+      {beat:'ThePrivateBooth',
+       dialogue:[
+         {speaker:'narrator',line:'The night has deepened. The main floors of NEONWORLD pulse behind you, but Meera leads you through a door you didn\'t notice before \u2014 hidden behind a panel that responds to her ring. Beyond it, a private booth overlooking the atrium from above. Two glasses. One bottle. The city below them, glowing.'},
+         {speaker:'meera',line:'No one comes here unless I bring them. This is mine.',emotion:'intimate'},
+         {speaker:'narrator',line:'She sits on the curved velvet bench, pulls her legs beneath her. In this light, with the formality stripped away, she looks younger. Less like the architect of NEONWORLD and more like the woman behind the architecture.'},
+         {speaker:'player',line:'Why bring me here?'},
+         {speaker:'meera',line:'Because you earned it. Tonight you chose experiences over transactions. Wonder over status. That\'s rare.',emotion:'vulnerable'}
+       ],background:'bg_champagne_lounge',character:'meera_intimate'},
+      {beat:'TheRevelation',
+       dialogue:[
+         {speaker:'meera',line:'Everything you\'ve seen tonight \u2014 the ballroom, the pond, the dance floor, the lounge \u2014 that\'s only the first two levels. There are three more below. And each one is more... personal than the last.',emotion:'mysterious'},
+         {speaker:'player',line:'What\'s down there?'},
+         {speaker:'meera',line:'Rooms I\'ve never shown anyone. A garden I grew in the dark. A pool that goes deeper than it should. And at the very bottom \u2014 the place where I keep the truth about why I built all of this.',emotion:'vulnerable'},
+         {speaker:'narrator',line:'She leans forward. The distance between you is measured in inches now. Her eyes search yours \u2014 not seductive, not calculated, but genuinely seeking something. Permission, maybe. Or recognition.'},
+         {speaker:'meera',line:'But I only take people deeper when I trust them. And trust doesn\'t come from one good night. It comes from what you do at moments like this \u2014 when the door is open and you have to choose.',emotion:'vulnerable'}
+       ],background:'bg_champagne_lounge',character:'meera_vulnerable'},
+      {beat:'TheChoice',
+       dialogue:[
+         {speaker:'narrator',line:'The booth hums with the vibration of the world below \u2014 a reminder that everything you\'ve seen sits atop something deeper, something more. Meera watches you with those dark eyes, waiting. Not pushing. Just... present.'},
+         {speaker:'meera',line:'So what do you want?',emotion:'intimate'},
+         {speaker:'narrator',line:'The question is simple. The answer will determine everything that comes next.'}
+       ],background:'bg_champagne_lounge',character:'meera_vulnerable'}
+    ],
+    choices:[
+      {id:'choice_5_everything',text:'"I want to see everything" \u2014 no hesitation, no limits.',effects:{Boldness:15,Desire:10,Flag_PrivateRoomUnlocked:true},nextScene:'scene_6_morning_after'},
+      {id:'choice_5_you',text:'"I\'m here because of you, not the place" \u2014 make it personal.',effects:{Trust:20,Desire:5,Intrigue:5},nextScene:'scene_6_morning_after'},
+      {id:'choice_5_slow',text:'"Maybe we should slow down" \u2014 respect the pace, don\'t rush the depth.',effects:{Trust:10,Boldness:-5},nextScene:'scene_6_morning_after'}
+    ]
+  },
+
+  scene_6_morning_after: {
+    id:'scene_6_morning_after', title:'The Morning After', chapter:'Chapter 2: Deeper Underground',
+    sceneFlow:[
+      {beat:'Waking',
+       dialogue:[
+         {speaker:'narrator',line:'You wake to coffee and neon. The loft pulses with soft blue light. Her home. Her underground.'},
+         {speaker:'meera',line:'You stayed. Most people leave before the lights come up.',emotion:'contemplative'},
+         {speaker:'narrator',line:'She sits cross-legged on the counter, diamonds catching the amber glow. Without the club\'s spectacle, she looks softer. Dangerous in a different way.'}
+       ],background:'bg_underground_loft',character:'meera_contemplative',cg:'cg_loft_morning'},
+      {beat:'TheReveal',
+       dialogue:[
+         {speaker:'meera',line:'I chose you. The invitations aren\'t random. I pick every person who walks that corridor. And I\'ve never let anyone stay until morning.',emotion:'vulnerable'},
+         {speaker:'player',line:'Why me?'},
+         {speaker:'meera',line:'Because you looked at this place with wonder. Everyone else sees what they can take. You see what it is.',emotion:'trusting'}
+       ],background:'bg_underground_loft',character:'meera_vulnerable'}
+    ],
+    choices:[
+      {id:'choice_6_tell_me',text:'"Tell me everything" \u2014 you want the truth behind the neon.',effects:{Intrigue:15,Trust:10,Flag_SecretRevealed:true},nextScene:'scene_7_mirror_room'},
+      {id:'choice_6_show_me',text:'"Show me something real" \u2014 words aren\'t enough.',effects:{Desire:15,Boldness:10},nextScene:'scene_7b_fever'},
+      {id:'choice_6_want_more',text:'"I want more of you" \u2014 close the distance.',effects:{Desire:20,Boldness:15},nextScene:'scene_7b_fever'}
+    ]
+  },
+
+  scene_7_mirror_room: {
+    id:'scene_7_mirror_room', title:'The Mirror Room', chapter:'Chapter 2: Deeper Underground',
+    sceneFlow:[
+      {beat:'InfiniteReflections',
+       dialogue:[
+         {speaker:'narrator',line:'Mirrors everywhere. Floor, walls, ceiling. A thousand Meeras in diamond chains, each reflection catching a different angle of light, each diamond a different fire. The room is four meters square and infinite.'},
+         {speaker:'meera',line:'In here, you can\'t hide anything. The mirrors catch every micro-expression, every flicker. That\'s why I brought you.',emotion:'ethereal'},
+         {speaker:'narrator',line:'She walks forward and her reflections fan out \u2014 fierce in one mirror, vulnerable in another, laughing in a third. Every version of Meera, laid bare at once.'}
+       ],background:'bg_mirror_labyrinth',character:'meera_ethereal',cg:'cg_mirror_reflection'},
+      {beat:'TheRealOne',
+       dialogue:[
+         {speaker:'meera',line:'I built this room to see all my versions at once. The hostess. The architect. The woman who hasn\'t slept in three days. Tell me \u2014 which one do you see?',emotion:'vulnerable'},
+         {speaker:'player',line:'All of them. And they\'re all you.'},
+         {speaker:'narrator',line:'She steps closer. A thousand reflections close the distance. Her diamond chain catches your reflection in its facets \u2014 you, multiplied inside the diamonds she wears.'}
+       ],background:'bg_mirror_labyrinth',character:'meera_vulnerable'}
+    ],
+    choices:[] // Demo ends here
+  },
+
+  scene_7b_fever: {
+    id:'scene_7b_fever', title:'The Fever', chapter:'Chapter 2: Deeper Underground',
+    sceneFlow:[
+      {beat:'AfterHoursDance',
+       dialogue:[
+         {speaker:'narrator',line:'She takes you to the dance floor. It\'s empty \u2014 every light still burning, every speaker still breathing bass, but the crowd is gone. Just the two of you in a cathedral of sound and neon.'},
+         {speaker:'meera',line:'This is what the floor feels like when nobody\'s performing. Just the music and the truth of how you move.',emotion:'bold'},
+         {speaker:'narrator',line:'She steps onto the LED surface and it ripples from her feet \u2014 concentric rings of magenta and cyan. Her diamond chain sways, scattering prismatic light across the empty floor like a private constellation.'}
+       ],background:'bg_dance_floor',character:'meera_bold',cg:'cg_fever_dance'},
+      {beat:'TheHeat',
+       dialogue:[
+         {speaker:'meera',line:'The music strips everything away. Up there you think. Down here you feel. Close the distance or don\'t \u2014 but decide.',emotion:'passionate'},
+         {speaker:'narrator',line:'She moves like the bass \u2014 low, inevitable. The diamond chains swing with her hips, catching laser beams, turning them into fire. The space between you is electric, humming.'},
+         {speaker:'player',line:'I decide.'}
+       ],background:'bg_dance_floor',character:'meera_passionate'}
+    ],
+    choices:[] // Demo ends here
+  }
+};
+
+// ========================================================================
+// GAME STATE
+// ========================================================================
+const state = {
+  sceneId: 'scene_1_descent',
+  beatIndex: 0,
+  dialogueIndex: 0,
+  isTyping: false,
+  typeTimer: null,
+  showingChoices: false,
+  vars: { Intrigue:20, Trust:10, Desire:0, Boldness:15, AccessLevel:1 },
+  flags: {},
+  startTime: Date.now(),
+  choicesMade: 0,
+  scenesVisited: ['scene_1_descent'],
+  playedCutscenes: new Set(),
+  trackerVisible: true
+};
+
+// ========================================================================
+// DOM REFS
+// ========================================================================
+const $ = id => document.getElementById(id);
+const bgLayer = $('bg-layer');
+const spriteLayer = $('sprite-layer');
+const cgLayer = $('cg-layer');
+const dialogueBox = $('dialogue-box');
+const speakerName = $('speaker-name');
+const dialogueText = $('dialogue-text');
+const choicesContainer = $('choices-container');
+const chapterCard = $('chapter-card');
+const demoOver = $('demo-over');
+const transFlash = $('transition-flash');
+const varTracker = $('var-tracker');
+const loadingScreen = $('loading-screen');
+const loadingFill = $('loading-fill');
+const cutsceneOverlay = $('cutscene-overlay');
+const cutsceneVideo = $('cutscene-video');
+const cutsceneSkip = $('cutscene-skip');
+
+// ========================================================================
+// ASSET PRELOADING
+// ========================================================================
+function preloadAssets() {
+  const allUrls = Object.values(ASSET_MAP).map(f => ASSET_BASE + '/' + f);
+  let loaded = 0;
+  const total = allUrls.length;
+
+  return new Promise(resolve => {
+    if (total === 0) { resolve(); return; }
+    allUrls.forEach(url => {
+      if (url.endsWith('.png') || url.endsWith('.jpg')) {
+        const img = new Image();
+        img.onload = img.onerror = () => { loaded++; loadingFill.style.width = (loaded/total*100)+'%'; if(loaded>=total) resolve(); };
+        img.src = url;
+      } else {
+        loaded++; loadingFill.style.width = (loaded/total*100)+'%'; if(loaded>=total) resolve();
+      }
+    });
+  });
+}
+
+// ========================================================================
+// CUTSCENE VIDEO PLAYER
+// ========================================================================
+function playCutscene(videoUrl) {
+  return new Promise(resolve => {
+    cutsceneVideo.src = videoUrl;
+    cutsceneOverlay.classList.add('active');
+    cutsceneVideo.play().catch(() => { cutsceneOverlay.classList.remove('active'); resolve(); });
+    const finish = () => {
+      cutsceneOverlay.classList.remove('active');
+      cutsceneVideo.pause();
+      cutsceneVideo.src = '';
+      resolve();
+    };
+    cutsceneVideo.onended = finish;
+    cutsceneSkip.onclick = finish;
+  });
+}
+
+// ========================================================================
+// SCENE TRANSITION
+// ========================================================================
+function playTransition() {
+  return new Promise(resolve => {
+    transFlash.style.animation = 'neon-flash 0.8s ease-out forwards';
+    setTimeout(() => { transFlash.style.animation = ''; resolve(); }, 800);
+  });
+}
+
+function showChapterCard(title, sub) {
+  return new Promise(resolve => {
+    chapterCard.querySelector('h2').textContent = title;
+    chapterCard.querySelector('.chapter-sub').textContent = sub;
+    chapterCard.classList.add('active');
+    setTimeout(() => { chapterCard.classList.remove('active'); resolve(); }, 2500);
+  });
+}
+
+// ========================================================================
+// DISPLAY FUNCTIONS
+// ========================================================================
+let currentBg = '';
+let currentSprite = '';
+let currentCg = '';
+
+function setBg(bgId) {
+  if (!bgId || bgId === currentBg) return;
+  currentBg = bgId;
+  const url = assetUrl(bgId);
+  if (url) bgLayer.style.backgroundImage = 'url(' + url + ')';
+}
+
+function setSprite(charId) {
+  if (charId === currentSprite) return;
+  currentSprite = charId;
+  if (!charId) {
+    spriteLayer.classList.remove('visible');
+    return;
+  }
+  const url = assetUrl(charId);
+  if (!url) { spriteLayer.classList.remove('visible'); return; }
+  spriteLayer.classList.remove('visible');
+  spriteLayer.classList.add('entering');
+  spriteLayer.src = url;
+  spriteLayer.onload = () => {
+    setTimeout(() => {
+      spriteLayer.classList.remove('entering');
+      spriteLayer.classList.add('visible');
+    }, 50);
+  };
+  spriteLayer.onerror = () => spriteLayer.classList.remove('entering');
+}
+
+function setCg(cgId) {
+  if (cgId === currentCg) return;
+  currentCg = cgId;
+  if (!cgId) {
+    cgLayer.classList.remove('active');
+    return;
+  }
+  const url = assetUrl(cgId);
+  if (url) {
+    cgLayer.style.backgroundImage = 'url(' + url + ')';
+    cgLayer.classList.add('active');
+  }
+}
+
+function updateVarBars() {
+  $('bar-intrigue').style.width = state.vars.Intrigue + '%';
+  $('bar-trust').style.width = state.vars.Trust + '%';
+  $('bar-desire').style.width = state.vars.Desire + '%';
+  $('bar-boldness').style.width = state.vars.Boldness + '%';
+}
+
+function applyEffects(effects) {
+  for (const [k, v] of Object.entries(effects)) {
+    if (['Intrigue','Trust','Desire','Boldness'].includes(k)) {
+      state.vars[k] = Math.max(0, Math.min(100, (state.vars[k]||0) + v));
+    } else if (k === 'AccessLevel') {
+      state.vars.AccessLevel = Math.max(1, Math.min(5, v));
+    } else if (k.startsWith('Flag_')) {
+      state.flags[k] = v;
+    }
+  }
+  updateVarBars();
+}
+
+// ========================================================================
+// TYPEWRITER
+// ========================================================================
+const TYPE_SPEED = 28;
+
+function typeText(text, el) {
+  return new Promise(resolve => {
+    state.isTyping = true;
+    el.textContent = '';
+    let i = 0;
+    state.typeTimer = setInterval(() => {
+      if (i < text.length) {
+        el.textContent += text[i];
+        i++;
+      } else {
+        clearInterval(state.typeTimer);
+        state.typeTimer = null;
+        state.isTyping = false;
+        resolve();
+      }
+    }, TYPE_SPEED);
+  });
+}
+
+function skipType(text, el) {
+  if (state.typeTimer) {
+    clearInterval(state.typeTimer);
+    state.typeTimer = null;
+  }
+  el.textContent = text;
+  state.isTyping = false;
+}
+
+// ========================================================================
+// RENDER CURRENT STATE
+// ========================================================================
+function getCurrentLine() {
+  const scene = SCENES[state.sceneId];
+  if (!scene) return null;
+  const beat = scene.sceneFlow[state.beatIndex];
+  if (!beat || !beat.dialogue) return null;
+  return beat.dialogue[state.dialogueIndex];
+}
+
+function getCurrentBeat() {
+  const scene = SCENES[state.sceneId];
+  if (!scene) return null;
+  return scene.sceneFlow[state.beatIndex];
+}
+
+async function renderLine() {
+  const line = getCurrentLine();
+  const beat = getCurrentBeat();
+  if (!line) return;
+
+  // Update background/sprite/cg from beat
+  if (beat) {
+    if (beat.background) setBg(beat.background);
+    if (beat.character) setSprite(beat.character);
+    else if (state.beatIndex === 0 && !beat.character) setSprite(null);
+    if (beat.cg) setCg(beat.cg);
+    else setCg(null);
+  }
+
+  // Speaker name
+  speakerName.textContent = line.speaker === 'narrator' ? '' : (line.speaker === 'meera' ? 'Meera' : 'You');
+  speakerName.className = line.speaker;
+
+  // Show dialogue box
+  dialogueBox.classList.add('visible');
+
+  // Typewriter
+  await typeText(line.line, dialogueText);
+}
+
+// ========================================================================
+// ADVANCE LOGIC
+// ========================================================================
+function advance() {
+  if (state.showingChoices) return;
+
+  const line = getCurrentLine();
+  if (state.isTyping && line) {
+    skipType(line.line, dialogueText);
+    return;
+  }
+
+  const scene = SCENES[state.sceneId];
+  if (!scene) return;
+  const beat = scene.sceneFlow[state.beatIndex];
+  if (!beat || !beat.dialogue) return;
+
+  // Next dialogue line in current beat
+  if (state.dialogueIndex < beat.dialogue.length - 1) {
+    state.dialogueIndex++;
+    renderLine();
+    return;
+  }
+
+  // Next beat
+  if (state.beatIndex < scene.sceneFlow.length - 1) {
+    state.beatIndex++;
+    state.dialogueIndex = 0;
+    renderLine();
+    return;
+  }
+
+  // End of scene flow — show choices or demo end
+  if (DEMO_END_SCENES.includes(state.sceneId)) {
+    showDemoOver();
+    return;
+  }
+
+  if (scene.choices && scene.choices.length > 0) {
+    showChoices(scene.choices);
+  }
+}
+
+// ========================================================================
+// CHOICES
+// ========================================================================
+function showChoices(choices) {
+  state.showingChoices = true;
+  dialogueBox.classList.remove('visible');
+  choicesContainer.innerHTML = '';
+
+  choices.forEach(choice => {
+    const btn = document.createElement('button');
+    btn.className = 'choice-btn';
+    btn.textContent = choice.text;
+    btn.onclick = () => selectChoice(choice);
+    choicesContainer.appendChild(btn);
+  });
+
+  choicesContainer.classList.add('active');
+}
+
+async function selectChoice(choice) {
+  choicesContainer.classList.remove('active');
+  state.showingChoices = false;
+  state.choicesMade++;
+
+  // Apply effects
+  if (choice.effects) applyEffects(choice.effects);
+
+  const nextSceneId = choice.nextScene;
+  if (!nextSceneId || !SCENES[nextSceneId]) {
+    showDemoOver();
+    return;
+  }
+
+  await changeScene(nextSceneId);
+}
+
+// ========================================================================
+// SCENE CHANGE
+// ========================================================================
+async function changeScene(sceneId) {
+  const scene = SCENES[sceneId];
+  if (!scene) { showDemoOver(); return; }
+
+  // Check for chapter transition
+  const prevScene = SCENES[state.sceneId];
+  const prevChapter = prevScene ? prevScene.chapter : '';
+  const newChapter = scene.chapter || '';
+
+  // Play transition
+  await playTransition();
+
+  // Play cutscene if exists and not already played
+  if (CUTSCENE_MAP[sceneId] && !state.playedCutscenes.has(sceneId)) {
+    state.playedCutscenes.add(sceneId);
+    await playCutscene(CUTSCENE_MAP[sceneId]);
+  }
+
+  // Show chapter card if chapter changed
+  if (newChapter && newChapter !== prevChapter) {
+    const parts = newChapter.split(':');
+    await showChapterCard(parts[0].trim(), parts[1] ? parts[1].trim() : '');
+  }
+
+  // Update state
+  state.sceneId = sceneId;
+  state.beatIndex = 0;
+  state.dialogueIndex = 0;
+  if (!state.scenesVisited.includes(sceneId)) state.scenesVisited.push(sceneId);
+
+  // Clear CG
+  setCg(null);
+
+  // Render first line
+  renderLine();
+}
+
+// ========================================================================
+// DEMO OVER
+// ========================================================================
+function showDemoOver() {
+  dialogueBox.classList.remove('visible');
+  choicesContainer.classList.remove('active');
+
+  const elapsed = Date.now() - state.startTime;
+  const mins = Math.floor(elapsed / 60000);
+  const secs = Math.floor((elapsed % 60000) / 1000);
+  $('demo-stats').textContent = mins + 'm ' + secs + 's \u2022 ' + state.choicesMade + ' choices \u2022 ' + state.scenesVisited.length + ' scenes';
+
+  demoOver.classList.add('active');
+}
+
+// ========================================================================
+// INPUT HANDLING
+// ========================================================================
+dialogueBox.addEventListener('click', e => { e.stopPropagation(); advance(); });
+document.addEventListener('click', e => {
+  if (!state.showingChoices && !demoOver.classList.contains('active') && !cutsceneOverlay.classList.contains('active') && !chapterCard.classList.contains('active')) {
+    advance();
+  }
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); advance(); }
+  if (e.key === 'v' || e.key === 'V') { varTracker.classList.toggle('hidden'); }
+});
+
+// ========================================================================
+// INIT
+// ========================================================================
+async function init() {
+  updateVarBars();
+  await preloadAssets();
+
+  // Fade loading screen
+  loadingScreen.classList.add('done');
+  setTimeout(() => loadingScreen.style.display = 'none', 800);
+
+  // Play intro cutscene
+  if (CUTSCENE_MAP['scene_1_descent']) {
+    state.playedCutscenes.add('scene_1_descent');
+    await playCutscene(CUTSCENE_MAP['scene_1_descent']);
+  }
+
+  // Show chapter card
+  await showChapterCard('Chapter 1', 'The Invitation');
+
+  // Render first line
+  renderLine();
+}
+
+init();
+</script>
+</body>
+</html>

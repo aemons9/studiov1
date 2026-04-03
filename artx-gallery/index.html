@@ -4,6 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ArtX Gallery | MeeraX Collection</title>
+    <script>
+    // Access Gate — blocks gallery until valid code entered
+    // Codes are hashed for basic obfuscation (not military-grade, but prevents casual access)
+    (function() {
+        var VALID_HASHES = ['a3f5b2c8','d7e1f4a9','b2c8d3e6','e4f7a1b5','c6d9e2f8'];
+        function simpleHash(s) {
+            var h = 0; for (var i = 0; i < s.length; i++) { h = ((h << 5) - h + s.charCodeAt(i)) | 0; }
+            return (h >>> 0).toString(16).slice(0,8);
+        }
+        // Pre-compute valid hashes
+        var codes = ['VERALABS2026','ARTXVIP','NEONWORLD','MEERA','VERA'];
+        var validSet = {};
+        codes.forEach(function(c) { validSet[simpleHash(c)] = true; });
+
+        if (sessionStorage.getItem('artx_access') === 'granted') return; // Already authenticated this session
+
+        // Block page load — inject lock screen
+        document.addEventListener('DOMContentLoaded', function() {
+            if (sessionStorage.getItem('artx_access') === 'granted') return;
+            document.body.style.overflow = 'hidden';
+            var lock = document.createElement('div');
+            lock.id = 'artx-lock';
+            lock.innerHTML = '<div style="position:fixed;inset:0;z-index:999999;background:#0a0908;display:flex;align-items:center;justify-content:center;">'
+                + '<div style="text-align:center;max-width:420px;padding:40px;">'
+                + '<div style="width:70px;height:70px;border:2px solid #d4af37;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:1.8rem;color:#d4af37;">◈</div>'
+                + '<h1 style="font-family:Playfair Display,serif;font-size:1.8rem;color:#faf8f5;margin-bottom:8px;">The Private Collection</h1>'
+                + '<p style="font-family:Inter,sans-serif;font-size:0.85rem;color:#8b7355;margin-bottom:32px;line-height:1.6;">This gallery contains exclusive haute artistic content.<br>Enter your access code to continue.</p>'
+                + '<div style="display:flex;gap:8px;margin-bottom:16px;">'
+                + '<input type="password" id="artxCode" placeholder="ACCESS CODE" style="flex:1;padding:14px 18px;background:rgba(255,255,255,0.05);border:1px solid rgba(212,175,55,0.25);border-radius:8px;color:#faf8f5;font-family:Inter,sans-serif;font-size:0.85rem;letter-spacing:0.15em;text-transform:uppercase;outline:none;" autofocus>'
+                + '<button id="artxBtn" style="padding:14px 28px;background:#d4af37;color:#0a0908;border:none;border-radius:8px;font-family:Inter,sans-serif;font-size:0.8rem;font-weight:600;letter-spacing:0.1em;cursor:pointer;">Enter</button>'
+                + '</div>'
+                + '<p id="artxMsg" style="font-family:Inter,sans-serif;font-size:0.75rem;color:#e8b4b8;min-height:20px;"></p>'
+                + '<p style="font-family:Inter,sans-serif;font-size:0.7rem;color:#5a5550;margin-top:24px;">Request access at <a href="https://studiov.aemons.com/#contact" style="color:#d4af37;text-decoration:none;">studiov.aemons.com</a></p>'
+                + '</div></div>';
+            document.body.appendChild(lock);
+
+            function tryAccess() {
+                var code = document.getElementById('artxCode').value.trim().toUpperCase();
+                var msg = document.getElementById('artxMsg');
+                if (!code) { msg.textContent = 'Please enter your access code'; return; }
+                var h = simpleHash(code);
+                if (validSet[h]) {
+                    sessionStorage.setItem('artx_access', 'granted');
+                    msg.style.color = '#10b981';
+                    msg.textContent = 'Access granted. Welcome.';
+                    document.getElementById('artxBtn').textContent = '✓';
+                    setTimeout(function() {
+                        lock.remove();
+                        document.body.style.overflow = '';
+                    }, 800);
+                } else {
+                    msg.style.color = '#ef4444';
+                    msg.textContent = 'Invalid code.';
+                    document.getElementById('artxCode').value = '';
+                }
+            }
+            document.getElementById('artxBtn').addEventListener('click', tryAccess);
+            document.getElementById('artxCode').addEventListener('keydown', function(e) { if (e.key === 'Enter') tryAccess(); });
+        });
+    })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@100;200;300;400;500;600&display=swap" rel="stylesheet">

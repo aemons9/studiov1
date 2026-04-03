@@ -916,6 +916,7 @@
                 <li><a href="concepts.html" class="nav-link">Concepts</a></li>
                 <li><a href="moodboards.html" class="nav-link">Moodboards</a></li>
                 <li><a href="lookbook.html" class="nav-link">Lookbook</a></li>
+                <li><a href="#exclusive" class="nav-link" style="color: var(--pale-gold); font-weight: 500;">Exclusive</a></li>
             </ul>
         </div>
     </nav>
@@ -1196,6 +1197,82 @@
         </div>
     </section>
 
+    <!-- Exclusive ArtX Gallery Section -->
+    <section id="exclusive" class="section" style="background: linear-gradient(180deg, var(--deep-espresso) 0%, #0d0a08 100%); padding: var(--space-2xl) 0;">
+        <div class="container">
+            <div style="text-align: center; margin-bottom: var(--space-xl);">
+                <span style="font-family: var(--font-modern); font-size: 0.7rem; letter-spacing: 0.3em; text-transform: uppercase; color: var(--pale-gold); display: block; margin-bottom: var(--space-sm);">By Invitation Only</span>
+                <h2 class="section-title reveal" style="color: var(--cream-white);">The Private Collection</h2>
+                <p style="font-family: var(--font-modern); font-size: 0.95rem; color: var(--warm-taupe); max-width: 600px; margin: var(--space-md) auto 0; line-height: 1.8;">
+                    Beyond the curated selections lies our most provocative work —
+                    the ArtX Gallery. A private collection of haute artistic photography
+                    that transcends conventional boundaries. Available exclusively to
+                    verified subscribers.
+                </p>
+            </div>
+
+            <!-- Access Gate -->
+            <div class="reveal" style="max-width: 500px; margin: 0 auto var(--space-xl); background: rgba(255,255,255,0.03); border: 1px solid rgba(212,175,55,0.15); border-radius: 12px; padding: var(--space-lg); text-align: center;">
+                <div style="width: 60px; height: 60px; border: 2px solid var(--pale-gold); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto var(--space-md); font-size: 1.5rem; color: var(--pale-gold);">◈</div>
+                <h3 style="font-family: var(--font-editorial); font-size: 1.3rem; color: var(--cream-white); margin-bottom: var(--space-sm);">Enter Access Code</h3>
+                <p style="font-family: var(--font-modern); font-size: 0.8rem; color: var(--warm-taupe); margin-bottom: var(--space-md); line-height: 1.6;">
+                    Request your personal access code by contacting<br>
+                    <a href="mailto:vera@aemons.com" style="color: var(--pale-gold); text-decoration: none; border-bottom: 1px solid rgba(212,175,55,0.3);">vera@aemons.com</a>
+                </p>
+                <div style="display: flex; gap: 8px; max-width: 360px; margin: 0 auto;">
+                    <input type="text" id="accessCode" placeholder="ACCESS CODE" style="flex: 1; padding: 14px 18px; background: rgba(255,255,255,0.05); border: 1px solid rgba(212,175,55,0.2); border-radius: 8px; color: var(--cream-white); font-family: var(--font-modern); font-size: 0.8rem; letter-spacing: 0.15em; text-transform: uppercase; outline: none; transition: border-color 0.3s;" onfocus="this.style.borderColor='var(--pale-gold)'" onblur="this.style.borderColor='rgba(212,175,55,0.2)'">
+                    <button onclick="verifyAccess()" style="padding: 14px 28px; background: var(--pale-gold); color: var(--deep-espresso); border: none; border-radius: 8px; font-family: var(--font-modern); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all 0.3s var(--ease-luxury);" onmouseover="this.style.background='#e0c352'" onmouseout="this.style.background='var(--pale-gold)'">Enter</button>
+                </div>
+                <p id="accessMsg" style="font-family: var(--font-modern); font-size: 0.75rem; color: var(--rose-gold); margin-top: var(--space-sm); min-height: 20px;"></p>
+            </div>
+
+            <!-- Three Tier Cards -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: var(--space-md); max-width: 950px; margin: 0 auto;">
+
+                <!-- Enquiry Card -->
+                <div class="reveal" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; padding: var(--space-lg); text-align: center; transition: all 0.4s var(--ease-luxury);" onmouseover="this.style.borderColor='rgba(212,175,55,0.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(212,175,55,0.1)';this.style.transform='translateY(0)'">
+                    <h4 style="font-family: var(--font-editorial); font-size: 1.1rem; color: var(--cream-white); margin-bottom: var(--space-xs);">Private Enquiry</h4>
+                    <p style="font-family: var(--font-modern); font-size: 0.78rem; color: var(--warm-taupe); line-height: 1.7; margin-bottom: var(--space-md);">
+                        Commission bespoke fashion visualizations tailored to your creative vision.
+                        Each piece crafted with meticulous attention to artistic detail.
+                    </p>
+                    <a href="mailto:vera@aemons.com?subject=Private%20Enquiry%20-%20ArtX%20Gallery" style="display: inline-block; padding: 10px 24px; border: 1px solid var(--pale-gold); color: var(--pale-gold); text-decoration: none; border-radius: 6px; font-family: var(--font-modern); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.3s;" onmouseover="this.style.background='var(--pale-gold)';this.style.color='var(--deep-espresso)'" onmouseout="this.style.background='transparent';this.style.color='var(--pale-gold)'">Enquire</a>
+                </div>
+
+                <!-- Subscription Card -->
+                <div class="reveal" style="background: rgba(212,175,55,0.05); border: 1px solid rgba(212,175,55,0.25); border-radius: 12px; padding: var(--space-lg); text-align: center; position: relative; transition: all 0.4s var(--ease-luxury);" onmouseover="this.style.borderColor='var(--pale-gold)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(212,175,55,0.25)';this.style.transform='translateY(0)'">
+                    <span style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: var(--pale-gold); color: var(--deep-espresso); padding: 3px 16px; border-radius: 20px; font-family: var(--font-modern); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;">Recommended</span>
+                    <h4 style="font-family: var(--font-editorial); font-size: 1.1rem; color: var(--cream-white); margin-bottom: var(--space-xs);">Gallery Subscription</h4>
+                    <p style="font-family: var(--font-modern); font-size: 0.78rem; color: var(--warm-taupe); line-height: 1.7; margin-bottom: var(--space-md);">
+                        Unlimited access to the complete ArtX Gallery collection.
+                        New collections added weekly. Early access to limited editions
+                        and exclusive campaign previews.
+                    </p>
+                    <a href="mailto:vera@aemons.com?subject=Gallery%20Subscription%20Request" style="display: inline-block; padding: 12px 28px; background: var(--pale-gold); color: var(--deep-espresso); text-decoration: none; border-radius: 6px; font-family: var(--font-modern); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.3s;" onmouseover="this.style.background='#e0c352'" onmouseout="this.style.background='var(--pale-gold)'">Subscribe</a>
+                </div>
+
+                <!-- Collector Card -->
+                <div class="reveal" style="background: rgba(255,255,255,0.02); border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; padding: var(--space-lg); text-align: center; transition: all 0.4s var(--ease-luxury);" onmouseover="this.style.borderColor='rgba(212,175,55,0.3)';this.style.transform='translateY(-4px)'" onmouseout="this.style.borderColor='rgba(212,175,55,0.1)';this.style.transform='translateY(0)'">
+                    <h4 style="font-family: var(--font-editorial); font-size: 1.1rem; color: var(--cream-white); margin-bottom: var(--space-xs);">Collector's Edition</h4>
+                    <p style="font-family: var(--font-modern); font-size: 0.78rem; color: var(--warm-taupe); line-height: 1.7; margin-bottom: var(--space-md);">
+                        Acquire high-resolution prints and digital originals from our most
+                        acclaimed series. Certificate of authenticity included with
+                        each acquisition.
+                    </p>
+                    <a href="mailto:vera@aemons.com?subject=Collector%20Edition%20Inquiry" style="display: inline-block; padding: 10px 24px; border: 1px solid var(--pale-gold); color: var(--pale-gold); text-decoration: none; border-radius: 6px; font-family: var(--font-modern); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; transition: all 0.3s;" onmouseover="this.style.background='var(--pale-gold)';this.style.color='var(--deep-espresso)'" onmouseout="this.style.background='transparent';this.style.color='var(--pale-gold)'">Acquire</a>
+                </div>
+            </div>
+
+            <!-- Follow CTA -->
+            <div class="reveal" style="text-align: center; margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid rgba(212,175,55,0.1);">
+                <p style="font-family: var(--font-modern); font-size: 0.8rem; color: var(--warm-taupe); margin-bottom: var(--space-sm);">Follow our journey on Instagram</p>
+                <a href="https://instagram.com/veracrvs" target="_blank" style="display: inline-flex; align-items: center; gap: 10px; padding: 12px 32px; background: linear-gradient(135deg, #833AB4, #E1306C, #F77737); color: white; text-decoration: none; border-radius: 8px; font-family: var(--font-modern); font-size: 0.75rem; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; transition: all 0.3s;" onmouseover="this.style.transform='scale(1.02)';this.style.boxShadow='0 8px 25px rgba(225,48,108,0.3)'" onmouseout="this.style.transform='scale(1)';this.style.boxShadow='none'">
+                    <span style="font-size: 1.1rem;">◈</span> @veracrvs
+                </a>
+            </div>
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer id="studio" class="footer">
         <div class="container">
@@ -1220,28 +1297,28 @@
                 <div class="footer-column">
                     <h4>Studio</h4>
                     <ul>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Process</a></li>
-                        <li><a href="#">Philosophy</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#process">About</a></li>
+                        <li><a href="#process">Process</a></li>
+                        <li><a href="#aesthetics">Philosophy</a></li>
+                        <li><a href="mailto:vera@aemons.com">Contact</a></li>
                     </ul>
                 </div>
                 <div class="footer-column">
                     <h4>Connect</h4>
                     <ul>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Pinterest</a></li>
-                        <li><a href="#">LinkedIn</a></li>
-                        <li><a href="#">Newsletter</a></li>
+                        <li><a href="https://instagram.com/veracrvs" target="_blank">Instagram</a></li>
+                        <li><a href="https://facebook.com/studiov" target="_blank">Facebook</a></li>
+                        <li><a href="mailto:vera@aemons.com">Contact</a></li>
+                        <li><a href="#exclusive">Exclusive Access</a></li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                <p class="footer-copyright">© 2025 VeraLabs. All rights reserved.</p>
+                <p class="footer-copyright">© 2026 VeraLabs. All rights reserved.</p>
                 <div class="social-links">
-                    <a href="#" class="social-link" aria-label="Instagram">◈</a>
-                    <a href="#" class="social-link" aria-label="Pinterest">◇</a>
-                    <a href="#" class="social-link" aria-label="LinkedIn">○</a>
+                    <a href="https://instagram.com/veracrvs" target="_blank" class="social-link" aria-label="Instagram">◈</a>
+                    <a href="https://facebook.com/studiov" target="_blank" class="social-link" aria-label="Facebook">◇</a>
+                    <a href="mailto:vera@aemons.com" class="social-link" aria-label="Email">○</a>
                 </div>
             </div>
         </div>
@@ -1356,6 +1433,31 @@
                 // Scroll-based animations
             });
         });
+        // Exclusive Access Code Verification
+        window.verifyAccess = function() {
+            var code = document.getElementById('accessCode').value.trim().toUpperCase();
+            var msg = document.getElementById('accessMsg');
+            var validCodes = ['VERALABS2026', 'ARTXVIP', 'NEONWORLD', 'MEERA', 'VERA'];
+            if (validCodes.includes(code)) {
+                msg.style.color = '#10b981';
+                msg.textContent = 'Access granted. Redirecting to ArtX Gallery...';
+                setTimeout(function() {
+                    window.open('https://studiov.aemons.com/artx-gallery/', '_blank');
+                }, 1500);
+            } else if (code === '') {
+                msg.style.color = 'var(--rose-gold)';
+                msg.textContent = 'Please enter your access code';
+            } else {
+                msg.style.color = '#ef4444';
+                msg.textContent = 'Invalid code. Contact vera@aemons.com for access.';
+            }
+        };
+        var codeInput = document.getElementById('accessCode');
+        if (codeInput) {
+            codeInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') window.verifyAccess();
+            });
+        }
     </script>
 </body>
 </html>
